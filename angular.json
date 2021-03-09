@@ -28,7 +28,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/bootstrap/css/bootstrap.css",
+              "src/bootstrap/css/custom.css",
+              "src/bootstrap/css/style.css"
             ],
             "scripts": []
           },

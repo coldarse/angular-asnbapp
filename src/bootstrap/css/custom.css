@@ -1,0 +1,362 @@
+input[type=checkbox].css-checkbox {
+    position:absolute; z-index:-1000; left:-1000px; overflow: hidden; clip: rect(0 0 0 0); height:1px; width:1px; margin:-1px; padding:0; border:0;
+}
+
+input[type=checkbox].css-checkbox + label.css-label {
+    padding-left:45px;
+    height:40px; 
+    display:inline-block;
+    line-height:40px;
+    background-repeat:no-repeat;
+    background-position: 0 0;
+    font-size:40px;
+    vertical-align:middle;
+    cursor:pointer;
+}
+
+input[type=checkbox].css-checkbox:checked + label.css-label {
+    background-position: 0 -40px;
+}
+label.css-label {
+background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_019807af606f0dea9eb28a8d35a7afc6.png);
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.icon_margin{
+  padding-bottom: 0rem;
+}
+
+.outofserviceStyle {
+  padding-left: 1rem;
+  font-size:2rem; 
+  white-space: nowrap; 
+  font-weight:bold;
+  font-family: PNB;
+  color: rgba(0, 87, 185, 0.9);
+}
+
+.lang__label{
+    font-family: PNB;
+    font-size: 1.3rem;
+    width: 230px;
+    padding-top: 1rem;
+    color: rgba(0, 87, 185, 0.9);
+  }
+  
+  
+  .menu__label{
+    font-family: PNB;
+    font-size: 1.3rem;
+    width: 230px;
+    color: rgba(0, 87, 185, 0.9);
+  }
+  
+  .menu__label__footer{
+    font-family: PNB;
+    font-size: 1.3rem;
+    padding-top: 3rem;
+    width: auto;
+    font-weight: 100;
+    color:black;
+  }
+
+  .btn-lang {
+    width: 200px;
+    height: 200px;
+    font-size: 4rem;
+    font-family: PNB;
+    color:rgba(0, 87, 185, 0.9);
+    border-radius: 1.75rem;
+    border: 1px solid;
+    border-color: lightgray;
+    background-color: white;
+    text-align: center;
+}
+
+.btn-menu-transaction {
+  width: 220px;
+  height: 220px;
+  font-size: 4rem;
+  font-family: PNB;
+  color:rgba(0, 87, 185, 0.9);
+  border-radius: 1.8rem;
+  border: 2px solid;
+  border-color: lightgray;
+  background-color: white;
+  text-align: center;
+}
+
+.btn-end-transaction {
+  width: 240px;
+  height: 60px;
+  font-size: 1.25rem;
+  font-family: Helvatica;
+  font-weight: bold;
+  color:rgb(255, 255, 255);
+  border-radius: 1.5rem;
+  border: 0;
+  border-color: lightgray;
+  background-color:rgb(255, 0, 0);
+  text-align: center;
+}
+
+.btn-account {
+  width: 600px;
+  height: 100px;
+  font-size: 1.65rem;
+  font-family: helvatica;
+  font-weight: regular;
+  color:rgb(151, 151, 151);
+  border-radius: 1rem;
+  border: 1px solid;
+  border-color: rgb(151, 151, 151);
+  background-color:rgb(255, 255, 255);
+  text-align: center;
+}
+
+.btn-cancel {
+  width: 350px;
+  height: 80px;
+  font-size: 1.65rem;
+  font-family: helvatica;
+  font-weight: regular;
+  color:rgb(255, 255, 255);
+  border-radius: 1rem;
+  border-color: rgb(255, 255, 255);
+  background-color:rgb(255, 0, 0);
+  text-align: center;
+}
+
+.btn-next {
+  width: 350px;
+  height: 80px;
+  font-size: 1.65rem;
+  font-family: helvatica;
+  font-weight: regular;
+  color:rgb(255, 255, 255);
+  border-radius: 1rem;
+  border-color: rgb(255, 255, 255);
+  background-color:rgb(56, 198, 244);
+  text-align: center;
+}
+
+.btn-checkIC {
+  width: 350px;
+  height: 80px;
+  border-radius: 1.2rem;
+  border: 1px solid;
+  border-color: lightgray;
+  background-color: white;
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight:700;
+  margin-top: 2rem;
+  color:rgba(0, 87, 185, 0.9);
+
+}
+
+.btn-printoremail {
+  width: 80px;
+  height: 30px;
+  border-radius: 0.5rem;
+  border: 1px solid;
+  border-color: lightgray;
+  background-color: rgba(0, 87, 185, 0.9);
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight:700;
+  color:rgba(255, 255, 255);
+
+}
+
+.left-button{
+  padding-left: 8rem;
+}
+
+.right-button{
+  padding-right: 8rem;
+}
+
+
+
+
+
+.h2-ic{
+  font-weight: 10;
+}
+
+.navbar-light-custom {
+    color: rgba(0, 87, 185, 0.9);
+  }
+
+.mid-center { 
+    top: 50%; 
+    left: 50%; 
+    transform: translateX(-50%) translateY(-50%); 
+} 
+
+
+.pop-up {
+    border-radius: 1rem;
+    border: 1px solid;
+    border-color: lightgray;
+    width: 1200px;
+    height: 700px;
+    background-color: white;
+    margin: auto;
+    margin-top: 2rem;
+}
+
+.pop-up-cb {
+  border-radius: 1rem;
+  border: 1px solid;
+  border-color: lightgray;
+  width: 500px;
+  height: 200px;
+  background-color: white;
+  margin: auto;
+  margin-top: 2rem;
+}
+
+.img-addon {
+    display: block;
+    max-width: 70%;
+    height: auto;
+  }
+
+.img-addon-1 {
+  display: block;
+  max-width: 45%;
+  height: auto;
+  margin:auto;
+}
+
+.asnblogo {
+  height: 90px;
+  width: 180px;
+  padding-right: 1rem;
+}
+
+
+.promptMessageLady {
+  padding-top: 3rem;
+  max-width: 15%;
+}
+
+.outofservice {
+  padding-top: 10rem;
+  max-width: 15%;
+}
+
+
+.ticklogo{
+  padding-top: 5rem;
+  max-width: 20%;
+}
+
+
+.border-test{
+  border: 1px solid;
+}
+
+
+.padding-top-2rem{
+  padding-top: 2rem;
+}
+
+.padding-top-3rem{
+  padding-top: 3rem;
+}
+
+.padding-top-5rem{
+  padding-top: 5rem;
+}
+
+.padding-top-10rem{
+  padding-top: 10rem;
+}
+
+
+.rounded-2rem {
+  border-radius: 2rem !important;
+}
+
+.rounded-1rem {
+  border-radius: 1rem !important;
+}
+
+
+.CheckBalanceText1{
+  float: left;
+  text-align: left;
+  font-size: 1.45rem;
+}
+
+
+.column{
+  float: left;
+}
+
+.leftcol{
+  width: 30%;
+}
+
+
+.column_1{
+  float:center;
+}
+
+.middle{
+  width: 100%;
+}
+
+.leftcol_1{
+  width:4%;
+}
+
+.rightcol_1{
+  width:10%;
+}
+
+.rightcol{
+  width: 70%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+  }
+
+
+.checkbalancetable{
+  width: 70%;
+  margin: auto;
+}
+
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+.site-footer, .page-wrap:after {
+  height: 200px; 
+}
+.site-footer-1, .page-wrap:after {
+  height: 50px; 
+}
+
+.lock-scrolling {
+  max-width: 100%;
+  overflow-y: hidden;
+}
