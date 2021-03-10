@@ -2,7 +2,8 @@ const Keyboard = {
     elements: {
         main: null,
         keysContainer: null,
-        keys: []
+        keys: [],
+        activeElem: null
     },
 
     eventHandlers: {
@@ -14,6 +15,9 @@ const Keyboard = {
         value: "",
         capsLock: false
     },
+
+
+    
 
     init() {
         // Create main elements
@@ -41,14 +45,18 @@ const Keyboard = {
         });
     },
 
+    _setActive() {
+        this.elements.activeElem = document.activeElement.id;
+    },
+
     _createKeys() {
         const fragment = document.createDocumentFragment();
         const keyLayout = [
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
-            "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", 
+            "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
             "caps", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
-            "_", "z", "x", "c", "v", "b", "n", "m", ",", ".", "@","?",
-            "done", "clear","space","tab",".com"
+            "_", "z", "x", "c", "v", "b", "n", "m", ",", ".", "@", "?",
+            "done", "clear", "space", "tab", ".com"
         ];
 
         // Creates HTML for an icon
@@ -92,8 +100,17 @@ const Keyboard = {
                     keyElement.innerHTML = createIconHTML("keyboard_return");
 
                     keyElement.addEventListener("click", () => {
-                        this.properties.value += "\n";
-                        this._triggerEvent("oninput");
+                        var x = document.forms.item(1);
+                        var elements = x.elements;
+
+
+                        for (var i = 0; i < elements.length; i++) {
+                            if (this.elements.activeElem == elements[i].id){
+                                document.getElementById(elements[i + 1].id).focus();
+                                this.elements.activeElem = elements[i + 1].id;
+                                break;
+                            }
+                        }
                     });
 
                     break;
@@ -108,18 +125,30 @@ const Keyboard = {
                     });
 
                     break;
-                
+
                 case "tab":
                     keyElement.classList.add("keyboard__key--wide");
                     keyElement.innerHTML = createIconHTML("keyboard_tab");
 
                     keyElement.addEventListener("click", () => {
-                      event.preventDefault();
-                      elem.focus();
+                        //console.log(this.elements.activeElem)
+                        var x = document.forms.item(1);
+                        var elements = x.elements;
+
+
+                        for (var i = 0; i < elements.length; i++) {
+                            if (this.elements.activeElem == elements[i].id){
+                                document.getElementById(elements[i + 1].id).focus();
+                                this.elements.activeElem = elements[i + 1].id;
+                                break;
+                            }
+                        }
+                       
+                        
                     });
 
                     break;
-                
+
                 case "clear":
                     keyElement.classList.add("keyboard__key--wide");
                     keyElement.innerHTML = createIconHTML("clear_all");
@@ -131,7 +160,7 @@ const Keyboard = {
 
                     break;
 
-                
+
 
                 case "done":
                     keyElement.classList.add("keyboard__key--wide", "keyboard__key--dark");
@@ -199,3 +228,11 @@ const Keyboard = {
 window.addEventListener("DOMContentLoaded", function () {
     Keyboard.init();
 });
+
+
+//var myTxt = document.getElementById("AR1");
+window.addEventListener("click", textclick, false);
+
+function textclick() {
+    Keyboard._setActive();
+}

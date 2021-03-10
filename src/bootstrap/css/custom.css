@@ -189,12 +189,95 @@ user-select: none;
 }
 
 
+.titleNLogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.info_icon_img {
+  max-width: 5%;
+}
 
 
+.registrationForm {
+  width:1100px;
+  height:1150px;
+  background:rgb(255, 255, 255);
+  margin:auto;
+  margin-top: 3rem;
+}
+
+.formcontent {
+  width:1000px;
+  height:1150px;
+  background:rgb(255, 255, 255);
+  margin:auto;
+  padding-top: 3rem;
+}
+
+.blue-title-bar {
+  background:rgba(0, 87, 185, 0.9);
+  color:rgba(255,255,255);
+  width:1000px;
+  border-radius: 0.5rem;
+  padding-left: 0.5rem;
+  height: 2.1rem;
+}
+
+.input-long {
+  width:649px;
+}
+
+.input-normal {
+  width:194px;
+}
+
+#KP, #NP, #JP, #SP, #PB, #CRS, #PEP, #FATCA, #AD, #HBGN, #NB, #PPP {
+  width:194px;
+  height:2rem;
+}
+
+#salutation {
+  width: 300px;
+  height: 2rem;
+}
+#salutationMyKID {
+  width: 194px;
+  height: 2rem;
+}
 
 .h2-ic{
   font-weight: 10;
 }
+
+.h2-red {
+  color: red;
+  font-family: helvetica;
+  font-weight: bold;
+}
+
+.h2-normal {
+  color: rgba(0,0,0,1);
+  font-family: helvetica;
+  font-weight: bold;
+}
+
+.p-underlined {
+  text-decoration: underline;
+}
+
+.fivehundredpxbox {
+  width: 300px; 
+}
+
+
+.inbetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 
 .navbar-light-custom {
     color: rgba(0, 87, 185, 0.9);
@@ -206,6 +289,13 @@ user-select: none;
     transform: translateX(-50%) translateY(-50%); 
 } 
 
+.bg-popup {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+}
+
 
 .pop-up {
     border-radius: 1rem;
@@ -215,8 +305,10 @@ user-select: none;
     height: 700px;
     background-color: white;
     margin: auto;
-    margin-top: 2rem;
+    margin-top: 10rem;
 }
+
+
 
 .pop-up-cb {
   border-radius: 1rem;
@@ -350,6 +442,7 @@ user-select: none;
   display: block;
 }
 .site-footer, .page-wrap:after {
+  max-width: 99%;
   height: 200px; 
 }
 .site-footer-1, .page-wrap:after {
@@ -360,3 +453,127 @@ user-select: none;
   max-width: 100%;
   overflow-y: hidden;
 }
+
+
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.blockerfatca {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: ' ';
+  background: rgba(151, 151, 151, 0);
+  display: none;
+  z-index: 1;
+}
+
+/* The actual popup */
+.fatcapopuptext {
+  display: none;
+  width: 260px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  margin-left: -80px;
+  justify-content: center;
+}
+
+.blockerpep {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: ' ';
+  background: rgba(255, 255, 255, 0);
+  display: none;
+  z-index: 1;
+}
+
+/* The actual popup */
+.peppopuptext {
+  display: none;
+  width: 260px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  margin-left: -80px;
+  justify-content: center;
+}
+
+.blockercrs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  content: ' '; 
+  background: rgba(255, 255, 255, 0);
+  display: none;
+  z-index: 1;
+}
+
+/* The actual popup */
+.crspopuptext {
+  display: none;
+  width: 260px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  margin-left: -80px;
+  justify-content: center;
+}
+
+/* Popup arrow */
+.popup .fatcapopuptext::after {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  display: block;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+
