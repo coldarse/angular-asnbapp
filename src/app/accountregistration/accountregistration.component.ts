@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { keyframes } from '@angular/animations';
+import { Component, ElementRef, OnInit } from '@angular/core';
+
+
 
 @Component({
   selector: 'app-accountregistration',
@@ -7,9 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AccountregistrationComponent implements OnInit {
 
-  constructor() { }
+
+
+  constructor(private elementRef: ElementRef) {}
 
   ngOnInit(): void {
+    
   }
 
+  usekeyboardinput() {
+    this.elementRef.nativeElement.querySelector('keyboard').classList.remove('keyboard--hidden')
+  }
+
+  
+
 }
+
+

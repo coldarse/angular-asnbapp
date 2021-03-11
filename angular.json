@@ -32,7 +32,8 @@
               "src/bootstrap/css/bootstrap.css",
               "src/bootstrap/css/custom.css",
               "src/bootstrap/css/style.css",
-              "src/bootstrap/css/Keyboard.css"
+              "src/bootstrap/css/Keyboard.css",
+              "../node_modules/simple-keyboard/build/css/index.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -40,7 +41,6 @@
               "src/bootstrap/js/Keyboard.js",
               "src/bootstrap/js/bootstrap.js",
               "src/bootstrap/js/custom.js"
-              
             ]
           },
           "configurations": {
