@@ -1,0 +1,703 @@
+<nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
+    <div class="container-fluid">
+        
+        <div class="titleNLogo">
+            <!-- Transaction Menu -->
+            <img src="assets/images/PendaftaranAkaunSendiri-small-blue.png" alt="FeedbackImage">
+            <label class="outofserviceStyle" id="SectionTitle">PENDAFTARAN AKAUN (SENDIRI)</label>
+        </div>
+        
+        <form class="d-flex">
+            <img src="assets/images/ASNBLogo.png" class="asnblogo" alt="ASNB">
+        </form>
+    </div>
+</nav>
+
+
+<form id="AR_Form" name="registerForm">
+    <div class="col-md-12">
+        <div class="registrationForm">
+            <div class="formcontent">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Maklumat Peribadi Pemegang Unit</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Gelaran</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <select name="Salutation" id="salutation" id="AR0">
+                            <option value="Datuk">DTK</option>
+                            <option value="Encik">ENCIK</option>
+                            <option value="Puan">PUAN</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Nama Penuh</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="input-long use-keyboard-input" id="AR1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR2">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Tarikh lahir</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Bangsa</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR4">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Agama</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- Bijak Account Extra Fields -->
+
+                <!-- <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Maklumat Penjaga Berdaftar</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">No Ahli</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR6">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Gelaran</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="SalutationMyKID" id="salutationMyKID">
+                                    <option value="Datuk">DTK</option>
+                                    <option value="Encik">ENCIK</option>
+                                    <option value="Puan">PUAN</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Nama Penuh</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="input-long use-keyboard-input" id="AR7">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR8">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Tarikh lahir</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Bangsa</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR10">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Agama</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR11">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Hubungan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="HBGN" id="HBGN" >
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+
+
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Maklumat Perhubungan</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 1</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="input-long use-keyboard-input" id="AR_Address1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 2</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="input-long use-keyboard-input" id="AR_Address2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Poskod</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR_Postcode">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Bandar</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR_City">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="checkbox" id="mykadAddress" name="mykadAddress" value="true">
+                                <label for="mykadAddress">Alamat MyKad</label><br>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Negeri</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR_State">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">No. Telefon Rumah</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR12">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>No. Telefon Bimbit</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR_Telephone">
+                                <input type="checkbox" id="noPhone" name="noPhone" value="true" style="margin-top: 0.8rem;">
+                                <label for="noPhone">Tiada No. Tel. Bimbit</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Emel</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR_Email">
+                                <input type="checkbox" id="noEmail" name="noEmail" value="true" style="margin-top: 0.8rem;">
+                                <label for="noEmail">Tiada Emel</label><br>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Pilihan Penghantaran Penyata</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="PPP" id="PPP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Maklumat Akaun Bank</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Nama Bank</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="NB" id="NB">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>No. Akaun Bank</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR13">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Pekerjaan</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Kategori Pekerjaan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="KP" id="KP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Nama Pekerjaan</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="NP" id="NP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Jenis Pekerjaan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="JP" id="JP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Sektor Pekerjaan</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="SP" id="SP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Pendapatan Bulanan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="PB" id="PB">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Nama Syarikat</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" id="AR14">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Pengisytiharan</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 inbetween">
+                        <h4 style="padding-left: 0.5rem;">FATCA</h4>
+                        <img src="assets/images/information-icon.png" onclick="FATCAPopFunction()" alt="infoicon" class="info_icon_img popup">
+                        <div class="blockerfatca" onclick="hidePopupfatca()" id="myPopup1"></div>
+                        <span class="fatcapopuptext" id="myPopup">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="FATCA" id="FATCA">
+                                    <option value="Tidak">TIDAK</option>
+                                    <option value="Setuju">SETUJU</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                               <label>Bersetuju untuk Sertai Program Pemasaran ASNB</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 inbetween">
+                        <h4 style="padding-left: 0.5rem;">PEP</h4>
+                        <img src="assets/images/information-icon.png" onclick="PEPPopFunction()" alt="infoicon" class="info_icon_img popup">
+                        <div class="blockerpep" onclick="hidePopuppep()" id="myPopup2"></div>
+                        <span class="peppopuptext" id="myPopup3">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="PEP" id="PEP">
+                                    <option value="Tidak">TIDAK</option>
+                                    <option value="Setuju">SETUJU</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                            <div class="col-md-4">
+                                <select name="AD" id="AD">
+                                    <option value="Tidak">TIDAK</option>
+                                    <option value="Setuju">SETUJU</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 inbetween">
+                        <h4 style="padding-left: 0.5rem;">CRS</h4>
+                        <img src="assets/images/information-icon.png" onclick="CRSPopFunction()" alt="infoicon" class="info_icon_img popup">
+                        <div class="blockercrs" onclick="hidePopupcrs()" id="myPopup4"></div>
+                        <span class="crspopuptext" id="myPopup5">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="CRS" id="CRS">
+                                    <option value="Tidak">TIDAK</option>
+                                    <option value="Setuju">SETUJU</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-cancel" id="CB1_Cancel">
+                    Batal
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_MainMenu">
+                    Seterusnya
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+</form>
+
+<div id="AR_TNC" hidden>
+    <div class="col-md-12 text-center" style="margin-top:2rem;">
+        <h3>AKUAN PENGESAHAN</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <h5>Notis Penting - Sila Baca</h5>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <p class="p-underlined">Surat ikatan dan Prospektus</p>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <p>Sebelum mendaftar, sila baca dan fahami kandungan prospektus induk ASNB.
+                Prospektus Induk Gantian ASNB bertarikh 1 Februari 2020 ("Prospektus"), telah didaftarkan dengan Suruhanjaya Sekuriti Malaysia.
+                Sila baca dan fahami kandungan Prospektus tersebut bersama Halaman Serlahan Produk yang terdapat di laman sesawang,
+                cawangan dan ejen ASNB. Unit akan diterbitkan setelah penerimaan borang pendaftaran yang merujuk dan mengiringi
+                Prospektus tersebut. Sebelum melabur, sila pertimbangkan risiko pelaburan serta yuran dan caj yang dikenakan. Harga unit dan
+                pengagihan pendapatan, jika ada, mungkin turun dan/atau naik. Prestasi tabung masa lalu bukan jaminan prestasi masa hadapan.</p>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <p>Klik sini untuk baca <a href="#">Prospektus induk ASNB</a></p>
+            
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <p>Saya telah membaca prospektus yang berkenaan dan memahami kandunganya. Saya juga telah membaca dan bersetuju dengan
+                terma dan syarat yang mentadbir permohonan ini dan pendaftaran unit serta sebarang penambahan dan pindaan selepas itu.</p>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <p class="p-underlined">Yuran dan Caj</p>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <p>Saya memehami bahawa terdapat yuran dan caj yang akan dikenakan secara langsung atau tidak langsung apabila saya membuat
+                pelaburan dalam tabung unit amanah tersebut.</p>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <p class="p-underlined">Kebankrapan</p>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <p>Saya mengesahkan bahawa saya bukan seorang yang bankrap.</p>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-cancel" id="AR_XAgree">
+                    Tidak Setuju
+                </button>
+                <button type="button" class="btn btn-next" id="AR_Agree">
+                    Setuju
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+
+</div>
+
+<div id="AR_Success" hidden>
+    <div class="col-md-12 text-center" style="margin-top:2rem;">
+        <h3>PENGESAHAN PENDAFTARAN</h3>
+    </div>
+
+    <div class="col-md-12 text-center" style="margin-top:5rem;">
+        <h4 class="h2-ic">Pendaftaran anda telah berjaya.</h4>
+    </div>
+
+    <div class="col-md-12 inbetween">
+        <div class="col-md-6" style="margin-top:5rem;">
+            <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
+                <h4 class="h2-ic">Nama</h4>
+                <h4 class="h2-ic">:</h4>
+            </div>
+        </div>
+        <div class="col-md-6 " style="margin-top:5rem;">
+            <h4 class="h2-ic">MOHAMMAD AZWAN GAN BIN ABDUL GHANI GAN</h4>
+        </div>
+    </div>
+
+    <div class="col-md-12 inbetween">
+        <div class="col-md-6 " >
+            <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
+                <h4 class="h2-ic">No. Ahli</h4>
+                <h4 class="h2-ic">:</h4>
+            </div>
+        </div>
+        <div class="col-md-6 " >
+            <h4 class="h2-ic">000012345678</h4>
+        </div>
+    </div>
+
+    <div class="col-md-12 inbetween">
+        <div class="col-md-6 " >
+            <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
+                <h4 class="h2-ic">Tarikh Pendaftaran</h4>
+                <h4 class="h2-ic">:</h4>
+            </div>
+        </div>
+        <div class="col-md-6 " >
+            <h4 class="h2-ic">19/02/2021</h4>
+        </div>
+    </div>
+
+    <div class="col-md-12 inbetween">
+        <div class="col-md-6 " >
+            <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
+                <h4 class="h2-ic">Jenis Akaun</h4>
+                <h4 class="h2-ic">:</h4>
+            </div>
+        </div>
+        <div class="col-md-6 " >
+            <h4 class="h2-ic">Sendiri</h4>
+        </div>
+    </div>
+    
+
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:10rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="AR_Print">
+                    Cetak Resit
+                </button>
+                <button type="button" class="btn btn-next" id="AR_Email">
+                    Emel Resit
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+</div>

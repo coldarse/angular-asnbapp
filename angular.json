@@ -35,14 +35,17 @@
               "src/bootstrap/css/Keyboard.css"
             ],
             "scripts": [
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/signalr/jquery.signalR.js",
+              "src/bootstrap/js/Keyboard.js",
               "src/bootstrap/js/bootstrap.js",
-              "src/bootstrap/js/custom.js",
-              "src/bootstrap/js/Keyboard.js"
+              "src/bootstrap/js/custom.js"
+              
             ]
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
+              "fileReplacements": [   
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"

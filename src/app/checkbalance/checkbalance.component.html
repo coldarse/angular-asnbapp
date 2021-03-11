@@ -1,0 +1,254 @@
+<nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
+    <div class="container-fluid">
+        <div class="titleNLogo">
+            <!-- Transaction Menu -->
+            <img src="assets/images/SemakBaki-small-blue.png" alt="CheckBalance">
+            <label class="outofserviceStyle" id="SectionTitle">SEMAK BAKI</label>
+        </div>
+        
+        <form class="d-flex">
+            <img src="assets/images/ASNBLogo.png" class="asnblogo" alt="ASNB">
+        </form>
+    </div>
+</nav>
+
+<!-- Check Balance -->
+<div id="CheckBalance1" hidden>
+   
+    <div class="col-md-12 text-center" style="padding-top:4rem; font-family: helvetica ;">
+        <h2 id="CB1_Title1">Sila pilah Akaun untuk semakan baki</h2>
+    </div>
+
+    <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
+        <h2 id="CB1_Title2">Akaun Sendiri</h2>
+    </div>
+
+    <div class="col-md-12 text-center" style="padding-top:0.15rem; ">
+        <button type="button" class="btn btn-account" id="Account1">
+            000004567891<br>Nurul Sofiah Binti Yunus
+        </button>
+    </div>
+
+    <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
+        <h2 id="CB1_Title3">Akaun Bijak</h2>
+    </div>
+
+    <div class="col-md-12 text-center" style="padding-top:0.15rem;">
+        <button type="button" class="btn btn-account" id="Account2">
+            0000012345678<br>Mumi Binti Mohamad
+        </button>
+    </div>
+    
+
+  
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-cancel" id="CB1_Cancel">
+                    Batal
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_MainMenu">
+                    Menu Utama
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div id="CheckBalance2" >
+   
+    <div class="col-md-12 text-center" style="padding-top:4rem; font-family: helvetica ;">
+        <h2 id="CB2_Title1">Baki Akaun</h2>
+    </div>
+
+
+    <div class="row" >
+        <div class="bg-popup" id="SB_Error" hidden>
+            <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+                
+        
+                <h1 id="SB_ResponseCode" class="padding-top-2rem">Mesej Ralat</h1>
+    
+                <h2 id="SB_ErrorMessage" class="h2-ic" style="padding-top:10rem;">Mohon maaf. Permohonan anda tidak dapat diproses.<br>
+                Sila rujuk ke kaunter.</h2>
+        
+    
+                <footer class="site-footer" style="padding-top:12rem;">
+                    <div class="row text-center" >
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-cancel" id="SB_Cancel">
+                                Tamatkan Transaksi
+                            </button>
+                            <button type="button" class="btn btn-next" id="SB_ChangeAccount" >
+                                Pilih Akaun Lain
+                            </button>
+    
+                        </div>
+                        
+                    </div>
+                </footer>
+                
+            </div>
+        </div>   
+
+
+        <div class="col-md-1"></div>
+        <div class="col-md-5 pop-up-cb shadow p-3 mb-5 bg-white rounded-1rem">
+            <!-- First Row -->
+            <div class="row">
+                <div class="column leftcol">
+                    <label class="CheckBalanceText1" id="CB2_Name">Nama</label>
+                </div>
+                <div class="column rightcol">
+                    <label class="CheckBalanceText1" id="CB2_NameValue">SAMI NURUL SOFIAH BINTI YUNUS</label>  
+                </div>
+            </div>
+            
+            <!-- Second Row -->
+            <div class="row">
+                <div class="column leftcol">
+                    <label  class="CheckBalanceText1" id="CB2_IC">No. Kad Pengenalan</label>
+                </div>
+                
+                <div class="column rightcol">
+                    <label  class="CheckBalanceText1" id="CB2_ICValue">880419-01-7887</label>  
+                </div>
+            </div>
+            
+            <!-- Third Row -->
+            <div class="row">
+                <div class="column leftcol">
+                    <label  class="CheckBalanceText1" id="CB2_MemberID">No. Ahli</label>
+                </div>
+                <div class="column rightcol">
+                    <label  class="CheckBalanceText1" id="CB2_MemberIDValue">123456789123</label>  
+                </div>
+            </div>
+            
+
+        </div>
+        <div class="col-md-5 pop-up-cb shadow p-3 mb-5 bg-white rounded-1rem" align="center">
+            <!-- First Row -->
+            <div class="row">
+                <label class="CheckBalanceText1" id="CB2_TotalTitle">Baki Keseluruhan</label>
+            </div>
+            
+            <!-- Second Row -->
+            <div class="row">
+                <label class="CheckBalanceText1" id="CB2_TotalPriceValue">RM 24,701.13</label>
+            </div>
+            
+            <!-- Third Row -->
+            <div class="row">
+                <label class="CheckBalanceText1" id="CB2_TotalUnitValue">Unit 24,896.64</label>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
+        <table class="table checkbalancetable" id="CB2_BalanceTable">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">Unit Amanah</th>
+                <th scope="col">Pelaburan Tunai</th>
+                <th scope="col">SPA KWSP</th>
+                <th scope="col">Sijil Pinjaman/Cagaran</th>
+                <th scope="col">Sijil</th>
+                <th scope="col">Blok</th>
+                <th scope="col">Jumlah Unit</th>
+                <th scope="col">Nilai Semasa (RM)</th>
+                <th scope="col">Cetak</th>
+                <th scope="col">Emel</th>
+            </tr>
+            </thead>
+            <tbody>
+                <!-- To be edited to fit data names -->
+              <tr> 
+                <td>test</td>
+                <td>test</td>
+                <td>test</td>
+                <td>test</td>
+                <td>test</td>
+                <td>test</td>
+                <td>test</td>
+                <td>test</td>
+                
+                <!-- <td>{{data.type}}</td>
+                <td>{{data.type}}</td>
+                <td>{{data.type}}</td>
+                <td>{{data.type}}</td>
+                <td>{{data.type}}</td>
+                <td>{{data.type}}</td>
+                <td>{{data.type}}</td>
+                <td>{{data.type}}</td> -->
+                <td>
+                    <button class="btn btn-printoremail" id="CB2_PrintButton">Cetak</button>
+                </td>
+                <td>
+                    <button class="btn btn-printoremail" id="CB2_EmailButton">Emel</button>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+    </div>
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-cancel" id="CB2_Cancel">
+                    Batal
+                </button>
+                <button type="button" class="btn btn-next" id="CB2_Print">
+                    Cetak
+                </button>
+                <button type="button" class="btn btn-next" id="CB2_Email">
+                    Emel
+                </button>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+<div id="CheckBalance3" hidden>
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem;">
+            <h2 class="h2-ic" id="CB3_Title1">Resit anda sedang dicetak.</h2>
+            <h2 class="h2-ic" id="CB3_Title2">Sila Tunggu.</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-a.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+<div id="CheckBalance4" hidden>
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="CB4_Title1">Sila ambil resit anda</h2>
+            <!-- <h2 class="h2-ic">Sila Tunggu.</h2> -->
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-b.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+<div id="CheckBalance5" hidden>
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="CB5_Title1">Salinan resit akan hantar ke</h2>
+            <h2 class="h2-ic" id="CB5_Title2">alamat e-mel anda.</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnb-mobile-emel.png" class="ICReader__centered img-addon padding-top-10rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>

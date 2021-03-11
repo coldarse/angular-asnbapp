@@ -1,0 +1,83 @@
+<nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
+    <div class="container-fluid">
+       
+        <div>
+            <!-- Read MyKad NavBar -->
+            <img src="assets/images/MyKad-small-blue.png" alt="MyKadImage">
+            <label class="outofserviceStyle" id="SectionTitle">SAHKAN MYKAD</label>
+        </div>
+
+        <form class="d-flex">
+            <img src="assets/images/ASNBLogo.png" class="asnblogo" alt="ASNB">
+        </form>
+    </div>
+</nav>
+
+
+ 
+
+<div class="bg-popup" id="RM_Error" hidden>
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+        
+
+        <h1 id="RM_ResponseCode" class="padding-top-2rem">Mesej Ralat</h1>
+
+        <h2 id="RM_ErrorMessage" class="h2-ic" style="padding-top:10rem;">( Mesej Ralat )</h2>
+
+
+        <footer class="site-footer" style="padding-top:15rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-cancel" id="RM_Cancel">
+                        Tamatkan Transaksi
+                    </button>
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" >
+                        Cuba Lagi
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div>   
+
+<!-- IC Reader Screen 1 -->
+<div *ngIf="insertMykadVisible" class="row" id="ICReaderScreen1">
+    <div class="col-md-6 text-center" style="padding-top:13rem">
+        <h2 id="ICR1_Welcome">Selamat Datang</h2>
+        &nbsp;
+        <h2 class="h2-ic" id="ICR1_Title1">Sila masukkan MyKad anda</h2>
+        <h2 class="h2-ic" id="ICR1_Title2">dan kilk butang dibawah</h2>
+        &nbsp;
+        <button type="button" class="btn btn-checkIC" id="CheckICButton" (click)="verify()">Sahkan MyKad</button>
+    </div>
+    <div class="col-md-6 text-center" >
+        <img src="assets/images/InsertMyKad.gif" class="ICReader__centered img-addon padding-top-5rem" alt="ICReaderImage">
+    </div>
+</div>
+
+
+<!-- IC Reader Screen 2 -->
+<div *ngIf="readThumbprintVisible" class="row" id="ICReaderScreen2">
+    <div class="col-md-6 text-center" style="padding-top:20rem">
+        <h2 class="h2-ic" id="ICR2_Title1">Sila letak ibu jari di atas</h2>
+        <h2 class="h2-ic" id="ICR2_Title2">pembaca cap jari</h2>
+    </div>
+    <div class="col-md-6 text-center" >
+        <img src="assets/images/Thumprint.gif" class="ICReader__centered img-addon padding-top-10rem" alt="ThumbPrintImage" >
+    </div>
+</div>
+
+<!-- IC Reader Screen 3 -->
+<div *ngIf="loadingVisible" class="row" id="ICReaderScreen3">
+    <div class="col-md-6 text-center" style="padding-top:20rem">
+        <h2 class="h2-ic" id="ICR3_Title1">Maklumat MyKad sedang dibaca</h2>
+        <div class="spinner-border text-primary spinning-addon" role="status"> </div>
+
+    </div>
+    <div class="col-md-6 text-center" >
+        <img src="assets/images/asnb-readingmykad.png" class="ICReader__centered img-addon padding-top-10rem" alt="ReadingMyKadImage" >
+    </div>
+</div>
