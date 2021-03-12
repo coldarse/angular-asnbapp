@@ -8,6 +8,9 @@ import { CheckbalanceComponent } from './checkbalance/checkbalance.component';
 import { ErrorscreenComponent } from './errorscreen/errorscreen.component';
 import { TransactionsuccessfulComponent } from './transactionsuccessful/transactionsuccessful.component';
 import { AccountregistrationComponent } from './accountregistration/accountregistration.component';
+import { FeedbackscreenComponent } from './feedbackscreen/feedbackscreen.component';
+import { BijakregistrationComponent } from './bijakregistration/bijakregistration.component';
+import { UpdatedetailsComponent } from './updatedetails/updatedetails.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/transactionmenu', pathMatch: 'full'},
@@ -18,7 +21,10 @@ const routes: Routes = [
   {path: 'checkbalance', component: CheckbalanceComponent},
   {path: 'errorscreen', component: ErrorscreenComponent},
   {path: 'transactionsuccessful', component: TransactionsuccessfulComponent},
-  {path: 'accountregistration', component: AccountregistrationComponent}
+  {path: 'accountregistration', component: AccountregistrationComponent},
+  {path: 'feedbackscreen', component: FeedbackscreenComponent},
+  {path: 'bijakregistration', component: BijakregistrationComponent},
+  {path: 'updatedetails', component: UpdatedetailsComponent}
 ];
 
 @NgModule({

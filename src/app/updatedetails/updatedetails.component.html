@@ -1,0 +1,1128 @@
+<nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
+    <div class="container-fluid">
+        <div class="titleNLogo">
+            <!-- Transaction Menu -->
+            <img src="assets/images/SemakBaki-small-blue.png" alt="UpdateDetailsImage">
+            <label class="outofserviceStyle" id="SectionTitle">KEMAS KINI MAKLUMAT</label>
+        </div>
+        
+        <form class="d-flex">
+            <img src="assets/images/ASNBLogo.png" class="asnblogo" alt="ASNB">
+        </form>
+    </div>
+</nav>
+
+<!-- Check Balance -->
+<div id="UpdateDetails1" *ngIf="UD1_Visible">
+   
+    <div class="col-md-12 text-center" style="padding-top:4rem; font-family: helvetica ;">
+        <h2 id="UD1_Title1">Sila pilah Akaun untuk semakan baki</h2>
+    </div>
+
+    <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
+        <h2 id="UD1_Title2">Akaun Sendiri</h2>
+    </div>
+
+    <div class="col-md-12 text-center" style="padding-top:0.15rem; ">
+        <button type="button" class="btn btn-account" id="Account1">
+            000004567891<br>Nurul Sofiah Binti Yunus
+        </button>
+    </div>
+
+    <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
+        <h2 id="UD1_Title3">Akaun Bijak</h2>
+    </div>
+
+    <div class="col-md-12 text-center" style="padding-top:0.15rem;">
+        <button type="button" class="btn btn-account" id="Account2">
+            0000012345678<br>Mumi Binti Mohamad
+        </button>
+    </div>
+    
+
+  
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-cancel" id="UD1_Cancel">
+                    Batal
+                </button>
+                <button type="button" class="btn btn-next" id="UD1_MainMenu">
+                    Menu Utama
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+
+<form id="AR_Form" name="registerForm" *ngIf="UDForm_Visible">
+    <div class="col-md-12">
+        <div class="registrationForm">
+            <div class="formcontent">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Maklumat Peribadi Pemegang Unit</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Gelaran</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <select name="Salutation" id="salutation" id="AR0">
+                            <option value="Datuk">DTK</option>
+                            <option value="Encik">ENCIK</option>
+                            <option value="Puan">PUAN</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Nama Penuh</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <input #someVar type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" ngclick="usekeyboardinput()" id="AR1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR2">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Tarikh lahir</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Bangsa</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR4">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Agama</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="bijakSection" hidden>
+                <!-- Bijak Account Extra Fields -->
+
+                    <div class="row" style="margin-top: 2rem;">
+                        <div class="col-md-12">
+                            <h4 class="blue-title-bar">Maklumat Penjaga Berdaftar</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 style="padding-left: 0.5rem;">No Ahli</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR6">
+                                </div>
+                                <div class="col-md-4">
+                                    <h4>Gelaran</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="SalutationMyKID" id="salutationMyKID">
+                                        <option value="Datuk">DTK</option>
+                                        <option value="Encik">ENCIK</option>
+                                        <option value="Puan">PUAN</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 style="padding-left: 0.5rem;">Nama Penuh</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" id="AR7">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR8">
+                                </div>
+                                <div class="col-md-4">
+                                    <h4>Tarikh lahir</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR9">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 style="padding-left: 0.5rem;">Bangsa</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR10">
+                                </div>
+                                <div class="col-md-4">
+                                    <h4>Agama</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR11">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 style="padding-left: 0.5rem;">Hubungan</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <select name="HBGN" id="HBGN" >
+                                        <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                        <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                        <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    
+                                </div>
+                                <div class="col-md-4">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Maklumat Perhubungan</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 1</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Address1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 2</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Address2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Poskod</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Postcode">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Bandar</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_City">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="checkbox" id="mykadAddress" name="mykadAddress" value="true">
+                                <label for="mykadAddress">Alamat MyKad</label><br>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Negeri</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_State">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">No. Telefon Rumah</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR12">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>No. Telefon Bimbit</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Telephone">
+                                <input type="checkbox" id="noPhone" name="noPhone" value="true" style="margin-top: 0.8rem;">
+                                <label for="noPhone">Tiada No. Tel. Bimbit</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Emel</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Email">
+                                <input type="checkbox" id="noEmail" name="noEmail" value="true" style="margin-top: 0.8rem;">
+                                <label for="noEmail">Tiada Emel</label><br>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Pilihan Penghantaran Penyata</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="PPP" id="PPP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Maklumat Akaun Bank</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Nama Bank</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="NB" id="NB">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>No. Akaun Bank</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR13">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Pekerjaan</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Kategori Pekerjaan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="KP" id="KP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Nama Pekerjaan</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="NP" id="NP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Jenis Pekerjaan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="JP" id="JP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Sektor Pekerjaan</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="SP" id="SP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Pendapatan Bulanan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="PB" id="PB">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Nama Syarikat</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR14">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Pengisytiharan</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 inbetween">
+                        <h4 style="padding-left: 0.5rem;">FATCA</h4>
+                        <img src="assets/images/information-icon.png" onclick="FATCAPopFunction()" alt="infoicon" class="info_icon_img popup">
+                        <div class="blockerfatca" onclick="hidePopupfatca()" id="myPopup1"></div>
+                        <span class="fatcapopuptext" id="myPopup">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="FATCA" id="FATCA">
+                                    <option value="Tidak">TIDAK</option>
+                                    <option value="Setuju">SETUJU</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                               <label>Bersetuju untuk Sertai Program Pemasaran ASNB</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 inbetween">
+                        <h4 style="padding-left: 0.5rem;">PEP</h4>
+                        <img src="assets/images/information-icon.png" onclick="PEPPopFunction()" alt="infoicon" class="info_icon_img popup">
+                        <div class="blockerpep" onclick="hidePopuppep()" id="myPopup2"></div>
+                        <span class="peppopuptext" id="myPopup3">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="PEP" id="PEP">
+                                    <option value="Tidak">TIDAK</option>
+                                    <option value="Setuju">SETUJU</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                            <div class="col-md-4">
+                                <select name="AD" id="AD">
+                                    <option value="Tidak">TIDAK</option>
+                                    <option value="Setuju">SETUJU</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 inbetween">
+                        <h4 style="padding-left: 0.5rem;">CRS</h4>
+                        <img src="assets/images/information-icon.png" onclick="CRSPopFunction()" alt="infoicon" class="info_icon_img popup">
+                        <div class="blockercrs" onclick="hidePopupcrs()" id="myPopup4"></div>
+                        <span class="crspopuptext" id="myPopup5">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="CRS" id="CRS">
+                                    <option value="Tidak">TIDAK</option>
+                                    <option value="Setuju">SETUJU</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-cancel" id="CB1_Cancel">
+                    Batal
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_MainMenu">
+                    Seterusnya
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+
+    
+</form>
+
+<form id="BR_Form" name="registerForm" *ngIf="UDBForm_Visible">
+    <div class="col-md-12">
+        <div class="bijakregistrationForm">
+            <div class="formcontent">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Maklumat Peribadi Pemegang Unit</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Gelaran</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <select name="Salutation" id="salutation" id="AR0">
+                            <option value="Datuk">DTK</option>
+                            <option value="Encik">ENCIK</option>
+                            <option value="Puan">PUAN</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Nama Penuh</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <input #someVar type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" ngclick="usekeyboardinput()" id="AR1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR2">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Tarikh lahir</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Bangsa</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR4">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Agama</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="bijakSection">
+                <!-- Bijak Account Extra Fields -->
+
+                    <div class="row" style="margin-top: 2rem;">
+                        <div class="col-md-12">
+                            <h4 class="blue-title-bar">Maklumat Penjaga Berdaftar</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 style="padding-left: 0.5rem;">No Ahli</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR6">
+                                </div>
+                                <div class="col-md-4">
+                                    <h4>Gelaran</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <select name="SalutationMyKID" id="salutationMyKID">
+                                        <option value="Datuk">DTK</option>
+                                        <option value="Encik">ENCIK</option>
+                                        <option value="Puan">PUAN</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 style="padding-left: 0.5rem;">Nama Penuh</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" id="AR7">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR8">
+                                </div>
+                                <div class="col-md-4">
+                                    <h4>Tarikh lahir</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR9">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 style="padding-left: 0.5rem;">Bangsa</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR10">
+                                </div>
+                                <div class="col-md-4">
+                                    <h4>Agama</h4>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR11">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h4 style="padding-left: 0.5rem;">Hubungan</h4>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <select name="HBGN" id="HBGN" >
+                                        <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                        <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                        <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    
+                                </div>
+                                <div class="col-md-4">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Maklumat Perhubungan</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 1</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Address1">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 2</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Address2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Poskod</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Postcode">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Bandar</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_City">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="checkbox" id="mykadAddress" name="mykadAddress" value="true">
+                                <label for="mykadAddress">Alamat MyKad</label><br>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Negeri</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_State">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">No. Telefon Rumah</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR12">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>No. Telefon Bimbit</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Telephone">
+                                <input type="checkbox" id="noPhone" name="noPhone" value="true" style="margin-top: 0.8rem;">
+                                <label for="noPhone">Tiada No. Tel. Bimbit</label><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Emel</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Email">
+                                <input type="checkbox" id="noEmail" name="noEmail" value="true" style="margin-top: 0.8rem;">
+                                <label for="noEmail">Tiada Emel</label><br>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Pilihan Penghantaran Penyata</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="PPP" id="PPP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Maklumat Akaun Bank</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Nama Bank</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="NB" id="NB">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>No. Akaun Bank</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR13">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Pekerjaan</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Kategori Pekerjaan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="KP" id="KP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Nama Pekerjaan</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="NP" id="NP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Jenis Pekerjaan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="JP" id="JP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Sektor Pekerjaan</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="SP" id="SP">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">Pendapatan Bulanan</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="PB" id="PB">
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <h4>Nama Syarikat</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR14">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">Pengisytiharan</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 inbetween">
+                        <h4 style="padding-left: 0.5rem;">FATCA</h4>
+                        <img src="assets/images/information-icon.png" onclick="FATCAPopFunction()" alt="infoicon" class="info_icon_img popup">
+                        <div class="blockerfatca" onclick="hidePopupfatca()" id="myPopup1"></div>
+                        <span class="fatcapopuptext" id="myPopup">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="FATCA" id="FATCA">
+                                    <option value="Tidak">TIDAK</option>
+                                    <option value="Setuju">SETUJU</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8">
+                               <label>Bersetuju untuk Sertai Program Pemasaran ASNB</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 inbetween">
+                        <h4 style="padding-left: 0.5rem;">PEP</h4>
+                        <img src="assets/images/information-icon.png" onclick="PEPPopFunction()" alt="infoicon" class="info_icon_img popup">
+                        <div class="blockerpep" onclick="hidePopuppep()" id="myPopup2"></div>
+                        <span class="peppopuptext" id="myPopup3">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="PEP" id="PEP">
+                                    <option value="Tidak">TIDAK</option>
+                                    <option value="Setuju">SETUJU</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                            <div class="col-md-4">
+                                <select name="AD" id="AD">
+                                    <option value="Tidak">TIDAK</option>
+                                    <option value="Setuju">SETUJU</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 inbetween">
+                        <h4 style="padding-left: 0.5rem;">CRS</h4>
+                        <img src="assets/images/information-icon.png" onclick="CRSPopFunction()" alt="infoicon" class="info_icon_img popup">
+                        <div class="blockercrs" onclick="hidePopupcrs()" id="myPopup4"></div>
+                        <span class="crspopuptext" id="myPopup5">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="CRS" id="CRS">
+                                    <option value="Tidak">TIDAK</option>
+                                    <option value="Setuju">SETUJU</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-cancel" id="CB1_Cancel">
+                    Batal
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_MainMenu">
+                    Seterusnya
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+
+    
+</form>
+
+<div class="bg-popup" id="UD_ConfirmPop" *ngIf="UD_Confirm">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+        
+        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">Pengesahkan Kemas Kini</h2>
+
+        <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">Saya mengesahkan bahawa maklumat yang diisi adalah</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">terkini, lengkap dan betul.</h2>
+
+
+        <footer class="site-footer" style="padding-top:11rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-cancel" id="UD_No">
+                        Tidak
+                    </button>
+                    <button type="button" class="btn btn-next" id="UD_Yes" >
+                        Ya
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div>   
+
+
+<div id="updateSuccessful" *ngIf="UD_Success">
+    <div class="row text-center">
+        <div class="col-md-12 padding-top-2rem">
+            <img src="assets/images/ASNB-tick.png" class="ticklogo " alt="ASNB">
+        </div>
+    </div>
+    
+    <div class="row text-center padding-top-5rem" >
+        <h2 class="h2-ic" id="UD_Title1">Maklumat anda telah berjaya dikemaskini.</h2>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="UD_MainMenu">
+                    Cetak Resit
+                </button>
+                <button type="button" class="btn btn-next" id="UD_MainMenu">
+                    Emel Resit
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+</div>
+
+
+<div id="UD_Print1" *ngIf="UD_Print1Visible">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem;">
+            <h2 class="h2-ic" id="UDP1_Title1">Resit anda sedang dicetak.</h2>
+            <h2 class="h2-ic" id="UDP1_Title2">Sila Tunggu.</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-a.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+<div id="UD_Print2" *ngIf="UD_Print2Visible">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="UDP2_Title1">Sila ambil resit anda</h2>
+            <!-- <h2 class="h2-ic">Sila Tunggu.</h2> -->
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-b.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+<div id="UD_Email" *ngIf="UD_EmailVisible">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="UDE_Title1">Salinan resit akan hantar ke</h2>
+            <h2 class="h2-ic" id="UDE_Title2">alamat e-mel anda.</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnb-mobile-emel.png" class="ICReader__centered img-addon padding-top-10rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>

@@ -208,6 +208,15 @@ user-select: none;
   margin-top: 3rem;
 }
 
+.bijakregistrationForm {
+  width:1100px;
+  height:1370px;
+  background:rgb(255, 255, 255);
+  margin:auto;
+  margin-top: 3rem;
+}
+
+
 .formcontent {
   width:1000px;
   height:1150px;

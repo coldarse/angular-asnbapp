@@ -3,8 +3,8 @@
         
         <div class="titleNLogo">
             <!-- Transaction Menu -->
-            <img src="assets/images/PendaftaranAkaunSendiri-small-blue.png" alt="FeedbackImage">
-            <label class="outofserviceStyle" id="SectionTitle">PENDAFTARAN AKAUN (SENDIRI)</label>
+            <img src="assets/images/PendaftaranAkaunBijak-small-blue.png" alt="BijakRegistrationImage">
+            <label class="outofserviceStyle" id="SectionTitle">PENDAFTARAN AKAUN (AKAUN BIJAK)</label>
         </div>
         
         <form class="d-flex">
@@ -13,11 +13,68 @@
     </div>
 </nav>
 
+<div id="BR_TNC" hidden>
+    <div class="col-md-12 text-center" style="margin-top:4rem;">
+        <h2>Peringatan</h2>
+    </div>
 
+    <div class="row" style="padding-top:8rem;">
+        <div class="col-md-12 text-center" >
+            <h3 class="h2-ic">Pendaftaran akaun Bijak melalui saluran ini hanya boleh dilakukan oleh</h3>
+            <h3 class="h2-ic">ibu bapa kandung, di mana maklumat yang relevan akan disahkan berdasarkan</h3>
+            <h3 class="h2-ic">data yang disimpan di dalam MyKid anak</h3>
+        </div>
+    </div>
 
-<form hidden id="AR_Form" name="registerForm" >
+ 
+    
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:15rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-cancel" id="AR_XAgree">
+                    Tidak Setuju
+                </button>
+                <button type="button" class="btn btn-next" id="AR_Agree">
+                    Setuju
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+
+</div>
+
+<!-- Bijak IC Reader Screen 1 -->
+<div *ngIf="insertMykidVisible" class="row" id="ICReaderScreen1">
+    <div class="col-md-6 text-center" style="padding-top:13rem">
+        <h3 id="BR_Welcome">Akaun Bijak berumur seawal</h3>
+        <h3 id="BR_Welcome">kelahiran hingga 12 tahun</h3>
+        &nbsp;
+        <h3 class="h2-ic" id="BR2_Title1">Sila masukkan MyKid dan</h3>
+        <h3 class="h2-ic" id="BR2_Title2">klik butang dibawah</h3>
+        &nbsp;
+        <button type="button" class="btn btn-checkIC" id="CheckICButton" (click)="verify()">Seterusnya</button>
+    </div>
+    <div class="col-md-6 text-center" >
+        <img src="assets/images/InsertMyKID.gif" class="ICReader__centered img-addon padding-top-5rem" alt="ICReaderImage">
+    </div>
+</div>
+
+<!-- IC Reader Screen 3 -->
+<div *ngIf="loadingVisible" class="row" id="ICReaderScreen3">
+    <div class="col-md-6 text-center" style="padding-top:20rem">
+        <h2 class="h2-ic" id="BR3_Title1">Maklumat MyKid sedang dibaca</h2>
+        <div class="spinner-border text-primary spinning-addon" role="status"> </div>
+
+    </div>
+    <div class="col-md-6 text-center" >
+        <img src="assets/images/asnb-readingmykid.png" class="ICReader__centered img-addon padding-top-10rem" alt="ReadingMyKidImage" >
+    </div>
+</div>
+
+<form *ngIf="BR_FormVisible" id="AR_Form" name="registerForm" >
     <div class="col-md-12">
-        <div class="registrationForm">
+        <div class="bijakregistrationForm">
             <div class="formcontent">
                 <div class="row">
                     <div class="col-md-12">
@@ -86,7 +143,7 @@
 
                 <!-- Bijak Account Extra Fields -->
 
-                <!-- <div class="row">
+                <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
                         <h4 class="blue-title-bar">Maklumat Penjaga Berdaftar</h4>
                     </div>
@@ -178,7 +235,7 @@
                             </div>
                         </div>
                     </div>
-                </div> -->
+                </div>
 
 
 
@@ -500,7 +557,63 @@
     
 </form>
 
-<div id="AR_TNC" hidden>
+<div class="bg-popup" id="BR_ErrorPop" *ngIf="BR_Error">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+        
+
+        <h1 id="BR_ResponseCode" class="padding-top-2rem">Mesej Ralat</h1>
+
+        <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:8rem; padding-left: 8rem; padding-right: 8rem">Kad tidak dapat dikesan atau kad yang digunakan tiday sah.
+        Sila pastikan anda menggunakan MyKid yang sah 
+        sebelum meneruskan transaksi.</h2>
+
+
+        <footer class="site-footer" style="padding-top:10rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-cancel" id="BR_Cancel">
+                        Tamatkan Transaksi
+                    </button>
+                    <button type="button" class="btn btn-next" id="BR_MainMenu" >
+                        Cuba Lagi
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div>   
+
+<div class="bg-popup" id="BR_CancelPop" *ngIf="BR_Cancel">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+        
+
+        <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:15rem;">Batal Pendaftaran Akaun?</h2>
+
+
+        <footer class="site-footer" style="padding-top:11rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-cancel" id="BR_No">
+                        Tidak
+                    </button>
+                    <button type="button" class="btn btn-next" id="BR_Yes" >
+                        Ya
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div>   
+
+
+
+<div id="BR_TNC" *ngIf="BR_TNCVisible">
     <div class="col-md-12 text-center" style="margin-top:2rem;">
         <h3>AKUAN PENGESAHAN</h3>
     </div>
@@ -633,7 +746,8 @@
 
 </div>
 
-<div id="AR_Success" hidden>
+
+<div id="BR_Success" *ngIf="BR_SuccessVisible">
     <div class="col-md-12 text-center" style="margin-top:2rem;">
         <h3>PENGESAHAN PENDAFTARAN</h3>
     </div>
@@ -707,11 +821,11 @@
     </footer>
 </div>
 
-<div id="AR_Print1" hidden>
+<div id="BR_Print1" *ngIf="BR_Print1Visible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
-            <h2 class="h2-ic" id="ARP1_Title1">Resit anda sedang dicetak.</h2>
-            <h2 class="h2-ic" id="ARP1_Title2">Sila Tunggu.</h2>
+            <h2 class="h2-ic" id="BRP1_Title1">Resit anda sedang dicetak.</h2>
+            <h2 class="h2-ic" id="BRP1_Title2">Sila Tunggu.</h2>
             
         </div>
         <div class="col-md-6 text-center">
@@ -720,10 +834,10 @@
     </div>
 </div>
 
-<div id="AR_Print2" hidden>
+<div id="BR_Print2" *ngIf="BR_Print2Visible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
-            <h2 class="h2-ic" id="ARP2_Title1">Sila ambil resit anda</h2>
+            <h2 class="h2-ic" id="BRP2_Title1">Sila ambil resit anda</h2>
             <!-- <h2 class="h2-ic">Sila Tunggu.</h2> -->
             
         </div>
@@ -733,11 +847,11 @@
     </div>
 </div>
 
-<div id="AR_Email">
+<div id="BR_Email" *ngIf="BR_EmailVisible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
-            <h2 class="h2-ic" id="ARE_Title1">Salinan resit akan hantar ke</h2>
-            <h2 class="h2-ic" id="ARE_Title2">alamat e-mel anda.</h2>
+            <h2 class="h2-ic" id="BRE_Title1">Salinan resit akan hantar ke</h2>
+            <h2 class="h2-ic" id="BRE_Title2">alamat e-mel anda.</h2>
             
         </div>
         <div class="col-md-6 text-center">

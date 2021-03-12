@@ -14,6 +14,9 @@ import { TransactionmenuComponent } from './transactionmenu/transactionmenu.comp
 import { ErrorscreenComponent } from './errorscreen/errorscreen.component';
 import { TransactionsuccessfulComponent } from './transactionsuccessful/transactionsuccessful.component';
 import { AccountregistrationComponent } from './accountregistration/accountregistration.component';
+import { FeedbackscreenComponent } from './feedbackscreen/feedbackscreen.component';
+import { BijakregistrationComponent } from './bijakregistration/bijakregistration.component';
+import { UpdatedetailsComponent } from './updatedetails/updatedetails.component';
 
 
 export function createConfig(): SignalRConfiguration {
@@ -41,7 +44,10 @@ export function createConfig(): SignalRConfiguration {
     TransactionmenuComponent,
     ErrorscreenComponent,
     TransactionsuccessfulComponent,
-    AccountregistrationComponent
+    AccountregistrationComponent,
+    FeedbackscreenComponent,
+    BijakregistrationComponent,
+    UpdatedetailsComponent
   ],
   imports: [
     BrowserModule,
