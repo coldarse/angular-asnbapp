@@ -11,9 +11,10 @@ import { AccountregistrationComponent } from './accountregistration/accountregis
 import { FeedbackscreenComponent } from './feedbackscreen/feedbackscreen.component';
 import { BijakregistrationComponent } from './bijakregistration/bijakregistration.component';
 import { UpdatedetailsComponent } from './updatedetails/updatedetails.component';
+import { PortalregistrationComponent } from './portalregistration/portalregistration.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/transactionmenu', pathMatch: 'full'},
+  {path: '', redirectTo: '/language', pathMatch: 'full'},
   {path: 'language', component: LanguageComponent},
   {path: 'verifymykad', component: VerifymykadComponent},
   {path: 'outofservice', component: OutofserviceComponent},
@@ -24,7 +25,8 @@ const routes: Routes = [
   {path: 'accountregistration', component: AccountregistrationComponent},
   {path: 'feedbackscreen', component: FeedbackscreenComponent},
   {path: 'bijakregistration', component: BijakregistrationComponent},
-  {path: 'updatedetails', component: UpdatedetailsComponent}
+  {path: 'updatedetails', component: UpdatedetailsComponent},
+  {path: 'portalregistration', component: PortalregistrationComponent}
 ];
 
 @NgModule({

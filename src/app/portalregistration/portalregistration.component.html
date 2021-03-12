@@ -1,0 +1,685 @@
+<nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
+    <div class="container-fluid">
+       
+        <div class="titleNLogo">
+            <!-- Read MyKad NavBar -->
+            <img src="assets/images/PendaftaranPortalmyASNB-small-blue.png" alt="PortalImage">
+            <label class="outofserviceStyle" id="SectionTitle">PENDAFTARAN PORTAL myASNB</label>
+        </div>
+
+        <form class="d-flex">
+            <img src="assets/images/ASNBLogo.png" class="asnblogo" alt="ASNB">
+        </form>
+    </div>
+</nav>
+
+<div class="row" style="padding-top: 6rem;" *ngIf="PR_Intro">
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <h4 class="h2-ic">Selamat datang ke Portal myASNB. Sebelum menggunakan perkhidmatan myASNB, anda perlu melengkapkan pendaftaran myASNB terlebih dahulu. Ikuti langkah mudah berikut untuk mula mendaftar.</h4>
+        </div>
+        <div class="col-md-1">
+            
+        </div>
+    </div>
+
+    <div class="steps" style="padding-top: 1.5rem;">
+        <div class="row">
+            <div class="col-md-1">
+    
+            </div>
+            <div class="col-md-10">
+                <h4 class="h2-ic">Langkah 1 - Kemas kini maklumat peribadi (nombor telefon) anda di cawangan atau ejen ASNB.</h4>
+            </div>
+            <div class="col-md-1">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+    
+            </div>
+            <div class="col-md-10">
+                <h4 class="h2-ic">Langkah 2 - Ikuti langkah mudah untuk pendaftaran myASNB.</h4>
+            </div>
+            <div class="col-md-1">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+    
+            </div>
+            <div class="col-md-10">
+                <h4 class="h2-ic">Langkah 3 - Aktifkan akaun myASNB anda.</h4>
+            </div>
+            <div class="col-md-1">
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+    
+            </div>
+            <div class="col-md-10">
+                <h4 class="h2-ic">Langkah 4 - Mula melabur dalam unit amanah ASNB.</h4>
+            </div>
+            <div class="col-md-1">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top: 1.5rem;">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <h4 class="h2-ic">Apabila anda selesai mendaftar, <strong><u>kata lauan sementara</u></strong> akan diberikan. Sila cetak / simpan / catat kata laluan sementara berkenaan untuk log masuk kali pertama.</h4>
+        </div>
+        <div class="col-md-1">
+            
+        </div>
+    </div>
+
+    <div class="row" style="padding-top: 1.5rem;">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <h4 class="h2-ic">Anda diingatkan supaya menyinpan maklumat penting nama pengguna, kata laluan, frasa keselamatan dan jawapan untuk soalan keselamatan di tempat selamat untuk rujukan masa hadapan.</h4>
+        </div>
+        <div class="col-md-1">
+            
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-cancel" id="PR_Cancel">
+                    Batal
+                </button>
+                <button type="button" class="btn btn-next" id="PR_Next">
+                    Teruskan
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+    
+    
+</div>
+
+<div class="row" style="padding-top: 3rem;" *ngIf="PR_TNC">
+    <div class="row">
+        <div class="cool-md-12 text-center">
+            <h2 id="PRtnc">Terma dan Syarat</h2>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top: 7rem;">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <h3 class="h2-ic" style="text-align: center;">
+                Apabila menggunakan myASNB, ada telah bersetuju untuk terikat disisi undang-undang dengan
+                terma yang dinyatakan, yang berkuat kuasa serta merta apabila anda menggunakan
+                laman web ini untuk kali pertama. Sekiranya anda tidak bersetuju untuk terikat disisi
+                undang-undang dengan Terma dan Syarat yang dinyatakan, anda dinasihatkan 
+                untuk tidak mengakses atau menggunakan laman web ini.
+            </h3>
+        </div>
+        <div class="col-md-1">
+            
+        </div>
+    </div>
+
+    <div class="row text-center" style="padding-top: 4rem;">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <input type="checkbox" id="agreeCheck" name="tncCheck" value="agree">
+            <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">Saya telah membaca dan bersetuju dengan <a href="#" style="text-decoration:none;">Terma & Syarat</a> dan <a href="#" style="text-decoration:none;">Dasar Privasi</a></label><br>
+        </div>
+        <div class="col-md-1">
+            
+        </div>
+    </div>
+
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-cancel" id="PR_xAgree">
+                    Tidak Setuju
+                </button>
+                <button type="button" class="btn btn-next" id="PR_Agree">
+                    Setuju
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+</div>
+
+<div class="row" *ngIf="PR_Details">
+    <div class="row" style="padding-left: 4rem; padding-top: 2rem;">
+        <div class="col-md-12">
+            <h4><u>Daftar Masuk Portal myASNB</u></h4>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-6">
+            <div class="row" style="padding-left: 3.3rem;">
+                <div class="col-md-5">
+                    <h4 class="h2-ic">ID Pengunna</h4>
+                </div>
+                <div class="col-md-7">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row" style="padding-left: 3.3rem;">
+                <div class="col-md-5">
+                    <h4 class="h2-ic">Alamat Emel</h4>
+                </div>
+                <div class="col-md-7">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input">
+                </div>
+            </div>  
+        </div>
+    </div>
+
+    <div class="row" style="padding-left: 4rem; padding-top: 1rem;">
+        <div class="col-md-12">
+            <h4><u>Soalan Keselamatan</u></h4>
+        </div>
+    </div>
+
+    
+    <div class="row" >
+        <div class="col-md-6">
+            <div class="row" style="padding-left: 3.3rem;">
+                <div class="col-md-5">
+                    <h4 class="h2-ic">Frasa Keselamatan</h4>
+                </div>
+                <div class="col-md-7">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input">
+                </div>
+            </div>
+            <div class="row" style="padding-left: 3.3rem;">
+                <div class="col-md-5">
+                    <h4 class="h2-ic">Soalan Keselamatan 1</h4>
+                </div>
+                <div class="col-md-7">
+                    <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
+                        <option value="Datuk">DTK</option>
+                        <option value="Encik">ENCIK</option>
+                        <option value="Puan">PUAN</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="padding-left: 3.3rem;">
+                <div class="col-md-5">
+                    <h4 class="h2-ic">Jawapan 1</h4>
+                </div>
+                <div class="col-md-7">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input">
+                </div>
+            </div>
+            <div class="row" style="padding-left: 3.3rem;">
+                <div class="col-md-5">
+                    <h4 class="h2-ic">Soalan Keselamatan 2</h4>
+                </div>
+                <div class="col-md-7">
+                    <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
+                        <option value="Datuk">DTK</option>
+                        <option value="Encik">ENCIK</option>
+                        <option value="Puan">PUAN</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="padding-left: 3.3rem;">
+                <div class="col-md-5">
+                    <h4 class="h2-ic">Jawapan 2</h4>
+                </div>
+                <div class="col-md-7">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input">
+                </div>
+            </div>
+            <div class="row" style="padding-left: 3.3rem;">
+                <div class="col-md-5">
+                    <h4 class="h2-ic">Soalan Keselamatan 3</h4>
+                </div>
+                <div class="col-md-7">
+                    <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
+                        <option value="Datuk">DTK</option>
+                        <option value="Encik">ENCIK</option>
+                        <option value="Puan">PUAN</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="padding-left: 3.3rem;" >
+                <div class="col-md-5">
+                    <h4 class="h2-ic">Jawapan 3</h4>
+                </div>
+                <div class="col-md-7">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="padding-left: 4rem;">
+            <div class="information" style="padding-right: 4rem;">
+                <h5 class="h2-ic">
+                    <u>
+                        ID Pengguna dan Frasa Keselamatan:
+                    </u>
+                </h5>
+                <h5 class="h2-ic">
+                    - Mesti mempunyai 8 hingga 20 askara.
+                </h5>
+                <h5 class="h2-ic">
+                    - Mesti mempunyai Huruf Besar, Hruf Kecil dan Nombor. 
+                </h5>
+                <h5 class="h2-ic">
+                    - Tidak boleh mempunyai sebahagian atau keseluruhan ID pengguna atau frasa keselamatan anda
+                </h5>
+                <h5 class="h2-ic">
+                    - Tidak boleh menggunkan askara yang sama melebihi 3 kali (e.g abc111, aaaa1111)
+                </h5>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="row" style="padding-left: 4rem; padding-top: 2rem;">
+        <div class="col-md-12">
+            <h4><u>Pengesahan TAC</u></h4>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-md-6">
+            <div class="row" style="padding-left: 3.3rem;" >
+                <div class="col-md-5">
+                    <h4 class="h2-ic">Sila Masukkan 6 digit TAC</h4>
+                </div>
+                <div class="col-md-7">
+                    <input type="text" style="width: 50%;" class="use-keyboard-input">
+                    <button id="TACreq" class="btn btn-primary" style="margin-left: 1rem;">Permintaan TAC</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="padding-right:8rem;">
+            <p>
+                Kod Kebenaran Transaksi (TAC) telah dihantar ke nombor telefon bimbit anda menerusi
+                SMS. Sila tunggu. Notis Penting: Sebelum membuat permohonan SMS-TAC, sila pastikan tiada sekatan dibuat ke atas
+                no 62000 di telefon bimbit atau oleh pembekal rangkalan telekomunikasi telefon bimbit anda.
+            </p>
+            <p>
+                
+            </p>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:1rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-cancel" id="PR_Cancel">
+                    Batal 
+                </button>
+                <button type="button" class="btn btn-next" id="PR_Continue">
+                    Teruskan
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+</div>
+
+<div class="row" style="padding-top: 4rem;" *ngIf="PR_TempPass">
+    <div class="row">
+        <div class="cool-md-12 text-center">
+            <h2 id="PRtnc">Anda telah berjaya mendaftar dengan Portal myASNB</h2>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top: 7rem;">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <h3 class="h2-ic" style="text-align: center;">
+                Kata laluan sementara anda adalah:
+            </h3>
+            <h3 class="h2-ic" style="text-align: center;">
+                (Kata Laluan Sementara)
+            </h3>
+        </div>
+        <div class="col-md-1">
+            
+        </div>
+    </div>
+
+    <div class="row text-center" style="padding-top: 4rem;">
+        <div class="col-md-12">
+            <h5 class="h2-ic" style="text-align: center; padding-left: 2rem; padding-right: 2rem;">
+                1. Kata laluan sementara telah dihantar ke nombor telefon bimbit anda menerusi SMS yang anda telah berikan sewaktu proses pendaftaran
+            </h5>
+            <h5 class="h2-ic" style="text-align: center;padding-left: 2rem; padding-right: 2rem;">
+                2. Anda dinasihatikan untuk menentusahkan alamat emel menerusi emel pengesahan yang akan dihantar dalam tempoh 7 hari akan datang begi membolehkan anda menerima maklumat mengenai urusniaga yang dilakukan di Portal myASNB
+            </h5>
+        </div>
+    </div>
+
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:8rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="PR_xAgree">
+                    Menu Utama  
+                </button>
+                <button type="button" class="btn btn-next" id="PR_Agree">
+                    Log Masuk myASNB
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+</div>
+
+
+<div class="row" style="padding-top: 2rem;" *ngIf="PR_Login">
+    <div class="row">
+        <div class="cool-md-12 text-center">
+            <h3 id="PRtnc">Log Masuk Pengguna</h3>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top: 1rem;">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <h3 class="h2-ic" style="text-align: center;">
+                PERINGATAN. Bagi mengelakkan pihak yang tidak bertanggungjawab dapat mengakses akaun portal myASNB 
+                anda, sila pastikan persekitaran anda dalam keadaan yang tidak mencurigakan sepanjang menggunakan 
+                perkhidmatan ini. 
+            </h3>
+        </div>
+        <div class="col-md-1">
+            
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:1.5rem;">
+        <h4 style="padding-left:3.3rem;">
+            ID Pengguna
+        </h4>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6" style="padding-left:3.3rem;">
+            <input type="text" class="use-keyboard-input" style="width: 100%;">
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:1rem;">
+        <h4 style="padding-left:3.3rem;" class="h2-ic">
+            Jika ini <strong>BUKAN</strong> frasa keselamatan yang anda pilih, <strong>JANGAN TERUSKAN URUSNIAGA ANDA</strong>. Sila hubungi nombor hotline 
+            portal myASNB di 03-77308899.
+        </h4>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6" style="padding-left:3.3rem;">
+            <input type="text" style="width: 100%; height: 120%;" class="text-center" value="(Frasa Keselamatan)">
+        </div>
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-8 text-center">
+                    <h4>
+                        Adakah ini frasa keselamatan anda?
+                    </h4>
+                </div>
+                <div class="col-md-4">
+                    
+                </div>
+                <div class="col-md-8 text-center">
+                    <button class="btn btn-primary" style="width: 30%; margin-right: 0.5rem;">
+                        Tidak
+                    </button>
+                    <button class="btn btn-primary" style="width: 30%; margin-left: 0.5rem;">
+                        Ya
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-top:2rem;">
+        <h4 style="padding-left:3.3rem;">
+            Kata Laluan Sementara
+        </h4>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6" style="padding-left:3.3rem;">
+            <input type="text" class="use-keyboard-input" style="width: 100%;">
+        </div>
+    </div>
+
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:4rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="PR_xAgree">
+                    Menu Utama  
+                </button>
+                <button type="button" class="btn btn-next" id="PR_Agree">
+                    Log Masuk myASNB
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+</div>
+
+<div class="row" style="padding-top: 2rem;" *ngIf="PR_NewPassword">
+    <div class="row">
+        <div class="cool-md-12 text-center">
+            <h3 id="PRtnc">Log Masuk Pengguna</h3>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:1rem;">
+        <h4 style="padding-left:3.3rem;" class="h2-ic">
+            Kata Laluan Baru (Kekuatan Kata Laluan)
+        </h4>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6" style="padding-left:3.3rem;">
+            <input type="text" class="use-keyboard-input" style="width: 100%;">
+        </div>
+    </div>
+
+    
+    <div class="row" style="padding-top:1rem;">
+        <h4 style="padding-left:3.3rem;" class="h2-ic">
+            Kata Laluan Sementara
+        </h4>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6" style="padding-left:3.3rem;">
+            <input type="text" class="use-keyboard-input" style="width: 100%;">
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:1rem;">
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem; padding-right:2.5rem;" class="h2-ic">
+                Pengumuman: Dengan menukar kata laluan, anda akan dipaksa untuk log keluar dari Portal ASNB. Anda boleh log masuk semula
+                dengan kata laluan baru anda.
+            </h4>
+        </div>
+
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                Kata laluan anda mesti mempunyai 8 hingga 20 aksara dan menggunakan kombinasi seperti berikut:
+            </h4>
+        </div>
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - Minimum satu Huruf Besar (A-Z)
+            </h4>
+        </div>
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - Minimum satu Huruf Kecil (a-z)
+            </h4>
+        </div>
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - Minimum satu Nombor (0-9)
+            </h4>
+        </div>
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - Simbol (!@$%*) adalah pilihan
+            </h4>
+        </div>
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - Tidak boleh menyamai sebahagian atau keseluruhan ID pengguna atau frasa keselamatan anda
+            </h4>
+        </div>
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - Tidak boleh menggunakan aksara yang sama melebihi 3 kali (e.g abc111, aaaa1111)
+            </h4>
+        </div>
+    </div>
+
+
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:2rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-cancel" id="PR_Back">
+                    Kembali
+                </button>
+                <button type="button" class="btn btn-next" id="PR_Next">
+                    Teruskan
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+</div>
+
+
+<div class="bg-popup" id="PR_ConfirmPop" *ngIf="PR_Confirm" >
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+        
+        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">Pengesahkan Kemas Kini Kata Laluan</h2>
+
+        <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">Saya mengesahkan bahawa kata laluan yang diisi adalah</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">lengkap dan betul.</h2>
+
+
+        <footer class="site-footer" style="padding-top:11rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-cancel" id="PR_No">
+                        Tidak
+                    </button>
+                    <button type="button" class="btn btn-next" id="PR_Yes" >
+                        Ya
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div>   
+
+<div class="bg-popup" id="PR_SuccessPop" *ngIf="PR_Success" >
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+        
+        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">Pengesahkan Kemas Kini Kata Laluan</h2>
+
+        <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">Taniah anda telah berjaya mengemaskini kata laluan anda.</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">Sila layari www.asnb.come.my menggunakan kata laluan</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">baru untuk meneruskan transaksi.</h2>
+
+        <footer class="site-footer" style="padding-top:7rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="PR_No">
+                        Cetak Resit
+                    </button>
+                    <button type="button" class="btn btn-next" id="PR_Yes" >
+                        Emel Resit
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div>   
+
+
+<div id="PR_Print1" *ngIf="PR_Print1Visible">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem;">
+            <h2 class="h2-ic" id="PRP1_Title1">Resit anda sedang dicetak.</h2>
+            <h2 class="h2-ic" id="PRP1_Title2">Sila Tunggu.</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-a.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+<div id="PR_Print2" *ngIf="PR_Print2Visible">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="PRP2_Title1">Sila ambil resit anda</h2>
+            <!-- <h2 class="h2-ic">Sila Tunggu.</h2> -->
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-b.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+<div id="PR_Email" *ngIf="PR_EmailVisible">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="PRE_Title1">Salinan resit akan hantar ke</h2>
+            <h2 class="h2-ic" id="PRE_Title2">alamat e-mel anda.</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnb-mobile-emel.png" class="ICReader__centered img-addon padding-top-10rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+

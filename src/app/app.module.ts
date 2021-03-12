@@ -17,6 +17,7 @@ import { AccountregistrationComponent } from './accountregistration/accountregis
 import { FeedbackscreenComponent } from './feedbackscreen/feedbackscreen.component';
 import { BijakregistrationComponent } from './bijakregistration/bijakregistration.component';
 import { UpdatedetailsComponent } from './updatedetails/updatedetails.component';
+import { PortalregistrationComponent } from './portalregistration/portalregistration.component';
 
 
 export function createConfig(): SignalRConfiguration {
@@ -47,7 +48,8 @@ export function createConfig(): SignalRConfiguration {
     AccountregistrationComponent,
     FeedbackscreenComponent,
     BijakregistrationComponent,
-    UpdatedetailsComponent
+    UpdatedetailsComponent,
+    PortalregistrationComponent
   ],
   imports: [
     BrowserModule,
