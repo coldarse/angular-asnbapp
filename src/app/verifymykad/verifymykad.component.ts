@@ -70,8 +70,7 @@ export class VerifymykadComponent implements OnInit {
       else{
         this._router.navigate(['transactionmenu']);
       }
-      
-    }
+    });
   }
 
 
