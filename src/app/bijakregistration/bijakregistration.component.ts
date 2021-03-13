@@ -7,16 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BijakregistrationComponent implements OnInit {
 
-  insertMykidVisible = false;
-  loadingVisible = false;
-  BR_FormVisible = true;
-  BR_Error = false;
-  BR_Cancel = false;
-  BR_TNCVisible = false;
-  BR_SuccessVisible = false;
-  BR_Print1Visible = false;
-  BR_Print2Visible = false;
-  BR_EmailVisible = false;
+
+  BRReminder_Visible = false;
+  BRInsertMyKid_Visible = false;
+  BRLoading_Visible = false;
+  BRForm_Visible = true;
+  BRError_Visible = false;
+  BRCancel_Visible = false;
+  BRTNC_Visible = false;
+  BRSuccess_Visible = false;
+  BRPrint1_Visible = false;
+  BRPrint2_Visible = false;
+  BREmail_Visible = false;
 
 
   constructor() { }

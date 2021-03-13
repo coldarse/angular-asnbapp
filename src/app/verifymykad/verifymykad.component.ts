@@ -13,14 +13,22 @@ import { Router } from '@angular/router';
   
 export class VerifymykadComponent implements OnInit {
   private connection!: SignalRConnection;
-  //private proxy: any;
-  //private url = 'https://localhost:8080';
+  
+  //HTML Elements Visibility
+  RMError1_Visible = false;
+  RMError2_Visible = false;
   loadingVisible = false;
   readThumbprintVisible = false;
   insertMykadVisible = true;
+
+  //Initializing SignalR properties
   _conn: any;
-  private CardType = "MyKad";
   statuses: any;
+
+  //Setting CardType
+  private CardType = "MyKad";
+  private tryCount = 2;
+  
 
   constructor(
     private _signalR: SignalR,
@@ -35,14 +43,35 @@ export class VerifymykadComponent implements OnInit {
   startConnection() : void {
     this._signalR.connect().then((c) => {
       console.log("API King is now Connected");
-     
-      let listener$ = c.listenForRaw('MessageReceived');
-      listener$.subscribe((data: any[]) => {
-        console.log(data);
-      });
-
       this._conn = c;
     });
+  }
+
+  endTransaction() : void {
+    this._router.navigate(['language']);
+  }
+
+  tryAgain() : void {
+    this.RMError1_Visible = false;
+    this.RMError2_Visible = false;
+
+    this._conn.invoke('request1', "ScanThumb").then((data: any) => {
+      console.log(data);
+      if (data.toUpperCase().includes("MISMATCH")){
+        this.tryCount = this.tryCount - 1;
+        if (this.tryCount == 0) {
+          this.RMError1_Visible = false;
+          this.RMError2_Visible = true;
+        }
+        else{
+          this.RMError1_Visible = true;
+        }
+      }
+      else{
+        this._router.navigate(['transactionmenu']);
+      }
+      
+    }
   }
 
 
@@ -68,30 +97,10 @@ export class VerifymykadComponent implements OnInit {
             console.log(data);
             status = data;
             if (status.toUpperCase().includes("MISMATCH")){
-              status = "ScanThumb";
-              this._conn.invoke('request1', status).then((data: any) => {
-                console.log(data);
-                status = data;
-                if (status.toUpperCase().includes("MISMATCH")){
-                  status = "ScanThumb";
-                  this._conn.invoke('request1', status).then((data: any) => {
-                    console.log(data);
-                    status = data;
-                    if (status.toUpperCase().includes("MISMATCH")){
-                      this._router.navigate(['outofservice']);
-                    }
-                    else{
-                      this._router.navigate(['language']);
-                    }
-                  });
-                }
-                else{
-                  this._router.navigate(['language']);
-                }
-              });
+              this.RMError1_Visible = true;
             }
             else{
-              this._router.navigate(['language']);
+              this._router.navigate(['transactionmenu']);
             }
           });
         });

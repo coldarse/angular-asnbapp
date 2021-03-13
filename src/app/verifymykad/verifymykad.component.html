@@ -16,7 +16,7 @@
 
  
 
-<div class="bg-popup" id="RM_Error" hidden>
+<div class="bg-popup" id="RM_Error" *ngIf="RMError1_Visible">
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
         
 
@@ -28,10 +28,10 @@
         <footer class="site-footer" style="padding-top:15rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-cancel" id="RM_Cancel">
+                    <button type="button" class="btn btn-cancel" id="RM_Cancel" ng-click="endTransaction()">
                         Tamatkan Transaksi
                     </button>
-                    <button type="button" class="btn btn-next" id="RM_MainMenu" >
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" ng-click="tryAgain()">
                         Cuba Lagi
                     </button>
 
@@ -41,7 +41,30 @@
         </footer>
         
     </div>
-</div>   
+</div> 
+
+<div class="bg-popup" id="RM_Error1" *ngIf="RMError2_Visible">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+        
+
+        <h1 id="RM2_ResponseCode" class="padding-top-2rem">Mesej Ralat</h1>
+
+        <h2 id="RM2_ErrorMessage" class="h2-ic" style="padding-top:10rem;">( Mesej Ralat )</h2>
+
+
+        <footer class="site-footer" style="padding-top:15rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-cancel" id="RM2_Cancel" ng-click="endTransaction()">
+                        Tamatkan Transaksi
+                    </button>
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
 
 <!-- IC Reader Screen 1 -->
 <div *ngIf="insertMykadVisible" class="row" id="ICReaderScreen1">

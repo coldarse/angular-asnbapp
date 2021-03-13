@@ -13,7 +13,7 @@
     </div>
 </nav>
 
-<div id="BR_TNC" hidden>
+<div id="BR_Reminder" *ngIf="BRReminder_Visible">
     <div class="col-md-12 text-center" style="margin-top:4rem;">
         <h2>Peringatan</h2>
     </div>
@@ -45,7 +45,7 @@
 </div>
 
 <!-- Bijak IC Reader Screen 1 -->
-<div *ngIf="insertMykidVisible" class="row" id="ICReaderScreen1">
+<div *ngIf="BRInsertMyKid_Visible" class="row" id="ICReaderScreen1">
     <div class="col-md-6 text-center" style="padding-top:13rem">
         <h3 id="BR_Welcome">Akaun Bijak berumur seawal</h3>
         <h3 id="BR_Welcome">kelahiran hingga 12 tahun</h3>
@@ -61,7 +61,7 @@
 </div>
 
 <!-- IC Reader Screen 3 -->
-<div *ngIf="loadingVisible" class="row" id="ICReaderScreen3">
+<div *ngIf="BRLoading_Visible" class="row" id="ICReaderScreen3">
     <div class="col-md-6 text-center" style="padding-top:20rem">
         <h2 class="h2-ic" id="BR3_Title1">Maklumat MyKid sedang dibaca</h2>
         <div class="spinner-border text-primary spinning-addon" role="status"> </div>
@@ -72,7 +72,7 @@
     </div>
 </div>
 
-<form *ngIf="BR_FormVisible" id="AR_Form" name="registerForm" >
+<form *ngIf="BRForm_Visible" id="AR_Form" name="registerForm" >
     <div class="col-md-12">
         <div class="bijakregistrationForm">
             <div class="formcontent">
@@ -557,7 +557,7 @@
     
 </form>
 
-<div class="bg-popup" id="BR_ErrorPop" *ngIf="BR_Error">
+<div class="bg-popup" id="BR_ErrorPop" *ngIf="BRError_Visible">
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
         
 
@@ -586,7 +586,7 @@
     </div>
 </div>   
 
-<div class="bg-popup" id="BR_CancelPop" *ngIf="BR_Cancel">
+<div class="bg-popup" id="BR_CancelPop" *ngIf="BRCancel_Visible">
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
         
 
@@ -613,7 +613,7 @@
 
 
 
-<div id="BR_TNC" *ngIf="BR_TNCVisible">
+<div id="BR_TNC" *ngIf="BRTNC_Visible">
     <div class="col-md-12 text-center" style="margin-top:2rem;">
         <h3>AKUAN PENGESAHAN</h3>
     </div>
@@ -747,7 +747,7 @@
 </div>
 
 
-<div id="BR_Success" *ngIf="BR_SuccessVisible">
+<div id="BR_Success" *ngIf="BRSuccess_Visible">
     <div class="col-md-12 text-center" style="margin-top:2rem;">
         <h3>PENGESAHAN PENDAFTARAN</h3>
     </div>
@@ -821,7 +821,7 @@
     </footer>
 </div>
 
-<div id="BR_Print1" *ngIf="BR_Print1Visible">
+<div id="BR_Print1" *ngIf="BRPrint1_Visible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <h2 class="h2-ic" id="BRP1_Title1">Resit anda sedang dicetak.</h2>
@@ -834,7 +834,7 @@
     </div>
 </div>
 
-<div id="BR_Print2" *ngIf="BR_Print2Visible">
+<div id="BR_Print2" *ngIf="BRPrint2_Visible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <h2 class="h2-ic" id="BRP2_Title1">Sila ambil resit anda</h2>
@@ -847,7 +847,7 @@
     </div>
 </div>
 
-<div id="BR_Email" *ngIf="BR_EmailVisible">
+<div id="BR_Email" *ngIf="BREmail_Visible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <h2 class="h2-ic" id="BRE_Title1">Salinan resit akan hantar ke</h2>

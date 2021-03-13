@@ -15,7 +15,7 @@
 
 
 
-<form hidden id="AR_Form" name="registerForm" >
+<form id="AR_Form" name="registerForm" *ngIf="ARFrom_Visible">
     <div class="col-md-12">
         <div class="registrationForm">
             <div class="formcontent">
@@ -500,7 +500,7 @@
     
 </form>
 
-<div id="AR_TNC" hidden>
+<div id="AR_TNC" *ngIf="ARTNC_Visible">
     <div class="col-md-12 text-center" style="margin-top:2rem;">
         <h3>AKUAN PENGESAHAN</h3>
     </div>
@@ -633,7 +633,7 @@
 
 </div>
 
-<div id="AR_Success" hidden>
+<div id="AR_Success" *ngIf="ARSuccess_Visible">
     <div class="col-md-12 text-center" style="margin-top:2rem;">
         <h3>PENGESAHAN PENDAFTARAN</h3>
     </div>
@@ -707,7 +707,7 @@
     </footer>
 </div>
 
-<div id="AR_Print1" hidden>
+<div id="AR_Print1" *ngIf="ARPrint1_Visible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <h2 class="h2-ic" id="ARP1_Title1">Resit anda sedang dicetak.</h2>
@@ -720,7 +720,7 @@
     </div>
 </div>
 
-<div id="AR_Print2" hidden>
+<div id="AR_Print2" *ngIf="ARPrint2_Visible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <h2 class="h2-ic" id="ARP2_Title1">Sila ambil resit anda</h2>
@@ -733,7 +733,7 @@
     </div>
 </div>
 
-<div id="AR_Email">
+<div id="AR_Email" *ngIf="AREmail_Visible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <h2 class="h2-ic" id="ARE_Title1">Salinan resit akan hantar ke</h2>

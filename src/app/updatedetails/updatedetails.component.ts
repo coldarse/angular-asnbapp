@@ -10,8 +10,8 @@ export class UpdatedetailsComponent implements OnInit {
   UD1_Visible = false;
   UDForm_Visible = false;
   UDBForm_Visible = false;
-  UD_Confirm = false;
-  UD_Success = true;
+  UDConfirm_Visible = false;
+  UDSuccess_Visible = true;
 
   UD_Print1Visible = false;
   UD_Print2Visible = false;
