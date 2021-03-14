@@ -13,6 +13,27 @@ import { Router } from '@angular/router';
   
 export class VerifymykadComponent implements OnInit {
   private connection!: SignalRConnection;
+
+
+  Header_Title = "";
+
+  RMError1_1 = "";
+  RMError1_2 = "";
+  
+  RMError2_1 = "";
+  RMError2_2 = "";
+
+  InsertMyKad_1 = "";
+  InsertMyKad_2 = "";
+  InsertMyKad_3 = "";
+  InsertMyKad_4 = "";
+
+  Loading_1 = "";
+
+  ReadThumbprint_1 = "";
+  ReadThumbprint_2 = "";
+
+
   
   //HTML Elements Visibility
   RMError1_Visible = false;

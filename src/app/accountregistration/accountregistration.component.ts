@@ -96,15 +96,15 @@ export class AccountregistrationComponent implements OnInit {
   FL_37 : string = "";
   FL_38 : string = "";
 
-  FLB_1 : string = "";
-  FLB_2 : string = "";
-  FLB_3 : string = "";
-  FLB_4 : string = "";
-  FLB_5 : string = "";
-  FLB_6 : string = "";
-  FLB_7 : string = "";
-  FLB_8 : string = "";
-  FLB_9 : string = "";
+  // FLB_1 : string = "";
+  // FLB_2 : string = "";
+  // FLB_3 : string = "";
+  // FLB_4 : string = "";
+  // FLB_5 : string = "";
+  // FLB_6 : string = "";
+  // FLB_7 : string = "";
+  // FLB_8 : string = "";
+  // FLB_9 : string = "";
 
   ARTNC_1 = "";
   ARTNC_2 = "";

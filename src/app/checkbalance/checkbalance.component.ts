@@ -13,7 +13,46 @@ export class CheckbalanceComponent implements OnInit {
   CB4_Visible = false;
   CB5_Visible = false;
 
+  Header_Title = "";
 
+  CB1_1 = "";
+  CB1_2 = "";
+  CB1_3 = "";
+
+  CB2_1 = "";
+  CB2_2 = "";
+  CB2_3 = "";
+  CB2_4 = "";
+  CB2_5 = "";
+  CB2_6 = "";
+  CB2_7 = "";
+  CB2_8 = "";
+  CB2_9 = "";
+  CB2_10 = "";
+
+  CBTH_1 = "";
+  CBTH_2 = "";
+  CBTH_3 = "";
+  CBTH_4 = "";
+  CBTH_5 = "";
+  CBTH_6 = "";
+  CBTH_7 = "";
+  CBTH_8 = "";
+  CBTH_9 = "";
+  CBTH_10 = "";
+
+  CB3_1 = "";
+  CB3_2 = "";
+
+  CB4_1 = "";
+
+  CB5_1 = "";
+  CB5_2 = "";
+
+
+  CBError_1 = "";
+  CBError_2 = "";
+  CBError_3 = "";
 
   constructor() { }
 

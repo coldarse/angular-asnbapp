@@ -7,7 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FeedbackscreenComponent implements OnInit {
 
+  Header_Title = "";
 
+  FBS1_1 = "";
+  FBS1_2 = "";
+  FBS1_3 = "";
+
+  FBS2_1 = "";
+  FBS2_2 = "";
 
   FBS1_Visible = false;
   FBS2_Visible = false;

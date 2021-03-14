@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ErrorscreenComponent implements OnInit {
 
+  ES_1 = "";
+  ES_2 = "";
+  ES_3 = "";
+  ES_4 = "";
+
   constructor() { }
 
   ngOnInit(): void {

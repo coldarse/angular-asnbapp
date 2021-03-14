@@ -7,6 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TransactionmenuComponent implements OnInit {
 
+  Header_Title = "";
+
+  TMS_1 = "";
+  TMS_2 = "";
+  TMS_3 = "";
+  TMS_4 = "";
+  TMS_5 = "";
+
   constructor() { }
 
   ngOnInit(): void {

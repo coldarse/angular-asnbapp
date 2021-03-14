@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TransactionsuccessfulComponent implements OnInit {
 
+  TS_1 = "";
+
   constructor() { }
 
   ngOnInit(): void {
