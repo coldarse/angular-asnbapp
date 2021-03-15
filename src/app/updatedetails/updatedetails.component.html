@@ -3,7 +3,7 @@
         <div class="titleNLogo">
             <!-- Transaction Menu -->
             <img src="assets/images/SemakBaki-small-blue.png" alt="UpdateDetailsImage">
-            <label class="outofserviceStyle" id="SectionTitle">KEMAS KINI MAKLUMAT</label>
+            <label class="outofserviceStyle" id="SectionTitle">{{Header_Title}}</label>
         </div>
         
         <form class="d-flex">
@@ -16,11 +16,13 @@
 <div id="UpdateDetails1" *ngIf="UD1_Visible">
    
     <div class="col-md-12 text-center" style="padding-top:4rem; font-family: helvetica ;">
-        <h2 id="UD1_Title1">Sila pilah Akaun untuk semakan baki</h2>
+        <!-- <h2 id="UD1_Title1">Sila pilah Akaun untuk semakan baki</h2> -->
+        <h2 id="UD1_Title1">{{UD1_1}}</h2>
     </div>
 
     <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
-        <h2 id="UD1_Title2">Akaun Sendiri</h2>
+        <!-- <h2 id="UD1_Title2">Akaun Sendiri</h2> -->
+        <h2 id="UD1_Title2">{{UD1_2}}</h2>
     </div>
 
     <div class="col-md-12 text-center" style="padding-top:0.15rem; ">
@@ -30,7 +32,8 @@
     </div>
 
     <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
-        <h2 id="UD1_Title3">Akaun Bijak</h2>
+        <!-- <h2 id="UD1_Title3">Akaun Bijak</h2> -->
+        <h2 id="UD1_Title3">{{UD1_3}}</h2>
     </div>
 
     <div class="col-md-12 text-center" style="padding-top:0.15rem;">
@@ -58,19 +61,21 @@
 
 </div>
 
-
+<!-- UDForm_Visible -->
 <form id="AR_Form" name="registerForm" *ngIf="UDForm_Visible">
     <div class="col-md-12">
         <div class="registrationForm">
             <div class="formcontent">
                 <div class="row">
                     <div class="col-md-12">
-                        <h4 class="blue-title-bar">Maklumat Peribadi Pemegang Unit</h4>
+                        <!-- <h4 class="blue-title-bar">Maklumat Peribadi Pemegang Unit</h4> -->
+                        <h4 class="blue-title-bar">{{FL_1}}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Gelaran</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Gelaran</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_2}}</h4>
                     </div>
                     <div class="col-md-8">
                         <select name="Salutation" id="salutation" id="AR0">
@@ -82,44 +87,49 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Nama Penuh</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Nama Penuh</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_3}}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input #someVar type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" ngclick="usekeyboardinput()" id="AR1">
+                        <input #someVar type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR1_Value" id="AR1">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_4}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR2">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR2_Value" id="AR2">
                             </div>
                             <div class="col-md-4">
-                                <h4>Tarikh lahir</h4>
+                                <!-- <h4>Tarikh lahir</h4> -->
+                                <h4>{{FL_5}}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR3">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR3_Value" id="AR3">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Bangsa</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Bangsa</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_6}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR4_Value" id="AR4">
                             </div>
                             <div class="col-md-4">
-                                <h4>Agama</h4>
+                                <!-- <h4>Agama</h4> -->
+                                <h4>{{FL_7}}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR5">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR5_Value" id="AR5">
                             </div>
                         </div>
                     </div>
@@ -127,142 +137,145 @@
 
 
 
-                <div class="bijakSection" hidden>
+
                 <!-- Bijak Account Extra Fields -->
 
-                    <div class="row" style="margin-top: 2rem;">
-                        <div class="col-md-12">
-                            <h4 class="blue-title-bar">Maklumat Penjaga Berdaftar</h4>
-                        </div>
+                <!-- <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <h4 class="blue-title-bar">{{FLB_1}}</h4>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4 style="padding-left: 0.5rem;">No Ahli</h4>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR6">
-                                </div>
-                                <div class="col-md-4">
-                                    <h4>Gelaran</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <select name="SalutationMyKID" id="salutationMyKID">
-                                        <option value="Datuk">DTK</option>
-                                        <option value="Encik">ENCIK</option>
-                                        <option value="Puan">PUAN</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4 style="padding-left: 0.5rem;">Nama Penuh</h4>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" id="AR7">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR8">
-                                </div>
-                                <div class="col-md-4">
-                                    <h4>Tarikh lahir</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR9">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4 style="padding-left: 0.5rem;">Bangsa</h4>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR10">
-                                </div>
-                                <div class="col-md-4">
-                                    <h4>Agama</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR11">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4 style="padding-left: 0.5rem;">Hubungan</h4>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <select name="HBGN" id="HBGN" >
-                                        <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                        <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                        <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    
-                                </div>
-                                <div class="col-md-4">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">{{FLB_2}}</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR6_Value" id="AR6">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>{{FLB_3}}</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="SalutationMyKID" id="salutationMyKID" disabled >
+                                    <option value="Datuk">DTK</option>
+                                    <option value="Encik">ENCIK</option>
+                                    <option value="Puan">PUAN</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">{{FLB_4}}</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR7_Value" id="AR7">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">{{FLB_5}}</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR8_Value" id="AR8">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>{{FLB_6}}</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR9_Value" id="AR9">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">{{FLB_7}}</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR10_Value" id="AR10">
+                            </div>
+                            <div class="col-md-4">
+                                <h4>{{FLB_8}}</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR11_Value" id="AR11">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4 style="padding-left: 0.5rem;">{{FLB_9}}</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="HBGN" id="HBGN" >
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
 
 
 
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
-                        <h4 class="blue-title-bar">Maklumat Perhubungan</h4>
+                        <!-- <h4 class="blue-title-bar">Maklumat Perhubungan</h4> -->
+                        <h4 class="blue-title-bar">{{FL_8}}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 1</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 1</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_9}}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Address1">
+                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARAddress1_disabled" [value]="ARAddress1_Value" id="AR_Address1">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 2</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 2</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_10}}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Address2">
+                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARAddress2_disabled" [value]="ARAddress2_Value" id="AR_Address2">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Poskod</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Poskod</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_11}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Postcode">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARPostcode_disabled" [value]="ARPostcode_Value" id="AR_Postcode">
                             </div>
                             <div class="col-md-4">
-                                <h4>Bandar</h4>
+                                <!-- <h4>Bandar</h4> -->
+                                <h4>{{FL_12}}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_City">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARCity_disabled" [value]="ARCity_Value" id="AR_City">
                             </div>
                         </div>
                     </div>
@@ -274,21 +287,24 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="checkbox" id="mykadAddress" name="mykadAddress" value="true">
-                                <label for="mykadAddress">Alamat MyKad</label><br>
+                                <input type="checkbox" id="mykadAddress" name="mykadAddress" checked="true" (click)="myKadAddress()" value="true">
+                                <!-- <label for="mykadAddress">Alamat MyKad</label><br> -->
+                                <label for="mykadAddress">{{FL_13}}</label><br>
                             </div>
                             <div class="col-md-4">
-                                <h4>Negeri</h4>
+                                <!-- <h4>Negeri</h4> -->
+                                <h4>{{FL_14}}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_State">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARState_disabled" [value]="ARState_Value" id="AR_State">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">No. Telefon Rumah</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">No. Telefon Rumah</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_15}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -296,12 +312,14 @@
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR12">
                             </div>
                             <div class="col-md-4">
-                                <h4>No. Telefon Bimbit</h4>
+                                <!-- <h4>No. Telefon Bimbit</h4> -->
+                                <h4>{{FL_16}}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Telephone">
-                                <input type="checkbox" id="noPhone" name="noPhone" value="true" style="margin-top: 0.8rem;">
-                                <label for="noPhone">Tiada No. Tel. Bimbit</label><br>
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="checkedXTelephone" id="AR_Telephone">
+                                <input type="checkbox" id="noPhone" name="noPhone" value="true" (click)="noTelephoneCheck()" style="margin-top: 0.8rem;">
+                                <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
+                                <label for="noPhone">{{FL_17}}</label><br>
                             </div>
                         </div>
                     </div>
@@ -313,17 +331,20 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Emel</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Emel</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_18}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Email">
-                                <input type="checkbox" id="noEmail" name="noEmail" value="true" style="margin-top: 0.8rem;">
-                                <label for="noEmail">Tiada Emel</label><br>
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="checkedXEmail"  name="AR_Email">
+                                <input type="checkbox" id="noEmail" name="noEmail" value="true" (click)="noEmailCheck()" style="margin-top: 0.8rem;">
+                                <!-- <label for="noEmail" >Tiada Emel</label><br> -->
+                                <label for="noEmail" >{{FL_19}}</label><br>
                             </div>
                             <div class="col-md-4">
-                                <h4>Pilihan Penghantaran Penyata</h4>
+                                <!-- <h4>Pilihan Penghantaran Penyata</h4> -->
+                                <h4>{{FL_20}}</h4>
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP">
@@ -338,12 +359,14 @@
 
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
-                        <h4 class="blue-title-bar">Maklumat Akaun Bank</h4>
+                        <!-- <h4 class="blue-title-bar">Maklumat Akaun Bank</h4> -->
+                        <h4 class="blue-title-bar">{{FL_21}}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Nama Bank</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Nama Bank</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_22}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -355,7 +378,8 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <h4>No. Akaun Bank</h4>
+                                <!-- <h4>No. Akaun Bank</h4> -->
+                                <h4>{{FL_23}}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR13">
@@ -366,12 +390,14 @@
 
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
-                        <h4 class="blue-title-bar">Pekerjaan</h4>
+                        <!-- <h4 class="blue-title-bar">Pekerjaan</h4> -->
+                        <h4 class="blue-title-bar">{{FL_24}}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Kategori Pekerjaan</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Kategori Pekerjaan</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_25}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -383,7 +409,8 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <h4>Nama Pekerjaan</h4>
+                                <!-- <h4>Nama Pekerjaan</h4> -->
+                                <h4>{{FL_26}}</h4>
                             </div>
                             <div class="col-md-4">
                                 <select name="NP" id="NP">
@@ -397,7 +424,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Jenis Pekerjaan</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Jenis Pekerjaan</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_27}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -409,7 +437,8 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <h4>Sektor Pekerjaan</h4>
+                                <!-- <h4>Sektor Pekerjaan</h4> -->
+                                <h4>{{FL_28}}</h4>
                             </div>
                             <div class="col-md-4">
                                 <select name="SP" id="SP">
@@ -423,7 +452,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Pendapatan Bulanan</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Pendapatan Bulanan</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_29}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -435,7 +465,8 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <h4>Nama Syarikat</h4>
+                                <!-- <h4>Nama Syarikat</h4> -->
+                                <h4>{{FL_30}}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR14">
@@ -448,16 +479,19 @@
 
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
-                        <h4 class="blue-title-bar">Pengisytiharan</h4>
+                        <!-- <h4 class="blue-title-bar">Pengisytiharan</h4> -->
+                        <h4 class="blue-title-bar">{{FL_31}}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 inbetween">
-                        <h4 style="padding-left: 0.5rem;">FATCA</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">FATCA</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_32}}</h4>
                         <img src="assets/images/information-icon.png" onclick="FATCAPopFunction()" alt="infoicon" class="info_icon_img popup">
                         <div class="blockerfatca" onclick="hidePopupfatca()" id="myPopup1"></div>
-                        <span class="fatcapopuptext" id="myPopup">Foreign Account Tax Compliance Act (FATCA). 
-                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                        <!-- <span class="fatcapopuptext" id="myPopup">Foreign Account Tax Compliance Act (FATCA).  -->
+                            <!-- Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span> -->
+                        <span class="fatcapopuptext" id="myPopup">{{FL_33}}</span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -468,18 +502,21 @@
                                 </select>
                             </div>
                             <div class="col-md-8">
-                               <label>Bersetuju untuk Sertai Program Pemasaran ASNB</label>
+                                <!-- <label>Bersetuju untuk Sertai Program Pemasaran ASNB</label> -->
+                                <label>{{FL_34}}</label>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 inbetween">
-                        <h4 style="padding-left: 0.5rem;">PEP</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">PEP</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_35}}</h4>
                         <img src="assets/images/information-icon.png" onclick="PEPPopFunction()" alt="infoicon" class="info_icon_img popup">
                         <div class="blockerpep" onclick="hidePopuppep()" id="myPopup2"></div>
-                        <span class="peppopuptext" id="myPopup3">Foreign Account Tax Compliance Act (FATCA). 
-                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                        <!-- <span class="peppopuptext" id="myPopup3">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span> -->
+                        <span class="peppopuptext" id="myPopup3">{{FL_36}}</span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -503,11 +540,13 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 inbetween">
-                        <h4 style="padding-left: 0.5rem;">CRS</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">CRS</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_37}}</h4>
                         <img src="assets/images/information-icon.png" onclick="CRSPopFunction()" alt="infoicon" class="info_icon_img popup">
                         <div class="blockercrs" onclick="hidePopupcrs()" id="myPopup4"></div>
-                        <span class="crspopuptext" id="myPopup5">Foreign Account Tax Compliance Act (FATCA). 
-                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                        <!-- <span class="peppopuptext" id="myPopup3">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span> -->
+                            <span class="crspopuptext" id="myPopup5">{{FL_38}}</span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -546,18 +585,21 @@
     
 </form>
 
-<form id="BR_Form" name="registerForm" *ngIf="UDBForm_Visible">
+<!-- UDBForm_Visible -->
+<form *ngIf="UDBForm_Visible" id="AR_Form" name="registerForm" >
     <div class="col-md-12">
         <div class="bijakregistrationForm">
             <div class="formcontent">
                 <div class="row">
                     <div class="col-md-12">
-                        <h4 class="blue-title-bar">Maklumat Peribadi Pemegang Unit</h4>
+                        <!-- <h4 class="blue-title-bar">Maklumat Peribadi Pemegang Unit</h4> -->
+                        <h4 class="blue-title-bar">{{FL_1}}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Gelaran</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Gelaran</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_2}}</h4>
                     </div>
                     <div class="col-md-8">
                         <select name="Salutation" id="salutation" id="AR0">
@@ -569,44 +611,49 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Nama Penuh</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Nama Penuh</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_3}}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input #someVar type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" ngclick="usekeyboardinput()" id="AR1">
+                        <input #someVar type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR1_Value" id="AR1">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_4}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR2">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR2_Value" id="AR2">
                             </div>
                             <div class="col-md-4">
-                                <h4>Tarikh lahir</h4>
+                                <!-- <h4>Tarikh lahir</h4> -->
+                                <h4>{{FL_5}}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR3">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR3_Value" id="AR3">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Bangsa</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Bangsa</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_6}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR4_Value" id="AR4">
                             </div>
                             <div class="col-md-4">
-                                <h4>Agama</h4>
+                                <!-- <h4>Agama</h4> -->
+                                <h4>{{FL_7}}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR5">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR5_Value" id="AR5">
                             </div>
                         </div>
                     </div>
@@ -614,142 +661,154 @@
 
 
 
-                <div class="bijakSection">
+
                 <!-- Bijak Account Extra Fields -->
 
-                    <div class="row" style="margin-top: 2rem;">
-                        <div class="col-md-12">
-                            <h4 class="blue-title-bar">Maklumat Penjaga Berdaftar</h4>
-                        </div>
+                <div class="row" style="margin-top: 2rem;">
+                    <div class="col-md-12">
+                        <!-- <h4 class="blue-title-bar">Maklumat Penjaga Berdaftar</h4> -->
+                        <h4 class="blue-title-bar">{{FLB_1}}</h4>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4 style="padding-left: 0.5rem;">No Ahli</h4>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR6">
-                                </div>
-                                <div class="col-md-4">
-                                    <h4>Gelaran</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <select name="SalutationMyKID" id="salutationMyKID">
-                                        <option value="Datuk">DTK</option>
-                                        <option value="Encik">ENCIK</option>
-                                        <option value="Puan">PUAN</option>
-                                    </select>
-                                </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- <h4 style="padding-left: 0.5rem;">No Ahli</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FLB_2}}</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR6_Value" id="AR6">
+                            </div>
+                            <div class="col-md-4">
+                                <!-- <h4>Gelaran</h4> -->
+                                <h4>{{FLB_3}}</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <select name="SalutationMyKID" id="salutationMyKID" disabled >
+                                    <option value="Datuk">DTK</option>
+                                    <option value="Encik">ENCIK</option>
+                                    <option value="Puan">PUAN</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4 style="padding-left: 0.5rem;">Nama Penuh</h4>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" id="AR7">
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- <h4 style="padding-left: 0.5rem;">Nama Penuh</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FLB_4}}</h4>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR8">
-                                </div>
-                                <div class="col-md-4">
-                                    <h4>Tarikh lahir</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR9">
-                                </div>
+                    <div class="col-md-8">
+                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR7_Value" id="AR7">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FLB_5}}</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR8_Value" id="AR8">
+                            </div>
+                            <div class="col-md-4">
+                                <!-- <h4>Tarikh lahir</h4> -->
+                                <h4>{{FLB_6}}</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR9_Value" id="AR9">
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4 style="padding-left: 0.5rem;">Bangsa</h4>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR10">
-                                </div>
-                                <div class="col-md-4">
-                                    <h4>Agama</h4>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR11">
-                                </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- <h4 style="padding-left: 0.5rem;">Bangsa</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FLB_7}}</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR10_Value" id="AR10">
+                            </div>
+                            <div class="col-md-4">
+                                <!-- <h4>Agama</h4> -->
+                                <h4>{{FLB_8}}</h4>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR11_Value" id="AR11">
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h4 style="padding-left: 0.5rem;">Hubungan</h4>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <select name="HBGN" id="HBGN" >
-                                        <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                        <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                        <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4">
-                                    
-                                </div>
-                                <div class="col-md-4">
-                                    
-                                </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- <h4 style="padding-left: 0.5rem;">Hubungan</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FLB_9}}</h4>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select name="HBGN" id="HBGN" >
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                            <div class="col-md-4">
+                                
                             </div>
                         </div>
                     </div>
-
                 </div>
 
 
 
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
-                        <h4 class="blue-title-bar">Maklumat Perhubungan</h4>
+                        <!-- <h4 class="blue-title-bar">Maklumat Perhubungan</h4> -->
+                        <h4 class="blue-title-bar">{{FL_8}}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 1</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 1</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_9}}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Address1">
+                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARAddress1_disabled" [value]="ARAddress1_Value" id="AR_Address1">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 2</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 2</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_10}}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Address2">
+                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARAddress2_disabled" [value]="ARAddress2_Value" id="AR_Address2">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Poskod</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Poskod</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_11}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Postcode">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARPostcode_disabled" [value]="ARPostcode_Value" id="AR_Postcode">
                             </div>
                             <div class="col-md-4">
-                                <h4>Bandar</h4>
+                                <!-- <h4>Bandar</h4> -->
+                                <h4>{{FL_12}}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_City">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARCity_disabled" [value]="ARCity_Value" id="AR_City">
                             </div>
                         </div>
                     </div>
@@ -761,21 +820,24 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="checkbox" id="mykadAddress" name="mykadAddress" value="true">
-                                <label for="mykadAddress">Alamat MyKad</label><br>
+                                <input type="checkbox" id="mykadAddress" name="mykadAddress" checked="true" (click)="myKadAddress()" value="true">
+                                <!-- <label for="mykadAddress">Alamat MyKad</label><br> -->
+                                <label for="mykadAddress">{{FL_13}}</label><br>
                             </div>
                             <div class="col-md-4">
-                                <h4>Negeri</h4>
+                                <!-- <h4>Negeri</h4> -->
+                                <h4>{{FL_14}}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_State">
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARState_disabled" [value]="ARState_Value" id="AR_State">
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">No. Telefon Rumah</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">No. Telefon Rumah</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_15}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -783,12 +845,14 @@
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR12">
                             </div>
                             <div class="col-md-4">
-                                <h4>No. Telefon Bimbit</h4>
+                                <!-- <h4>No. Telefon Bimbit</h4> -->
+                                <h4>{{FL_16}}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Telephone">
-                                <input type="checkbox" id="noPhone" name="noPhone" value="true" style="margin-top: 0.8rem;">
-                                <label for="noPhone">Tiada No. Tel. Bimbit</label><br>
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="checkedXTelephone" id="AR_Telephone">
+                                <input type="checkbox" id="noPhone" name="noPhone" value="true" (click)="noTelephoneCheck()" style="margin-top: 0.8rem;">
+                                <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
+                                <label for="noPhone">{{FL_17}}</label><br>
                             </div>
                         </div>
                     </div>
@@ -800,17 +864,20 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Emel</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Emel</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_18}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR_Email">
-                                <input type="checkbox" id="noEmail" name="noEmail" value="true" style="margin-top: 0.8rem;">
-                                <label for="noEmail">Tiada Emel</label><br>
+                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="checkedXEmail"  name="AR_Email">
+                                <input type="checkbox" id="noEmail" name="noEmail" value="true" (click)="noEmailCheck()" style="margin-top: 0.8rem;">
+                                <!-- <label for="noEmail" >Tiada Emel</label><br> -->
+                                <label for="noEmail" >{{FL_19}}</label><br>
                             </div>
                             <div class="col-md-4">
-                                <h4>Pilihan Penghantaran Penyata</h4>
+                                <!-- <h4>Pilihan Penghantaran Penyata</h4> -->
+                                <h4>{{FL_20}}</h4>
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP">
@@ -825,12 +892,14 @@
 
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
-                        <h4 class="blue-title-bar">Maklumat Akaun Bank</h4>
+                        <!-- <h4 class="blue-title-bar">Maklumat Akaun Bank</h4> -->
+                        <h4 class="blue-title-bar">{{FL_21}}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Nama Bank</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Nama Bank</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_22}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -842,7 +911,8 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <h4>No. Akaun Bank</h4>
+                                <!-- <h4>No. Akaun Bank</h4> -->
+                                <h4>{{FL_23}}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR13">
@@ -853,12 +923,14 @@
 
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
-                        <h4 class="blue-title-bar">Pekerjaan</h4>
+                        <!-- <h4 class="blue-title-bar">Pekerjaan</h4> -->
+                        <h4 class="blue-title-bar">{{FL_24}}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Kategori Pekerjaan</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Kategori Pekerjaan</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_25}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -870,7 +942,8 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <h4>Nama Pekerjaan</h4>
+                                <!-- <h4>Nama Pekerjaan</h4> -->
+                                <h4>{{FL_26}}</h4>
                             </div>
                             <div class="col-md-4">
                                 <select name="NP" id="NP">
@@ -884,7 +957,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Jenis Pekerjaan</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Jenis Pekerjaan</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_27}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -896,7 +970,8 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <h4>Sektor Pekerjaan</h4>
+                                <!-- <h4>Sektor Pekerjaan</h4> -->
+                                <h4>{{FL_28}}</h4>
                             </div>
                             <div class="col-md-4">
                                 <select name="SP" id="SP">
@@ -910,7 +985,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4">
-                        <h4 style="padding-left: 0.5rem;">Pendapatan Bulanan</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">Pendapatan Bulanan</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_29}}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -922,7 +998,8 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <h4>Nama Syarikat</h4>
+                                <!-- <h4>Nama Syarikat</h4> -->
+                                <h4>{{FL_30}}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR14">
@@ -935,16 +1012,19 @@
 
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
-                        <h4 class="blue-title-bar">Pengisytiharan</h4>
+                        <!-- <h4 class="blue-title-bar">Pengisytiharan</h4> -->
+                        <h4 class="blue-title-bar">{{FL_31}}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 inbetween">
-                        <h4 style="padding-left: 0.5rem;">FATCA</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">FATCA</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_32}}</h4>
                         <img src="assets/images/information-icon.png" onclick="FATCAPopFunction()" alt="infoicon" class="info_icon_img popup">
                         <div class="blockerfatca" onclick="hidePopupfatca()" id="myPopup1"></div>
-                        <span class="fatcapopuptext" id="myPopup">Foreign Account Tax Compliance Act (FATCA). 
-                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                        <!-- <span class="fatcapopuptext" id="myPopup">Foreign Account Tax Compliance Act (FATCA).  -->
+                            <!-- Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span> -->
+                        <span class="fatcapopuptext" id="myPopup">{{FL_33}}</span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -955,18 +1035,21 @@
                                 </select>
                             </div>
                             <div class="col-md-8">
-                               <label>Bersetuju untuk Sertai Program Pemasaran ASNB</label>
+                                <!-- <label>Bersetuju untuk Sertai Program Pemasaran ASNB</label> -->
+                                <label>{{FL_34}}</label>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 inbetween">
-                        <h4 style="padding-left: 0.5rem;">PEP</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">PEP</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_35}}</h4>
                         <img src="assets/images/information-icon.png" onclick="PEPPopFunction()" alt="infoicon" class="info_icon_img popup">
                         <div class="blockerpep" onclick="hidePopuppep()" id="myPopup2"></div>
-                        <span class="peppopuptext" id="myPopup3">Foreign Account Tax Compliance Act (FATCA). 
-                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                        <!-- <span class="peppopuptext" id="myPopup3">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span> -->
+                        <span class="peppopuptext" id="myPopup3">{{FL_36}}</span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -990,11 +1073,13 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4 inbetween">
-                        <h4 style="padding-left: 0.5rem;">CRS</h4>
+                        <!-- <h4 style="padding-left: 0.5rem;">CRS</h4> -->
+                        <h4 style="padding-left: 0.5rem;">{{FL_37}}</h4>
                         <img src="assets/images/information-icon.png" onclick="CRSPopFunction()" alt="infoicon" class="info_icon_img popup">
                         <div class="blockercrs" onclick="hidePopupcrs()" id="myPopup4"></div>
-                        <span class="crspopuptext" id="myPopup5">Foreign Account Tax Compliance Act (FATCA). 
-                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span>
+                        <!-- <span class="peppopuptext" id="myPopup3">Foreign Account Tax Compliance Act (FATCA). 
+                            Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span> -->
+                        <span class="crspopuptext" id="myPopup5">{{FL_38}}</span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -1036,10 +1121,15 @@
 <div class="bg-popup" id="UD_ConfirmPop" *ngIf="UDConfirm_Visible">
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
         
-        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">Pengesahkan Kemas Kini</h2>
+        <!-- <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">Pengesahkan Kemas Kini</h2>
 
         <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">Saya mengesahkan bahawa maklumat yang diisi adalah</h2>
-        <h2 id="UD_ErrorMessage" class="h2-ic">terkini, lengkap dan betul.</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">terkini, lengkap dan betul.</h2> -->
+
+        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">{{UDConfirm_1}}</h2>
+
+        <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{UDConfirm_2}}</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">{{UDConfirm_3}}</h2>
 
 
         <footer class="site-footer" style="padding-top:11rem;">
@@ -1069,7 +1159,8 @@
     </div>
     
     <div class="row text-center padding-top-5rem" >
-        <h2 class="h2-ic" id="UD_Title1">Maklumat anda telah berjaya dikemaskini.</h2>
+        <!-- <h2 class="h2-ic" id="UD_Title1">Maklumat anda telah berjaya dikemaskini.</h2> -->
+        <h2 class="h2-ic" id="UD_Title1">{{UDSuccess_1}}</h2>
     </div>
     
     <footer class="site-footer">
@@ -1091,8 +1182,10 @@
 <div id="UD_Print1" *ngIf="UD_Print1Visible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
-            <h2 class="h2-ic" id="UDP1_Title1">Resit anda sedang dicetak.</h2>
-            <h2 class="h2-ic" id="UDP1_Title2">Sila Tunggu.</h2>
+            <!-- <h2 class="h2-ic" id="UDP1_Title1">Resit anda sedang dicetak.</h2>
+            <h2 class="h2-ic" id="UDP1_Title2">Sila Tunggu.</h2> -->
+            <h2 class="h2-ic" id="UDP1_Title1">{{UDPrint1_1}}</h2>
+            <h2 class="h2-ic" id="UDP1_Title2">{{UDPrint1_2}}</h2>
             
         </div>
         <div class="col-md-6 text-center">
@@ -1104,8 +1197,8 @@
 <div id="UD_Print2" *ngIf="UD_Print2Visible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
-            <h2 class="h2-ic" id="UDP2_Title1">Sila ambil resit anda</h2>
-            <!-- <h2 class="h2-ic">Sila Tunggu.</h2> -->
+            <!-- <h2 class="h2-ic" id="UDP2_Title1">Sila ambil resit anda</h2> -->
+            <h2 class="h2-ic" id="UDP2_Title1">{{UDPrint2_1}}</h2>
             
         </div>
         <div class="col-md-6 text-center">
@@ -1117,8 +1210,10 @@
 <div id="UD_Email" *ngIf="UD_EmailVisible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
-            <h2 class="h2-ic" id="UDE_Title1">Salinan resit akan hantar ke</h2>
-            <h2 class="h2-ic" id="UDE_Title2">alamat e-mel anda.</h2>
+            <!-- <h2 class="h2-ic" id="UDE_Title1">Salinan resit akan hantar ke</h2>
+            <h2 class="h2-ic" id="UDE_Title2">alamat e-mel anda.</h2> -->
+            <h2 class="h2-ic" id="UDE_Title1">{{UDEmail_1}}</h2>
+            <h2 class="h2-ic" id="UDE_Title2">{{UDEmail_2}}</h2>
             
         </div>
         <div class="col-md-6 text-center">

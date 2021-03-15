@@ -9,6 +9,7 @@ import { CheckbalanceComponent } from './checkbalance/checkbalance.component';
 
 import { SignalRModule } from 'ng2-signalr';
 import { SignalRConfiguration } from 'ng2-signalr';
+
 import { OutofserviceComponent } from './outofservice/outofservice.component';
 import { TransactionmenuComponent } from './transactionmenu/transactionmenu.component';
 import { ErrorscreenComponent } from './errorscreen/errorscreen.component';
@@ -23,7 +24,7 @@ import { PortalregistrationComponent } from './portalregistration/portalregistra
 export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();
   c.hubName = 'MyMessageHub';
-  c.qs = { user: 'donald' };
+  c.qs = { user: 'aldan' };
   c.url = 'http://localhost:8080/';
   c.logging = true;
   

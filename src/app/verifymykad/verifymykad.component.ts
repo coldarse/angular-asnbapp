@@ -55,17 +55,19 @@ export class VerifymykadComponent implements OnInit {
     private _signalR: SignalR,
     private _router: Router
     ){
-      this.startConnection();
+      
     }
   
   ngOnInit(): void {
+    console.log("Hello World")
+    this.startConnection();
   }
 
   startConnection() : void {
     this._signalR.connect().then((c) => {
       console.log("API King is now Connected");
       this._conn = c;
-    });
+    }).catch((err: any) => {console.log(err)});
   }
 
   endTransaction() : void {
