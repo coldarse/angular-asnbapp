@@ -4,7 +4,7 @@
         <div class="titleNLogo">
             <!-- Read MyKad NavBar -->
             <img src="assets/images/PendaftaranPortalmyASNB-small-blue.png" alt="PortalImage">
-            <label class="outofserviceStyle" id="SectionTitle">PENDAFTARAN PORTAL myASNB</label>
+            <label class="outofserviceStyle" id="SectionTitle">{{Header_Title}}</label>
         </div>
 
         <form class="d-flex">
@@ -19,7 +19,8 @@
 
         </div>
         <div class="col-md-10">
-            <h4 class="h2-ic">Selamat datang ke Portal myASNB. Sebelum menggunakan perkhidmatan myASNB, anda perlu melengkapkan pendaftaran myASNB terlebih dahulu. Ikuti langkah mudah berikut untuk mula mendaftar.</h4>
+            <!-- <h4 class="h2-ic">Selamat datang ke Portal myASNB. Sebelum menggunakan perkhidmatan myASNB, anda perlu melengkapkan pendaftaran myASNB terlebih dahulu. Ikuti langkah mudah berikut untuk mula mendaftar.</h4> -->
+            <h4 class="h2-ic">{{PRIntro_1}}</h4>
         </div>
         <div class="col-md-1">
             
@@ -32,7 +33,10 @@
     
             </div>
             <div class="col-md-10">
-                <h4 class="h2-ic">Langkah 1 - Kemas kini maklumat peribadi (nombor telefon) anda di cawangan atau ejen ASNB.</h4>
+                <!-- <h4 class="h2-ic">Langkah 1 - Kemas kini maklumat peribadi (nombor telefon) anda di cawangan atau ejen ASNB.</h4> -->
+                <h4 class="h2-ic">
+                    {{PRIntro_2}}
+                </h4>
             </div>
             <div class="col-md-1">
                 
@@ -43,7 +47,8 @@
     
             </div>
             <div class="col-md-10">
-                <h4 class="h2-ic">Langkah 2 - Ikuti langkah mudah untuk pendaftaran myASNB.</h4>
+                <!-- <h4 class="h2-ic">Langkah 2 - Ikuti langkah mudah untuk pendaftaran myASNB.</h4> -->
+                <h4 class="h2-ic">{{PRIntro_3}}</h4>
             </div>
             <div class="col-md-1">
                 
@@ -54,7 +59,8 @@
     
             </div>
             <div class="col-md-10">
-                <h4 class="h2-ic">Langkah 3 - Aktifkan akaun myASNB anda.</h4>
+                <!-- <h4 class="h2-ic">Langkah 3 - Aktifkan akaun myASNB anda.</h4> -->
+                <h4 class="h2-ic">{{PRIntro_4}}</h4>
             </div>
             <div class="col-md-1">
                 
@@ -65,7 +71,8 @@
     
             </div>
             <div class="col-md-10">
-                <h4 class="h2-ic">Langkah 4 - Mula melabur dalam unit amanah ASNB.</h4>
+                <!-- <h4 class="h2-ic">Langkah 4 - Mula melabur dalam unit amanah ASNB.</h4> -->
+                <h4 class="h2-ic">{{PRIntro_5}}</h4>
             </div>
             <div class="col-md-1">
                 
@@ -78,7 +85,8 @@
 
         </div>
         <div class="col-md-10">
-            <h4 class="h2-ic">Apabila anda selesai mendaftar, <strong><u>kata lauan sementara</u></strong> akan diberikan. Sila cetak / simpan / catat kata laluan sementara berkenaan untuk log masuk kali pertama.</h4>
+            <!-- <h4 class="h2-ic">Apabila anda selesai mendaftar, <strong><u>kata lauan sementara</u></strong> akan diberikan. Sila cetak / simpan / catat kata laluan sementara berkenaan untuk log masuk kali pertama.</h4> -->
+            <h4 class="h2-ic">{{PRIntro_6}}<strong><u>{{PRIntro_7}}</u></strong>{{PRIntro_8}}</h4>
         </div>
         <div class="col-md-1">
             
@@ -90,7 +98,10 @@
 
         </div>
         <div class="col-md-10">
-            <h4 class="h2-ic">Anda diingatkan supaya menyinpan maklumat penting nama pengguna, kata laluan, frasa keselamatan dan jawapan untuk soalan keselamatan di tempat selamat untuk rujukan masa hadapan.</h4>
+            <!-- <h4 class="h2-ic">Anda diingatkan supaya menyinpan maklumat penting nama pengguna, kata laluan, frasa keselamatan dan jawapan untuk soalan keselamatan di tempat selamat untuk rujukan masa hadapan.</h4> -->
+            <h4 class="h2-ic">
+                {{PRIntro_9}}
+            </h4>
         </div>
         <div class="col-md-1">
             
@@ -118,7 +129,8 @@
 <div class="row" style="padding-top: 3rem;" *ngIf="PR_TNC">
     <div class="row">
         <div class="cool-md-12 text-center">
-            <h2 id="PRtnc">Terma dan Syarat</h2>
+            <!-- <h2 id="PRtnc">Terma dan Syarat</h2> -->
+            <h2 id="PRtnc">{{PRTNC_1}}</h2>
         </div>
     </div>
 
@@ -127,12 +139,15 @@
 
         </div>
         <div class="col-md-10">
-            <h3 class="h2-ic" style="text-align: center;">
+            <!-- <h3 class="h2-ic" style="text-align: center;">
                 Apabila menggunakan myASNB, ada telah bersetuju untuk terikat disisi undang-undang dengan
                 terma yang dinyatakan, yang berkuat kuasa serta merta apabila anda menggunakan
                 laman web ini untuk kali pertama. Sekiranya anda tidak bersetuju untuk terikat disisi
                 undang-undang dengan Terma dan Syarat yang dinyatakan, anda dinasihatkan 
                 untuk tidak mengakses atau menggunakan laman web ini.
+            </h3> -->
+            <h3 class="h2-ic" style="text-align: center;">
+                {{PRTNC_2}}
             </h3>
         </div>
         <div class="col-md-1">
@@ -146,7 +161,10 @@
         </div>
         <div class="col-md-10">
             <input type="checkbox" id="agreeCheck" name="tncCheck" value="agree">
-            <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">Saya telah membaca dan bersetuju dengan <a href="#" style="text-decoration:none;">Terma & Syarat</a> dan <a href="#" style="text-decoration:none;">Dasar Privasi</a></label><br>
+            <!-- <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">Saya telah membaca dan bersetuju dengan <a href="#" style="text-decoration:none;">Terma & Syarat</a> dan <a href="#" style="text-decoration:none;">Dasar Privasi</a></label><br> -->
+            <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">
+                {{PRTNC_3}}<a href="#" style="text-decoration:none;">{{PRTNC_4}}</a>{{PRTNC_5}}<a href="#" style="text-decoration:none;">{{PRTNC_6}}</a>
+            </label><br>
         </div>
         <div class="col-md-1">
             
@@ -172,14 +190,16 @@
 <div class="row" *ngIf="PR_Details">
     <div class="row" style="padding-left: 4rem; padding-top: 2rem;">
         <div class="col-md-12">
-            <h4><u>Daftar Masuk Portal myASNB</u></h4>
+            <!-- <h4><u>Daftar Masuk Portal myASNB</u></h4> -->
+            <h4><u>{{PRDetails_1}}</u></h4>
         </div>
     </div>
     <div class="row" >
         <div class="col-md-6">
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
-                    <h4 class="h2-ic">ID Pengunna</h4>
+                    <!-- <h4 class="h2-ic">ID Pengunna</h4> -->
+                    <h4 class="h2-ic">{{PRDetails_2}}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
@@ -189,7 +209,8 @@
         <div class="col-md-6">
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
-                    <h4 class="h2-ic">Alamat Emel</h4>
+                    <!-- <h4 class="h2-ic">Alamat Emel</h4> -->
+                    <h4 class="h2-ic">{{PRDetails_3}}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
@@ -200,7 +221,8 @@
 
     <div class="row" style="padding-left: 4rem; padding-top: 1rem;">
         <div class="col-md-12">
-            <h4><u>Soalan Keselamatan</u></h4>
+            <!-- <h4><u>Soalan Keselamatan</u></h4> -->
+            <h4><u>{{PRDetails_4}}</u></h4>
         </div>
     </div>
 
@@ -209,7 +231,8 @@
         <div class="col-md-6">
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
-                    <h4 class="h2-ic">Frasa Keselamatan</h4>
+                    <!-- <h4 class="h2-ic">Frasa Keselamatan</h4> -->
+                    <h4 class="h2-ic">{{PRDetails_5}}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
@@ -217,7 +240,8 @@
             </div>
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
-                    <h4 class="h2-ic">Soalan Keselamatan 1</h4>
+                    <!-- <h4 class="h2-ic">Soalan Keselamatan 1</h4> -->
+                    <h4 class="h2-ic">{{PRDetails_6}}</h4>
                 </div>
                 <div class="col-md-7">
                     <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
@@ -229,7 +253,8 @@
             </div>
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
-                    <h4 class="h2-ic">Jawapan 1</h4>
+                    <!-- <h4 class="h2-ic">Jawapan 1</h4> -->
+                    <h4 class="h2-ic">{{PRDetails_7}}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
@@ -237,7 +262,8 @@
             </div>
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
-                    <h4 class="h2-ic">Soalan Keselamatan 2</h4>
+                    <!-- <h4 class="h2-ic">Soalan Keselamatan 2</h4> -->
+                    <h4 class="h2-ic">{{PRDetails_8}}</h4>
                 </div>
                 <div class="col-md-7">
                     <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
@@ -249,7 +275,8 @@
             </div>
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
-                    <h4 class="h2-ic">Jawapan 2</h4>
+                    <!-- <h4 class="h2-ic">Jawapan 2</h4> -->
+                    <h4 class="h2-ic">{{PRDetails_9}}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
@@ -257,7 +284,8 @@
             </div>
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
-                    <h4 class="h2-ic">Soalan Keselamatan 3</h4>
+                    <!-- <h4 class="h2-ic">Soalan Keselamatan 3</h4> -->
+                    <h4 class="h2-ic">{{PRDetails_10}}</h4>
                 </div>
                 <div class="col-md-7">
                     <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
@@ -269,7 +297,8 @@
             </div>
             <div class="row" style="padding-left: 3.3rem;" >
                 <div class="col-md-5">
-                    <h4 class="h2-ic">Jawapan 3</h4>
+                    <!-- <h4 class="h2-ic">Jawapan 3</h4> -->
+                    <h4 class="h2-ic">{{PRDetails_11}}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
@@ -278,7 +307,7 @@
         </div>
         <div class="col-md-6" style="padding-left: 4rem;">
             <div class="information" style="padding-right: 4rem;">
-                <h5 class="h2-ic">
+                <!-- <h5 class="h2-ic">
                     <u>
                         ID Pengguna dan Frasa Keselamatan:
                     </u>
@@ -294,6 +323,23 @@
                 </h5>
                 <h5 class="h2-ic">
                     - Tidak boleh menggunkan askara yang sama melebihi 3 kali (e.g abc111, aaaa1111)
+                </h5> -->
+                <h5 class="h2-ic">
+                    <u>
+                        {{PRDetails_12}}
+                    </u>
+                </h5>
+                <h5 class="h2-ic">
+                    - {{PRDetails_13}}
+                </h5>
+                <h5 class="h2-ic">
+                    - {{PRDetails_14}}
+                </h5>
+                <h5 class="h2-ic">
+                    - {{PRDetails_15}}
+                </h5>
+                <h5 class="h2-ic">
+                    - {{PRDetails_16}}
                 </h5>
             </div>
         </div>
@@ -302,14 +348,16 @@
 
     <div class="row" style="padding-left: 4rem; padding-top: 2rem;">
         <div class="col-md-12">
-            <h4><u>Pengesahan TAC</u></h4>
+            <!-- <h4><u>Pengesahan TAC</u></h4> -->
+            <h4><u>{{PRDetails_17}}</u></h4>
         </div>
     </div>
     <div class="row" >
         <div class="col-md-6">
             <div class="row" style="padding-left: 3.3rem;" >
                 <div class="col-md-5">
-                    <h4 class="h2-ic">Sila Masukkan 6 digit TAC</h4>
+                    <!-- <h4 class="h2-ic">Sila Masukkan 6 digit TAC</h4> -->
+                    <h4 class="h2-ic">{{PRDetails_18}}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 50%;" class="use-keyboard-input">
@@ -318,10 +366,16 @@
             </div>
         </div>
         <div class="col-md-6" style="padding-right:8rem;">
-            <p>
+            <!-- <p>
                 Kod Kebenaran Transaksi (TAC) telah dihantar ke nombor telefon bimbit anda menerusi
                 SMS. Sila tunggu. Notis Penting: Sebelum membuat permohonan SMS-TAC, sila pastikan tiada sekatan dibuat ke atas
                 no 62000 di telefon bimbit atau oleh pembekal rangkalan telekomunikasi telefon bimbit anda.
+            </p>
+            <p>
+                
+            </p> -->
+            <p>
+                {{PRDetails_19}}
             </p>
             <p>
                 
@@ -347,7 +401,8 @@
 <div class="row" style="padding-top: 4rem;" *ngIf="PR_TempPass">
     <div class="row">
         <div class="cool-md-12 text-center">
-            <h2 id="PRtnc">Anda telah berjaya mendaftar dengan Portal myASNB</h2>
+            <!-- <h2 id="PRtnc">Anda telah berjaya mendaftar dengan Portal myASNB</h2> -->
+            <h2 id="PRtnc">{{PRTempPass_1}}</h2>
         </div>
     </div>
 
@@ -356,11 +411,17 @@
 
         </div>
         <div class="col-md-10">
-            <h3 class="h2-ic" style="text-align: center;">
+            <!-- <h3 class="h2-ic" style="text-align: center;">
                 Kata laluan sementara anda adalah:
             </h3>
             <h3 class="h2-ic" style="text-align: center;">
                 (Kata Laluan Sementara)
+            </h3> -->
+            <h3 class="h2-ic" style="text-align: center;">
+                {{PRTempPass_2}}
+            </h3>
+            <h3 class="h2-ic" style="text-align: center;">
+                {{PRTempPass_3}}
             </h3>
         </div>
         <div class="col-md-1">
@@ -370,11 +431,17 @@
 
     <div class="row text-center" style="padding-top: 4rem;">
         <div class="col-md-12">
-            <h5 class="h2-ic" style="text-align: center; padding-left: 2rem; padding-right: 2rem;">
+            <!-- <h5 class="h2-ic" style="text-align: center; padding-left: 2rem; padding-right: 2rem;">
                 1. Kata laluan sementara telah dihantar ke nombor telefon bimbit anda menerusi SMS yang anda telah berikan sewaktu proses pendaftaran
             </h5>
             <h5 class="h2-ic" style="text-align: center;padding-left: 2rem; padding-right: 2rem;">
                 2. Anda dinasihatikan untuk menentusahkan alamat emel menerusi emel pengesahan yang akan dihantar dalam tempoh 7 hari akan datang begi membolehkan anda menerima maklumat mengenai urusniaga yang dilakukan di Portal myASNB
+            </h5> -->
+            <h5 class="h2-ic" style="text-align: center; padding-left: 2rem; padding-right: 2rem;">
+                1. {{PRTempPass_4}}
+            </h5>
+            <h5 class="h2-ic" style="text-align: center;padding-left: 2rem; padding-right: 2rem;">
+                2. {{PRTempPass_5}}
             </h5>
         </div>
     </div>
@@ -399,7 +466,8 @@
 <div class="row" style="padding-top: 2rem;" *ngIf="PR_Login">
     <div class="row">
         <div class="cool-md-12 text-center">
-            <h3 id="PRtnc">Log Masuk Pengguna</h3>
+            <!-- <h3 id="PRtnc">Log Masuk Pengguna</h3> -->
+            <h3 id="PRtnc">{{PRLogin_1}}</h3>
         </div>
     </div>
 
@@ -408,10 +476,13 @@
 
         </div>
         <div class="col-md-10">
-            <h3 class="h2-ic" style="text-align: center;">
+            <!-- <h3 class="h2-ic" style="text-align: center;">
                 PERINGATAN. Bagi mengelakkan pihak yang tidak bertanggungjawab dapat mengakses akaun portal myASNB 
                 anda, sila pastikan persekitaran anda dalam keadaan yang tidak mencurigakan sepanjang menggunakan 
                 perkhidmatan ini. 
+            </h3> -->
+            <h3 class="h2-ic" style="text-align: center;">
+                {{PRLogin_2}} 
             </h3>
         </div>
         <div class="col-md-1">
@@ -420,8 +491,11 @@
     </div>
 
     <div class="row" style="padding-top:1.5rem;">
-        <h4 style="padding-left:3.3rem;">
+        <!-- <h4 style="padding-left:3.3rem;">
             ID Pengguna
+        </h4> -->
+        <h4 style="padding-left:3.3rem;">
+            {{PRLogin_3}}
         </h4>
     </div>
 
@@ -432,9 +506,12 @@
     </div>
 
     <div class="row" style="padding-top:1rem;">
-        <h4 style="padding-left:3.3rem;" class="h2-ic">
+        <!-- <h4 style="padding-left:3.3rem;" class="h2-ic">
             Jika ini <strong>BUKAN</strong> frasa keselamatan yang anda pilih, <strong>JANGAN TERUSKAN URUSNIAGA ANDA</strong>. Sila hubungi nombor hotline 
             portal myASNB di 03-77308899.
+        </h4> -->
+        <h4 style="padding-left:3.3rem;" class="h2-ic">
+            {{PRLogin_4}}<strong>{{PRLogin_5}}</strong>{{PRLogin_6}}<strong>{{PRLogin_7}}</strong>{{PRLogin_8}}
         </h4>
     </div>
 
@@ -445,8 +522,11 @@
         <div class="col-md-6">
             <div class="row">
                 <div class="col-md-8 text-center">
-                    <h4>
+                    <!-- <h4>
                         Adakah ini frasa keselamatan anda?
+                    </h4> -->
+                    <h4>
+                        {{PRLogin_9}}
                     </h4>
                 </div>
                 <div class="col-md-4">
@@ -467,8 +547,11 @@
         </div>
     </div>
     <div class="row" style="padding-top:2rem;">
-        <h4 style="padding-left:3.3rem;">
+        <!-- <h4 style="padding-left:3.3rem;">
             Kata Laluan Sementara
+        </h4> -->
+        <h4 style="padding-left:3.3rem;">
+            {{PRLogin_10}}
         </h4>
     </div>
 
@@ -497,14 +580,19 @@
 <div class="row" style="padding-top: 2rem;" *ngIf="PR_NewPassword">
     <div class="row">
         <div class="cool-md-12 text-center">
-            <h3 id="PRtnc">Log Masuk Pengguna</h3>
+            <!-- <h3 id="PRtnc">Log Masuk Pengguna</h3> -->
+            <h3 id="PRtnc">{{PRNewPassword_1}}</h3>
         </div>
     </div>
 
     <div class="row" style="padding-top:1rem;">
-        <h4 style="padding-left:3.3rem;" class="h2-ic">
+        <!-- <h4 style="padding-left:3.3rem;" class="h2-ic">
             Kata Laluan Baru (Kekuatan Kata Laluan)
+        </h4> -->
+        <h4 style="padding-left:3.3rem;" class="h2-ic">
+            {{PRNewPassword_2}}
         </h4>
+
     </div>
 
     <div class="row">
@@ -515,8 +603,11 @@
 
     
     <div class="row" style="padding-top:1rem;">
-        <h4 style="padding-left:3.3rem;" class="h2-ic">
+        <!-- <h4 style="padding-left:3.3rem;" class="h2-ic">
             Kata Laluan Sementara
+        </h4> -->
+        <h4 style="padding-left:3.3rem;" class="h2-ic">
+            {{PRNewPassword_3}}
         </h4>
     </div>
 
@@ -528,18 +619,24 @@
 
     <div class="row" style="padding-top:1rem;">
         <div class="col-md-12">
-            <h4 style="padding-left:2.5rem; padding-right:2.5rem;" class="h2-ic">
+            <!-- <h4 style="padding-left:2.5rem; padding-right:2.5rem;" class="h2-ic">
                 Pengumuman: Dengan menukar kata laluan, anda akan dipaksa untuk log keluar dari Portal ASNB. Anda boleh log masuk semula
                 dengan kata laluan baru anda.
+            </h4> -->
+            <h4 style="padding-left:2.5rem; padding-right:2.5rem;" class="h2-ic">
+                {{PRNewPassword_4}}
             </h4>
         </div>
 
         <div class="col-md-12">
-            <h4 style="padding-left:2.5rem;" class="h2-ic">
+            <!-- <h4 style="padding-left:2.5rem;" class="h2-ic">
                 Kata laluan anda mesti mempunyai 8 hingga 20 aksara dan menggunakan kombinasi seperti berikut:
+            </h4> -->
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                {{PRNewPassword_5}}
             </h4>
         </div>
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
             <h4 style="padding-left:2.5rem;" class="h2-ic">
                 - Minimum satu Huruf Besar (A-Z)
             </h4>
@@ -568,6 +665,36 @@
             <h4 style="padding-left:2.5rem;" class="h2-ic">
                 - Tidak boleh menggunakan aksara yang sama melebihi 3 kali (e.g abc111, aaaa1111)
             </h4>
+        </div> -->
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - {{PRNewPassword_6}}
+            </h4>
+        </div>
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - {{PRNewPassword_7}}
+            </h4>
+        </div>
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - {{PRNewPassword_8}}
+            </h4>
+        </div>
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - {{PRNewPassword_9}}
+            </h4>
+        </div>
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - {{PRNewPassword_10}}
+            </h4>
+        </div>
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - {{PRNewPassword_11}}
+            </h4>
         </div>
     </div>
 
@@ -592,10 +719,15 @@
 <div class="bg-popup" id="PR_ConfirmPop" *ngIf="PR_Confirm" >
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
         
-        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">Pengesahkan Kemas Kini Kata Laluan</h2>
+        <!-- <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">Pengesahkan Kemas Kini Kata Laluan</h2>
 
         <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">Saya mengesahkan bahawa kata laluan yang diisi adalah</h2>
-        <h2 id="UD_ErrorMessage" class="h2-ic">lengkap dan betul.</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">lengkap dan betul.</h2> -->
+
+        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">{{PRConfirm_1}}</h2>
+
+        <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{PRConfirm_2}}</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">{{PRConfirm_3}}</h2>
 
 
         <footer class="site-footer" style="padding-top:11rem;">
@@ -619,11 +751,17 @@
 <div class="bg-popup" id="PR_SuccessPop" *ngIf="PR_Success" >
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
         
-        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">Pengesahkan Kemas Kini Kata Laluan</h2>
+        <!-- <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">Pengesahkan Kemas Kini Kata Laluan</h2>
 
         <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">Taniah anda telah berjaya mengemaskini kata laluan anda.</h2>
         <h2 id="UD_ErrorMessage" class="h2-ic">Sila layari www.asnb.come.my menggunakan kata laluan</h2>
-        <h2 id="UD_ErrorMessage" class="h2-ic">baru untuk meneruskan transaksi.</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">baru untuk meneruskan transaksi.</h2> -->
+
+        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">{{PRSuccess_1}}</h2>
+
+        <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{PRSuccess_2}}</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">{{PRSuccess_3}}</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">{{PRSuccess_4}}</h2>
 
         <footer class="site-footer" style="padding-top:7rem;">
             <div class="row text-center" >
@@ -647,8 +785,10 @@
 <div id="PR_Print1" *ngIf="PR_Print1Visible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
-            <h2 class="h2-ic" id="PRP1_Title1">Resit anda sedang dicetak.</h2>
-            <h2 class="h2-ic" id="PRP1_Title2">Sila Tunggu.</h2>
+            <!-- <h2 class="h2-ic" id="PRP1_Title1">Resit anda sedang dicetak.</h2>
+            <h2 class="h2-ic" id="PRP1_Title2">Sila Tunggu.</h2> -->
+            <h2 class="h2-ic" id="PRP1_Title1">{{PRPrint1_1}}</h2>
+            <h2 class="h2-ic" id="PRP1_Title2">{{PRPrint1_2}}</h2>
             
         </div>
         <div class="col-md-6 text-center">
@@ -660,8 +800,8 @@
 <div id="PR_Print2" *ngIf="PR_Print2Visible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
-            <h2 class="h2-ic" id="PRP2_Title1">Sila ambil resit anda</h2>
-            <!-- <h2 class="h2-ic">Sila Tunggu.</h2> -->
+            <!-- <h2 class="h2-ic" id="PRP2_Title1">Sila ambil resit anda</h2> -->
+            <h2 class="h2-ic" id="PRP2_Title1">{{PRPrint2_1}}</h2>
             
         </div>
         <div class="col-md-6 text-center">
@@ -673,8 +813,10 @@
 <div id="PR_Email" *ngIf="PR_EmailVisible">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
-            <h2 class="h2-ic" id="PRE_Title1">Salinan resit akan hantar ke</h2>
-            <h2 class="h2-ic" id="PRE_Title2">alamat e-mel anda.</h2>
+            <!-- <h2 class="h2-ic" id="PRE_Title1">Salinan resit akan hantar ke</h2>
+            <h2 class="h2-ic" id="PRE_Title2">alamat e-mel anda.</h2> -->
+            <h2 class="h2-ic" id="PRE_Title1">{{PREmail_1}}</h2>
+            <h2 class="h2-ic" id="PRE_Title2">{{PREmail_2}}</h2>
             
         </div>
         <div class="col-md-6 text-center">
