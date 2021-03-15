@@ -32,10 +32,10 @@
         <footer class="site-footer" style="padding-top:15rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-cancel" id="RM_Cancel" ng-click="endTransaction()">
+                    <button type="button" class="btn btn-cancel" id="RM_Cancel" (click)="endTransaction()">
                         Tamatkan Transaksi
                     </button>
-                    <button type="button" class="btn btn-next" id="RM_MainMenu" ng-click="tryAgain()">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="tryAgain()">
                         Cuba Lagi
                     </button>
 
@@ -62,7 +62,7 @@
         <footer class="site-footer" style="padding-top:15rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-cancel" id="RM2_Cancel" ng-click="endTransaction()">
+                    <button type="button" class="btn btn-cancel" id="RM2_Cancel" (click)="endTransaction()">
                         Tamatkan Transaksi
                     </button>
                 </div>

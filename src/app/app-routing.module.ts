@@ -13,6 +13,8 @@ import { BijakregistrationComponent } from './bijakregistration/bijakregistratio
 import { UpdatedetailsComponent } from './updatedetails/updatedetails.component';
 import { PortalregistrationComponent } from './portalregistration/portalregistration.component';
 
+
+
 const routes: Routes = [
   {path: '', redirectTo: '/language', pathMatch: 'full'},
   {path: 'language', component: LanguageComponent},
