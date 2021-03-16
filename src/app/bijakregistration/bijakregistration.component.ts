@@ -23,10 +23,10 @@ export class BijakregistrationComponent implements OnInit {
   BTN_Email = "";
 
 
-  BRReminder_Visible = false;
+  BRReminder_Visible = true;
   BRInsertMyKid_Visible = false;
   BRLoading_Visible = false;
-  BRForm_Visible = true;
+  BRForm_Visible = false;
   BRError_Visible = false;
   BRCancel_Visible = false;
   BRTNC_Visible = false;

@@ -21,7 +21,7 @@ export class CheckbalanceComponent implements OnInit {
   BTN_Print1 = "";
   BTN_Email1 = "";
 
-  CB1_Visible = false;
+  CB1_Visible = true;
   CB2_Visible = false;
   CB3_Visible = false;
   CB4_Visible = false;

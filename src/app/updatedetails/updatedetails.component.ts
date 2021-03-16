@@ -18,11 +18,11 @@ export class UpdatedetailsComponent implements OnInit {
   BTN_Print = "";
   BTN_Email = "";
 
-  UD1_Visible = false;
+  UD1_Visible = true;
   UDForm_Visible = false;
   UDBForm_Visible = false;
   UDConfirm_Visible = false;
-  UDSuccess_Visible = true;
+  UDSuccess_Visible = false;
 
   UD_Print1Visible = false;
   UD_Print2Visible = false;

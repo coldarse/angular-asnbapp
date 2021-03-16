@@ -24,14 +24,14 @@ export class PortalregistrationComponent implements OnInit {
   BTN_Print = "";
   BTN_Email = "";
 
-  PR_Intro = false;
+  PR_Intro = true;
   PR_TNC = false;
   PR_Details = false;
   PR_TempPass = false;
   PR_Login = false;
   PR_NewPassword = false;
   PR_Confirm = false;
-  PR_Success = true;
+  PR_Success = false;
 
   PR_Print1Visible = false;
   PR_Print2Visible = false;
