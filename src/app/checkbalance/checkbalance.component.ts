@@ -7,6 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CheckbalanceComponent implements OnInit {
 
+  BTN_Cancel = "";
+  BTN_MainMenu = "";
+
+  BTN_End = "";
+  BTN_ChooseOtherAccount = "";
+
+  noAhli = "";
+  namaAhli = "";
+  noAhliBijak = "";
+  namaAhliBijak = "";
+
+  BTN_Print1 = "";
+  BTN_Email1 = "";
+
   CB1_Visible = false;
   CB2_Visible = false;
   CB3_Visible = false;

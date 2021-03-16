@@ -33,10 +33,12 @@
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-cancel" id="RM_Cancel" (click)="endTransaction()">
-                        Tamatkan Transaksi
+                        <!-- Tamatkan Transaksi -->
+                        {{BTN_End}}
                     </button>
                     <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="tryAgain()">
-                        Cuba Lagi
+                        <!-- Cuba Lagi -->
+                        {{BTN_TryAgain}}
                     </button>
 
                 </div>
@@ -63,7 +65,8 @@
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-cancel" id="RM2_Cancel" (click)="endTransaction()">
-                        Tamatkan Transaksi
+                        <!-- Tamatkan Transaksi -->
+                        {{BTN_End}}
                     </button>
                 </div>
                 
@@ -87,7 +90,10 @@
         <h3 class="h2-ic" id="BR2_Title1">{{InsertMyKad_3}}</h3>
         <h3 class="h2-ic" id="BR2_Title2">{{InsertMyKad_4}}</h3>
         &nbsp;
-        <button type="button" class="btn btn-checkIC" id="CheckICButton" (click)="verify()">Sahkan MyKad</button>
+        <button type="button" class="btn btn-checkIC" id="CheckICButton" (click)="verify()">
+            <!-- Sahkan MyKad -->
+            {{BTN_VerifyMyKad}}
+        </button>
     </div>
     <div class="col-md-6 text-center" >
         <img src="assets/images/InsertMyKad.gif" class="ICReader__centered img-addon padding-top-5rem" alt="ICReaderImage">

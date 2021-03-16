@@ -7,6 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BijakregistrationComponent implements OnInit {
 
+  BTN_xAgree = "";
+  BTN_Agree = "";
+
+  BTN_Cancel = "";
+  BTN_Next = "";
+
+  BTN_End = "";
+  BTN_TryAgain = "";
+
+  BTN_No = "";
+  BTN_Yes = "";
+
+  BTN_Print = "";
+  BTN_Email = "";
+
 
   BRReminder_Visible = false;
   BRInsertMyKid_Visible = false;

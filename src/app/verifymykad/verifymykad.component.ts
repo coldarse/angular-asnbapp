@@ -15,6 +15,10 @@ import { Router } from '@angular/router';
 export class VerifymykadComponent implements OnInit {
   private connection!: SignalRConnection;
 
+  BTN_End = "";
+  BTN_TryAgain = "";
+
+  BTN_VerifyMyKad = "";
 
   Header_Title = "";
 
@@ -79,7 +83,7 @@ export class VerifymykadComponent implements OnInit {
     this.RMError1_Visible = false;
     this.RMError2_Visible = false;
 
-    this._conn.invoke('request1', "ScanThumb").then((data: any) => {
+    this._conn.invoke('myKadRequest', "ScanThumb").then((data: any) => {
       console.log(data);
       if (data.toUpperCase().includes("MISMATCH")){
         this.tryCount = this.tryCount - 1;
@@ -106,17 +110,17 @@ export class VerifymykadComponent implements OnInit {
       var status = "";
 
       //First Invoke
-      this._conn.invoke('request1', this.CardType).then((data: any) => {
+      this._conn.invoke('myKadRequest', this.CardType).then((data: any) => {
         console.log(data);
         status = data;
         //Not ScanThumb
-        this._conn.invoke('request1', status).then((data: any) => {
+        this._conn.invoke('myKadRequest', status).then((data: any) => {
           console.log(data);
           status = data;
           this.loadingVisible = false;
           this.readThumbprintVisible = true;
           //ScanThumb
-          this._conn.invoke('request1', status).then((data: any) => {
+          this._conn.invoke('myKadRequest', status).then((data: any) => {
             console.log(data);
             status = data;
             if (status.toUpperCase().includes("MISMATCH")){
@@ -125,7 +129,7 @@ export class VerifymykadComponent implements OnInit {
             else{
               this._router.navigate(['transactionmenu']);
             }
-          });
+          });         
         });
       });
     }

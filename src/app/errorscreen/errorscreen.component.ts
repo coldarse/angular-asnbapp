@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ErrorscreenComponent implements OnInit {
 
+  BTN_End = "";
+
   ES_1 = "";
   ES_2 = "";
   ES_3 = "";

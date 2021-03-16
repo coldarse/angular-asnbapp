@@ -27,7 +27,7 @@
 
     <div class="col-md-12 text-center" style="padding-top:0.15rem; ">
         <button type="button" class="btn btn-account" id="Account1">
-            000004567891<br>Nurul Sofiah Binti Yunus
+            {{noAhli}}<br>{{namaAhli}}
         </button>
     </div>
 
@@ -38,7 +38,7 @@
 
     <div class="col-md-12 text-center" style="padding-top:0.15rem;">
         <button type="button" class="btn btn-account" id="Account2">
-            0000012345678<br>Mumi Binti Mohamad
+            {{noAhliBijak}}<br>{{namaAhliBijak}}
         </button>
     </div>
     
@@ -48,10 +48,12 @@
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-cancel" id="CB1_Cancel">
-                    Batal
+                    <!-- Batal -->
+                    {{BTN_Cancel}}
                 </button>
                 <button type="button" class="btn btn-next" id="CB1_MainMenu">
-                    Menu Utama
+                    <!-- Menu Utama -->
+                    {{BTN_MainMenu}}
                 </button>
             </div>
             
@@ -92,10 +94,12 @@
                 <div class="row text-center" >
                     <div class="col-md-12">
                         <button type="button" class="btn btn-cancel" id="SB_Cancel">
-                            Tamatkan Transaksi
+                            <!-- Tamatkan Transaksi -->
+                            {{BTN_End}}
                         </button>
                         <button type="button" class="btn btn-next" id="SB_ChangeAccount" >
-                            Pilih Akaun Lain
+                            <!-- Pilih Akaun Lain -->
+                            {{BTN_ChooseOtherAccount}}
                         </button>
 
                     </div>
@@ -215,10 +219,16 @@
                 <td>{{data.type}}</td>
                 <td>{{data.type}}</td> -->
                 <td>
-                    <button class="btn btn-printoremail" id="CB2_PrintButton">Cetak</button>
+                    <button class="btn btn-printoremail" id="CB2_PrintButton">
+                        <!-- Cetak -->
+                        {{BTN_Print1}}
+                    </button>
                 </td>
                 <td>
-                    <button class="btn btn-printoremail" id="CB2_EmailButton">Emel</button>
+                    <button class="btn btn-printoremail" id="CB2_EmailButton">
+                        <!-- Emel -->
+                        {{BTN_Email1}}
+                    </button>
                 </td>
               </tr>
               
@@ -230,13 +240,16 @@
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12 text-center">
                 <button type="button" class="btn btn-cancel" id="CB2_Cancel">
-                    Batal
+                    <!-- Batal -->
+                    {{BTN_Cancel}}
                 </button>
                 <button type="button" class="btn btn-next" id="CB2_Print">
-                    Cetak
+                    <!-- Cetak -->
+                    {{BTN_Print1}}
                 </button>
                 <button type="button" class="btn btn-next" id="CB2_Email">
-                    Emel
+                    <!-- Emel -->
+                    {{BTN_Email1}}
                 </button>
             </div>
         </div>

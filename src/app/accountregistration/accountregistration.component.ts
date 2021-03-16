@@ -10,6 +10,16 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 })
 export class AccountregistrationComponent implements OnInit {
 
+  BTN_Cancel = "";
+  BTN_Next = "";
+
+  BTN_xAgree = "";
+  BTN_Agree = "";
+
+  BTN_Print = "";
+  BTN_Email = "";
+  
+
 
   //Visible Page Elements
   ARForm_Visible = true;
