@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -55,6 +56,7 @@ export function createConfig(): SignalRConfiguration {
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     SignalRModule.forRoot(createConfig),
   ],
   providers: [],

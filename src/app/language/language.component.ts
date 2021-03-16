@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ServiceService } from 'src/shared/service.service';
 
 @Component({
   selector: 'app-language',
@@ -6,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LanguageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private serviceService : ServiceService
+    ) { }
+
+    _conn: any;
 
   ngOnInit(): void {
   }
+
   
+  getEnglish() {
+    //this._conn.invoke('test', this.text);
+    this.serviceService.getAllLanguage('en');
+  }
+
+
 }
