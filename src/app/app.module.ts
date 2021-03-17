@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,6 +20,24 @@ import { BijakregistrationComponent } from './bijakregistration/bijakregistratio
 import { UpdatedetailsComponent } from './updatedetails/updatedetails.component';
 import { PortalregistrationComponent } from './portalregistration/portalregistration.component';
 
+// import ngx-translate and the http loader
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+import { JsonAppConfigService } from './config/json-app-config.service';
+import { AppConfiguration } from './config/app-configuration';
+
+export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
+  return () => {
+    return jsonAppConfigService.load();
+  };
+}
+
+// required for AOT compilation
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();
@@ -34,7 +52,6 @@ export function createConfig(): SignalRConfiguration {
   c.executeStatusChangeInZone = true; // optional, default is true
   return c;
 }
-
 
 @NgModule({
   declarations: [
@@ -54,10 +71,25 @@ export function createConfig(): SignalRConfiguration {
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     SignalRModule.forRoot(createConfig),
   ],
-  providers: [],
+  providers: [
+   {
+    provide: AppConfiguration,
+    deps: [HttpClient],
+    useExisting: JsonAppConfigService
+   },
+   {
+    provide: APP_INITIALIZER,
+    multi: true,
+    deps: [JsonAppConfigService],
+    useFactory: initializerFn
+  }
+  ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
+
