@@ -16,7 +16,6 @@ export class JsonAppConfigService extends AppConfiguration {
     return this.http.get<AppConfiguration>('app.config.json')
       .toPromise()
       .then(data => {
-        this.title = data.title;
         this.baseUrl = data.baseUrl;
       })
       .catch(() => {

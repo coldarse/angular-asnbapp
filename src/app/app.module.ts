@@ -26,7 +26,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MultiTranslateHttpLoader } from "ngx-translate-multi-http-loader";
 import { selectLang } from "src/app/_models/language";
-
+import { JsonAppConfigService } from './config/json-app-config.service';
+import { AppConfiguration } from './config/app-configuration';
 
 export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();
@@ -42,6 +43,11 @@ export function createConfig(): SignalRConfiguration {
   return c;
 }
 
+export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
+  return () => {
+    return jsonAppConfigService.load();
+  };
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,7 +78,19 @@ export function createConfig(): SignalRConfiguration {
         }),
     SignalRModule.forRoot(createConfig),
   ],
-  providers: [selectLang],
+  providers: [
+    selectLang,
+  {
+    provide: AppConfiguration,
+    deps: [HttpClient],
+    useExisting: JsonAppConfigService
+  },
+  {
+    provide: APP_INITIALIZER,
+    multi: true,
+    deps: [JsonAppConfigService],
+    useFactory: initializerFn
+  }],
   bootstrap: [AppComponent]
 })
 

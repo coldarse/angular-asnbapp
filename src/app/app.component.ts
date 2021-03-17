@@ -11,9 +11,6 @@ export class AppComponent {
   title = 'angular-asnbapp';
 
   constructor(private appConfig: AppConfiguration) {
-    this.title = appConfig.title;
-
-    console.log(appConfig.title);
     console.log(appConfig.baseUrl);
 
     // private translate: TranslateService) {
