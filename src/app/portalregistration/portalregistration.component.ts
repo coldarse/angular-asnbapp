@@ -7,14 +7,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PortalregistrationComponent implements OnInit {
 
-  PR_Intro = false;
+  BTN_Cancel = "";
+  BTN_Next = "";
+
+  BTN_xAgree = "";
+  BTN_Agree = "";
+
+  BTN_MainMenu = "";
+  BTN_LoginASNB = "";
+
+  BTN_No = "";
+  BTN_Yes = "";
+
+  BTN_Back = "";
+
+  BTN_Print = "";
+  BTN_Email = "";
+
+  PR_Intro = true;
   PR_TNC = false;
   PR_Details = false;
   PR_TempPass = false;
   PR_Login = false;
   PR_NewPassword = false;
   PR_Confirm = false;
-  PR_Success = true;
+  PR_Success = false;
 
   PR_Print1Visible = false;
   PR_Print2Visible = false;

@@ -4,7 +4,7 @@
         <div class="titleNLogo">
             <!-- Read MyKad NavBar -->
             <img src="assets/images/MyKad-small-blue.png" alt="MyKadImage">
-            <label class="outofserviceStyle" id="SectionTitle">{{Header_Title}}</label>
+            <label class="outofserviceStyle" id="SectionTitle">{{ 'Header_Title' | translate }}</label>
         </div>
 
         <form class="d-flex">
@@ -25,18 +25,20 @@
         <h2 id="RM_ErrorMessage" class="h2-ic" style="padding-top:10rem;">( Mesej Ralat )</h2>
  -->
 
-        <h1 id="RM_ResponseCode" class="padding-top-2rem">{{RMError1_1}}</h1>
+        <h1 id="RM_ResponseCode" class="padding-top-2rem">{{'RMError1_1' | translate }}</h1>
 
-        <h2 id="RM_ErrorMessage" class="h2-ic" style="padding-top:10rem;">( {{RMError1_2}} )</h2>
+        <h2 id="RM_ErrorMessage" class="h2-ic" style="padding-top:10rem;">( {{'RMError1_2' | translate }} )</h2>
 
         <footer class="site-footer" style="padding-top:15rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-cancel" id="RM_Cancel" (click)="endTransaction()">
-                        Tamatkan Transaksi
+                        <!-- Tamatkan Transaksi -->
+                        {{'BTN_End' | translate }}
                     </button>
                     <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="tryAgain()">
-                        Cuba Lagi
+                        <!-- Cuba Lagi -->
+                        {{'BTN_TryAgain' | translate }}
                     </button>
 
                 </div>
@@ -55,15 +57,16 @@
 
         <h2 id="RM2_ErrorMessage" class="h2-ic" style="padding-top:10rem;">( Mesej Ralat )</h2> -->
 
-        <h1 id="RM2_ResponseCode" class="padding-top-2rem">{{RMError2_1}}</h1>
+        <h1 id="RM2_ResponseCode" class="padding-top-2rem">{{'RMError2_1' | translate }}</h1>
 
-        <h2 id="RM2_ErrorMessage" class="h2-ic" style="padding-top:10rem;">( {{RMError2_2}} )</h2>
+        <h2 id="RM2_ErrorMessage" class="h2-ic" style="padding-top:10rem;">( {{'RMError2_2' | translate }} )</h2>
 
         <footer class="site-footer" style="padding-top:15rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-cancel" id="RM2_Cancel" (click)="endTransaction()">
-                        Tamatkan Transaksi
+                        <!-- Tamatkan Transaksi -->
+                        {{'BTN_End' | translate }}
                     </button>
                 </div>
                 
@@ -81,13 +84,16 @@
         <h2 class="h2-ic" id="ICR1_Title1">Sila masukkan MyKad anda</h2>
         <h2 class="h2-ic" id="ICR1_Title2">dan klik butang dibawah</h2>
         &nbsp; -->
-        <h3 id="BR_Welcome">{{InsertMyKad_1}}</h3>
-        <h3 id="BR_Welcome">{{InsertMyKad_2}}</h3>
+        <h3 id="BR_Welcome">{{'InsertMyKad_1' | translate }}</h3>
+        <h3 id="BR_Welcome">{{'InsertMyKad_2' | translate }}</h3>
         &nbsp;
-        <h3 class="h2-ic" id="BR2_Title1">{{InsertMyKad_3}}</h3>
-        <h3 class="h2-ic" id="BR2_Title2">{{InsertMyKad_4}}</h3>
+        <h3 class="h2-ic" id="BR2_Title1">{{'InsertMyKad_3' | translate }}</h3>
+        <h3 class="h2-ic" id="BR2_Title2">{{'InsertMyKad_4' | translate }}</h3>
         &nbsp;
-        <button type="button" class="btn btn-checkIC" id="CheckICButton" (click)="verify()">Sahkan MyKad</button>
+        <button type="button" class="btn btn-checkIC" id="CheckICButton" (click)="verify()">
+            <!-- Sahkan MyKad -->
+            {{'BTN_VerifyMyKad' | translate }}
+        </button>
     </div>
     <div class="col-md-6 text-center" >
         <img src="assets/images/InsertMyKad.gif" class="ICReader__centered img-addon padding-top-5rem" alt="ICReaderImage">
@@ -100,8 +106,8 @@
     <div class="col-md-6 text-center" style="padding-top:20rem">
         <!-- <h2 class="h2-ic" id="ICR2_Title1">Sila letak ibu jari di atas</h2>
         <h2 class="h2-ic" id="ICR2_Title2">pembaca cap jari</h2> -->
-        <h2 class="h2-ic" id="ICR2_Title1">{{ReadThumbprint_1}}</h2>
-        <h2 class="h2-ic" id="ICR2_Title2">{{ReadThumbprint_2}}</h2>
+        <h2 class="h2-ic" id="ICR2_Title1">{{'ReadThumbprint_1' | translate }}</h2>
+        <h2 class="h2-ic" id="ICR2_Title2">{{'ReadThumbprint_2' | translate }}</h2>
     </div>
     <div class="col-md-6 text-center" >
         <img src="assets/images/Thumprint.gif" class="ICReader__centered img-addon padding-top-10rem" alt="ThumbPrintImage" >
@@ -112,7 +118,7 @@
 <div *ngIf="loadingVisible" class="row" id="ICReaderScreen3">
     <div class="col-md-6 text-center" style="padding-top:20rem">
         <!-- <h2 class="h2-ic" id="ICR3_Title1">Maklumat MyKad sedang dibaca</h2> -->
-        <h2 class="h2-ic" id="BR3_Title1">{{Loading_1}}</h2>
+        <h2 class="h2-ic" id="BR3_Title1">{{'Loading_1' | translate }}</h2>
         <div class="spinner-border text-primary spinning-addon" role="status"> </div>
 
     </div>

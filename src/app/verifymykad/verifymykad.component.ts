@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { BroadcastEventListener, ConnectionStatus, IConnectionOptions, SignalR, SignalRConnection } from 'ng2-signalr';
 import { Router } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import { selectLang } from '../_models/language'; 
+
+
 
 
 
@@ -15,8 +19,12 @@ import { Router } from '@angular/router';
 export class VerifymykadComponent implements OnInit {
   private connection!: SignalRConnection;
 
+  BTN_End = "";
+  BTN_TryAgain = "";
 
-  Header_Title = "";
+  BTN_VerifyMyKad = "";
+
+  Header_Title =  "";
 
   RMError1_1 = "";
   RMError1_2 = "";
@@ -54,14 +62,15 @@ export class VerifymykadComponent implements OnInit {
 
   constructor(
     private _signalR: SignalR,
-    private _router: Router
+    private _router: Router,
+    private translate: TranslateService
     ){
-      
+      this.startConnection();
     }
   
   ngOnInit(): void {
     console.log("Hello World")
-    this.startConnection();
+    this.translate.use(selectLang.selectedLang);
   }
 
   startConnection() : void {
@@ -79,7 +88,7 @@ export class VerifymykadComponent implements OnInit {
     this.RMError1_Visible = false;
     this.RMError2_Visible = false;
 
-    this._conn.invoke('request1', "ScanThumb").then((data: any) => {
+    this._conn.invoke('myKadRequest', "ScanThumb").then((data: any) => {
       console.log(data);
       if (data.toUpperCase().includes("MISMATCH")){
         this.tryCount = this.tryCount - 1;
@@ -106,17 +115,17 @@ export class VerifymykadComponent implements OnInit {
       var status = "";
 
       //First Invoke
-      this._conn.invoke('request1', this.CardType).then((data: any) => {
+      this._conn.invoke('myKadRequest', this.CardType).then((data: any) => {
         console.log(data);
         status = data;
         //Not ScanThumb
-        this._conn.invoke('request1', status).then((data: any) => {
+        this._conn.invoke('myKadRequest', status).then((data: any) => {
           console.log(data);
           status = data;
           this.loadingVisible = false;
           this.readThumbprintVisible = true;
           //ScanThumb
-          this._conn.invoke('request1', status).then((data: any) => {
+          this._conn.invoke('myKadRequest', status).then((data: any) => {
             console.log(data);
             status = data;
             if (status.toUpperCase().includes("MISMATCH")){
@@ -125,7 +134,7 @@ export class VerifymykadComponent implements OnInit {
             else{
               this._router.navigate(['transactionmenu']);
             }
-          });
+          });         
         });
       });
     }

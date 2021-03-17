@@ -7,11 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UpdatedetailsComponent implements OnInit {
 
-  UD1_Visible = false;
+  BTN_Cancel = "";
+  BTN_MainMenu = "";
+
+  BTN_Next = "";
+
+  BTN_No = "";
+  BTN_Yes = "";
+
+  BTN_Print = "";
+  BTN_Email = "";
+
+  UD1_Visible = true;
   UDForm_Visible = false;
   UDBForm_Visible = false;
   UDConfirm_Visible = false;
-  UDSuccess_Visible = true;
+  UDSuccess_Visible = false;
 
   UD_Print1Visible = false;
   UD_Print2Visible = false;
@@ -27,6 +38,10 @@ export class UpdatedetailsComponent implements OnInit {
   ARCity_disabled : boolean = true;
   ARState_disabled : boolean = true;
 
+  noAhli = "";
+  namaAhli = "";
+  noAhliBijak = "";
+  namaAhliBijak = "";
 
   Header_Title = "";
 

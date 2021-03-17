@@ -9,6 +9,8 @@ export class FeedbackscreenComponent implements OnInit {
 
   Header_Title = "";
 
+  BTN_Submit = "";
+
   FBS1_1 = "";
   FBS1_2 = "";
   FBS1_3 = "";
@@ -16,7 +18,7 @@ export class FeedbackscreenComponent implements OnInit {
   FBS2_1 = "";
   FBS2_2 = "";
 
-  FBS1_Visible = false;
+  FBS1_Visible = true;
   FBS2_Visible = false;
 
   constructor() { }

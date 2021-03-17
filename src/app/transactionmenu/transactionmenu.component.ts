@@ -9,6 +9,8 @@ export class TransactionmenuComponent implements OnInit {
 
   Header_Title = "";
 
+  BTN_End = "";
+
   TMS_1 = "";
   TMS_2 = "";
   TMS_3 = "";

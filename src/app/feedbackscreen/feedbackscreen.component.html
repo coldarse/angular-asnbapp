@@ -5,7 +5,7 @@
         <div class="titleNLogo">
             <!-- Transaction Menu -->
             <img src="assets/images/Feedback-small-blue.png" alt="FeedbackImage">
-            <label class="outofserviceStyle" id="SectionTitle">{{Header_Title}}</label>
+            <label class="outofserviceStyle" id="SectionTitle">{{'Header_Title' | translate }}</label>
         </div>
         
         <form class="d-flex">
@@ -19,15 +19,15 @@
     <div class="row">
         <div class="col-md-12 text-center" style="padding-top:7rem">
             <!-- <h2 id="FS_Title1">Pastikan MyKad telah dikeluarkan sebelum anda beredar</h2> -->
-            <h2 id="FS_Title1">{{FBS1_1}}</h2>
+            <h2 id="FS_Title1">{{'FBS1_1' | translate }}</h2>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 text-center" style="padding-top:7rem">
             <!-- <h2 class="h2-ic" id="FS_Title2">Terima kasih kerana menggunakan perkhidmatan kami.</h2>
             <h2 class="h2-ic" id="FS_Title3">Sila beri maklum balas untuk penambahbaikan perkhidmatan pada masa hadapan</h2> -->
-            <h2 class="h2-ic" id="FS_Title2">{{FBS1_2}}</h2>
-            <h2 class="h2-ic" id="FS_Title3">{{FBS1_3}}</h2>
+            <h2 class="h2-ic" id="FS_Title2">{{'FBS1_2' | translate }}</h2>
+            <h2 class="h2-ic" id="FS_Title3">{{'FBS1_3' | translate }}</h2>
         </div>
     </div>
     <div class="row">
@@ -52,7 +52,10 @@
     </div>
     <div class="row">
         <div class="col-md-12 text-center" style="padding-top:2rem">
-            <button type="button" class="btn btn-checkIC" id="FS_SendButton">Hantar</button>
+            <button type="button" class="btn btn-checkIC" id="FS_SendButton">
+                <!-- Hantar -->
+                {{'BTN_Submit' | translate }}
+            </button>
         </div>
     </div>
 </div>
@@ -61,11 +64,11 @@
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:17rem ">
             <!-- <h2>Terima Kasih</h2> -->
-            <h2>{{FBS2_1}}</h2>
+            <h2>{{'FBS2_1' | translate }}</h2>
             <br>
             <!-- <h2 class="h2-ic" id="FB_Title1">Sila keluarkan</h2>
             <h2 class="h2-ic" id="FB_Title2">MyKad / MyKid</h2> -->
-            <h2 class="h2-ic" id="FB_Title1">{{FBS2_2}}</h2>
+            <h2 class="h2-ic" id="FB_Title1">{{'FBS2_2' | translate }}</h2>
             <h2 class="h2-ic" id="FB_Title2">MyKad / MyKid</h2>
             
         </div>

@@ -1,5 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,29 +21,17 @@ import { BijakregistrationComponent } from './bijakregistration/bijakregistratio
 import { UpdatedetailsComponent } from './updatedetails/updatedetails.component';
 import { PortalregistrationComponent } from './portalregistration/portalregistration.component';
 
-// import ngx-translate and the http loader
+
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { MultiTranslateHttpLoader } from "ngx-translate-multi-http-loader";
+import { selectLang } from "src/app/_models/language";
 
-import { JsonAppConfigService } from './config/json-app-config.service';
-import { AppConfiguration } from './config/app-configuration';
-
-export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
-  return () => {
-    return jsonAppConfigService.load();
-  };
-}
-
-// required for AOT compilation
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
-}
 
 export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();
   c.hubName = 'MyMessageHub';
-  c.qs = { user: 'aldan' };
+  c.qs = { user: 'aldan' }
   c.url = 'http://localhost:8081/';
   c.logging = true;
   
@@ -73,23 +62,25 @@ export function createConfig(): SignalRConfiguration {
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
     SignalRModule.forRoot(createConfig),
   ],
-  providers: [
-   {
-    provide: AppConfiguration,
-    deps: [HttpClient],
-    useExisting: JsonAppConfigService
-   },
-   {
-    provide: APP_INITIALIZER,
-    multi: true,
-    deps: [JsonAppConfigService],
-    useFactory: initializerFn
-  }
-  ],
+  providers: [selectLang],
   bootstrap: [AppComponent]
 })
 
 export class AppModule { }
 
+export function HttpLoaderFactory(http: HttpClient) {
+  return new MultiTranslateHttpLoader(http, [
+    // { prefix: "./assets/translate/core/", suffix: ".json" },
+    { prefix: "./assets/translate/", suffix: ".json" },
+  ]);
+}

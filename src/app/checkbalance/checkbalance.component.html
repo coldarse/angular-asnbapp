@@ -3,7 +3,7 @@
         <div class="titleNLogo">
             <!-- Transaction Menu -->
             <img src="assets/images/SemakBaki-small-blue.png" alt="CheckBalance">
-            <label class="outofserviceStyle" id="SectionTitle">{{Header_Title}}</label>
+            <label class="outofserviceStyle" id="SectionTitle">{{'Header_Title' | translate }}</label>
         </div>
         
         <form class="d-flex">
@@ -17,28 +17,28 @@
    
     <div class="col-md-12 text-center" style="padding-top:4rem; font-family: helvetica ;">
         <!-- <h2 id="CB1_Title1">Sila pilah Akaun untuk semakan baki</h2> -->
-        <h2 id="CB1_Title1">{{CB1_1}}</h2>
+        <h2 id="CB1_Title1">{{'CB1_1' | translate }}</h2>
     </div>
 
     <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
         <!-- <h2 id="CB1_Title2">Akaun Sendiri</h2> -->
-        <h2 id="CB1_Title2">{{CB1_2}}</h2>
+        <h2 id="CB1_Title2">{{'CB1_2' | translate }}</h2>
     </div>
 
     <div class="col-md-12 text-center" style="padding-top:0.15rem; ">
         <button type="button" class="btn btn-account" id="Account1">
-            000004567891<br>Nurul Sofiah Binti Yunus
+            {{noAhli}}<br>{{namaAhli}}
         </button>
     </div>
 
     <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
         <!-- <h2 id="CB1_Title3">Akaun Bijak</h2> -->
-        <h2 id="CB1_Title3">{{CB1_3}}</h2>
+        <h2 id="CB1_Title3">{{'CB1_3' | translate }}</h2>
     </div>
 
     <div class="col-md-12 text-center" style="padding-top:0.15rem;">
         <button type="button" class="btn btn-account" id="Account2">
-            0000012345678<br>Mumi Binti Mohamad
+            {{noAhliBijak}}<br>{{namaAhliBijak}}
         </button>
     </div>
     
@@ -48,10 +48,12 @@
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-cancel" id="CB1_Cancel">
-                    Batal
+                    <!-- Batal -->
+                    {{'BTN_Cancel' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="CB1_MainMenu">
-                    Menu Utama
+                    <!-- Menu Utama -->
+                    {{'BTN_MainMenu' | translate }}
                 </button>
             </div>
             
@@ -65,7 +67,7 @@
    
     <div class="col-md-12 text-center" style="padding-top:4rem; font-family: helvetica ;">
         <!-- <h2 id="CB2_Title1">Baki Akaun</h2> -->
-        <h2 id="CB2_Title1">{{CB2_1}}</h2>
+        <h2 id="CB2_Title1">{{'CB2_1' | translate }}</h2>
     </div>
 
 
@@ -80,11 +82,11 @@
                 Sila rujuk ke kaunter.
             </h2> -->
 
-            <h1 id="SB_ResponseCode" class="padding-top-2rem">{{CBError_1}}</h1>
+            <h1 id="SB_ResponseCode" class="padding-top-2rem">{{'CBError_1' | translate }}</h1>
 
             <h2 id="SB_ErrorMessage" class="h2-ic" style="padding-top:10rem;">
-                {{CBError_2}}<br>
-                {{CBError_3}}
+                {{'CBError_2' | translate }}<br>
+                {{'CBError_3' | translate }}
             </h2>
     
 
@@ -92,10 +94,12 @@
                 <div class="row text-center" >
                     <div class="col-md-12">
                         <button type="button" class="btn btn-cancel" id="SB_Cancel">
-                            Tamatkan Transaksi
+                            <!-- Tamatkan Transaksi -->
+                            {{'BTN_End' | translate }}
                         </button>
                         <button type="button" class="btn btn-next" id="SB_ChangeAccount" >
-                            Pilih Akaun Lain
+                            <!-- Pilih Akaun Lain -->
+                            {{'BTN_ChooseOtherAccount' | translate }}
                         </button>
 
                     </div>
@@ -113,11 +117,11 @@
             <div class="row">
                 <div class="column leftcol">
                     <!-- <label class="CheckBalanceText1" id="CB2_Name">Nama</label> -->
-                    <label class="CheckBalanceText1" id="CB2_Name">{{CB2_2}}</label>
+                    <label class="CheckBalanceText1" id="CB2_Name">{{'CB2_2' | translate }}</label>
                 </div>
                 <div class="column rightcol">
                     <!-- <label class="CheckBalanceText1" id="CB2_NameValue">SAMI NURUL SOFIAH BINTI YUNUS</label>   -->
-                    <label class="CheckBalanceText1" id="CB2_NameValue">{{CB2_3}}</label>  
+                    <label class="CheckBalanceText1" id="CB2_NameValue">{{'CB2_3' | translate }}</label>  
                 </div>
             </div>
             
@@ -125,22 +129,22 @@
             <div class="row">
                 <div class="column leftcol">
                     <!-- <label  class="CheckBalanceText1" id="CB2_IC">No. Kad Pengenalan</label> -->
-                    <label  class="CheckBalanceText1" id="CB2_IC">{{CB2_4}}</label>
+                    <label  class="CheckBalanceText1" id="CB2_IC">{{'CB2_4' | translate }}</label>
                 </div>
                 
                 <div class="column rightcol">
                     <!-- <label  class="CheckBalanceText1" id="CB2_ICValue">880419-01-7887</label>   -->
-                    <label  class="CheckBalanceText1" id="CB2_ICValue">{{CB2_5}}</label>  
+                    <label  class="CheckBalanceText1" id="CB2_ICValue">{{'CB2_5' | translate }}</label>  
                 </div>
             </div>
             
             <!-- Third Row -->
             <div class="row">
                 <div class="column leftcol">
-                    <label  class="CheckBalanceText1" id="CB2_MemberID">{{CB2_6}}</label>
+                    <label  class="CheckBalanceText1" id="CB2_MemberID">{{'CB2_6' | translate }}</label>
                 </div>
                 <div class="column rightcol">
-                    <label  class="CheckBalanceText1" id="CB2_MemberIDValue">{{CB2_7}}</label>  
+                    <label  class="CheckBalanceText1" id="CB2_MemberIDValue">{{'CB2_7' | translate }}</label>  
                 </div>
             </div>
             
@@ -150,19 +154,19 @@
             <!-- First Row -->
             <div class="row">
                 <!-- <label class="CheckBalanceText1" id="CB2_TotalTitle">Baki Keseluruhan</label> -->
-                <label class="CheckBalanceText1" id="CB2_TotalTitle">{{CB2_8}}</label>
+                <label class="CheckBalanceText1" id="CB2_TotalTitle">{{'CB2_8' | translate }}</label>
             </div>
             
             <!-- Second Row -->
             <div class="row">
                 <!-- <label class="CheckBalanceText1" id="CB2_TotalPriceValue">RM 24,701.13</label> -->
-                <label class="CheckBalanceText1" id="CB2_TotalPriceValue">RM {{CB2_9}}</label>
+                <label class="CheckBalanceText1" id="CB2_TotalPriceValue">RM {{'CB2_9' | translate }}</label>
             </div>
             
             <!-- Third Row -->
             <div class="row">
                 <!-- <label class="CheckBalanceText1" id="CB2_TotalUnitValue">Unit 24,896.64</label> -->
-                <label class="CheckBalanceText1" id="CB2_TotalUnitValue">Unit {{CB2_10}}</label>
+                <label class="CheckBalanceText1" id="CB2_TotalUnitValue">Unit {{'CB2_10' | translate }}</label>
             </div>
         </div>
         <div class="col-md-1"></div>
@@ -171,7 +175,7 @@
         <table class="table checkbalancetable" id="CB2_BalanceTable">
             <thead class="thead-dark">
               <tr>
-                <th scope="col">Unit Amanah</th>
+                <!-- <th scope="col">Unit Amanah</th>
                 <th scope="col">Pelaburan Tunai</th>
                 <th scope="col">SPA KWSP</th>
                 <th scope="col">Sijil Pinjaman/Cagaran</th>
@@ -180,18 +184,18 @@
                 <th scope="col">Jumlah Unit</th>
                 <th scope="col">Nilai Semasa (RM)</th>
                 <th scope="col">Cetak</th>
-                <th scope="col">Emel</th>
+                <th scope="col">Emel</th> -->
                 
-                <th scope="col">{{CBTH_1}}</th>
-                <th scope="col">{{CBTH_2}}</th>
-                <th scope="col">{{CBTH_3}}</th>
-                <th scope="col">{{CBTH_4}}</th>
-                <th scope="col">{{CBTH_5}}</th>
-                <th scope="col">{{CBTH_6}}</th>
-                <th scope="col">{{CBTH_7}}</th>
-                <th scope="col">{{CBTH_8}}</th>
-                <th scope="col">{{CBTH_9}}</th>
-                <th scope="col">{{CBTH_10}}</th>
+                <th scope="col">{{'CBTH_1' | translate }}</th>
+                <th scope="col">{{'CBTH_2' | translate }}</th>
+                <th scope="col">{{'CBTH_3' | translate }}</th>
+                <th scope="col">{{'CBTH_4' | translate }}</th>
+                <th scope="col">{{'CBTH_5' | translate }}</th>
+                <th scope="col">{{'CBTH_6' | translate }}</th>
+                <th scope="col">{{'CBTH_7' | translate }}</th>
+                <th scope="col">{{'CBTH_8' | translate }}</th>
+                <th scope="col">{{'CBTH_9' | translate }}</th>
+                <th scope="col">{{'CBTH_10' | translate }}</th>
             </tr>
             </thead>
             <tbody>
@@ -206,19 +210,25 @@
                 <td>test</td>
                 <td>test</td>
                 
-                <!-- <td>{{data.type}}</td>
-                <td>{{data.type}}</td>
-                <td>{{data.type}}</td>
-                <td>{{data.type}}</td>
-                <td>{{data.type}}</td>
-                <td>{{data.type}}</td>
-                <td>{{data.type}}</td>
-                <td>{{data.type}}</td> -->
+                <!-- <td>{{data.type | translate }}</td>
+                <td>{{data.type | translate }}</td>
+                <td>{{data.type | translate }}</td>
+                <td>{{data.type | translate }}</td>
+                <td>{{data.type | translate }}</td>
+                <td>{{data.type | translate }}</td>
+                <td>{{data.type | translate }}</td>
+                <td>{{data.type | translate }}</td> -->
                 <td>
-                    <button class="btn btn-printoremail" id="CB2_PrintButton">Cetak</button>
+                    <button class="btn btn-printoremail" id="CB2_PrintButton">
+                        <!-- Cetak -->
+                        {{'BTN_Print1' | translate }}
+                    </button>
                 </td>
                 <td>
-                    <button class="btn btn-printoremail" id="CB2_EmailButton">Emel</button>
+                    <button class="btn btn-printoremail" id="CB2_EmailButton">
+                        <!-- Emel -->
+                        {{'BTN_Email1' | translate }}
+                    </button>
                 </td>
               </tr>
               
@@ -230,13 +240,16 @@
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12 text-center">
                 <button type="button" class="btn btn-cancel" id="CB2_Cancel">
-                    Batal
+                    <!-- Batal -->
+                    {{'BTN_Cancel' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="CB2_Print">
-                    Cetak
+                    <!-- Cetak -->
+                    {{'BTN_Print1' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="CB2_Email">
-                    Emel
+                    <!-- Emel -->
+                    {{'BTN_Email1' | translate }}
                 </button>
             </div>
         </div>
@@ -249,8 +262,8 @@
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <!-- <h2 class="h2-ic" id="CB3_Title1">Resit anda sedang dicetak.</h2>
             <h2 class="h2-ic" id="CB3_Title2">Sila Tunggu.</h2> -->
-            <h2 class="h2-ic" id="CB3_Title1">{{CB3_1}}</h2>
-            <h2 class="h2-ic" id="CB3_Title2">{{CB3_2}}</h2>
+            <h2 class="h2-ic" id="CB3_Title1">{{'CB3_1' | translate }}</h2>
+            <h2 class="h2-ic" id="CB3_Title2">{{'CB3_2' | translate }}</h2>
             
         </div>
         <div class="col-md-6 text-center">
@@ -263,7 +276,7 @@
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="CB4_Title1">Sila ambil resit anda</h2> -->
-            <h2 class="h2-ic" id="CB4_Title1">{{CB4_1}}</h2>
+            <h2 class="h2-ic" id="CB4_Title1">{{'CB4_1' | translate }}</h2>
             
             
         </div>
@@ -278,8 +291,8 @@
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="CB5_Title1">Salinan resit akan hantar ke</h2>
             <h2 class="h2-ic" id="CB5_Title2">alamat e-mel anda.</h2> -->
-            <h2 class="h2-ic" id="CB5_Title1">{{CB5_1}}</h2>
-            <h2 class="h2-ic" id="CB5_Title2">{{CB5_2}}</h2>
+            <h2 class="h2-ic" id="CB5_Title1">{{'CB5_1' | translate }}</h2>
+            <h2 class="h2-ic" id="CB5_Title2">{{'CB5_2' | translate }}</h2>
             
         </div>
         <div class="col-md-6 text-center">

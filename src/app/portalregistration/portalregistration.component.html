@@ -4,7 +4,7 @@
         <div class="titleNLogo">
             <!-- Read MyKad NavBar -->
             <img src="assets/images/PendaftaranPortalmyASNB-small-blue.png" alt="PortalImage">
-            <label class="outofserviceStyle" id="SectionTitle">{{Header_Title}}</label>
+            <label class="outofserviceStyle" id="SectionTitle">{{'Header_Title' | translate }}</label>
         </div>
 
         <form class="d-flex">
@@ -20,7 +20,7 @@
         </div>
         <div class="col-md-10">
             <!-- <h4 class="h2-ic">Selamat datang ke Portal myASNB. Sebelum menggunakan perkhidmatan myASNB, anda perlu melengkapkan pendaftaran myASNB terlebih dahulu. Ikuti langkah mudah berikut untuk mula mendaftar.</h4> -->
-            <h4 class="h2-ic">{{PRIntro_1}}</h4>
+            <h4 class="h2-ic">{{'PRIntro_1' | translate }}</h4>
         </div>
         <div class="col-md-1">
             
@@ -35,7 +35,7 @@
             <div class="col-md-10">
                 <!-- <h4 class="h2-ic">Langkah 1 - Kemas kini maklumat peribadi (nombor telefon) anda di cawangan atau ejen ASNB.</h4> -->
                 <h4 class="h2-ic">
-                    {{PRIntro_2}}
+                    {{'PRIntro_2' | translate }}
                 </h4>
             </div>
             <div class="col-md-1">
@@ -48,7 +48,7 @@
             </div>
             <div class="col-md-10">
                 <!-- <h4 class="h2-ic">Langkah 2 - Ikuti langkah mudah untuk pendaftaran myASNB.</h4> -->
-                <h4 class="h2-ic">{{PRIntro_3}}</h4>
+                <h4 class="h2-ic">{{'PRIntro_3' | translate }}</h4>
             </div>
             <div class="col-md-1">
                 
@@ -60,7 +60,7 @@
             </div>
             <div class="col-md-10">
                 <!-- <h4 class="h2-ic">Langkah 3 - Aktifkan akaun myASNB anda.</h4> -->
-                <h4 class="h2-ic">{{PRIntro_4}}</h4>
+                <h4 class="h2-ic">{{'PRIntro_4' | translate }}</h4>
             </div>
             <div class="col-md-1">
                 
@@ -72,7 +72,7 @@
             </div>
             <div class="col-md-10">
                 <!-- <h4 class="h2-ic">Langkah 4 - Mula melabur dalam unit amanah ASNB.</h4> -->
-                <h4 class="h2-ic">{{PRIntro_5}}</h4>
+                <h4 class="h2-ic">{{'PRIntro_5' | translate }}</h4>
             </div>
             <div class="col-md-1">
                 
@@ -86,7 +86,7 @@
         </div>
         <div class="col-md-10">
             <!-- <h4 class="h2-ic">Apabila anda selesai mendaftar, <strong><u>kata lauan sementara</u></strong> akan diberikan. Sila cetak / simpan / catat kata laluan sementara berkenaan untuk log masuk kali pertama.</h4> -->
-            <h4 class="h2-ic">{{PRIntro_6}}<strong><u>{{PRIntro_7}}</u></strong>{{PRIntro_8}}</h4>
+            <h4 class="h2-ic">{{'PRIntro_6' | translate }}<strong><u>{{'PRIntro_7' | translate }}</u></strong>{{'PRIntro_8' | translate }}</h4>
         </div>
         <div class="col-md-1">
             
@@ -100,7 +100,7 @@
         <div class="col-md-10">
             <!-- <h4 class="h2-ic">Anda diingatkan supaya menyinpan maklumat penting nama pengguna, kata laluan, frasa keselamatan dan jawapan untuk soalan keselamatan di tempat selamat untuk rujukan masa hadapan.</h4> -->
             <h4 class="h2-ic">
-                {{PRIntro_9}}
+                {{'PRIntro_9' | translate }}
             </h4>
         </div>
         <div class="col-md-1">
@@ -112,10 +112,12 @@
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-cancel" id="PR_Cancel">
-                    Batal
+                    <!-- Batal -->
+                    {{'BTN_Cancel' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="PR_Next">
-                    Teruskan
+                    <!-- Teruskan -->
+                    {{'BTN_Next' | translate }}
                 </button>
             </div>
             
@@ -130,7 +132,7 @@
     <div class="row">
         <div class="cool-md-12 text-center">
             <!-- <h2 id="PRtnc">Terma dan Syarat</h2> -->
-            <h2 id="PRtnc">{{PRTNC_1}}</h2>
+            <h2 id="PRtnc">{{'PRTNC_1' | translate }}</h2>
         </div>
     </div>
 
@@ -147,7 +149,7 @@
                 untuk tidak mengakses atau menggunakan laman web ini.
             </h3> -->
             <h3 class="h2-ic" style="text-align: center;">
-                {{PRTNC_2}}
+                {{'PRTNC_2' | translate }}
             </h3>
         </div>
         <div class="col-md-1">
@@ -163,7 +165,7 @@
             <input type="checkbox" id="agreeCheck" name="tncCheck" value="agree">
             <!-- <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">Saya telah membaca dan bersetuju dengan <a href="#" style="text-decoration:none;">Terma & Syarat</a> dan <a href="#" style="text-decoration:none;">Dasar Privasi</a></label><br> -->
             <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">
-                {{PRTNC_3}}<a href="#" style="text-decoration:none;">{{PRTNC_4}}</a>{{PRTNC_5}}<a href="#" style="text-decoration:none;">{{PRTNC_6}}</a>
+                {{'PRTNC_3' | translate }}<a href="#" style="text-decoration:none;">{{'PRTNC_4' | translate }}</a>{{'PRTNC_5' | translate }}<a href="#" style="text-decoration:none;">{{'PRTNC_6' | translate }}</a>
             </label><br>
         </div>
         <div class="col-md-1">
@@ -176,10 +178,12 @@
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-cancel" id="PR_xAgree">
-                    Tidak Setuju
+                    <!-- Tidak Setuju -->
+                    {{'BTN_xAgree' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="PR_Agree">
-                    Setuju
+                    <!-- Setuju -->
+                    {{'BTN_Agree' | translate }}
                 </button>
             </div>
             
@@ -191,7 +195,7 @@
     <div class="row" style="padding-left: 4rem; padding-top: 2rem;">
         <div class="col-md-12">
             <!-- <h4><u>Daftar Masuk Portal myASNB</u></h4> -->
-            <h4><u>{{PRDetails_1}}</u></h4>
+            <h4><u>{{'PRDetails_1' | translate }}</u></h4>
         </div>
     </div>
     <div class="row" >
@@ -199,7 +203,7 @@
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
                     <!-- <h4 class="h2-ic">ID Pengunna</h4> -->
-                    <h4 class="h2-ic">{{PRDetails_2}}</h4>
+                    <h4 class="h2-ic">{{'PRDetails_2' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
@@ -210,7 +214,7 @@
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
                     <!-- <h4 class="h2-ic">Alamat Emel</h4> -->
-                    <h4 class="h2-ic">{{PRDetails_3}}</h4>
+                    <h4 class="h2-ic">{{'PRDetails_3' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
@@ -222,7 +226,7 @@
     <div class="row" style="padding-left: 4rem; padding-top: 1rem;">
         <div class="col-md-12">
             <!-- <h4><u>Soalan Keselamatan</u></h4> -->
-            <h4><u>{{PRDetails_4}}</u></h4>
+            <h4><u>{{'PRDetails_4' | translate }}</u></h4>
         </div>
     </div>
 
@@ -232,7 +236,7 @@
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
                     <!-- <h4 class="h2-ic">Frasa Keselamatan</h4> -->
-                    <h4 class="h2-ic">{{PRDetails_5}}</h4>
+                    <h4 class="h2-ic">{{'PRDetails_5' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
@@ -241,7 +245,7 @@
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
                     <!-- <h4 class="h2-ic">Soalan Keselamatan 1</h4> -->
-                    <h4 class="h2-ic">{{PRDetails_6}}</h4>
+                    <h4 class="h2-ic">{{'PRDetails_6' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
                     <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
@@ -254,7 +258,7 @@
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
                     <!-- <h4 class="h2-ic">Jawapan 1</h4> -->
-                    <h4 class="h2-ic">{{PRDetails_7}}</h4>
+                    <h4 class="h2-ic">{{'PRDetails_7' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
@@ -263,7 +267,7 @@
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
                     <!-- <h4 class="h2-ic">Soalan Keselamatan 2</h4> -->
-                    <h4 class="h2-ic">{{PRDetails_8}}</h4>
+                    <h4 class="h2-ic">{{'PRDetails_8' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
                     <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
@@ -276,7 +280,7 @@
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
                     <!-- <h4 class="h2-ic">Jawapan 2</h4> -->
-                    <h4 class="h2-ic">{{PRDetails_9}}</h4>
+                    <h4 class="h2-ic">{{'PRDetails_9' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
@@ -285,7 +289,7 @@
             <div class="row" style="padding-left: 3.3rem;">
                 <div class="col-md-5">
                     <!-- <h4 class="h2-ic">Soalan Keselamatan 3</h4> -->
-                    <h4 class="h2-ic">{{PRDetails_10}}</h4>
+                    <h4 class="h2-ic">{{'PRDetails_10' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
                     <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
@@ -298,7 +302,7 @@
             <div class="row" style="padding-left: 3.3rem;" >
                 <div class="col-md-5">
                     <!-- <h4 class="h2-ic">Jawapan 3</h4> -->
-                    <h4 class="h2-ic">{{PRDetails_11}}</h4>
+                    <h4 class="h2-ic">{{'PRDetails_11' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
@@ -326,20 +330,20 @@
                 </h5> -->
                 <h5 class="h2-ic">
                     <u>
-                        {{PRDetails_12}}
+                        {{'PRDetails_12' | translate }}
                     </u>
                 </h5>
                 <h5 class="h2-ic">
-                    - {{PRDetails_13}}
+                    - {{'PRDetails_13' | translate }}
                 </h5>
                 <h5 class="h2-ic">
-                    - {{PRDetails_14}}
+                    - {{'PRDetails_14' | translate }}
                 </h5>
                 <h5 class="h2-ic">
-                    - {{PRDetails_15}}
+                    - {{'PRDetails_15' | translate }}
                 </h5>
                 <h5 class="h2-ic">
-                    - {{PRDetails_16}}
+                    - {{'PRDetails_16' | translate }}
                 </h5>
             </div>
         </div>
@@ -349,7 +353,7 @@
     <div class="row" style="padding-left: 4rem; padding-top: 2rem;">
         <div class="col-md-12">
             <!-- <h4><u>Pengesahan TAC</u></h4> -->
-            <h4><u>{{PRDetails_17}}</u></h4>
+            <h4><u>{{'PRDetails_17' | translate }}</u></h4>
         </div>
     </div>
     <div class="row" >
@@ -357,11 +361,14 @@
             <div class="row" style="padding-left: 3.3rem;" >
                 <div class="col-md-5">
                     <!-- <h4 class="h2-ic">Sila Masukkan 6 digit TAC</h4> -->
-                    <h4 class="h2-ic">{{PRDetails_18}}</h4>
+                    <h4 class="h2-ic">{{'PRDetails_18' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 50%;" class="use-keyboard-input">
-                    <button id="TACreq" class="btn btn-primary" style="margin-left: 1rem;">Permintaan TAC</button>
+                    <button id="TACreq" class="btn btn-primary" style="margin-left: 1rem;">
+                        <!-- Permintaan TAC -->
+                        {{'BTN_TAC' | translate }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -375,7 +382,7 @@
                 
             </p> -->
             <p>
-                {{PRDetails_19}}
+                {{'PRDetails_19' | translate }}
             </p>
             <p>
                 
@@ -387,10 +394,12 @@
         <div class="row text-center" style="padding-top:1rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-cancel" id="PR_Cancel">
-                    Batal 
+                    <!-- Batal  -->
+                    {{'BTN_Cancel' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="PR_Continue">
-                    Teruskan
+                    <!-- Teruskan -->
+                    {{'BTN_Next' | translate }}
                 </button>
             </div>
             
@@ -402,7 +411,7 @@
     <div class="row">
         <div class="cool-md-12 text-center">
             <!-- <h2 id="PRtnc">Anda telah berjaya mendaftar dengan Portal myASNB</h2> -->
-            <h2 id="PRtnc">{{PRTempPass_1}}</h2>
+            <h2 id="PRtnc">{{'PRTempPass_1' | translate }}</h2>
         </div>
     </div>
 
@@ -418,10 +427,10 @@
                 (Kata Laluan Sementara)
             </h3> -->
             <h3 class="h2-ic" style="text-align: center;">
-                {{PRTempPass_2}}
+                {{'PRTempPass_2' | translate }}
             </h3>
             <h3 class="h2-ic" style="text-align: center;">
-                {{PRTempPass_3}}
+                {{'PRTempPass_3' | translate }}
             </h3>
         </div>
         <div class="col-md-1">
@@ -438,10 +447,10 @@
                 2. Anda dinasihatikan untuk menentusahkan alamat emel menerusi emel pengesahan yang akan dihantar dalam tempoh 7 hari akan datang begi membolehkan anda menerima maklumat mengenai urusniaga yang dilakukan di Portal myASNB
             </h5> -->
             <h5 class="h2-ic" style="text-align: center; padding-left: 2rem; padding-right: 2rem;">
-                1. {{PRTempPass_4}}
+                1. {{'PRTempPass_4' | translate }}
             </h5>
             <h5 class="h2-ic" style="text-align: center;padding-left: 2rem; padding-right: 2rem;">
-                2. {{PRTempPass_5}}
+                2. {{'PRTempPass_5' | translate }}
             </h5>
         </div>
     </div>
@@ -451,10 +460,12 @@
         <div class="row text-center" style="padding-top:8rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-next" id="PR_xAgree">
-                    Menu Utama  
+                    <!-- Menu Utama   -->
+                    {{'BTN_MainMenu' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="PR_Agree">
-                    Log Masuk myASNB
+                    <!-- Log Masuk myASNB -->
+                    {{'BTN_LoginASNB' | translate }}
                 </button>
             </div>
             
@@ -467,7 +478,7 @@
     <div class="row">
         <div class="cool-md-12 text-center">
             <!-- <h3 id="PRtnc">Log Masuk Pengguna</h3> -->
-            <h3 id="PRtnc">{{PRLogin_1}}</h3>
+            <h3 id="PRtnc">{{'PRLogin_1' | translate }}</h3>
         </div>
     </div>
 
@@ -482,7 +493,7 @@
                 perkhidmatan ini. 
             </h3> -->
             <h3 class="h2-ic" style="text-align: center;">
-                {{PRLogin_2}} 
+                {{'PRLogin_2' | translate }} 
             </h3>
         </div>
         <div class="col-md-1">
@@ -495,7 +506,7 @@
             ID Pengguna
         </h4> -->
         <h4 style="padding-left:3.3rem;">
-            {{PRLogin_3}}
+            {{'PRLogin_3' | translate }}
         </h4>
     </div>
 
@@ -511,7 +522,7 @@
             portal myASNB di 03-77308899.
         </h4> -->
         <h4 style="padding-left:3.3rem;" class="h2-ic">
-            {{PRLogin_4}}<strong>{{PRLogin_5}}</strong>{{PRLogin_6}}<strong>{{PRLogin_7}}</strong>{{PRLogin_8}}
+            {{'PRLogin_4' | translate }}<strong>{{'PRLogin_5' | translate }}</strong>{{'PRLogin_6' | translate }}<strong>{{'PRLogin_7' | translate }}</strong>{{'PRLogin_8' | translate }}
         </h4>
     </div>
 
@@ -526,7 +537,7 @@
                         Adakah ini frasa keselamatan anda?
                     </h4> -->
                     <h4>
-                        {{PRLogin_9}}
+                        {{'PRLogin_9' | translate }}
                     </h4>
                 </div>
                 <div class="col-md-4">
@@ -534,10 +545,12 @@
                 </div>
                 <div class="col-md-8 text-center">
                     <button class="btn btn-primary" style="width: 30%; margin-right: 0.5rem;">
-                        Tidak
+                        <!-- Tidak -->
+                        {{'BTN_No' | translate }}
                     </button>
                     <button class="btn btn-primary" style="width: 30%; margin-left: 0.5rem;">
-                        Ya
+                        <!-- Ya -->
+                        {{'BTN_Yes' | translate }}
                     </button>
                 </div>
                 <div class="col-md-4">
@@ -551,7 +564,7 @@
             Kata Laluan Sementara
         </h4> -->
         <h4 style="padding-left:3.3rem;">
-            {{PRLogin_10}}
+            {{'PRLogin_10' | translate }}
         </h4>
     </div>
 
@@ -566,10 +579,12 @@
         <div class="row text-center" style="padding-top:4rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-next" id="PR_xAgree">
-                    Menu Utama  
+                    <!-- Menu Utama   -->
+                    {{'BTN_MainMenu' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="PR_Agree">
-                    Log Masuk myASNB
+                    <!-- Log Masuk myASNB -->
+                    {{'BTN_LoginASNB' | translate }}
                 </button>
             </div>
             
@@ -581,7 +596,7 @@
     <div class="row">
         <div class="cool-md-12 text-center">
             <!-- <h3 id="PRtnc">Log Masuk Pengguna</h3> -->
-            <h3 id="PRtnc">{{PRNewPassword_1}}</h3>
+            <h3 id="PRtnc">{{'PRNewPassword_1' | translate }}</h3>
         </div>
     </div>
 
@@ -590,7 +605,7 @@
             Kata Laluan Baru (Kekuatan Kata Laluan)
         </h4> -->
         <h4 style="padding-left:3.3rem;" class="h2-ic">
-            {{PRNewPassword_2}}
+            {{'PRNewPassword_2' | translate }}
         </h4>
 
     </div>
@@ -607,7 +622,7 @@
             Kata Laluan Sementara
         </h4> -->
         <h4 style="padding-left:3.3rem;" class="h2-ic">
-            {{PRNewPassword_3}}
+            {{'PRNewPassword_3' | translate }}
         </h4>
     </div>
 
@@ -624,7 +639,7 @@
                 dengan kata laluan baru anda.
             </h4> -->
             <h4 style="padding-left:2.5rem; padding-right:2.5rem;" class="h2-ic">
-                {{PRNewPassword_4}}
+                {{'PRNewPassword_4' | translate }}
             </h4>
         </div>
 
@@ -633,7 +648,7 @@
                 Kata laluan anda mesti mempunyai 8 hingga 20 aksara dan menggunakan kombinasi seperti berikut:
             </h4> -->
             <h4 style="padding-left:2.5rem;" class="h2-ic">
-                {{PRNewPassword_5}}
+                {{'PRNewPassword_5' | translate }}
             </h4>
         </div>
         <!-- <div class="col-md-12">
@@ -668,32 +683,32 @@
         </div> -->
         <div class="col-md-12">
             <h4 style="padding-left:2.5rem;" class="h2-ic">
-                - {{PRNewPassword_6}}
+                - {{'PRNewPassword_6' | translate }}
             </h4>
         </div>
         <div class="col-md-12">
             <h4 style="padding-left:2.5rem;" class="h2-ic">
-                - {{PRNewPassword_7}}
+                - {{'PRNewPassword_7' | translate }}
             </h4>
         </div>
         <div class="col-md-12">
             <h4 style="padding-left:2.5rem;" class="h2-ic">
-                - {{PRNewPassword_8}}
+                - {{'PRNewPassword_8' | translate }}
             </h4>
         </div>
         <div class="col-md-12">
             <h4 style="padding-left:2.5rem;" class="h2-ic">
-                - {{PRNewPassword_9}}
+                - {{'PRNewPassword_9' | translate }}
             </h4>
         </div>
         <div class="col-md-12">
             <h4 style="padding-left:2.5rem;" class="h2-ic">
-                - {{PRNewPassword_10}}
+                - {{'PRNewPassword_10' | translate }}
             </h4>
         </div>
         <div class="col-md-12">
             <h4 style="padding-left:2.5rem;" class="h2-ic">
-                - {{PRNewPassword_11}}
+                - {{'PRNewPassword_11' | translate }}
             </h4>
         </div>
     </div>
@@ -704,10 +719,12 @@
         <div class="row text-center" style="padding-top:2rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-cancel" id="PR_Back">
-                    Kembali
+                    <!-- Kembali -->
+                    {{'BTN_Back' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="PR_Next">
-                    Teruskan
+                    <!-- Teruskan -->
+                    {{'BTN_Next' | translate }}
                 </button>
             </div>
             
@@ -724,20 +741,22 @@
         <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">Saya mengesahkan bahawa kata laluan yang diisi adalah</h2>
         <h2 id="UD_ErrorMessage" class="h2-ic">lengkap dan betul.</h2> -->
 
-        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">{{PRConfirm_1}}</h2>
+        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">{{'PRConfirm_1' | translate }}</h2>
 
-        <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{PRConfirm_2}}</h2>
-        <h2 id="UD_ErrorMessage" class="h2-ic">{{PRConfirm_3}}</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{'PRConfirm_2' | translate }}</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">{{'PRConfirm_3' | translate }}</h2>
 
 
         <footer class="site-footer" style="padding-top:11rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-cancel" id="PR_No">
-                        Tidak
+                        <!-- Tidak -->
+                        {{'BTN_No' | translate }}
                     </button>
                     <button type="button" class="btn btn-next" id="PR_Yes" >
-                        Ya
+                        <!-- Ya -->
+                        {{'BTN_Yes' | translate }}
                     </button>
 
                 </div>
@@ -757,20 +776,22 @@
         <h2 id="UD_ErrorMessage" class="h2-ic">Sila layari www.asnb.come.my menggunakan kata laluan</h2>
         <h2 id="UD_ErrorMessage" class="h2-ic">baru untuk meneruskan transaksi.</h2> -->
 
-        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">{{PRSuccess_1}}</h2>
+        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">{{'PRSuccess_1' | translate }}</h2>
 
-        <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{PRSuccess_2}}</h2>
-        <h2 id="UD_ErrorMessage" class="h2-ic">{{PRSuccess_3}}</h2>
-        <h2 id="UD_ErrorMessage" class="h2-ic">{{PRSuccess_4}}</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{'PRSuccess_2' | translate }}</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">{{'PRSuccess_3' | translate }}</h2>
+        <h2 id="UD_ErrorMessage" class="h2-ic">{{'PRSuccess_4' | translate }}</h2>
 
         <footer class="site-footer" style="padding-top:7rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-next" id="PR_No">
-                        Cetak Resit
+                        <!-- Cetak Resit -->
+                        {{'BTN_Print' | translate }}
                     </button>
                     <button type="button" class="btn btn-next" id="PR_Yes" >
-                        Emel Resit
+                        <!-- Emel Resit -->
+                        {{'BTN_Email' | translate }}
                     </button>
 
                 </div>
@@ -787,8 +808,8 @@
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <!-- <h2 class="h2-ic" id="PRP1_Title1">Resit anda sedang dicetak.</h2>
             <h2 class="h2-ic" id="PRP1_Title2">Sila Tunggu.</h2> -->
-            <h2 class="h2-ic" id="PRP1_Title1">{{PRPrint1_1}}</h2>
-            <h2 class="h2-ic" id="PRP1_Title2">{{PRPrint1_2}}</h2>
+            <h2 class="h2-ic" id="PRP1_Title1">{{'PRPrint1_1' | translate }}</h2>
+            <h2 class="h2-ic" id="PRP1_Title2">{{'PRPrint1_2' | translate }}</h2>
             
         </div>
         <div class="col-md-6 text-center">
@@ -801,7 +822,7 @@
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="PRP2_Title1">Sila ambil resit anda</h2> -->
-            <h2 class="h2-ic" id="PRP2_Title1">{{PRPrint2_1}}</h2>
+            <h2 class="h2-ic" id="PRP2_Title1">{{'PRPrint2_1' | translate }}</h2>
             
         </div>
         <div class="col-md-6 text-center">
@@ -815,8 +836,8 @@
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="PRE_Title1">Salinan resit akan hantar ke</h2>
             <h2 class="h2-ic" id="PRE_Title2">alamat e-mel anda.</h2> -->
-            <h2 class="h2-ic" id="PRE_Title1">{{PREmail_1}}</h2>
-            <h2 class="h2-ic" id="PRE_Title2">{{PREmail_2}}</h2>
+            <h2 class="h2-ic" id="PRE_Title1">{{'PREmail_1' | translate }}</h2>
+            <h2 class="h2-ic" id="PRE_Title2">{{'PREmail_2' | translate }}</h2>
             
         </div>
         <div class="col-md-6 text-center">
