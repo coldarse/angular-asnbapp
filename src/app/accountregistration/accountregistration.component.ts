@@ -1,5 +1,10 @@
 import { keyframes } from '@angular/animations';
 import { Component, ElementRef, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import { selectLang } from '../_models/language';
+import { BroadcastEventListener, ConnectionStatus, IConnectionOptions, SignalR, SignalRConnection } from 'ng2-signalr';
+
 
 
 
@@ -137,11 +142,13 @@ export class AccountregistrationComponent implements OnInit {
   AREmail_1 = "";
   AREmail_2 = "";
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef,
+    private _router: Router,
+    private translate: TranslateService) {}
 
   ngOnInit(): void {
     console.log("Hi");
-    //this.FL_1 = "Maklumat Peribadi Pemegang Unit"
+    this.translate.use(selectLang.selectedLang);
   }
 
   usekeyboardinput() {

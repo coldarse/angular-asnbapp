@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import { selectLang } from '../_models/language'; 
 
 @Component({
   selector: 'app-portalregistration',
@@ -126,9 +129,11 @@ export class PortalregistrationComponent implements OnInit {
   
 
 
-  constructor() { }
+  constructor(private _router: Router,
+    private translate: TranslateService) { }
 
   ngOnInit(): void {
+    this.translate.use(selectLang.selectedLang);
   }
 
 }
