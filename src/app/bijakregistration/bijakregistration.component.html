@@ -5,7 +5,7 @@
             <!-- Transaction Menu -->
             <img src="assets/images/PendaftaranAkaunBijak-small-blue.png" alt="BijakRegistrationImage">
             <!-- <label class="outofserviceStyle" id="SectionTitle">PENDAFTARAN AKAUN (AKAUN BIJAK)</label> -->
-            <label class="outofserviceStyle" id="SectionTitle">{{Header_Title}}</label>
+            <label class="outofserviceStyle" id="SectionTitle">{{'Header_Title' | translate }}</label>
         </div>
 
         <form class="d-flex">
@@ -17,7 +17,7 @@
 <div id="BR_Reminder" *ngIf="BRReminder_Visible">
     <div class="col-md-12 text-center" style="margin-top:4rem;">
         <!-- <h2>Peringatan</h2> -->
-        <h2>{{BRReminder_1}}</h2>
+        <h2>{{'BRReminder_1' | translate }}</h2>
     </div>
 
     <div class="row" style="padding-top:8rem;">
@@ -26,9 +26,9 @@
             <h3 class="h2-ic">ibu bapa kandung, di mana maklumat yang relevan akan disahkan berdasarkan</h3>
             <h3 class="h2-ic">data yang disimpan di dalam MyKid anak</h3> -->
 
-            <h3 class="h2-ic">{{BRReminder_2}}</h3>
-            <h3 class="h2-ic">{{BRReminder_3}}</h3>
-            <h3 class="h2-ic">{{BRReminder_4}}</h3>
+            <h3 class="h2-ic">{{'BRReminder_2' | translate }}</h3>
+            <h3 class="h2-ic">{{'BRReminder_3' | translate }}</h3>
+            <h3 class="h2-ic">{{'BRReminder_4' | translate }}</h3>
         </div>
     </div>
 
@@ -39,11 +39,11 @@
             <div class="col-md-12">
                 <button type="button" class="btn btn-cancel" id="AR_XAgree">
                     <!-- Tidak Setuju -->
-                    {{BTN_xAgree}}
+                    {{'BTN_xAgree' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="AR_Agree">
                     <!-- Setuju -->
-                    {{BTN_Agree}}
+                    {{'BTN_Agree' | translate }}
                 </button>
             </div>
 
@@ -61,13 +61,13 @@
         <h3 class="h2-ic" id="BR2_Title1">Sila masukkan MyKid dan</h3>
         <h3 class="h2-ic" id="BR2_Title2">klik butang dibawah</h3> -->
 
-        <h3 id="BR_Welcome">{{BRInsertMyKid_1}}</h3>
-        <h3 id="BR_Welcome">{{BRInsertMyKid_2}}</h3>
+        <h3 id="BR_Welcome">{{'BRInsertMyKid_1' | translate }}</h3>
+        <h3 id="BR_Welcome">{{'BRInsertMyKid_2' | translate }}</h3>
         &nbsp;
-        <h3 class="h2-ic" id="BR2_Title1">{{BRInsertMyKid_3}}</h3>
-        <h3 class="h2-ic" id="BR2_Title2">{{BRInsertMyKid_4}}</h3>
+        <h3 class="h2-ic" id="BR2_Title1">{{'BRInsertMyKid_3' | translate }}</h3>
+        <h3 class="h2-ic" id="BR2_Title2">{{'BRInsertMyKid_4' | translate }}</h3>
         &nbsp;
-        <button type="button" class="btn btn-checkIC" id="CheckICButton" (click)="verify()">Seterusnya</button>
+        <button type="button" class="btn btn-checkIC" id="CheckICButton" (click)="verify()">{{'BTN_Next' | translate}}</button>
     </div>
     <div class="col-md-6 text-center" >
         <img src="assets/images/InsertMyKID.gif" class="ICReader__centered img-addon padding-top-5rem" alt="ICReaderImage">
@@ -78,7 +78,7 @@
 <div *ngIf="BRLoading_Visible" class="row" id="ICReaderScreen3">
     <div class="col-md-6 text-center" style="padding-top:20rem">
         <!-- <h2 class="h2-ic" id="BR3_Title1">Maklumat MyKid sedang dibaca</h2> -->
-        <h2 class="h2-ic" id="BR3_Title1">{{BRLoading_1}}</h2>
+        <h2 class="h2-ic" id="BR3_Title1">{{'BRLoading_1' | translate }}</h2>
         <div class="spinner-border text-primary spinning-addon" role="status"> </div>
 
     </div>
@@ -94,13 +94,13 @@
                 <div class="row">
                     <div class="col-md-12">
                         <!-- <h4 class="blue-title-bar">Maklumat Peribadi Pemegang Unit</h4> -->
-                        <h4 class="blue-title-bar">{{FL_1}}</h4>
+                        <h4 class="blue-title-bar">{{'FL_1' | translate }}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Gelaran</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_2}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_2' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <select name="Salutation" id="salutation" id="AR0">
@@ -113,7 +113,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Nama Penuh</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_3}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_3' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <input #someVar type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR1_Value" id="AR1">
@@ -122,7 +122,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_4}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_4' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -131,7 +131,7 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Tarikh lahir</h4> -->
-                                <h4>{{FL_5}}</h4>
+                                <h4>{{'FL_5' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR3_Value" id="AR3">
@@ -142,7 +142,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Bangsa</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_6}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_6' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -151,7 +151,7 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Agama</h4> -->
-                                <h4>{{FL_7}}</h4>
+                                <h4>{{'FL_7' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR5_Value" id="AR5">
@@ -168,13 +168,13 @@
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
                         <!-- <h4 class="blue-title-bar">Maklumat Penjaga Berdaftar</h4> -->
-                        <h4 class="blue-title-bar">{{FLB_1}}</h4>
+                        <h4 class="blue-title-bar">{{'FLB_1' | translate }}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">No Ahli</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FLB_2}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FLB_2' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -183,7 +183,7 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Gelaran</h4> -->
-                                <h4>{{FLB_3}}</h4>
+                                <h4>{{'FLB_3' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <select name="SalutationMyKID" id="salutationMyKID" disabled >
@@ -198,7 +198,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Nama Penuh</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FLB_4}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FLB_4' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR7_Value" id="AR7">
@@ -207,7 +207,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">No. Kad Pengenalan</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FLB_5}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FLB_5' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -216,7 +216,7 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Tarikh lahir</h4> -->
-                                <h4>{{FLB_6}}</h4>
+                                <h4>{{'FLB_6' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR9_Value" id="AR9">
@@ -227,7 +227,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Bangsa</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FLB_7}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FLB_7' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -236,7 +236,7 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Agama</h4> -->
-                                <h4>{{FLB_8}}</h4>
+                                <h4>{{'FLB_8' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" disabled [value]="AR11_Value" id="AR11">
@@ -247,7 +247,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Hubungan</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FLB_9}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FLB_9' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -273,13 +273,13 @@
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
                         <!-- <h4 class="blue-title-bar">Maklumat Perhubungan</h4> -->
-                        <h4 class="blue-title-bar">{{FL_8}}</h4>
+                        <h4 class="blue-title-bar">{{'FL_8' | translate }}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 1</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_9}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_9' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARAddress1_disabled" [value]="ARAddress1_Value" id="AR_Address1">
@@ -288,7 +288,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Alamat Surat-menyurat 2</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_10}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_10' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARAddress2_disabled" [value]="ARAddress2_Value" id="AR_Address2">
@@ -297,7 +297,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Poskod</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_11}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_11' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -306,7 +306,7 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Bandar</h4> -->
-                                <h4>{{FL_12}}</h4>
+                                <h4>{{'FL_12' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARCity_disabled" [value]="ARCity_Value" id="AR_City">
@@ -323,11 +323,11 @@
                             <div class="col-md-4">
                                 <input type="checkbox" id="mykadAddress" name="mykadAddress" checked="true" (click)="myKadAddress()" value="true">
                                 <!-- <label for="mykadAddress">Alamat MyKad</label><br> -->
-                                <label for="mykadAddress">{{FL_13}}</label><br>
+                                <label for="mykadAddress">{{'FL_13' | translate }}</label><br>
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Negeri</h4> -->
-                                <h4>{{FL_14}}</h4>
+                                <h4>{{'FL_14' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARState_disabled" [value]="ARState_Value" id="AR_State">
@@ -338,7 +338,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">No. Telefon Rumah</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_15}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_15' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -347,13 +347,13 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Telefon Bimbit</h4> -->
-                                <h4>{{FL_16}}</h4>
+                                <h4>{{'FL_16' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="checkedXTelephone" id="AR_Telephone">
                                 <input type="checkbox" id="noPhone" name="noPhone" value="true" (click)="noTelephoneCheck()" style="margin-top: 0.8rem;">
                                 <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
-                                <label for="noPhone">{{FL_17}}</label><br>
+                                <label for="noPhone">{{'FL_17' | translate }}</label><br>
                             </div>
                         </div>
                     </div>
@@ -366,7 +366,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Emel</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_18}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_18' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -374,11 +374,11 @@
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="checkedXEmail"  name="AR_Email">
                                 <input type="checkbox" id="noEmail" name="noEmail" value="true" (click)="noEmailCheck()" style="margin-top: 0.8rem;">
                                 <!-- <label for="noEmail" >Tiada Emel</label><br> -->
-                                <label for="noEmail" >{{FL_19}}</label><br>
+                                <label for="noEmail" >{{'FL_19' | translate }}</label><br>
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Pilihan Penghantaran Penyata</h4> -->
-                                <h4>{{FL_20}}</h4>
+                                <h4>{{'FL_20' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP">
@@ -394,13 +394,13 @@
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
                         <!-- <h4 class="blue-title-bar">Maklumat Akaun Bank</h4> -->
-                        <h4 class="blue-title-bar">{{FL_21}}</h4>
+                        <h4 class="blue-title-bar">{{'FL_21' | translate }}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Nama Bank</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_22}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_22' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -413,7 +413,7 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Akaun Bank</h4> -->
-                                <h4>{{FL_23}}</h4>
+                                <h4>{{'FL_23' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR13">
@@ -425,13 +425,13 @@
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
                         <!-- <h4 class="blue-title-bar">Pekerjaan</h4> -->
-                        <h4 class="blue-title-bar">{{FL_24}}</h4>
+                        <h4 class="blue-title-bar">{{'FL_24' | translate }}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Kategori Pekerjaan</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_25}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_25' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -444,7 +444,7 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Nama Pekerjaan</h4> -->
-                                <h4>{{FL_26}}</h4>
+                                <h4>{{'FL_26' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <select name="NP" id="NP">
@@ -459,7 +459,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Jenis Pekerjaan</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_27}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_27' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -472,7 +472,7 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Sektor Pekerjaan</h4> -->
-                                <h4>{{FL_28}}</h4>
+                                <h4>{{'FL_28' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <select name="SP" id="SP">
@@ -487,7 +487,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- <h4 style="padding-left: 0.5rem;">Pendapatan Bulanan</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_29}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_29' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -500,7 +500,7 @@
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Nama Syarikat</h4> -->
-                                <h4>{{FL_30}}</h4>
+                                <h4>{{'FL_30' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR14">
@@ -514,18 +514,18 @@
                 <div class="row" style="margin-top: 2rem;">
                     <div class="col-md-12">
                         <!-- <h4 class="blue-title-bar">Pengisytiharan</h4> -->
-                        <h4 class="blue-title-bar">{{FL_31}}</h4>
+                        <h4 class="blue-title-bar">{{'FL_31' | translate }}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4 inbetween">
                         <!-- <h4 style="padding-left: 0.5rem;">FATCA</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_32}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_32' | translate }}</h4>
                         <img src="assets/images/information-icon.png" onclick="FATCAPopFunction()" alt="infoicon" class="info_icon_img popup">
                         <div class="blockerfatca" onclick="hidePopupfatca()" id="myPopup1"></div>
                         <!-- <span class="fatcapopuptext" id="myPopup">Foreign Account Tax Compliance Act (FATCA).  -->
                             <!-- Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span> -->
-                        <span class="fatcapopuptext" id="myPopup">{{FL_33}}</span>
+                        <span class="fatcapopuptext" id="myPopup">{{'FL_33' | translate }}</span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -537,7 +537,7 @@
                             </div>
                             <div class="col-md-8">
                                 <!-- <label>Bersetuju untuk Sertai Program Pemasaran ASNB</label> -->
-                                <label>{{FL_34}}</label>
+                                <label>{{'FL_34' | translate }}</label>
                             </div>
                         </div>
                     </div>
@@ -545,12 +545,12 @@
                 <div class="row">
                     <div class="col-md-4 inbetween">
                         <!-- <h4 style="padding-left: 0.5rem;">PEP</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_35}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_35' | translate }}</h4>
                         <img src="assets/images/information-icon.png" onclick="PEPPopFunction()" alt="infoicon" class="info_icon_img popup">
                         <div class="blockerpep" onclick="hidePopuppep()" id="myPopup2"></div>
                         <!-- <span class="peppopuptext" id="myPopup3">Foreign Account Tax Compliance Act (FATCA).
                             Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span> -->
-                        <span class="peppopuptext" id="myPopup3">{{FL_36}}</span>
+                        <span class="peppopuptext" id="myPopup3">{{'FL_36' | translate }}</span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -575,12 +575,12 @@
                 <div class="row">
                     <div class="col-md-4 inbetween">
                         <!-- <h4 style="padding-left: 0.5rem;">CRS</h4> -->
-                        <h4 style="padding-left: 0.5rem;">{{FL_37}}</h4>
+                        <h4 style="padding-left: 0.5rem;">{{'FL_37' | translate }}</h4>
                         <img src="assets/images/information-icon.png" onclick="CRSPopFunction()" alt="infoicon" class="info_icon_img popup">
                         <div class="blockercrs" onclick="hidePopupcrs()" id="myPopup4"></div>
                         <!-- <span class="peppopuptext" id="myPopup3">Foreign Account Tax Compliance Act (FATCA).
                             Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span> -->
-                        <span class="crspopuptext" id="myPopup5">{{FL_38}}</span>
+                        <span class="crspopuptext" id="myPopup5">{{'FL_38' | translate }}</span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -607,11 +607,11 @@
             <div class="col-md-12">
                 <button type="button" class="btn btn-cancel" id="CB1_Cancel">
                     <!-- Batal -->
-                    {{BTN_Cancel}}
+                    {{'BTN_Cancel' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="CB1_MainMenu">
                     <!-- Seterusnya -->
-                    {{BTN_Next}}
+                    {{'BTN_Next' | translate }}
                 </button>
             </div>
 
@@ -626,7 +626,7 @@
 
 
         <!-- <h1 id="BR_ResponseCode" class="padding-top-2rem">Mesej Ralat</h1> -->
-        <h1 id="BR_ResponseCode" class="padding-top-2rem">{{BRError_1}}</h1>
+        <h1 id="BR_ResponseCode" class="padding-top-2rem">{{'BRError_1' | translate }}</h1>
 
         <!-- <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:8rem; padding-left: 8rem; padding-right: 8rem">
             Kad tidak dapat dikesan atau kad yang digunakan tiday sah.
@@ -635,7 +635,7 @@
         </h2> -->
 
         <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:8rem; padding-left: 8rem; padding-right: 8rem">
-            {{BRError_2}}
+            {{'BRError_2' | translate }}
         </h2>
 
 
@@ -644,11 +644,11 @@
                 <div class="col-md-12">
                     <button type="button" class="btn btn-cancel" id="BR_Cancel">
                         <!-- Tamatkan Transaksi -->
-                        {{BTN_End}}
+                        {{'BTN_End' | translate }}
                     </button>
                     <button type="button" class="btn btn-next" id="BR_MainMenu" >
                         <!-- Cuba Lagi -->
-                        {{BTN_TryAgain}}
+                        {{'BTN_TryAgain' | translate }}
                     </button>
 
                 </div>
@@ -664,7 +664,7 @@
 
 
         <!-- <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:15rem;">Batal Pendaftaran Akaun?</h2> -->
-        <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:15rem;">{{BRCancel_1}}</h2>
+        <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:15rem;">{{'BRCancel_1' | translate }}</h2>
 
 
         <footer class="site-footer" style="padding-top:11rem;">
@@ -672,11 +672,11 @@
                 <div class="col-md-12">
                     <button type="button" class="btn btn-cancel" id="BR_No">
                         <!-- Tidak -->
-                        {{BTN_No}}
+                        {{'BTN_No' | translate }}
                     </button>
                     <button type="button" class="btn btn-next" id="BR_Yes" >
                         <!-- Ya -->
-                        {{BTN_Yes}}
+                        {{'BTN_Yes' | translate }}
                     </button>
 
                 </div>
@@ -692,7 +692,7 @@
 <div id="BR_TNC" *ngIf="BRTNC_Visible">
     <div class="col-md-12 text-center" style="margin-top:2rem;">
         <!-- <h3>AKUAN PENGESAHAN</h3> -->
-        <h3>{{BRTNC_1}}</h3>
+        <h3>{{'BRTNC_1' | translate }}</h3>
     </div>
 
     <div class="row">
@@ -701,7 +701,7 @@
         </div>
         <div class="col-md-10">
             <!-- <h5>Notis Penting - Sila Baca</h5> -->
-            <h5>{{BRTNC_2}}</h5>
+            <h5>{{'BRTNC_2' | translate }}</h5>
         </div>
         <div class="col-md-1">
 
@@ -714,7 +714,7 @@
         </div>
         <div class="col-md-10">
             <!-- <p class="p-underlined">Surat ikatan dan Prospektus</p> -->
-            <p class="p-underlined">{{BRTNC_3}}</p>
+            <p class="p-underlined">{{'BRTNC_3' | translate }}</p>
         </div>
         <div class="col-md-1">
 
@@ -735,7 +735,7 @@
                 pengagihan pendapatan, jika ada, mungkin turun dan/atau naik. Prestasi tabung masa lalu bukan jaminan prestasi masa hadapan.
             </p> -->
             <p>
-                {{BRTNC_4}}
+                {{'BRTNC_4' | translate }}
             </p>
         </div>
         <div class="col-md-1">
@@ -749,7 +749,7 @@
         </div>
         <div class="col-md-10">
             <!-- <p>Klik sini untuk baca <a href="#">Prospektus induk ASNB</a></p> -->
-            <p>{{BRTNC_5}}<a href="#">{{BRTNC_6}}</a></p>
+            <p>{{'BRTNC_5' | translate }}<a href="#">{{'BRTNC_6' | translate }}</a></p>
 
         </div>
         <div class="col-md-1">
@@ -767,7 +767,7 @@
                 terma dan syarat yang mentadbir permohonan ini dan pendaftaran unit serta sebarang penambahan dan pindaan selepas itu.
             </p> -->
             <p>
-                {{BRTNC_7}}
+                {{'BRTNC_7' | translate }}
             </p>
         </div>
         <div class="col-md-1">
@@ -780,7 +780,7 @@
         </div>
         <div class="col-md-10">
             <!-- <p class="p-underlined">Yuran dan Caj</p> -->
-            <p class="p-underlined">{{BRTNC_8}}</p>
+            <p class="p-underlined">{{'BRTNC_8' | translate }}</p>
         </div>
         <div class="col-md-1">
 
@@ -796,7 +796,7 @@
                 pelaburan dalam tabung unit amanah tersebut.
             </p> -->
             <p>
-                {{BRTNC_9}}
+                {{'BRTNC_9' | translate }}
             </p>
         </div>
         <div class="col-md-1">
@@ -809,7 +809,7 @@
         </div>
         <div class="col-md-10">
             <!-- <p class="p-underlined">Kebankrapan</p> -->
-            <p class="p-underlined">{{BRTNC_10}}</p>
+            <p class="p-underlined">{{'BRTNC_10' | translate }}</p>
         </div>
         <div class="col-md-1">
 
@@ -821,7 +821,7 @@
         </div>
         <div class="col-md-10">
             <!-- <p>Saya mengesahkan bahawa saya bukan seorang yang bankrap.</p> -->
-            <p>{{BRTNC_11}}</p>
+            <p>{{'BRTNC_11' | translate }}</p>
         </div>
         <div class="col-md-1">
 
@@ -833,11 +833,11 @@
             <div class="col-md-12">
                 <button type="button" class="btn btn-cancel" id="BR_XAgree">
                     <!-- Tidak Setuju -->
-                    {{BTN_xAgree}}
+                    {{'BTN_xAgree' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="BR_Agree">
                     <!-- Setuju -->
-                    {{BTN_Agree}}
+                    {{'BTN_Agree' | translate }}
                 </button>
             </div>
 
@@ -850,25 +850,25 @@
 <div id="BR_Success" *ngIf="BRSuccess_Visible">
     <div class="col-md-12 text-center" style="margin-top:2rem;">
         <!-- <h3>PENGESAHAN PENDAFTARAN</h3> -->
-        <h3>{{BRSuccess_1}}</h3>
+        <h3>{{'BRSuccess_1' | translate }}</h3>
     </div>
 
     <div class="col-md-12 text-center" style="margin-top:5rem;">
         <!-- <h4 class="h2-ic">Pendaftaran anda telah berjaya.</h4> -->
-        <h4 class="h2-ic">{{BRSuccess_2}}</h4>
+        <h4 class="h2-ic">{{'BRSuccess_2' | translate }}</h4>
     </div>
 
     <div class="col-md-12 inbetween">
         <div class="col-md-6" style="margin-top:5rem;">
             <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
                 <!-- <h4 class="h2-ic">Nama</h4> -->
-                <h4 class="h2-ic">{{BRSuccess_3}}</h4>
+                <h4 class="h2-ic">{{'BRSuccess_3' | translate }}</h4>
                 <h4 class="h2-ic">:</h4>
             </div>
         </div>
         <div class="col-md-6 " style="margin-top:5rem;">
             <!-- <h4 class="h2-ic">MOHAMMAD AZWAN GAN BIN ABDUL GHANI GAN</h4> -->
-            <h4 class="h2-ic">{{BRSuccess_4}}</h4>
+            <h4 class="h2-ic">{{'BRSuccess_4' | translate }}</h4>
         </div>
     </div>
 
@@ -876,13 +876,13 @@
         <div class="col-md-6 " >
             <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
                 <!-- <h4 class="h2-ic">No. Ahli</h4> -->
-                <h4 class="h2-ic">{{BRSuccess_5}}</h4>
+                <h4 class="h2-ic">{{'BRSuccess_5' | translate }}</h4>
                 <h4 class="h2-ic">:</h4>
             </div>
         </div>
         <div class="col-md-6 " >
             <!-- <h4 class="h2-ic">000012345678</h4> -->
-            <h4 class="h2-ic">{{BRSuccess_6}}</h4>
+            <h4 class="h2-ic">{{'BRSuccess_6' | translate }}</h4>
         </div>
     </div>
 
@@ -890,13 +890,13 @@
         <div class="col-md-6 " >
             <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
                 <!-- <h4 class="h2-ic">Tarikh Pendaftaran</h4> -->
-                <h4 class="h2-ic">{{BRSuccess_7}}</h4>
+                <h4 class="h2-ic">{{'BRSuccess_7' | translate }}</h4>
                 <h4 class="h2-ic">:</h4>
             </div>
         </div>
         <div class="col-md-6 " >
             <!-- <h4 class="h2-ic">19/02/2021</h4> -->
-            <h4 class="h2-ic">{{BRSuccess_8}}</h4>
+            <h4 class="h2-ic">{{'BRSuccess_8' | translate }}</h4>
         </div>
     </div>
 
@@ -904,13 +904,13 @@
         <div class="col-md-6 " >
             <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
                 <!-- <h4 class="h2-ic">Jenis Akaun</h4> -->
-                <h4 class="h2-ic">{{BRSuccess_9}}</h4>
+                <h4 class="h2-ic">{{'BRSuccess_9' | translate }}</h4>
                 <h4 class="h2-ic">:</h4>
             </div>
         </div>
         <div class="col-md-6 " >
             <!-- <h4 class="h2-ic">Sendiri</h4> -->
-            <h4 class="h2-ic">{{BRSuccess_10}}</h4>
+            <h4 class="h2-ic">{{'BRSuccess_10' | translate }}</h4>
         </div>
     </div>
 
@@ -921,11 +921,11 @@
             <div class="col-md-12">
                 <button type="button" class="btn btn-next" id="BR_Print">
                     <!-- Cetak Resit -->
-                    {{BTN_Print}}
+                    {{'BTN_Print' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="BR_Email">
                     <!-- Emel Resit -->
-                    {{BTN_Email}}
+                    {{'BTN_Email' | translate }}
                 </button>
             </div>
 
@@ -937,9 +937,9 @@
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <!-- <h2 class="h2-ic" id="BRP1_Title1">Resit anda sedang dicetak.</h2> -->
-            <h2 class="h2-ic" id="BRP1_Title1">{{BRPrint1_1}}</h2>
+            <h2 class="h2-ic" id="BRP1_Title1">{{'BRPrint1_1' | translate }}</h2>
             <!-- <h2 class="h2-ic" id="BRP1_Title1">Resit anda sedang dicetak.</h2> -->
-            <h2 class="h2-ic" id="BRP1_Title2">{{BRPrint1_2}}</h2>
+            <h2 class="h2-ic" id="BRP1_Title2">{{'BRPrint1_2' | translate }}</h2>
 
         </div>
         <div class="col-md-6 text-center">
@@ -952,7 +952,7 @@
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="BRP2_Title1">Sila ambil resit anda</h2> -->
-            <h2 class="h2-ic" id="BRP2_Title1">{{BRPrint2_1}}</h2>
+            <h2 class="h2-ic" id="BRP2_Title1">{{'BRPrint2_1' | translate }}</h2>
         </div>
         <div class="col-md-6 text-center">
             <img src="assets/images/asnbstandee-receipt-b.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
@@ -965,8 +965,8 @@
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="BRE_Title1">Salinan resit akan hantar ke</h2>
             <h2 class="h2-ic" id="BRE_Title2">alamat e-mel anda.</h2> -->
-            <h2 class="h2-ic" id="BRE_Title1">{{BREmail_1}}</h2>
-            <h2 class="h2-ic" id="BRE_Title2">{{BREmail_2}}</h2>
+            <h2 class="h2-ic" id="BRE_Title1">{{'BREmail_1' | translate }}</h2>
+            <h2 class="h2-ic" id="BRE_Title2">{{'BREmail_2' | translate }}</h2>
 
         </div>
         <div class="col-md-6 text-center">

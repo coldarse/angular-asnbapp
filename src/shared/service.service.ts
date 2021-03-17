@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';  
 import { HttpHeaders } from '@angular/common/http';  
 import { Observable } from 'rxjs';
-import { Language } from 'src/app/_models/language';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,9 +19,9 @@ export class ServiceService {
   constructor(private http: HttpClient) {}
 
   getAllLanguage(lang : string) {
-    this.http.get<Language[]>(this.url + 'services/app/Language/GetLanguageText?LanguageCode=' + lang, httpOptions).subscribe(response => {
-      return response;
-    });
+    // this.http.get<Language[]>(this.url + 'services/app/Language/GetLanguageText?LanguageCode=' + lang, httpOptions).subscribe(response => {
+    //   return response;
+    // });
   }
   
 }

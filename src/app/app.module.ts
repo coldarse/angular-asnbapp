@@ -21,6 +21,11 @@ import { BijakregistrationComponent } from './bijakregistration/bijakregistratio
 import { UpdatedetailsComponent } from './updatedetails/updatedetails.component';
 import { PortalregistrationComponent } from './portalregistration/portalregistration.component';
 
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { MultiTranslateHttpLoader } from "ngx-translate-multi-http-loader";
+import { selectLang } from "src/app/_models/language";
+
 
 export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();
@@ -57,9 +62,23 @@ export function createConfig(): SignalRConfiguration {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        }),
     SignalRModule.forRoot(createConfig),
   ],
-  providers: [],
+  providers: [selectLang],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new MultiTranslateHttpLoader(http, [
+    // { prefix: "./assets/translate/core/", suffix: ".json" },
+    { prefix: "./assets/translate/", suffix: ".json" },
+  ]);
+}

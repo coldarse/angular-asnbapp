@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BroadcastEventListener, ConnectionStatus, IConnectionOptions, SignalR, SignalRConnection } from 'ng2-signalr';
 import { Router } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import { selectLang } from '../_models/language'; 
+
 
 
 
@@ -21,7 +24,7 @@ export class VerifymykadComponent implements OnInit {
 
   BTN_VerifyMyKad = "";
 
-  Header_Title = "";
+  Header_Title =  "";
 
   RMError1_1 = "";
   RMError1_2 = "";
@@ -59,14 +62,15 @@ export class VerifymykadComponent implements OnInit {
 
   constructor(
     private _signalR: SignalR,
-    private _router: Router
+    private _router: Router,
+    private translate: TranslateService
     ){
-      
+      this.startConnection();
     }
   
   ngOnInit(): void {
     console.log("Hello World")
-    this.startConnection();
+    this.translate.use(selectLang.selectedLang);
   }
 
   startConnection() : void {
