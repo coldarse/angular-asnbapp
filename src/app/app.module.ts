@@ -11,6 +11,9 @@ import { CheckbalanceComponent } from './checkbalance/checkbalance.component';
 import { SignalRModule } from 'ng2-signalr';
 import { SignalRConfiguration } from 'ng2-signalr';
 
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+import { MomentModule } from 'angular2-moment';
+
 import { OutofserviceComponent } from './outofservice/outofservice.component';
 import { TransactionmenuComponent } from './transactionmenu/transactionmenu.component';
 import { ErrorscreenComponent } from './errorscreen/errorscreen.component';
@@ -72,6 +75,8 @@ export function createConfig(): SignalRConfiguration {
             }
         }),
     SignalRModule.forRoot(createConfig),
+    NgIdleKeepaliveModule.forRoot(),
+    MomentModule,
   ],
   providers: [
     selectLang,
