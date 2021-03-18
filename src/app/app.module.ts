@@ -25,6 +25,8 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { MultiTranslateHttpLoader } from "ngx-translate-multi-http-loader";
 import { selectLang } from "src/app/_models/language";
+import { signalrConnection } from 'src/app/_models/signalr';
+import { accessToken } from 'src/app/_models/apiToken';
 
 
 export function createConfig(): SignalRConfiguration {
@@ -71,7 +73,11 @@ export function createConfig(): SignalRConfiguration {
         }),
     SignalRModule.forRoot(createConfig),
   ],
-  providers: [selectLang],
+  providers: [
+    selectLang,
+    signalrConnection,
+    accessToken
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

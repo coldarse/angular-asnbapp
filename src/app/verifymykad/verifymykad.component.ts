@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BroadcastEventListener, ConnectionStatus, IConnectionOptions, SignalR, SignalRConnection } from 'ng2-signalr';
 import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
-
+import { signalrConnection } from 'src/app/_models/signalr';
 
 
 
@@ -17,7 +16,6 @@ import { selectLang } from '../_models/language';
 
   
 export class VerifymykadComponent implements OnInit {
-  private connection!: SignalRConnection;
 
   BTN_End = "";
   BTN_TryAgain = "";
@@ -61,24 +59,18 @@ export class VerifymykadComponent implements OnInit {
   
 
   constructor(
-    private _signalR: SignalR,
     private _router: Router,
     private translate: TranslateService
     ){
-      this.startConnection();
     }
   
   ngOnInit(): void {
     console.log("Hello World")
     this.translate.use(selectLang.selectedLang);
+    this._conn = signalrConnection.connection;
   }
 
-  startConnection() : void {
-    this._signalR.connect().then((c) => {
-      console.log("API King is now Connected");
-      this._conn = c;
-    }).catch((err: any) => {console.log(err)});
-  }
+ 
 
   endTransaction() : void {
     this._router.navigate(['language']);
@@ -132,6 +124,7 @@ export class VerifymykadComponent implements OnInit {
               this.RMError1_Visible = true;
             }
             else{
+              
               this._router.navigate(['transactionmenu']);
             }
           });         

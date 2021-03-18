@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
+import { signalrConnection } from 'src/app/_models/signalr';
 
 @Component({
   selector: 'app-feedbackscreen',
