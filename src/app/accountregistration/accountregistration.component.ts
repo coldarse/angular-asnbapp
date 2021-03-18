@@ -1,5 +1,10 @@
 import { keyframes } from '@angular/animations';
 import { Component, ElementRef, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import { selectLang } from '../_models/language';
+import { BroadcastEventListener, ConnectionStatus, IConnectionOptions, SignalR, SignalRConnection } from 'ng2-signalr';
+
 
 
 
@@ -106,15 +111,7 @@ export class AccountregistrationComponent implements OnInit {
   FL_37 : string = "";
   FL_38 : string = "";
 
-  // FLB_1 : string = "";
-  // FLB_2 : string = "";
-  // FLB_3 : string = "";
-  // FLB_4 : string = "";
-  // FLB_5 : string = "";
-  // FLB_6 : string = "";
-  // FLB_7 : string = "";
-  // FLB_8 : string = "";
-  // FLB_9 : string = "";
+ 
 
   ARTNC_1 = "";
   ARTNC_2 = "";
@@ -145,11 +142,13 @@ export class AccountregistrationComponent implements OnInit {
   AREmail_1 = "";
   AREmail_2 = "";
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef,
+    private _router: Router,
+    private translate: TranslateService) {}
 
   ngOnInit(): void {
     console.log("Hi");
-    //this.FL_1 = "Maklumat Peribadi Pemegang Unit"
+    this.translate.use(selectLang.selectedLang);
   }
 
   usekeyboardinput() {

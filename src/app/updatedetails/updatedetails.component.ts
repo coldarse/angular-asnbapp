@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import { selectLang } from '../_models/language'; 
 
 @Component({
   selector: 'app-updatedetails',
@@ -134,9 +137,11 @@ export class UpdatedetailsComponent implements OnInit {
   FLB_8 : string = "";
   FLB_9 : string = "";
 
-  constructor() { }
+  constructor(private _router: Router,
+    private translate: TranslateService) { }
 
   ngOnInit(): void {
+    this.translate.use(selectLang.selectedLang);
   }
 
   noEmailCheck() {

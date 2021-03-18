@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import { selectLang } from '../_models/language'; 
 
 @Component({
   selector: 'app-checkbalance',
@@ -68,9 +71,11 @@ export class CheckbalanceComponent implements OnInit {
   CBError_2 = "";
   CBError_3 = "";
 
-  constructor() { }
+  constructor(private _router: Router,
+    private translate: TranslateService) { }
 
   ngOnInit(): void {
+    this.translate.use(selectLang.selectedLang);
   }
 
 }

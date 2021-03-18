@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import {TranslateService} from '@ngx-translate/core';
+import { selectLang } from '../_models/language'; 
 
 @Component({
   selector: 'app-feedbackscreen',
@@ -21,9 +24,11 @@ export class FeedbackscreenComponent implements OnInit {
   FBS1_Visible = true;
   FBS2_Visible = false;
 
-  constructor() { }
+  constructor(private _router: Router,
+    private translate: TranslateService) { }
 
   ngOnInit(): void {
+    this.translate.use(selectLang.selectedLang);
   }
 
 }
