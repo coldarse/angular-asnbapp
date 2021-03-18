@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +28,8 @@ import { MultiTranslateHttpLoader } from "ngx-translate-multi-http-loader";
 import { selectLang } from "src/app/_models/language";
 import { JsonAppConfigService } from './config/json-app-config.service';
 import { AppConfiguration } from './config/app-configuration';
+
+
 
 export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();

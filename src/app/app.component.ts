@@ -11,7 +11,7 @@ export class AppComponent {
   title = 'angular-asnbapp';
 
   constructor(private appConfig: AppConfiguration) {
-    console.log(appConfig.baseUrl);
+    console.log(appConfig.baseUrl + this.title);
 
     // private translate: TranslateService) {
     // translate.setTranslation('en',  );
@@ -21,5 +21,12 @@ export class AppComponent {
   // useLanguage(language: string) {
   //     this.translate.use(language);
   // }
+
+  // setCurrentUser(){
+  //   const user: User = JSON.parse(localStorage.getItem('user'));
+  //   this.accountService.setCurrentUser(user);
+  // }
+
+  
   }
 }

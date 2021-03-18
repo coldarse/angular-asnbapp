@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ServiceService } from 'src/shared/service.service';
+import { ServiceService } from 'src/app/_shared/service.service';
 import { selectLang } from '../_models/language';
 
 @Component({

@@ -15,8 +15,11 @@ const httpOptions = {
 
 export class ServiceService {
 
-  url = 'http://localhost:21021/api/';
+  url = 'https://aldansupport.com/ASNBCore/api/';
   constructor(private http: HttpClient) {}
+
+  
+
 
   getAllLanguage(lang : string) {
     // this.http.get<Language[]>(this.url + 'services/app/Language/GetLanguageText?LanguageCode=' + lang, httpOptions).subscribe(response => {
