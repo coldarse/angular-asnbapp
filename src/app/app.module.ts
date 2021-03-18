@@ -32,6 +32,7 @@ import { selectLang } from "src/app/_models/language";
 import { signalrConnection } from 'src/app/_models/signalr';
 import { accessToken } from 'src/app/_models/apiToken';
 import { JsonAppConfigService } from './config/json-app-config.service';
+import { AppConfiguration } from './config/app-configuration';
 
 
 export function createConfig(): SignalRConfiguration {
@@ -88,7 +89,18 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
   providers: [
     selectLang,
     signalrConnection,
-    accessToken
+    accessToken,
+    {
+      provide: AppConfiguration,
+      deps: [HttpClient],
+      useExisting: JsonAppConfigService
+    },
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [JsonAppConfigService],
+      useFactory: initializerFn
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
 import { signalrConnection } from 'src/app/_models/signalr';
-
-
-
 
 @Component({        
   selector: 'app-verifymykad',
@@ -53,6 +50,7 @@ export class VerifymykadComponent implements OnInit {
   _conn: any;
   statuses: any;
 
+
   //Setting CardType
   private CardType = "MyKad";
   private tryCount = 2;
@@ -60,17 +58,14 @@ export class VerifymykadComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private translate: TranslateService
-    ){
+    private translate: TranslateService,){
     }
   
   ngOnInit(): void {
-    console.log("Hello World")
     this.translate.use(selectLang.selectedLang);
     this._conn = signalrConnection.connection;
   }
 
- 
 
   endTransaction() : void {
     this._router.navigate(['language']);
@@ -93,6 +88,13 @@ export class VerifymykadComponent implements OnInit {
         }
       }
       else{
+        //Call Account Inquiry API
+
+
+
+
+
+
         this._router.navigate(['transactionmenu']);
       }
     });
@@ -124,7 +126,13 @@ export class VerifymykadComponent implements OnInit {
               this.RMError1_Visible = true;
             }
             else{
-              
+              //Call Account Inquiry API
+
+
+
+
+
+
               this._router.navigate(['transactionmenu']);
             }
           });         

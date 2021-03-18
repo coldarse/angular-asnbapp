@@ -6,6 +6,7 @@ import { selectLang } from '../_models/language';
 import { BroadcastEventListener, ConnectionStatus, IConnectionOptions, SignalR, SignalRConnection } from 'ng2-signalr';
 import { signalrConnection } from 'src/app/_models/signalr';
 import { accessToken } from 'src/app/_models/apiToken';
+import { UnitHolder } from '../_models/unitHolder';
 
 @Component({
   selector: 'app-language',
@@ -20,10 +21,12 @@ export class LanguageComponent implements OnInit {
       this.startConnection();
     }
 
-
+  
   ngOnInit(): void {
-    
+   
   }
+
+  unitHolder: UnitHolder | any;
 
   startConnection() : void {
     this._signalR.connect().then((c) => {
@@ -39,7 +42,13 @@ export class LanguageComponent implements OnInit {
   
   selectEnglish() {
     selectLang.selectedLang = 'en';
-    this.route.navigate(['/verifymykad']);
+    //this.route.navigate(['/verifymykad']);
+
+    this.serviceService.getAccountInquiry().subscribe(unitHolder =>
+      {
+        this.unitHolder = unitHolder;
+        console.log("Unit Holder " + this.unitHolder);
+      });
   }
 
   selectMalay() {
