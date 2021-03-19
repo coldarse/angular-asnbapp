@@ -31,8 +31,10 @@ export class LanguageComponent implements OnInit {
       signalrConnection.connection = c;
       signalrConnection.connection.invoke('GetLoginToken').then((data: string) => {
         accessToken.token = data;
-        //console.log('The token received is: ' + accessToken.token);
       });
+      // signalrConnection.connection.invoke('ReLoginBoilerplateAPI').then((data: string) => {
+      //   accessToken.token = data;
+      // });
     }).catch((err: any) => {console.log(err)});
   }
 

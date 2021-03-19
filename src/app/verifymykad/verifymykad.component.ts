@@ -94,6 +94,7 @@ export class VerifymykadComponent implements OnInit {
       }
       else if(data.toUpperCase().includes("MATCH")){
         this._router.navigate(['transactionmenu']);
+        //call api
       }
       else{
         this._router.navigate(['outofservice']);
