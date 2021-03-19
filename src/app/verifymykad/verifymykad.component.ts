@@ -92,8 +92,11 @@ export class VerifymykadComponent implements OnInit {
           this.RMError1_Visible = true;
         }
       }
-      else{
+      else if(data.toUpperCase().includes("MATCH")){
         this._router.navigate(['transactionmenu']);
+      }
+      else{
+        this._router.navigate(['outofservice']);
       }
     });
   }
@@ -113,21 +116,28 @@ export class VerifymykadComponent implements OnInit {
         //Not ScanThumb
         this._conn.invoke('myKadRequest', status).then((data: any) => {
           console.log(data);
-          status = data;
-          this.loadingVisible = false;
-          this.readThumbprintVisible = true;
           //ScanThumb
-          this._conn.invoke('myKadRequest', status).then((data: any) => {
-            console.log(data);
+          if (data.toUpperCase().includes("SCANTHUMB")){
             status = data;
-            if (status.toUpperCase().includes("MISMATCH")){
-              this.RMError1_Visible = true;
-            }
-            else{
-              
-              this._router.navigate(['transactionmenu']);
-            }
-          });         
+            this.loadingVisible = false;
+            this.readThumbprintVisible = true;
+            this._conn.invoke('myKadRequest', status).then((data: any) => {
+              console.log(data);
+              status = data;
+              if (status.toUpperCase().includes("MISMATCH")){
+                this.RMError1_Visible = true;
+              }
+              else if(data.toUpperCase().includes("MATCH")){
+                this._router.navigate(['transactionmenu']);
+              }
+              else{
+                this._router.navigate(['outofservice']);
+              }
+            }); 
+          }
+          else{
+            this._router.navigate(['outofservice']);
+          }    
         });
       });
     }
