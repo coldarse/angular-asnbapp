@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';  
+import { HttpClient, HttpErrorResponse, HttpParams, HttpResponse } from '@angular/common/http';  
 import { HttpHeaders } from '@angular/common/http';  
 import { Observable, ReplaySubject, throwError } from 'rxjs';
 import { accessToken } from 'src/app/_models/apiToken';
 import { UnitHolder }  from '../_models/unitHolder';
+import { User } from '../_models/user';
 import { catchError, map, retry } from 'rxjs/operators';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 const httpOptions = {
   headers: new HttpHeaders({
     // Authorization: 'Bearer ' + accessToken.token
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBhc25iLmNvbS5teSIsIkFzcE5ldC5JZGVudGl0eS5TZWN1cml0eVN0YW1wIjoiY2E2Nzg2NjgtZDk1Mi03M2ExLTA2OTMtMzlmYjIzNTE4MGI2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJzdWIiOiIxIiwianRpIjoiZTg2YTEzYjMtNDQxMi00NTk1LWI4MWEtODc4OGI2YzZiOTk1IiwiaWF0IjoxNjE2MDQ0MTg3LCJuYmYiOjE2MTYwNDQxODcsImV4cCI6MTYxNjEzMDU4NywiaXNzIjoiQVNOQiIsImF1ZCI6IkFTTkIifQ.4yJRfu0HC6jSWVbpVA--fIvAysax1byftfuak9Fu_Cg'
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBhc25iLmNvbS5teSIsIkFzcE5ldC5JZGVudGl0eS5TZWN1cml0eVN0YW1wIjoiY2E2Nzg2NjgtZDk1Mi03M2ExLTA2OTMtMzlmYjIzNTE4MGI2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJzdWIiOiIxIiwianRpIjoiMWRlZTlmMTYtZTViNS00OGVlLWE2ZTMtN2JjMTcxNDRkNzMzIiwiaWF0IjoxNjE2MjQ3NjMxLCJuYmYiOjE2MTYyNDc2MzEsImV4cCI6MTYxNjMzNDAzMSwiaXNzIjoiQVNOQiIsImF1ZCI6IkFTTkIifQ._ibr6phbfIMQew42z30WSXpE3-PfHHswLrSx_O2-x0g'
   })
 }
 
@@ -19,14 +21,17 @@ const httpOptions = {
 
 
 export class ServiceService {
+  
   url = 'https://aldansupport.com/ASNBCore/api/';
   constructor(private http: HttpClient) {}
 
   private handleError(error: HttpErrorResponse) {
+
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
-    } else {
+    } 
+    else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
       console.error(
@@ -38,14 +43,31 @@ export class ServiceService {
       'Something bad happened; please try again later.');
   }
 
+  getToken()
+  {
+    const body = 
+    {
+      "username": "admin",
+      "password": "123qwe"
+    };
 
+    return this.http.post(this.url + 
+      "TokenAuth/Authenticate",
+      body,
+      httpOptions)
+      .pipe(
+        map((response: any) => {}),
+        retry(1),       
+        catchError(this.handleError),     
+      );    
+    }
+
+
+  private currentUnitHolderSource = new ReplaySubject<UnitHolder>(1);
+  unitHolder$ = this.currentUnitHolderSource.asObservable();
 
   getAccountInquiry()
   {
-
-
-
-
     const body = { 
 
       "CHANNELTYPE": "IB",
@@ -68,7 +90,6 @@ export class ServiceService {
 
      };
 
-
     // return this.http.post<any> (
     // this.url + "services/app/OpenAPI/OpenAPIBalanceEnquiry", 
     // body,
@@ -88,29 +109,15 @@ export class ServiceService {
     //   this.url + "services/app/OpenAPI/OpenAPIBalanceEnquiry", 
     //   body,
     //   httpOptions);
-    
-      return this.http.post(this.url + 
-        "services/app/OpenAPI/OpenAPIBalanceEnquiry", 
-        body,
-        httpOptions).pipe(
-          map((response: UnitHolder) => { 
-                
-          //   if(uHolder) {
-          //     console.log(uHolder.success1);
-          // }
-          //   const uHolder = response;          
-        })
-      )
-  }
-}
 
-interface IAccountInquiry {
-  // "wM_UHAccountInquiryResponse" : string;
-  // "wM_UHAccountInquiryResult" : string;
-  // "uploaD_UH_ACK" : string[];
-  // "targetUrl": string,
-  "success1": string,
-  // "error": string,
-  // "unAuthorizedRequest": boolean,
-  // "__abp": boolean
+      
+      return this.http.post(this.url + 
+        "services/app/OpenAPI/OpenAPIBalanceEnquiry",
+        body,
+        httpOptions)
+        .pipe(
+          retry(1),       
+          catchError(this.handleError)
+        );
+  }
 }

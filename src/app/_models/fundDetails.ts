@@ -13,4 +13,5 @@ export interface fundDetails {
     UBBUNITS: number;
     UBCUNITS: string;
     ELIGIBLELOANUNITS: string;
+    
     }
