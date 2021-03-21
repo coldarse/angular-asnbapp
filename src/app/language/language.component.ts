@@ -35,7 +35,10 @@ export class LanguageComponent implements OnInit {
       signalrConnection.connection = c;
       signalrConnection.connection.invoke('GetLoginToken').then((data: string) => {
         accessToken.token = data;
-        //console.log('The token received is: ' + accessToken.token);
+      });
+      signalrConnection.connection.invoke('GetPrinterStatus').then((data: string) => {
+        //accessToken.token = data;
+        console.log(data);
       });
     }).catch((err: any) => {console.log(err)});
   }
