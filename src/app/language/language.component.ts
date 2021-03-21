@@ -8,6 +8,7 @@ import { signalrConnection } from 'src/app/_models/signalr';
 import { accessToken } from 'src/app/_models/apiToken';
 import { UnitHolder } from '../_models/unitHolder';
 import { catchError } from 'rxjs/operators';
+import { currentHolder } from '../_models/currentUnitHolder';
 
 
 @Component({
@@ -26,7 +27,16 @@ export class LanguageComponent implements OnInit {
 
   
   ngOnInit(): void {
+    this.getAccountInquiry();
   
+  }
+
+  getAccountInquiry(): void {
+    this.serviceService.getAccountInquiry()
+    .subscribe((result: any) => {
+      currentHolder.channeltype = result.channeltype;
+      this.route.navigate(['checkbalance']);
+    })
   }
 
   startConnection() : void {
@@ -52,49 +62,11 @@ export class LanguageComponent implements OnInit {
     // this.serviceService.getToken().subscribe(data =>
     //   console.log(data));
 
-     this.serviceService.getAccountInquiry()
-    .subscribe(data => console.log(JSON.stringify(data)));
-    
     // this.serviceService.getAccountInquiry()
-    // .subscribe(data => new UnitHolder(    
-    //   data.success, 
-    //   data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.
-    //   channeltype, data.requestoridentification))
-    //   {                   
-
-          //   if (data) {
-          //     for (var property in data) {
-          //         if (data.hasOwnProperty(property))
-          //             (<any>this)[property] = (<any>data)[property];                     
-          //     }
-          // }
-              
-          // let resources = data["result"]["wM_UHAccountInquiryResponse"]
-          // ["wM_UHAccountInquiryResult"]["uploaD_UH_ACK"];
-          
-          // console.log(resources["channeltype"]);
-        
-          // var unitHolder = 
-          // JSON.stringify(
-          //   data["result"]["wM_UHAccountInquiryResponse"]
-          //   ["wM_UHAccountInquiryResult"]["uploaD_UH_ACK"]);
-                      
-
-          //console.log(JSON.stringify(data["result"]["wM_UHAccountInquiryResponse"]["wM_UHAccountInquiryResult"]));
-        // console.log(JSON.stringify(data["result"]["wM_UHAccountInquiryResponse"]));
-        // console.log(JSON.stringify(data["result"]["wM_UHAccountInquiryResponse"]["wM_UHAccountInquiryResult"]));
-        // this.uHolder.result.wM_UHAccountInquiryResponse 
-        // = JSON.stringify(data["result"]["wM_UHAccountInquiryResponse"]); 
-       
-        // JSON.stringify(data["result"]["wM_UHAccountInquiryResponse"]);
-        // console.log("Response : " + this.uHolder.result.wM_UHAccountInquiryResponse );
-        
-        // console.log(JSON.stringify(data))
-        // if (data != null && data['success'] == true)
-        // {           
-        // }
-      // };
-    }
+    // .subscribe(data => console.log(JSON.stringify(data)));
+    
+    
+  }
 
   selectMalay() {
     selectLang.selectedLang = 'ms';

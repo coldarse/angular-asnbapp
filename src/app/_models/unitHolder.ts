@@ -1,93 +1,141 @@
 import { fundDetails } from "./fundDetails";
 
-export class UnitHolder {
-       
-    public channeltype : string;
-    public requestoridentification : string;
-    public deviceowner : string;
-    public unitholderid : string;
-    public firstname : string;
-    public identificationtype : string;
-    public identificationnumber : number;
-    public fundid : string;
-    public inquirycode : number;
-    public transactiondate : string;
-    public transactiontime : string;
-    public banktxnreferencenumber : number;
-    public bankcustphonenumber : number;
-    public filtrationflag : string;
-    public typeclosed: string;
-    public participateinasnbmkt: string;
-    public totalminoraccount: number;
-    public guardianid: string;
-    public guardianictype: string;
-    public guardianicnumber: string;
-    public agentcode: string;
-    public branchcode: string;
-    public lastupdatedate: string;
-    public transactionchannel: string;
-    public transactionstatus: string;
-    public rejectcode : string;
-    public rejectreason : string;
+export class UnitHolder implements IUnitHolder {
+    
+     channeltype: string | undefined;
 
-    constructor(
-        CHANNELTYPE: string,
-        REQUESTORIDENTIFICATION: string,
-        DEVICEOWNER: string,
-        UNITHOLDERID: string,
-        FIRSTNAME: string,
-        IDENTIFICATIONTYPE: string,
-        IDENTIFICATIONNUMBER: number,
-        FUNDID: string,
-        INQUIRYCODE: number,
-        TRANSACTIONDATE: string,
-        TRANSACTIONTIME: string,
-        BANKTXNREFERENCENUMBER: number,
-        BANKCUSTPHONENUMBER: number,
-        FILTRATIONFLAG: string,
-        TYPECLOSED: string,
-        PARTICIPATEINASNBMKT: string,    
-        TOTALMINORACCOUNT: number,
-        GUARDIANID: string,
-        GUARDIANICTYPE: string,
-        GUARDIANICNUMBER: string,
-        AGENTCODE: string,
-        BRANCHCODE: string,
-        LASTUPDATEDATE: string,
-        TRANSACTIONCHANNEL: string,
-        TRANSACTIONSTATUS: string,
-        REJECTCODE: string,
-        REJECTREASON: string) {
+     constructor(data?: IUnitHolder){
+         if (data)
+         {
+             for (var property in data){
+                 if (data.hasOwnProperty(property)){
+                     (<any>this)[property] = (<any>data)[property];
+                 }
+             }
+         }
+     }
 
-        this.channeltype = CHANNELTYPE;
-        this.requestoridentification = REQUESTORIDENTIFICATION;
-        this.deviceowner = DEVICEOWNER;
-        this.unitholderid = UNITHOLDERID
-        this.firstname = FIRSTNAME;
-        this.identificationtype = IDENTIFICATIONTYPE;
-        this.identificationnumber = IDENTIFICATIONNUMBER;
-        this.fundid = FUNDID;
-        this.inquirycode = INQUIRYCODE;
-        this.transactiondate = TRANSACTIONDATE;
-        this.transactiontime = TRANSACTIONTIME;
-        this.banktxnreferencenumber = BANKTXNREFERENCENUMBER;
-        this.bankcustphonenumber = BANKCUSTPHONENUMBER;
-        this.filtrationflag = FILTRATIONFLAG;
-        this.typeclosed = TYPECLOSED;
-        this.participateinasnbmkt = PARTICIPATEINASNBMKT;
-        this.totalminoraccount = TOTALMINORACCOUNT;
-        this.guardianid = GUARDIANID;
-        this.guardianictype = GUARDIANICTYPE;
-        this.guardianicnumber = GUARDIANICNUMBER;
-        this.agentcode = AGENTCODE;
-        this.branchcode = BRANCHCODE;
-        this.lastupdatedate = LASTUPDATEDATE;
-        this.transactionchannel = TRANSACTIONCHANNEL;
-        this.transactionstatus = TRANSACTIONSTATUS;
-        this.rejectcode = REJECTCODE;
-        this.rejectreason = REJECTREASON;
+     init(data?: any){
+         if (data){
+             this.channeltype = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.channeltype;
+             //console.log(this.channeltype);
+         }
+     }
+
+
+     static fromJS(data: any): UnitHolder {
+         let result = new UnitHolder();
+         result.init(data);
+         return result;
+     }
+
+     toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["channeltype"] = this.channeltype;
+        return data;
+     }
+
+     clone(): UnitHolder {
+         const json = this.toJSON();
+         let result = new UnitHolder();
+         result.init(json);
+         return result;
+     }
+}
+
+
+export interface IUnitHolder {
+    channeltype: string | undefined;
+}
+
+
+
+    // static requestoridentification : string;
+    // static deviceowner : string;
+    // static unitholderid : string;
+    // static firstname : string;
+    // static identificationtype : string;
+    // static identificationnumber : number;
+    // static fundid : string;
+    // static inquirycode : number;
+    // static transactiondate : string;
+    // static transactiontime : string;
+    // static banktxnreferencenumber : number;
+    // static bankcustphonenumber : number;
+    // static filtrationflag : string;
+    // static typeclosed: string;
+    // static participateinasnbmkt: string;
+    // static totalminoraccount: number;
+    // static guardianid: string;
+    // static guardianictype: string;
+    // static guardianicnumber: string;
+    // static agentcode: string;
+    // static branchcode: string;
+    // static lastupdatedate: string;
+    // static transactionchannel: string;
+    // static transactionstatus: string;
+    // static rejectcode : string;
+    // static rejectreason : string;
+
+
+
+
+        // REQUESTORIDENTIFICATION: string,
+        // DEVICEOWNER: string,
+        // UNITHOLDERID: string,
+        // FIRSTNAME: string,
+        // IDENTIFICATIONTYPE: string,
+        // IDENTIFICATIONNUMBER: number,
+        // FUNDID: string,
+        // INQUIRYCODE: number,
+        // TRANSACTIONDATE: string,
+        // TRANSACTIONTIME: string,
+        // BANKTXNREFERENCENUMBER: number,
+        // BANKCUSTPHONENUMBER: number,
+        // FILTRATIONFLAG: string,
+        // TYPECLOSED: string,
+        // PARTICIPATEINASNBMKT: string,    
+        // TOTALMINORACCOUNT: number,
+        // GUARDIANID: string,
+        // GUARDIANICTYPE: string,
+        // GUARDIANICNUMBER: string,
+        // AGENTCODE: string,
+        // BRANCHCODE: string,
+        // LASTUPDATEDATE: string,
+        // TRANSACTIONCHANNEL: string,
+        // TRANSACTIONSTATUS: string,
+        // REJECTCODE: string,
+        // REJECTREASON: string
+        
+
+        //UnitHolder.channeltype = CHANNELTYPE;
+        // UnitHolder.requestoridentification = REQUESTORIDENTIFICATION;
+        // UnitHolder.deviceowner = DEVICEOWNER;
+        // UnitHolder.unitholderid = UNITHOLDERID
+        // UnitHolder.firstname = FIRSTNAME;
+        // UnitHolder.identificationtype = IDENTIFICATIONTYPE;
+        // UnitHolder.identificationnumber = IDENTIFICATIONNUMBER;
+        // UnitHolder.fundid = FUNDID;
+        // UnitHolder.inquirycode = INQUIRYCODE;
+        // UnitHolder.transactiondate = TRANSACTIONDATE;
+        // UnitHolder.transactiontime = TRANSACTIONTIME;
+        // UnitHolder.banktxnreferencenumber = BANKTXNREFERENCENUMBER;
+        // UnitHolder.bankcustphonenumber = BANKCUSTPHONENUMBER;
+        // UnitHolder.filtrationflag = FILTRATIONFLAG;
+        // UnitHolder.typeclosed = TYPECLOSED;
+        // UnitHolder.participateinasnbmkt = PARTICIPATEINASNBMKT;
+        // UnitHolder.totalminoraccount = TOTALMINORACCOUNT;
+        // UnitHolder.guardianid = GUARDIANID;
+        // UnitHolder.guardianictype = GUARDIANICTYPE;
+        // UnitHolder.guardianicnumber = GUARDIANICNUMBER;
+        // UnitHolder.agentcode = AGENTCODE;
+        // UnitHolder.branchcode = BRANCHCODE;
+        // UnitHolder.lastupdatedate = LASTUPDATEDATE;
+        // UnitHolder.transactionchannel = TRANSACTIONCHANNEL;
+        // UnitHolder.transactionstatus = TRANSACTIONSTATUS;
+        // UnitHolder.rejectcode = REJECTCODE;
+        // UnitHolder.rejectreason = REJECTREASON;
          
 
-    }
+    //}
 
-}

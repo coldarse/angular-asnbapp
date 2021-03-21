@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams, HttpResponse } from '@angular/common/http';  
+import { HttpClient, HttpErrorResponse, HttpParams, HttpResponse, HttpResponseBase } from '@angular/common/http';  
 import { HttpHeaders } from '@angular/common/http';  
-import { Observable, ReplaySubject, throwError } from 'rxjs';
+import { Observable, ReplaySubject, throwError, of as _observableOf, throwError as _observableThrow } from 'rxjs';
 import { accessToken } from 'src/app/_models/apiToken';
 import { UnitHolder }  from '../_models/unitHolder';
 import { User } from '../_models/user';
-import { catchError, map, retry } from 'rxjs/operators';
+import { catchError, map, retry, mergeMap as _observableMergeMap} from 'rxjs/operators';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 
 const httpOptions = {
@@ -21,7 +21,7 @@ const httpOptions = {
 
 
 export class ServiceService {
-  
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
   url = 'https://aldansupport.com/ASNBCore/api/';
   constructor(private http: HttpClient) {}
 
@@ -53,21 +53,21 @@ export class ServiceService {
 
     return this.http.post(this.url + 
       "TokenAuth/Authenticate",
-      body,
-      httpOptions)
+      body)
       .pipe(
-        map((response: any) => {}),
+        map((response: any) => {
+          console.log(response);
+        }),
         retry(1),       
         catchError(this.handleError),     
       );    
     }
 
 
-  private currentUnitHolderSource = new ReplaySubject<UnitHolder>(1);
-  unitHolder$ = this.currentUnitHolderSource.asObservable();
 
-  getAccountInquiry()
+  getAccountInquiry(): Observable<UnitHolder>
   {
+    
     const body = { 
 
       "CHANNELTYPE": "IB",
@@ -89,35 +89,91 @@ export class ServiceService {
       "GUARDIANICNUMBER": ""
 
      };
-
-    // return this.http.post<any> (
-    // this.url + "services/app/OpenAPI/OpenAPIBalanceEnquiry", 
-    // body,
-    // httpOptions)
-    //   .subscribe({
-    //   next: data => {
-    //       // this.postId = data.id;
-    //       console.log(data);
-    //   },
-    //   error: error => {
-    //       // this.errorMessage = error.message;
-    //       console.error('There was an error!', error);
-    //   }
-    // });
-
-    //  return this.http.post<UnitHolder> (
-    //   this.url + "services/app/OpenAPI/OpenAPIBalanceEnquiry", 
-    //   body,
-    //   httpOptions);
-
-      
-      return this.http.post(this.url + 
-        "services/app/OpenAPI/OpenAPIBalanceEnquiry",
+      return this.http.post(
+        this.url + "services/app/OpenAPI/OpenAPIBalanceEnquiry",
         body,
         httpOptions)
-        .pipe(
-          retry(1),       
-          catchError(this.handleError)
-        );
+        .pipe(_observableMergeMap((response: any) => 
+        {
+          return this.processUnitHolder(response);
+        }));
+  }
+
+  protected processUnitHolder(response: any): Observable<UnitHolder> {
+    const status = response.success;
+    // const responseBlob = 
+    //     response instanceof HttpResponse ? response.body : 
+    //     (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+    // let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+    if (status) {
+        // return blobToText(response).pipe(_observableMergeMap(_responseText => {
+        let result200: any = null;
+        //let resultData200 = response === "" ? null : JSON.parse(response, this.jsonParseReviver);
+        let resultData200 = JSON.stringify(response);
+        result200 = UnitHolder.fromJS(response);
+        return _observableOf(result200);
+        // }
+        // ));
+    } else {
+        return _observableOf(status);
+        // return blobToText(response).pipe(_observableMergeMap(_responseText => {
+        // return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        // ));
+    // }
+    return _observableOf<UnitHolder>(<any>null);
+}
+
+
+}
+
+
+
+function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
+  if (result !== null && result !== undefined)
+      return _observableThrow(result);
+  else
+      return _observableThrow(new ApiException(message, status, response, headers, null));
+}
+
+function blobToText(blob: any): Observable<string> {
+  return new Observable<string>((observer: any) => {
+      if (!blob) {
+          observer.next("");
+          observer.complete();
+      } else {
+          let reader = new FileReader(); 
+          reader.onload = event => { 
+              observer.next((<any>event.target).result);
+              observer.complete();
+          };
+          reader.readAsText(blob); 
+      }
+  });
+}
+
+export class ApiException extends Error {
+  message: string;
+  status: number; 
+  response: string; 
+  headers: { [key: string]: any; };
+  result: any; 
+
+  constructor(message: string, status: number, response: string, headers: { [key: string]: any; }, result: any) {
+      super();
+
+      this.message = message;
+      this.status = status;
+      this.response = response;
+      this.headers = headers;
+      this.result = result;
+  }
+
+  protected isApiException = true;
+
+  static isApiException(obj: any): obj is ApiException {
+      return obj.isApiException === true;
   }
 }
+

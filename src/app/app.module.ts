@@ -33,6 +33,8 @@ import { signalrConnection } from 'src/app/_models/signalr';
 import { accessToken } from 'src/app/_models/apiToken';
 import { JsonAppConfigService } from './config/json-app-config.service';
 import { AppConfiguration } from './config/app-configuration';
+import { currentHolder } from './_models/currentUnitHolder';
+
 
 
 export function createConfig(): SignalRConfiguration {
@@ -89,6 +91,7 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
   providers: [
     selectLang,
     signalrConnection,
+    currentHolder,
     accessToken,
     {
       provide: AppConfiguration,

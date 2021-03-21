@@ -26,32 +26,32 @@
     </div>
 
     <div class="col-md-12 text-center" style="padding-top:0.15rem; ">
-        <button type="button" class="btn btn-account" id="Account1">
+        <button type="button" class="btn btn-account" id="Account1" >
             {{noAhli}}<br>{{namaAhli}}
         </button>
     </div>
 
-    <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
-        <!-- <h2 id="CB1_Title3">Akaun Bijak</h2> -->
+    <!-- <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
+        
         <h2 id="CB1_Title3">{{'CB1_3' | translate }}</h2>
     </div>
 
     <div class="col-md-12 text-center" style="padding-top:0.15rem;">
-        <button type="button" class="btn btn-account" id="Account2">
+        <button type="button" class="btn btn-account" id="Account2" >
             {{noAhliBijak}}<br>{{namaAhliBijak}}
         </button>
-    </div>
+    </div> -->
     
 
   
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="CB1_Cancel">
+                <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="CancelCheckBalance()">
                     <!-- Batal -->
                     {{'BTN_Cancel' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB1_MainMenu">
+                <button type="button" class="btn btn-next" id="CB1_MainMenu" (click)="MainMenu()">
                     <!-- Menu Utama -->
                     {{'BTN_MainMenu' | translate }}
                 </button>
@@ -93,7 +93,7 @@
             <footer class="site-footer" style="padding-top:12rem;">
                 <div class="row text-center" >
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-cancel" id="SB_Cancel">
+                        <button type="button" class="btn btn-cancel" id="SB_Cancel" >
                             <!-- Tamatkan Transaksi -->
                             {{'BTN_End' | translate }}
                         </button>
@@ -219,13 +219,13 @@
                 <td>{{data.type | translate }}</td>
                 <td>{{data.type | translate }}</td> -->
                 <td>
-                    <button class="btn btn-printoremail" id="CB2_PrintButton">
+                    <button class="btn btn-printoremail" id="CB2_PrintButton" >
                         <!-- Cetak -->
                         {{'BTN_Print1' | translate }}
                     </button>
                 </td>
                 <td>
-                    <button class="btn btn-printoremail" id="CB2_EmailButton">
+                    <button class="btn btn-printoremail" id="CB2_EmailButton" >
                         <!-- Emel -->
                         {{'BTN_Email1' | translate }}
                     </button>
@@ -239,15 +239,15 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12 text-center">
-                <button type="button" class="btn btn-cancel" id="CB2_Cancel">
+                <button type="button" class="btn btn-cancel" id="CB2_Cancel" (click)="CancelCheckBalance()">
                     <!-- Batal -->
                     {{'BTN_Cancel' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB2_Print">
+                <button type="button" class="btn btn-next" id="CB2_Print" (click)="PrintStatement()">
                     <!-- Cetak -->
                     {{'BTN_Print1' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB2_Email">
+                <button type="button" class="btn btn-next" id="CB2_Email" (click)="EmailStatement()">
                     <!-- Emel -->
                     {{'BTN_Email1' | translate }}
                 </button>

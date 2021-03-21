@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
 import { signalrConnection } from 'src/app/_models/signalr';
+import { ServiceService } from 'src/app/_shared/service.service';
+import { finalize } from 'rxjs/operators';
+import { currentHolder } from 'src/app/_models/currentUnitHolder';
 
 @Component({
   selector: 'app-checkbalance',
@@ -10,7 +13,7 @@ import { signalrConnection } from 'src/app/_models/signalr';
   styleUrls: ['./checkbalance.component.css']
 })
 export class CheckbalanceComponent implements OnInit {
-
+  
   BTN_Cancel = "";
   BTN_MainMenu = "";
 
@@ -73,10 +76,37 @@ export class CheckbalanceComponent implements OnInit {
   CBError_3 = "";
 
   constructor(private _router: Router,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private serviceService : ServiceService) { }
 
   ngOnInit(): void {
-    this.translate.use(selectLang.selectedLang);
+
+    
+    // this.translate.use(selectLang.selectedLang);
+    this.translate.use('en');
+    
+    this.noAhli = currentHolder.channeltype;
   }
+  
+  CancelCheckBalance() {
+    this._router.navigate(['feedbackscreen']);
+  }
+
+  MainMenu() {
+    this._router.navigate(['transactionmenu']);
+  }
+
+  PrintStatement() {
+    this.CB2_Visible = false;
+    this.CB3_Visible = true;
+    signalrConnection.connection.invoke('')
+  }
+
+  EmailStatement() {
+
+  }
+
+
+  
 
 }
