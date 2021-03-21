@@ -101,28 +101,13 @@ export class ServiceService {
 
   protected processUnitHolder(response: any): Observable<UnitHolder> {
     const status = response.success;
-    // const responseBlob = 
-    //     response instanceof HttpResponse ? response.body : 
-    //     (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-    // let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
     if (status) {
-        // return blobToText(response).pipe(_observableMergeMap(_responseText => {
         let result200: any = null;
-        //let resultData200 = response === "" ? null : JSON.parse(response, this.jsonParseReviver);
-        let resultData200 = JSON.stringify(response);
         result200 = UnitHolder.fromJS(response);
         return _observableOf(result200);
-        // }
-        // ));
     } else {
         return _observableOf(status);
-        // return blobToText(response).pipe(_observableMergeMap(_responseText => {
-        // return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        // ));
-    // }
-    return _observableOf<UnitHolder>(<any>null);
+    }
 }
 
 

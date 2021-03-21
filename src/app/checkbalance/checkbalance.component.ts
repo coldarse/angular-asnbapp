@@ -85,7 +85,8 @@ export class CheckbalanceComponent implements OnInit {
     // this.translate.use(selectLang.selectedLang);
     this.translate.use('en');
     
-    this.noAhli = currentHolder.channeltype;
+    this.noAhli = currentHolder.unitholderid;
+    this.namaAhli = currentHolder.firstname;
   }
   
   CancelCheckBalance() {

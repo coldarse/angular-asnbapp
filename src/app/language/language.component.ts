@@ -35,6 +35,32 @@ export class LanguageComponent implements OnInit {
     this.serviceService.getAccountInquiry()
     .subscribe((result: any) => {
       currentHolder.channeltype = result.channeltype;
+      currentHolder.requestoridentification = result.requestoridentification,
+      currentHolder.deviceowner = result.deviceowner,
+      currentHolder.unitholderid = result.unitholderid,
+      currentHolder.firstname = result.firstname,
+      currentHolder.identificationtype = result.identificationtype,
+      currentHolder.identificationnumber = result.identificationnumber,
+      currentHolder.fundid = result.fundid,
+      currentHolder.inquirycode = result.inquirycode,
+      currentHolder.transactiondate = result.transactiondate,
+      currentHolder.transactiontime = result.transactiontime,
+      currentHolder.banktxnreferencenumber = result.banktxnreferencenumber,
+      currentHolder.bankcustphonenumber = result.bankcustphonenumber,
+      currentHolder.filtrationflag = result.filtrationflag,
+      currentHolder.typeclosed = result.typeclosed,
+      currentHolder.participateinasnbmkt = result.participateinasnbmkt,
+      currentHolder.totalminoraccount = result.totalminoraccount,
+      currentHolder.guardianid = result.guardianid,
+      currentHolder.guardianictype = result.guardianictype,
+      currentHolder.guardianicnumber = result.guardianicnumber,
+      currentHolder.agentcode = result.agentcode,
+      currentHolder.branchcode = result.branchcode,
+      currentHolder.lastupdatedate = result.lastupdatedate,
+      currentHolder.transactionchannel = result.transactionchannel,
+      currentHolder.transactionstatus = result.transactionstatus,
+      currentHolder.rejectcode = result.rejectcode,
+      currentHolder.rejectreason = result.rejectreason
       this.route.navigate(['checkbalance']);
     })
   }
