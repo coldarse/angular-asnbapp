@@ -3,6 +3,12 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
 import { signalrConnection } from 'src/app/_models/signalr';
+import { ServiceService } from '../_shared/service.service';
+import { currentHolder } from '../_models/currentUnitHolder';
+import { MyKadDetails } from '../_models/myKadDetails';
+import { Observable, of as _observableOf } from 'rxjs';
+import { currentMyKadDetails } from '../_models/currentMyKadDetails';
+import { formatDate } from '@angular/common';
 
 @Component({        
   selector: 'app-verifymykad',
@@ -42,6 +48,7 @@ export class VerifymykadComponent implements OnInit {
   //HTML Elements Visibility
   RMError1_Visible = false;
   RMError2_Visible = false;
+  RMError3_Visible = false;
   loadingVisible = false;
   readThumbprintVisible = false;
   insertMykadVisible = true;
@@ -49,6 +56,7 @@ export class VerifymykadComponent implements OnInit {
   //Initializing SignalR properties
   _conn: any;
   statuses: any;
+  myKadData: any;
 
 
   //Setting CardType
@@ -58,7 +66,8 @@ export class VerifymykadComponent implements OnInit {
 
   constructor(
     private _router: Router,
-    private translate: TranslateService,){
+    private translate: TranslateService,
+    private serviceService : ServiceService){
     }
   
   ngOnInit(): void {
@@ -88,8 +97,10 @@ export class VerifymykadComponent implements OnInit {
         }
       }
       else if(data.toUpperCase().includes("MATCH")){
-        this._router.navigate(['transactionmenu']);
-        //call api
+        this.myKadData = JSON.stringify(data);
+        this.bindMyKadData();
+        //this._router.navigate(['transactionmenu']);
+        
       }
       else{
         this._router.navigate(['outofservice']);
@@ -118,13 +129,15 @@ export class VerifymykadComponent implements OnInit {
             this.loadingVisible = false;
             this.readThumbprintVisible = true;
             this._conn.invoke('myKadRequest', status).then((data: any) => {
-              console.log(data);
               status = data;
               if (status.toUpperCase().includes("MISMATCH")){
                 this.RMError1_Visible = true;
               }
               else if(data.toUpperCase().includes("MATCH")){
-                this._router.navigate(['transactionmenu']);
+                this.myKadData = Object.assign(new MyKadDetails(), JSON.parse(data));
+                console.log(this.myKadData);
+                this.bindMyKadData();
+                //this._router.navigate(['transactionmenu']);
               }
               else{
                 this._router.navigate(['outofservice']);
@@ -142,6 +155,121 @@ export class VerifymykadComponent implements OnInit {
       this._router.navigate(['outofservice']);
     }
     
+  }
+
+ 
+
+  bindMyKadData(): void {
+
+    currentMyKadDetails.Name = this.myKadData['Name'];
+    currentMyKadDetails.ICNo = this.myKadData['ICNo'];
+    currentMyKadDetails.OldICNo = this.myKadData['OldICNo'];
+    currentMyKadDetails.DOB = this.myKadData['DOB'];
+    currentMyKadDetails.POB =  this.myKadData['POB'];
+    currentMyKadDetails.Gender = this.myKadData['Gender'];
+    currentMyKadDetails.Citizenship = this.myKadData['Citizenship'];
+    currentMyKadDetails.IssueDate = this.myKadData['IssueDate'];
+    currentMyKadDetails.Race = this.myKadData['Race'];
+    currentMyKadDetails.Religion = this.myKadData['Religion'];
+    currentMyKadDetails.Address1 = this.myKadData['Address1'];
+    currentMyKadDetails.Address2 = this.myKadData['Address2'];
+    currentMyKadDetails.Address3 = this.myKadData['Address3'];
+    currentMyKadDetails.PostCode = this.myKadData['PostCode'];
+    currentMyKadDetails.City = this.myKadData['City'];
+    currentMyKadDetails.State = this.myKadData['State'];
+    currentMyKadDetails.Country = this.myKadData['Country'];
+    currentMyKadDetails.Address = this.myKadData['Address'];
+    currentMyKadDetails.RJ = this.myKadData['RJ'];
+    currentMyKadDetails.KT = this.myKadData['KT'];
+    currentMyKadDetails.GreenCardNationality = this.myKadData['GreenCardNationality'];
+    currentMyKadDetails.GreenCardExpiryDate = this.myKadData['GreenCardExpiryDate'];
+    currentMyKadDetails.CardVersion = this.myKadData['CardVersion'];
+    currentMyKadDetails.OtherID = this.myKadData['OtherID'];
+    currentMyKadDetails.CategoryType = this.myKadData['CategoryType'];
+
+
+
+    this.getAccountInquiry();
+
+    
+      
+
+
+      
+
+
+      //this._router.navigate(['checkbalance']);
+  }
+
+  getAccountInquiry(): void {
+
+    const body = { 
+
+      "CHANNELTYPE": "IB",
+      "REQUESTORIDENTIFICATION": "RHBNOW",
+      "DEVICEOWNER": "RHB",
+      "UNITHOLDERID": "",
+      "FIRSTNAME": "",
+      "IDENTIFICATIONTYPE": "W",
+      "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
+      "FUNDID": "",
+      "INQUIRYCODE": "4",
+      "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+      "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
+      "BANKCUSTPHONENUMBER": "",
+      "FILTRATIONFLAG": "",
+      "GUARDIANID": "",
+      "GUARDIANICTYPE": "",
+      "GUARDIANICNUMBER": ""
+
+     };
+
+
+    this.serviceService.getAccountInquiry(body)
+    .subscribe((result: any) => {
+      currentHolder.channeltype = result.channeltype;
+      currentHolder.requestoridentification = result.requestoridentification,
+      currentHolder.deviceowner = result.deviceowner,
+      currentHolder.unitholderid = result.unitholderid,
+      currentHolder.firstname = result.firstname,
+      currentHolder.identificationtype = result.identificationtype,
+      currentHolder.identificationnumber = result.identificationnumber,
+      currentHolder.fundid = result.fundid,
+      currentHolder.inquirycode = result.inquirycode,
+      currentHolder.transactiondate = result.transactiondate,
+      currentHolder.transactiontime = result.transactiontime,
+      currentHolder.banktxnreferencenumber = result.banktxnreferencenumber,
+      currentHolder.bankcustphonenumber = result.bankcustphonenumber,
+      currentHolder.filtrationflag = result.filtrationflag,
+      currentHolder.typeclosed = result.typeclosed,
+      currentHolder.participateinasnbmkt = result.participateinasnbmkt,
+      currentHolder.totalminoraccount = result.totalminoraccount,
+      currentHolder.guardianid = result.guardianid,
+      currentHolder.guardianictype = result.guardianictype,
+      currentHolder.guardianicnumber = result.guardianicnumber,
+      currentHolder.agentcode = result.agentcode,
+      currentHolder.branchcode = result.branchcode,
+      currentHolder.lastupdatedate = result.lastupdatedate,
+      currentHolder.transactionchannel = result.transactionchannel,
+      currentHolder.transactionstatus = result.transactionstatus,
+      currentHolder.rejectcode = result.rejectcode,
+      currentHolder.rejectreason = result.rejectreason
+
+      //Scenario 1: Unit Holder Not Exist
+      if (currentHolder.rejectreason.includes('not exists')){
+        this.RMError3_Visible = true;
+      }
+      //Scenario 2: FundID = ""
+      else if (currentHolder.fundid == undefined && currentHolder.unitholderid != undefined){
+        this._router.navigate(['transactionmenu'])
+      }
+      //Scenario 3: FundID & UnitHolderID exists
+      else if (currentHolder.fundid != undefined && currentHolder.unitholderid != undefined){
+        this._router.navigate(['transactionmenu'])
+      }
+
+    })
   }
 
   

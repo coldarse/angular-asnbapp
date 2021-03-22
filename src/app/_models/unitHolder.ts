@@ -9,7 +9,7 @@ export class UnitHolder implements IUnitHolder {
     firstname : string | undefined;
     identificationtype : string | undefined;
     identificationnumber : string | undefined;
-    fundid : string | undefined;
+    fundetails : fundDetails[] | undefined;
     inquirycode : string | undefined;
     transactiondate : string | undefined;
     transactiontime : string | undefined;
@@ -44,32 +44,32 @@ export class UnitHolder implements IUnitHolder {
      init(data?: any){
          if (data){
              this.channeltype = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.channeltype;
-             this.requestoridentification = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.requestoridentification,
-             this.deviceowner = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.deviceowner,
-             this.unitholderid = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.unitholderid,
-             this.firstname = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.firstname,
-             this.identificationtype = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.identificationtype,
-             this.identificationnumber = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.identificationnumber,
-             this.fundid = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.fundid,
-             this.inquirycode = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.inquirycode,
-             this.transactiondate = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.transactiondate,
-             this.transactiontime = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.transactiontime,
-             this.banktxnreferencenumber = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.banktxnreferencenumber,
-             this.bankcustphonenumber = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.bankcustphonenumber,
-             this.filtrationflag = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.filtrationflag,
-             this.typeclosed = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.typeclosed,
-             this.participateinasnbmkt = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.participateinasnbmkt,
-             this.totalminoraccount = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.totalminoraccount,
-             this.guardianid = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.guardianid,
-             this.guardianictype = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.guardianictype,
-             this.guardianicnumber = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.guardianicnumber,
-             this.agentcode = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.agentcode,
-             this.branchcode = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.branchcode,
-             this.lastupdatedate = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.lastupdatedate,
-             this.transactionchannel = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.transactionchannel,
-             this.transactionstatus = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.transactionstatus,
-             this.rejectcode = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.rejectcode,
-             this.rejectreason = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.rejectreason
+             this.requestoridentification = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.requestoridentification;
+             this.deviceowner = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.deviceowner;
+             this.unitholderid = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.unitholderid;
+             this.firstname = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.firstname;
+             this.identificationtype = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.identificationtype;
+             this.identificationnumber = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.identificationnumber;
+             //this.fundid = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.fundid;
+             this.inquirycode = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.inquirycode;
+             this.transactiondate = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.transactiondate;
+             this.transactiontime = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.transactiontime;
+             this.banktxnreferencenumber = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.banktxnreferencenumber;
+             this.bankcustphonenumber = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.bankcustphonenumber;
+             this.filtrationflag = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.filtrationflag;
+             this.typeclosed = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.typeclosed;
+             this.participateinasnbmkt = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.participateinasnbmkt;
+             this.totalminoraccount = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.totalminoraccount;
+             this.guardianid = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.guardianid;
+             this.guardianictype = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.guardianictype;
+             this.guardianicnumber = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.guardianicnumber;
+             this.agentcode = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.agentcode;
+             this.branchcode = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.branchcode;
+             this.lastupdatedate = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.lastupdatedate;
+             this.transactionchannel = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.transactionchannel;
+             this.transactionstatus = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.transactionstatus;
+             this.rejectcode = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.rejectcode;
+             this.rejectreason = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.rejectreason;
          }
      }
 
@@ -103,7 +103,7 @@ export interface IUnitHolder {
     firstname : string | undefined;
     identificationtype : string | undefined;
     identificationnumber : string | undefined;
-    fundid : string | undefined;
+    fundetails : fundDetails[] | undefined;
     inquirycode : string | undefined;
     transactiondate : string | undefined;
     transactiontime : string | undefined;

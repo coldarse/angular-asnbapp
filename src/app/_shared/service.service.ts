@@ -7,11 +7,13 @@ import { UnitHolder }  from '../_models/unitHolder';
 import { User } from '../_models/user';
 import { catchError, map, retry, mergeMap as _observableMergeMap} from 'rxjs/operators';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
+import {formatDate} from '@angular/common';
+import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 
 const httpOptions = {
   headers: new HttpHeaders({
     // Authorization: 'Bearer ' + accessToken.token
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBhc25iLmNvbS5teSIsIkFzcE5ldC5JZGVudGl0eS5TZWN1cml0eVN0YW1wIjoiY2E2Nzg2NjgtZDk1Mi03M2ExLTA2OTMtMzlmYjIzNTE4MGI2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJzdWIiOiIxIiwianRpIjoiMWRlZTlmMTYtZTViNS00OGVlLWE2ZTMtN2JjMTcxNDRkNzMzIiwiaWF0IjoxNjE2MjQ3NjMxLCJuYmYiOjE2MTYyNDc2MzEsImV4cCI6MTYxNjMzNDAzMSwiaXNzIjoiQVNOQiIsImF1ZCI6IkFTTkIifQ._ibr6phbfIMQew42z30WSXpE3-PfHHswLrSx_O2-x0g'
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBhc25iLmNvbS5teSIsIkFzcE5ldC5JZGVudGl0eS5TZWN1cml0eVN0YW1wIjoiY2E2Nzg2NjgtZDk1Mi03M2ExLTA2OTMtMzlmYjIzNTE4MGI2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJzdWIiOiIxIiwianRpIjoiNWQzM2M1MWQtODVhMi00NGJiLWEwNjEtNGUzYjIwNjdjNmUyIiwiaWF0IjoxNjE2Mzg2NDMwLCJuYmYiOjE2MTYzODY0MzAsImV4cCI6MTYxNjQ3MjgzMCwiaXNzIjoiQVNOQiIsImF1ZCI6IkFTTkIifQ.nktnVwf6qxcoVjc0vkWx-UoAIT62qIYw4-hl5aS-si8'
   })
 }
 
@@ -65,30 +67,8 @@ export class ServiceService {
 
 
 
-  getAccountInquiry(): Observable<UnitHolder>
+  getAccountInquiry(body: any | undefined): Observable<UnitHolder>
   {
-    
-    const body = { 
-
-      "CHANNELTYPE": "IB",
-      "REQUESTORIDENTIFICATION": "RHBNOW",
-      "DEVICEOWNER": "RHB",
-      "UNITHOLDERID": "000010014635",
-      "FIRSTNAME": "",
-      "IDENTIFICATIONTYPE": "W",
-      "IDENTIFICATIONNUMBER": "460603715054",
-      "FUNDID": "",
-      "INQUIRYCODE": "4",
-      "TRANSACTIONDATE": "23/12/2019",
-      "TRANSACTIONTIME": "15:43:10",
-      "BANKTXNREFERENCENUMBER": "20191003001325",
-      "BANKCUSTPHONENUMBER": "60173518221",
-      "FILTRATIONFLAG": "",
-      "GUARDIANID": "",
-      "GUARDIANICTYPE": "",
-      "GUARDIANICNUMBER": ""
-
-     };
       return this.http.post(
         this.url + "services/app/OpenAPI/OpenAPIBalanceEnquiry",
         body,
@@ -112,7 +92,6 @@ export class ServiceService {
 
 
 }
-
 
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {

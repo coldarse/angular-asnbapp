@@ -34,6 +34,8 @@ export class CheckbalanceComponent implements OnInit {
   CB4_Visible = false;
   CB5_Visible = false;
 
+  CB2_ErrorVisible = false;
+
   Header_Title = "";
 
   CB1_1 = "";
@@ -100,11 +102,24 @@ export class CheckbalanceComponent implements OnInit {
   PrintStatement() {
     this.CB2_Visible = false;
     this.CB3_Visible = true;
-    signalrConnection.connection.invoke('')
+    signalrConnection.connection.invoke('');
   }
 
   EmailStatement() {
 
+  }
+
+
+  CheckMainAccount() {
+    this.CB1_Visible = false;
+    this.CB2_Visible = true;
+
+    this.CB2_3 = currentHolder.firstname;
+    this.CB2_5 = currentHolder.identificationnumber;
+    this.CB2_7 = currentHolder.unitholderid;
+
+    //this.CB2_9 = currentHolder.
+    //this.CB2_10 = currentHolder.
   }
 
 

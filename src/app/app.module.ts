@@ -34,6 +34,8 @@ import { accessToken } from 'src/app/_models/apiToken';
 import { JsonAppConfigService } from './config/json-app-config.service';
 import { AppConfiguration } from './config/app-configuration';
 import { currentHolder } from './_models/currentUnitHolder';
+import { currentMyKadDetails } from './_models/currentMyKadDetails';
+import { currentMyKidDetails } from './_models/currentMyKidDetails';
 
 
 
@@ -92,6 +94,8 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
     selectLang,
     signalrConnection,
     currentHolder,
+    currentMyKadDetails,
+    currentMyKidDetails,
     accessToken,
     {
       provide: AppConfiguration,

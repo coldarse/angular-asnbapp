@@ -9,6 +9,7 @@ import { accessToken } from 'src/app/_models/apiToken';
 import { UnitHolder } from '../_models/unitHolder';
 import { catchError } from 'rxjs/operators';
 import { currentHolder } from '../_models/currentUnitHolder';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -22,60 +23,27 @@ export class LanguageComponent implements OnInit {
     private route: Router,
     private _signalR: SignalR,
     ) { 
-      // this.startConnection();
+       this.startConnection();
     }
 
   
   ngOnInit(): void {
-    this.getAccountInquiry();
   
   }
 
-  getAccountInquiry(): void {
-    this.serviceService.getAccountInquiry()
-    .subscribe((result: any) => {
-      currentHolder.channeltype = result.channeltype;
-      currentHolder.requestoridentification = result.requestoridentification,
-      currentHolder.deviceowner = result.deviceowner,
-      currentHolder.unitholderid = result.unitholderid,
-      currentHolder.firstname = result.firstname,
-      currentHolder.identificationtype = result.identificationtype,
-      currentHolder.identificationnumber = result.identificationnumber,
-      currentHolder.fundid = result.fundid,
-      currentHolder.inquirycode = result.inquirycode,
-      currentHolder.transactiondate = result.transactiondate,
-      currentHolder.transactiontime = result.transactiontime,
-      currentHolder.banktxnreferencenumber = result.banktxnreferencenumber,
-      currentHolder.bankcustphonenumber = result.bankcustphonenumber,
-      currentHolder.filtrationflag = result.filtrationflag,
-      currentHolder.typeclosed = result.typeclosed,
-      currentHolder.participateinasnbmkt = result.participateinasnbmkt,
-      currentHolder.totalminoraccount = result.totalminoraccount,
-      currentHolder.guardianid = result.guardianid,
-      currentHolder.guardianictype = result.guardianictype,
-      currentHolder.guardianicnumber = result.guardianicnumber,
-      currentHolder.agentcode = result.agentcode,
-      currentHolder.branchcode = result.branchcode,
-      currentHolder.lastupdatedate = result.lastupdatedate,
-      currentHolder.transactionchannel = result.transactionchannel,
-      currentHolder.transactionstatus = result.transactionstatus,
-      currentHolder.rejectcode = result.rejectcode,
-      currentHolder.rejectreason = result.rejectreason
-      this.route.navigate(['checkbalance']);
-    })
-  }
+  
 
   startConnection() : void {
     this._signalR.connect().then((c) => {
-      console.log("API King is now Connected");
+      console.log("API King is now Connected on " + formatDate(new Date(), 'HH:MM:ss', 'en'));
       signalrConnection.connection = c;
       signalrConnection.connection.invoke('GetLoginToken').then((data: string) => {
         accessToken.token = data;
       });
-      signalrConnection.connection.invoke('GetPrinterStatus').then((data: string) => {
-        //accessToken.token = data;
-        console.log(data);
-      });
+      // signalrConnection.connection.invoke('GetPrinterStatus').then((data: string) => {
+      //   //accessToken.token = data;
+      //   console.log(data);
+      // });
     }).catch((err: any) => {console.log(err)});
   }
 
@@ -83,7 +51,7 @@ export class LanguageComponent implements OnInit {
 
   selectEnglish() {
     selectLang.selectedLang = 'en';
-    //this.route.navigate(['/verifymykad']);
+    this.route.navigate(['/verifymykad']);
 
     // this.serviceService.getToken().subscribe(data =>
     //   console.log(data));
