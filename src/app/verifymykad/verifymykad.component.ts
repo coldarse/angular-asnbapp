@@ -9,6 +9,7 @@ import { MyKadDetails } from '../_models/myKadDetails';
 import { Observable, of as _observableOf } from 'rxjs';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { formatDate } from '@angular/common';
+import { errorCodes } from '../_models/errorCode';
 
 @Component({        
   selector: 'app-verifymykad',
@@ -79,6 +80,11 @@ export class VerifymykadComponent implements OnInit {
   endTransaction() : void {
     this._router.navigate(['language']);
   }
+  
+
+  registerAccount() : void {
+    this._router.navigate(['accountregistration']);
+  }
 
   tryAgain() : void {
     this.RMError1_Visible = false;
@@ -103,6 +109,8 @@ export class VerifymykadComponent implements OnInit {
         
       }
       else{
+        errorCodes.code = "0222";
+        errorCodes.message = "Open CBM Failed.";
         this._router.navigate(['outofservice']);
       }
     });
@@ -130,6 +138,7 @@ export class VerifymykadComponent implements OnInit {
             this.readThumbprintVisible = true;
             this._conn.invoke('myKadRequest', status).then((data: any) => {
               status = data;
+              console.log(data);
               if (status.toUpperCase().includes("MISMATCH")){
                 this.RMError1_Visible = true;
               }
@@ -140,11 +149,15 @@ export class VerifymykadComponent implements OnInit {
                 //this._router.navigate(['transactionmenu']);
               }
               else{
+                errorCodes.code = "0222";
+                errorCodes.message = "Open CBM Failed.";
                 this._router.navigate(['outofservice']);
               }
             }); 
           }
           else{
+            errorCodes.code = "0111";
+            errorCodes.message = data;
             this._router.navigate(['outofservice']);
           }    
         });
@@ -152,6 +165,8 @@ export class VerifymykadComponent implements OnInit {
     }
     catch (e){
       console.log(e);
+      errorCodes.code = "0168";
+      errorCodes.message = e;
       this._router.navigate(['outofservice']);
     }
     

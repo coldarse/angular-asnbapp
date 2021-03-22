@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language';
 import { signalrConnection } from 'src/app/_models/signalr';
+import { currentMyKadDetails } from '../_models/currentMyKadDetails';
+import { formatDate } from '@angular/common';
+import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 
 
 
@@ -148,6 +151,20 @@ export class AccountregistrationComponent implements OnInit {
   ngOnInit(): void {
     console.log("Hi");
     this.translate.use(selectLang.selectedLang);
+
+
+    this.AR1_Value = currentMyKadDetails.Name;
+    this.AR2_Value = currentMyKadDetails.ICNo;
+    this.AR3_Value = formatDate(currentMyKadDetails.DOB, 'dd MMM yyyy', 'en');
+    this.AR4_Value = currentMyKadDetails.Race;
+    this.AR5_Value = currentMyKadDetails.Religion;
+
+
+    this.ARAddress1_Value = currentMyKadDetails.Address1 + currentMyKadDetails.Address2;
+    this.ARAddress2_Value = currentMyKadDetails.Address3;
+    this.ARPostcode_Value = currentMyKadDetails.PostCode;
+    this.ARCity_Value = currentMyKadDetails.City;
+    this.ARState_Value = currentMyKadDetails.State;
   }
 
   usekeyboardinput() {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { signalrConnection } from 'src/app/_models/signalr';
+import { errorCodes } from '../_models/errorCode';
 
 @Component({
   selector: 'app-outofservice',
@@ -17,6 +18,11 @@ export class OutofserviceComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.XXX1 = errorCodes.code;
+    this.XXX2 = errorCodes.code;
+
+    this.EM1 = errorCodes.message;
+    this.MR1 = errorCodes.message;
   }
 
 }
