@@ -113,14 +113,17 @@ export class CheckbalanceComponent implements OnInit {
     this._router.navigate(['transactionmenu']);
   }
 
-  PrintStatement() {
+  PrintStatement(selectedFundDetails: any) {
+    console.log(selectedFundDetails.FUNDID);
+    console.log(selectedFundDetails.UNITBALANCE);
     this.CB2_Visible = false;
     this.CB3_Visible = true;
     signalrConnection.connection.invoke('');
   }
 
-  EmailStatement() {
-
+  EmailStatement(selectedFundDetails: any) {
+    console.log(selectedFundDetails.FUNDID);
+    console.log(selectedFundDetails.UNITBALANCE);
   }
 
 
