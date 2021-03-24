@@ -10,6 +10,7 @@ import { Observable, of as _observableOf } from 'rxjs';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { formatDate } from '@angular/common';
 import { errorCodes } from '../_models/errorCode';
+import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 
 @Component({        
   selector: 'app-verifymykad',
@@ -91,7 +92,7 @@ export class VerifymykadComponent implements OnInit {
     this.RMError2_Visible = false;
 
     this._conn.invoke('myKadRequest', "ScanThumb").then((data: any) => {
-      console.log(data);
+      //console.log(data);
       if (data.toUpperCase().includes("MISMATCH")){
         this.tryCount = this.tryCount - 1;
         if (this.tryCount == 0) {
@@ -103,6 +104,8 @@ export class VerifymykadComponent implements OnInit {
         }
       }
       else if(data.toUpperCase().includes("MATCH")){
+        this.loadingVisible = true;
+        this.readThumbprintVisible = false;
         this.myKadData = JSON.stringify(data);
         this.bindMyKadData();
         //this._router.navigate(['transactionmenu']);
@@ -138,13 +141,14 @@ export class VerifymykadComponent implements OnInit {
             this.readThumbprintVisible = true;
             this._conn.invoke('myKadRequest', status).then((data: any) => {
               status = data;
-              console.log(data);
+              //console.log(data);
               if (status.toUpperCase().includes("MISMATCH")){
                 this.RMError1_Visible = true;
               }
               else if(data.toUpperCase().includes("MATCH")){
+                this.loadingVisible = true;
+                this.readThumbprintVisible = false;
                 this.myKadData = Object.assign(new MyKadDetails(), JSON.parse(data));
-                console.log(this.myKadData);
                 this.bindMyKadData();
                 //this._router.navigate(['transactionmenu']);
               }
@@ -202,19 +206,12 @@ export class VerifymykadComponent implements OnInit {
     currentMyKadDetails.OtherID = this.myKadData['OtherID'];
     currentMyKadDetails.CategoryType = this.myKadData['CategoryType'];
 
-
+    
 
     this.getAccountInquiry();
-
-    
-      
-
-
-      
-
-
-      //this._router.navigate(['checkbalance']);
   }
+
+ 
 
   getAccountInquiry(): void {
 
@@ -226,7 +223,7 @@ export class VerifymykadComponent implements OnInit {
       "UNITHOLDERID": "",
       "FIRSTNAME": "",
       "IDENTIFICATIONTYPE": "W",
-      "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
+      "IDENTIFICATIONNUMBER": "660322107550",
       "FUNDID": "",
       "INQUIRYCODE": "4",
       "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
@@ -244,43 +241,52 @@ export class VerifymykadComponent implements OnInit {
     this.serviceService.getAccountInquiry(body)
     .subscribe((result: any) => {
       currentHolder.channeltype = result.channeltype;
-      currentHolder.requestoridentification = result.requestoridentification,
-      currentHolder.deviceowner = result.deviceowner,
-      currentHolder.unitholderid = result.unitholderid,
-      currentHolder.firstname = result.firstname,
-      currentHolder.identificationtype = result.identificationtype,
-      currentHolder.identificationnumber = result.identificationnumber,
-      currentHolder.fundid = result.fundid,
-      currentHolder.inquirycode = result.inquirycode,
-      currentHolder.transactiondate = result.transactiondate,
-      currentHolder.transactiontime = result.transactiontime,
-      currentHolder.banktxnreferencenumber = result.banktxnreferencenumber,
-      currentHolder.bankcustphonenumber = result.bankcustphonenumber,
-      currentHolder.filtrationflag = result.filtrationflag,
-      currentHolder.typeclosed = result.typeclosed,
-      currentHolder.participateinasnbmkt = result.participateinasnbmkt,
-      currentHolder.totalminoraccount = result.totalminoraccount,
-      currentHolder.guardianid = result.guardianid,
-      currentHolder.guardianictype = result.guardianictype,
-      currentHolder.guardianicnumber = result.guardianicnumber,
-      currentHolder.agentcode = result.agentcode,
-      currentHolder.branchcode = result.branchcode,
-      currentHolder.lastupdatedate = result.lastupdatedate,
-      currentHolder.transactionchannel = result.transactionchannel,
-      currentHolder.transactionstatus = result.transactionstatus,
-      currentHolder.rejectcode = result.rejectcode,
-      currentHolder.rejectreason = result.rejectreason
-
+      currentHolder.requestoridentification = result.requestoridentification;
+      currentHolder.deviceowner = result.deviceowner;
+      currentHolder.unitholderid = result.unitholderid;
+      currentHolder.firstname = result.firstname;
+      currentHolder.identificationtype = result.identificationtype;
+      currentHolder.identificationnumber = result.identificationnumber;
+      currentHolder.fundid = result.fundid;
+      currentHolder.inquirycode = result.inquirycode;
+      currentHolder.transactiondate = result.transactiondate;
+      currentHolder.transactiontime = result.transactiontime;
+      currentHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+      currentHolder.bankcustphonenumber = result.bankcustphonenumber;
+      currentHolder.filtrationflag = result.filtrationflag;
+      currentHolder.typeclosed = result.typeclosed;
+      currentHolder.participateinasnbmkt = result.participateinasnbmkt;
+      currentHolder.funddetail = result.funddetail;
+      currentHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+      currentHolder.grandtotalepfunits = result.grandtotalepfunits;
+      currentHolder.grandtotalloanunits = result.grandtotalloanunits;
+      currentHolder.grandtotalcertunits = result.grandtotalcertunits;
+      currentHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+      currentHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+      currentHolder.grandtotalunits = result.grandtotalunits;
+      currentHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+      currentHolder.totalminoraccount = result.totalminoraccount;
+      currentHolder.minordetail = result.minordetail;
+      currentHolder.guardianid = result.guardianid;
+      currentHolder.guardianictype = result.guardianictype;
+      currentHolder.guardianicnumber = result.guardianicnumber;
+      currentHolder.agentcode = result.agentcode;
+      currentHolder.branchcode = result.branchcode;
+      currentHolder.lastupdatedate = result.lastupdatedate;
+      currentHolder.transactionchannel = result.transactionchannel;
+      currentHolder.transactionstatus = result.transactionstatus;
+      currentHolder.rejectcode = result.rejectcode;
+      currentHolder.rejectreason = result.rejectreason;
       //Scenario 1: Unit Holder Not Exist
       if (currentHolder.rejectreason.includes('not exists')){
         this.RMError3_Visible = true;
       }
       //Scenario 2: FundID = ""
-      else if (currentHolder.fundid == undefined && currentHolder.unitholderid != undefined){
+      else if (currentHolder.funddetail.length == 0 && currentHolder.unitholderid != undefined){
         this._router.navigate(['transactionmenu'])
       }
       //Scenario 3: FundID & UnitHolderID exists
-      else if (currentHolder.fundid != undefined && currentHolder.unitholderid != undefined){
+      else if (currentHolder.funddetail.length > 0 && currentHolder.unitholderid != undefined){
         this._router.navigate(['transactionmenu'])
       }
 

@@ -32,4 +32,16 @@ export class FeedbackscreenComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
   }
 
+  SubmitFeedback(){
+    this.FBS1_Visible = false;
+    this.FBS2_Visible = true;
+    setTimeout(() => {
+
+    }, 5000);
+  }
+
+  DetectMyKad() {
+    signalrConnection.connection.invoke()
+  }
+
 }

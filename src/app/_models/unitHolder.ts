@@ -1,4 +1,5 @@
 import { fundDetails } from "./fundDetails";
+import { minorDetails } from "./minorDetails";
 
 export class UnitHolder implements IUnitHolder {
     
@@ -9,7 +10,7 @@ export class UnitHolder implements IUnitHolder {
     firstname : string | undefined;
     identificationtype : string | undefined;
     identificationnumber : string | undefined;
-    fundetails : fundDetails[] | undefined;
+    fundid : string | undefined;
     inquirycode : string | undefined;
     transactiondate : string | undefined;
     transactiontime : string | undefined;
@@ -18,15 +19,25 @@ export class UnitHolder implements IUnitHolder {
     filtrationflag : string | undefined;
     typeclosed: string | undefined;
     participateinasnbmkt: string | undefined;
-    totalminoraccount: string | undefined;
-    guardianid: string | undefined;
-    guardianictype: string | undefined;
-    guardianicnumber: string | undefined;
-    agentcode: string | undefined;
-    branchcode: string | undefined;
-    lastupdatedate: string | undefined;
-    transactionchannel: string | undefined;
-    transactionstatus: string | undefined;
+    funddetail : fundDetails[] | undefined;
+    grandtotalunitbalance : string | undefined
+    grandtotalepfunits : string | undefined
+    grandtotalloanunits : string | undefined
+    grandtotalcertunits : string | undefined
+    grandtotalblockedunits : string | undefined
+    grandtotalprovisionalunits : string | undefined
+    grandtotalunits : string | undefined
+    grandtotaluhholdings : string | undefined
+    totalminoraccount : string | undefined;
+    minordetail : minorDetails[] | undefined;
+    guardianid : string | undefined;
+    guardianictype : string | undefined;
+    guardianicnumber : string | undefined;
+    agentcode : string | undefined;
+    branchcode : string | undefined;
+    lastupdatedate : string | undefined;
+    transactionchannel : string | undefined;
+    transactionstatus : string | undefined;
     rejectcode : string | undefined;
     rejectreason : string | undefined;
 
@@ -43,33 +54,45 @@ export class UnitHolder implements IUnitHolder {
 
      init(data?: any){
          if (data){
-             this.channeltype = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.channeltype;
-             this.requestoridentification = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.requestoridentification;
-             this.deviceowner = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.deviceowner;
-             this.unitholderid = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.unitholderid;
-             this.firstname = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.firstname;
-             this.identificationtype = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.identificationtype;
-             this.identificationnumber = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.identificationnumber;
-             //this.fundid = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.fundid;
-             this.inquirycode = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.inquirycode;
-             this.transactiondate = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.transactiondate;
-             this.transactiontime = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.transactiontime;
-             this.banktxnreferencenumber = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.banktxnreferencenumber;
-             this.bankcustphonenumber = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.bankcustphonenumber;
-             this.filtrationflag = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.filtrationflag;
-             this.typeclosed = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.typeclosed;
-             this.participateinasnbmkt = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.participateinasnbmkt;
-             this.totalminoraccount = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.totalminoraccount;
-             this.guardianid = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.guardianid;
-             this.guardianictype = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.guardianictype;
-             this.guardianicnumber = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.guardianicnumber;
-             this.agentcode = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.agentcode;
-             this.branchcode = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.branchcode;
-             this.lastupdatedate = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.lastupdatedate;
-             this.transactionchannel = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.transactionchannel;
-             this.transactionstatus = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.transactionstatus;
-             this.rejectcode = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.rejectcode;
-             this.rejectreason = data.result.wM_UHAccountInquiryResponse.wM_UHAccountInquiryResult.uploaD_UH_ACK.rejectreason;
+            this.channeltype = data.result.channeltype;
+            this.requestoridentification = data.result.requestoridentification;
+            this.deviceowner = data.result.deviceowner;
+            this.unitholderid = data.result.unitholderid;
+            this.firstname = data.result.firstname;
+            this.identificationtype = data.result.identificationtype;
+            this.identificationnumber = data.result.identificationnumber;
+            this.fundid = data.result.fundid;
+            this.inquirycode = data.result.inquirycode;
+            this.transactiondate = data.result.transactiondate;
+            this.transactiontime = data.result.transactiontime;
+            this.banktxnreferencenumber = data.result.banktxnreferencenumber;
+            this.bankcustphonenumber = data.result.bankcustphonenumber;
+            this.filtrationflag = data.result.filtrationflag;
+            this.typeclosed = data.result.typeclosed;
+            this.participateinasnbmkt = data.result.participateinasnbmkt;
+            this.funddetail = data.result.funddetail.map((fd : fundDetails) => new fundDetails(fd));
+            console.log(this.funddetail);
+            this.grandtotalunitbalance = data.result.grandtotalunitbalance;
+            this.grandtotalepfunits = data.result.grandtotalepfunits;
+            this.grandtotalloanunits = data.result.grandtotalloanunits;
+            this.grandtotalcertunits = data.result.grandtotalcertunits;
+            this.grandtotalblockedunits = data.result.grandtotalblockedunits;
+            this.grandtotalprovisionalunits = data.result.grandtotalprovisionalunits;
+            this.grandtotalunits = data.result.grandtotalunits;
+            this.grandtotaluhholdings = data.result.grandtotaluhholdings;
+            this.totalminoraccount = data.result.totalminoraccount;
+            this.minordetail = data.result.minordetail.map((md : minorDetails) => new minorDetails(md));
+            console.log(this.minordetail);
+            this.guardianid = data.result.guardianid;
+            this.guardianictype = data.result.guardianictype;
+            this.guardianicnumber = data.result.guardianicnumber;
+            this.agentcode = data.result.agentcode;
+            this.branchcode = data.result.branchcode;
+            this.lastupdatedate = data.result.lastupdatedate;
+            this.transactionchannel = data.result.transactionchannel;
+            this.transactionstatus = data.result.transactionstatus;
+            this.rejectcode = data.result.rejectcode;
+            this.rejectreason = data.result.rejectreason;
          }
      }
 
@@ -103,7 +126,7 @@ export interface IUnitHolder {
     firstname : string | undefined;
     identificationtype : string | undefined;
     identificationnumber : string | undefined;
-    fundetails : fundDetails[] | undefined;
+    fundid : string | undefined;
     inquirycode : string | undefined;
     transactiondate : string | undefined;
     transactiontime : string | undefined;
@@ -112,15 +135,25 @@ export interface IUnitHolder {
     filtrationflag : string | undefined;
     typeclosed: string | undefined;
     participateinasnbmkt: string | undefined;
-    totalminoraccount: string | undefined;
-    guardianid: string | undefined;
-    guardianictype: string | undefined;
-    guardianicnumber: string | undefined;
-    agentcode: string | undefined;
-    branchcode: string | undefined;
-    lastupdatedate: string | undefined;
-    transactionchannel: string | undefined;
-    transactionstatus: string | undefined;
+    funddetail : fundDetails[] | undefined;
+    grandtotalunitbalance : string | undefined
+    grandtotalepfunits : string | undefined
+    grandtotalloanunits : string | undefined
+    grandtotalcertunits : string | undefined
+    grandtotalblockedunits : string | undefined
+    grandtotalprovisionalunits : string | undefined
+    grandtotalunits : string | undefined
+    grandtotaluhholdings : string | undefined
+    totalminoraccount : string | undefined;
+    minordetail : minorDetails[] | undefined;
+    guardianid : string | undefined;
+    guardianictype : string | undefined;
+    guardianicnumber : string | undefined;
+    agentcode : string | undefined;
+    branchcode : string | undefined;
+    lastupdatedate : string | undefined;
+    transactionchannel : string | undefined;
+    transactionstatus : string | undefined;
     rejectcode : string | undefined;
     rejectreason : string | undefined;
 }

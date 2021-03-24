@@ -31,16 +31,19 @@
         </button>
     </div>
 
-    <!-- <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
-        
-        <h2 id="CB1_Title3">{{'CB1_3' | translate }}</h2>
+
+    <div>
+        <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;" >
+            <h2 id="CB1_Title3">{{'CB1_3' | translate }}</h2>
+        </div>
+
+        <div class="col-md-12 text-center" style="padding-top:0.15rem;" *ngFor="let minor of mDetails">
+            <button type="button" class="btn btn-account" id="Account2" >
+                {{ minor.UHID }}<br>{{ minor.NAME }}
+            </button>
+        </div>
     </div>
 
-    <div class="col-md-12 text-center" style="padding-top:0.15rem;">
-        <button type="button" class="btn btn-account" id="Account2" >
-            {{noAhliBijak}}<br>{{namaAhliBijak}}
-        </button>
-    </div> -->
     
 
   
@@ -159,13 +162,13 @@
             <!-- Second Row -->
             <div class="row">
                 <!-- <label class="CheckBalanceText1" id="CB2_TotalPriceValue">RM 24,701.13</label> -->
-                <label class="CheckBalanceText1" id="CB2_TotalPriceValue">RM {{'CB2_9' | translate }}</label>
+                <label class="CheckBalanceText1" id="CB2_TotalPriceValue">RM {{CB2_9}}</label>
             </div>
             
             <!-- Third Row -->
             <div class="row">
                 <!-- <label class="CheckBalanceText1" id="CB2_TotalUnitValue">Unit 24,896.64</label> -->
-                <label class="CheckBalanceText1" id="CB2_TotalUnitValue">Unit {{'CB2_10' | translate }}</label>
+                <label class="CheckBalanceText1" id="CB2_TotalUnitValue">Unit {{CB2_10}}</label>
             </div>
         </div>
         <div class="col-md-1"></div>
@@ -199,15 +202,15 @@
             </thead>
             <tbody>
                 <!-- To be edited to fit data names -->
-              <tr> 
-                <td>test</td>
-                <td>test</td>
-                <td>test</td>
-                <td>test</td>
-                <td>test</td>
-                <td>test</td>
-                <td>test</td>
-                <td>test</td>
+                <tr *ngFor="let y of fDetails">
+                    <td>{{ y.FUNDID }}</td>
+                    <td>{{ y.UNITBALANCE }}</td>
+                    <td>{{ y.EPFUNITS }}</td>
+                    <td>{{ y.LOANUNITS }}</td>
+                    <td>{{ y.CERTUNITS }}</td>
+                    <td>{{ y.BLOCKEDUNITS }}</td>
+                    <td>{{ y.PROVISIONALUNITS }}</td>
+                    <td>{{ y.TOTALUNITS }}</td>
                 
                 <!-- <td>{{data.type | translate }}</td>
                 <td>{{data.type | translate }}</td>

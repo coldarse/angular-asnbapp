@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+import { fundDetails } from './fundDetails';
+import { minorDetails } from './minorDetails';
 
 @Injectable({
     providedIn: 'root',
 })
 
 export class currentHolder {
-    static channeltype: string;
+    static channeltype : string;
     static requestoridentification : string;
     static deviceowner : string;
     static unitholderid : string;
@@ -19,17 +21,27 @@ export class currentHolder {
     static banktxnreferencenumber : string;
     static bankcustphonenumber : string;
     static filtrationflag : string;
-    static typeclosed: string;
-    static participateinasnbmkt: string;
-    static totalminoraccount: string;
-    static guardianid: string;
-    static guardianictype: string;
-    static guardianicnumber: string;
-    static agentcode: string;
-    static branchcode: string;
-    static lastupdatedate: string;
-    static transactionchannel: string;
-    static transactionstatus: string;
+    static typeclosed : string;
+    static participateinasnbmkt : string;
+    static funddetail : fundDetails[];
+    static grandtotalunitbalance : string;
+    static grandtotalepfunits : string;
+    static grandtotalloanunits : string;
+    static grandtotalcertunits : string;
+    static grandtotalblockedunits : string;
+    static grandtotalprovisionalunits : string;
+    static grandtotalunits : string;
+    static grandtotaluhholdings : string;
+    static totalminoraccount : string;
+    static minordetail : minorDetails[];
+    static guardianid : string;
+    static guardianictype : string;
+    static guardianicnumber : string;
+    static agentcode : string;
+    static branchcode : string;
+    static lastupdatedate : string;
+    static transactionchannel : string;
+    static transactionstatus : string;
     static rejectcode : string;
     static rejectreason : string;
 }
