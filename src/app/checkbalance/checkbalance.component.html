@@ -212,28 +212,19 @@
                     <td>{{ y.PROVISIONALUNITS }}</td>
                     <td>{{ y.TOTALUNITS }}</td>
                 
-                <!-- <td>{{data.type | translate }}</td>
-                <td>{{data.type | translate }}</td>
-                <td>{{data.type | translate }}</td>
-                <td>{{data.type | translate }}</td>
-                <td>{{data.type | translate }}</td>
-                <td>{{data.type | translate }}</td>
-                <td>{{data.type | translate }}</td>
-                <td>{{data.type | translate }}</td> -->
-                <td>
-                    <button (click)="PrintStatement(y)" class="btn btn-printoremail" id="CB2_PrintButton" >
-                        <!-- Cetak -->
-                        {{'BTN_Print1' | translate }}
-                    </button>
-                </td>
-                <td>
-                    <button (click)="EmailStatement(y)" class="btn btn-printoremail" id="CB2_EmailButton" >
-                        <!-- Emel -->
-                        {{'BTN_Email1' | translate }}
-                    </button>
-                </td>
-              </tr>
-              
+                    <td>
+                        <button class="btn btn-printoremail" id="CB2_PrintButton" >
+                            <!-- Cetak -->
+                            {{'BTN_Print1' | translate }}
+                        </button>
+                    </td>
+                    <td>
+                        <button class="btn btn-printoremail" id="CB2_EmailButton" >
+                            <!-- Emel -->
+                            {{'BTN_Email1' | translate }}
+                        </button>
+                    </td>
+                </tr>
             </tbody>
           </table>
     </div>

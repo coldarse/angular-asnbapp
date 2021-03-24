@@ -59,6 +59,7 @@ export class VerifymykadComponent implements OnInit {
   _conn: any;
   statuses: any;
   myKadData: any;
+  cardDetect : any;
 
 
   //Setting CardType
@@ -120,6 +121,16 @@ export class VerifymykadComponent implements OnInit {
   }
 
 
+  DetectMyKad() {
+    this._conn.invoke('IsCardDetected').then((data: boolean) => {
+      console.log(data);
+      if (data == true){
+        this.verify();
+      }
+    });
+    //this.verify();
+  }
+
   verify() : void {
     try {
       this.insertMykadVisible = false;
@@ -141,7 +152,8 @@ export class VerifymykadComponent implements OnInit {
             this.readThumbprintVisible = true;
             this._conn.invoke('myKadRequest', status).then((data: any) => {
               status = data;
-              //console.log(data);
+              
+              console.log(data);
               if (status.toUpperCase().includes("MISMATCH")){
                 this.RMError1_Visible = true;
               }

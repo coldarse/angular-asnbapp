@@ -22,8 +22,12 @@ export class FeedbackscreenComponent implements OnInit {
   FBS2_1 = "";
   FBS2_2 = "";
 
+  id : any;
+
   FBS1_Visible = true;
   FBS2_Visible = false;
+
+  cardDetect : boolean = true;
 
   constructor(private _router: Router,
     private translate: TranslateService) { }
@@ -32,16 +36,36 @@ export class FeedbackscreenComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
   }
 
+  ngOnDestroy() {
+    clearInterval(this.id);
+  }
+
   SubmitFeedback(){
     this.FBS1_Visible = false;
     this.FBS2_Visible = true;
-    setTimeout(() => {
-
-    }, 5000);
+    
+    this.id = setInterval(() => {
+      this.playAudio();
+      this.DetectMyKad();
+    }, 1000);
   }
 
   DetectMyKad() {
-    signalrConnection.connection.invoke()
+    signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
+      console.log(data);
+      this.cardDetect = data;
+      if(this.cardDetect != true){
+        this._router.navigate(['language']);
+      }
+    });
+  }
+
+
+  playAudio() {
+    let audio = new Audio();
+    audio.src = "assets/sounds/sam.mp3";
+    audio.load();
+    audio.play();
   }
 
 }
