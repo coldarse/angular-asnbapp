@@ -38,7 +38,7 @@
         </div>
 
         <div class="col-md-12 text-center" style="padding-top:0.15rem;" *ngFor="let minor of mDetails">
-            <button type="button" class="btn btn-account" id="Account2" >
+            <button type="button" class="btn btn-account" id="Account2" (click)="MinorCheckBalance(mDetails)">
                 {{ minor.UHID }}<br>{{ minor.NAME }}
             </button>
         </div>
@@ -236,11 +236,11 @@
                     <!-- Batal -->
                     {{'BTN_Cancel' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB2_Print" (click)="PrintStatement()">
+                <button type="button" class="btn btn-next" id="CB2_Print" (click)="PrintAllStatement(fDetails)">
                     <!-- Cetak -->
                     {{'BTN_Print1' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB2_Email" (click)="EmailStatement()">
+                <button type="button" class="btn btn-next" id="CB2_Email" (click)="EmailAllStatement(fDetails)">
                     <!-- Emel -->
                     {{'BTN_Email1' | translate }}
                 </button>

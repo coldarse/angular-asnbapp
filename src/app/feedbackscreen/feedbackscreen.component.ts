@@ -27,7 +27,6 @@ export class FeedbackscreenComponent implements OnInit {
   FBS1_Visible = true;
   FBS2_Visible = false;
 
-  cardDetect : boolean = true;
 
   constructor(private _router: Router,
     private translate: TranslateService) { }
@@ -53,8 +52,8 @@ export class FeedbackscreenComponent implements OnInit {
   DetectMyKad() {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
       console.log(data);
-      this.cardDetect = data;
-      if(this.cardDetect != true){
+      signalrConnection.cardDetect = data;
+      if(signalrConnection.cardDetect != true){
         this._router.navigate(['language']);
       }
     });
@@ -63,7 +62,7 @@ export class FeedbackscreenComponent implements OnInit {
 
   playAudio() {
     let audio = new Audio();
-    audio.src = "assets/sounds/sam.mp3";
+    audio.src = "assets/sounds/litlit.mp3";
     audio.load();
     audio.play();
   }

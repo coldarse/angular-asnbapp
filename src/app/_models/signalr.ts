@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 
 export class signalrConnection {
   static connection: any;
+  static cardDetect: boolean;
 }
 
 

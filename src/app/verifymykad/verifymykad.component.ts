@@ -122,13 +122,13 @@ export class VerifymykadComponent implements OnInit {
 
 
   DetectMyKad() {
-    this._conn.invoke('IsCardDetected').then((data: boolean) => {
-      console.log(data);
-      if (data == true){
-        this.verify();
-      }
-    });
-    //this.verify();
+    // this._conn.invoke('IsCardDetected').then((data: boolean) => {
+    //   console.log(data);
+    //   if (data == true){
+    //     this.verify();
+    //   }
+    // });
+    this.verify();
   }
 
   verify() : void {

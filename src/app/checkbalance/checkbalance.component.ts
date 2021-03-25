@@ -8,6 +8,8 @@ import { finalize } from 'rxjs/operators';
 import { currentHolder } from 'src/app/_models/currentUnitHolder';
 import { fundDetails } from '../_models/fundDetails';
 import { minorDetails } from '../_models/minorDetails';
+import { formatDate } from '@angular/common';
+import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 
 @Component({
   selector: 'app-checkbalance',
@@ -17,7 +19,7 @@ import { minorDetails } from '../_models/minorDetails';
 export class CheckbalanceComponent implements OnInit {
 
   mDetails : any = currentHolder.minordetail;
-  fDetails : any = currentHolder.funddetail;
+  fDetails : any;
   BTN_Cancel = "";
   BTN_MainMenu = "";
 
@@ -116,9 +118,6 @@ export class CheckbalanceComponent implements OnInit {
   PrintStatement(selectedFundDetails: any) {
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
-    this.CB2_Visible = false;
-    this.CB3_Visible = true;
-    signalrConnection.connection.invoke('');
   }
 
   EmailStatement(selectedFundDetails: any) {
@@ -126,8 +125,85 @@ export class CheckbalanceComponent implements OnInit {
     console.log(selectedFundDetails.UNITBALANCE);
   }
 
+  PrintAllStatement(selectedFundDetails: any) {
+    console.log(selectedFundDetails.FUNDID);
+    console.log(selectedFundDetails.UNITBALANCE);
+  }
+
+  EmailAllStatement(selectedFundDetails: any) {
+    console.log(selectedFundDetails.FUNDID);
+    console.log(selectedFundDetails.UNITBALANCE);
+  }
+
+
+  MinorCheckBalance(selectedMinorDetails: any) {
+    const body = {
+      "CHANNELTYPE": "IB",
+      "REQUESTORIDENTIFICATION": "RHBNOW",
+      "DEVICEOWNER": "RHB",
+      "UNITHOLDERID": "",
+      "FIRSTNAME": "",
+      "IDENTIFICATIONTYPE": "W",
+      "IDENTIFICATIONNUMBER": "060915101139",
+      "FUNDID": "",
+      "INQUIRYCODE": "4",
+      "TRANSACTIONDATE": "23/12/2019",
+      "TRANSACTIONTIME": "15:43:10",
+      "BANKTXNREFERENCENUMBER": "20191003001325",
+      "BANKCUSTPHONENUMBER": "60173518221",
+      "FILTRATIONFLAG": "",
+      "GUARDIANID": "",
+      "GUARDIANICTYPE": "W",
+      "GUARDIANICNUMBER": "751219135506"
+      };
+
+     this.serviceService.getAccountInquiry(body)
+     .subscribe((result: any) => {
+       currentBijakHolder.channeltype = result.channeltype;
+       currentBijakHolder.requestoridentification = result.requestoridentification;
+       currentBijakHolder.deviceowner = result.deviceowner;
+       currentBijakHolder.unitholderid = result.unitholderid;
+       currentBijakHolder.firstname = result.firstname;
+       currentBijakHolder.identificationtype = result.identificationtype;
+       currentBijakHolder.identificationnumber = result.identificationnumber;
+       currentBijakHolder.fundid = result.fundid;
+       currentBijakHolder.inquirycode = result.inquirycode;
+       currentBijakHolder.transactiondate = result.transactiondate;
+       currentBijakHolder.transactiontime = result.transactiontime;
+       currentBijakHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+       currentBijakHolder.bankcustphonenumber = result.bankcustphonenumber;
+       currentBijakHolder.filtrationflag = result.filtrationflag;
+       currentBijakHolder.typeclosed = result.typeclosed;
+       currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
+       currentBijakHolder.funddetail = result.funddetail;
+       currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+       currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
+       currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
+       currentBijakHolder.grandtotalcertunits = result.grandtotalcertunits;
+       currentBijakHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+       currentBijakHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+       currentBijakHolder.grandtotalunits = result.grandtotalunits;
+       currentBijakHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+       currentBijakHolder.totalminoraccount = result.totalminoraccount;
+       currentBijakHolder.minordetail = result.minordetail;
+       currentBijakHolder.guardianid = result.guardianid;
+       currentBijakHolder.guardianictype = result.guardianictype;
+       currentBijakHolder.guardianicnumber = result.guardianicnumber;
+       currentBijakHolder.agentcode = result.agentcode;
+       currentBijakHolder.branchcode = result.branchcode;
+       currentBijakHolder.lastupdatedate = result.lastupdatedate;
+       currentBijakHolder.transactionchannel = result.transactionchannel;
+       currentBijakHolder.transactionstatus = result.transactionstatus;
+       currentBijakHolder.rejectcode = result.rejectcode;
+       currentBijakHolder.rejectreason = result.rejectreason;
+       
+       this.CheckBijakAccount();
+     })
+  }
+  
 
   CheckMainAccount() {
+    this.fDetails = currentHolder.funddetail;
     this.CB1_Visible = false;
     this.CB2_Visible = true;
 
@@ -138,8 +214,21 @@ export class CheckbalanceComponent implements OnInit {
     this.CB2_9 = currentHolder.grandtotaluhholdings;
     this.CB2_10 = currentHolder.grandtotalunits;
 
-    //this.CB2_9 = currentHolder.
-    //this.CB2_10 = currentHolder.
+  }
+
+  CheckBijakAccount() {
+    this.fDetails = currentBijakHolder.funddetail;
+
+    this.CB1_Visible = false;
+    this.CB2_Visible = true;
+
+    this.CB2_3 = currentBijakHolder.firstname;
+    this.CB2_5 = currentBijakHolder.identificationnumber;
+    this.CB2_7 = currentBijakHolder.unitholderid;
+
+    this.CB2_9 = currentBijakHolder.grandtotaluhholdings;
+    this.CB2_10 = currentBijakHolder.grandtotalunits;
+
   }
   
 
