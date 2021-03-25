@@ -7,6 +7,7 @@ import { signalrConnection } from 'src/app/_models/signalr';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { formatDate } from '@angular/common';
 import { currentMyKidDetails } from '../_models/currentMyKidDetails';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 
@@ -25,6 +26,7 @@ export class AccountregistrationComponent implements OnInit {
 
   BTN_Print = "";
   BTN_Email = "";
+  
   
 
 
@@ -144,51 +146,175 @@ export class AccountregistrationComponent implements OnInit {
   AREmail_1 = "";
   AREmail_2 = "";
 
+
+  AR_Form: any;
+
   constructor(private elementRef: ElementRef,
     private _router: Router,
-    private translate: TranslateService) {}
+    private translate: TranslateService,
+    private fb: FormBuilder) {
+     
+      this.initializeForm();
+    }
+
+  initializeForm()  {
+    this.AR_Form = this.fb.group(
+      {
+        salutation: ['Datuk'],
+        fullname: [{value: currentMyKadDetails.Name, disabled: true}],
+        identificationcardno: [{value: currentMyKadDetails.ICNo, disabled: true}],
+        dob: [{value: formatDate(currentMyKadDetails.DOB, 'dd MMM yyyy', 'en'), disabled: true}],
+        race: [{value: currentMyKadDetails.Race, disabled: true}],
+        religion: [{value: currentMyKadDetails.Religion, disabled: true}],
+
+        address1 : [{value: currentMyKadDetails.Address1 + currentMyKadDetails.Address2, disabled: true}],
+        address2 : [{value: currentMyKadDetails.Address3, disabled: true}],
+        postcode : [{value: currentMyKadDetails.PostCode, disabled: true}],
+        city : [{value: currentMyKadDetails.City, disabled: true}],
+        state : [{value: currentMyKadDetails.State, disabled: true}],
+        mykadaddress: [true],
+
+        homenumber : ['', Validators.required],
+        // telephone: ['', Validators.required],
+        telephone: new FormControl('', Validators.required),
+        notelephone: [false],
+
+        email: ['', Validators.required],
+        noemail: [false],
+        deliverystate: ['Sila Pilih Satu'],
+
+        bankname: ['Sila Pilih Satu'],
+        bankaccount: ['', Validators.required],
+
+        jobcategory: ['Sila Pilih Satu'],
+        jobname: ['Sila Pilih Satu'],
+        natureofjob: ['Sila Pilih Satu'],
+        jobsector: ['Sila Pilih Satu'],
+        monthlyincome: ['Sila Pilih Satu'],
+        companyname: ['', Validators.required],
+
+        fatca: ['No'],
+        pep: ['No'],
+        news: ['No'],
+        crs: ['No'],
+    })
+
+    // this.AR_Form = this.fb.group({
+    //   salutation: new FormControl('Datuk'),
+    //   fullname: new FormControl({value: currentMyKadDetails.Name, disabled: true}),
+    //   identificationcardno: new FormControl({value: currentMyKadDetails.ICNo, disabled: true}),
+    //   dob: new FormControl({value: formatDate(currentMyKadDetails.DOB, 'dd MMM yyyy', 'en'), disabled: true}),
+    //   race: new FormControl({value: currentMyKadDetails.Race, disabled: true}),
+    //   religion: new FormControl({value: currentMyKadDetails.Religion, disabled: true}),
+
+    //   address1 : new FormControl({value: currentMyKadDetails.Address1 + currentMyKadDetails.Address2, disabled: true}),
+    //   address2 : new FormControl({value: currentMyKadDetails.Address3, disabled: true}),
+    //   postcode : new FormControl({value: currentMyKadDetails.PostCode, disabled: true}),
+    //   city : new FormControl({value: currentMyKadDetails.City, disabled: true}),
+    //   state : new FormControl({value: currentMyKadDetails.State, disabled: true}),
+    //   mykadaddress: new FormControl(true),
+
+    //   homenumber : new FormControl('', Validators.required),
+    //   telephone: new FormControl('', Validators.required),
+    //   notelephone: new FormControl(false),
+
+    //   email: new FormControl('', Validators.required),
+    //   noemail: new FormControl(false),
+    //   deliverystate: new FormControl('Sila Pilih Satu'),
+
+    //   bankname: new FormControl('Sila Pilih Satu'),
+    //   bankaccount: new FormControl('', Validators.required),
+
+    //   jobcategory: new FormControl('Sila Pilih Satu'),
+    //   jobname: new FormControl('Sila Pilih Satu'),
+    //   natureofjob: new FormControl('Sila Pilih Satu'),
+    //   jobsector: new FormControl('Sila Pilih Satu'),
+    //   monthlyincome: new FormControl('Sila Pilih Satu'),
+    //   companyname: new FormControl('', Validators.required),
+
+    //   fatca: new FormControl('No'),
+    //   pep: new FormControl('No'),
+    //   news: new FormControl('No'),
+    //   crs: new FormControl('No'),
+    // })
+  }  
 
   ngOnInit(): void {
     console.log("Hi");
+
     this.translate.use(selectLang.selectedLang);
-
-
-    this.AR1_Value = currentMyKadDetails.Name;
-    this.AR2_Value = currentMyKadDetails.ICNo;
-    this.AR3_Value = formatDate(currentMyKadDetails.DOB, 'dd MMM yyyy', 'en');
-    this.AR4_Value = currentMyKadDetails.Race;
-    this.AR5_Value = currentMyKadDetails.Religion;
-
-
-    this.ARAddress1_Value = currentMyKadDetails.Address1 + currentMyKadDetails.Address2;
-    this.ARAddress2_Value = currentMyKadDetails.Address3;
-    this.ARPostcode_Value = currentMyKadDetails.PostCode;
-    this.ARCity_Value = currentMyKadDetails.City;
-    this.ARState_Value = currentMyKadDetails.State;
   }
 
   usekeyboardinput() {
-    this.elementRef.nativeElement.querySelector('keyboard').classList.remove('keyboard--hidden')
+    //this.elementRef.nativeElement.querySelector('keyboard').classList.remove('keyboard--hidden')
   }
 
 
   noEmailCheck() {
-    this.checkedXEmail = !this.checkedXEmail;
+    if (this.AR_Form.controls.noemail.value == false){
+      this.AR_Form.controls.email.disable();
+    }
+    else{
+      this.AR_Form.controls.email.enable();
+    }
   }
 
 
   noTelephoneCheck() {
-    this.checkedXTelephone = !this.checkedXTelephone;
+    if (this.AR_Form.controls.notelephone.value == false){
+      this.AR_Form.controls.telephone.disable();
+    }
+    else{
+      this.AR_Form.controls.telephone.enable();
+    }
   }
 
   myKadAddress() {
-    this.ARAddress1_disabled = !this.ARAddress1_disabled; 
-    this.ARAddress2_disabled = !this.ARAddress2_disabled; 
-    this.ARPostcode_disabled = !this.ARPostcode_disabled; 
-    this.ARCity_disabled = !this.ARCity_disabled; 
-    this.ARState_disabled = !this.ARState_disabled;
+    if (this.AR_Form.controls.mykadaddress.value == false){
+      this.AR_Form.controls.address1.disable();
+      this.AR_Form.controls.address2.disable();
+      this.AR_Form.controls.postcode.disable();
+      this.AR_Form.controls.city.disable();
+      this.AR_Form.controls.state.disable();
+    }
+    else{
+      this.AR_Form.controls.address1.enable();
+      this.AR_Form.controls.address2.enable();
+      this.AR_Form.controls.postcode.enable();
+      this.AR_Form.controls.city.enable();
+      this.AR_Form.controls.state.enable();
+    }
   }
 
+
+  registrationNext() {
+    let x = 0
+    Object.keys(this.AR_Form.controls).forEach(key => {
+      if(this.AR_Form.controls[key].hasError('required')){
+        x += 1;
+      }
+    })
+    if (x > 0){
+      console.log("Error");
+    }
+    else{
+      this.AR_Form.controls.fullname.enable();
+      this.AR_Form.controls.identificationcardno.enable();
+      this.AR_Form.controls.dob.enable();
+      this.AR_Form.controls.race.enable();
+      this.AR_Form.controls.religion.enable();
+      this.AR_Form.controls.address1.enable();
+      this.AR_Form.controls.address2.enable();
+      this.AR_Form.controls.postcode.enable();
+      this.AR_Form.controls.city.enable();
+      this.AR_Form.controls.state.enable();
+      console.log(this.AR_Form.value);
+    }
+  }
+
+  registrationCancel() {
+
+  }
 
 
 

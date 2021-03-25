@@ -37,6 +37,8 @@ import { currentHolder } from './_models/currentUnitHolder';
 import { currentMyKadDetails } from './_models/currentMyKadDetails';
 import { currentMyKidDetails } from './_models/currentMyKidDetails';
 import { errorCodes } from './_models/errorCode';
+import { appFunc } from './_models/appFunctions';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 
 
 
@@ -79,6 +81,8 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
         TranslateModule.forRoot({
             loader: {
@@ -98,6 +102,7 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
     currentMyKadDetails,
     currentMyKidDetails,
     errorCodes,
+    appFunc,
     accessToken,
     {
       provide: AppConfiguration,

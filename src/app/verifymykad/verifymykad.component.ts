@@ -223,7 +223,7 @@ export class VerifymykadComponent implements OnInit {
     this.getAccountInquiry();
   }
 
- 
+ //660322107550
 
   getAccountInquiry(): void {
 
@@ -235,7 +235,7 @@ export class VerifymykadComponent implements OnInit {
       "UNITHOLDERID": "",
       "FIRSTNAME": "",
       "IDENTIFICATIONTYPE": "W",
-      "IDENTIFICATIONNUMBER": "660322107550",
+      "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
       "FUNDID": "",
       "INQUIRYCODE": "4",
       "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),

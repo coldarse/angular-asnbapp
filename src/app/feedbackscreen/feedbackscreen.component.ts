@@ -42,11 +42,13 @@ export class FeedbackscreenComponent implements OnInit {
   SubmitFeedback(){
     this.FBS1_Visible = false;
     this.FBS2_Visible = true;
-    
-    this.id = setInterval(() => {
-      this.playAudio();
-      this.DetectMyKad();
-    }, 1000);
+    setTimeout(()=>{   
+      this.DetectMyKad();                        //<<<---using ()=> syntax
+      this.id = setInterval(() => {
+        this.playAudio();
+        this.DetectMyKad();
+      }, 1000);
+    }, 5000);
   }
 
   DetectMyKad() {
