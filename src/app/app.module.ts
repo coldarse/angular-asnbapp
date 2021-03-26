@@ -39,6 +39,7 @@ import { currentMyKidDetails } from './_models/currentMyKidDetails';
 import { errorCodes } from './_models/errorCode';
 import { appFunc } from './_models/appFunctions';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { LoggerComponent } from './logger/logger.component';
 
 
 
@@ -76,7 +77,8 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
     FeedbackscreenComponent,
     BijakregistrationComponent,
     UpdatedetailsComponent,
-    PortalregistrationComponent
+    PortalregistrationComponent,
+    LoggerComponent
   ],
   imports: [
     BrowserModule,
