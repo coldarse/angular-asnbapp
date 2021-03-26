@@ -84,6 +84,7 @@ export class LanguageComponent implements OnInit {
   
 
   startConnection() : void {
+    
     this._signalR.connect().then((c) => {
       console.log("API King is now Connected on " + formatDate(new Date(), 'HH:MM:ss', 'en'));
       signalrConnection.connection = c;
