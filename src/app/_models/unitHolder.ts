@@ -41,16 +41,16 @@ export class UnitHolder implements IUnitHolder {
     rejectcode : string | undefined;
     rejectreason : string | undefined;
 
-     constructor(data?: IUnitHolder){
-         if (data)
-         {
-             for (var property in data){
-                 if (data.hasOwnProperty(property)){
-                     (<any>this)[property] = (<any>data)[property];
-                 }
-             }
-         }
-     }
+    constructor(data?: IUnitHolder){
+        if (data)
+        {
+            for (var property in data){
+                if (data.hasOwnProperty(property)){
+                    (<any>this)[property] = (<any>data)[property];
+                }
+            }
+        }
+    }
 
      init(data?: any){
          if (data){

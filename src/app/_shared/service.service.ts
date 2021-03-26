@@ -9,6 +9,7 @@ import { catchError, map, retry, mergeMap as _observableMergeMap} from 'rxjs/ope
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import {formatDate} from '@angular/common';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
+import { AccountReg } from '../_models/accountRegistration';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -64,6 +65,30 @@ export class ServiceService {
         catchError(this.handleError),     
       );    
   }
+
+  postAccountRegistration(body: any | undefined): Observable<AccountReg>
+  {
+    return this.http.post(
+      this.url + "services/app/OpenAPI/OpenAPIRegWithoutMinInvestment",
+      body,
+      httpOptions
+    ).pipe(_observableMergeMap((response: any) => 
+    {
+      return this.processAccountReg(response);
+    }));
+  }
+
+  protected processAccountReg(response: any): Observable<AccountReg> {
+    const status = response.success;
+    if (status) {
+        let result200: any = null;
+        result200 = UnitHolder.fromJS(response);
+        return _observableOf(result200);
+    } else {
+        return _observableOf(status);
+    }
+  }
+  
 
   getAccountInquiry(body: any | undefined): Observable<UnitHolder>
   {

@@ -46,7 +46,8 @@ export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();
   c.hubName = 'MyMessageHub';
   c.qs = { user: 'aldan' }
-  c.url = 'http://localhost:8081/';
+  var domain = window.location.hostname;
+  c.url = 'http://' + domain +':8081/';
   c.logging = true;
   
   // >= v5.0.0
