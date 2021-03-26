@@ -10,6 +10,9 @@ import { UnitHolder } from '../_models/unitHolder';
 import { catchError } from 'rxjs/operators';
 import { currentHolder } from '../_models/currentUnitHolder';
 import { formatDate } from '@angular/common';
+import { appFunc } from '../_models/appFunctions';
+import { eModules } from '../_models/enabledModules';
+import { errorCodes } from '../_models/errorCode';
 
 
 @Component({
@@ -17,6 +20,40 @@ import { formatDate } from '@angular/common';
   templateUrl: './language.component.html'
 })
 export class LanguageComponent implements OnInit {
+
+   modis = [
+    {
+      module: "Update Details",
+      startTime: "",
+      stopTime: "",
+      isEnabled: false,
+    },
+    {
+      module: "Check Balance",
+      startTime: "",
+      stopTime: "",
+      isEnabled: true,
+    },
+    {
+      module: "Financial Transaction",
+      startTime: "",
+      stopTime: "",
+      isEnabled: false,
+    },
+    {
+      module: "Bijak Registration",
+      startTime: "",
+      stopTime: "",
+      isEnabled: false,
+    },
+    {
+      module: "Portal Registration",
+      startTime: "",
+      stopTime: "",
+      isEnabled: true,
+    }
+  ]
+
 
   constructor(
     private serviceService : ServiceService,
@@ -28,7 +65,20 @@ export class LanguageComponent implements OnInit {
 
   
   ngOnInit(): void {
-  
+    var areDisabled = 0
+    appFunc.modules = this.modis.map((em: any) => new eModules(em));
+    console.log(appFunc.modules);
+    for (var val of appFunc.modules){
+      if(val.isEnabled == false){
+        areDisabled += 1;
+      }
+    }
+
+    if(areDisabled == appFunc.modules.length){
+      errorCodes.code = "0168";
+      errorCodes.message = "Under Maintenance";
+      this.route.navigate(['outofservice']);
+    }
   }
 
   
