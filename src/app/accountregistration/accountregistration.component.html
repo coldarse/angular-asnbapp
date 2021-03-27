@@ -171,7 +171,7 @@
                             </div>
                             <div class="col-md-4">
                                 <input class="input-normal use-keyboard-input" [formControl]='AR_Form.controls["telephone"]' ngclick="usekeyboardinput()" formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
-                                <div class="invalid-mobile alert alert-danger" *ngIf="AR_Form.get('telephone').hasError('required')">Please enter mobile</div>
+                                <!-- <div class="invalid-mobile alert alert-danger" *ngIf="AR_Form.get('telephone').hasError('required')">Please enter mobile</div> -->
                                 <input type="checkbox" id="noPhone" name="noPhone" [formControl]='AR_Form.controls["notelephone"]' (click)="noTelephoneCheck()" style="margin-top: 0.8rem;" >
                                 <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
                                 <label for="noPhone">{{'FL_17' | translate }}</label><br>

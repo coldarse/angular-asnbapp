@@ -3,6 +3,11 @@ import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
 import { signalrConnection } from 'src/app/_models/signalr';
+import { FormBuilder, Validators } from '@angular/forms';
+import { currentMyKidDetails } from '../_models/currentMyKidDetails';
+import { formatDate } from '@angular/common';
+import { currentMyKadDetails } from '../_models/currentMyKadDetails';
+import { currentHolder } from '../_models/currentUnitHolder';
 
 @Component({
   selector: 'app-bijakregistration',
@@ -170,34 +175,151 @@ export class BijakregistrationComponent implements OnInit {
   BREmail_1 = "";
   BREmail_2 = "";
 
+  AR_Form: any;
+
   constructor(private _router: Router,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.translate.use(selectLang.selectedLang);
+    //this.initializeForm();
+  }
+
+  initializeForm()  {
+    this.AR_Form = this.fb.group(
+      {
+        salutation: ['Datuk'],
+        fullname: [{value: currentMyKidDetails.Name, disabled: true}],
+        identificationcardno: [{value: currentMyKidDetails.ICNo, disabled: true}],
+        dob: [{value: formatDate(currentMyKidDetails.DOB, 'dd MMM yyyy', 'en'), disabled: true}],
+        race: [{value: currentMyKidDetails.FathersRace, disabled: true}],
+        religion: [{value: currentMyKidDetails.FathersReligion, disabled: true}],
+
+        g_memberid: [{value: currentHolder.unitholderid, disabled: true}],
+        g_salution: [{value: 'Datuk', disabled: false}],
+        g_fullname: [{value: currentMyKadDetails.Name, disabled: true}],
+        g_identificationnumber: [{value: currentMyKadDetails.ICNo, disabled: true}],
+        g_dob: [{value: currentMyKadDetails.DOB, disabled: true}],
+        g_race: [{value: currentMyKadDetails.Race, disabled: true}],
+        g_religion: [{value: currentMyKadDetails.Religion, disabled: true}],
+        g_relation: [{value: 'Sila Pilih Satu', disabled: false}],
+
+        address1 : [{value: currentMyKidDetails.Address1 + currentMyKidDetails.Address2, disabled: true}],
+        address2 : [{value: currentMyKidDetails.Address3, disabled: true}],
+        postcode : [{value: currentMyKidDetails.PostCode, disabled: true}],
+        city : [{value: currentMyKidDetails.City, disabled: true}],
+        state : [{value: currentMyKidDetails.State, disabled: true}],
+        mykadaddress: [true],
+
+        homenumber : ['', Validators.required],
+        telephone: ['', Validators.required],
+        notelephone: [false],
+
+        email: ['', Validators.required],
+        noemail: [false],
+        deliverystate: ['Sila Pilih Satu'],
+
+        bankname: ['Sila Pilih Satu'],
+        bankaccount: ['', Validators.required],
+
+        jobcategory: ['Sila Pilih Satu'],
+        jobname: ['Sila Pilih Satu'],
+        natureofjob: ['Sila Pilih Satu'],
+        jobsector: ['Sila Pilih Satu'],
+        monthlyincome: ['Sila Pilih Satu'],
+        companyname: ['', Validators.required],
+
+        fatca: ['No'],
+        pep: ['No'],
+        news: ['No'],
+        crs: ['No'],
+    })
+  }  
+
+  bijakDisagree(){
+    this._router.navigate(['transactionmenu']);
+  }
+
+  bijakAgree(){
+    this.BRReminder_Visible = false;
+    this.BRInsertMyKid_Visible = true;
   }
 
 
   verify() {
-
+    
   }
 
   noEmailCheck() {
-    this.checkedXEmail = !this.checkedXEmail;
+    if (this.AR_Form.controls.noemail.value == false){
+      this.AR_Form.controls.email.disable();
+    }
+    else{
+      this.AR_Form.controls.email.enable();
+    }
   }
 
 
   noTelephoneCheck() {
-    this.checkedXTelephone = !this.checkedXTelephone;
+    if (this.AR_Form.controls.notelephone.value == false){
+      this.AR_Form.controls.telephone.disable();
+    }
+    else{
+      this.AR_Form.controls.telephone.enable();
+    }
   }
 
   myKadAddress() {
-    this.ARAddress1_disabled = !this.ARAddress1_disabled; 
-    this.ARAddress2_disabled = !this.ARAddress2_disabled; 
-    this.ARPostcode_disabled = !this.ARPostcode_disabled; 
-    this.ARCity_disabled = !this.ARCity_disabled; 
-    this.ARState_disabled = !this.ARState_disabled;
+    if (this.AR_Form.controls.mykadaddress.value == false){
+      this.AR_Form.controls.address1.disable();
+      this.AR_Form.controls.address2.disable();
+      this.AR_Form.controls.postcode.disable();
+      this.AR_Form.controls.city.disable();
+      this.AR_Form.controls.state.disable();
+    }
+    else{
+      this.AR_Form.controls.address1.enable();
+      this.AR_Form.controls.address2.enable();
+      this.AR_Form.controls.postcode.enable();
+      this.AR_Form.controls.city.enable();
+      this.AR_Form.controls.state.enable();
+    }
   }
 
+  bijakregistrationCancel() {
+
+  }
+
+  bijakregistrationNext() {
+    let x = 0
+    Object.keys(this.AR_Form.controls).forEach(key => {
+      if(this.AR_Form.controls[key].hasError('required')){
+        x += 1;
+      }
+    })
+    if (x > 0){
+      console.log("Error");
+    }
+    else{
+      this.AR_Form.controls.fullname.enable();
+      this.AR_Form.controls.identificationcardno.enable();
+      this.AR_Form.controls.dob.enable();
+      this.AR_Form.controls.race.enable();
+      this.AR_Form.controls.religion.enable();
+      this.AR_Form.controls.g_memberid.enable();
+      this.AR_Form.controls.g_fullname.enable();
+      this.AR_Form.controls.g_identificationnumber.enable();
+      this.AR_Form.controls.g_dob.enable();
+      this.AR_Form.controls.g_race.enable();
+      this.AR_Form.controls.g_religion.enable();
+      this.AR_Form.controls.address1.enable();
+      this.AR_Form.controls.address2.enable();
+      this.AR_Form.controls.postcode.enable();
+      this.AR_Form.controls.city.enable();
+      this.AR_Form.controls.state.enable();
+      console.log(this.AR_Form.value);
+    }
+  }
 
 }

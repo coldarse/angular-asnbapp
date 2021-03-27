@@ -46,6 +46,25 @@ user-select: none;
   color: rgba(0, 87, 185, 0.9);
 }
 
+.upStyle {
+  padding-left: 1rem;
+  font-size:1.75rem; 
+  white-space: nowrap; 
+  font-weight:bold;
+  font-family: PNB;
+  color: rgba(0, 87, 185, 0.9);
+  height: 0.5rem;
+}
+
+.downStyle {
+  padding-left: 1rem;
+  font-size:1.75rem; 
+  white-space: nowrap; 
+  font-weight:bold;
+  font-family: PNB;
+  color: rgba(0, 87, 185, 0.9);
+}
+
 .lang__label{
     font-family: PNB;
     font-size: 1.3rem;
