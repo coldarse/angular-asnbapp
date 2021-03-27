@@ -137,4 +137,23 @@ export class PortalregistrationComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
   }
 
+  introCancel(){
+    this._router.navigate(['transactionmenu'])
+  }
+
+  introNext(){
+    this.PR_Intro = false;
+    this.PR_TNC = true;
+  }
+
+  tncDisagree(){
+    this.PR_Intro = true;
+    this.PR_TNC = false;
+  }
+
+  tncAgree(){
+    this.PR_TNC = false;
+    this.PR_Details = true;
+  }
+
 }

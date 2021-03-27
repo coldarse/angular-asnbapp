@@ -111,11 +111,11 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="PR_Cancel">
+                <button type="button" class="btn btn-cancel" id="PR_Cancel" (click)="introCancel()">
                     <!-- Batal -->
                     {{'BTN_Cancel' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="PR_Next">
+                <button type="button" class="btn btn-next" id="PR_Next" (click)="introNext()">
                     <!-- Teruskan -->
                     {{'BTN_Next' | translate }}
                 </button>
@@ -177,11 +177,11 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="PR_xAgree">
+                <button type="button" class="btn btn-cancel" id="PR_xAgree" (click)="tncDisagree()">
                     <!-- Tidak Setuju -->
                     {{'BTN_xAgree' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="PR_Agree">
+                <button type="button" class="btn btn-next" id="PR_Agree" (click)="tncAgree()">
                     <!-- Setuju -->
                     {{'BTN_Agree' | translate }}
                 </button>

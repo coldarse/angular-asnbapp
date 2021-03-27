@@ -26,4 +26,8 @@ export class ErrorscreenComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
   }
 
+  endTransaction(){
+    this._router.navigate(['feedbackscreen']);
+  }
+
 }

@@ -313,7 +313,7 @@ export class AccountregistrationComponent implements OnInit {
   }
 
   registrationCancel() {
-
+    this._router.navigate(['language']);
   }
 
 

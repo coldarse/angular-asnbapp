@@ -24,11 +24,11 @@
 <footer class="site-footer">
     <div class="row text-center" style="padding-top:5rem;">
         <div class="col-md-12">
-            <button type="button" class="btn btn-cancel" id="ST_EndTransaction">
+            <button type="button" class="btn btn-cancel" id="ST_EndTransaction" (click)="endTransaction()">
                 <!-- Tamatkan Transaksi -->
                 {{'BTN_End' | translate }}
             </button>
-            <button type="button" class="btn btn-next" id="ST_MainMenu">
+            <button type="button" class="btn btn-next" id="ST_MainMenu" (click)="mainMenu()">
                 <!-- Menu Utama -->
                 {{'BTN_MainMenu' | translate}}
             </button>

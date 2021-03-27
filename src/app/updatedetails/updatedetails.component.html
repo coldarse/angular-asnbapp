@@ -26,20 +26,21 @@
     </div>
 
     <div class="col-md-12 text-center" style="padding-top:0.15rem; ">
-        <button type="button" class="btn btn-account" id="Account1">
+        <button type="button" class="btn btn-account" id="Account1" (click)="UpdateMainAccount()">
             {{noAhli}}<br>{{namaAhli}}
         </button>
     </div>
 
-    <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
-        <!-- <h2 id="UD1_Title3">Akaun Bijak</h2> -->
-        <h2 id="UD1_Title3">{{'UD1_3' | translate }}</h2>
-    </div>
+    <div>
+        <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;" >
+            <h2 id="CB1_Title3">{{'UD1_3' | translate }}</h2>
+        </div>
 
-    <div class="col-md-12 text-center" style="padding-top:0.15rem;">
-        <button type="button" class="btn btn-account" id="Account2">
-            {{noAhliBijak}}<br>{{namaAhliBijak}}
-        </button>
+        <div class="col-md-12 text-center" style="padding-top:0.15rem;" *ngFor="let minor of mDetails">
+            <button type="button" class="btn btn-account" id="Account2" (click)="UpdateMinor(mDetails)">
+                {{ minor.UHID }}<br>{{ minor.NAME }}
+            </button>
+        </div>
     </div>
     
 
@@ -47,11 +48,11 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="UD1_Cancel">
+                <button type="button" class="btn btn-cancel" id="UD1_Cancel" (click)="updateDetails1Cancel()">
                     <!-- Batal -->
                     {{'BTN_Cancel' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="UD1_MainMenu">
+                <button type="button" class="btn btn-next" id="UD1_MainMenu" (click)="updateDetails1MainMenu()">
                     <!-- Menu Utama -->
                     {{'BTN_MainMenu' | translate }}
                 </button>

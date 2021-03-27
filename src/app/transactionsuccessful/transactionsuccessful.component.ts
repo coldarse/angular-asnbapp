@@ -20,4 +20,13 @@ export class TransactionsuccessfulComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
   }
 
+
+  endTransaction(){
+    this._router.navigate(['feedbackscreen'])
+  }
+
+  mainMenu(){
+    this._router.navigate(['transactionmenu'])
+  }
+
 }

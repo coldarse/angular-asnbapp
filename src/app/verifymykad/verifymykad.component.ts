@@ -143,40 +143,48 @@ export class VerifymykadComponent implements OnInit {
         console.log(data);
         status = data;
         //Not ScanThumb
-        this._conn.invoke('myKadRequest', status).then((data: any) => {
+        if(data.toLowerCase().includes("error")){
           console.log(data);
-          //ScanThumb
-          if (data.toUpperCase().includes("SCANTHUMB")){
-            status = data;
-            this.loadingVisible = false;
-            this.readThumbprintVisible = true;
-            this._conn.invoke('myKadRequest', status).then((data: any) => {
+          errorCodes.code = "0168";
+          errorCodes.message = data;
+          this._router.navigate(['outofservice']);
+        }
+        else{
+          this._conn.invoke('myKadRequest', status).then((data: any) => {
+            console.log(data);
+            //ScanThumb
+            if (data.toUpperCase().includes("SCANTHUMB")){
               status = data;
-              
-              console.log(data);
-              if (status.toUpperCase().includes("MISMATCH")){
-                this.RMError1_Visible = true;
-              }
-              else if(data.toUpperCase().includes("MATCH")){
-                this.loadingVisible = true;
-                this.readThumbprintVisible = false;
-                this.myKadData = Object.assign(new MyKadDetails(), JSON.parse(data));
-                this.bindMyKadData();
-                //this._router.navigate(['transactionmenu']);
-              }
-              else{
-                errorCodes.code = "0222";
-                errorCodes.message = "Open CBM Failed.";
-                this._router.navigate(['outofservice']);
-              }
-            }); 
-          }
-          else{
-            errorCodes.code = "0111";
-            errorCodes.message = data;
-            this._router.navigate(['outofservice']);
-          }    
-        });
+              this.loadingVisible = false;
+              this.readThumbprintVisible = true;
+              this._conn.invoke('myKadRequest', status).then((data: any) => {
+                status = data;
+                
+                console.log(data);
+                if (status.toUpperCase().includes("MISMATCH")){
+                  this.RMError1_Visible = true;
+                }
+                else if(data.toUpperCase().includes("MATCH")){
+                  this.loadingVisible = true;
+                  this.readThumbprintVisible = false;
+                  this.myKadData = Object.assign(new MyKadDetails(), JSON.parse(data));
+                  this.bindMyKadData();
+                  //this._router.navigate(['transactionmenu']);
+                }
+                else{
+                  errorCodes.code = "0222";
+                  errorCodes.message = "Open CBM Failed.";
+                  this._router.navigate(['outofservice']);
+                }
+              }); 
+            }
+            else{
+              errorCodes.code = "0111";
+              errorCodes.message = data;
+              this._router.navigate(['outofservice']);
+            }    
+          });
+        }
       });
     }
     catch (e){
@@ -241,7 +249,7 @@ export class VerifymykadComponent implements OnInit {
         "UNITHOLDERID": "",
         "FIRSTNAME": "",
         "IDENTIFICATIONTYPE": "W",
-        "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
+        "IDENTIFICATIONNUMBER": "060915101139",
         "FUNDID": "",
         "INQUIRYCODE": "4",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
@@ -297,6 +305,7 @@ export class VerifymykadComponent implements OnInit {
         currentHolder.rejectreason = result.rejectreason;
         //Scenario 1: Unit Holder Not Exist
         if (currentHolder.rejectreason.includes('not exists')){
+          this.loadingVisible = false;
           this.RMError3_Visible = true;
         }
         //Scenario 2: FundID = ""

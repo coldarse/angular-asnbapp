@@ -8,6 +8,8 @@ import { formatDate } from '@angular/common';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { currentHolder } from '../_models/currentUnitHolder';
+import { ServiceService } from '../_shared/service.service';
+import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 
 @Component({
   selector: 'app-updatedetails',
@@ -143,11 +145,14 @@ export class UpdatedetailsComponent implements OnInit {
   FLB_8 : string = "";
   FLB_9 : string = "";
 
+  mDetails : any = currentHolder.minordetail;
+
   AR_Form: any;
 
   constructor(private _router: Router,
     private translate: TranslateService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private serviceService : ServiceService) { }
 
   ngOnInit(): void {
     this.translate.use(selectLang.selectedLang);
@@ -160,6 +165,82 @@ export class UpdatedetailsComponent implements OnInit {
     else{
       this.AR_Form.controls.email.enable();
     }
+  }
+
+  updateDetails1Cancel(){
+    this._router.navigate(['feedbackscreen']);
+  }
+
+  updateDetails1MainMenu(){
+    this._router.navigate(['transactionmenu']);
+  }
+
+  UpdateMainAccount(){
+    
+  }
+
+  UpdateMinor(selectedMinorDetails: any) {
+    const body = {
+      "CHANNELTYPE": "IB",
+      "REQUESTORIDENTIFICATION": "RHBNOW",
+      "DEVICEOWNER": "RHB",
+      "UNITHOLDERID": "",
+      "FIRSTNAME": "",
+      "IDENTIFICATIONTYPE": "W",
+      "IDENTIFICATIONNUMBER": "060915101139",
+      "FUNDID": "",
+      "INQUIRYCODE": "4",
+      "TRANSACTIONDATE": "23/12/2019",
+      "TRANSACTIONTIME": "15:43:10",
+      "BANKTXNREFERENCENUMBER": "20191003001325",
+      "BANKCUSTPHONENUMBER": "60173518221",
+      "FILTRATIONFLAG": "",
+      "GUARDIANID": "",
+      "GUARDIANICTYPE": "W",
+      "GUARDIANICNUMBER": "751219135506"
+      };
+
+     this.serviceService.getAccountInquiry(body)
+     .subscribe((result: any) => {
+       currentBijakHolder.channeltype = result.channeltype;
+       currentBijakHolder.requestoridentification = result.requestoridentification;
+       currentBijakHolder.deviceowner = result.deviceowner;
+       currentBijakHolder.unitholderid = result.unitholderid;
+       currentBijakHolder.firstname = result.firstname;
+       currentBijakHolder.identificationtype = result.identificationtype;
+       currentBijakHolder.identificationnumber = result.identificationnumber;
+       currentBijakHolder.fundid = result.fundid;
+       currentBijakHolder.inquirycode = result.inquirycode;
+       currentBijakHolder.transactiondate = result.transactiondate;
+       currentBijakHolder.transactiontime = result.transactiontime;
+       currentBijakHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+       currentBijakHolder.bankcustphonenumber = result.bankcustphonenumber;
+       currentBijakHolder.filtrationflag = result.filtrationflag;
+       currentBijakHolder.typeclosed = result.typeclosed;
+       currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
+       currentBijakHolder.funddetail = result.funddetail;
+       currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+       currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
+       currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
+       currentBijakHolder.grandtotalcertunits = result.grandtotalcertunits;
+       currentBijakHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+       currentBijakHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+       currentBijakHolder.grandtotalunits = result.grandtotalunits;
+       currentBijakHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+       currentBijakHolder.totalminoraccount = result.totalminoraccount;
+       currentBijakHolder.minordetail = result.minordetail;
+       currentBijakHolder.guardianid = result.guardianid;
+       currentBijakHolder.guardianictype = result.guardianictype;
+       currentBijakHolder.guardianicnumber = result.guardianicnumber;
+       currentBijakHolder.agentcode = result.agentcode;
+       currentBijakHolder.branchcode = result.branchcode;
+       currentBijakHolder.lastupdatedate = result.lastupdatedate;
+       currentBijakHolder.transactionchannel = result.transactionchannel;
+       currentBijakHolder.transactionstatus = result.transactionstatus;
+       currentBijakHolder.rejectcode = result.rejectcode;
+       currentBijakHolder.rejectreason = result.rejectreason;
+       
+     })
   }
 
 
