@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServiceService } from 'src/app/_shared/service.service';
@@ -84,12 +84,17 @@ export class LanguageComponent implements OnInit {
   
 
   startConnection() : void {
-    
+
     this._signalR.connect().then((c) => {
       console.log("API King is now Connected on " + formatDate(new Date(), 'HH:MM:ss', 'en'));
       signalrConnection.connection = c;
       signalrConnection.connection.invoke('GetLoginToken').then((data: string) => {
         accessToken.token = data;
+        accessToken.httpOptions = {
+          headers: new HttpHeaders({
+            Authorization: 'Bearer ' + accessToken.token
+          })
+        }
       });
       // signalrConnection.connection.invoke('GetPrinterStatus').then((data: string) => {
       //   //accessToken.token = data;

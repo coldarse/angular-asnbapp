@@ -10,13 +10,15 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 import {formatDate} from '@angular/common';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { AccountReg } from '../_models/accountRegistration';
+import { errorCodes } from '../_models/errorCode';
+import { Router } from '@angular/router';
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    Authorization: 'Bearer ' + accessToken.token
-    //Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBhc25iLmNvbS5teSIsIkFzcE5ldC5JZGVudGl0eS5TZWN1cml0eVN0YW1wIjoiY2E2Nzg2NjgtZDk1Mi03M2ExLTA2OTMtMzlmYjIzNTE4MGI2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJzdWIiOiIxIiwianRpIjoiY2I1ZTBmZTEtNGExZS00NTRmLWE1MzAtNjc3OGU2Zjg3NDlhIiwiaWF0IjoxNjE2NjUwMDcyLCJuYmYiOjE2MTY2NTAwNzIsImV4cCI6MTYxNjczNjQ3MiwiaXNzIjoiQVNOQiIsImF1ZCI6IkFTTkIifQ.JqP9xcwX3TznQt4O72Xs-tV3ZtVvO0F-NHNgxb8X94k'
-  })
-}
+// const httpOptions = {
+//   headers: new HttpHeaders({
+//     Authorization: 'Bearer ' + accessToken.token
+//     //Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBhc25iLmNvbS5teSIsIkFzcE5ldC5JZGVudGl0eS5TZWN1cml0eVN0YW1wIjoiY2E2Nzg2NjgtZDk1Mi03M2ExLTA2OTMtMzlmYjIzNTE4MGI2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJzdWIiOiIxIiwianRpIjoiODM2NjEzOWItNzQ2NS00ZWEzLWI3ZDktZjhjZWRmOGU0NGY5IiwiaWF0IjoxNjE2ODEzNTczLCJuYmYiOjE2MTY4MTM1NzMsImV4cCI6MTYxNjg5OTk3MywiaXNzIjoiQVNOQiIsImF1ZCI6IkFTTkIifQ.wQ6ZhPuispL6463ErPBG8CHT7FbRThY-SqlUpZmSqAA'
+//   })
+// }
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,10 @@ const httpOptions = {
 export class ServiceService {
   protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
   url = 'https://aldansupport.com/ASNBCore/api/';
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    ) {}
 
   private handleError(error: HttpErrorResponse) {
 
@@ -68,14 +73,14 @@ export class ServiceService {
 
   postAccountRegistration(body: any | undefined): Observable<AccountReg>
   {
-    return this.http.post(
-      this.url + "services/app/OpenAPI/OpenAPIRegWithoutMinInvestment",
-      body,
-      httpOptions
-    ).pipe(_observableMergeMap((response: any) => 
-    {
-      return this.processAccountReg(response);
-    }));
+      return this.http.post(
+        this.url + "services/app/OpenAPI/OpenAPIRegWithoutMinInvestment",
+        body,
+        accessToken.httpOptions
+      ).pipe(_observableMergeMap((response: any) => 
+      {
+        return this.processAccountReg(response);
+      }));
   }
 
   protected processAccountReg(response: any): Observable<AccountReg> {
@@ -95,7 +100,7 @@ export class ServiceService {
       return this.http.post(
         this.url + "services/app/OpenAPI/OpenAPIBalanceEnquiry",
         body,
-        httpOptions)
+        accessToken.httpOptions)
         .pipe(_observableMergeMap((response: any) => 
         {
           return this.processUnitHolder(response);

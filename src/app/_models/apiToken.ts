@@ -6,4 +6,5 @@ import { Injectable } from '@angular/core';
 
 export class accessToken {
   static token: string;
+  static httpOptions: any;
 }
