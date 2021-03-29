@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
 import { signalrConnection } from 'src/app/_models/signalr';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-transactionsuccessful',
@@ -19,14 +20,20 @@ export class TransactionsuccessfulComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit(): void {
+    if(signalrConnection.logsaves != undefined){
+      signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
+    }
+    signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
     this.id = setInterval(() => {
       this.DetectMyKad();
     }, 1000);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
   ngOnDestroy() {
     clearInterval(this.id);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Cleared Interval.");
   }
 
   DetectMyKad() {
@@ -35,6 +42,7 @@ export class TransactionsuccessfulComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
     });
   }
@@ -42,10 +50,12 @@ export class TransactionsuccessfulComponent implements OnInit {
 
   endTransaction(){
     this._router.navigate(['feedbackscreen'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Feedback Screen.");
   }
 
   mainMenu(){
     this._router.navigate(['transactionmenu'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Transaction Menu.");
   }
 
 }

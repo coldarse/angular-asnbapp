@@ -92,11 +92,12 @@ export class CheckbalanceComponent implements OnInit {
     private serviceService : ServiceService) { }
 
   ngOnInit(): void {
-
-    
+    if(signalrConnection.logsaves != undefined){
+      signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
+    }
+    signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
-    //this.translate.use('ms');
-    
+
     this.noAhli = currentHolder.unitholderid;
     this.namaAhli = currentHolder.firstname;
 
@@ -111,10 +112,12 @@ export class CheckbalanceComponent implements OnInit {
     this.id = setInterval(() => {
       this.DetectMyKad();
     }, 1000);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
   ngOnDestroy() {
     clearInterval(this.id);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Cleared Interval.");
   }
 
   DetectMyKad() {
@@ -123,36 +126,43 @@ export class CheckbalanceComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
     });
   }
   
   CancelCheckBalance() {
     this._router.navigate(['feedbackscreen']);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Canceled Check Balance.");
   }
 
   MainMenu() {
     this._router.navigate(['transactionmenu']);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Redirect to Transaction Menu.");
   }
 
   PrintStatement(selectedFundDetails: any) {
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   }
 
   EmailStatement(selectedFundDetails: any) {
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   }
 
   PrintAllStatement(selectedFundDetails: any) {
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   }
 
   EmailAllStatement(selectedFundDetails: any) {
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   }
 
 
@@ -234,6 +244,7 @@ export class CheckbalanceComponent implements OnInit {
     this.CB2_9 = currentHolder.grandtotaluhholdings;
     this.CB2_10 = currentHolder.grandtotalunits;
 
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Selected Main Account Balance.");
   }
 
   CheckBijakAccount() {
@@ -249,6 +260,7 @@ export class CheckbalanceComponent implements OnInit {
     this.CB2_9 = currentBijakHolder.grandtotaluhholdings;
     this.CB2_10 = currentBijakHolder.grandtotalunits;
 
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected Minor Account Balance. ${currentBijakHolder.firstname}, ${currentBijakHolder.identificationnumber}, ${currentBijakHolder.unitholderid}`);
   }
   
 

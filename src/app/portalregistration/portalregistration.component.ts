@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
 import { signalrConnection } from 'src/app/_models/signalr';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-portalregistration',
@@ -134,15 +135,21 @@ export class PortalregistrationComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit(): void {
+    if(signalrConnection.logsaves != undefined){
+      signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
+    }
+    signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
     
     this.id = setInterval(() => {
       this.DetectMyKad();
     }, 1000);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
   ngOnDestroy() {
     clearInterval(this.id);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Cleared Interval.");
   }
 
   DetectMyKad() {
@@ -151,27 +158,32 @@ export class PortalregistrationComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
     });
   }
 
   introCancel(){
     this._router.navigate(['transactionmenu'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Redirect to Transaction Menu.");
   }
 
   introNext(){
     this.PR_Intro = false;
     this.PR_TNC = true;
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Clicked Next on Portal Introduction.");
   }
 
   tncDisagree(){
     this.PR_Intro = true;
     this.PR_TNC = false;
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Disagreed to Portal Registration Terms and Conditions.");
   }
 
   tncAgree(){
     this.PR_TNC = false;
     this.PR_Details = true;
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Agreed to Portal Registration Terms and Conditions.");
   }
 
 }

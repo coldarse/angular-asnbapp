@@ -12,6 +12,7 @@ import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { AccountReg } from '../_models/accountRegistration';
 import { errorCodes } from '../_models/errorCode';
 import { Router } from '@angular/router';
+import { signalrConnection } from '../_models/signalr';
 
 // const httpOptions = {
 //   headers: new HttpHeaders({
@@ -38,6 +39,7 @@ export class ServiceService {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `An error occured: ${error.error.message}.`);
     } 
     else {
       // The backend returned an unsuccessful response code.
@@ -45,6 +47,7 @@ export class ServiceService {
       console.error(
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `Backend returned code: ${error.status}, body was: ${error.error}.`);
     }
     // Return an observable with a user-facing error message.
     return throwError(
@@ -65,6 +68,7 @@ export class ServiceService {
       .pipe(
         map((response: any) => {
           console.log(response);
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `Authenticate Response: ${response}.`);
         }),
         retry(1),       
         catchError(this.handleError),     
@@ -73,14 +77,17 @@ export class ServiceService {
 
   postAccountRegistration(body: any | undefined): Observable<AccountReg>
   {
-      return this.http.post(
-        this.url + "services/app/OpenAPI/OpenAPIRegWithoutMinInvestment",
-        body,
-        accessToken.httpOptions
-      ).pipe(_observableMergeMap((response: any) => 
-      {
-        return this.processAccountReg(response);
-      }));
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `RegWithoutMinInvestment Request: ${body}.`);
+    return this.http.post(
+      this.url + "services/app/OpenAPI/RegWithoutMinInvestment",
+      body,
+      accessToken.httpOptions
+    ).pipe(_observableMergeMap((response: any) => 
+    {
+      let result = this.processAccountReg(response);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `RegWithoutMinInvestment Response: ${result}.`);
+      return result;
+    }));
   }
 
   protected processAccountReg(response: any): Observable<AccountReg> {
@@ -97,13 +104,16 @@ export class ServiceService {
 
   getAccountInquiry(body: any | undefined): Observable<UnitHolder>
   {
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `BalanceInquiry Request: ${JSON.stringify(body)}.`);
       return this.http.post(
-        this.url + "services/app/OpenAPI/OpenAPIBalanceEnquiry",
+        this.url + "services/app/OpenAPI/BalanceInquiry",
         body,
         accessToken.httpOptions)
         .pipe(_observableMergeMap((response: any) => 
         {
-          return this.processUnitHolder(response);
+          let result = this.processUnitHolder(response);
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `BalanceInquiry Response: ${JSON.stringify(result)}.`);
+          return result;
         }));
   }
 

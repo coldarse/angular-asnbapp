@@ -4,6 +4,7 @@ import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
 import { signalrConnection } from 'src/app/_models/signalr';
 import { appFunc } from '../_models/appFunctions';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-transactionmenu',
@@ -34,30 +35,40 @@ export class TransactionmenuComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit(): void {
+    if(signalrConnection.logsaves != undefined){
+      signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
+    }
+    signalrConnection.logsaves = [];
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Start looping through module details to check each module availability during current DateTime.");
     for (var val of appFunc.modules){
       if(val.module.toLowerCase().includes('update')){
         if(val.isEnabled == true){
           this.updatedDetailsEnabled = false;
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
         }
       }
       else if(val.module.toLowerCase().includes('check')){
         if(val.isEnabled == true){
           this.checkBalanceEnabled = false;
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
         }
       }
       else if(val.module.toLowerCase().includes('financial')){
         if(val.isEnabled == true){
           this.financialTransactionEnabled = false;
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Financial Transaction Module.");
         }
       }
       else if(val.module.toLowerCase().includes('bijak')){
         if(val.isEnabled == true){
           this.bijakRegistrationEnabled = false;
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Bijak Registration Module.");
         }
       }
       else if(val.module.toLowerCase().includes('portal')){
         if(val.isEnabled == true){
           this.portalRegistrationEnabled = false;
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Portal Registration Module.");
         }
       }
     }
@@ -67,10 +78,12 @@ export class TransactionmenuComponent implements OnInit {
     this.id = setInterval(() => {
       this.DetectMyKad();
     }, 1000);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
   ngOnDestroy() {
     clearInterval(this.id);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Cleared Interval.");
   }
 
   DetectMyKad() {
@@ -79,6 +92,7 @@ export class TransactionmenuComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
     });
   }

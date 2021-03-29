@@ -183,12 +183,18 @@ export class BijakregistrationComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    if(signalrConnection.logsaves != undefined){
+      signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
+    }
+    signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
+    
     this.initializeForm();
   }
 
   ngOnDestroy() {
     clearInterval(this.id);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Cleared Interval.");
   }
 
   DetectMyKad() {
@@ -197,6 +203,7 @@ export class BijakregistrationComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
     });
   }
@@ -249,16 +256,19 @@ export class BijakregistrationComponent implements OnInit {
         pep: ['No'],
         news: ['No'],
         crs: ['No'],
-    })
+    });
+    signalrConnection.logsaves.push("WebApp Component [Bijak Registration]" + ": " + "Initialized Form.");
   }  
 
   bijakDisagree(){
     this._router.navigate(['transactionmenu']);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Redirected back to Transaction Menu.");
   }
 
   bijakAgree(){
     this.BRReminder_Visible = false;
     this.BRInsertMyKid_Visible = true;
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Agreed on Bijak Registration Terms and Conditions.");
   }
 
 
@@ -269,9 +279,11 @@ export class BijakregistrationComponent implements OnInit {
   noEmailCheck() {
     if (this.AR_Form.controls.noemail.value == false){
       this.AR_Form.controls.email.disable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Checked No Email.");
     }
     else{
       this.AR_Form.controls.email.enable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Unchecked No Email.");
     }
   }
 
@@ -279,9 +291,11 @@ export class BijakregistrationComponent implements OnInit {
   noTelephoneCheck() {
     if (this.AR_Form.controls.notelephone.value == false){
       this.AR_Form.controls.telephone.disable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Checked No Telephone.");
     }
     else{
       this.AR_Form.controls.telephone.enable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Unchecked No Telephone.");
     }
   }
 
@@ -292,6 +306,7 @@ export class BijakregistrationComponent implements OnInit {
       this.AR_Form.controls.postcode.disable();
       this.AR_Form.controls.city.disable();
       this.AR_Form.controls.state.disable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Checked MyKad Address.");
     }
     else{
       this.AR_Form.controls.address1.enable();
@@ -299,6 +314,7 @@ export class BijakregistrationComponent implements OnInit {
       this.AR_Form.controls.postcode.enable();
       this.AR_Form.controls.city.enable();
       this.AR_Form.controls.state.enable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Unhecked MyKad Address.");
     }
   }
 
@@ -315,6 +331,7 @@ export class BijakregistrationComponent implements OnInit {
     })
     if (x > 0){
       console.log("Error");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + `${x} field(s) empty.`);
     }
     else{
       this.AR_Form.controls.fullname.enable();
@@ -334,6 +351,7 @@ export class BijakregistrationComponent implements OnInit {
       this.AR_Form.controls.city.enable();
       this.AR_Form.controls.state.enable();
       console.log(this.AR_Form.value);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Submitted Account Registration Form.");
     }
   }
 

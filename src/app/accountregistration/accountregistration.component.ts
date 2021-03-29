@@ -203,34 +203,42 @@ export class AccountregistrationComponent implements OnInit {
         news: ['No'],
         crs: ['No'],
     });
-    
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Initialized Form.");
   }  
 
   ngOnInit(): void {
+    if(signalrConnection.logsaves != undefined){
+      signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
+    }
+    signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
-
-
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Set translation page to selected language.");
     
     this.id = setInterval(() => {
       this.DetectMyKad();
     }, 1000);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
   ngAfterViewInit(){
-    loadKeyboard();
+    try{
+      loadKeyboard();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "After form is loaded, initialized keyboard");
+    }catch(e){
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Error initializing keyboard." + e.toString());
+    }
   }
 
-  // addJsToElement(src: string): HTMLScriptElement {
-  //   const script = document.createElement('script');
-  //   script.type = 'text/javascript';
-  //   script.src = src;
-  //   this.elementRef.nativeElement.appendChild(script);
-  //   return script;
-  // }
 
   ngOnDestroy() {
-    clearInterval(this.id);
-    deleteKeyboard();
+    try{
+      clearInterval(this.id);
+      deleteKeyboard();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Cleared Interval and removed keyboard.");
+    }catch(e){
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Error clearing interval and/or removing keyboard." + e.toString());
+    }
+    
   }
 
   DetectMyKad() {
@@ -239,22 +247,25 @@ export class AccountregistrationComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
     });
   }
 
   usekeyboardinput() {
-    let div = this.elementRef.nativeElement.querySelector('div');//.classList.remove('keyboard--hidden');
-    console.log(div);
+    // let div = this.elementRef.nativeElement.querySelector('div');//.classList.remove('keyboard--hidden');
+    // console.log(div);
   }
 
 
   noEmailCheck() {
     if (this.AR_Form.controls.noemail.value == false){
       this.AR_Form.controls.email.disable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Email.");
     }
     else{
       this.AR_Form.controls.email.enable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Unchecked No Email.");
     }
   }
 
@@ -262,9 +273,11 @@ export class AccountregistrationComponent implements OnInit {
   noTelephoneCheck() {
     if (this.AR_Form.controls.notelephone.value == false){
       this.AR_Form.controls.telephone.disable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Telephone.");
     }
     else{
       this.AR_Form.controls.telephone.enable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Unchecked No Telephone.");
     }
   }
 
@@ -275,6 +288,7 @@ export class AccountregistrationComponent implements OnInit {
       this.AR_Form.controls.postcode.disable();
       this.AR_Form.controls.city.disable();
       this.AR_Form.controls.state.disable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked MyKad Address.");
     }
     else{
       this.AR_Form.controls.address1.enable();
@@ -282,6 +296,7 @@ export class AccountregistrationComponent implements OnInit {
       this.AR_Form.controls.postcode.enable();
       this.AR_Form.controls.city.enable();
       this.AR_Form.controls.state.enable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Unhecked MyKad Address.");
     }
   }
 
@@ -295,6 +310,7 @@ export class AccountregistrationComponent implements OnInit {
     })
     if (x > 0){
       console.log("Error");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
     }
     else{
       this.AR_Form.controls.fullname.enable();
@@ -308,11 +324,13 @@ export class AccountregistrationComponent implements OnInit {
       this.AR_Form.controls.city.enable();
       this.AR_Form.controls.state.enable();
       console.log(this.AR_Form.value);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Submitted Account Registration Form.");
     }
   }
 
   registrationCancel() {
     this._router.navigate(['language']);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Canceled Account Registration.");
   }
 
 
