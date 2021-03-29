@@ -3,7 +3,8 @@ const Keyboard = {
         main: null,
         keysContainer: null,
         keys: [],
-        activeElem: null
+        activeElem: null,
+        keyboardspace : null
     },
 
     eventHandlers: {
@@ -23,11 +24,14 @@ const Keyboard = {
         // Create main elements
         this.elements.main = document.createElement("div");
         this.elements.keysContainer = document.createElement("div");
+        this.elements.keyboardspace = document.createElement("div");
+
 
         // Setup main elements
         this.elements.main.classList.add("keyboard", "keyboard--hidden");
         this.elements.keysContainer.classList.add("keyboard__keys");
         this.elements.keysContainer.appendChild(this._createKeys());
+        this.elements.keyboardspace.classList.add("spaceHandling");
 
         this.elements.keys = this.elements.keysContainer.querySelectorAll(".keyboard__key");
 
@@ -35,6 +39,7 @@ const Keyboard = {
         this.elements.main.appendChild(this.elements.keysContainer);
         //document.body.childNodes[1]..appendChild(this.elements.main);
         document.body.appendChild(this.elements.main);
+        document.body.appendChild(this.elements.keyboardspace);
         console.log(document.body.firstChild.nextSibling);
         // Automatically use keyboard for elements with .use-keyboard-input
         document.querySelectorAll(".use-keyboard-input").forEach(element => {
@@ -217,6 +222,7 @@ const Keyboard = {
         this.eventHandlers.oninput = oninput;
         this.eventHandlers.onclose = onclose;
         this.elements.main.classList.remove("keyboard--hidden");
+        this.elements.keyboardspace.style.height = "300px";
     },
 
     close() {
@@ -224,6 +230,7 @@ const Keyboard = {
         this.eventHandlers.oninput = oninput;
         this.eventHandlers.onclose = onclose;
         this.elements.main.classList.add("keyboard--hidden");
+        this.elements.keyboardspace.style.height = "0";
     },
 
     // removeKeyboard() {
@@ -251,6 +258,7 @@ function loadKeyboard() {
 
 function deleteKeyboard() {
     Keyboard.removeElementsByClass('keyboard');
+    Keyboard.removeElementsByClass('spaceHandling');
 }
 
 
