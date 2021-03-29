@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { cities } from './cities';
 import { eModules } from './enabledModules';
 
 @Injectable({
@@ -7,4 +8,5 @@ import { eModules } from './enabledModules';
 
 export class appFunc {
   static modules: eModules[];
+  static cities: cities[];
 }

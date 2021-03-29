@@ -13,6 +13,7 @@ import { formatDate } from '@angular/common';
 import { appFunc } from '../_models/appFunctions';
 import { eModules } from '../_models/enabledModules';
 import { errorCodes } from '../_models/errorCode';
+import { cities } from '../_models/cities';
 
 
 @Component({
@@ -125,6 +126,13 @@ export class LanguageComponent implements OnInit {
 
     //signalrConnection.connection.invoke('SaveToLog', "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
+
+    this.serviceService.getCities().subscribe((data:any) => {
+      appFunc.cities = data.result.items.map((em: any) => new cities(em));
+      console.log(appFunc.cities);
+    });
+
+    
   }
 
 
