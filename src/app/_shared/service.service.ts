@@ -138,6 +138,15 @@ export class ServiceService {
         return _observableOf(status);
     }
   }
+
+  //Get Title DropDown in Account Registration
+  getTitle() 
+  {
+    
+  }
+
+
+
 }
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
@@ -186,4 +195,13 @@ export class ApiException extends Error {
       return obj.isApiException === true;
   }
 }
+
+
+
+
+
+
+
+
+
 

@@ -10,6 +10,7 @@ import { formatDate } from '@angular/common';
   templateUrl: './portalregistration.component.html',
   styleUrls: ['./portalregistration.component.css']
 })
+
 export class PortalregistrationComponent implements OnInit {
 
   BTN_Cancel = "";
@@ -185,5 +186,10 @@ export class PortalregistrationComponent implements OnInit {
     this.PR_Details = true;
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Agreed to Portal Registration Terms and Conditions.");
   }
+}
 
+
+interface Title {
+  value: string;
+  text: string;
 }
