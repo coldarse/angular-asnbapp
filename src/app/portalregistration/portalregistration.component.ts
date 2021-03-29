@@ -9,6 +9,7 @@ import { signalrConnection } from 'src/app/_models/signalr';
   templateUrl: './portalregistration.component.html',
   styleUrls: ['./portalregistration.component.css']
 })
+
 export class PortalregistrationComponent implements OnInit {
 
   BTN_Cancel = "";
@@ -173,5 +174,10 @@ export class PortalregistrationComponent implements OnInit {
     this.PR_TNC = false;
     this.PR_Details = true;
   }
+}
 
+
+interface Title {
+  value: string;
+  text: string;
 }
