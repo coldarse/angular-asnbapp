@@ -13,6 +13,7 @@ import { formatDate } from '@angular/common';
 import { appFunc } from '../_models/appFunctions';
 import { eModules } from '../_models/enabledModules';
 import { errorCodes } from '../_models/errorCode';
+import { fundDetails } from '../_models/fundDetails';
 
 
 @Component({
@@ -99,8 +100,6 @@ export class LanguageComponent implements OnInit {
             Authorization: 'Bearer ' + accessToken.token
           })
         }
-
-        //console.log(JSON.stringify(accessToken));
       });
       // signalrConnection.connection.invoke('GetPrinterStatus').then((data: string) => {
       //   //accessToken.token = data;
@@ -125,7 +124,8 @@ export class LanguageComponent implements OnInit {
 
     //signalrConnection.connection.invoke('SaveToLog', "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
+  
   }
-
-
 }
+
+

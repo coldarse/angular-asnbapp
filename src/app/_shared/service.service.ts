@@ -67,7 +67,7 @@ export class ServiceService {
       body)
       .pipe(
         map((response: any) => {
-          console.log(response);
+          // console.log(response);
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `Authenticate Response: ${response}.`);
         }),
         retry(1),       
@@ -129,13 +129,15 @@ export class ServiceService {
   }
 
   //Get Title DropDown in Account Registration
-  getTitle() 
-  {
-    
+  getTitleSalutation() 
+  { 
+    return this.http.get(
+      this.url + 'services/app/PersonTitle/GetAll',
+      accessToken.httpOptions).pipe(
+      retry(1),       
+      catchError(this.handleError),     
+    );         
   }
-
-
-
 }
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
@@ -184,7 +186,6 @@ export class ApiException extends Error {
       return obj.isApiException === true;
   }
 }
-
 
 
 

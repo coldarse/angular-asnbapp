@@ -4,6 +4,7 @@ import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
 import { signalrConnection } from 'src/app/_models/signalr';
 import { formatDate } from '@angular/common';
+import { ServiceService } from '../_shared/service.service';
 
 @Component({
   selector: 'app-portalregistration',
@@ -12,6 +13,7 @@ import { formatDate } from '@angular/common';
 })
 
 export class PortalregistrationComponent implements OnInit {
+
 
   BTN_Cancel = "";
   BTN_Next = "";
@@ -133,7 +135,8 @@ export class PortalregistrationComponent implements OnInit {
   id: any;
 
   constructor(private _router: Router,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private serviceService : ServiceService) { }
 
   ngOnInit(): void {
     if(signalrConnection.logsaves != undefined){
@@ -185,11 +188,17 @@ export class PortalregistrationComponent implements OnInit {
     this.PR_TNC = false;
     this.PR_Details = true;
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Agreed to Portal Registration Terms and Conditions.");
+  } 
+
+  getTitle(){
+    this.serviceService.getTitleSalutation().subscribe((res : any) => {
+    
+      appFunc.titleSalutions = res.result.items.map((data : any) => new TitleDetails(data)    
+      );
+      console.log(appFunc.titleSalutions);
+    });
   }
+  
 }
 
 
-interface Title {
-  value: string;
-  text: string;
-}
