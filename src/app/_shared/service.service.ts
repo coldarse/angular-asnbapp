@@ -54,6 +54,17 @@ export class ServiceService {
       'Something bad happened; please try again later.');
   }
 
+  getCities()
+  {
+    return this.http.get(
+      this.url + "services/app/City/GetAll",
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
   getToken()
   {
     const body = 

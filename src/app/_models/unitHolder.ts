@@ -93,6 +93,7 @@ export class UnitHolder implements IUnitHolder {
             this.transactionstatus = data.result.transactionstatus;
             this.rejectcode = data.result.rejectcode;
             this.rejectreason = data.result.rejectreason;
+            console.log("Finished Mapping");
          }
      }
 

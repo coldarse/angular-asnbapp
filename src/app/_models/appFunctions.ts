@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { cities } from './cities';
 import { eModules } from './enabledModules';
 import { TitleDetails } from './titleDetails';
 
@@ -8,5 +9,6 @@ import { TitleDetails } from './titleDetails';
 
 export class appFunc {
   static modules: eModules[];
-  static titleSalutions : TitleDetails[];
+  static cities: cities[];
+  static titleSalutation: TitleDetails[];
 }

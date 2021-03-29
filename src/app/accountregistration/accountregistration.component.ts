@@ -8,6 +8,7 @@ import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { formatDate } from '@angular/common';
 import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { appFunc } from '../_models/appFunctions';
 
 
 
@@ -30,7 +31,7 @@ export class AccountregistrationComponent implements OnInit {
   BTN_Print = "";
   BTN_Email = "";
   
-  
+  form_cities : any = appFunc.cities;
 
 
   //Visible Page Elements
@@ -163,6 +164,14 @@ export class AccountregistrationComponent implements OnInit {
     }
 
   initializeForm()  {
+    let city = currentMyKadDetails.City;
+    for(var x of this.form_cities){
+      if (x.name.toLowerCase().includes(city.toLowerCase())){
+        city = x.name;
+        break;
+      }
+      city = currentMyKadDetails.City;
+    }
     this.AR_Form = this.fb.group(
       {
         salutation: ['Datuk'],
@@ -175,7 +184,7 @@ export class AccountregistrationComponent implements OnInit {
         address1 : [{value: currentMyKadDetails.Address1 + currentMyKadDetails.Address2, disabled: true}],
         address2 : [{value: currentMyKadDetails.Address3, disabled: true}],
         postcode : [{value: currentMyKadDetails.PostCode, disabled: true}],
-        city : [{value: currentMyKadDetails.City, disabled: true}],
+        city : [{value: city, disabled: false}],
         state : [{value: currentMyKadDetails.State, disabled: true}],
         mykadaddress: [true],
 
