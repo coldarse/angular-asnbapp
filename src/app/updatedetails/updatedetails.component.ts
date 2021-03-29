@@ -158,6 +158,10 @@ export class UpdatedetailsComponent implements OnInit {
     private serviceService : ServiceService) { }
 
   ngOnInit(): void {
+    if(signalrConnection.logsaves != undefined){
+      signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
+    }
+    signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
 
     this.noAhli = currentHolder.unitholderid;
@@ -173,10 +177,12 @@ export class UpdatedetailsComponent implements OnInit {
     this.id = setInterval(() => {
       this.DetectMyKad();
     }, 1000);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
   ngOnDestroy() {
     clearInterval(this.id);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Cleared Interval.");
   }
 
   DetectMyKad() {
@@ -185,29 +191,25 @@ export class UpdatedetailsComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
     });
   }
 
-  noEmailCheck() {
-    if (this.AR_Form.controls.noemail.value == false){
-      this.AR_Form.controls.email.disable();
-    }
-    else{
-      this.AR_Form.controls.email.enable();
-    }
-  }
+  
 
   updateDetails1Cancel(){
     this._router.navigate(['feedbackscreen']);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Redirect to Feedback Screen.");
   }
 
   updateDetails1MainMenu(){
     this._router.navigate(['transactionmenu']);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Redirect to Transaction Menu.");
   }
 
   UpdateMainAccount(){
-
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Selected Update Main Account.");
   }
 
   UpdateMinor(selectedMinorDetails: any) {
@@ -271,16 +273,31 @@ export class UpdatedetailsComponent implements OnInit {
        currentBijakHolder.rejectcode = result.rejectcode;
        currentBijakHolder.rejectreason = result.rejectreason;
        
-     })
+     });
+
+     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Selected Minor Account Balance. ${currentBijakHolder.firstname}, ${currentBijakHolder.identificationnumber}, ${currentBijakHolder.unitholderid}`);
+  }
+
+  noEmailCheck() {
+    if (this.AR_Form.controls.noemail.value == false){
+      this.AR_Form.controls.email.disable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Checked No Email.");
+    }
+    else{
+      this.AR_Form.controls.email.enable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Unchecked No Email.");
+    }
   }
 
 
   noTelephoneCheck() {
     if (this.AR_Form.controls.notelephone.value == false){
       this.AR_Form.controls.telephone.disable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Checked No Telephone.");
     }
     else{
       this.AR_Form.controls.telephone.enable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Unchecked No Telephone.");
     }
   }
 
@@ -291,6 +308,7 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.postcode.disable();
       this.AR_Form.controls.city.disable();
       this.AR_Form.controls.state.disable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Checked MyKad Address.");
     }
     else{
       this.AR_Form.controls.address1.enable();
@@ -298,15 +316,17 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.postcode.enable();
       this.AR_Form.controls.city.enable();
       this.AR_Form.controls.state.enable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Unhecked MyKad Address.");
     }
   }
 
-  majorUpdateBack(){
 
+  majorUpdateBack(){
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Back.");
   }
 
   majorUpdateCancel(){
-
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Cancel.");
   }
 
   majorUpdateNext(){
@@ -318,6 +338,7 @@ export class UpdatedetailsComponent implements OnInit {
     })
     if (x > 0){
       console.log("Error");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Major Form: ${x} field(s) empty.`);
     }
     else{
       this.AR_Form.controls.fullname.enable();
@@ -331,15 +352,16 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.city.enable();
       this.AR_Form.controls.state.enable();
       console.log(this.AR_Form.value);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Submit.");
     }
   }
 
   bijakUpdateBack() {
-
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Cancel.");
   }
 
   bijakUpdateCancel(){
-    
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Cancel.");
   }
   
   bijakUpdateNext(){
@@ -351,6 +373,7 @@ export class UpdatedetailsComponent implements OnInit {
     })
     if (x > 0){
       console.log("Error");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Bijak Form: ${x} field(s) empty.`);
     }
     else{
       this.AR_Form.controls.fullname.enable();
@@ -370,6 +393,7 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.city.enable();
       this.AR_Form.controls.state.enable();
       console.log(this.AR_Form.value);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Submit.");
     }
   }
 
@@ -414,7 +438,8 @@ export class UpdatedetailsComponent implements OnInit {
           pep: ['No'],
           news: ['No'],
           crs: ['No'],
-      })
+      });
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Major Form")
     }
     else if (acctType == 'minor'){
       this.AR_Form = this.fb.group(
@@ -464,10 +489,9 @@ export class UpdatedetailsComponent implements OnInit {
           pep: ['No'],
           news: ['No'],
           crs: ['No'],
-      })
-    }
-    else {
 
+      });
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Bijak Form")
     }
     
   }  

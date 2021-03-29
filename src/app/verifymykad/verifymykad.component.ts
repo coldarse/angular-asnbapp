@@ -76,18 +76,24 @@ export class VerifymykadComponent implements OnInit {
     }
   
   ngOnInit(): void {
+    if(signalrConnection.logsaves != undefined){
+      signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
+    }
+    signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
-    this._conn = signalrConnection.connection;
+    this._conn = signalrConnection.connection;signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Set global variable 'signalrConnection.connection to this._conn.");
   }
 
 
   endTransaction() : void {
     this._router.navigate(['language']);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Redirect to Language Screen.");
   }
   
 
   registerAccount() : void {
     this._router.navigate(['accountregistration']);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Redirect to Account Registration.");
   }
 
   tryAgain() : void {
@@ -96,35 +102,26 @@ export class VerifymykadComponent implements OnInit {
     this.RMError2_Visible = false;
 
     this._conn.invoke('myKadRequest', "ScanThumb").then((data: any) => {
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoked myKadRequest to Scan Thumb.");
       //console.log(data);
       this.DetectMyKad();
       if (data.toUpperCase().includes("MISMATCH")){
         this.tryCount = this.tryCount - 1;
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Thumbprint Mismatched. ${this.tryCount} tries remaining.`);
         this.DetectMyKad(data.toString());
       }
       else if(data.toUpperCase().includes("MATCH")){
         this.DetectMyKad(data.toString());
-        //this._router.navigate(['transactionmenu']);
-        
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Thumbprint Matched.");
       }
       else{
         errorCodes.code = "0222";
-        errorCodes.message = "Open CBM Failed.";
+        errorCodes.message = `Error: ${data}`;
         this._router.navigate(['outofservice']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Redirect to Out Of Service.");
       }
     });
   }
-
-
-  // DetectMyKad() {
-  //   // this._conn.invoke('IsCardDetected').then((data: boolean) => {
-  //   //   console.log(data);
-  //   //   if (data == true){
-  //   //     this.verify();
-  //   //   }
-  //   // });
-  //   this.verify();
-  // }
 
   DetectMyKad(match?: string) {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
@@ -135,6 +132,7 @@ export class VerifymykadComponent implements OnInit {
         errorCodes.code = "0168";
         errorCodes.message = "No Identification Card Detected.";
         this._router.navigate(['outofservice']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "MyKad Not Detected. Redirected to Out Of Service Screen.");
       }
       if (match?.toLowerCase().includes('mismatch')){
         if (this.tryCount == 0) {
@@ -150,6 +148,7 @@ export class VerifymykadComponent implements OnInit {
         this.readThumbprintVisible = false;
         this.myKadData = Object.assign(new MyKadDetails(), JSON.parse(match));
         this.bindMyKadData();
+        
       }
       
     });
@@ -157,6 +156,7 @@ export class VerifymykadComponent implements OnInit {
 
   ngOnDestroy() {
     clearInterval(this.id);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Cleared Interval.");
   }
 
   verify() : void {
@@ -166,9 +166,10 @@ export class VerifymykadComponent implements OnInit {
 
       var status = "";
 
-      this.DetectMyKad();
+      //this.DetectMyKad();
       //First Invoke
       this._conn.invoke('myKadRequest', this.CardType).then((data: any) => {
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoke myKadRequest to read MyKad.");
         console.log(data);
         status = data;
         //Not ScanThumb
@@ -177,41 +178,45 @@ export class VerifymykadComponent implements OnInit {
           errorCodes.code = "0168";
           errorCodes.message = data;
           this._router.navigate(['outofservice']);
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
         }
-        else{
-          this.DetectMyKad();
-          this._conn.invoke('myKadRequest', status).then((data: any) => {
-            console.log(data);
-            //ScanThumb
-            this.DetectMyKad();
-            if (data.toUpperCase().includes("SCANTHUMB")){
+        this.DetectMyKad();
+        this._conn.invoke('myKadRequest', status).then((data: any) => {
+          console.log(data);
+          //ScanThumb
+          //this.DetectMyKad();
+          if (data.toUpperCase().includes("SCANTHUMB")){
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoke myKadRequest to Scan Thumb.");
+            status = data;
+            this.loadingVisible = false;
+            this.readThumbprintVisible = true;
+            this._conn.invoke('myKadRequest', status).then((data: any) => {
               status = data;
-              this.loadingVisible = false;
-              this.readThumbprintVisible = true;
-              this._conn.invoke('myKadRequest', status).then((data: any) => {
-                status = data;
-                //this.DetectMyKad();
-                console.log(data);
-                if (status.toUpperCase().includes("MISMATCH")){
-                  this.DetectMyKad(data.toString());
-                }
-                else if(data.toUpperCase().includes("MATCH")){
-                  this.DetectMyKad(data.toString());
-                }
-                else{
-                  errorCodes.code = "0222";
-                  errorCodes.message = "Open CBM Failed.";
-                  this._router.navigate(['outofservice']);
-                }
-              }); 
-            }
-            else{
-              errorCodes.code = "0111";
-              errorCodes.message = data;
-              this._router.navigate(['outofservice']);
-            }    
-          });
-        }
+              //this.DetectMyKad();
+              console.log(data);
+              if (status.toUpperCase().includes("MISMATCH")){
+                signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Thumbprint Mismatched. ${this.tryCount} tries remaining.`);
+                this.DetectMyKad(data.toString());
+              }
+              else if(data.toUpperCase().includes("MATCH")){
+                signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Thumbprint Matched.");
+                this.DetectMyKad(data.toString());
+              }
+              else{
+                errorCodes.code = "0222";
+                errorCodes.message = data;
+                this._router.navigate(['outofservice']);
+                signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
+              }
+            }); 
+          }
+          else{
+            errorCodes.code = "0111";
+            errorCodes.message = data;
+            this._router.navigate(['outofservice']);
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
+          }    
+        });
       });
     }
     catch (e){
@@ -219,6 +224,7 @@ export class VerifymykadComponent implements OnInit {
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }
     
   }
@@ -252,6 +258,8 @@ export class VerifymykadComponent implements OnInit {
       currentMyKadDetails.CardVersion = this.myKadData['CardVersion'];
       currentMyKadDetails.OtherID = this.myKadData['OtherID'];
       currentMyKadDetails.CategoryType = this.myKadData['CategoryType'];
+
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
   
       this.getAccountInquiry();
     }
@@ -260,6 +268,7 @@ export class VerifymykadComponent implements OnInit {
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }
   }
 
@@ -270,9 +279,9 @@ export class VerifymykadComponent implements OnInit {
 
       const body = { 
 
-        "CHANNELTYPE": "IB",
-        "REQUESTORIDENTIFICATION": "RHBNOW",
-        "DEVICEOWNER": "RHB",
+        "CHANNELTYPE": "ASNB KIOSK",
+        "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+        "DEVICEOWNER": "ASNB",
         "UNITHOLDERID": "",
         "FIRSTNAME": "",
         "IDENTIFICATIONTYPE": "W",
@@ -283,7 +292,7 @@ export class VerifymykadComponent implements OnInit {
         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
         "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
         "BANKCUSTPHONENUMBER": "",
-        "FILTRATIONFLAG": "",
+        "FILTRATIONFLAG": "1",
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
         "GUARDIANICNUMBER": ""
@@ -336,14 +345,15 @@ export class VerifymykadComponent implements OnInit {
         if (currentHolder.rejectreason.includes('not exists')){
           this.loadingVisible = false;
           this.RMError3_Visible = true;
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No account found.");
         }
         //Scenario 2: FundID = ""
         else if (currentHolder.funddetail.length == 0 && currentHolder.unitholderid != undefined){
-          this._router.navigate(['transactionmenu'])
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found, But no Fund.");
         }
         //Scenario 3: FundID & UnitHolderID exists
         else if (currentHolder.funddetail.length > 0 && currentHolder.unitholderid != undefined){
-          this._router.navigate(['transactionmenu'])
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found.");
         }
   
       })
@@ -353,6 +363,7 @@ export class VerifymykadComponent implements OnInit {
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }
   }
 

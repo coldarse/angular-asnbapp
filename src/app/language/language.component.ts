@@ -65,6 +65,10 @@ export class LanguageComponent implements OnInit {
 
   
   ngOnInit(): void {
+    if(signalrConnection.logsaves != undefined){
+      signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
+    }
+    signalrConnection.logsaves = [];
     var areDisabled = 0
     appFunc.modules = this.modis.map((em: any) => new eModules(em));
     console.log(appFunc.modules);
@@ -111,18 +115,16 @@ export class LanguageComponent implements OnInit {
     selectLang.selectedLang = 'en';
     this.route.navigate(['/verifymykad']);
 
-    // this.serviceService.getToken().subscribe(data =>
-    //   console.log(data));
-
-    // this.serviceService.getAccountInquiry()
-    // .subscribe(data => console.log(JSON.stringify(data)));
-    
-    
+    //signalrConnection.connection.invoke('SaveToLog', "WebApp Component [Language]" + ": " + "Selected English.");
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected English.");
   }
 
   selectMalay() {
     selectLang.selectedLang = 'ms';
     this.route.navigate(['/verifymykad']);
+
+    //signalrConnection.connection.invoke('SaveToLog', "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
   }
 
 
