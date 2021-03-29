@@ -38,9 +38,9 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/signalr/jquery.signalR.js",
-              "src/bootstrap/js/Keyboard.js",
               "src/bootstrap/js/bootstrap.js",
-              "src/bootstrap/js/custom.js"
+              "src/bootstrap/js/custom.js",
+              "src/bootstrap/js/Keyboard.js"
             ]
           },
           "configurations": {

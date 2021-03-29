@@ -33,10 +33,12 @@ const Keyboard = {
 
         // Add to DOM
         this.elements.main.appendChild(this.elements.keysContainer);
+        //document.body.childNodes[1]..appendChild(this.elements.main);
         document.body.appendChild(this.elements.main);
-
+        console.log(document.body.firstChild.nextSibling);
         // Automatically use keyboard for elements with .use-keyboard-input
         document.querySelectorAll(".use-keyboard-input").forEach(element => {
+            console.log(element);
             element.addEventListener("focus", () => {
                 this.open(element.value, currentValue => {
                     element.value = currentValue;
@@ -222,12 +224,34 @@ const Keyboard = {
         this.eventHandlers.oninput = oninput;
         this.eventHandlers.onclose = onclose;
         this.elements.main.classList.add("keyboard--hidden");
+    },
+
+    // removeKeyboard() {
+    //     var elem = document.getElementsByClassName("keyboard");
+    //     console.log(elem.parentNode);
+    //     //elem.remove();
+    // }
+
+    removeElementsByClass(className){
+        var elements = document.getElementsByClassName(className);
+        while(elements.length > 0){
+            elements[0].parentNode.removeChild(elements[0]);
+        }
     }
 };
 
-window.addEventListener("DOMContentLoaded", function () {
+// window.addEventListener("DOMContentLoaded", function () {
+//     Keyboard.init();
+// });
+
+
+function loadKeyboard() {
     Keyboard.init();
-});
+}
+
+function deleteKeyboard() {
+    Keyboard.removeElementsByClass('keyboard');
+}
 
 
 //var myTxt = document.getElementById("AR1");

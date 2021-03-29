@@ -11,6 +11,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 
 
+declare const loadKeyboard: any;
+declare const deleteKeyboard: any;
+
 @Component({
   selector: 'app-accountregistration',
   templateUrl: './accountregistration.component.html',
@@ -148,6 +151,7 @@ export class AccountregistrationComponent implements OnInit {
 
 
   AR_Form: any;
+  id:any;
 
   constructor(private elementRef: ElementRef,
     private _router: Router,
@@ -155,6 +159,7 @@ export class AccountregistrationComponent implements OnInit {
     private fb: FormBuilder) {
      
       this.initializeForm();
+      
     }
 
   initializeForm()  {
@@ -197,56 +202,50 @@ export class AccountregistrationComponent implements OnInit {
         pep: ['No'],
         news: ['No'],
         crs: ['No'],
-    })
-
-    // this.AR_Form = this.fb.group({
-    //   salutation: new FormControl('Datuk'),
-    //   fullname: new FormControl({value: currentMyKadDetails.Name, disabled: true}),
-    //   identificationcardno: new FormControl({value: currentMyKadDetails.ICNo, disabled: true}),
-    //   dob: new FormControl({value: formatDate(currentMyKadDetails.DOB, 'dd MMM yyyy', 'en'), disabled: true}),
-    //   race: new FormControl({value: currentMyKadDetails.Race, disabled: true}),
-    //   religion: new FormControl({value: currentMyKadDetails.Religion, disabled: true}),
-
-    //   address1 : new FormControl({value: currentMyKadDetails.Address1 + currentMyKadDetails.Address2, disabled: true}),
-    //   address2 : new FormControl({value: currentMyKadDetails.Address3, disabled: true}),
-    //   postcode : new FormControl({value: currentMyKadDetails.PostCode, disabled: true}),
-    //   city : new FormControl({value: currentMyKadDetails.City, disabled: true}),
-    //   state : new FormControl({value: currentMyKadDetails.State, disabled: true}),
-    //   mykadaddress: new FormControl(true),
-
-    //   homenumber : new FormControl('', Validators.required),
-    //   telephone: new FormControl('', Validators.required),
-    //   notelephone: new FormControl(false),
-
-    //   email: new FormControl('', Validators.required),
-    //   noemail: new FormControl(false),
-    //   deliverystate: new FormControl('Sila Pilih Satu'),
-
-    //   bankname: new FormControl('Sila Pilih Satu'),
-    //   bankaccount: new FormControl('', Validators.required),
-
-    //   jobcategory: new FormControl('Sila Pilih Satu'),
-    //   jobname: new FormControl('Sila Pilih Satu'),
-    //   natureofjob: new FormControl('Sila Pilih Satu'),
-    //   jobsector: new FormControl('Sila Pilih Satu'),
-    //   monthlyincome: new FormControl('Sila Pilih Satu'),
-    //   companyname: new FormControl('', Validators.required),
-
-    //   fatca: new FormControl('No'),
-    //   pep: new FormControl('No'),
-    //   news: new FormControl('No'),
-    //   crs: new FormControl('No'),
-    // })
+    });
+    
   }  
 
   ngOnInit(): void {
-    console.log("Hi");
-
     this.translate.use(selectLang.selectedLang);
+
+
+    
+    this.id = setInterval(() => {
+      this.DetectMyKad();
+    }, 1000);
+  }
+
+  ngAfterViewInit(){
+    loadKeyboard();
+  }
+
+  // addJsToElement(src: string): HTMLScriptElement {
+  //   const script = document.createElement('script');
+  //   script.type = 'text/javascript';
+  //   script.src = src;
+  //   this.elementRef.nativeElement.appendChild(script);
+  //   return script;
+  // }
+
+  ngOnDestroy() {
+    clearInterval(this.id);
+    deleteKeyboard();
+  }
+
+  DetectMyKad() {
+    signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
+      console.log(data);
+      signalrConnection.cardDetect = data;
+      if(signalrConnection.cardDetect != true){
+        this._router.navigate(['feedbackscreen']);
+      }
+    });
   }
 
   usekeyboardinput() {
-    //this.elementRef.nativeElement.querySelector('keyboard').classList.remove('keyboard--hidden')
+    let div = this.elementRef.nativeElement.querySelector('div');//.classList.remove('keyboard--hidden');
+    console.log(div);
   }
 
 

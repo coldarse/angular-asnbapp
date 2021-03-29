@@ -42,7 +42,6 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { LoggerComponent } from './logger/logger.component';
 
 
-
 export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();
   c.hubName = 'MyMessageHub';

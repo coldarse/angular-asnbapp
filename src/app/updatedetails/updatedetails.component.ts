@@ -35,6 +35,8 @@ export class UpdatedetailsComponent implements OnInit {
   UDConfirm_Visible = false;
   UDSuccess_Visible = false;
 
+  UDBijak_Visible = false;
+
   UD_Print1Visible = false;
   UD_Print2Visible = false;
   UD_EmailVisible = false;
@@ -148,6 +150,7 @@ export class UpdatedetailsComponent implements OnInit {
   mDetails : any = currentHolder.minordetail;
 
   AR_Form: any;
+  id: any; 
 
   constructor(private _router: Router,
     private translate: TranslateService,
@@ -156,6 +159,34 @@ export class UpdatedetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.translate.use(selectLang.selectedLang);
+
+    this.noAhli = currentHolder.unitholderid;
+    this.namaAhli = currentHolder.firstname;
+
+    if(currentHolder.totalminoraccount != "0"){
+      this.UDBijak_Visible = true;
+    }
+    else{
+      this.UDBijak_Visible = false;
+    }
+
+    this.id = setInterval(() => {
+      this.DetectMyKad();
+    }, 1000);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.id);
+  }
+
+  DetectMyKad() {
+    signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
+      console.log(data);
+      signalrConnection.cardDetect = data;
+      if(signalrConnection.cardDetect != true){
+        this._router.navigate(['feedbackscreen']);
+      }
+    });
   }
 
   noEmailCheck() {
@@ -176,7 +207,7 @@ export class UpdatedetailsComponent implements OnInit {
   }
 
   UpdateMainAccount(){
-    
+
   }
 
   UpdateMinor(selectedMinorDetails: any) {

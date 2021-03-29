@@ -26,7 +26,7 @@ export class LanguageComponent implements OnInit {
       module: "Update Details",
       startTime: "",
       stopTime: "",
-      isEnabled: false,
+      isEnabled: true,
     },
     {
       module: "Check Balance",
@@ -96,7 +96,7 @@ export class LanguageComponent implements OnInit {
           })
         }
 
-        console.log(accessToken );
+        //console.log(JSON.stringify(accessToken));
       });
       // signalrConnection.connection.invoke('GetPrinterStatus').then((data: string) => {
       //   //accessToken.token = data;

@@ -176,6 +176,7 @@ export class BijakregistrationComponent implements OnInit {
   BREmail_2 = "";
 
   AR_Form: any;
+  id: any;
 
   constructor(private _router: Router,
     private translate: TranslateService,
@@ -183,7 +184,21 @@ export class BijakregistrationComponent implements OnInit {
 
   ngOnInit(): void {
     this.translate.use(selectLang.selectedLang);
-    //this.initializeForm();
+    this.initializeForm();
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.id);
+  }
+
+  DetectMyKad() {
+    signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
+      console.log(data);
+      signalrConnection.cardDetect = data;
+      if(signalrConnection.cardDetect != true){
+        this._router.navigate(['feedbackscreen']);
+      }
+    });
   }
 
   initializeForm()  {

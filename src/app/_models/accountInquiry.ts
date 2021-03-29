@@ -56,9 +56,25 @@ export class AccountInquiry implements IAccountInquiry {
     }
 
     toJSON(data?: any) {
-       data = typeof data === 'object' ? data : {};
-       //data["channeltype"] = this.channeltype;
-       return data;
+        data = typeof data === 'object' ? data : {};
+        data["CHANNELTYPE"] = this.CHANNELTYPE;
+        data["REQUESTORIDENTIFICATION"] = this.REQUESTORIDENTIFICATION ;
+        data["DEVICEOWNER"] = this.DEVICEOWNER ;
+        data["UNITHOLDERID"] = this.UNITHOLDERID ;
+        data["FIRSTNAME"] = this.FIRSTNAME ;
+        data["IDENTIFICATIONTYPE"] = this.IDENTIFICATIONTYPE ;
+        data["IDENTIFICATIONNUMBER"] = this.IDENTIFICATIONNUMBER ;
+        data["FUNDID"] = this.FUNDID ;
+        data["INQUIRYCODE"] = this.INQUIRYCODE ;
+        data["TRANSACTIONDATE"] = this.TRANSACTIONDATE ;
+        data["TRANSACTIONTIME"] = this.TRANSACTIONTIME ;
+        data["BANKTXNREFERENCENUMBER"] = this.BANKTXNREFERENCENUMBER ;
+        data["BANKCUSTPHONENUMBER"] = this.BANKCUSTPHONENUMBER ;
+        data["FILTRATIONFLAG"] = this.FILTRATIONFLAG ;
+        data["GUARDIANID"] = this.GUARDIANID ;
+        data["GUARDIANICTYPE"] = this.GUARDIANICTYPE ;
+        data["GUARDIANICNUMBER"] = this.GUARDIANICNUMBER ;
+        return data;
     }
 
     clone(): AccountInquiry {

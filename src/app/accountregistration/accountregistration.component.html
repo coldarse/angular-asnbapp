@@ -1,3 +1,4 @@
+
 <nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
     <div class="container-fluid">
         
@@ -15,8 +16,11 @@
 </nav>
 
 
+<!-- <script src="bootstrap/js/Keyboard.js"></script> -->
+
 
 <form [formGroup]='AR_Form' (ngSubmit)="registrationNext()" name="registerForm" *ngIf="ARForm_Visible" autocomplete="off" novalidate>
+    
     <div class="col-md-12">
         <div class="registrationForm">
             <div class="formcontent">
@@ -45,7 +49,7 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_3' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input #someVar type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["fullname"]' id="AR1">
+                        <input #someVar type="text" class="input-long use-keyboard-input" (click)="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["fullname"]' id="AR1">
                     </div>
                 </div>
                 <div class="row">
@@ -56,14 +60,14 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["identificationcardno"]' id="AR2">
+                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["identificationcardno"]' id="AR2">
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Tarikh lahir</h4> -->
                                 <h4>{{'FL_5' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["dob"]' id="AR3">
+                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["dob"]' id="AR3">
                             </div>
                         </div>
                     </div>
@@ -76,14 +80,14 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["race"]' id="AR4">
+                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["race"]' id="AR4">
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Agama</h4> -->
                                 <h4>{{'FL_7' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["religion"]' id="AR5">
+                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["religion"]' id="AR5">
                             </div>
                         </div>
                     </div>
@@ -102,7 +106,7 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_9' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARAddress1_disabled" [formControl]='AR_Form.controls["address1"]' id="AR_Address1">
+                        <input type="text" class="input-long use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARAddress1_disabled" [formControl]='AR_Form.controls["address1"]' id="AR_Address1">
                     </div>
                 </div>
                 <div class="row">
@@ -111,7 +115,7 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_10' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARAddress2_disabled" [formControl]='AR_Form.controls["address2"]' id="AR_Address2">
+                        <input type="text" class="input-long use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARAddress2_disabled" [formControl]='AR_Form.controls["address2"]' id="AR_Address2">
                     </div>
                 </div>
                 <div class="row">
@@ -122,14 +126,14 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARPostcode_disabled" [formControl]='AR_Form.controls["postcode"]' id="AR_Postcode">
+                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARPostcode_disabled" [formControl]='AR_Form.controls["postcode"]' id="AR_Postcode">
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Bandar</h4> -->
                                 <h4>{{'FL_12' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City">
+                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City">
                             </div>
                         </div>
                     </div>
@@ -150,7 +154,7 @@
                                 <h4>{{'FL_14' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARState_disabled" [formControl]='AR_Form.controls["state"]' id="AR_State">
+                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARState_disabled" [formControl]='AR_Form.controls["state"]' id="AR_State">
                             </div>
                         </div>
                     </div>
@@ -163,14 +167,14 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
+                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Telefon Bimbit</h4> -->
                                 <h4>{{'FL_16' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input class="input-normal use-keyboard-input" [formControl]='AR_Form.controls["telephone"]' ngclick="usekeyboardinput()" formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
+                                <input class="input-normal use-keyboard-input" [formControl]='AR_Form.controls["telephone"]' (click)="usekeyboardinput()" formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
                                 <!-- <div class="invalid-mobile alert alert-danger" *ngIf="AR_Form.get('telephone').hasError('required')">Please enter mobile</div> -->
                                 <input type="checkbox" id="noPhone" name="noPhone" [formControl]='AR_Form.controls["notelephone"]' (click)="noTelephoneCheck()" style="margin-top: 0.8rem;" >
                                 <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
@@ -192,7 +196,7 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="checkedXEmail"  name="AR_Email" [formControl]='AR_Form.controls["email"]'>
+                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [disabled]="checkedXEmail"  name="AR_Email" [formControl]='AR_Form.controls["email"]'>
                                 <input type="checkbox" id="noEmail" name="noEmail" [formControl]='AR_Form.controls["noemail"]' (click)="noEmailCheck()" style="margin-top: 0.8rem;">
                                 <!-- <label for="noEmail" >Tiada Emel</label><br> -->
                                 <label for="noEmail" >{{'FL_19' | translate }}</label><br>
@@ -237,7 +241,7 @@
                                 <h4>{{'FL_23' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
+                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
                             </div>
                         </div>
                     </div>
@@ -324,7 +328,7 @@
                                 <h4>{{'FL_30' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
+                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
                             </div>
                         </div>
                     </div>

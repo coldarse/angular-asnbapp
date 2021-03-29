@@ -61,6 +61,8 @@ export class VerifymykadComponent implements OnInit {
   myKadData: any;
   cardDetect : any;
 
+  id: any; 
+
 
   //Setting CardType
   private CardType = "MyKad";
@@ -89,26 +91,19 @@ export class VerifymykadComponent implements OnInit {
   }
 
   tryAgain() : void {
+    this.DetectMyKad();
     this.RMError1_Visible = false;
     this.RMError2_Visible = false;
 
     this._conn.invoke('myKadRequest', "ScanThumb").then((data: any) => {
       //console.log(data);
+      this.DetectMyKad();
       if (data.toUpperCase().includes("MISMATCH")){
         this.tryCount = this.tryCount - 1;
-        if (this.tryCount == 0) {
-          this.RMError1_Visible = false;
-          this.RMError2_Visible = true;
-        }
-        else{
-          this.RMError1_Visible = true;
-        }
+        this.DetectMyKad(data.toString());
       }
       else if(data.toUpperCase().includes("MATCH")){
-        this.loadingVisible = true;
-        this.readThumbprintVisible = false;
-        this.myKadData = JSON.stringify(data);
-        this.bindMyKadData();
+        this.DetectMyKad(data.toString());
         //this._router.navigate(['transactionmenu']);
         
       }
@@ -121,14 +116,47 @@ export class VerifymykadComponent implements OnInit {
   }
 
 
-  DetectMyKad() {
-    // this._conn.invoke('IsCardDetected').then((data: boolean) => {
-    //   console.log(data);
-    //   if (data == true){
-    //     this.verify();
-    //   }
-    // });
-    this.verify();
+  // DetectMyKad() {
+  //   // this._conn.invoke('IsCardDetected').then((data: boolean) => {
+  //   //   console.log(data);
+  //   //   if (data == true){
+  //   //     this.verify();
+  //   //   }
+  //   // });
+  //   this.verify();
+  // }
+
+  DetectMyKad(match?: string) {
+    signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
+      console.log(data);
+      signalrConnection.cardDetect = data;
+      if(signalrConnection.cardDetect != true){
+        console.log("No Identification Card Detected.");
+        errorCodes.code = "0168";
+        errorCodes.message = "No Identification Card Detected.";
+        this._router.navigate(['outofservice']);
+      }
+      if (match?.toLowerCase().includes('mismatch')){
+        if (this.tryCount == 0) {
+          this.RMError1_Visible = false;
+          this.RMError2_Visible = true;
+        }
+        else{
+          this.RMError1_Visible = true;
+        }
+      }
+      else if (match?.toLowerCase().includes('match')){
+        this.loadingVisible = true;
+        this.readThumbprintVisible = false;
+        this.myKadData = Object.assign(new MyKadDetails(), JSON.parse(match));
+        this.bindMyKadData();
+      }
+      
+    });
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.id);
   }
 
   verify() : void {
@@ -138,6 +166,7 @@ export class VerifymykadComponent implements OnInit {
 
       var status = "";
 
+      this.DetectMyKad();
       //First Invoke
       this._conn.invoke('myKadRequest', this.CardType).then((data: any) => {
         console.log(data);
@@ -150,26 +179,24 @@ export class VerifymykadComponent implements OnInit {
           this._router.navigate(['outofservice']);
         }
         else{
+          this.DetectMyKad();
           this._conn.invoke('myKadRequest', status).then((data: any) => {
             console.log(data);
             //ScanThumb
+            this.DetectMyKad();
             if (data.toUpperCase().includes("SCANTHUMB")){
               status = data;
               this.loadingVisible = false;
               this.readThumbprintVisible = true;
               this._conn.invoke('myKadRequest', status).then((data: any) => {
                 status = data;
-                
+                //this.DetectMyKad();
                 console.log(data);
                 if (status.toUpperCase().includes("MISMATCH")){
-                  this.RMError1_Visible = true;
+                  this.DetectMyKad(data.toString());
                 }
                 else if(data.toUpperCase().includes("MATCH")){
-                  this.loadingVisible = true;
-                  this.readThumbprintVisible = false;
-                  this.myKadData = Object.assign(new MyKadDetails(), JSON.parse(data));
-                  this.bindMyKadData();
-                  //this._router.navigate(['transactionmenu']);
+                  this.DetectMyKad(data.toString());
                 }
                 else{
                   errorCodes.code = "0222";
@@ -249,7 +276,7 @@ export class VerifymykadComponent implements OnInit {
         "UNITHOLDERID": "",
         "FIRSTNAME": "",
         "IDENTIFICATIONTYPE": "W",
-        "IDENTIFICATIONNUMBER": "060915101139",
+        "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
         "FUNDID": "",
         "INQUIRYCODE": "4",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
@@ -262,6 +289,8 @@ export class VerifymykadComponent implements OnInit {
         "GUARDIANICNUMBER": ""
   
        };
+
+
   
   
       this.serviceService.getAccountInquiry(body)

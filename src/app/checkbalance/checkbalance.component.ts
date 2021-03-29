@@ -85,6 +85,8 @@ export class CheckbalanceComponent implements OnInit {
   CBError_2 = "";
   CBError_3 = "";
 
+  id: any;
+
   constructor(private _router: Router,
     private translate: TranslateService,
     private serviceService : ServiceService) { }
@@ -105,6 +107,24 @@ export class CheckbalanceComponent implements OnInit {
     else{
       this.CBBijak_Visible = false;
     }
+
+    this.id = setInterval(() => {
+      this.DetectMyKad();
+    }, 1000);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.id);
+  }
+
+  DetectMyKad() {
+    signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
+      console.log(data);
+      signalrConnection.cardDetect = data;
+      if(signalrConnection.cardDetect != true){
+        this._router.navigate(['feedbackscreen']);
+      }
+    });
   }
   
   CancelCheckBalance() {
