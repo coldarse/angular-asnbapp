@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams, HttpResponse, HttpResponseBase } from '@angular/common/http';  
 import { HttpHeaders } from '@angular/common/http';  
-import { Observable, ReplaySubject, throwError, of as _observableOf, throwError as _observableThrow } from 'rxjs';
+import { Observable, ReplaySubject, throwError, of as _observableOf, throwError as _observableThrow, of } from 'rxjs';
 import { accessToken } from 'src/app/_models/apiToken';
 import { UnitHolder }  from '../_models/unitHolder';
 import { User } from '../_models/user';
-import { catchError, map, retry, mergeMap as _observableMergeMap} from 'rxjs/operators';
+import { catchError, map, retry, mergeMap as _observableMergeMap, delay} from 'rxjs/operators';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import {formatDate} from '@angular/common';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
@@ -13,6 +13,7 @@ import { AccountReg } from '../_models/accountRegistration';
 import { errorCodes } from '../_models/errorCode';
 import { Router } from '@angular/router';
 import { signalrConnection } from '../_models/signalr';
+import { forkJoin } from 'rxjs';
 
 // const httpOptions = {
 //   headers: new HttpHeaders({
@@ -139,15 +140,21 @@ export class ServiceService {
     }
   }
 
-  //Get Title DropDown in Account Registration
+  //Get DropDown in Account Registration
   getTitleSalutation() 
   { 
-    return this.http.get(
-      this.url + 'services/app/PersonTitle/GetAll',
-      accessToken.httpOptions).pipe(
-      retry(1),       
-      catchError(this.handleError),     
-    );         
+    // return this.http.get(
+    //   this.url + 'services/app/PersonTitle/GetAll',
+    //   accessToken.httpOptions).pipe(
+    //   retry(1),       
+    //   catchError(this.handleError),     
+    // );         
+
+    const response1 = this.http.get(this.url + 'services/app/PersonTitle/GetAll', accessToken.httpOptions);
+    const response2 = this.http.get(this.url + "services/app/City/GetAll",accessToken.httpOptions);
+    return forkJoin(
+      [response1, 
+        response2.pipe(delay(1000))]);
   }
 }
 
