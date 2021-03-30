@@ -8,6 +8,8 @@ import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { formatDate } from '@angular/common';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { currentHolder } from '../_models/currentUnitHolder';
+import { kActivity } from '../_models/kActivity';
+import { appFunc } from '../_models/appFunctions';
 
 @Component({
   selector: 'app-bijakregistration',
@@ -190,6 +192,14 @@ export class BijakregistrationComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
     
     this.initializeForm();
+
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Started Bijak Registration.";
+    kActivity.startTime = new Date();
+    
   }
 
   ngOnDestroy() {
@@ -202,6 +212,16 @@ export class BijakregistrationComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
+        kActivity.trxno = "";
+        kActivity.kioskCode = signalrConnection.kioskCode;
+        kActivity.moduleID = 0;
+        kActivity.submoduleID = undefined;
+        kActivity.action = "User Removed Identification Card.";
+        kActivity.startTime = new Date();
+        kActivity.endTime = new Date();
+        kActivity.status = false;
+
+        appFunc.kioskActivity.push(kActivity);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -261,11 +281,31 @@ export class BijakregistrationComponent implements OnInit {
   }  
 
   bijakDisagree(){
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
+
     this._router.navigate(['transactionmenu']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Redirected back to Transaction Menu.");
   }
 
   bijakAgree(){
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
+
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Bijak Registration Agreed";
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
+    kActivity.startTime = new Date();
     this.BRReminder_Visible = false;
     this.BRInsertMyKid_Visible = true;
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Agreed on Bijak Registration Terms and Conditions.");
@@ -334,6 +374,10 @@ export class BijakregistrationComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + `${x} field(s) empty.`);
     }
     else{
+      kActivity.endTime = new Date();
+      kActivity.status = true;
+
+      appFunc.kioskActivity.push(kActivity);
       this.AR_Form.controls.fullname.enable();
       this.AR_Form.controls.identificationcardno.enable();
       this.AR_Form.controls.dob.enable();

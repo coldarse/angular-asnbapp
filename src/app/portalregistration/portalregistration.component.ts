@@ -5,6 +5,8 @@ import { selectLang } from '../_models/language';
 import { signalrConnection } from 'src/app/_models/signalr';
 import { formatDate } from '@angular/common';
 import { ServiceService } from '../_shared/service.service';
+import { kActivity } from '../_models/kActivity';
+import { appFunc } from '../_models/appFunctions';
 
 @Component({
   selector: 'app-portalregistration',
@@ -148,6 +150,13 @@ export class PortalregistrationComponent implements OnInit {
     this.id = setInterval(() => {
       this.DetectMyKad();
     }, 1000);
+
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Arrived Portal Registration Screen.";
+    kActivity.startTime = new Date();
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -161,6 +170,16 @@ export class PortalregistrationComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
+        kActivity.trxno = "";
+        kActivity.kioskCode = signalrConnection.kioskCode;
+        kActivity.moduleID = 0;
+        kActivity.submoduleID = undefined;
+        kActivity.action = "User Removed Identification Card.";
+        kActivity.startTime = new Date();
+        kActivity.endTime = new Date();
+        kActivity.status = false;
+
+        appFunc.kioskActivity.push(kActivity);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -168,23 +187,55 @@ export class PortalregistrationComponent implements OnInit {
   }
 
   introCancel(){
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
     this._router.navigate(['transactionmenu'])
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Redirect to Transaction Menu.");
   }
 
   introNext(){
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
     this.PR_Intro = false;
     this.PR_TNC = true;
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Clicked Next on Portal Introduction.");
   }
 
   tncDisagree(){
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
+
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Disagreed Portal Registration TNC.";
+    kActivity.startTime = new Date();
+
     this.PR_Intro = true;
     this.PR_TNC = false;
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Disagreed to Portal Registration Terms and Conditions.");
   }
 
   tncAgree(){
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
+
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Agreed Portal Registration TNC.";
+    kActivity.startTime = new Date();
+
     this.PR_TNC = false;
     this.PR_Details = true;
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Agreed to Portal Registration Terms and Conditions.");

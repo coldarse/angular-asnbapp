@@ -8,6 +8,7 @@ export class signalrConnection {
   static connection: any;
   static cardDetect: boolean;
   static logsaves: string[];
+  static kioskCode: string;
 }
 
 

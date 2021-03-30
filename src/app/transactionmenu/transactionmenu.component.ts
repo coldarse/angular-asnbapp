@@ -5,6 +5,7 @@ import { selectLang } from '../_models/language';
 import { signalrConnection } from 'src/app/_models/signalr';
 import { appFunc } from '../_models/appFunctions';
 import { formatDate } from '@angular/common';
+import { kActivity } from '../_models/kActivity';
 
 @Component({
   selector: 'app-transactionmenu',
@@ -35,6 +36,13 @@ export class TransactionmenuComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit(): void {
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Arrived Transaction Menu.";
+    kActivity.startTime = new Date();
+    
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
     }
@@ -78,6 +86,12 @@ export class TransactionmenuComponent implements OnInit {
     this.id = setInterval(() => {
       this.DetectMyKad();
     }, 1000);
+
+    
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -91,6 +105,16 @@ export class TransactionmenuComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
+        kActivity.trxno = "";
+        kActivity.kioskCode = signalrConnection.kioskCode;
+        kActivity.moduleID = 0;
+        kActivity.submoduleID = undefined;
+        kActivity.action = "User Removed Identification Card.";
+        kActivity.startTime = new Date();
+        kActivity.endTime = new Date();
+        kActivity.status = false;
+
+        appFunc.kioskActivity.push(kActivity);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }

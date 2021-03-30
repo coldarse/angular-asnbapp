@@ -102,5 +102,45 @@ export class religions {
     }
 }
 
+export class occupationName {
+    code: string;
+    desc: string;
+	
+	constructor(name: any){
+        this.code = name.code;
+        this.desc = name.desc;
+	}
+}
+
+export class preferredDelivery {
+    code: string;
+    desc: string;
+	
+	constructor(delivery: any){
+        this.code = delivery.code;
+        this.desc = delivery.desc;
+	}
+}
+
+export class bankName {
+    code: string;
+    desc: string;
+	
+	constructor(bank: any){
+        this.code = bank.code;
+        this.desc = bank.desc;
+	}
+}
+
+export class relationship {
+    code: string;
+    desc: string;
+	
+	constructor(relationship: any){
+        this.code = relationship.code;
+        this.desc = relationship.desc;
+	}
+}
+
   
 

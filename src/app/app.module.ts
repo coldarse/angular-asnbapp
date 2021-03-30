@@ -40,6 +40,7 @@ import { errorCodes } from './_models/errorCode';
 import { appFunc } from './_models/appFunctions';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { LoggerComponent } from './logger/logger.component';
+import { kActivity } from './_models/kActivity';
 
 
 export function createConfig(): SignalRConfiguration {
@@ -104,6 +105,7 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
     currentMyKidDetails,
     errorCodes,
     appFunc,
+    kActivity,
     accessToken,
     {
       provide: AppConfiguration,

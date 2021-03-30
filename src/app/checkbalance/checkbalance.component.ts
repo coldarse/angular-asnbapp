@@ -10,6 +10,8 @@ import { fundDetails } from '../_models/fundDetails';
 import { minorDetails } from '../_models/minorDetails';
 import { formatDate } from '@angular/common';
 import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
+import { kActivity } from '../_models/kActivity';
+import { appFunc } from '../_models/appFunctions';
 
 @Component({
   selector: 'app-checkbalance',
@@ -112,6 +114,13 @@ export class CheckbalanceComponent implements OnInit {
     this.id = setInterval(() => {
       this.DetectMyKad();
     }, 1000);
+
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Started Check Balance.";
+    kActivity.startTime = new Date();
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -125,6 +134,10 @@ export class CheckbalanceComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
+        kActivity.endTime = new Date();
+        kActivity.status = false;
+
+        appFunc.kioskActivity.push(kActivity);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -132,34 +145,58 @@ export class CheckbalanceComponent implements OnInit {
   }
   
   CancelCheckBalance() {
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
     this._router.navigate(['feedbackscreen']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Canceled Check Balance.");
   }
 
   MainMenu() {
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
     this._router.navigate(['transactionmenu']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Redirect to Transaction Menu.");
   }
 
   PrintStatement(selectedFundDetails: any) {
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   }
 
   EmailStatement(selectedFundDetails: any) {
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   }
 
   PrintAllStatement(selectedFundDetails: any) {
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   }
 
   EmailAllStatement(selectedFundDetails: any) {
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
@@ -189,50 +226,72 @@ export class CheckbalanceComponent implements OnInit {
 
      this.serviceService.getAccountInquiry(body)
      .subscribe((result: any) => {
-       currentBijakHolder.channeltype = result.channeltype;
-       currentBijakHolder.requestoridentification = result.requestoridentification;
-       currentBijakHolder.deviceowner = result.deviceowner;
-       currentBijakHolder.unitholderid = result.unitholderid;
-       currentBijakHolder.firstname = result.firstname;
-       currentBijakHolder.identificationtype = result.identificationtype;
-       currentBijakHolder.identificationnumber = result.identificationnumber;
-       currentBijakHolder.fundid = result.fundid;
-       currentBijakHolder.inquirycode = result.inquirycode;
-       currentBijakHolder.transactiondate = result.transactiondate;
-       currentBijakHolder.transactiontime = result.transactiontime;
-       currentBijakHolder.banktxnreferencenumber = result.banktxnreferencenumber;
-       currentBijakHolder.bankcustphonenumber = result.bankcustphonenumber;
-       currentBijakHolder.filtrationflag = result.filtrationflag;
-       currentBijakHolder.typeclosed = result.typeclosed;
-       currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
-       currentBijakHolder.funddetail = result.funddetail;
-       currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
-       currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
-       currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
-       currentBijakHolder.grandtotalcertunits = result.grandtotalcertunits;
-       currentBijakHolder.grandtotalblockedunits = result.grandtotalblockedunits;
-       currentBijakHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
-       currentBijakHolder.grandtotalunits = result.grandtotalunits;
-       currentBijakHolder.grandtotaluhholdings = result.grandtotaluhholdings;
-       currentBijakHolder.totalminoraccount = result.totalminoraccount;
-       currentBijakHolder.minordetail = result.minordetail;
-       currentBijakHolder.guardianid = result.guardianid;
-       currentBijakHolder.guardianictype = result.guardianictype;
-       currentBijakHolder.guardianicnumber = result.guardianicnumber;
-       currentBijakHolder.agentcode = result.agentcode;
-       currentBijakHolder.branchcode = result.branchcode;
-       currentBijakHolder.lastupdatedate = result.lastupdatedate;
-       currentBijakHolder.transactionchannel = result.transactionchannel;
-       currentBijakHolder.transactionstatus = result.transactionstatus;
-       currentBijakHolder.rejectcode = result.rejectcode;
-       currentBijakHolder.rejectreason = result.rejectreason;
-       
-       this.CheckBijakAccount();
+        kActivity.trxno = "";
+        kActivity.kioskCode = signalrConnection.kioskCode;
+        kActivity.moduleID = 0;
+        kActivity.submoduleID = undefined;
+        kActivity.action = "Binding Bijak Holder Details.";
+        kActivity.startTime = new Date();
+        currentBijakHolder.channeltype = result.channeltype;
+        currentBijakHolder.requestoridentification = result.requestoridentification;
+        currentBijakHolder.deviceowner = result.deviceowner;
+        currentBijakHolder.unitholderid = result.unitholderid;
+        currentBijakHolder.firstname = result.firstname;
+        currentBijakHolder.identificationtype = result.identificationtype;
+        currentBijakHolder.identificationnumber = result.identificationnumber;
+        currentBijakHolder.fundid = result.fundid;
+        currentBijakHolder.inquirycode = result.inquirycode;
+        currentBijakHolder.transactiondate = result.transactiondate;
+        currentBijakHolder.transactiontime = result.transactiontime;
+        currentBijakHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+        currentBijakHolder.bankcustphonenumber = result.bankcustphonenumber;
+        currentBijakHolder.filtrationflag = result.filtrationflag;
+        currentBijakHolder.typeclosed = result.typeclosed;
+        currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
+        currentBijakHolder.funddetail = result.funddetail;
+        currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+        currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
+        currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
+        currentBijakHolder.grandtotalcertunits = result.grandtotalcertunits;
+        currentBijakHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+        currentBijakHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+        currentBijakHolder.grandtotalunits = result.grandtotalunits;
+        currentBijakHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+        currentBijakHolder.totalminoraccount = result.totalminoraccount;
+        currentBijakHolder.minordetail = result.minordetail;
+        currentBijakHolder.guardianid = result.guardianid;
+        currentBijakHolder.guardianictype = result.guardianictype;
+        currentBijakHolder.guardianicnumber = result.guardianicnumber;
+        currentBijakHolder.agentcode = result.agentcode;
+        currentBijakHolder.branchcode = result.branchcode;
+        currentBijakHolder.lastupdatedate = result.lastupdatedate;
+        currentBijakHolder.transactionchannel = result.transactionchannel;
+        currentBijakHolder.transactionstatus = result.transactionstatus;
+        currentBijakHolder.rejectcode = result.rejectcode;
+        currentBijakHolder.rejectreason = result.rejectreason;
+
+        kActivity.endTime = new Date();
+        kActivity.status = true;
+
+        appFunc.kioskActivity.push(kActivity);
+
+        this.CheckBijakAccount();
      })
   }
   
 
   CheckMainAccount() {
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
+
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Selected Self Account For Checking.";
+    kActivity.startTime = new Date();
     this.fDetails = currentHolder.funddetail;
     this.CB1_Visible = false;
     this.CB2_Visible = true;
@@ -248,6 +307,12 @@ export class CheckbalanceComponent implements OnInit {
   }
 
   CheckBijakAccount() {
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Selected Bijak Account For Checking.";
+    kActivity.startTime = new Date();
     this.fDetails = currentBijakHolder.funddetail;
 
     this.CB1_Visible = false;

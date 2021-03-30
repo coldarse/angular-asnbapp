@@ -14,6 +14,8 @@ import { errorCodes } from '../_models/errorCode';
 import { Router } from '@angular/router';
 import { signalrConnection } from '../_models/signalr';
 import { forkJoin } from 'rxjs';
+import { kActivity } from '../_models/kActivity';
+import { appFunc } from '../_models/appFunctions';
 
 // const httpOptions = {
 //   headers: new HttpHeaders({
@@ -57,32 +59,39 @@ export class ServiceService {
 
 
 
-
-  //Get Cities Dropdown List
-  getCities()
-  {
-    return this.http.get(
-      this.url + "services/app/City/GetAll",
-      accessToken.httpOptions
-    ).pipe(
-      retry(1),
-      catchError(this.handleError),
-    )
+  //Get DropDown in Account Registration
+  getAllDropDown() 
+  {   
+    const response1 = this.http.get(this.url + 'services/app/PersonTitle/GetAll', accessToken.httpOptions);
+    const response2 = this.http.get(this.url + "services/app/City/GetAll",accessToken.httpOptions);
+    const response3 = this.http.get(this.url + "services/app/UnitHolderSalary/GetAll",accessToken.httpOptions);
+    const response4 = this.http.get(this.url + "services/app/StateCode/GetAll",accessToken.httpOptions);
+    const response5 = this.http.get(this.url + "services/app/NatureBusiness/GetAll", accessToken.httpOptions);
+    const response6 = this.http.get(this.url + "services/app/OccupationSector/GetAll",accessToken.httpOptions);
+    const response7 = this.http.get(this.url + "services/app/OccupationCategory/GetAll",accessToken.httpOptions);
+    const response8 = this.http.get(this.url + "services/app/Religion/GetAll",accessToken.httpOptions);
+    const response9 = this.http.get(this.url + 'services/app/UnitHolderEthnic/GetAll', accessToken.httpOptions);
+    // const response10 = this.http.get(this.url + "services/app/PreferredDelivery/GetAll",accessToken.httpOptions);
+    // const response11 = this.http.get(this.url + "services/app/BankName/GetAll",accessToken.httpOptions);
+    // const response12 = this.http.get(this.url + "services/app/OccupationName/GetAll",accessToken.httpOptions);
+    //const response13 = this.http.get(this.url + "services/app/FamilyRelationship/GetAll",accessToken.httpOptions);
+    return forkJoin([
+      response1.pipe(retry(1), catchError(this.handleError)), 
+      response2.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      response3.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      response4.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      response5.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      response6.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      response7.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      response8.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      response9.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      //response13.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      // response10.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      // response11.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      // response12.pipe(delay(1000), retry(1), catchError(this.handleError)),
+    ]);
   }
 
-  //Get Title Dropdown List
-  // getTitleSalutation() 
-  // { 
-  //   return this.http.get(
-  //     this.url + 'services/app/PersonTitle/GetAll',
-  //     accessToken.httpOptions).pipe(
-  //     retry(1),       
-  //     catchError(this.handleError),     
-  //   );         
-  // }
-
-
-  
 
   //Get Monthly Income Dropdown List
   getMonthlyIncomes()
@@ -168,6 +177,44 @@ export class ServiceService {
     )
   }
 
+  //Get Preferred Delivery Dropdown List
+  getPreferredDelivery()
+  {
+    return this.http.get(
+      this.url + "services/app/PreferredDelivery/GetAll",
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Get Banks Dropdown List
+  getBanks()
+  {
+    return this.http.get(
+      this.url + "services/app/BankName/GetAll",
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Get Occupation Names Dropdown List
+  getOccupationNames()
+  {
+    return this.http.get(
+      this.url + "services/app/OccupationName/GetAll",
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+
+
   
 
 
@@ -227,6 +274,12 @@ export class ServiceService {
 
   getAccountInquiry(body: any | undefined): Observable<UnitHolder>
   {
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Call Account Inquiry API (OpenAPI)";
+    kActivity.startTime = new Date();
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `BalanceInquiry Request: ${JSON.stringify(body)}.`);
       return this.http.post(
         this.url + "services/app/OpenAPI/BalanceInquiry",
@@ -235,6 +288,14 @@ export class ServiceService {
         .pipe(_observableMergeMap((response: any) => 
         {
           let result = this.processUnitHolder(response);
+          kActivity.endTime = new Date();
+          if (response.success){
+            kActivity.status = true;
+          }
+          else{
+            kActivity.status = false;
+          }
+          appFunc.kioskActivity.push(kActivity);
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `BalanceInquiry Response: ${JSON.stringify(result)}.`);
           return result;
         }));
@@ -252,22 +313,7 @@ export class ServiceService {
   }
 
   
-  //Get DropDown in Account Registration
-  getTitleSalutation() 
-  { 
-    // return this.http.get(
-    //   this.url + 'services/app/PersonTitle/GetAll',
-    //   accessToken.httpOptions).pipe(
-    //   retry(1),       
-    //   catchError(this.handleError),     
-    // );         
-
-    const response1 = this.http.get(this.url + 'services/app/PersonTitle/GetAll', accessToken.httpOptions);
-    const response2 = this.http.get(this.url + "services/app/City/GetAll",accessToken.httpOptions);
-    return forkJoin(
-      [response1, 
-        response2.pipe(delay(1000))]);
-  }
+  
 }
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {

@@ -10,6 +10,8 @@ import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { currentHolder } from '../_models/currentUnitHolder';
 import { ServiceService } from '../_shared/service.service';
 import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
+import { kActivity } from '../_models/kActivity';
+import { appFunc } from '../_models/appFunctions';
 
 @Component({
   selector: 'app-updatedetails',
@@ -177,6 +179,13 @@ export class UpdatedetailsComponent implements OnInit {
     this.id = setInterval(() => {
       this.DetectMyKad();
     }, 1000);
+
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Started Update Details.";
+    kActivity.startTime = new Date();
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -190,6 +199,16 @@ export class UpdatedetailsComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
+        kActivity.trxno = "";
+        kActivity.kioskCode = signalrConnection.kioskCode;
+        kActivity.moduleID = 0;
+        kActivity.submoduleID = undefined;
+        kActivity.action = "User Removed Identification Card.";
+        kActivity.startTime = new Date();
+        kActivity.endTime = new Date();
+        kActivity.status = false;
+
+        appFunc.kioskActivity.push(kActivity);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -199,20 +218,38 @@ export class UpdatedetailsComponent implements OnInit {
   
 
   updateDetails1Cancel(){
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
     this._router.navigate(['feedbackscreen']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Redirect to Feedback Screen.");
   }
 
   updateDetails1MainMenu(){
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
     this._router.navigate(['transactionmenu']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Redirect to Transaction Menu.");
   }
 
   UpdateMainAccount(){
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Selected Update Main Account.");
   }
 
   UpdateMinor(selectedMinorDetails: any) {
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
+
+
     const body = {
       "CHANNELTYPE": "IB",
       "REQUESTORIDENTIFICATION": "RHBNOW",
@@ -235,44 +272,54 @@ export class UpdatedetailsComponent implements OnInit {
 
      this.serviceService.getAccountInquiry(body)
      .subscribe((result: any) => {
-       currentBijakHolder.channeltype = result.channeltype;
-       currentBijakHolder.requestoridentification = result.requestoridentification;
-       currentBijakHolder.deviceowner = result.deviceowner;
-       currentBijakHolder.unitholderid = result.unitholderid;
-       currentBijakHolder.firstname = result.firstname;
-       currentBijakHolder.identificationtype = result.identificationtype;
-       currentBijakHolder.identificationnumber = result.identificationnumber;
-       currentBijakHolder.fundid = result.fundid;
-       currentBijakHolder.inquirycode = result.inquirycode;
-       currentBijakHolder.transactiondate = result.transactiondate;
-       currentBijakHolder.transactiontime = result.transactiontime;
-       currentBijakHolder.banktxnreferencenumber = result.banktxnreferencenumber;
-       currentBijakHolder.bankcustphonenumber = result.bankcustphonenumber;
-       currentBijakHolder.filtrationflag = result.filtrationflag;
-       currentBijakHolder.typeclosed = result.typeclosed;
-       currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
-       currentBijakHolder.funddetail = result.funddetail;
-       currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
-       currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
-       currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
-       currentBijakHolder.grandtotalcertunits = result.grandtotalcertunits;
-       currentBijakHolder.grandtotalblockedunits = result.grandtotalblockedunits;
-       currentBijakHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
-       currentBijakHolder.grandtotalunits = result.grandtotalunits;
-       currentBijakHolder.grandtotaluhholdings = result.grandtotaluhholdings;
-       currentBijakHolder.totalminoraccount = result.totalminoraccount;
-       currentBijakHolder.minordetail = result.minordetail;
-       currentBijakHolder.guardianid = result.guardianid;
-       currentBijakHolder.guardianictype = result.guardianictype;
-       currentBijakHolder.guardianicnumber = result.guardianicnumber;
-       currentBijakHolder.agentcode = result.agentcode;
-       currentBijakHolder.branchcode = result.branchcode;
-       currentBijakHolder.lastupdatedate = result.lastupdatedate;
-       currentBijakHolder.transactionchannel = result.transactionchannel;
-       currentBijakHolder.transactionstatus = result.transactionstatus;
-       currentBijakHolder.rejectcode = result.rejectcode;
-       currentBijakHolder.rejectreason = result.rejectreason;
-       
+        kActivity.trxno = "";
+        kActivity.kioskCode = signalrConnection.kioskCode;
+        kActivity.moduleID = 0;
+        kActivity.submoduleID = undefined;
+        kActivity.action = "Binding Bijak Holder Details.";
+        kActivity.startTime = new Date();
+        currentBijakHolder.channeltype = result.channeltype;
+        currentBijakHolder.requestoridentification = result.requestoridentification;
+        currentBijakHolder.deviceowner = result.deviceowner;
+        currentBijakHolder.unitholderid = result.unitholderid;
+        currentBijakHolder.firstname = result.firstname;
+        currentBijakHolder.identificationtype = result.identificationtype;
+        currentBijakHolder.identificationnumber = result.identificationnumber;
+        currentBijakHolder.fundid = result.fundid;
+        currentBijakHolder.inquirycode = result.inquirycode;
+        currentBijakHolder.transactiondate = result.transactiondate;
+        currentBijakHolder.transactiontime = result.transactiontime;
+        currentBijakHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+        currentBijakHolder.bankcustphonenumber = result.bankcustphonenumber;
+        currentBijakHolder.filtrationflag = result.filtrationflag;
+        currentBijakHolder.typeclosed = result.typeclosed;
+        currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
+        currentBijakHolder.funddetail = result.funddetail;
+        currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+        currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
+        currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
+        currentBijakHolder.grandtotalcertunits = result.grandtotalcertunits;
+        currentBijakHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+        currentBijakHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+        currentBijakHolder.grandtotalunits = result.grandtotalunits;
+        currentBijakHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+        currentBijakHolder.totalminoraccount = result.totalminoraccount;
+        currentBijakHolder.minordetail = result.minordetail;
+        currentBijakHolder.guardianid = result.guardianid;
+        currentBijakHolder.guardianictype = result.guardianictype;
+        currentBijakHolder.guardianicnumber = result.guardianicnumber;
+        currentBijakHolder.agentcode = result.agentcode;
+        currentBijakHolder.branchcode = result.branchcode;
+        currentBijakHolder.lastupdatedate = result.lastupdatedate;
+        currentBijakHolder.transactionchannel = result.transactionchannel;
+        currentBijakHolder.transactionstatus = result.transactionstatus;
+        currentBijakHolder.rejectcode = result.rejectcode;
+        currentBijakHolder.rejectreason = result.rejectreason;
+
+        kActivity.endTime = new Date();
+        kActivity.status = true;
+
+        appFunc.kioskActivity.push(kActivity);
      });
 
      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Selected Minor Account Balance. ${currentBijakHolder.firstname}, ${currentBijakHolder.identificationnumber}, ${currentBijakHolder.unitholderid}`);
@@ -322,10 +369,18 @@ export class UpdatedetailsComponent implements OnInit {
 
 
   majorUpdateBack(){
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Back.");
   }
 
   majorUpdateCancel(){
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Cancel.");
   }
 
@@ -341,6 +396,10 @@ export class UpdatedetailsComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Major Form: ${x} field(s) empty.`);
     }
     else{
+      kActivity.endTime = new Date();
+      kActivity.status = true;
+
+      appFunc.kioskActivity.push(kActivity);
       this.AR_Form.controls.fullname.enable();
       this.AR_Form.controls.identificationcardno.enable();
       this.AR_Form.controls.dob.enable();
@@ -357,10 +416,18 @@ export class UpdatedetailsComponent implements OnInit {
   }
 
   bijakUpdateBack() {
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Cancel.");
   }
 
   bijakUpdateCancel(){
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Cancel.");
   }
   
@@ -376,6 +443,10 @@ export class UpdatedetailsComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Bijak Form: ${x} field(s) empty.`);
     }
     else{
+      kActivity.endTime = new Date();
+      kActivity.status = true;
+
+      appFunc.kioskActivity.push(kActivity);
       this.AR_Form.controls.fullname.enable();
       this.AR_Form.controls.identificationcardno.enable();
       this.AR_Form.controls.dob.enable();
