@@ -14,7 +14,7 @@ import { appFunc } from '../_models/appFunctions';
 import { eModules } from '../_models/enabledModules';
 import { errorCodes } from '../_models/errorCode';
 import { fundDetails } from '../_models/fundDetails';
-import { cities } from '../_models/cities';
+import { cities } from '../_models/dropDownLists';
 
 
 @Component({

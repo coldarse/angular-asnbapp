@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { cities } from './cities';
+import { cities, TitleDetails } from './dropDownLists';
 import { eModules } from './enabledModules';
-import { TitleDetails } from './titleDetails';
 
 @Injectable({
     providedIn: 'root',

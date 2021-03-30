@@ -54,6 +54,10 @@ export class ServiceService {
       'Something bad happened; please try again later.');
   }
 
+
+
+
+  //Get Cities Dropdown List
   getCities()
   {
     return this.http.get(
@@ -64,6 +68,113 @@ export class ServiceService {
       catchError(this.handleError),
     )
   }
+
+  //Get Title Dropdown List
+  getTitleSalutation() 
+  { 
+    return this.http.get(
+      this.url + 'services/app/PersonTitle/GetAll',
+      accessToken.httpOptions).pipe(
+      retry(1),       
+      catchError(this.handleError),     
+    );         
+  }
+
+
+  
+
+  //Get Monthly Income Dropdown List
+  getMonthlyIncomes()
+  {
+    return this.http.get(
+      this.url + "services/app/UnitHolderSalary/GetAll",
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Get States Dropdown List
+  getStates()
+  {
+    return this.http.get(
+      this.url + "services/app/StateCode/GetAll",
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Get Nature of Business Dropdown List
+  getBusinessNatures()
+  {
+    return this.http.get(
+      this.url + "services/app/NatureBusiness/GetAll",
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Get Occupation Sectores Dropdown List
+  getOccupationSectors()
+  {
+    return this.http.get(
+      this.url + "services/app/OccupationSector/GetAll",
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Get Occupation Category Dropdown List
+  getOccupationCategories()
+  {
+    return this.http.get(
+      this.url + "services/app/OccupationCategory/GetAll",
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Get Religions Dropdown List
+  getReligions()
+  {
+    return this.http.get(
+      this.url + "services/app/Religion/GetAll",
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Get Races Dropdown List
+  getRaces()
+  {
+    return this.http.get(
+      this.url + "services/app/UnitHolderEthnic/GetAll",
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  
+
+
+
+
+
+
+
 
   getToken()
   {
@@ -139,16 +250,7 @@ export class ServiceService {
     }
   }
 
-  //Get Title DropDown in Account Registration
-  getTitleSalutation() 
-  { 
-    return this.http.get(
-      this.url + 'services/app/PersonTitle/GetAll',
-      accessToken.httpOptions).pipe(
-      retry(1),       
-      catchError(this.handleError),     
-    );         
-  }
+  
 }
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
