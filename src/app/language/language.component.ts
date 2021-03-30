@@ -121,12 +121,14 @@ export class LanguageComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
   
 
-    this.serviceService.getCities().subscribe((data:any) => {
-      appFunc.cities = data.result.items.map((em: any) => new cities(em));
-      console.log(appFunc.cities);
+    this.serviceService.getTitleSalutation().subscribe((res : any) => {
+      console.log(res[0]);
+      console.log(res[1]);
     });
-
-    
+    // this.serviceService.getCities().subscribe((data:any) => {
+    //   appFunc.cities = data.result.items.map((em: any) => new cities(em));
+    //   console.log(appFunc.cities);
+    // });   
   }
 }
 

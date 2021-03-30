@@ -1,7 +1,7 @@
 import { keyframes } from '@angular/animations';
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { selectLang } from '../_models/language';
 import { signalrConnection } from 'src/app/_models/signalr';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
@@ -9,7 +9,9 @@ import { formatDate } from '@angular/common';
 import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { appFunc } from '../_models/appFunctions';
-
+import { ServiceService } from '../_shared/service.service';
+import { TitleDetails } from '../_models/titleDetails';
+import { Observable, forkJoin } from 'rxjs';
 
 
 declare const loadKeyboard: any;
@@ -157,7 +159,8 @@ export class AccountregistrationComponent implements OnInit {
   constructor(private elementRef: ElementRef,
     private _router: Router,
     private translate: TranslateService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private serviceService : ServiceService) {
      
       this.initializeForm();
       
@@ -342,10 +345,18 @@ export class AccountregistrationComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Canceled Account Registration.");
   }
 
+  getTitle(){
+    this.serviceService.getTitleSalutation().subscribe((res : any) => {
+        console.log(res[0]);
+        console.log(res[1]);
+      })
+    }
 
-
-
-
+    //   appFunc.titleSalutation = res.result.items.map((data : any) => new TitleDetails(data)    
+    //   );
+    //   console.log(appFunc.titleSalutation);
+    // });
+  // }
   
 
 }
