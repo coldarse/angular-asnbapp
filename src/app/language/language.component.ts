@@ -102,10 +102,6 @@ export class LanguageComponent implements OnInit {
           })
         }
       });
-      // signalrConnection.connection.invoke('GetPrinterStatus').then((data: string) => {
-      //   //accessToken.token = data;
-      //   console.log(data);
-      // });
     }).catch((err: any) => {console.log(err)});
   }
 
@@ -115,7 +111,6 @@ export class LanguageComponent implements OnInit {
     selectLang.selectedLang = 'en';
     this.route.navigate(['/verifymykad']);
 
-    //signalrConnection.connection.invoke('SaveToLog', "WebApp Component [Language]" + ": " + "Selected English.");
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected English.");
   }
 
@@ -123,7 +118,6 @@ export class LanguageComponent implements OnInit {
     selectLang.selectedLang = 'ms';
     this.route.navigate(['/verifymykad']);
 
-    //signalrConnection.connection.invoke('SaveToLog', "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
   
 
