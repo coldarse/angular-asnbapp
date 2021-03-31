@@ -10,8 +10,8 @@ import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { appFunc } from '../_models/appFunctions';
 import { ServiceService } from '../_shared/service.service';
-import { TitleDetails } from '../_models/titleDetails';
 import { Observable, forkJoin } from 'rxjs';
+import { kActivity } from '../_models/kActivity';
 
 
 declare const loadKeyboard: any;
@@ -229,6 +229,13 @@ export class AccountregistrationComponent implements OnInit {
     this.id = setInterval(() => {
       this.DetectMyKad();
     }, 1000);
+
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Started Account Registration.";
+    kActivity.startTime = new Date();
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -258,6 +265,16 @@ export class AccountregistrationComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
+        kActivity.trxno = "";
+        kActivity.kioskCode = signalrConnection.kioskCode;
+        kActivity.moduleID = 0;
+        kActivity.submoduleID = undefined;
+        kActivity.action = "User Removed Identification Card.";
+        kActivity.startTime = new Date();
+        kActivity.endTime = new Date();
+        kActivity.status = false;
+
+        appFunc.kioskActivity.push(kActivity);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -325,6 +342,10 @@ export class AccountregistrationComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
     }
     else{
+      kActivity.endTime = new Date();
+      kActivity.status = true;
+
+      appFunc.kioskActivity.push(kActivity);
       this.AR_Form.controls.fullname.enable();
       this.AR_Form.controls.identificationcardno.enable();
       this.AR_Form.controls.dob.enable();
@@ -341,16 +362,20 @@ export class AccountregistrationComponent implements OnInit {
   }
 
   registrationCancel() {
+    kActivity.endTime = new Date();
+    kActivity.status = false;
+
+    appFunc.kioskActivity.push(kActivity);
     this._router.navigate(['language']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Canceled Account Registration.");
   }
 
-  getTitle(){
-    this.serviceService.getTitleSalutation().subscribe((res : any) => {
-        console.log(res[0]);
-        console.log(res[1]);
-      })
-    }
+  // getTitle(){
+  //   this.serviceService.getTitleSalutation().subscribe((res : any) => {
+  //       console.log(res[0]);
+  //       console.log(res[1]);
+  //     })
+  //   }
 
     //   appFunc.titleSalutation = res.result.items.map((data : any) => new TitleDetails(data)    
     //   );

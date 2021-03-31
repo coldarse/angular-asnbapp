@@ -14,7 +14,9 @@ import { appFunc } from '../_models/appFunctions';
 import { eModules } from '../_models/enabledModules';
 import { errorCodes } from '../_models/errorCode';
 import { fundDetails } from '../_models/fundDetails';
-import { cities } from '../_models/cities';
+import { businessNature, cities, monthlyIncome, occupationCategory, occupationSector, races, relationship, religions, states, TitleDetails } from '../_models/dropDownLists';
+import { kActivity } from '../_models/kActivity';
+import { kioskActivities } from '../_models/kioskActivities';
 
 
 @Component({
@@ -71,6 +73,7 @@ export class LanguageComponent implements OnInit {
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
     }
     signalrConnection.logsaves = [];
+    appFunc.kioskActivity = [];
     var areDisabled = 0
     appFunc.modules = this.modis.map((em: any) => new eModules(em));
     console.log(appFunc.modules);
@@ -94,13 +97,16 @@ export class LanguageComponent implements OnInit {
     this._signalR.connect().then((c) => {
       console.log("API King is now Connected on " + formatDate(new Date(), 'HH:MM:ss', 'en'));
       signalrConnection.connection = c;
+      signalrConnection.connection.invoke('GetKioskCode').then((data: string) => {
+        signalrConnection.kioskCode = data;
+      });
       signalrConnection.connection.invoke('GetLoginToken').then((data: string) => {
         accessToken.token = data;
         accessToken.httpOptions = {
           headers: new HttpHeaders({
             Authorization: 'Bearer ' + accessToken.token
           })
-        }
+        };
       });
     }).catch((err: any) => {console.log(err)});
   }
@@ -110,6 +116,17 @@ export class LanguageComponent implements OnInit {
   selectEnglish() {
     selectLang.selectedLang = 'en';
     this.route.navigate(['/verifymykad']);
+
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Selected English Language.";
+    kActivity.startTime = new Date();
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected English.");
   }
@@ -121,15 +138,49 @@ export class LanguageComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
   
 
-    this.serviceService.getTitleSalutation().subscribe((res : any) => {
-      console.log(res[0]);
-      console.log(res[1]);
-    });
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Selected Bahasa Malaysia Language.";
+    kActivity.startTime = new Date();
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
+
     
-    // this.serviceService.getCities().subscribe((data:any) => {
-    //   appFunc.cities = data.result.items.map((em: any) => new cities(em));
+    // this.serviceService.getAllDropDown().subscribe((res : any) => {
+
+    //   appFunc.titleSalutation = res[0].result.items.map((ts: any) => new TitleDetails(ts));
+    //   appFunc.cities = res[1].result.items.map((ct: any) => new cities(ct));
+    //   appFunc.monthlyIncome = res[2].result.items.map((mi: any) => new monthlyIncome(mi));
+    //   appFunc.states = res[3].result.items.map((st: any) => new states(st));
+    //   appFunc.businessNature = res[4].result.items.map((bn: any) => new businessNature(bn));
+    //   appFunc.occupationSector = res[5].result.items.map((os: any) => new occupationSector(os));
+    //   appFunc.occupationCategory = res[6].result.items.map((oc: any) => new occupationCategory(oc));
+    //   appFunc.religion = res[7].result.items.map((rg: any) => new religions(rg));
+    //   appFunc.races = res[8].result.items.map((rc: any) => new races(rc));
+    //   //appFunc.relationship = res[9].result.itmes.map((rs: any) => new relationship(rs));
+    //   // appFunc.titleSalutation = res.result.items.map((ts: any) => new TitleDetails(ts));
+    //   // appFunc.titleSalutation = res.result.items.map((ts: any) => new TitleDetails(ts));
+    //   // appFunc.titleSalutation = res.result.items.map((ts: any) => new TitleDetails(ts));
+      
+
+    //   console.log(appFunc.titleSalutation);
     //   console.log(appFunc.cities);
-    // });   
+    //   console.log(appFunc.monthlyIncome);
+    //   console.log(appFunc.states);
+    //   console.log(appFunc.businessNature);
+    //   console.log(appFunc.occupationSector);
+    //   console.log(appFunc.occupationCategory);
+    //   console.log(appFunc.religion);
+    //   console.log(appFunc.races);
+    //   //console.log(appFunc.relationship);
+    //   // console.log(res[9]);
+    //   // console.log(res[10]);
+    //   // console.log(res[11]);
+    // });
   }
 }
 

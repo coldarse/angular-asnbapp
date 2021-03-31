@@ -4,6 +4,8 @@ import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
 import { signalrConnection } from 'src/app/_models/signalr';
 import { formatDate } from '@angular/common';
+import { kActivity } from '../_models/kActivity';
+import { appFunc } from '../_models/appFunctions';
 
 @Component({
   selector: 'app-feedbackscreen',
@@ -38,6 +40,12 @@ export class FeedbackscreenComponent implements OnInit {
     }
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Arrived At Feedback Screen.";
+    kActivity.startTime = new Date();
   }
 
   ngOnDestroy() {
@@ -46,6 +54,18 @@ export class FeedbackscreenComponent implements OnInit {
   }
 
   SubmitFeedback(){
+    kActivity.endTime = new Date();
+    kActivity.status = true;
+
+    appFunc.kioskActivity.push(kActivity);
+
+    kActivity.trxno = "";
+    kActivity.kioskCode = signalrConnection.kioskCode;
+    kActivity.moduleID = 0;
+    kActivity.submoduleID = undefined;
+    kActivity.action = "Prompt User to Remove Identification Card.";
+    kActivity.startTime = new Date();
+
     this.FBS1_Visible = false;
     this.FBS2_Visible = true;
     setTimeout(()=>{   
@@ -64,6 +84,10 @@ export class FeedbackscreenComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
+        kActivity.endTime = new Date();
+        kActivity.status = true;
+
+        appFunc.kioskActivity.push(kActivity);
         this._router.navigate(['language']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Feedback Screen]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
