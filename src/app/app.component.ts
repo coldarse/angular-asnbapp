@@ -19,7 +19,9 @@ export class AppComponent {
 
   constructor(private idle: Idle, private keepalive: Keepalive,
     private _router: Router,
-    private appConfig: AppConfiguration, ) {
+    private appConfig: AppConfiguration,) {
+
+    console.log(appConfig.baseUrl);
     // sets an idle timeout of 5 seconds, for testing purposes.
     idle.setIdle(120);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
