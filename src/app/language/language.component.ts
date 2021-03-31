@@ -125,6 +125,7 @@ export class LanguageComponent implements OnInit {
       console.log(res[0]);
       console.log(res[1]);
     });
+    
     // this.serviceService.getCities().subscribe((data:any) => {
     //   appFunc.cities = data.result.items.map((em: any) => new cities(em));
     //   console.log(appFunc.cities);
