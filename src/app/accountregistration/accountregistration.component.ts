@@ -230,12 +230,17 @@ export class AccountregistrationComponent implements OnInit {
       this.DetectMyKad();
     }, 1000);
 
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Started Account Registration.";
-    kActivity.startTime = new Date();
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Started Account Registration.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = false;
+
+    appFunc.kioskActivity.push(kActivit);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -265,16 +270,17 @@ export class AccountregistrationComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
-        kActivity.trxno = "";
-        kActivity.kioskCode = signalrConnection.kioskCode;
-        kActivity.moduleID = 0;
-        kActivity.submoduleID = undefined;
-        kActivity.action = "User Removed Identification Card.";
-        kActivity.startTime = new Date();
-        kActivity.endTime = new Date();
-        kActivity.status = false;
+        let kActivit = new kActivity();
+        kActivit.trxno = "";
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "User Removed Identification Card.";
+        kActivit.startTime = new Date();
+        kActivit.endTime = new Date();
+        kActivit.status = false;
 
-        appFunc.kioskActivity.push(kActivity);
+        appFunc.kioskActivity.push(kActivit);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -342,10 +348,18 @@ export class AccountregistrationComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
     }
     else{
-      kActivity.endTime = new Date();
-      kActivity.status = true;
+      let kActivit = new kActivity();
+      kActivit.trxno = "";
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Started Account Registration.";
+      kActivit.startTime = new Date();
+      kActivit.endTime = new Date();
+      kActivit.status = true;
 
-      appFunc.kioskActivity.push(kActivity);
+      appFunc.kioskActivity.push(kActivit);
+
       this.AR_Form.controls.fullname.enable();
       this.AR_Form.controls.identificationcardno.enable();
       this.AR_Form.controls.dob.enable();
@@ -362,10 +376,16 @@ export class AccountregistrationComponent implements OnInit {
   }
 
   registrationCancel() {
-    kActivity.endTime = new Date();
-    kActivity.status = false;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Started Account";
+    kActivit.endTime = new Date();
+    kActivit.status = false;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
     this._router.navigate(['language']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Canceled Account Registration.");
   }

@@ -25,16 +25,17 @@ export class OutofserviceComponent implements OnInit {
 
     this.EM1 = errorCodes.message;
     this.MR1 = errorCodes.message;
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Out of Service. " + errorCodes.message;
-    kActivity.startTime = new Date();
-    kActivity.endTime = new Date();
-    kActivity.status = false;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Out of Service. " + errorCodes.message;
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = false;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
   }
 
 }

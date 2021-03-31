@@ -186,8 +186,8 @@ user-select: none;
 }
 
 .btn-printoremail {
-  width: 80px;
-  height: 30px;
+  width: 180px;
+  height: 50px;
   border-radius: 0.5rem;
   border: 1px solid;
   border-color: lightgray;
@@ -461,7 +461,7 @@ user-select: none;
 
 
 .checkbalancetable{
-  width: 70%;
+  width: 80%;
   margin: auto;
 }
 

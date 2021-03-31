@@ -180,12 +180,17 @@ export class UpdatedetailsComponent implements OnInit {
       this.DetectMyKad();
     }, 1000);
 
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Started Update Details.";
-    kActivity.startTime = new Date();
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Started Update Details.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
+
+    appFunc.kioskActivity.push(kActivit);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -199,16 +204,17 @@ export class UpdatedetailsComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
-        kActivity.trxno = "";
-        kActivity.kioskCode = signalrConnection.kioskCode;
-        kActivity.moduleID = 0;
-        kActivity.submoduleID = undefined;
-        kActivity.action = "User Removed Identification Card.";
-        kActivity.startTime = new Date();
-        kActivity.endTime = new Date();
-        kActivity.status = false;
+        let kActivit = new kActivity();
+        kActivit.trxno = "";
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "User Removed Identification Card.";
+        kActivit.startTime = new Date();
+        kActivit.endTime = new Date();
+        kActivit.status = false;
 
-        appFunc.kioskActivity.push(kActivity);
+        appFunc.kioskActivity.push(kActivit);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -218,36 +224,64 @@ export class UpdatedetailsComponent implements OnInit {
   
 
   updateDetails1Cancel(){
-    kActivity.endTime = new Date();
-    kActivity.status = false;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Update Details Canceled.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = false;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
     this._router.navigate(['feedbackscreen']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Redirect to Feedback Screen.");
   }
 
   updateDetails1MainMenu(){
-    kActivity.endTime = new Date();
-    kActivity.status = false;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Redirect To Transaction Menu.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = false;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
     this._router.navigate(['transactionmenu']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Redirect to Transaction Menu.");
   }
 
   UpdateMainAccount(){
-    kActivity.endTime = new Date();
-    kActivity.status = true;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Selected Main Account to Update";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Selected Update Main Account.");
   }
 
   UpdateMinor(selectedMinorDetails: any) {
-    kActivity.endTime = new Date();
-    kActivity.status = false;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Selected Bijak Account to Update";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = false;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
 
 
     const body = {
@@ -272,12 +306,13 @@ export class UpdatedetailsComponent implements OnInit {
 
      this.serviceService.getAccountInquiry(body)
      .subscribe((result: any) => {
-        kActivity.trxno = "";
-        kActivity.kioskCode = signalrConnection.kioskCode;
-        kActivity.moduleID = 0;
-        kActivity.submoduleID = undefined;
-        kActivity.action = "Binding Bijak Holder Details.";
-        kActivity.startTime = new Date();
+        let kActivit1 = new kActivity();
+        kActivit1.trxno = "";
+        kActivit1.kioskCode = signalrConnection.kioskCode;
+        kActivit1.moduleID = 0;
+        kActivit1.submoduleID = undefined;
+        kActivit1.action = "Binding Bijak Holder Details.";
+        kActivit1.startTime = new Date();
         currentBijakHolder.channeltype = result.channeltype;
         currentBijakHolder.requestoridentification = result.requestoridentification;
         currentBijakHolder.deviceowner = result.deviceowner;
@@ -316,10 +351,10 @@ export class UpdatedetailsComponent implements OnInit {
         currentBijakHolder.rejectcode = result.rejectcode;
         currentBijakHolder.rejectreason = result.rejectreason;
 
-        kActivity.endTime = new Date();
-        kActivity.status = true;
+        kActivit1.endTime = new Date();
+        kActivit1.status = true;
 
-        appFunc.kioskActivity.push(kActivity);
+        appFunc.kioskActivity.push(kActivit1);
      });
 
      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Selected Minor Account Balance. ${currentBijakHolder.firstname}, ${currentBijakHolder.identificationnumber}, ${currentBijakHolder.unitholderid}`);
@@ -369,18 +404,32 @@ export class UpdatedetailsComponent implements OnInit {
 
 
   majorUpdateBack(){
-    kActivity.endTime = new Date();
-    kActivity.status = false;
+    let kActivit1 = new kActivity();
+    kActivit1.trxno = "";
+    kActivit1.kioskCode = signalrConnection.kioskCode;
+    kActivit1.moduleID = 0;
+    kActivit1.submoduleID = undefined;
+    kActivit1.action = "Update Major Back.";
+    kActivit1.startTime = new Date();
+    kActivit1.endTime = new Date();
+    kActivit1.status = false;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit1);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Back.");
   }
 
   majorUpdateCancel(){
-    kActivity.endTime = new Date();
-    kActivity.status = false;
+    let kActivit1 = new kActivity();
+    kActivit1.trxno = "";
+    kActivit1.kioskCode = signalrConnection.kioskCode;
+    kActivit1.moduleID = 0;
+    kActivit1.submoduleID = undefined;
+    kActivit1.action = "Update Major Canceled.";
+    kActivit1.startTime = new Date();
+    kActivit1.endTime = new Date();
+    kActivit1.status = false;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit1);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Cancel.");
   }
 
@@ -396,10 +445,17 @@ export class UpdatedetailsComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Major Form: ${x} field(s) empty.`);
     }
     else{
-      kActivity.endTime = new Date();
-      kActivity.status = true;
+      let kActivit1 = new kActivity();
+      kActivit1.trxno = "";
+      kActivit1.kioskCode = signalrConnection.kioskCode;
+      kActivit1.moduleID = 0;
+      kActivit1.submoduleID = undefined;
+      kActivit1.action = "Update Major Submit.";
+      kActivit1.startTime = new Date();
+      kActivit1.endTime = new Date();
+      kActivit1.status = true;
 
-      appFunc.kioskActivity.push(kActivity);
+      appFunc.kioskActivity.push(kActivit1);
       this.AR_Form.controls.fullname.enable();
       this.AR_Form.controls.identificationcardno.enable();
       this.AR_Form.controls.dob.enable();
@@ -416,18 +472,32 @@ export class UpdatedetailsComponent implements OnInit {
   }
 
   bijakUpdateBack() {
-    kActivity.endTime = new Date();
-    kActivity.status = false;
+    let kActivit1 = new kActivity();
+    kActivit1.trxno = "";
+    kActivit1.kioskCode = signalrConnection.kioskCode;
+    kActivit1.moduleID = 0;
+    kActivit1.submoduleID = undefined;
+    kActivit1.action = "Update Bijak Back.";
+    kActivit1.startTime = new Date();
+    kActivit1.endTime = new Date();
+    kActivit1.status = false;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit1);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Cancel.");
   }
 
   bijakUpdateCancel(){
-    kActivity.endTime = new Date();
-    kActivity.status = false;
+    let kActivit1 = new kActivity();
+    kActivit1.trxno = "";
+    kActivit1.kioskCode = signalrConnection.kioskCode;
+    kActivit1.moduleID = 0;
+    kActivit1.submoduleID = undefined;
+    kActivit1.action = "Update Bijak Canceled.";
+    kActivit1.startTime = new Date();
+    kActivit1.endTime = new Date();
+    kActivit1.status = false;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit1);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Cancel.");
   }
   
@@ -443,10 +513,17 @@ export class UpdatedetailsComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Bijak Form: ${x} field(s) empty.`);
     }
     else{
-      kActivity.endTime = new Date();
-      kActivity.status = true;
+      let kActivit1 = new kActivity();
+      kActivit1.trxno = "";
+      kActivit1.kioskCode = signalrConnection.kioskCode;
+      kActivit1.moduleID = 0;
+      kActivit1.submoduleID = undefined;
+      kActivit1.action = "Update Bijak Submit.";
+      kActivit1.startTime = new Date();
+      kActivit1.endTime = new Date();
+      kActivit1.status = true;
 
-      appFunc.kioskActivity.push(kActivity);
+      appFunc.kioskActivity.push(kActivit1);
       this.AR_Form.controls.fullname.enable();
       this.AR_Form.controls.identificationcardno.enable();
       this.AR_Form.controls.dob.enable();

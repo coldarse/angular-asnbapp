@@ -31,19 +31,31 @@ export class ErrorscreenComponent implements OnInit {
     }
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Transaction Unsuccessful.";
-    kActivity.startTime = new Date();
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Transaction Unsuccessful.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = false;
+
+    appFunc.kioskActivity.push(kActivit);
   }
 
   endTransaction(){
-    kActivity.endTime = new Date();
-    kActivity.status = false;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Redirect to Feedback Screen.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
     this._router.navigate(['feedbackscreen']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Error Screen]" + ": " + "Redirect to Feedback Screen.");
   }

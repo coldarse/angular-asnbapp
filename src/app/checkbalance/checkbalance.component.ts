@@ -115,12 +115,17 @@ export class CheckbalanceComponent implements OnInit {
       this.DetectMyKad();
     }, 1000);
 
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Started Check Balance.";
-    kActivity.startTime = new Date();
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Started Check Balance.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
+
+    appFunc.kioskActivity.push(kActivit);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -134,10 +139,17 @@ export class CheckbalanceComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
-        kActivity.endTime = new Date();
-        kActivity.status = false;
+        let kActivit = new kActivity();
+        kActivit.trxno = "";
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "Removed Identification Card.";
+        kActivit.startTime = new Date();
+        kActivit.endTime = new Date();
+        kActivit.status = false;
 
-        appFunc.kioskActivity.push(kActivity);
+        appFunc.kioskActivity.push(kActivit);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -145,58 +157,100 @@ export class CheckbalanceComponent implements OnInit {
   }
   
   CancelCheckBalance() {
-    kActivity.endTime = new Date();
-    kActivity.status = false;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Canceled Check Balance.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = false;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
     this._router.navigate(['feedbackscreen']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Canceled Check Balance.");
   }
 
   MainMenu() {
-    kActivity.endTime = new Date();
-    kActivity.status = false;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Redirect to Transaction Menu.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = false;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
     this._router.navigate(['transactionmenu']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Redirect to Transaction Menu.");
   }
 
   PrintStatement(selectedFundDetails: any) {
-    kActivity.endTime = new Date();
-    kActivity.status = true;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Print Single Statement.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   }
 
   EmailStatement(selectedFundDetails: any) {
-    kActivity.endTime = new Date();
-    kActivity.status = true;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Email Single Statement.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   }
 
   PrintAllStatement(selectedFundDetails: any) {
-    kActivity.endTime = new Date();
-    kActivity.status = true;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Print All Statement.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   }
 
   EmailAllStatement(selectedFundDetails: any) {
-    kActivity.endTime = new Date();
-    kActivity.status = true;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Email All Statement.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
@@ -226,12 +280,13 @@ export class CheckbalanceComponent implements OnInit {
 
      this.serviceService.getAccountInquiry(body)
      .subscribe((result: any) => {
-        kActivity.trxno = "";
-        kActivity.kioskCode = signalrConnection.kioskCode;
-        kActivity.moduleID = 0;
-        kActivity.submoduleID = undefined;
-        kActivity.action = "Binding Bijak Holder Details.";
-        kActivity.startTime = new Date();
+       let kActivit = new kActivity();
+       kActivit.trxno = "";
+       kActivit.kioskCode = signalrConnection.kioskCode;
+       kActivit.moduleID = 0;
+       kActivit.submoduleID = undefined;
+       kActivit.action = "Binding Bijak Holder Details.";
+       kActivit.startTime = new Date();
         currentBijakHolder.channeltype = result.channeltype;
         currentBijakHolder.requestoridentification = result.requestoridentification;
         currentBijakHolder.deviceowner = result.deviceowner;
@@ -270,10 +325,10 @@ export class CheckbalanceComponent implements OnInit {
         currentBijakHolder.rejectcode = result.rejectcode;
         currentBijakHolder.rejectreason = result.rejectreason;
 
-        kActivity.endTime = new Date();
-        kActivity.status = true;
+        kActivit.endTime = new Date();
+        kActivit.status = true;
 
-        appFunc.kioskActivity.push(kActivity);
+        appFunc.kioskActivity.push(kActivit);
 
         this.CheckBijakAccount();
      })
@@ -281,17 +336,18 @@ export class CheckbalanceComponent implements OnInit {
   
 
   CheckMainAccount() {
-    kActivity.endTime = new Date();
-    kActivity.status = true;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Check Main Account Details.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
 
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Selected Self Account For Checking.";
-    kActivity.startTime = new Date();
     this.fDetails = currentHolder.funddetail;
     this.CB1_Visible = false;
     this.CB2_Visible = true;
@@ -307,12 +363,18 @@ export class CheckbalanceComponent implements OnInit {
   }
 
   CheckBijakAccount() {
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Selected Bijak Account For Checking.";
-    kActivity.startTime = new Date();
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Check Bijak Account Details.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
+
+    appFunc.kioskActivity.push(kActivit);
+
     this.fDetails = currentBijakHolder.funddetail;
 
     this.CB1_Visible = false;

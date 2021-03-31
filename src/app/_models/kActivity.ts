@@ -5,12 +5,12 @@ import { Injectable } from '@angular/core';
 })
 
 export class kActivity {
-    static trxno: string;
-    static kioskCode: string;
-    static moduleID: number;
-    static submoduleID?: number;
-    static action: string;
-    static startTime: Date;
-    static endTime: Date;
-    static status: boolean;
+    trxno: string | undefined;
+    kioskCode: string | undefined;
+    moduleID: number | undefined;
+    submoduleID?: number | undefined;
+    action: string | undefined;
+    startTime: Date | undefined;
+    endTime: Date | undefined;
+    status: boolean | undefined;
 }
