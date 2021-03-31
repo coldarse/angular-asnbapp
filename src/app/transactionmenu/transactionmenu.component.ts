@@ -36,12 +36,13 @@ export class TransactionmenuComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit(): void {
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Arrived Transaction Menu.";
-    kActivity.startTime = new Date();
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Arrived Transaction Menu.";
+    kActivit.startTime = new Date();
     
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
@@ -88,10 +89,10 @@ export class TransactionmenuComponent implements OnInit {
     }, 1000);
 
     
-    kActivity.endTime = new Date();
-    kActivity.status = true;
+    kActivit.endTime = new Date();
+    kActivit.status = true;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -105,16 +106,17 @@ export class TransactionmenuComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
-        kActivity.trxno = "";
-        kActivity.kioskCode = signalrConnection.kioskCode;
-        kActivity.moduleID = 0;
-        kActivity.submoduleID = undefined;
-        kActivity.action = "User Removed Identification Card.";
-        kActivity.startTime = new Date();
-        kActivity.endTime = new Date();
-        kActivity.status = false;
+        let kActivit = new kActivity();
+        kActivit.trxno = "";
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "User Removed Identification Card.";
+        kActivit.startTime = new Date();
+        kActivit.endTime = new Date();
+        kActivit.status = false;
 
-        appFunc.kioskActivity.push(kActivity);
+        appFunc.kioskActivity.push(kActivit);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }

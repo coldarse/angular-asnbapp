@@ -1,12 +1,12 @@
 export class kioskActivities {
-    trxno: string;
-    kioskCode: string;
-    moduleID: number;
-    submoduleID?: number;
-    action: string;
-    startTime: Date;
-    endTime: Date;
-    status: boolean;
+    trxno: string | undefined;
+    kioskCode: string | undefined;
+    moduleID: number | undefined;
+    submoduleID?: number | undefined;
+    action: string | undefined;
+    startTime: Date | undefined;
+    endTime: Date | undefined;
+    status: boolean | undefined;
 	
 	constructor(activity: any){
         this.trxno = activity.trxno;

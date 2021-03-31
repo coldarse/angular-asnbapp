@@ -274,12 +274,13 @@ export class ServiceService {
 
   getAccountInquiry(body: any | undefined): Observable<UnitHolder>
   {
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Call Account Inquiry API (OpenAPI)";
-    kActivity.startTime = new Date();
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Call Account Inquiry API (OpenAPI)";
+    kActivit.startTime = new Date();
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `BalanceInquiry Request: ${JSON.stringify(body)}.`);
       return this.http.post(
         this.url + "services/app/OpenAPI/BalanceInquiry",
@@ -288,14 +289,14 @@ export class ServiceService {
         .pipe(_observableMergeMap((response: any) => 
         {
           let result = this.processUnitHolder(response);
-          kActivity.endTime = new Date();
+          kActivit.endTime = new Date();
           if (response.success){
-            kActivity.status = true;
+            kActivit.status = true;
           }
           else{
-            kActivity.status = false;
+            kActivit.status = false;
           }
-          appFunc.kioskActivity.push(kActivity);
+          appFunc.kioskActivity.push(kActivit);
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `BalanceInquiry Response: ${JSON.stringify(result)}.`);
           return result;
         }));

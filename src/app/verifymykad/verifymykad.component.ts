@@ -99,43 +99,44 @@ export class VerifymykadComponent implements OnInit {
   }
 
   tryAgain() : void {
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Scan Thumb";
-    kActivity.startTime = new Date();
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Scan Thumb";
+    kActivit.startTime = new Date();
 
-    this.DetectMyKad();
+    //this.DetectMyKad();
     this.RMError1_Visible = false;
     this.RMError2_Visible = false;
 
     this._conn.invoke('myKadRequest', "ScanThumb").then((data: any) => {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoked myKadRequest to Scan Thumb.");
       //console.log(data);
-      this.DetectMyKad();
+      //this.DetectMyKad();
       if (data.toUpperCase().includes("MISMATCH")){
-        kActivity.endTime = new Date();
-        kActivity.status = false;
+        kActivit.endTime = new Date();
+        kActivit.status = false;
 
-        appFunc.kioskActivity.push(kActivity);
+        appFunc.kioskActivity.push(kActivit);
         this.tryCount = this.tryCount - 1;
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Thumbprint Mismatched. ${this.tryCount} tries remaining.`);
         this.DetectMyKad(data.toString());
       }
       else if(data.toUpperCase().includes("MATCH")){
-        kActivity.endTime = new Date();
-        kActivity.status = true;
+        kActivit.endTime = new Date();
+        kActivit.status = true;
 
-        appFunc.kioskActivity.push(kActivity);
+        appFunc.kioskActivity.push(kActivit);
         this.DetectMyKad(data.toString());
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Thumbprint Matched.");
       }
       else{
-        kActivity.endTime = new Date();
-        kActivity.status = false;
+        kActivit.endTime = new Date();
+        kActivit.status = false;
 
-        appFunc.kioskActivity.push(kActivity);
+        appFunc.kioskActivity.push(kActivit);
         errorCodes.code = "0222";
         errorCodes.message = `Error: ${data}`;
         this._router.navigate(['outofservice']);
@@ -149,16 +150,17 @@ export class VerifymykadComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
-        kActivity.trxno = "";
-        kActivity.kioskCode = signalrConnection.kioskCode;
-        kActivity.moduleID = 0;
-        kActivity.submoduleID = undefined;
-        kActivity.action = "User Removed Identification Card.";
-        kActivity.startTime = new Date();
-        kActivity.endTime = new Date();
-        kActivity.status = false;
+        let kActivit = new kActivity();
+        kActivit.trxno = "";
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "User Removed Identification Card.";
+        kActivit.startTime = new Date();
+        kActivit.endTime = new Date();
+        kActivit.status = false;
 
-        appFunc.kioskActivity.push(kActivity);
+        appFunc.kioskActivity.push(kActivit);
         console.log("No Identification Card Detected.");
         errorCodes.code = "0168";
         errorCodes.message = "No Identification Card Detected.";
@@ -192,13 +194,13 @@ export class VerifymykadComponent implements OnInit {
 
   verify() : void {
     try {
-
-      kActivity.trxno = "";
-      kActivity.kioskCode = signalrConnection.kioskCode;
-      kActivity.moduleID = 0;
-      kActivity.submoduleID = undefined;
-      kActivity.action = "Verify MyKad";
-      kActivity.startTime = new Date();
+      let kActivit0 = new kActivity();
+      kActivit0.trxno = "";
+      kActivit0.kioskCode = signalrConnection.kioskCode;
+      kActivit0.moduleID = 0;
+      kActivit0.submoduleID = undefined;
+      kActivit0.action = "Verify MyKad";
+      kActivit0.startTime = new Date();
       
 
       this.insertMykadVisible = false;
@@ -212,29 +214,31 @@ export class VerifymykadComponent implements OnInit {
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoke myKadRequest to read MyKad.");
         console.log(data);
         status = data;
-        kActivity.endTime = new Date();
-        kActivity.status = true;
-
-        appFunc.kioskActivity.push(kActivity);
+        
         //Not ScanThumb
         if(data.toLowerCase().includes("error")){
-          kActivity.endTime = new Date();
-          kActivity.status = false;
+          kActivit0.endTime = new Date();
+          kActivit0.status = false;
 
-          appFunc.kioskActivity.push(kActivity);
+          appFunc.kioskActivity.push(kActivit0);
           console.log(data);
           errorCodes.code = "0168";
           errorCodes.message = data;
           this._router.navigate(['outofservice']);
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
         }
-        this.DetectMyKad();
-        kActivity.trxno = "";
-        kActivity.kioskCode = signalrConnection.kioskCode;
-        kActivity.moduleID = 0;
-        kActivity.submoduleID = undefined;
-        kActivity.action = "Read MyKad";
-        kActivity.startTime = new Date();
+        kActivit0.endTime = new Date();
+        kActivit0.status = true;
+
+        appFunc.kioskActivity.push(kActivit0);
+        //this.DetectMyKad();
+        let kActivit = new kActivity();
+        kActivit.trxno = "";
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "Read MyKad";
+        kActivit.startTime = new Date();
 
         this._conn.invoke('myKadRequest', status).then((data: any) => {
           
@@ -242,17 +246,18 @@ export class VerifymykadComponent implements OnInit {
           //ScanThumb
           //this.DetectMyKad();
           if (data.toUpperCase().includes("SCANTHUMB")){
-            kActivity.endTime = new Date();
-            kActivity.status = true;
+            kActivit.endTime = new Date();
+            kActivit.status = true;
 
-            appFunc.kioskActivity.push(kActivity);
+            appFunc.kioskActivity.push(kActivit);
 
-            kActivity.trxno = "";
-            kActivity.kioskCode = signalrConnection.kioskCode;
-            kActivity.moduleID = 0;
-            kActivity.submoduleID = undefined;
-            kActivity.action = "Scan Thumb";
-            kActivity.startTime = new Date();
+            let kActivit1 = new kActivity();
+            kActivit1.trxno = "";
+            kActivit1.kioskCode = signalrConnection.kioskCode;
+            kActivit1.moduleID = 0;
+            kActivit1.submoduleID = undefined;
+            kActivit1.action = "Scan Thumb";
+            kActivit1.startTime = new Date();
 
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoke myKadRequest to Scan Thumb.");
             status = data;
@@ -263,26 +268,26 @@ export class VerifymykadComponent implements OnInit {
               //this.DetectMyKad();
               console.log(data);
               if (status.toUpperCase().includes("MISMATCH")){
-                kActivity.endTime = new Date();
-                kActivity.status = false;
+                kActivit1.endTime = new Date();
+                kActivit1.status = false;
 
-                appFunc.kioskActivity.push(kActivity);
+                appFunc.kioskActivity.push(kActivit1);
                 signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Thumbprint Mismatched. ${this.tryCount} tries remaining.`);
                 this.DetectMyKad(data.toString());
               }
               else if(data.toUpperCase().includes("MATCH")){
-                kActivity.endTime = new Date();
-                kActivity.status = true;
+                kActivit1.endTime = new Date();
+                kActivit1.status = true;
 
-                appFunc.kioskActivity.push(kActivity);  
+                appFunc.kioskActivity.push(kActivit1);  
                 signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Thumbprint Matched.");
                 this.DetectMyKad(data.toString());
               }
               else{
-                kActivity.endTime = new Date();
-                kActivity.status = false;
+                kActivit1.endTime = new Date();
+                kActivit1.status = false;
 
-                appFunc.kioskActivity.push(kActivity);
+                appFunc.kioskActivity.push(kActivit1);
                 errorCodes.code = "0222";
                 errorCodes.message = data;
                 this._router.navigate(['outofservice']);
@@ -291,10 +296,10 @@ export class VerifymykadComponent implements OnInit {
             }); 
           }
           else{
-            kActivity.endTime = new Date();
-            kActivity.status = false;
+            kActivit.endTime = new Date();
+            kActivit.status = false;
 
-            appFunc.kioskActivity.push(kActivity);
+            appFunc.kioskActivity.push(kActivit);
             errorCodes.code = "0111";
             errorCodes.message = data;
             this._router.navigate(['outofservice']);
@@ -317,12 +322,13 @@ export class VerifymykadComponent implements OnInit {
 
   bindMyKadData(): void {
     try {
-      kActivity.trxno = "";
-      kActivity.kioskCode = signalrConnection.kioskCode;
-      kActivity.moduleID = 0;
-      kActivity.submoduleID = undefined;
-      kActivity.action = "Binding MyKad Details";
-      kActivity.startTime = new Date();
+      let kActivit = new kActivity();
+      kActivit.trxno = "";
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Binding MyKad Details";
+      kActivit.startTime = new Date();
 
       currentMyKadDetails.Name = this.myKadData['Name'];
       currentMyKadDetails.ICNo = this.myKadData['ICNo'];
@@ -353,17 +359,24 @@ export class VerifymykadComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
   
 
-      kActivity.endTime = new Date();
-      kActivity.status = true;
+      kActivit.endTime = new Date();
+      kActivit.status = true;
 
-      appFunc.kioskActivity.push(kActivity);
+      appFunc.kioskActivity.push(kActivit);
       this.getAccountInquiry();
     }
     catch(e) {
-      kActivity.endTime = new Date();
-      kActivity.status = false;
+      let kActivit = new kActivity();
+      kActivit.trxno = "";
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Binding MyKad Details";
+      kActivit.startTime = new Date();
+      kActivit.endTime = new Date();
+      kActivit.status = false;
 
-      appFunc.kioskActivity.push(kActivity);
+      appFunc.kioskActivity.push(kActivit);
       console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
@@ -383,10 +396,10 @@ export class VerifymykadComponent implements OnInit {
         "CHANNELTYPE": "ASNB KIOSK",
         "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
         "DEVICEOWNER": "ASNB",
-        "UNITHOLDERID": "",
+        "UNITHOLDERID": "000013053909",
         "FIRSTNAME": "",
         "IDENTIFICATIONTYPE": "W",
-        "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
+        "IDENTIFICATIONNUMBER": "521030135188",
         "FUNDID": "",
         "INQUIRYCODE": "4",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
@@ -405,12 +418,13 @@ export class VerifymykadComponent implements OnInit {
   
       this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
-        kActivity.trxno = "";
-        kActivity.kioskCode = signalrConnection.kioskCode;
-        kActivity.moduleID = 0;
-        kActivity.submoduleID = undefined;
-        kActivity.action = "Binding Unit Holder";
-        kActivity.startTime = new Date();
+        let kActivit = new kActivity();
+        kActivit.trxno = "";
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "Binding Unit Holder";
+        kActivit.startTime = new Date();
 
         console.log("Subscribing");
         currentHolder.channeltype = result.channeltype;
@@ -451,63 +465,84 @@ export class VerifymykadComponent implements OnInit {
         currentHolder.rejectcode = result.rejectcode;
         currentHolder.rejectreason = result.rejectreason;
 
-        kActivity.endTime = new Date();
-        kActivity.status = true;
+        kActivit.endTime = new Date();
+        kActivit.status = true;
 
-        appFunc.kioskActivity.push(kActivity);
+        appFunc.kioskActivity.push(kActivit);
 
         //Scenario 1: Unit Holder Not Exist
         if (currentHolder.rejectreason.includes('not exists')){
+          console.log("Reached Here A");
           this.loadingVisible = false;
           this.RMError3_Visible = true;
-          kActivity.trxno = "";
-          kActivity.kioskCode = signalrConnection.kioskCode;
-          kActivity.moduleID = 0;
-          kActivity.submoduleID = undefined;
-          kActivity.action = "Unit Holder Doesn't Exist.";
-          kActivity.startTime = new Date();
-          kActivity.endTime = new Date();
-          kActivity.status = true;
+          let kActivit1 = new kActivity();
+          kActivit1.trxno = "";
+          kActivit1.kioskCode = signalrConnection.kioskCode;
+          kActivit1.moduleID = 0;
+          kActivit1.submoduleID = undefined;
+          kActivit1.action = "Unit Holder Doesn't Exist.";
+          kActivit1.startTime = new Date();
+          kActivit1.endTime = new Date();
+          kActivit1.status = true;
 
-          appFunc.kioskActivity.push(kActivity);
+          appFunc.kioskActivity.push(kActivit1);
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No account found.");
+          this.loadingVisible = false;
+          this.RMError3_Visible = true;
         }
         //Scenario 2: FundID = ""
         else if (currentHolder.funddetail.length == 0 && currentHolder.unitholderid != undefined){
-          kActivity.trxno = "";
-          kActivity.kioskCode = signalrConnection.kioskCode;
-          kActivity.moduleID = 0;
-          kActivity.submoduleID = undefined;
-          kActivity.action = "Unit Holder Exists but does not have any Funds.";
-          kActivity.startTime = new Date();
-          kActivity.endTime = new Date();
-          kActivity.status = true;
+          console.log("Reached Here B");
+          let kActivit2 = new kActivity();
+          kActivit2.trxno = "";
+          kActivit2.kioskCode = signalrConnection.kioskCode;
+          kActivit2.moduleID = 0;
+          kActivit2.submoduleID = undefined;
+          kActivit2.action = "Unit Holder Exists but does not have any Funds.";
+          kActivit2.startTime = new Date();
+          kActivit2.endTime = new Date();
+          kActivit2.status = true;
 
-          appFunc.kioskActivity.push(kActivity);
+          appFunc.kioskActivity.push(kActivit2);
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found, But no Fund.");
+          this._router.navigate(['transactionmenu']);
         }
         //Scenario 3: FundID & UnitHolderID exists
         else if (currentHolder.funddetail.length > 0 && currentHolder.unitholderid != undefined){
-          kActivity.trxno = "";
-          kActivity.kioskCode = signalrConnection.kioskCode;
-          kActivity.moduleID = 0;
-          kActivity.submoduleID = undefined;
-          kActivity.action = "Unit Holder Exists.";
-          kActivity.startTime = new Date();
-          kActivity.endTime = new Date();
-          kActivity.status = true;
+          console.log("Reached Here C");
+          let kActivit3 = new kActivity();
+          kActivit3.trxno = "";
+          kActivit3.kioskCode = signalrConnection.kioskCode;
+          kActivit3.moduleID = 0;
+          kActivit3.submoduleID = undefined;
+          kActivit3.action = "Unit Holder Exists.";
+          kActivit3.startTime = new Date();
+          kActivit3.endTime = new Date();
+          kActivit3.status = true;
 
-          appFunc.kioskActivity.push(kActivity);
+          appFunc.kioskActivity.push(kActivit3);
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found.");
+          this._router.navigate(['transactionmenu']);
+        }
+
+        else{
+          console.log("Reached Here D");
         }
   
       })
     }
     catch (e){
-      kActivity.endTime = new Date();
-      kActivity.status = false;
+      let kActivit = new kActivity();
+      kActivit.trxno = "";
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Unit Holder Exists.";
+      kActivit.startTime = new Date();
+      kActivit.endTime = new Date();
+      kActivit.status = false;
 
-      appFunc.kioskActivity.push(kActivity);
+      appFunc.kioskActivity.push(kActivit);
       console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;

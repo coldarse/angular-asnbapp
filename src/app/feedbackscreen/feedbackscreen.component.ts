@@ -31,6 +31,8 @@ export class FeedbackscreenComponent implements OnInit {
   FBS2_Visible = false;
 
 
+  
+
   constructor(private _router: Router,
     private translate: TranslateService) { }
 
@@ -40,12 +42,17 @@ export class FeedbackscreenComponent implements OnInit {
     }
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Arrived At Feedback Screen.";
-    kActivity.startTime = new Date();
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Arrived At Feedback Screen.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
+
+    appFunc.kioskActivity.push(kActivit);
   }
 
   ngOnDestroy() {
@@ -54,17 +61,17 @@ export class FeedbackscreenComponent implements OnInit {
   }
 
   SubmitFeedback(){
-    kActivity.endTime = new Date();
-    kActivity.status = true;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Prompt User to Remove Identification Card.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
 
-    appFunc.kioskActivity.push(kActivity);
-
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Prompt User to Remove Identification Card.";
-    kActivity.startTime = new Date();
+    appFunc.kioskActivity.push(kActivit);
 
     this.FBS1_Visible = false;
     this.FBS2_Visible = true;
@@ -84,10 +91,17 @@ export class FeedbackscreenComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
-        kActivity.endTime = new Date();
-        kActivity.status = true;
+        let kActivit = new kActivity();
+        kActivit.trxno = "";
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "Removed Identification Card.";
+        kActivit.startTime = new Date();
+        kActivit.endTime = new Date();
+        kActivit.status = true;
 
-        appFunc.kioskActivity.push(kActivity);
+        appFunc.kioskActivity.push(kActivit);
         this._router.navigate(['language']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Feedback Screen]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }

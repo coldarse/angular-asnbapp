@@ -72,6 +72,9 @@ export class LanguageComponent implements OnInit {
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
     }
+    if(appFunc.kioskActivity != undefined){
+      console.log(appFunc.kioskActivity);
+    }
     signalrConnection.logsaves = [];
     appFunc.kioskActivity = [];
     var areDisabled = 0
@@ -88,6 +91,9 @@ export class LanguageComponent implements OnInit {
       errorCodes.message = "Under Maintenance";
       this.route.navigate(['outofservice']);
     }
+
+
+    
   }
 
   
@@ -108,6 +114,7 @@ export class LanguageComponent implements OnInit {
           })
         };
       });
+      
     }).catch((err: any) => {console.log(err)});
   }
 
@@ -117,18 +124,22 @@ export class LanguageComponent implements OnInit {
     selectLang.selectedLang = 'en';
     this.route.navigate(['/verifymykad']);
 
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Selected English Language.";
-    kActivity.startTime = new Date();
-    kActivity.endTime = new Date();
-    kActivity.status = true;
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Selected English Language.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
 
-    appFunc.kioskActivity.push(kActivity);
+    appFunc.kioskActivity.push(kActivit);
+
+    signalrConnection.connection.invoke('EmailHelpPage', 'https://kioskdev.asnb.com.my/GetPDF/api/ssrs/GetStaffData');
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected English.");
+    this.getDropDowns();
   }
 
   selectMalay() {
@@ -137,50 +148,53 @@ export class LanguageComponent implements OnInit {
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
   
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Selected Bahasa Malaysia Language.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
 
-    kActivity.trxno = "";
-    kActivity.kioskCode = signalrConnection.kioskCode;
-    kActivity.moduleID = 0;
-    kActivity.submoduleID = undefined;
-    kActivity.action = "Selected Bahasa Malaysia Language.";
-    kActivity.startTime = new Date();
-    kActivity.endTime = new Date();
-    kActivity.status = true;
+    appFunc.kioskActivity.push(kActivit);
+    this.getDropDowns();
+  }
 
-    appFunc.kioskActivity.push(kActivity);
 
-    
-    // this.serviceService.getAllDropDown().subscribe((res : any) => {
+  getDropDowns(){
+    this.serviceService.getAllDropDown().subscribe((res : any) => {
 
-    //   appFunc.titleSalutation = res[0].result.items.map((ts: any) => new TitleDetails(ts));
-    //   appFunc.cities = res[1].result.items.map((ct: any) => new cities(ct));
-    //   appFunc.monthlyIncome = res[2].result.items.map((mi: any) => new monthlyIncome(mi));
-    //   appFunc.states = res[3].result.items.map((st: any) => new states(st));
-    //   appFunc.businessNature = res[4].result.items.map((bn: any) => new businessNature(bn));
-    //   appFunc.occupationSector = res[5].result.items.map((os: any) => new occupationSector(os));
-    //   appFunc.occupationCategory = res[6].result.items.map((oc: any) => new occupationCategory(oc));
-    //   appFunc.religion = res[7].result.items.map((rg: any) => new religions(rg));
-    //   appFunc.races = res[8].result.items.map((rc: any) => new races(rc));
-    //   //appFunc.relationship = res[9].result.itmes.map((rs: any) => new relationship(rs));
-    //   // appFunc.titleSalutation = res.result.items.map((ts: any) => new TitleDetails(ts));
-    //   // appFunc.titleSalutation = res.result.items.map((ts: any) => new TitleDetails(ts));
-    //   // appFunc.titleSalutation = res.result.items.map((ts: any) => new TitleDetails(ts));
+      appFunc.titleSalutation = res[0].result.items.map((ts: any) => new TitleDetails(ts));
+      appFunc.cities = res[1].result.items.map((ct: any) => new cities(ct));
+      appFunc.monthlyIncome = res[2].result.items.map((mi: any) => new monthlyIncome(mi));
+      appFunc.states = res[3].result.items.map((st: any) => new states(st));
+      appFunc.businessNature = res[4].result.items.map((bn: any) => new businessNature(bn));
+      appFunc.occupationSector = res[5].result.items.map((os: any) => new occupationSector(os));
+      appFunc.occupationCategory = res[6].result.items.map((oc: any) => new occupationCategory(oc));
+      appFunc.religion = res[7].result.items.map((rg: any) => new religions(rg));
+      appFunc.races = res[8].result.items.map((rc: any) => new races(rc));
+      //appFunc.relationship = res[9].result.itmes.map((rs: any) => new relationship(rs));
+      // appFunc.titleSalutation = res.result.items.map((ts: any) => new TitleDetails(ts));
+      // appFunc.titleSalutation = res.result.items.map((ts: any) => new TitleDetails(ts));
+      // appFunc.titleSalutation = res.result.items.map((ts: any) => new TitleDetails(ts));
       
 
-    //   console.log(appFunc.titleSalutation);
-    //   console.log(appFunc.cities);
-    //   console.log(appFunc.monthlyIncome);
-    //   console.log(appFunc.states);
-    //   console.log(appFunc.businessNature);
-    //   console.log(appFunc.occupationSector);
-    //   console.log(appFunc.occupationCategory);
-    //   console.log(appFunc.religion);
-    //   console.log(appFunc.races);
-    //   //console.log(appFunc.relationship);
-    //   // console.log(res[9]);
-    //   // console.log(res[10]);
-    //   // console.log(res[11]);
-    // });
+      console.log(appFunc.titleSalutation);
+      console.log(appFunc.cities);
+      console.log(appFunc.monthlyIncome);
+      console.log(appFunc.states);
+      console.log(appFunc.businessNature);
+      console.log(appFunc.occupationSector);
+      console.log(appFunc.occupationCategory);
+      console.log(appFunc.religion);
+      console.log(appFunc.races);
+      //console.log(appFunc.relationship);
+      // console.log(res[9]);
+      // console.log(res[10]);
+      // console.log(res[11]);
+    });
   }
 }
 
