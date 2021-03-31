@@ -17,7 +17,7 @@ import { fundDetails } from '../_models/fundDetails';
 import { businessNature, cities, monthlyIncome, occupationCategory, occupationSector, races, relationship, religions, states, TitleDetails } from '../_models/dropDownLists';
 import { kActivity } from '../_models/kActivity';
 import { kioskActivities } from '../_models/kioskActivities';
-
+import { AppConfiguration } from '../config/app-configuration';
 
 @Component({
   selector: 'app-language',
@@ -62,8 +62,8 @@ export class LanguageComponent implements OnInit {
   constructor(
     private serviceService : ServiceService,
     private route: Router,
-    private _signalR: SignalR,
-    ) { 
+    private _signalR: SignalR,) { 
+      
        this.startConnection();
     }
 
