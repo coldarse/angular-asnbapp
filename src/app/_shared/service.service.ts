@@ -63,8 +63,6 @@ export class ServiceService {
       'Something bad happened; please try again later.');
   }
 
-
-
   //Get DropDown in Account Registration
   getAllDropDown() 
   {   
@@ -218,17 +216,6 @@ export class ServiceService {
       catchError(this.handleError),
     )
   }
-
-
-
-  
-
-
-
-
-
-
-
 
   getToken()
   {

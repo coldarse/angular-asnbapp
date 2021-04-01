@@ -136,7 +136,7 @@ export class CheckbalanceComponent implements OnInit {
 
   DetectMyKad() {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
-      console.log(data);
+      // console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         let kActivit = new kActivity();
@@ -203,6 +203,17 @@ export class CheckbalanceComponent implements OnInit {
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
+  
+  
+    const body = {
+
+    };
+    
+  
+  
+  
+  
+  
   }
 
   EmailStatement(selectedFundDetails: any) {
@@ -258,6 +269,7 @@ export class CheckbalanceComponent implements OnInit {
 
 
   MinorCheckBalance(selectedMinorDetails: any) {
+
     const body = {
       "CHANNELTYPE": "IB",
       "REQUESTORIDENTIFICATION": "RHBNOW",
