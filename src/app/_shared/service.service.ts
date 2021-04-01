@@ -16,6 +16,8 @@ import { signalrConnection } from '../_models/signalr';
 import { forkJoin } from 'rxjs';
 import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
+import { AppConfiguration } from '../config/app-configuration';
+
 
 // const httpOptions = {
 //   headers: new HttpHeaders({
@@ -31,11 +33,15 @@ import { appFunc } from '../_models/appFunctions';
 
 export class ServiceService {
   protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-  url = 'https://aldansupport.com/ASNBCore/api/';
+  //url = 'https://aldansupport.com/ASNBCore/api/'; // Using Aldan Support Swagger
+  url: any; // Using Alibaba Development Swagger
   constructor(
     private http: HttpClient,
     private router: Router,
-    ) {}
+    private appConfig: AppConfiguration
+    ) {
+        this.url = appConfig.AldanDevURL;
+    }
 
   private handleError(error: HttpErrorResponse) {
 
@@ -71,10 +77,10 @@ export class ServiceService {
     const response7 = this.http.get(this.url + "services/app/OccupationCategory/GetAll",accessToken.httpOptions);
     const response8 = this.http.get(this.url + "services/app/Religion/GetAll",accessToken.httpOptions);
     const response9 = this.http.get(this.url + 'services/app/UnitHolderEthnic/GetAll', accessToken.httpOptions);
-    // const response10 = this.http.get(this.url + "services/app/PreferredDelivery/GetAll",accessToken.httpOptions);
-    // const response11 = this.http.get(this.url + "services/app/BankName/GetAll",accessToken.httpOptions);
-    // const response12 = this.http.get(this.url + "services/app/OccupationName/GetAll",accessToken.httpOptions);
-    //const response13 = this.http.get(this.url + "services/app/FamilyRelationship/GetAll",accessToken.httpOptions);
+    const response10 = this.http.get(this.url + "services/app/PreferredDelivery/GetAll",accessToken.httpOptions);
+    const response11 = this.http.get(this.url + "services/app/BankName/GetAll",accessToken.httpOptions);
+    const response12 = this.http.get(this.url + "services/app/OccupationName/GetAll",accessToken.httpOptions);
+    const response13 = this.http.get(this.url + "services/app/FamilyRelationship/GetAll",accessToken.httpOptions);
     return forkJoin([
       response1.pipe(retry(1), catchError(this.handleError)), 
       response2.pipe(delay(1000), retry(1), catchError(this.handleError)),
@@ -85,10 +91,10 @@ export class ServiceService {
       response7.pipe(delay(1000), retry(1), catchError(this.handleError)),
       response8.pipe(delay(1000), retry(1), catchError(this.handleError)),
       response9.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      //response13.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      // response10.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      // response11.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      // response12.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      response10.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      response11.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      response12.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      response13.pipe(delay(1000), retry(1), catchError(this.handleError)),
     ]);
   }
 

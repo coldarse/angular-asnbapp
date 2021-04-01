@@ -32,9 +32,19 @@ export class AccountregistrationComponent implements OnInit {
 
   BTN_Print = "";
   BTN_Email = "";
-  
-  form_cities : any = appFunc.cities;
 
+  form_salutation : any = appFunc.titleSalutation;
+  form_races : any = appFunc.races;
+  form_religion : any = appFunc.religion;
+  form_states : any = appFunc.states;
+  form_cities : any = appFunc.cities;
+  form_preferredDelivery : any = appFunc.preferredDelivery;
+  form_bankname : any = appFunc.bankName;
+  form_occupationSector : any = appFunc.occupationSector;
+  form_occupationName : any = appFunc.occupationName;
+  form_occupationCatergory : any = appFunc.occupationCategory;
+  form_businessnature : any = appFunc.businessNature;
+  form_income : any = appFunc.monthlyIncome;
 
   //Visible Page Elements
   ARForm_Visible = true;
@@ -55,6 +65,22 @@ export class AccountregistrationComponent implements OnInit {
   ARPostcode_disabled : boolean = true;
   ARCity_disabled : boolean = true;
   ARState_disabled : boolean = true;
+
+  address1_Warning : boolean = false;
+  address2_Warning : boolean = false;
+  postcode_Warning : boolean = false;
+
+  telephone_Warning : boolean = false;
+  email_Warning : boolean = false;
+  bank_Warning : boolean = false;
+  bankNo_Warning : boolean = false;
+  companyName_Warning : boolean = false;
+
+  MI_Warning : boolean = false;
+  JS_Warning : boolean = false;
+  NOJ_Warning : boolean = false;
+  JN_Warning : boolean = false;
+  JC_Warning : boolean = false;
 
   //Page Elements Fixed Values from API and MyKad
   Header_Title = "";
@@ -156,6 +182,8 @@ export class AccountregistrationComponent implements OnInit {
   AR_Form: any;
   id:any;
 
+  city: any;
+
   constructor(private elementRef: ElementRef,
     private _router: Router,
     private translate: TranslateService,
@@ -167,13 +195,13 @@ export class AccountregistrationComponent implements OnInit {
     }
 
   initializeForm()  {
-    let city = currentMyKadDetails.City;
+    this.city = currentMyKadDetails.City;
     for(var x of this.form_cities){
-      if (x.name.toLowerCase().includes(city.toLowerCase())){
-        city = x.name;
+      if (x.name.toLowerCase().includes(this.city.toLowerCase())){
+        this.city = x.name;
         break;
       }
-      city = currentMyKadDetails.City;
+      this.city = currentMyKadDetails.City;
     }
     this.AR_Form = this.fb.group(
       {
@@ -184,16 +212,15 @@ export class AccountregistrationComponent implements OnInit {
         race: [{value: currentMyKadDetails.Race, disabled: true}],
         religion: [{value: currentMyKadDetails.Religion, disabled: true}],
 
-        address1 : [{value: currentMyKadDetails.Address1 + currentMyKadDetails.Address2, disabled: true}],
-        address2 : [{value: currentMyKadDetails.Address3, disabled: true}],
-        postcode : [{value: currentMyKadDetails.PostCode, disabled: true}],
-        city : [{value: city, disabled: false}],
+        address1 : [{value: currentMyKadDetails.Address1 + currentMyKadDetails.Address2, disabled: true}, Validators.required],
+        address2 : [{value: currentMyKadDetails.Address3, disabled: true}, Validators.required],
+        postcode : [{value: currentMyKadDetails.PostCode, disabled: true}, Validators.required],
+        city : [{value: this.city, disabled: true}],
         state : [{value: currentMyKadDetails.State, disabled: true}],
         mykadaddress: [true],
 
-        homenumber : ['', Validators.required],
-        // telephone: ['', Validators.required],
-        telephone: new FormControl('', Validators.required),
+        homenumber : [''],
+        telephone: ['', Validators.required],
         notelephone: [false],
 
         email: ['', Validators.required],
@@ -295,7 +322,9 @@ export class AccountregistrationComponent implements OnInit {
 
   noEmailCheck() {
     if (this.AR_Form.controls.noemail.value == false){
+      this.AR_Form.controls.email.reset();
       this.AR_Form.controls.email.disable();
+      if (this.email_Warning == true) this.email_Warning = false;
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Email.");
     }
     else{
@@ -307,7 +336,9 @@ export class AccountregistrationComponent implements OnInit {
 
   noTelephoneCheck() {
     if (this.AR_Form.controls.notelephone.value == false){
+      this.AR_Form.controls.telephone.reset();
       this.AR_Form.controls.telephone.disable();
+      if (this.telephone_Warning == true) this.telephone_Warning = false;
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Telephone.");
     }
     else{
@@ -318,6 +349,17 @@ export class AccountregistrationComponent implements OnInit {
 
   myKadAddress() {
     if (this.AR_Form.controls.mykadaddress.value == false){
+      if (this.address1_Warning == true) this.address1_Warning = false;
+      if (this.address2_Warning == true) this.address2_Warning = false;
+      if (this.postcode_Warning == true) this.postcode_Warning = false;
+
+      this.AR_Form.controls.address1.setValue(currentMyKadDetails.Address1 + currentMyKadDetails.Address2);
+      this.AR_Form.controls.address2.setValue(currentMyKadDetails.Address3);
+      this.AR_Form.controls.postcode.setValue(currentMyKadDetails.PostCode);
+      this.AR_Form.controls.city.setValue(this.city);
+      this.AR_Form.controls.state.setValue(currentMyKadDetails.State);
+
+
       this.AR_Form.controls.address1.disable();
       this.AR_Form.controls.address2.disable();
       this.AR_Form.controls.postcode.disable();
@@ -326,6 +368,10 @@ export class AccountregistrationComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked MyKad Address.");
     }
     else{
+      this.AR_Form.controls.address1.reset();
+      this.AR_Form.controls.address2.reset();
+      this.AR_Form.controls.postcode.reset();
+
       this.AR_Form.controls.address1.enable();
       this.AR_Form.controls.address2.enable();
       this.AR_Form.controls.postcode.enable();
@@ -335,12 +381,67 @@ export class AccountregistrationComponent implements OnInit {
     }
   }
 
-
   registrationNext() {
+
+    let a1 = this.AR_Form.get('address1').value;
+    let a2 = this.AR_Form.get('address2').value;
+    let postcode = this.AR_Form.get('postcode').value;
+    let city = this.AR_Form.get('city').value;
+    let state = this.AR_Form.get('state').value;
+
+    this.AR_Form.controls.address1.setValue(a1);
+    this.AR_Form.controls.address2.setValue(a2);
+    this.AR_Form.controls.postcode.setValue(postcode);
+    this.AR_Form.controls.city.setValue(city);
+    this.AR_Form.controls.state.setValue(state);
+
+
     let x = 0
     Object.keys(this.AR_Form.controls).forEach(key => {
       if(this.AR_Form.controls[key].hasError('required')){
-        x += 1;
+        x += 1
+        if(key.includes('telephone')){
+          this.telephone_Warning = true;
+        }
+        else if(key.includes('email')){
+          this.email_Warning = true;
+        }
+        else if(key.includes('bankaccount')){
+          this.bankNo_Warning = true;
+        }
+        else if(key.includes('companyname')){
+          this.companyName_Warning = true;
+        }
+
+        else if(key.includes('address1')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.address1_Warning = true;
+        }
+        else if(key.includes('address2')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.address2_Warning = true;
+        }
+        else if(key.includes('postcode')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.postcode_Warning = true;
+        }
+      }
+      else {
+        if(key.includes('bankname') && (this.AR_Form.controls.bankname.value == 'Sila Pilih Satu' || this.AR_Form.controls.bankname.value == 'Please Select One')){
+          this.bank_Warning = true;
+        }
+        else if(key.includes('jobcategory') && (this.AR_Form.controls.bankname.value == 'Sila Pilih Satu' || this.AR_Form.controls.bankname.value == 'Please Select One')){
+          this.JC_Warning = true;
+        }
+        else if(key.includes('jobname') && (this.AR_Form.controls.bankname.value == 'Sila Pilih Satu' || this.AR_Form.controls.bankname.value == 'Please Select One')){
+          this.JN_Warning = true;
+        }
+        else if(key.includes('natureofjob') && (this.AR_Form.controls.bankname.value == 'Sila Pilih Satu' || this.AR_Form.controls.bankname.value == 'Please Select One')){
+          this.NOJ_Warning = true;
+        }
+        else if(key.includes('jobsector') && (this.AR_Form.controls.bankname.value == 'Sila Pilih Satu' || this.AR_Form.controls.bankname.value == 'Please Select One')){
+          this.JS_Warning = true;
+        }
+        else if(key.includes('monthlyincome') && (this.AR_Form.controls.bankname.value == 'Sila Pilih Satu' || this.AR_Form.controls.bankname.value == 'Please Select One')){
+          this.MI_Warning = true;
+        }
       }
     })
     if (x > 0){

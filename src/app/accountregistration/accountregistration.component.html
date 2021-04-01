@@ -34,9 +34,9 @@
                     </div>
                     <div class="col-md-8">
                         <select name="Salutation" id="salutation"  [formControl]='AR_Form.controls["salutation"]'>
-                            <option value="Datuk">DTK</option>
-                            <option value="Encik">ENCIK</option>
-                            <option value="Puan">PUAN</option>
+                            <option *ngFor="let salutation of form_salutation" value={{salutation.value}}>
+                                {{salutation.text}}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -77,14 +77,22 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["race"]' id="AR4">
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["race"]'>
+                                    <option *ngFor="let races of form_races" value={{races.value}}>
+                                        {{races.text}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Agama</h4> -->
                                 <h4>{{'FL_7' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["religion"]' id="AR5">
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["religion"]'>
+                                    <option *ngFor="let religion of form_religion" value={{religion.value}}>
+                                        {{religion.text}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -104,6 +112,8 @@
                     </div>
                     <div class="col-md-8">
                         <input type="text" class="input-long use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARAddress1_disabled" [formControl]='AR_Form.controls["address1"]' id="AR_Address1">
+                        <div style="color: rgba(255,0,0); font-style: italic" *ngIf="address1_Warning">{{'AD1Warning' | translate}}</div>
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -113,6 +123,8 @@
                     </div>
                     <div class="col-md-8">
                         <input type="text" class="input-long use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARAddress2_disabled" [formControl]='AR_Form.controls["address2"]' id="AR_Address2">
+                        <div style="color: rgba(255,0,0); font-style: italic" *ngIf="address2_Warning">{{'AD2Warning' | translate}}</div>
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -124,6 +136,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARPostcode_disabled" [formControl]='AR_Form.controls["postcode"]' id="AR_Postcode">
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="postcode_Warning">{{'PCWarning' | translate}}</div>
+                                
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Bandar</h4> -->
@@ -156,7 +170,11 @@
                                 <h4>{{'FL_14' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARState_disabled" [formControl]='AR_Form.controls["state"]' id="AR_State">
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["state"]'>
+                                    <option *ngFor="let states of form_states" value={{states.value}}>
+                                        {{states.text}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -177,7 +195,7 @@
                             </div>
                             <div class="col-md-4">
                                 <input class="input-normal use-keyboard-input" [formControl]='AR_Form.controls["telephone"]' (click)="usekeyboardinput()" formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
-                                <!-- <div class="invalid-mobile alert alert-danger" *ngIf="AR_Form.get('telephone').hasError('required')">Please enter mobile</div> -->
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning">{{'MNWarning' | translate}}</div>
                                 <input type="checkbox" id="noPhone" name="noPhone" [formControl]='AR_Form.controls["notelephone"]' (click)="noTelephoneCheck()" style="margin-top: 0.8rem;" >
                                 <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
                                 <label for="noPhone">{{'FL_17' | translate }}</label><br>
@@ -199,6 +217,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [disabled]="checkedXEmail"  name="AR_Email" [formControl]='AR_Form.controls["email"]'>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning">{{'EAWarning' | translate}}</div> 
                                 <input type="checkbox" id="noEmail" name="noEmail" [formControl]='AR_Form.controls["noemail"]' (click)="noEmailCheck()" style="margin-top: 0.8rem;">
                                 <!-- <label for="noEmail" >Tiada Emel</label><br> -->
                                 <label for="noEmail" >{{'FL_19' | translate }}</label><br>
@@ -208,10 +227,10 @@
                                 <h4>{{'FL_20' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="PPP" id="PPP" [formControl]='AR_Form.controls["deliverystate"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["deliverystate"]'>
+                                    <option *ngFor="let preferredDelivery of form_preferredDelivery" value={{preferredDelivery.value}}>
+                                        {{preferredDelivery.desc}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -232,11 +251,13 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="NB" id="NB" [formControl]='AR_Form.controls["bankname"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["bankname"]'>
+                                    <option value="Sila Pilih Satu">{{ optionSelect | translate }}</option>
+                                    <option *ngFor="let bankname of form_bankname" value={{bankname.value}}>
+                                        {{bankname.desc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bank_Warning">{{'Warning' | translate}}</div> 
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Akaun Bank</h4> -->
@@ -244,6 +265,7 @@
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning">{{'BANWarning' | translate}}.</div> 
                             </div>
                         </div>
                     </div>
@@ -263,22 +285,28 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="KP" id="KP" [formControl]='AR_Form.controls["jobcategory"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobcategory"]'>
+                                    <option value="Sila Pilih Satu">{{ optionSelect | translate }}</option>
+                                    <option *ngFor="let occupationCatergory of form_occupationCatergory" value={{occupationCatergory.code}}>
+                                        {{occupationCatergory.desc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JC_Warning">{{'Warning' | translate}}</div> 
+                                
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Nama Pekerjaan</h4> -->
                                 <h4>{{'FL_26' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="NP" id="NP" [formControl]='AR_Form.controls["jobname"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobname"]'>
+                                    <option value="Sila Pilih Satu">{{ optionSelect | translate }}</option>
+                                    <option *ngFor="let occupationName of form_occupationName" value={{occupationName.value}}>
+                                        {{occupationName.desc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JN_Warning">{{'Warning' | translate}}</div> 
+                            
                             </div>
                         </div>
                     </div>
@@ -291,22 +319,28 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="JP" id="JP" [formControl]='AR_Form.controls["natureofjob"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["natureofjob"]'>
+                                    <option value="Sila Pilih Satu">{{ optionSelect | translate }}</option>
+                                    <option *ngFor="let businessnature of form_businessnature" value={{businessnature.value}}>
+                                        {{businessnature.text}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="NOJ_Warning">{{'Warning' | translate}}</div> 
+                            
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Sektor Pekerjaan</h4> -->
                                 <h4>{{'FL_28' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="SP" id="SP" [formControl]='AR_Form.controls["jobsector"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobsector"]'>
+                                    <option value="Sila Pilih Satu">{{ optionSelect | translate }}</option>
+                                    <option *ngFor="let occupationSector of form_occupationSector" value={{occupationSector.sector}}>
+                                        {{occupationSector.sectorDesc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JS_Warning">{{'Warning' | translate}}</div> 
+                            
                             </div>
                         </div>
                     </div>
@@ -319,11 +353,14 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="PB" id="PB" [formControl]='AR_Form.controls["monthlyincome"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["monthlyincome"]'>
+                                    <option value="Sila Pilih Satu">{{ optionSelect | translate }}</option>
+                                    <option *ngFor="let income of form_income" value={{income.validValue}}>
+                                        {{income.valueDesc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning">{{'Warning' | translate}}</div> 
+                            
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Nama Syarikat</h4> -->
@@ -331,6 +368,7 @@
                             </div>
                             <div class="col-md-4">
                                 <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="companyName_Warning">{{'CNWarning' | translate}}</div> 
                             </div>
                         </div>
                     </div>

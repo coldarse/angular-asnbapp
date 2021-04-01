@@ -14,7 +14,7 @@ import { appFunc } from '../_models/appFunctions';
 import { eModules } from '../_models/enabledModules';
 import { errorCodes } from '../_models/errorCode';
 import { fundDetails } from '../_models/fundDetails';
-import { businessNature, cities, monthlyIncome, occupationCategory, occupationSector, races, relationship, religions, states, TitleDetails } from '../_models/dropDownLists';
+import { bankName, businessNature, cities, monthlyIncome, occupationCategory, occupationName, occupationSector, races, relationship, religions, states, TitleDetails } from '../_models/dropDownLists';
 import { kActivity } from '../_models/kActivity';
 import { kioskActivities } from '../_models/kioskActivities';
 
@@ -175,10 +175,9 @@ export class LanguageComponent implements OnInit {
       appFunc.occupationCategory = res[6].result.items.map((oc: any) => new occupationCategory(oc));
       appFunc.religion = res[7].result.items.map((rg: any) => new religions(rg));
       appFunc.races = res[8].result.items.map((rc: any) => new races(rc));
-      //appFunc.relationship = res[9].result.itmes.map((rs: any) => new relationship(rs));
-      // appFunc.titleSalutation = res.result.items.map((ts: any) => new TitleDetails(ts));
-      // appFunc.titleSalutation = res.result.items.map((ts: any) => new TitleDetails(ts));
-      // appFunc.titleSalutation = res.result.items.map((ts: any) => new TitleDetails(ts));
+      appFunc.relationship = res[9].result.items.map((rs: any) => new relationship(rs));
+      appFunc.bankName = res[10].result.items.map((bn: any) => new bankName(bn));
+      appFunc.occupationName = res[11].result.items.map((on: any) => new occupationName(on));
       
 
       console.log(appFunc.titleSalutation);
@@ -190,10 +189,9 @@ export class LanguageComponent implements OnInit {
       console.log(appFunc.occupationCategory);
       console.log(appFunc.religion);
       console.log(appFunc.races);
-      //console.log(appFunc.relationship);
-      // console.log(res[9]);
-      // console.log(res[10]);
-      // console.log(res[11]);
+      console.log(appFunc.relationship);
+      console.log(appFunc.bankName);
+      console.log(appFunc.occupationName);
     });
   }
 }

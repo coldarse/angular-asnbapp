@@ -103,31 +103,31 @@ export class religions {
 }
 
 export class occupationName {
-    code: string;
+    value: string;
     desc: string;
 	
 	constructor(name: any){
-        this.code = name.code;
+        this.value = name.value;
         this.desc = name.desc;
 	}
 }
 
 export class preferredDelivery {
-    code: string;
+    value: string;
     desc: string;
 	
 	constructor(delivery: any){
-        this.code = delivery.code;
+        this.value = delivery.value;
         this.desc = delivery.desc;
 	}
 }
 
 export class bankName {
-    code: string;
+    value: string;
     desc: string;
 	
 	constructor(bank: any){
-        this.code = bank.code;
+        this.value = bank.value;
         this.desc = bank.desc;
 	}
 }

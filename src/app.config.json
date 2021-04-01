@@ -1,3 +1,4 @@
 {
-    "baseUrl": "http://localhost:999999999999999"
-}
+    "baseUrl": "http://localhost:999999999999999",
+    "AldanDevURL": "https://kioskdev.asnb.com.my/ASNBAPI/api/"
+ }
