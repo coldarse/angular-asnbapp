@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 import { Keepalive } from '@ng-idle/keepalive';
 import { Router } from '@angular/router';
+import { AppConfiguration } from './config/app-configuration';
 
 @Component({
   selector: 'app-root',
@@ -17,8 +18,11 @@ export class AppComponent {
 
 
   constructor(private idle: Idle, private keepalive: Keepalive,
-    private _router: Router,) {
+    private _router: Router,
+    private appConfig: AppConfiguration,) {
 
+
+    console.log(appConfig.baseUrl);
     // sets an idle timeout of 5 seconds, for testing purposes.
     idle.setIdle(120);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
