@@ -48,7 +48,7 @@ export class LanguageComponent implements OnInit {
       module: "Bijak Registration",
       startTime: "",
       stopTime: "",
-      isEnabled: false,
+      isEnabled: true,
     },
     {
       module: "Portal Registration",

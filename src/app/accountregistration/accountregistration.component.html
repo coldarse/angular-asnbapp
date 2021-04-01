@@ -252,7 +252,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["bankname"]'>
-                                    <option value="Sila Pilih Satu">{{ optionSelect | translate }}</option>
+                                    <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let bankname of form_bankname" value={{bankname.value}}>
                                         {{bankname.desc}}
                                     </option>
@@ -285,8 +285,8 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobcategory"]'>
-                                    <option value="Sila Pilih Satu">{{ optionSelect | translate }}</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobcategory"]' (change)="filterJobCategory(form_occupationCatergory.code)">
+                                    <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationCatergory of form_occupationCatergory" value={{occupationCatergory.code}}>
                                         {{occupationCatergory.desc}}
                                     </option>
@@ -300,7 +300,7 @@
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobname"]'>
-                                    <option value="Sila Pilih Satu">{{ optionSelect | translate }}</option>
+                                    <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationName of form_occupationName" value={{occupationName.value}}>
                                         {{occupationName.desc}}
                                     </option>
@@ -320,7 +320,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["natureofjob"]'>
-                                    <option value="Sila Pilih Satu">{{ optionSelect | translate }}</option>
+                                    <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let businessnature of form_businessnature" value={{businessnature.value}}>
                                         {{businessnature.text}}
                                     </option>
@@ -334,7 +334,7 @@
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobsector"]'>
-                                    <option value="Sila Pilih Satu">{{ optionSelect | translate }}</option>
+                                    <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationSector of form_occupationSector" value={{occupationSector.sector}}>
                                         {{occupationSector.sectorDesc}}
                                     </option>
@@ -354,7 +354,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["monthlyincome"]'>
-                                    <option value="Sila Pilih Satu">{{ optionSelect | translate }}</option>
+                                    <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let income of form_income" value={{income.validValue}}>
                                         {{income.valueDesc}}
                                     </option>

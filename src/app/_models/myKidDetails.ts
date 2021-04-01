@@ -1,4 +1,5 @@
 export interface IMyKidDetails {
+    
     VersionNo : string | undefined;
     BirthCertNo : string | undefined;
     Name : string | undefined;

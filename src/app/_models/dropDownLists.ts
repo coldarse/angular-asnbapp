@@ -34,12 +34,14 @@ export class monthlyIncome {
     labelDesc: string;
     validValue: string;
     valueDesc: string;
+    valueDescBM: string;
 
     constructor(income: any){
         this.label = income.label;
         this.labelDesc = income.labelDesc;
         this.validValue = income.validValue;
         this.valueDesc = income.valueDesc;
+        this.valueDescBM = income.valueDescBM;
     }
 }
 
@@ -47,10 +49,12 @@ export class monthlyIncome {
 export class businessNature {
     value: string;
     text: string;
+    textBM: string;
 
     constructor(nature: any){
         this.value = nature.value;
         this.text = nature.text;
+        this.textBM = nature.textBM;
     }
 }
 
@@ -60,12 +64,14 @@ export class occupationSector {
     labelDesc: string;
     sector: string;
     sectorDesc: string;
+    sectorDescBM: string;
 
     constructor(sector: any){
         this.label = sector.label;
         this.labelDesc = sector.labelDesc;
         this.sector = sector.sector;
         this.sectorDesc = sector.sectorDesc;
+        this.sectorDescBM = sector.sectorDescBM;
     }
 }
 
@@ -73,10 +79,12 @@ export class occupationSector {
 export class occupationCategory {
     code: string;
     desc: string;
+    descBM: string;
 	
 	constructor(category: any){
         this.code = category.code;
         this.desc = category.desc;
+        this.descBM = category.descBM;
 	}
 }
 
@@ -84,10 +92,12 @@ export class occupationCategory {
 export class races {
     value: string;
     text: string;
+    textBM: string;
 
     constructor(race: any){
         this.value = race.value;
         this.text = race.text;
+        this.textBM = race.textBM;
     }
 }
 
@@ -95,20 +105,24 @@ export class races {
 export class religions {
     value: string;
     text: string;
+    textBM: string;
 
     constructor(religion: any){
         this.value = religion.value;
         this.text = religion.text;
+        this.textBM = religion.textBM;
     }
 }
 
 export class occupationName {
     value: string;
     desc: string;
+    descBM: string;
 	
 	constructor(name: any){
         this.value = name.value;
         this.desc = name.desc;
+        this.descBM = name.descBM;
 	}
 }
 
@@ -135,10 +149,12 @@ export class bankName {
 export class relationship {
     code: string;
     desc: string;
+    descBM: string;
 	
 	constructor(relationship: any){
         this.code = relationship.code;
         this.desc = relationship.desc;
+        this.descBM = relationship.descBM;
 	}
 }
 

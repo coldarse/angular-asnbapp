@@ -476,6 +476,46 @@ export class AccountregistrationComponent implements OnInit {
     }
   }
 
+  filterJobCategory(category: any) {
+    this.enableJob();
+
+    if (category.includes('EM')){
+      this.AR_Form.controls.natureofjob.disable();
+    }
+    else if (category.includes('SE')){
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.jobsector.disable();
+    }
+    else if (category.includes('HM')){
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.jobsector.disable();
+      this.AR_Form.controls.natureofjob.disable();
+      this.AR_Form.controls.companyname.disable();
+    }
+    else if (category.includes('RY')){
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.jobsector.disable();
+      this.AR_Form.controls.natureofjob.disable();
+      this.AR_Form.controls.companyname.disable();
+    }
+    else if (category.includes('UM')){
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.natureofjob.disable();
+      this.AR_Form.controls.jobsector.disable();
+      this.AR_Form.controls.monthlyincome.disable();
+      this.AR_Form.controls.companyname.disable();
+    }
+
+  }
+
+  enableJob() {
+    this.AR_Form.controls.jobname.enable();
+    this.AR_Form.controls.natureofjob.enable();
+    this.AR_Form.controls.jobsector.enable();
+    this.AR_Form.controls.monthlyincome.enable();
+    this.AR_Form.controls.companyname.enable();
+  }
+
   registrationCancel() {
     let kActivit = new kActivity();
     kActivit.trxno = "";

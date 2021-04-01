@@ -206,7 +206,7 @@ export class VerifymykadComponent implements OnInit {
       this.insertMykadVisible = false;
       this.loadingVisible = true;
 
-      var status = "";
+      let status = "";
 
       //this.DetectMyKad();
       //First Invoke
@@ -396,10 +396,10 @@ export class VerifymykadComponent implements OnInit {
         "CHANNELTYPE": "ASNB KIOSK",
         "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
         "DEVICEOWNER": "ASNB",
-        "UNITHOLDERID": "",
+        "UNITHOLDERID": "000013053909",
         "FIRSTNAME": "",
         "IDENTIFICATIONTYPE": "W",
-        "IDENTIFICATIONNUMBER": "980112106666",
+        "IDENTIFICATIONNUMBER": "521030135188",
         "FUNDID": "",
         "INQUIRYCODE": "4",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
@@ -470,64 +470,74 @@ export class VerifymykadComponent implements OnInit {
 
         appFunc.kioskActivity.push(kActivit);
 
-        //Scenario 1: Unit Holder Not Exist
-        if (currentHolder.rejectreason.includes('not exists')){
-          console.log("Reached Here A");
-          this.loadingVisible = false;
-          this.RMError3_Visible = true;
-          let kActivit1 = new kActivity();
-          kActivit1.trxno = "";
-          kActivit1.kioskCode = signalrConnection.kioskCode;
-          kActivit1.moduleID = 0;
-          kActivit1.submoduleID = undefined;
-          kActivit1.action = "Unit Holder Doesn't Exist.";
-          kActivit1.startTime = new Date();
-          kActivit1.endTime = new Date();
-          kActivit1.status = true;
 
-          appFunc.kioskActivity.push(kActivit1);
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No account found.");
-          this.loadingVisible = false;
-          this.RMError3_Visible = true;
-        }
-        //Scenario 2: FundID = ""
-        else if (currentHolder.funddetail.length == 0 && currentHolder.unitholderid != undefined){
-          console.log("Reached Here B");
-          let kActivit2 = new kActivity();
-          kActivit2.trxno = "";
-          kActivit2.kioskCode = signalrConnection.kioskCode;
-          kActivit2.moduleID = 0;
-          kActivit2.submoduleID = undefined;
-          kActivit2.action = "Unit Holder Exists but does not have any Funds.";
-          kActivit2.startTime = new Date();
-          kActivit2.endTime = new Date();
-          kActivit2.status = true;
+        if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
+          //Scenario 1: Unit Holder Not Exist
+          if (currentHolder.rejectreason.includes('not exists')){
+            console.log("Reached Here A");
+            let kActivit1 = new kActivity();
+            kActivit1.trxno = "";
+            kActivit1.kioskCode = signalrConnection.kioskCode;
+            kActivit1.moduleID = 0;
+            kActivit1.submoduleID = undefined;
+            kActivit1.action = "Unit Holder Doesn't Exist.";
+            kActivit1.startTime = new Date();
+            kActivit1.endTime = new Date();
+            kActivit1.status = true;
 
-          appFunc.kioskActivity.push(kActivit2);
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found, But no Fund.");
-          this._router.navigate(['transactionmenu']);
-        }
-        //Scenario 3: FundID & UnitHolderID exists
-        else if (currentHolder.funddetail.length > 0 && currentHolder.unitholderid != undefined){
-          console.log("Reached Here C");
-          let kActivit3 = new kActivity();
-          kActivit3.trxno = "";
-          kActivit3.kioskCode = signalrConnection.kioskCode;
-          kActivit3.moduleID = 0;
-          kActivit3.submoduleID = undefined;
-          kActivit3.action = "Unit Holder Exists.";
-          kActivit3.startTime = new Date();
-          kActivit3.endTime = new Date();
-          kActivit3.status = true;
+            appFunc.kioskActivity.push(kActivit1);
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No account found.");
+            this.loadingVisible = false;
+            this.RMError3_Visible = true;
+          }
+          if (currentHolder.typeclosed.toLowerCase().includes('n')){
+            errorCodes.Ecode = "0168";
+            errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
+            this._router.navigate(['errorscreen']);
+          }
 
-          appFunc.kioskActivity.push(kActivit3);
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found.");
-          this._router.navigate(['transactionmenu']);
+          //Scenario 2: FundID = ""
+          if (currentHolder.funddetail.length == 0 && currentHolder.unitholderid != undefined){
+            console.log("Reached Here B");
+            let kActivit2 = new kActivity();
+            kActivit2.trxno = "";
+            kActivit2.kioskCode = signalrConnection.kioskCode;
+            kActivit2.moduleID = 0;
+            kActivit2.submoduleID = undefined;
+            kActivit2.action = "Unit Holder Exists but does not have any Funds.";
+            kActivit2.startTime = new Date();
+            kActivit2.endTime = new Date();
+            kActivit2.status = true;
+
+            appFunc.kioskActivity.push(kActivit2);
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found, But no Fund.");
+            this._router.navigate(['transactionmenu']);
+          }
+          //Scenario 3: FundID & UnitHolderID exists
+          if (currentHolder.funddetail.length > 0 && currentHolder.unitholderid != undefined){
+            console.log("Reached Here C");
+            let kActivit3 = new kActivity();
+            kActivit3.trxno = "";
+            kActivit3.kioskCode = signalrConnection.kioskCode;
+            kActivit3.moduleID = 0;
+            kActivit3.submoduleID = undefined;
+            kActivit3.action = "Unit Holder Exists.";
+            kActivit3.startTime = new Date();
+            kActivit3.endTime = new Date();
+            kActivit3.status = true;
+
+            appFunc.kioskActivity.push(kActivit3);
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found.");
+            this._router.navigate(['transactionmenu']);
+          }
+
+          
         }
 
-        else{
-          console.log("Reached Here D");
-        }
+
+
+
+        
   
       })
     }
