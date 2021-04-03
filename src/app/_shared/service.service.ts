@@ -217,6 +217,21 @@ export class ServiceService {
     )
   }
 
+  //Post get 5 transaction.
+  postFiveTransactions(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/OpenAPI/CashTransaction",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+
+
   getToken()
   {
     const body = 

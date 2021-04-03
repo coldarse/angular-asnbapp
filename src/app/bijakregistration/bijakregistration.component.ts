@@ -13,6 +13,7 @@ import { appFunc } from '../_models/appFunctions';
 import { MyKidDetails } from '../_models/myKidDetails';
 import { errorCodes } from '../_models/errorCode';
 import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
+import { ServiceService } from '../_shared/service.service';
 
 @Component({
   selector: 'app-bijakregistration',
@@ -186,11 +187,12 @@ export class BijakregistrationComponent implements OnInit {
 
   AR_Form: any;
   id: any;
-  serviceService: any;
 
   constructor(private _router: Router,
     private translate: TranslateService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private serviceService : ServiceService) { }
+    
 
   ngOnInit(): void {
     if(signalrConnection.logsaves != undefined){
@@ -496,8 +498,8 @@ export class BijakregistrationComponent implements OnInit {
 
   
   
-      this.serviceService.getAccountInquiry(body)
-      .subscribe((result: any) => {
+       this.serviceService.getAccountInquiry(body)
+       .subscribe((result: any) => {
         let kActivit = new kActivity();
         kActivit.trxno = "";
         kActivit.kioskCode = signalrConnection.kioskCode;

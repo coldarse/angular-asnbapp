@@ -222,7 +222,7 @@ const Keyboard = {
         this.eventHandlers.oninput = oninput;
         this.eventHandlers.onclose = onclose;
         this.elements.main.classList.remove("keyboard--hidden");
-        this.elements.keyboardspace.style.height = "300px";
+        this.elements.keyboardspace.style.height = "500px";
     },
 
     close() {

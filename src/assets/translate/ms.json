@@ -236,5 +236,15 @@
 	"Transaction_Menu_Header_Title":"MENU TRANSAKSI",
 	"Update_Details_Header_Title":"KEMAS KINI MAKLUMAT",
 	"Verify_MyKad_Header_Title":"SAHKAN MYKAD",
-	"Feedback_Header_Title":"MAKLUM BALAS"
+	"Feedback_Header_Title":"MAKLUM BALAS",
+	"AD1Warning" : "Surat-Menyurat 1 adalah wajib.",
+	"AD2Warning" : "Surat-Menyurat 2 adalah wajib.",
+	"PCWarning" : "Postkod adalah wajib.",
+	"MNWarning" : "Nombor Telefon adalah wajib.",
+	"EAWarning" : "Alamat Emel adalah wajib.",
+	"Warning" : "Wajib.",
+	"BANWarning" : "Bank Account Number adalah wajib.",
+	"optionSelect" : "Sila Pilih Satu.",
+	"BRError_3" : "Akaun Bijak telah didaftarkan. Sila pergi ke Menu Transaksi untuk memulakan pelaburan.",
+	"CN_Warning" : "Nama Syarikat adalah wajib."
 }

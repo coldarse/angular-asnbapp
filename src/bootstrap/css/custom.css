@@ -238,10 +238,12 @@ user-select: none;
 
 .formcontent {
   width:1000px;
-  height:1150px;
+  height:auto;
   background:rgb(255, 255, 255);
   margin:auto;
+  margin-top: 3rem;
   padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 .blue-title-bar {

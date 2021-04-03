@@ -82,6 +82,8 @@ export class CheckbalanceComponent implements OnInit {
   CB5_1 = "";
   CB5_2 = "";
 
+  CB_GuardianID = "";
+
 
   CBError_1 = "";
   CBError_2 = "";
@@ -204,16 +206,41 @@ export class CheckbalanceComponent implements OnInit {
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   
-  
     const body = {
-
+      "CHANNELTYPE":"ATM",
+      "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+      "DEVICEOWNER":"ASNB",
+      "NUMBEROFTXNS":"4", 
+      "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en'),
+      "UNITHOLDERID": this.CB2_7,
+      "IDENTIFICATIONTYPE":"W",
+      "IDENTIFICATIONNUMBER":this.CB2_5,
+      "GUARDIANIDNUMBER":this.CB_GuardianID,
+      "FUNDID":selectedFundDetails.FUNDID,
+      "POLICYTYPE":"UT"
     };
+
     
-  
-  
-  
-  
-  
+    
+    this.serviceService.postFiveTransactions(body)
+    .subscribe((result: any) => {
+
+      let kActivit1 = new kActivity();
+      kActivit1.trxno = "";
+      kActivit1.kioskCode = signalrConnection.kioskCode;
+      kActivit1.moduleID = 0;
+      kActivit1.submoduleID = undefined;
+      kActivit1.action = "Calling SignalR for Printing";
+      kActivit1.startTime = new Date();
+      
+      kActivit1.endTime = new Date();
+      kActivit1.status = true; 
+
+      appFunc.kioskActivity.push(kActivit1);
+
+      signalrConnection.connection.invoke('EmailHelpPage', `https://kioskdev.asnb.com.my/GetPDF/api/ssrs/GetStaffData?${result.policytypedetail.transactiondetail}`);
+    });
   }
 
   EmailStatement(selectedFundDetails: any) {
@@ -231,6 +258,42 @@ export class CheckbalanceComponent implements OnInit {
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
+
+    const body = {
+      "CHANNELTYPE":"ATM",
+      "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+      "DEVICEOWNER":"ASNB",
+      "NUMBEROFTXNS":"4", 
+      "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en'),
+      "UNITHOLDERID": this.CB2_7,
+      "IDENTIFICATIONTYPE":"W",
+      "IDENTIFICATIONNUMBER":this.CB2_5,
+      "GUARDIANIDNUMBER":this.CB_GuardianID,
+      "FUNDID":selectedFundDetails.FUNDID,
+      "POLICYTYPE":"UT"
+    };
+
+    
+    
+    this.serviceService.postFiveTransactions(body)
+    .subscribe((result: any) => {
+
+      let kActivit1 = new kActivity();
+      kActivit1.trxno = "";
+      kActivit1.kioskCode = signalrConnection.kioskCode;
+      kActivit1.moduleID = 0;
+      kActivit1.submoduleID = undefined;
+      kActivit1.action = "Calling SignalR for Email";
+      kActivit1.startTime = new Date();
+      
+      kActivit1.endTime = new Date();
+      kActivit1.status = true; 
+
+      appFunc.kioskActivity.push(kActivit1);
+
+      signalrConnection.connection.invoke('EmailHelpPage', `https://kioskdev.asnb.com.my/GetPDF/api/ssrs/GetStaffData?${result.policytypedetail.transactiondetail}`);
+    });
   }
 
   PrintAllStatement(selectedFundDetails: any) {
@@ -248,6 +311,40 @@ export class CheckbalanceComponent implements OnInit {
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
+
+    const body = {
+      "CHANNELTYPE":"ATM",
+      "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+      "DEVICEOWNER":"ASNB",
+      "NUMBEROFTXNS":"4", 
+      "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en'),
+      "UNITHOLDERID": this.CB2_7,
+      "IDENTIFICATIONTYPE":"W",
+      "IDENTIFICATIONNUMBER":this.CB2_5,
+      "GUARDIANIDNUMBER":this.CB_GuardianID,
+      "FUNDID":selectedFundDetails.FUNDID,
+      "POLICYTYPE":"UT"
+    };
+
+    this.serviceService.postFiveTransactions(body)
+    .subscribe((result: any) => {
+
+      let kActivit1 = new kActivity();
+      kActivit1.trxno = "";
+      kActivit1.kioskCode = signalrConnection.kioskCode;
+      kActivit1.moduleID = 0;
+      kActivit1.submoduleID = undefined;
+      kActivit1.action = "Calling SignalR for Print All";
+      kActivit1.startTime = new Date();
+      
+      kActivit1.endTime = new Date();
+      kActivit1.status = true; 
+
+      appFunc.kioskActivity.push(kActivit1);
+
+      signalrConnection.connection.invoke('EmailHelpPage', `https://kioskdev.asnb.com.my/GetPDF/api/ssrs/GetStaffData?${result.policytypedetail.transactiondetail}`);
+    });
   }
 
   EmailAllStatement(selectedFundDetails: any) {
@@ -265,6 +362,42 @@ export class CheckbalanceComponent implements OnInit {
     console.log(selectedFundDetails.FUNDID);
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
+
+    const body = {
+      "CHANNELTYPE":"ATM",
+      "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+      "DEVICEOWNER":"ASNB",
+      "NUMBEROFTXNS":"4", 
+      "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en'),
+      "UNITHOLDERID": this.CB2_7,
+      "IDENTIFICATIONTYPE":"W",
+      "IDENTIFICATIONNUMBER":this.CB2_5,
+      "GUARDIANIDNUMBER":this.CB_GuardianID,
+      "FUNDID":selectedFundDetails.FUNDID,
+      "POLICYTYPE":"UT"
+    };
+
+    
+    
+    this.serviceService.postFiveTransactions(body)
+    .subscribe((result: any) => {
+
+      let kActivit1 = new kActivity();
+      kActivit1.trxno = "";
+      kActivit1.kioskCode = signalrConnection.kioskCode;
+      kActivit1.moduleID = 0;
+      kActivit1.submoduleID = undefined;
+      kActivit1.action = "Calling SignalR for Email All";
+      kActivit1.startTime = new Date();
+      
+      kActivit1.endTime = new Date();
+      kActivit1.status = true; 
+
+      appFunc.kioskActivity.push(kActivit1);
+
+      signalrConnection.connection.invoke('EmailHelpPage', `https://kioskdev.asnb.com.my/GetPDF/api/ssrs/GetStaffData?${result.policytypedetail.transactiondetail}`);
+    });
   }
 
 
@@ -292,13 +425,14 @@ export class CheckbalanceComponent implements OnInit {
 
      this.serviceService.getAccountInquiry(body)
      .subscribe((result: any) => {
-       let kActivit = new kActivity();
-       kActivit.trxno = "";
-       kActivit.kioskCode = signalrConnection.kioskCode;
-       kActivit.moduleID = 0;
-       kActivit.submoduleID = undefined;
-       kActivit.action = "Binding Bijak Holder Details.";
-       kActivit.startTime = new Date();
+        let kActivit = new kActivity();
+        kActivit.trxno = "";
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "Binding Bijak Holder Details.";
+        kActivit.startTime = new Date();
+        
         currentBijakHolder.channeltype = result.channeltype;
         currentBijakHolder.requestoridentification = result.requestoridentification;
         currentBijakHolder.deviceowner = result.deviceowner;
@@ -367,6 +501,7 @@ export class CheckbalanceComponent implements OnInit {
     this.CB2_3 = currentHolder.firstname;
     this.CB2_5 = currentHolder.identificationnumber;
     this.CB2_7 = currentHolder.unitholderid;
+    this.CB_GuardianID = currentHolder.guardianid;
 
     this.CB2_9 = currentHolder.grandtotaluhholdings;
     this.CB2_10 = currentHolder.grandtotalunits;
@@ -395,6 +530,7 @@ export class CheckbalanceComponent implements OnInit {
     this.CB2_3 = currentBijakHolder.firstname;
     this.CB2_5 = currentBijakHolder.identificationnumber;
     this.CB2_7 = currentBijakHolder.unitholderid;
+    this.CB_GuardianID = currentBijakHolder.guardianid;
 
     this.CB2_9 = currentBijakHolder.grandtotaluhholdings;
     this.CB2_10 = currentBijakHolder.grandtotalunits;
