@@ -236,5 +236,15 @@
 	"Transaction_Menu_Header_Title":"TRANSACTION MENU",
 	"Update_Details_Header_Title":"UPDATE DETAILS",
 	"Verify_MyKad_Header_Title":"VERIFY MYKAD",
-	"Feedback_Header_Title":"FEEDBACK"
+	"Feedback_Header_Title":"FEEDBACK",
+	"AD1Warning" : "Address 1 is required.",
+	"AD2Warning" : "Address 2 is required.",
+	"PCWarning" : "Postcode is required.",
+	"MNWarning" : "Mobile Number is required.",
+	"EAWarning" : "Email Address is required.",
+	"Warning" : "Required.",
+	"BANWarning" : "Bank Account Number is required.",
+	"optionSelect" : "Please Select One.",
+	"BRError_3" : "Bijak Account has already been registered. Please go to the Transaction Menu to start investing.",
+	"CN_Warning" : "Company Name is required."
 }

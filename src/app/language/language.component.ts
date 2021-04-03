@@ -136,7 +136,7 @@ export class LanguageComponent implements OnInit {
 
     appFunc.kioskActivity.push(kActivit);
 
-    signalrConnection.connection.invoke('EmailHelpPage', 'https://kioskdev.asnb.com.my/GetPDF/api/ssrs/GetStaffData');
+    
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected English.");
     this.getDropDowns();
