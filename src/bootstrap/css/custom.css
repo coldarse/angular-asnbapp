@@ -221,7 +221,7 @@ user-select: none;
 
 .registrationForm {
   width:1100px;
-  height:1150px;
+  height:auto;
   background:rgb(255, 255, 255);
   margin:auto;
   margin-top: 3rem;
