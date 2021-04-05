@@ -109,27 +109,27 @@ export class ServiceService {
     )
   }
 
+  // Sam Testing Purpose
+  // getToken()
+  // {
+  //   const body = 
+  //   {
+  //     "username": "admin",
+  //     "password": "123qwe"
+  //   };
 
-  getToken()
-  {
-    const body = 
-    {
-      "username": "admin",
-      "password": "123qwe"
-    };
-
-    return this.http.post(this.url + 
-      "TokenAuth/Authenticate",
-      body)
-      .pipe(
-        map((response: any) => {
-          // console.log(response);
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `Authenticate Response: ${response}.`);
-        }),
-        retry(1),       
-        catchError(this.handleError),     
-      );    
-  }
+  //   return this.http.post(this.url + 
+  //     "TokenAuth/Authenticate",
+  //     body)
+  //     .pipe(
+  //       map((response: any) => {
+  //         // console.log(response);
+  //         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `Authenticate Response: ${response}.`);
+  //       }),
+  //       retry(1),       
+  //       catchError(this.handleError),     
+  //     );    
+  // }
 
   postAccountRegistration(body: any | undefined): Observable<AccountReg>
   {
