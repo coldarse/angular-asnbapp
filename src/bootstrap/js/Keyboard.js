@@ -14,7 +14,8 @@ const Keyboard = {
 
     properties: {
         value: "",
-        capsLock: false
+        capsLock: false,
+        tagname: ""
     },
 
 
@@ -45,7 +46,7 @@ const Keyboard = {
         document.querySelectorAll(".use-keyboard-input").forEach(element => {
             console.log(element);
             element.addEventListener("focus", () => {
-                this.open(element.value, currentValue => {
+                this.open(element, currentValue => {
                     element.value = currentValue;
                 });
             });
@@ -186,6 +187,7 @@ const Keyboard = {
                     keyElement.addEventListener("click", () => {
                         this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
                         this._triggerEvent("oninput");
+                        this._limit(this.properties);
                     });
 
                     break;
@@ -199,6 +201,43 @@ const Keyboard = {
         });
 
         return fragment;
+    },
+
+    _limit(element){
+
+        var max_chars = 500;
+
+        if(element.tagname.toLowerCase().includes('phoneno')){
+            max_chars = 16;
+        }
+        else if(element.tagname.toLowerCase().includes('homeno')){
+            max_chars = 15;
+        }
+        else if(element.tagname.toLowerCase().includes('compname')){
+            max_chars = 255;
+        }
+        else if(element.tagname.toLowerCase().includes('add1')){
+            max_chars = 255;
+        }
+        else if(element.tagname.toLowerCase().includes('add2')){
+            max_chars = 255;
+        }
+        else if(element.tagname.toLowerCase().includes('emailadd')){
+            max_chars = 60;
+        }
+        else if(element.tagname.toLowerCase().includes('postc')){
+            max_chars = 5;
+        }
+        else if(element.tagname.toLowerCase().includes('postc')){
+            max_chars = 5;
+        }
+        else if(element.tagname.toLowerCase().includes('acctno')){
+            max_chars = 16;
+        }
+        
+        if(element.value.length >= max_chars) {
+            element.value = element.value.substr(0, max_chars - 1);
+        }
     },
 
     _triggerEvent(handlerName) {
@@ -218,7 +257,8 @@ const Keyboard = {
     },
 
     open(initialValue, oninput, onclose) {
-        this.properties.value = initialValue || "";
+        this.properties.value = initialValue.value || "";
+        this.properties.tagname = initialValue.getAttribute('name');
         this.eventHandlers.oninput = oninput;
         this.eventHandlers.onclose = onclose;
         this.elements.main.classList.remove("keyboard--hidden");

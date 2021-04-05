@@ -111,9 +111,10 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_9' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARAddress1_disabled" [formControl]='AR_Form.controls["address1"]' id="AR_Address1">
-                        <div style="color: rgba(255,0,0); font-style: italic" *ngIf="address1_Warning">{{'AD1Warning' | translate}}</div>
-                        
+                        <input name="add1" type="text" class="input-long use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARAddress1_disabled" [formControl]='AR_Form.controls["address1"]' id="AR_Address1">
+                        <div *ngIf="(primAddress1.touched) || primAddress1.dirty">
+                            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="primAddress1.errors?.required">{{'AD1Warning' | translate}}</div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -122,9 +123,10 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_10' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARAddress2_disabled" [formControl]='AR_Form.controls["address2"]' id="AR_Address2">
-                        <div style="color: rgba(255,0,0); font-style: italic" *ngIf="address2_Warning">{{'AD2Warning' | translate}}</div>
-                        
+                        <input name="add2" type="text" class="input-long use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARAddress2_disabled" [formControl]='AR_Form.controls["address2"]' id="AR_Address2">
+                        <div *ngIf="(primAddress2.touched) || primAddress2.dirty">
+                            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="primAddress2.errors?.required">{{'AD2Warning' | translate}}</div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -135,9 +137,10 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARPostcode_disabled" [formControl]='AR_Form.controls["postcode"]' id="AR_Postcode">
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="postcode_Warning">{{'PCWarning' | translate}}</div>
-                                
+                                <input name="postc" type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [disabled]="ARPostcode_disabled" [formControl]='AR_Form.controls["postcode"]' id="AR_Postcode">
+                                <div *ngIf="(primPostcode.touched) || primPostcode.dirty">
+                                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="primPostcode.errors?.required">{{'PCWarning' | translate}}</div>
+                                </div>
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Bandar</h4> -->
@@ -187,15 +190,17 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
+                                <input name="homeno" type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Telefon Bimbit</h4> -->
                                 <h4>{{'FL_16' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input class="input-normal use-keyboard-input" [formControl]='AR_Form.controls["telephone"]' (click)="usekeyboardinput()" formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning">{{'MNWarning' | translate}}</div>
+                                <input name="phoneno" class="input-normal use-keyboard-input" [formControl]='AR_Form.controls["telephone"]' (click)="usekeyboardinput()" formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
+                                <div *ngIf="(primTelephone.touched) || primTelephone.dirty">
+                                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="primTelephone.errors?.required">{{'MNWarning' | translate}}</div>
+                                </div>
                                 <input type="checkbox" id="noPhone" name="noPhone" [formControl]='AR_Form.controls["notelephone"]' (click)="noTelephoneCheck()" style="margin-top: 0.8rem;" >
                                 <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
                                 <label for="noPhone">{{'FL_17' | translate }}</label><br>
@@ -216,8 +221,12 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" [disabled]="checkedXEmail"  name="AR_Email" [formControl]='AR_Form.controls["email"]'>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning">{{'EAWarning' | translate}}</div> 
+                                <input [class.is-invalid]="primEmail.invalid && primEmail.touched" name="emailadd" type="text" class="input-normal use-keyboard-input form-control" (click)="usekeyboardinput()" [disabled]="checkedXEmail"  name="AR_Email" [formControl]='AR_Form.controls["email"]'>
+                                <div *ngIf="(primEmail.invalid && primEmail.touched) || primEmail.dirty">
+                                    <!-- <div style="color: rgba(255,0,0); font-style: italic" *ngIf="primEmail.errors?.required">{{'EAWarning' | translate}}</div>  -->
+                                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="primEmail.errors?.pattern">{{'EAWarning1' | translate}}</div> 
+                                </div>
+                                
                                 <input type="checkbox" id="noEmail" name="noEmail" [formControl]='AR_Form.controls["noemail"]' (click)="noEmailCheck()" style="margin-top: 0.8rem;">
                                 <!-- <label for="noEmail" >Tiada Emel</label><br> -->
                                 <label for="noEmail" >{{'FL_19' | translate }}</label><br>
@@ -264,8 +273,10 @@
                                 <h4>{{'FL_23' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning">{{'BANWarning' | translate}}.</div> 
+                                <input type="text" name="acctno" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
+                                <div *ngIf="(primBankNo.touched) || primBankNo.dirty">
+                                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="primBankNo.errors?.required">{{'BANWarning' | translate}}.</div> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -285,7 +296,7 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobcategory"]' (change)="filterJobCategory(form_occupationCatergory.code)">
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobcategory"]' (change)="filterJobCategory($event)">
                                     <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationCatergory of form_occupationCatergory" value={{occupationCatergory.code}}>
                                         {{occupationCatergory.desc}}
@@ -367,8 +378,10 @@
                                 <h4>{{'FL_30' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="companyName_Warning">{{'CNWarning' | translate}}</div> 
+                                <input name="compname" type="text" class="input-normal use-keyboard-input" (click)="usekeyboardinput()" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
+                                <div *ngIf="(primCompName.touched) || primCompName.dirty">
+                                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="primCompName.errors?.required">{{'CNWarning' | translate}}</div>  
+                                </div>
                             </div>
                         </div>
                     </div>

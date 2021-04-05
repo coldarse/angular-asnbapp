@@ -138,7 +138,7 @@ export class ServiceService {
       this.url + "services/app/OpenAPI/RegWithoutMinInvestment",
       body,
       accessToken.httpOptions
-    ).pipe(_observableMergeMap((response: any) => 
+    ).pipe(retry(1), _observableMergeMap((response: any) => 
     {
       let result = this.processAccountReg(response);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `RegWithoutMinInvestment Response: ${result}.`);
@@ -172,7 +172,7 @@ export class ServiceService {
         this.url + "services/app/OpenAPI/BalanceInquiry",
         body,
         accessToken.httpOptions)
-        .pipe(_observableMergeMap((response: any) => 
+        .pipe(retry(3), _observableMergeMap((response: any) => 
         {
           let result = this.processUnitHolder(response);
           kActivit.endTime = new Date();

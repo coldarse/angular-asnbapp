@@ -132,6 +132,17 @@ export class VerifymykadComponent implements OnInit {
         this.DetectMyKad(data.toString());
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Thumbprint Matched.");
       }
+      else if(data.toUpperCase().includes("ERROR")){
+        kActivit.endTime = new Date();
+        kActivit.status = false;
+
+        appFunc.kioskActivity.push(kActivit);
+        errorCodes.Ecode = "0333";
+        errorCodes.Emessage = data;
+        this._router.navigate(['errorscreen']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Timeout Error.");
+
+      }
       else{
         kActivit.endTime = new Date();
         kActivit.status = false;
@@ -282,6 +293,16 @@ export class VerifymykadComponent implements OnInit {
                 appFunc.kioskActivity.push(kActivit1);  
                 signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Thumbprint Matched.");
                 this.DetectMyKad(data.toString());
+              }
+              else if(data.toUpperCase().includes("ERROR")){
+                kActivit1.endTime = new Date();
+                kActivit1.status = false;
+
+                appFunc.kioskActivity.push(kActivit1);
+                errorCodes.Ecode = "0333";
+                errorCodes.Emessage = data.replace("Error : ", "");
+                this._router.navigate(['errorscreen']);
+                signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Timeout Error.");
               }
               else{
                 kActivit1.endTime = new Date();

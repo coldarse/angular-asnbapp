@@ -246,5 +246,6 @@
 	"BANWarning" : "Bank Account Number adalah wajib.",
 	"optionSelect" : "Sila Pilih Satu.",
 	"BRError_3" : "Akaun Bijak telah didaftarkan. Sila pergi ke Menu Transaksi untuk memulakan pelaburan.",
-	"CN_Warning" : "Nama Syarikat adalah wajib."
+	"CNWarning" : "Nama Syarikat adalah wajib.",
+	"EAWarning1" : "Emel tidak sah."
 }

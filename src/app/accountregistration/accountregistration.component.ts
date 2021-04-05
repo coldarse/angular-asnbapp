@@ -183,6 +183,7 @@ export class AccountregistrationComponent implements OnInit {
   id:any;
 
   city: any;
+  state: any;
 
   constructor(private elementRef: ElementRef,
     private _router: Router,
@@ -200,12 +201,22 @@ export class AccountregistrationComponent implements OnInit {
       if (x.name.toLowerCase().includes(this.city.toLowerCase())){
         this.city = x.name;
         break;
+      }else{
+        this.city = currentMyKadDetails.City;
       }
-      this.city = currentMyKadDetails.City;
+    }
+    this.state = currentMyKadDetails.State;
+    for(var y of this.form_states){
+      if (y.text.toLowerCase().includes(this.state.toLowerCase())){
+        this.state = y.text;
+        break;
+      }else{
+        this.state = currentMyKadDetails.State;
+      }
     }
     this.AR_Form = this.fb.group(
       {
-        salutation: ['Datuk'],
+        salutation: ['EN'],
         fullname: [{value: currentMyKadDetails.Name, disabled: true}],
         identificationcardno: [{value: currentMyKadDetails.ICNo, disabled: true}],
         dob: [{value: formatDate(currentMyKadDetails.DOB, 'dd MMM yyyy', 'en'), disabled: true}],
@@ -216,14 +227,20 @@ export class AccountregistrationComponent implements OnInit {
         address2 : [{value: currentMyKadDetails.Address3, disabled: true}, Validators.required],
         postcode : [{value: currentMyKadDetails.PostCode, disabled: true}, Validators.required],
         city : [{value: this.city, disabled: true}],
-        state : [{value: currentMyKadDetails.State, disabled: true}],
+        state : [{value: this.state, disabled: true}],
         mykadaddress: [true],
 
         homenumber : [''],
         telephone: ['', Validators.required],
         notelephone: [false],
 
-        email: ['', Validators.required],
+        // email: ['', [
+        //   Validators.required,
+        //   Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+
+        email : new FormControl('',[
+          Validators.required,
+          Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
         noemail: [false],
         deliverystate: ['Sila Pilih Satu'],
 
@@ -317,7 +334,38 @@ export class AccountregistrationComponent implements OnInit {
   usekeyboardinput() {
     // let div = this.elementRef.nativeElement.querySelector('div');//.classList.remove('keyboard--hidden');
     // console.log(div);
+    //primAddress1
   }
+
+  get primAddress1(){
+    return this.AR_Form.get('address1');
+  }
+
+  get primAddress2(){
+    return this.AR_Form.get('address2');
+  }
+
+  get primPostcode(){
+    return this.AR_Form.get('postcode');
+  }
+
+  get primTelephone(){
+    return this.AR_Form.get('telephone');
+  }
+
+  get primEmail(){
+    return this.AR_Form.get('email');
+  }
+
+  get primBankNo(){
+    return this.AR_Form.get('bankaccount');
+  }
+
+  get primCompName(){
+    return this.AR_Form.get('companyname');
+  }
+
+  
 
 
   noEmailCheck() {
@@ -479,26 +527,28 @@ export class AccountregistrationComponent implements OnInit {
   filterJobCategory(category: any) {
     this.enableJob();
 
-    if (category.includes('EM')){
+    let code = category.target.value;
+
+    if (code.includes('EM')){
       this.AR_Form.controls.natureofjob.disable();
     }
-    else if (category.includes('SE')){
+    else if (code.includes('SE')){
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
     }
-    else if (category.includes('HM')){
-      this.AR_Form.controls.jobname.disable();
-      this.AR_Form.controls.jobsector.disable();
-      this.AR_Form.controls.natureofjob.disable();
-      this.AR_Form.controls.companyname.disable();
-    }
-    else if (category.includes('RY')){
+    else if (code.includes('HM')){
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.companyname.disable();
     }
-    else if (category.includes('UM')){
+    else if (code.includes('RY')){
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.jobsector.disable();
+      this.AR_Form.controls.natureofjob.disable();
+      this.AR_Form.controls.companyname.disable();
+    }
+    else if (code.includes('UM')){
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.jobsector.disable();

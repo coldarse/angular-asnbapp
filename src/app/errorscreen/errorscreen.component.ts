@@ -7,6 +7,7 @@ import { formatDate } from '@angular/common';
 import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
 import { i18nMetaToJSDoc } from '@angular/compiler/src/render3/view/i18n/meta';
+import { errorCodes } from '../_models/errorCode';
 
 @Component({
   selector: 'app-errorscreen',
@@ -44,8 +45,9 @@ export class ErrorscreenComponent implements OnInit {
 
     appFunc.kioskActivity.push(kActivit);
 
-    this.ES_3 = "";
-    this.ES_4 = "";
+    this.ES_3 = "Error Code"
+    this.ES_5 = errorCodes.Ecode;
+    this.ES_4 = errorCodes.Emessage;
   }
 
   endTransaction(){

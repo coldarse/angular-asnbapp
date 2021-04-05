@@ -246,5 +246,6 @@
 	"BANWarning" : "Bank Account Number is required.",
 	"optionSelect" : "Please Select One.",
 	"BRError_3" : "Bijak Account has already been registered. Please go to the Transaction Menu to start investing.",
-	"CN_Warning" : "Company Name is required."
+	"CNWarning" : "Company Name is required.",
+	"EAWarning1" : "Email not valid."
 }
