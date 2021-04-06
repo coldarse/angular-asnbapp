@@ -256,10 +256,12 @@ user-select: none;
 }
 
 .input-long {
+  height: 2rem;
   width:649px;
 }
 
 .input-normal {
+  height: 2rem;
   width:194px;
 }
 
@@ -268,7 +270,7 @@ user-select: none;
   height:2rem;
 }
 
-#salutation {
+.salutation {
   width: 300px;
   height: 2rem;
 }

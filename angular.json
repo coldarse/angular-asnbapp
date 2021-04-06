@@ -31,6 +31,7 @@
             "styles": [
               "src/styles.css",
               "src/bootstrap/css/bootstrap.css",
+              "src/bootstrap/css/bootstrap.min.css",
               "src/bootstrap/css/custom.css",
               "src/bootstrap/css/style.css",
               "src/bootstrap/css/Keyboard.css"
@@ -39,6 +40,7 @@
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/signalr/jquery.signalR.js",
               "src/bootstrap/js/bootstrap.js",
+              "src/bootstrap/js/bootstrap.min.js",
               "src/bootstrap/js/custom.js",
               "src/bootstrap/js/Keyboard.js"
             ]

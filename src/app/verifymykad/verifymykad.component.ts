@@ -431,6 +431,25 @@ export class VerifymykadComponent implements OnInit {
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
         "GUARDIANICNUMBER": ""
+        
+        // "CHANNELTYPE": "ASNB KIOSK",
+        // "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+        // "DEVICEOWNER": "ASNB",
+        // "UNITHOLDERID": "000013053909",
+        // "FIRSTNAME": "",
+        // "IDENTIFICATIONTYPE": "W",
+        // "IDENTIFICATIONNUMBER": "521030135188",
+        // "FUNDID": "",
+        // "INQUIRYCODE": "4",
+        // "TRANSACTIONDATE": "26/3/2021",
+        // "TRANSACTIONTIME": "15:43:10",
+        // "BANKTXNREFERENCENUMBER": "20191003001325",
+        // "BANKCUSTPHONENUMBER": "60173511111",
+        // "FILTRATIONFLAG": "1",
+        // "GUARDIANID": "",
+        // "GUARDIANICTYPE": "",
+        // "GUARDIANICNUMBER": ""
+
   
        };
 

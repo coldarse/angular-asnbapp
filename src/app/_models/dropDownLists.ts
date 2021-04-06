@@ -137,12 +137,12 @@ export class preferredDelivery {
 }
 
 export class bankName {
-    value: string;
-    desc: string;
+    name: string;
+    code: string;
 	
 	constructor(bank: any){
-        this.value = bank.value;
-        this.desc = bank.desc;
+        this.name = bank.name;
+        this.code = bank.code;
 	}
 }
 
