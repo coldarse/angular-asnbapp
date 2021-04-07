@@ -65,33 +65,33 @@ export class ServiceService {
   //Get DropDown in Account Registration
   getAllDropDown() 
   {   
-    const response1 = this.http.get(this.url + 'services/app/PersonTitle/GetAll', accessToken.httpOptions);
-    const response2 = this.http.get(this.url + "services/app/City/GetAll",accessToken.httpOptions);
-    const response3 = this.http.get(this.url + "services/app/UnitHolderSalary/GetAll",accessToken.httpOptions);
-    const response4 = this.http.get(this.url + "services/app/StateCode/GetAll",accessToken.httpOptions);
-    const response5 = this.http.get(this.url + "services/app/NatureBusiness/GetAll", accessToken.httpOptions);
-    const response6 = this.http.get(this.url + "services/app/OccupationSector/GetAll",accessToken.httpOptions);
-    const response7 = this.http.get(this.url + "services/app/OccupationCategory/GetAll",accessToken.httpOptions);
-    const response8 = this.http.get(this.url + "services/app/Religion/GetAll",accessToken.httpOptions);
-    const response9 = this.http.get(this.url + 'services/app/UnitHolderEthnic/GetAll', accessToken.httpOptions);
-    const response10 = this.http.get(this.url + "services/app/PreferredDelivery/GetAll",accessToken.httpOptions);
-    const response11 = this.http.get(this.url + "services/app/BankName/GetAll",accessToken.httpOptions);
-    const response12 = this.http.get(this.url + "services/app/OccupationName/GetAll",accessToken.httpOptions);
-    const response13 = this.http.get(this.url + "services/app/FamilyRelationship/GetAll",accessToken.httpOptions);
+    const response1 = this.http.get(this.url + 'services/app/PersonTitle/GetAll?MaxResultCount=100&Sorting=id', accessToken.httpOptions); //
+    const response2 = this.http.get(this.url + "services/app/City/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); //
+    const response3 = this.http.get(this.url + "services/app/UnitHolderSalary/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); //
+    const response4 = this.http.get(this.url + "services/app/StateCode/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); //
+    const response5 = this.http.get(this.url + "services/app/NatureBusiness/GetAll?MaxResultCount=100&Sorting=id", accessToken.httpOptions);  //
+    const response6 = this.http.get(this.url + "services/app/OccupationSector/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); //
+    const response7 = this.http.get(this.url + "services/app/OccupationCategory/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); //
+    const response8 = this.http.get(this.url + "services/app/Religion/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); //
+    const response9 = this.http.get(this.url + 'services/app/UnitHolderEthnic/GetAll?MaxResultCount=100&Sorting=id', accessToken.httpOptions); //
+    const response10 = this.http.get(this.url + "services/app/PreferredDelivery/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); //
+    const response11 = this.http.get(this.url + "services/app/BankName/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); 
+    const response12 = this.http.get(this.url + "services/app/OccupationName/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions);
+    const response13 = this.http.get(this.url + "services/app/FamilyRelationship/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); //
     return forkJoin([
       response1.pipe(retry(1), catchError(this.handleError)), 
-      response2.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      response3.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      response4.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      response5.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      response6.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      response7.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      response8.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      response9.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      response10.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      response11.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      response12.pipe(delay(1000), retry(1), catchError(this.handleError)),
-      response13.pipe(delay(1000), retry(1), catchError(this.handleError)),
+      response2.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response3.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response4.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response5.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response6.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response7.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response8.pipe(delay(3000), retry(1), catchError(this.handleError)), //
+      response9.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response10.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response11.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response12.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response13.pipe(delay(3000), retry(1), catchError(this.handleError)),
     ]);
   }
 

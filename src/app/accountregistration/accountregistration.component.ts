@@ -1,5 +1,5 @@
 import { keyframes } from '@angular/animations';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { selectLang } from '../_models/language';
@@ -12,6 +12,7 @@ import { appFunc } from '../_models/appFunctions';
 import { ServiceService } from '../_shared/service.service';
 import { Observable, forkJoin } from 'rxjs';
 import { kActivity } from '../_models/kActivity';
+import { SelectorContext } from '@angular/compiler';
 
 
 declare const loadKeyboard: any;
@@ -24,6 +25,16 @@ declare const deleteKeyboard: any;
 })
 export class AccountregistrationComponent implements OnInit {
 
+
+  @ViewChild('address1') add1 : ElementRef | undefined;
+  @ViewChild('address2') add2 : ElementRef | undefined;
+  @ViewChild('postcode') postcode : ElementRef | undefined;
+  @ViewChild('homenumber') homeno : ElementRef | undefined;
+  @ViewChild('telephone') phoneno : ElementRef | undefined;
+  @ViewChild('email') email : ElementRef | undefined;
+  @ViewChild('bankaccount') bankno : ElementRef | undefined;
+  @ViewChild('companyname') compname : ElementRef | undefined;
+  
   BTN_Cancel = "";
   BTN_Next = "";
 
@@ -34,17 +45,19 @@ export class AccountregistrationComponent implements OnInit {
   BTN_Email = "";
 
   form_salutation : any = appFunc.titleSalutation;
-  form_races : any = appFunc.races;
-  form_religion : any = appFunc.religion;
-  form_states : any = appFunc.states;
+  form_races : any = appFunc.races; //
+  form_religion : any = appFunc.religion; //
+  form_states : any = appFunc.states; 
   form_cities : any = appFunc.cities;
   form_preferredDelivery : any = appFunc.preferredDelivery;
   form_bankname : any = appFunc.bankName;
-  form_occupationSector : any = appFunc.occupationSector;
+  form_occupationSector : any = appFunc.occupationSector;//
   form_occupationName : any = appFunc.occupationName;
-  form_occupationCatergory : any = appFunc.occupationCategory;
-  form_businessnature : any = appFunc.businessNature;
-  form_income : any = appFunc.monthlyIncome;
+  form_occupationCatergory : any = appFunc.occupationCategory;//
+  form_businessnature : any = appFunc.businessNature;//
+  form_income : any = appFunc.monthlyIncome;//
+
+  defLang = selectLang.selectedLang;
 
   //Visible Page Elements
   ARForm_Visible = true;
@@ -72,6 +85,7 @@ export class AccountregistrationComponent implements OnInit {
 
   telephone_Warning : boolean = false;
   email_Warning : boolean = false;
+  email_Warning1 : boolean = false;
   bank_Warning : boolean = false;
   bankNo_Warning : boolean = false;
   companyName_Warning : boolean = false;
@@ -234,13 +248,9 @@ export class AccountregistrationComponent implements OnInit {
         telephone: ['', Validators.required],
         notelephone: [false],
 
-        // email: ['', [
-        //   Validators.required,
-        //   Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
-
-        email : new FormControl('',[
+        email: ['', [
           Validators.required,
-          Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]),
+          Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
         noemail: [false],
         deliverystate: ['Sila Pilih Satu'],
 
@@ -331,10 +341,8 @@ export class AccountregistrationComponent implements OnInit {
     });
   }
 
-  usekeyboardinput() {
-    // let div = this.elementRef.nativeElement.querySelector('div');//.classList.remove('keyboard--hidden');
-    // console.log(div);
-    //primAddress1
+  usekeyboardinput(event: any) {
+    console.log(event);
   }
 
   get primAddress1(){
@@ -429,6 +437,8 @@ export class AccountregistrationComponent implements OnInit {
     }
   }
 
+  
+
   registrationNext() {
 
     let a1 = this.AR_Form.get('address1').value;
@@ -436,6 +446,32 @@ export class AccountregistrationComponent implements OnInit {
     let postcode = this.AR_Form.get('postcode').value;
     let city = this.AR_Form.get('city').value;
     let state = this.AR_Form.get('state').value;
+
+    this.AR_Form.controls.address1.setValue(this.add1?.nativeElement.value);
+    this.AR_Form.controls.address2.setValue(this.add2?.nativeElement.value);
+    this.AR_Form.controls.postcode.setValue(this.postcode?.nativeElement.value);
+    this.AR_Form.controls.homenumber.setValue(this.homeno?.nativeElement.value);
+    this.AR_Form.controls.telephone.setValue(this.phoneno?.nativeElement.value);
+    this.AR_Form.controls.email.setValue(this.email?.nativeElement.value);
+    this.AR_Form.controls.bankaccount.setValue(this.bankno?.nativeElement.value);
+    this.AR_Form.controls.companyname.setValue(this.compname?.nativeElement.value);
+
+    this.address1_Warning = false;
+    this.address2_Warning = false;
+    this.postcode_Warning = false;
+
+    this.telephone_Warning = false;
+    this.email_Warning = false;
+    this.email_Warning1 = false;
+    this.bank_Warning = false;
+    this.bankNo_Warning = false;
+    this.companyName_Warning = false;
+
+    this.MI_Warning = false;
+    this.JS_Warning = false;
+    this.NOJ_Warning = false;
+    this.JN_Warning = false;
+    this.JC_Warning = false;
 
     this.AR_Form.controls.address1.setValue(a1);
     this.AR_Form.controls.address2.setValue(a2);
@@ -469,6 +505,11 @@ export class AccountregistrationComponent implements OnInit {
         }
         else if(key.includes('postcode')){
           if (this.AR_Form.controls.mykadaddress.value == false) this.postcode_Warning = true;
+        }
+      }
+      else if (this.AR_Form.controls[key].hasError('pattern')){
+        if(key.includes('email')){
+          this.email_Warning1 = true;
         }
       }
       else {
