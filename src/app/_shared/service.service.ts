@@ -18,7 +18,6 @@ import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
 import { AppConfiguration } from '../config/app-configuration';
 
-
 // const httpOptions = {
 //   headers: new HttpHeaders({
 //     Authorization: 'Bearer ' + accessToken.token
@@ -157,7 +156,6 @@ export class ServiceService {
     }
   }
   
-
   getAccountInquiry(body: any | undefined): Observable<UnitHolder>
   {
     let kActivit = new kActivity();
@@ -198,9 +196,6 @@ export class ServiceService {
         return _observableOf(status);
     }
   }
-
-  
-  
 }
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
@@ -249,12 +244,3 @@ export class ApiException extends Error {
       return obj.isApiException === true;
   }
 }
-
-
-
-
-
-
-
-
-

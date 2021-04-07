@@ -186,6 +186,7 @@ const Keyboard = {
 
                     keyElement.addEventListener("click", () => {
                         this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
+                        this.elements.activeElem.value = this.properties.value;
                         this._triggerEvent("oninput");
                         this._limit(this.properties);
                     });

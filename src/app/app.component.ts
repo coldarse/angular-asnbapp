@@ -21,7 +21,6 @@ export class AppComponent {
     private _router: Router,
     private appConfig: AppConfiguration,) {
 
-
     console.log(appConfig.baseUrl);
     // sets an idle timeout of 5 seconds, for testing purposes.
     idle.setIdle(120);

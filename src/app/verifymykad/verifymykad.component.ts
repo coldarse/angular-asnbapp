@@ -21,7 +21,6 @@ import { appFunc } from '../_models/appFunctions';
 })
 
 
-  
 export class VerifymykadComponent implements OnInit {
 
   BTN_End = "";
@@ -379,7 +378,6 @@ export class VerifymykadComponent implements OnInit {
 
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
   
-
       kActivit.endTime = new Date();
       kActivit.status = true;
 
@@ -409,8 +407,8 @@ export class VerifymykadComponent implements OnInit {
  //660322107550
 
   getAccountInquiry(): void {
+    
     try{
-
 
       const body = { 
 
@@ -434,9 +432,7 @@ export class VerifymykadComponent implements OnInit {
   
        };
 
-
-  
-  
+ 
       this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
         
@@ -449,7 +445,6 @@ export class VerifymykadComponent implements OnInit {
         kActivit.startTime = new Date();
 
         
-
         console.log("Subscribing");
         currentHolder.channeltype = result.channeltype;
         currentHolder.requestoridentification = result.requestoridentification;
@@ -620,12 +615,6 @@ export class VerifymykadComponent implements OnInit {
             this._router.navigate(['errorscreen']);
           }
         }
-
-
-
-
-        
-  
       })
     }
     catch (e){
@@ -647,7 +636,4 @@ export class VerifymykadComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }
   }
-
-  
-
 }
