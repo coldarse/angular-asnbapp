@@ -105,6 +105,7 @@ export class CheckbalanceComponent implements OnInit {
     this.noAhli = currentHolder.unitholderid;
     this.namaAhli = currentHolder.firstname;
 
+
     if(currentHolder.totalminoraccount != "0"){
       this.CBBijak_Visible = true;
     }
@@ -201,13 +202,12 @@ export class CheckbalanceComponent implements OnInit {
     kActivit.status = true;
 
     appFunc.kioskActivity.push(kActivit);
-    // console.log(selectedFundDetails.FUNDID);
-    // console.log(selectedFundDetails.UNITBALANCE);
+    console.log(selectedFundDetails.FUNDID);
+    console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   
     const body = {
-
-      "CHANNELTYPE":"ASNB KIOSK",
+      "CHANNELTYPE":"ATM",
       "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
       "DEVICEOWNER":"ASNB",
       "NUMBEROFTXNS":"4", 
@@ -221,7 +221,8 @@ export class CheckbalanceComponent implements OnInit {
       "POLICYTYPE":"UT"
     };
 
-       
+    
+    
     this.serviceService.postFiveTransactions(body)
     .subscribe((result: any) => {
 
@@ -254,12 +255,12 @@ export class CheckbalanceComponent implements OnInit {
     kActivit.status = true;
 
     appFunc.kioskActivity.push(kActivit);
-    // console.log(selectedFundDetails.FUNDID);
-    // console.log(selectedFundDetails.UNITBALANCE);
+    console.log(selectedFundDetails.FUNDID);
+    console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
 
     const body = {
-      "CHANNELTYPE":"ASNB KIOSK",
+      "CHANNELTYPE":"ATM",
       "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
       "DEVICEOWNER":"ASNB",
       "NUMBEROFTXNS":"4", 
@@ -307,12 +308,12 @@ export class CheckbalanceComponent implements OnInit {
     kActivit.status = true;
 
     appFunc.kioskActivity.push(kActivit);
-    // console.log(selectedFundDetails.FUNDID);
-    // console.log(selectedFundDetails.UNITBALANCE);
+    console.log(selectedFundDetails.FUNDID);
+    console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
 
     const body = {
-      "CHANNELTYPE":"ASNB KIOSK",
+      "CHANNELTYPE":"ATM",
       "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
       "DEVICEOWNER":"ASNB",
       "NUMBEROFTXNS":"4", 
@@ -358,8 +359,8 @@ export class CheckbalanceComponent implements OnInit {
     kActivit.status = true;
 
     appFunc.kioskActivity.push(kActivit);
-    // console.log(selectedFundDetails.FUNDID);
-    // console.log(selectedFundDetails.UNITBALANCE);
+    console.log(selectedFundDetails.FUNDID);
+    console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
 
     const body = {

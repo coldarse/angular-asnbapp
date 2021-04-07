@@ -30,6 +30,9 @@ export class FeedbackscreenComponent implements OnInit {
   FBS1_Visible = true;
   FBS2_Visible = false;
 
+
+  
+
   constructor(private _router: Router,
     private translate: TranslateService) { }
 
