@@ -12,6 +12,7 @@ import { formatDate } from '@angular/common';
 import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
+import { errorCodes } from '../_models/errorCode';
 
 @Component({
   selector: 'app-checkbalance',
@@ -190,7 +191,12 @@ export class CheckbalanceComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Redirect to Transaction Menu.");
   }
 
+
+
   PrintStatement(selectedFundDetails: any) {
+    this.CB2_Visible = false;
+    this.CB3_Visible = true;
+
     let kActivit = new kActivity();
     kActivit.trxno = "";
     kActivit.kioskCode = signalrConnection.kioskCode;
@@ -207,24 +213,47 @@ export class CheckbalanceComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   
     const body = {
+
+      "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+      "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+      "FIRSTNAME": currentHolder.firstname.toString(),
+      "GRANDTOTALUNITBALANCE": currentHolder.grandtotalunitbalance.toString(),
+      "GRANDTOTALEPFUNITS": currentHolder.grandtotalepfunits.toString(),
+      "GRANDTOTALLOANUNITS": currentHolder.grandtotalloanunits.toString(),
+      "GRANDTOTALCERTUNITS": currentHolder.grandtotalcertunits.toString(),
+      "GRANDTOTALBLOCKEDUNITS": currentHolder.grandtotalblockedunits.toString(),
+      "GRANDTOTALPROVISIONALUNITS": currentHolder.grandtotalprovisionalunits.toString(),
+      "GRANDTOTALUNITS": currentHolder.grandtotalunits.toString(),
+      "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings.toString(),	
+
       "CHANNELTYPE":"ATM",
       "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
       "DEVICEOWNER":"ASNB",
       "NUMBEROFTXNS":"4", 
-      "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en'),
-      "UNITHOLDERID": this.CB2_7,
+      "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+      "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
+      "UNITHOLDERID": this.CB2_7.toString(),
       "IDENTIFICATIONTYPE":"W",
-      "IDENTIFICATIONNUMBER":this.CB2_5,
-      "GUARDIANIDNUMBER":this.CB_GuardianID,
-      "FUNDID":selectedFundDetails.FUNDID,
+      "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
+      "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
+      "FUNDID":selectedFundDetails.FUNDID.toString(),
+
+      "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
+      "UNITBALANCE": selectedFundDetails.UNITBALANCE.toString(),
+      "EPFUNITS": selectedFundDetails.EPFUNITS.toString(),
+      "LOANUNITS": selectedFundDetails.LOANUNITS.toString(),
+      "CERTUNITS": selectedFundDetails.CERTUNITS.toString(),
+      "BLOCKEDUNITS": selectedFundDetails.BLOCKEDUNITS.toString(),
+      "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
       "POLICYTYPE":"UT"
     };
 
     
     
     this.serviceService.postFiveTransactions(body)
-    .subscribe((result: any) => {
+    .subscribe((trans: any) => {
+
+      console.log(JSON.stringify(trans.result));
 
       let kActivit1 = new kActivity();
       kActivit1.trxno = "";
@@ -239,11 +268,31 @@ export class CheckbalanceComponent implements OnInit {
 
       appFunc.kioskActivity.push(kActivit1);
 
-      signalrConnection.connection.invoke('EmailHelpPage', `https://kioskdev.asnb.com.my/GetPDF/api/ssrs/GetStaffData?${result.policytypedetail.transactiondetail}`);
+      signalrConnection.connection.invoke('PrintHelpPage', trans.result).then((data: any) => {
+        setTimeout(()=>{   
+          if (data == true){
+            this.CB3_Visible = false;
+            this.CB4_Visible = true;
+            setTimeout(()=>{   
+              this.CB4_Visible = false;
+              this._router.navigate(['transactionsuccessful']);
+            }, 3000);
+          }else{
+            errorCodes.Ecode = "0068";
+            errorCodes.Emessage = "Printing Failed";
+            this._router.navigate(['errorscreen']);
+          }
+        }, 3000);
+      });
+
+      
     });
   }
 
   EmailStatement(selectedFundDetails: any) {
+    this.CB2_Visible = false;
+    this.CB5_Visible = true;
+
     let kActivit = new kActivity();
     kActivit.trxno = "";
     kActivit.kioskCode = signalrConnection.kioskCode;
@@ -277,7 +326,7 @@ export class CheckbalanceComponent implements OnInit {
     
     
     this.serviceService.postFiveTransactions(body)
-    .subscribe((result: any) => {
+    .subscribe((trans: any) => {
 
       let kActivit1 = new kActivity();
       kActivit1.trxno = "";
@@ -292,7 +341,22 @@ export class CheckbalanceComponent implements OnInit {
 
       appFunc.kioskActivity.push(kActivit1);
 
-      signalrConnection.connection.invoke('EmailHelpPage', `https://kioskdev.asnb.com.my/GetPDF/api/ssrs/GetStaffData?${result.policytypedetail.transactiondetail}`);
+      signalrConnection.connection.invoke('EmailHelpPage', trans.result).then((data: any) => {
+        setTimeout(()=>{   
+          if (data == true){
+            setTimeout(()=>{   
+              this.CB5_Visible = false;
+              this._router.navigate(['transactionsuccessful']);
+            }, 3000);
+          }else{
+            errorCodes.Ecode = "0069";
+            errorCodes.Emessage = "Email Failed";
+            this._router.navigate(['errorscreen']);
+          }
+        }, 3000);
+      });
+      
+      
     });
   }
 

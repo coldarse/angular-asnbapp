@@ -1,4 +1,5 @@
 {
     "baseUrl": "http://localhost:999999999999999",
-    "AldanDevURL": "https://kioskdev.asnb.com.my/ASNBAPI/api/"
+    "AldanDevURL": "https://kioskdev.asnb.com.my/ASNBAPI/api/",
+    "AldanReceiptURL": "https://kioskdev.asnb.com.my/GetPDF/api/"
  }

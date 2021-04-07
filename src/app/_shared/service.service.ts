@@ -35,12 +35,14 @@ export class ServiceService {
   protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
   //url = 'https://aldansupport.com/ASNBCore/api/'; // Using Aldan Support Swagger
   url: any; // Using Alibaba Development Swagger
+  receipturl: any;
   constructor(
     private http: HttpClient,
     private router: Router,
     private appConfig: AppConfiguration
     ) {
         this.url = appConfig.AldanDevURL;
+        this.receipturl = appConfig.AldanReceiptURL;
     }
 
   private handleError(error: HttpErrorResponse) {
@@ -107,6 +109,114 @@ export class ServiceService {
       retry(1),
       catchError(this.handleError),
     )
+  }
+
+  //Post get 5 transaction.
+  getReceiptTemplate(body: any)
+  {
+    body = {
+      "Date": "sample string 1",
+      "Time": "sample string 2",
+      "UNITHOLDERID": "sample string 3",
+      "FIRSTNAME": "sample string 4",
+      "GRANDTOTALUNITBALANCE": 5.1,
+      "GRANDTOTALEPFUNITS": 6.1,
+      "GRANDTOTALLOANUNITS": 7.1,
+      "GRANDTOTALCERTUNITS": 8.1,
+      "GRANDTOTALBLOCKEDUNITS": 9.1,
+      "GRANDTOTALPROVISIONALUNITS": 10.1,
+      "GRANDTOTALUNITS": 11.1,
+      "GRANDTOTALUHHOLDINGS": 12.1,
+      "FUNDS": [
+        {
+          "FUNDID": "sample string 1",
+          "UHHOLDINGS": "sample string 2",
+          "UNITBALANCE": "sample string 3",
+          "EPFUNITS": 4.1,
+          "LOANUNITS": 5.1,
+          "CERTUNITS": 6.1,
+          "BLOCKEDUNITS": 7.1,
+          "TOTALUNITS": "sample string 8",
+          "TRANSACTIONDETAIL": [
+            {
+              "TXNSEQNO": 1,
+              "TRANSACTIONDATE": "sample string 2",
+              "TRANSACTIONCHANNEL": "sample string 3",
+              "BRANCHCODE": "sample string 4",
+              "TRANSACTIONTYPE": "sample string 5",
+              "TRANSACTIONAMOUNT": 6.1,
+              "NAV": 7.1,
+              "SALESCHARGE": 8.1,
+              "GSTAMOUNT": 9.1,
+              "NETAMOUNT": 10.1,
+              "CONFIRMEDUNITS": 11.1,
+              "UNITBALANCE": "sample string 12"
+            },
+            {
+              "TXNSEQNO": 1,
+              "TRANSACTIONDATE": "sample string 2",
+              "TRANSACTIONCHANNEL": "sample string 3",
+              "BRANCHCODE": "sample string 4",
+              "TRANSACTIONTYPE": "sample string 5",
+              "TRANSACTIONAMOUNT": 6.1,
+              "NAV": 7.1,
+              "SALESCHARGE": 8.1,
+              "GSTAMOUNT": 9.1,
+              "NETAMOUNT": 10.1,
+              "CONFIRMEDUNITS": 11.1,
+              "UNITBALANCE": "sample string 12"
+            }
+          ]
+        },
+        {
+          "FUNDID": "sample string 1",
+          "UHHOLDINGS": "sample string 2",
+          "UNITBALANCE": "sample string 3",
+          "EPFUNITS": 4.1,
+          "LOANUNITS": 5.1,
+          "CERTUNITS": 6.1,
+          "BLOCKEDUNITS": 7.1,
+          "TOTALUNITS": "sample string 8",
+          "TRANSACTIONDETAIL": [
+            {
+              "TXNSEQNO": 1,
+              "TRANSACTIONDATE": "sample string 2",
+              "TRANSACTIONCHANNEL": "sample string 3",
+              "BRANCHCODE": "sample string 4",
+              "TRANSACTIONTYPE": "sample string 5",
+              "TRANSACTIONAMOUNT": 6.1,
+              "NAV": 7.1,
+              "SALESCHARGE": 8.1,
+              "GSTAMOUNT": 9.1,
+              "NETAMOUNT": 10.1,
+              "CONFIRMEDUNITS": 11.1,
+              "UNITBALANCE": "sample string 12"
+            },
+            {
+              "TXNSEQNO": 1,
+              "TRANSACTIONDATE": "sample string 2",
+              "TRANSACTIONCHANNEL": "sample string 3",
+              "BRANCHCODE": "sample string 4",
+              "TRANSACTIONTYPE": "sample string 5",
+              "TRANSACTIONAMOUNT": 6.1,
+              "NAV": 7.1,
+              "SALESCHARGE": 8.1,
+              "GSTAMOUNT": 9.1,
+              "NETAMOUNT": 10.1,
+              "CONFIRMEDUNITS": 11.1,
+              "UNITBALANCE": "sample string 12"
+            }
+          ]
+        }
+      ]
+    }
+
+    let result =  this.http.post(
+      this.receipturl + "ssrs/GetStatementPrintout",
+      body,  { responseType: 'arraybuffer' }
+    ).toPromise();
+    
+    return result;
   }
 
   // Sam Testing Purpose
