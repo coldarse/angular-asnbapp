@@ -145,12 +145,12 @@
                                 <h4>{{'FL_12' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="Salutation" id="PPP" [formControl]='AR_Form.controls["city"]' class="form-control"> 
+                                <!-- <select name="Salutation" id="PPP" [formControl]='AR_Form.controls["city"]' class="form-control"> 
                                     <option *ngFor="let cities of form_cities" value={{cities.name}}>
                                         {{cities.name}}
                                     </option>
-                                </select>
-                                <!-- <input type="text" class="input-normal use-keyboard-input" (input)="usekeyboardinput($event)" [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City"> -->
+                                </select> -->
+                                <input type="text" class="input-normal use-keyboard-input" (input)="usekeyboardinput($event)" [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City">
                             </div>
                         </div>
                     </div>

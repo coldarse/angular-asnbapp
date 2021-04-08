@@ -257,10 +257,10 @@ export class AccountregistrationComponent implements OnInit {
         race: [{value: this.race, disabled: true}],
         religion: [{value: this.religion, disabled: true}],
 
-        address1 : [{value: currentMyKadDetails.Address1 + currentMyKadDetails.Address2, disabled: true}, Validators.required],
+        address1 : [{value: currentMyKadDetails.Address1 + ", " + currentMyKadDetails.Address2, disabled: true}, Validators.required],
         address2 : [{value: currentMyKadDetails.Address3, disabled: true}, Validators.required],
         postcode : [{value: currentMyKadDetails.PostCode, disabled: true}, Validators.required],
-        city : [{value: this.city, disabled: true}],
+        city : [{value: currentMyKadDetails.City, disabled: true}],
         state : [{value: this.state, disabled: true}],
         mykadaddress: [true],
 

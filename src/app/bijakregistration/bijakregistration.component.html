@@ -195,7 +195,7 @@
                                 <h4>{{'FLB_3' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="SalutationMyKID" id="salutationMyKID" [formControl]='AR_Form.controls["g_salutation"]' class="form-control" >
+                                <select name="SalutationMyKID" id="salutationMyKID" [formControl]='AR_Form.controls["g_salution"]' class="form-control" >
                                     <option *ngFor="let salutation of form_salutation" value={{salutation.value}}>
                                         {{salutation.text}}
                                     </option>
@@ -324,12 +324,12 @@
                                 <h4>{{'FL_12' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="Salutation" id="PPP" [formControl]='AR_Form.controls["city"]' class="form-control"> 
+                                <!-- <select name="Salutation" id="PPP" [formControl]='AR_Form.controls["city"]' class="form-control"> 
                                     <option *ngFor="let cities of form_cities" value={{cities.name}}>
                                         {{cities.name}}
                                     </option>
-                                </select>
-                                <!-- <input type="text" class="input-normal use-keyboard-input" (input)="usekeyboardinput($event)" [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City"> -->
+                                </select> -->
+                                <input type="text" class="input-normal use-keyboard-input" (input)="usekeyboardinput($event)" [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City">
                             </div>
                         </div>
                     </div>
@@ -944,7 +944,7 @@
             <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
                 <!-- <h4 class="h2-ic">Nama</h4> -->
                 <h4 class="h2-ic">{{'BRSuccess_3' | translate }}</h4>
-                <h4 class="h2-ic">:</h4>
+                <!-- <h4 class="h2-ic">:</h4> -->
             </div>
         </div>
         <div class="col-md-6 " style="margin-top:5rem;">
@@ -958,7 +958,7 @@
             <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
                 <!-- <h4 class="h2-ic">No. Ahli</h4> -->
                 <h4 class="h2-ic">{{'BRSuccess_5' | translate }}</h4>
-                <h4 class="h2-ic">:</h4>
+                <!-- <h4 class="h2-ic">:</h4> -->
             </div>
         </div>
         <div class="col-md-6 " >
@@ -972,7 +972,7 @@
             <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
                 <!-- <h4 class="h2-ic">Tarikh Pendaftaran</h4> -->
                 <h4 class="h2-ic">{{'BRSuccess_7' | translate }}</h4>
-                <h4 class="h2-ic">:</h4>
+                <!-- <h4 class="h2-ic">:</h4> -->
             </div>
         </div>
         <div class="col-md-6 " >
@@ -986,7 +986,7 @@
             <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
                 <!-- <h4 class="h2-ic">Jenis Akaun</h4> -->
                 <h4 class="h2-ic">{{'BRSuccess_9' | translate }}</h4>
-                <h4 class="h2-ic">:</h4>
+                <!-- <h4 class="h2-ic">:</h4> -->
             </div>
         </div>
         <div class="col-md-6 " >
