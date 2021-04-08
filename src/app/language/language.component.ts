@@ -14,10 +14,13 @@ import { appFunc } from '../_models/appFunctions';
 import { eModules } from '../_models/enabledModules';
 import { errorCodes } from '../_models/errorCode';
 import { fundDetails } from '../_models/fundDetails';
-import { bankName, businessNature, cities, monthlyIncome, occupationCategory, occupationName, occupationSector, races, relationship, religions, states, TitleDetails } from '../_models/dropDownLists';
+import { bankName, businessNature, cities, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, relationship, religions, states, TitleDetails } from '../_models/dropDownLists';
 import { kActivity } from '../_models/kActivity';
 import { kioskActivities } from '../_models/kioskActivities';
 import { AppConfiguration } from '../config/app-configuration';
+import { currentMyKidDetails } from '../_models/currentMyKidDetails';
+import { currentMyKadDetails } from '../_models/currentMyKadDetails';
+import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 
 @Component({
   selector: 'app-language',
@@ -75,6 +78,12 @@ export class LanguageComponent implements OnInit {
     if(appFunc.kioskActivity != undefined){
       console.log(appFunc.kioskActivity);
     }
+    
+    currentMyKidDetails.resetCurrentMyKid();
+    currentMyKadDetails.resetCurrentMyKid();
+    currentBijakHolder.resetCurretnBijakHolder();
+    currentHolder.resetCurrentHolder();
+
     signalrConnection.logsaves = [];
     appFunc.kioskActivity = [];
     var areDisabled = 0
@@ -175,10 +184,10 @@ export class LanguageComponent implements OnInit {
       appFunc.occupationCategory = res[6].result.items.map((oc: any) => new occupationCategory(oc));
       appFunc.religion = res[7].result.items.map((rg: any) => new religions(rg));
       appFunc.races = res[8].result.items.map((rc: any) => new races(rc));
-      appFunc.relationship = res[9].result.items.map((rs: any) => new relationship(rs));
+      appFunc.preferredDelivery = res[9].result.items.map((pd: any) => new preferredDelivery(pd));
       appFunc.bankName = res[10].result.items.map((bn: any) => new bankName(bn));
       appFunc.occupationName = res[11].result.items.map((on: any) => new occupationName(on));
-      
+      appFunc.relationship = res[12].result.items.map((rs: any) => new relationship(rs));
 
       console.log(appFunc.titleSalutation);
       console.log(appFunc.cities);
@@ -189,9 +198,11 @@ export class LanguageComponent implements OnInit {
       console.log(appFunc.occupationCategory);
       console.log(appFunc.religion);
       console.log(appFunc.races);
-      console.log(appFunc.relationship);
+      console.log(appFunc.preferredDelivery);
       console.log(appFunc.bankName);
       console.log(appFunc.occupationName);
+      console.log(appFunc.relationship);
+      
     });
   }
 }

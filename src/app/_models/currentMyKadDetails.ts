@@ -5,6 +5,33 @@ import { Injectable } from '@angular/core';
 })
 
 export class currentMyKadDetails {
+    static resetCurrentMyKid() {
+        this.Name= "";
+        this.ICNo= "";
+        this.OldICNo= "";
+        this.DOB = new Date();
+        this.POB= "";
+        this.Gender= "";
+        this.Citizenship= "";
+        this.IssueDate = new Date();
+        this.Race= "";
+        this.Religion= "";
+        this.Address1= "";
+        this.Address2= "";
+        this.Address3= "";
+        this.PostCode= "";
+        this.City= "";
+        this.State= "";
+        this.Country= "";
+        this.Address= "";
+        this.RJ= "";
+        this.KT= "";
+        this.GreenCardNationality= "";
+        this.GreenCardExpiryDate = new Date();
+        this.CardVersion= "";
+        this.OtherID= "";
+        this.CategoryType= "";
+    }
     static Name : string;
     static ICNo : string;
     static OldICNo : string;

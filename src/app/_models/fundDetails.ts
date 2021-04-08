@@ -15,7 +15,7 @@ export class fundDetails {
     ELIGIBLELOANUNITS: string | undefined;
 
 
-    constructor(fDetails : any){
+    constructor(fDetails? : any){
         this.FUNDID = fDetails.fundid;
         this.UNITBALANCE = fDetails.unitbalance;
         this.EPFUNITS = fDetails.epfunits;

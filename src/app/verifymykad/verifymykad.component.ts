@@ -411,44 +411,44 @@ export class VerifymykadComponent implements OnInit {
   getAccountInquiry(): void {
     try{
 
-
+      //currentMyKadDetails.ICNo = "980112106087";
       const body = { 
-
-        // "CHANNELTYPE": "ASNB KIOSK",
-        // "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
-        // "DEVICEOWNER": "ASNB",
-        // "UNITHOLDERID": "",
-        // "FIRSTNAME": "",
-        // "IDENTIFICATIONTYPE": "W",
-        // "IDENTIFICATIONNUMBER": "980112106085",
-        // "FUNDID": "",
-        // "INQUIRYCODE": "1",
-        // "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-        // "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-        // "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
-        // "BANKCUSTPHONENUMBER": "",
-        // "FILTRATIONFLAG": "1",
-        // "GUARDIANID": "",
-        // "GUARDIANICTYPE": "",
-        // "GUARDIANICNUMBER": ""
 
         "CHANNELTYPE": "ASNB KIOSK",
         "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
         "DEVICEOWNER": "ASNB",
-        "UNITHOLDERID": "000013053909",
+        "UNITHOLDERID": "",
         "FIRSTNAME": "",
         "IDENTIFICATIONTYPE": "W",
-        "IDENTIFICATIONNUMBER": "521030135188",
+        "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
         "FUNDID": "",
-        "INQUIRYCODE": "4",
-        "TRANSACTIONDATE": "26/3/2021",
-        "TRANSACTIONTIME": "15:43:10",
-        "BANKTXNREFERENCENUMBER": "20191003001325",
-        "BANKCUSTPHONENUMBER": "60173511111",
+        "INQUIRYCODE": "5",
+        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
+        "BANKCUSTPHONENUMBER": "",
         "FILTRATIONFLAG": "1",
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
         "GUARDIANICNUMBER": ""
+
+        // "CHANNELTYPE": "ASNB KIOSK",
+        // "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+        // "DEVICEOWNER": "ASNB",
+        // "UNITHOLDERID": "000013053909",
+        // "FIRSTNAME": "",
+        // "IDENTIFICATIONTYPE": "W",
+        // "IDENTIFICATIONNUMBER": "521030135188",
+        // "FUNDID": "",
+        // "INQUIRYCODE": "5",
+        // "TRANSACTIONDATE": "26/3/2021",
+        // "TRANSACTIONTIME": "15:43:10",
+        // "BANKTXNREFERENCENUMBER": "20191003001325",
+        // "BANKCUSTPHONENUMBER": "60173511111",
+        // "FILTRATIONFLAG": "1",
+        // "GUARDIANID": "",
+        // "GUARDIANICTYPE": "",
+        // "GUARDIANICNUMBER": ""
 
   
        };

@@ -13,6 +13,7 @@ import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
 import { errorCodes } from '../_models/errorCode';
+import { accessToken } from '../_models/apiToken';
 
 @Component({
   selector: 'app-checkbalance',
@@ -36,6 +37,8 @@ export class CheckbalanceComponent implements OnInit {
 
   BTN_Print1 = "";
   BTN_Email1 = "";
+
+  isMain = true;
 
   CB1_Visible = true;
   CB2_Visible = false;
@@ -107,11 +110,11 @@ export class CheckbalanceComponent implements OnInit {
     this.namaAhli = currentHolder.firstname;
 
 
-    if(currentHolder.totalminoraccount != "0"){
-      this.CBBijak_Visible = true;
+    if(currentHolder.totalminoraccount == "0"){
+      this.CBBijak_Visible = false;
     }
     else{
-      this.CBBijak_Visible = false;
+      this.CBBijak_Visible = true;
     }
 
     this.id = setInterval(() => {
@@ -212,43 +215,82 @@ export class CheckbalanceComponent implements OnInit {
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
   
-    const body = {
+    let body : any;
+    if (this.isMain){
+      body = {
 
-      "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
-      "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-      "FIRSTNAME": currentHolder.firstname.toString(),
-      "GRANDTOTALUNITBALANCE": currentHolder.grandtotalunitbalance.toString(),
-      "GRANDTOTALEPFUNITS": currentHolder.grandtotalepfunits.toString(),
-      "GRANDTOTALLOANUNITS": currentHolder.grandtotalloanunits.toString(),
-      "GRANDTOTALCERTUNITS": currentHolder.grandtotalcertunits.toString(),
-      "GRANDTOTALBLOCKEDUNITS": currentHolder.grandtotalblockedunits.toString(),
-      "GRANDTOTALPROVISIONALUNITS": currentHolder.grandtotalprovisionalunits.toString(),
-      "GRANDTOTALUNITS": currentHolder.grandtotalunits.toString(),
-      "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings.toString(),	
+        "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "FIRSTNAME": currentHolder.firstname.toString(),
+        "GRANDTOTALUNITBALANCE": currentHolder.grandtotalunitbalance.toString(),
+        "GRANDTOTALEPFUNITS": currentHolder.grandtotalepfunits.toString(),
+        "GRANDTOTALLOANUNITS": currentHolder.grandtotalloanunits.toString(),
+        "GRANDTOTALCERTUNITS": currentHolder.grandtotalcertunits.toString(),
+        "GRANDTOTALBLOCKEDUNITS": currentHolder.grandtotalblockedunits.toString(),
+        "GRANDTOTALPROVISIONALUNITS": currentHolder.grandtotalprovisionalunits.toString(),
+        "GRANDTOTALUNITS": currentHolder.grandtotalunits.toString(),
+        "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings.toString(),	
+  
+        "CHANNELTYPE":"ATM",
+        "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+        "DEVICEOWNER":"ASNB",
+        "NUMBEROFTXNS":"4", 
+        "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
+        "UNITHOLDERID": this.CB2_7.toString(),
+        "IDENTIFICATIONTYPE":"W",
+        "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
+        "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
+        "FUNDID":selectedFundDetails.FUNDID.toString(),
+  
+        "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
+        "UNITBALANCE": selectedFundDetails.UNITBALANCE.toString(),
+        "EPFUNITS": selectedFundDetails.EPFUNITS.toString(),
+        "LOANUNITS": selectedFundDetails.LOANUNITS.toString(),
+        "CERTUNITS": selectedFundDetails.CERTUNITS.toString(),
+        "BLOCKEDUNITS": selectedFundDetails.BLOCKEDUNITS.toString(),
+        "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
+        "POLICYTYPE":"UT"
+      };
+    }else{
+      body = {
 
-      "CHANNELTYPE":"ATM",
-      "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
-      "DEVICEOWNER":"ASNB",
-      "NUMBEROFTXNS":"4", 
-      "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
-      "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
-      "UNITHOLDERID": this.CB2_7.toString(),
-      "IDENTIFICATIONTYPE":"W",
-      "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
-      "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
-      "FUNDID":selectedFundDetails.FUNDID.toString(),
+        "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "FIRSTNAME": currentBijakHolder.firstname.toString(),
+        "GRANDTOTALUNITBALANCE": currentBijakHolder.grandtotalunitbalance.toString(),
+        "GRANDTOTALEPFUNITS": currentBijakHolder.grandtotalepfunits.toString(),
+        "GRANDTOTALLOANUNITS": currentBijakHolder.grandtotalloanunits.toString(),
+        "GRANDTOTALCERTUNITS": currentBijakHolder.grandtotalcertunits.toString(),
+        "GRANDTOTALBLOCKEDUNITS": currentBijakHolder.grandtotalblockedunits.toString(),
+        "GRANDTOTALPROVISIONALUNITS": currentBijakHolder.grandtotalprovisionalunits.toString(),
+        "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits.toString(),
+        "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings.toString(),	
+  
+        "CHANNELTYPE":"ATM",
+        "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+        "DEVICEOWNER":"ASNB",
+        "NUMBEROFTXNS":"4", 
+        "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
+        "UNITHOLDERID": this.CB2_7.toString(),
+        "IDENTIFICATIONTYPE":"W",
+        "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
+        "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
+        "FUNDID":selectedFundDetails.FUNDID.toString(),
+  
+        "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
+        "UNITBALANCE": selectedFundDetails.UNITBALANCE.toString(),
+        "EPFUNITS": selectedFundDetails.EPFUNITS.toString(),
+        "LOANUNITS": selectedFundDetails.LOANUNITS.toString(),
+        "CERTUNITS": selectedFundDetails.CERTUNITS.toString(),
+        "BLOCKEDUNITS": selectedFundDetails.BLOCKEDUNITS.toString(),
+        "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
+        "POLICYTYPE":"UT"
+      };
+    }
 
-      "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
-      "UNITBALANCE": selectedFundDetails.UNITBALANCE.toString(),
-      "EPFUNITS": selectedFundDetails.EPFUNITS.toString(),
-      "LOANUNITS": selectedFundDetails.LOANUNITS.toString(),
-      "CERTUNITS": selectedFundDetails.CERTUNITS.toString(),
-      "BLOCKEDUNITS": selectedFundDetails.BLOCKEDUNITS.toString(),
-      "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
-      "POLICYTYPE":"UT"
-    };
-
-    
+    console.log(body);
     
     this.serviceService.postFiveTransactions(body)
     .subscribe((trans: any) => {
@@ -308,23 +350,82 @@ export class CheckbalanceComponent implements OnInit {
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
 
-    const body = {
-      "CHANNELTYPE":"ATM",
-      "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
-      "DEVICEOWNER":"ASNB",
-      "NUMBEROFTXNS":"4", 
-      "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en'),
-      "UNITHOLDERID": this.CB2_7,
-      "IDENTIFICATIONTYPE":"W",
-      "IDENTIFICATIONNUMBER":this.CB2_5,
-      "GUARDIANIDNUMBER":this.CB_GuardianID,
-      "FUNDID":selectedFundDetails.FUNDID,
-      "POLICYTYPE":"UT"
-    };
 
-    
-    
+    let body: any;
+    if (this.isMain){
+      body = {
+        "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "FIRSTNAME": currentHolder.firstname.toString(),
+        "GRANDTOTALUNITBALANCE": currentHolder.grandtotalunitbalance.toString(),
+        "GRANDTOTALEPFUNITS": currentHolder.grandtotalepfunits.toString(),
+        "GRANDTOTALLOANUNITS": currentHolder.grandtotalloanunits.toString(),
+        "GRANDTOTALCERTUNITS": currentHolder.grandtotalcertunits.toString(),
+        "GRANDTOTALBLOCKEDUNITS": currentHolder.grandtotalblockedunits.toString(),
+        "GRANDTOTALPROVISIONALUNITS": currentHolder.grandtotalprovisionalunits.toString(),
+        "GRANDTOTALUNITS": currentHolder.grandtotalunits.toString(),
+        "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings.toString(),
+  
+        "CHANNELTYPE":"ATM",
+        "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+        "DEVICEOWNER":"ASNB",
+        "NUMBEROFTXNS":"4", 
+        "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
+        "UNITHOLDERID": this.CB2_7.toString(),
+        "IDENTIFICATIONTYPE":"W",
+        "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
+        "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
+        "FUNDID":selectedFundDetails.FUNDID.toString(),
+  
+        "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
+        "UNITBALANCE": selectedFundDetails.UNITBALANCE.toString(),
+        "EPFUNITS": selectedFundDetails.EPFUNITS.toString(),
+        "LOANUNITS": selectedFundDetails.LOANUNITS.toString(),
+        "CERTUNITS": selectedFundDetails.CERTUNITS.toString(),
+        "BLOCKEDUNITS": selectedFundDetails.BLOCKEDUNITS.toString(),
+        "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
+        "POLICYTYPE":"UT"
+      };
+    }else{
+      body = {
+        "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "FIRSTNAME": currentBijakHolder.firstname.toString(),
+        "GRANDTOTALUNITBALANCE": currentBijakHolder.grandtotalunitbalance.toString(),
+        "GRANDTOTALEPFUNITS": currentBijakHolder.grandtotalepfunits.toString(),
+        "GRANDTOTALLOANUNITS": currentBijakHolder.grandtotalloanunits.toString(),
+        "GRANDTOTALCERTUNITS": currentBijakHolder.grandtotalcertunits.toString(),
+        "GRANDTOTALBLOCKEDUNITS": currentBijakHolder.grandtotalblockedunits.toString(),
+        "GRANDTOTALPROVISIONALUNITS": currentBijakHolder.grandtotalprovisionalunits.toString(),
+        "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits.toString(),
+        "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings.toString(),
+  
+        "CHANNELTYPE":"ATM",
+        "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+        "DEVICEOWNER":"ASNB",
+        "NUMBEROFTXNS":"4", 
+        "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
+        "UNITHOLDERID": this.CB2_7.toString(),
+        "IDENTIFICATIONTYPE":"W",
+        "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
+        "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
+        "FUNDID":selectedFundDetails.FUNDID.toString(),
+  
+        "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
+        "UNITBALANCE": selectedFundDetails.UNITBALANCE.toString(),
+        "EPFUNITS": selectedFundDetails.EPFUNITS.toString(),
+        "LOANUNITS": selectedFundDetails.LOANUNITS.toString(),
+        "CERTUNITS": selectedFundDetails.CERTUNITS.toString(),
+        "BLOCKEDUNITS": selectedFundDetails.BLOCKEDUNITS.toString(),
+        "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
+        "POLICYTYPE":"UT"
+      };
+    }
+     
+    console.log(body);
+
     this.serviceService.postFiveTransactions(body)
     .subscribe((trans: any) => {
 
@@ -341,7 +442,15 @@ export class CheckbalanceComponent implements OnInit {
 
       appFunc.kioskActivity.push(kActivit1);
 
-      signalrConnection.connection.invoke('EmailHelpPage', trans.result).then((data: any) => {
+      let email = "";
+      if (this.isMain){
+        currentHolder.email;
+      }
+      else{
+        //currentBijakHolder.email;
+      }
+
+      signalrConnection.connection.invoke('EmailHelpPageAsync', trans.result, accessToken.token, email).then((data: any) => {
         setTimeout(()=>{   
           if (data == true){
             setTimeout(()=>{   
@@ -466,7 +575,7 @@ export class CheckbalanceComponent implements OnInit {
 
 
   MinorCheckBalance(selectedMinorDetails: any) {
-
+    this.isMain = false;
     const body = {
       "CHANNELTYPE": "IB",
       "REQUESTORIDENTIFICATION": "RHBNOW",
@@ -546,6 +655,7 @@ export class CheckbalanceComponent implements OnInit {
   
 
   CheckMainAccount() {
+    this.isMain = true;
     let kActivit = new kActivity();
     kActivit.trxno = "";
     kActivit.kioskCode = signalrConnection.kioskCode;
@@ -559,7 +669,28 @@ export class CheckbalanceComponent implements OnInit {
     appFunc.kioskActivity.push(kActivit);
 
     this.fDetails = currentHolder.funddetail;
-    this.CB1_Visible = false;
+
+    if (this.fDetails.length == 1 || this.fDetails.length == 0){
+      if(this.fDetails[0].FUNDID == "" || isNaN(this.fDetails[0].FUNDID)){
+        this.CB2_ErrorVisible = true;
+      }
+      else{
+        this.CB1_Visible = false;
+        this.CB2_Visible = true;
+    
+        this.CB2_3 = currentHolder.firstname;
+        this.CB2_5 = currentHolder.identificationnumber;
+        this.CB2_7 = currentHolder.unitholderid;
+        this.CB_GuardianID = currentHolder.guardianid;
+    
+        this.CB2_9 = currentHolder.grandtotaluhholdings;
+        this.CB2_10 = currentHolder.grandtotalunits;
+    
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Selected Main Account Balance.");
+      }
+    }
+    else{
+      this.CB1_Visible = false;
     this.CB2_Visible = true;
 
     this.CB2_3 = currentHolder.firstname;
@@ -571,6 +702,8 @@ export class CheckbalanceComponent implements OnInit {
     this.CB2_10 = currentHolder.grandtotalunits;
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Selected Main Account Balance.");
+    }
+    
   }
 
   CheckBijakAccount() {
@@ -600,6 +733,11 @@ export class CheckbalanceComponent implements OnInit {
     this.CB2_10 = currentBijakHolder.grandtotalunits;
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected Minor Account Balance. ${currentBijakHolder.firstname}, ${currentBijakHolder.identificationnumber}, ${currentBijakHolder.unitholderid}`);
+  }
+
+
+  ChooseOtherAccount(){
+    this.CB2_ErrorVisible = false;
   }
   
 

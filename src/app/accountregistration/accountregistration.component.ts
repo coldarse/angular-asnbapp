@@ -13,6 +13,8 @@ import { ServiceService } from '../_shared/service.service';
 import { Observable, forkJoin } from 'rxjs';
 import { kActivity } from '../_models/kActivity';
 import { SelectorContext } from '@angular/compiler';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { errorCodes } from '../_models/errorCode';
 
 
 declare const loadKeyboard: any;
@@ -198,6 +200,8 @@ export class AccountregistrationComponent implements OnInit {
 
   city: any;
   state: any;
+  religion: any;
+  race: any;
 
   constructor(private elementRef: ElementRef,
     private _router: Router,
@@ -222,10 +226,26 @@ export class AccountregistrationComponent implements OnInit {
     this.state = currentMyKadDetails.State;
     for(var y of this.form_states){
       if (y.text.toLowerCase().includes(this.state.toLowerCase())){
-        this.state = y.text;
+        this.state = y.value;
         break;
       }else{
         this.state = currentMyKadDetails.State;
+      }
+    }
+    this.religion = currentMyKadDetails.Religion;
+    if(this.religion.toLowerCase().includes('islam')){
+      this.religion = "M"
+    }
+    else{
+      this.religion = "N"
+    }
+    this.race = currentMyKadDetails.Race;
+    for(var y of this.form_races){
+      if (y.textBM.toLowerCase().includes(this.race.toLowerCase())){
+        this.race = y.value;
+        break;
+      }else{
+        this.race = currentMyKadDetails.Race;
       }
     }
     this.AR_Form = this.fb.group(
@@ -234,8 +254,8 @@ export class AccountregistrationComponent implements OnInit {
         fullname: [{value: currentMyKadDetails.Name, disabled: true}],
         identificationcardno: [{value: currentMyKadDetails.ICNo, disabled: true}],
         dob: [{value: formatDate(currentMyKadDetails.DOB, 'dd MMM yyyy', 'en'), disabled: true}],
-        race: [{value: currentMyKadDetails.Race, disabled: true}],
-        religion: [{value: currentMyKadDetails.Religion, disabled: true}],
+        race: [{value: this.race, disabled: true}],
+        religion: [{value: this.religion, disabled: true}],
 
         address1 : [{value: currentMyKadDetails.Address1 + currentMyKadDetails.Address2, disabled: true}, Validators.required],
         address2 : [{value: currentMyKadDetails.Address3, disabled: true}, Validators.required],
@@ -252,22 +272,22 @@ export class AccountregistrationComponent implements OnInit {
           Validators.required,
           Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
         noemail: [false],
-        deliverystate: ['Sila Pilih Satu'],
+        deliverystate: [''],
 
-        bankname: ['Sila Pilih Satu'],
+        bankname: [''],
         bankaccount: ['', Validators.required],
 
-        jobcategory: ['Sila Pilih Satu'],
-        jobname: ['Sila Pilih Satu'],
-        natureofjob: ['Sila Pilih Satu'],
-        jobsector: ['Sila Pilih Satu'],
-        monthlyincome: ['Sila Pilih Satu'],
+        jobcategory: [''],
+        jobname: [''],
+        natureofjob: [''],
+        jobsector: [''],
+        monthlyincome: ['7'],
         companyname: ['', Validators.required],
 
-        fatca: ['No'],
-        pep: ['No'],
-        news: ['No'],
-        crs: ['No'],
+        fatca: ['N'],
+        pep: ['N'],
+        news: ['Y'],
+        crs: ['N'],
     });
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Initialized Form.");
   }  
@@ -380,11 +400,14 @@ export class AccountregistrationComponent implements OnInit {
     if (this.AR_Form.controls.noemail.value == false){
       this.AR_Form.controls.email.reset();
       this.AR_Form.controls.email.disable();
+      this.AR_Form.controls.deliverystate.setValue('ST');
+      this.AR_Form.controls.deliverystate.disable();
       if (this.email_Warning == true) this.email_Warning = false;
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Email.");
     }
     else{
       this.AR_Form.controls.email.enable();
+      this.AR_Form.controls.deliverystate.enable();
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Unchecked No Email.");
     }
   }
@@ -413,7 +436,7 @@ export class AccountregistrationComponent implements OnInit {
       this.AR_Form.controls.address2.setValue(currentMyKadDetails.Address3);
       this.AR_Form.controls.postcode.setValue(currentMyKadDetails.PostCode);
       this.AR_Form.controls.city.setValue(this.city);
-      this.AR_Form.controls.state.setValue(currentMyKadDetails.State);
+      this.AR_Form.controls.state.setValue(this.state);
 
 
       this.AR_Form.controls.address1.disable();
@@ -437,10 +460,122 @@ export class AccountregistrationComponent implements OnInit {
     }
   }
 
+  TNCAgree(){
+    let kActivit = new kActivity();
+    kActivit.trxno = "";
+    kActivit.kioskCode = signalrConnection.kioskCode;
+    kActivit.moduleID = 0;
+    kActivit.submoduleID = undefined;
+    kActivit.action = "Started Account Registration.";
+    kActivit.startTime = new Date();
+    kActivit.endTime = new Date();
+    kActivit.status = true;
+
+    appFunc.kioskActivity.push(kActivit);
+
+    this.AR_Form.controls.fullname.enable();
+    this.AR_Form.controls.identificationcardno.enable();
+    this.AR_Form.controls.dob.enable();
+    this.AR_Form.controls.race.enable();
+    this.AR_Form.controls.religion.enable();
+    this.AR_Form.controls.address1.enable();
+    this.AR_Form.controls.address2.enable();
+    this.AR_Form.controls.postcode.enable();
+    this.AR_Form.controls.city.enable();
+    this.AR_Form.controls.state.enable();
+    console.log(this.AR_Form.value);
+
+    const body = {
+      "CHANNELTYPE":"ASNB KIOSK",
+      "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+      "DEVICEOWNER":"ASNB",
+      "UNITHOLDERID":"",
+      "FIRSTNAME": currentMyKadDetails.Name,
+      "IDENTIFICATIONTYPE":"W",
+      "IDENTIFICATIONNUMBER":currentMyKadDetails.ICNo,
+      "AGENTCODE":"ASNB",
+      "BRANCHCODE":"ASNBHQ001",
+      "UHCATEGORY":"",
+      "RACE": this.AR_Form.controls.race.value,
+      "CELLPHONENUMBER": this.AR_Form.controls.telephone.value,
+      "TELEPHONE1": this.AR_Form.controls.homenumber.value,
+      "ADDRESSLINE1": this.AR_Form.controls.address1.value,
+      "ADDRESSLINE2":this.AR_Form.controls.address2.value,
+      "ADDRESSLINE3":this.AR_Form.controls.city.value,
+      "ADDRESSLINE4":this.AR_Form.controls.state.value,
+      "OTHERINFO10":"",
+      "ZIPCODE": this.AR_Form.controls.postcode.value,
+      "DATEOFBIRTH": formatDate(currentMyKadDetails.DOB, 'dd/MM/yyyy', 'en'),
+      "SEX": currentMyKadDetails.Gender.substring(0, 1),
+      "OCCUPATION":this.AR_Form.controls.jobname.value,             //
+      "EMAIL":this.AR_Form.controls.email.value,
+      "FATHER_SPOUSENAME":"",
+      "OTHERINFO8":this.AR_Form.controls.monthlyincome.value,
+      "OCCUPATIONSECTOR":this.AR_Form.controls.jobsector.value,
+      "OCCUPATIONCATEGORY":this.AR_Form.controls.jobcategory.value,
+      "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
+      "COMPANYNAME":this.AR_Form.controls.companyname.value,
+      "TITLE":this.AR_Form.controls.salutation.value,
+      "RELIGION":this.AR_Form.controls.religion.value,
+      "GUARDIANID":"",
+      "FATCA":this.AR_Form.controls.fatca.value,
+      "CRS":this.AR_Form.controls.crs.value,
+      "PEP":this.AR_Form.controls.pep.value,
+      "PARTICIPATEINASNBMKT":this.AR_Form.controls.news.value,
+      "BANKCODE":this.AR_Form.controls.bankname.value,
+      "BANKACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
+      "RELATIONSHIP":"",
+      "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value
+    }
+
+    this.serviceService.postAccountRegistration(body).subscribe((data: any) => {
+      console.log(data);
+      if(data.result.transactionstatus.toLowerCase().includes('reject')){
+        errorCodes.Ecode = data.result.rejectcode;
+        errorCodes.Emessage = data.result.rejectreason;
+        this._router.navigate(['errorscreen']);
+      }else{
+        this.ARSuccess_4 = currentMyKadDetails.Name;
+        this.ARSuccess_6 = data.result.unitholderid;
+        this.ARSuccess_8 = formatDate(new Date(), 'dd/MM/yyyy', 'en');
+        this.ARSuccess_10 = "Self";
+      }
+      this.ARTNC_Visible = false;
+      this.ARSuccess_Visible = true;
+    });
+
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Submitted Account Registration Form.");
   
+  }
+
+  Print(){
+    this.ARSuccess_Visible = false;
+    this.ARPrint1_Visible = true;
+    setTimeout(()=>{   
+      this.ARPrint1_Visible = false;
+      this.ARPrint2_Visible = true;
+      setTimeout(() => {
+        this._router.navigate(['transactionsuccessful'])
+      }, 3000);
+    }, 3000);
+
+  }
+
+  Email(){
+    this.ARSuccess_Visible = false;
+    this.AREmail_Visible = true;
+    setTimeout(() => {
+      this._router.navigate(['transactionsuccessful'])
+    }, 3000);
+  }
+
+  TNCDisgree(){
+    this.ARForm_Visible = true;
+    this.ARTNC_Visible = false;
+  }
 
   registrationNext() {
-
+    
     let a1 = this.AR_Form.get('address1').value;
     let a2 = this.AR_Form.get('address2').value;
     let postcode = this.AR_Form.get('postcode').value;
@@ -513,22 +648,22 @@ export class AccountregistrationComponent implements OnInit {
         }
       }
       else {
-        if(key.includes('bankname') && (this.AR_Form.controls.bankname.value == 'Sila Pilih Satu' || this.AR_Form.controls.bankname.value == 'Please Select One')){
+        if(key.includes('bankname') && (this.AR_Form.controls.bankname.value == '')){
           this.bank_Warning = true;
         }
-        else if(key.includes('jobcategory') && (this.AR_Form.controls.bankname.value == 'Sila Pilih Satu' || this.AR_Form.controls.bankname.value == 'Please Select One')){
+        else if(key.includes('jobcategory') && (this.AR_Form.controls.bankname.value == '')){
           this.JC_Warning = true;
         }
-        else if(key.includes('jobname') && (this.AR_Form.controls.bankname.value == 'Sila Pilih Satu' || this.AR_Form.controls.bankname.value == 'Please Select One')){
+        else if(key.includes('jobname') && (this.AR_Form.controls.bankname.value == '')){
           this.JN_Warning = true;
         }
-        else if(key.includes('natureofjob') && (this.AR_Form.controls.bankname.value == 'Sila Pilih Satu' || this.AR_Form.controls.bankname.value == 'Please Select One')){
+        else if(key.includes('natureofjob') && (this.AR_Form.controls.bankname.value == '')){
           this.NOJ_Warning = true;
         }
-        else if(key.includes('jobsector') && (this.AR_Form.controls.bankname.value == 'Sila Pilih Satu' || this.AR_Form.controls.bankname.value == 'Please Select One')){
+        else if(key.includes('jobsector') && (this.AR_Form.controls.bankname.value == '')){
           this.JS_Warning = true;
         }
-        else if(key.includes('monthlyincome') && (this.AR_Form.controls.bankname.value == 'Sila Pilih Satu' || this.AR_Form.controls.bankname.value == 'Please Select One')){
+        else if(key.includes('monthlyincome') && (this.AR_Form.controls.bankname.value == '')){
           this.MI_Warning = true;
         }
       }
@@ -536,32 +671,9 @@ export class AccountregistrationComponent implements OnInit {
     if (x > 0){
       console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
-    }
-    else{
-      let kActivit = new kActivity();
-      kActivit.trxno = "";
-      kActivit.kioskCode = signalrConnection.kioskCode;
-      kActivit.moduleID = 0;
-      kActivit.submoduleID = undefined;
-      kActivit.action = "Started Account Registration.";
-      kActivit.startTime = new Date();
-      kActivit.endTime = new Date();
-      kActivit.status = true;
-
-      appFunc.kioskActivity.push(kActivit);
-
-      this.AR_Form.controls.fullname.enable();
-      this.AR_Form.controls.identificationcardno.enable();
-      this.AR_Form.controls.dob.enable();
-      this.AR_Form.controls.race.enable();
-      this.AR_Form.controls.religion.enable();
-      this.AR_Form.controls.address1.enable();
-      this.AR_Form.controls.address2.enable();
-      this.AR_Form.controls.postcode.enable();
-      this.AR_Form.controls.city.enable();
-      this.AR_Form.controls.state.enable();
-      console.log(this.AR_Form.value);
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Submitted Account Registration Form.");
+    }else{
+      this.ARForm_Visible = false;
+      this.ARTNC_Visible = true;
     }
   }
 
@@ -613,27 +725,17 @@ export class AccountregistrationComponent implements OnInit {
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
-    kActivit.action = "Started Account";
+    kActivit.action = "Cancel Registration";
     kActivit.endTime = new Date();
     kActivit.status = false;
 
     appFunc.kioskActivity.push(kActivit);
-    this._router.navigate(['language']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Canceled Account Registration.");
+    this._router.navigate(['language']);
+  
   }
 
-  // getTitle(){
-  //   this.serviceService.getTitleSalutation().subscribe((res : any) => {
-  //       console.log(res[0]);
-  //       console.log(res[1]);
-  //     })
-  //   }
-
-    //   appFunc.titleSalutation = res.result.items.map((data : any) => new TitleDetails(data)    
-    //   );
-    //   console.log(appFunc.titleSalutation);
-    // });
-  // }
+  
   
 
 }

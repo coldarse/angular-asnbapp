@@ -254,7 +254,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["bankname"]' class="form-control" >
-                                    <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let bankname of form_bankname" value={{bankname.code}}>
                                         {{bankname.name}}
                                     </option>
@@ -288,7 +288,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobcategory"]' (change)="filterJobCategory($event)" class="form-control">
-                                    <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationCatergory of form_occupationCatergory" value={{occupationCatergory.code}}>
                                         {{occupationCatergory.desc}}
                                     </option>
@@ -302,7 +302,7 @@
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobname"]' class="form-control">
-                                    <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationName of form_occupationName" value={{occupationName.value}}>
                                         {{occupationName.desc}}
                                     </option>
@@ -322,7 +322,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["natureofjob"]' class="form-control">
-                                    <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let businessnature of form_businessnature" value={{businessnature.value}}>
                                         {{businessnature.text}}
                                     </option>
@@ -336,7 +336,7 @@
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobsector"]' class="form-control">
-                                    <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationSector of form_occupationSector" value={{occupationSector.sector}}>
                                         {{occupationSector.sectorDesc}}
                                     </option>
@@ -356,7 +356,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["monthlyincome"]' class="form-control">
-                                    <option value="Sila Pilih Satu">{{ 'optionSelect' | translate }}</option>
+                                    <option value="7">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let income of form_income" value={{income.validValue}}>
                                         {{income.valueDesc}}
                                     </option>
@@ -398,8 +398,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="FATCA" id="FATCA" [formControl]='AR_Form.controls["fatca"]' class="form-control">
-                                    <option value="No">{{'OPTION_No' | translate}}</option>
-                                    <option value="Yes">{{'OPTION_Yes' | translate}}</option>
+                                    <option value="N">{{'OPTION_No' | translate}}</option>
+                                    <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
                             </div>
                             <div class="col-md-8">
@@ -423,8 +423,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PEP" id="PEP" [formControl]='AR_Form.controls["pep"]' class="form-control">
-                                    <option value="No">{{'OPTION_No' | translate}}</option>
-                                    <option value="Yes">{{'OPTION_Yes' | translate}}</option>
+                                    <option value="N">{{'OPTION_No' | translate}}</option>
+                                    <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -432,8 +432,8 @@
                             </div>
                             <div class="col-md-4">
                                 <select name="AD" id="AD" [formControl]='AR_Form.controls["news"]' class="form-control">
-                                    <option value="No">{{'OPTION_No' | translate}}</option>
-                                    <option value="Yes">{{'OPTION_Yes' | translate}}</option>
+                                    <option value="N">{{'OPTION_No' | translate}}</option>
+                                    <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
                             </div>
                         </div>
@@ -453,8 +453,8 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="CRS" id="CRS" [formControl]='AR_Form.controls["crs"]' class="form-control">
-                                    <option value="No">{{'OPTION_No' | translate}}</option>
-                                    <option value="Yes">{{'OPTION_Yes' | translate}}</option>
+                                    <option value="N">{{'OPTION_No' | translate}}</option>
+                                    <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -627,11 +627,11 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:3rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="AR_XAgree">
+                <button type="button" class="btn btn-cancel" id="AR_XAgree" (click)="TNCDisgree()">
                     <!-- Tidak Setuju -->
                     {{'BTN_xAgree' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="AR_Agree">
+                <button type="button" class="btn btn-next" id="AR_Agree" (click)="TNCAgree()">
                     <!-- Setuju -->
                     {{'BTN_Agree' | translate }}
                 </button>
@@ -658,12 +658,12 @@
             <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
                 <!-- <h4 class="h2-ic">Nama</h4> -->
                 <h4 class="h2-ic">{{'ARSuccess_3' | translate }}</h4>
-                <h4 class="h2-ic">:</h4>
+                <!-- <h4 class="h2-ic">:</h4> -->
             </div>
         </div>
         <div class="col-md-6 " style="margin-top:5rem;">
             <!-- <h4 class="h2-ic">MOHAMMAD AZWAN GAN BIN ABDUL GHANI GAN</h4> -->
-            <h4 class="h2-ic">{{'ARSuccess_4' | translate }}</h4>
+            <h4 class="h2-ic">{{ARSuccess_4}}</h4>
         </div>
     </div>
 
@@ -672,12 +672,12 @@
             <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
                 <!-- <h4 class="h2-ic">No. Ahli</h4> -->
                 <h4 class="h2-ic">{{'ARSuccess_5' | translate }}</h4>
-                <h4 class="h2-ic">:</h4>
+                <!-- <h4 class="h2-ic">:</h4> -->
             </div>
         </div>
         <div class="col-md-6 " >
             <!-- <h4 class="h2-ic">000012345678</h4> -->
-            <h4 class="h2-ic">{{'ARSuccess_6' | translate }}</h4>
+            <h4 class="h2-ic">{{ARSuccess_6}}</h4>
         </div>
     </div>
 
@@ -686,12 +686,12 @@
             <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
                 <!-- <h4 class="h2-ic">Tarikh Pendaftaran</h4> -->
                 <h4 class="h2-ic">{{'ARSuccess_7' | translate }}</h4>
-                <h4 class="h2-ic">:</h4>
+                <!-- <h4 class="h2-ic">:</h4> -->
             </div>
         </div>
         <div class="col-md-6 " >
             <!-- <h4 class="h2-ic">19/02/2021</h4> -->
-            <h4 class="h2-ic">{{'ARSuccess_8' | translate }}</h4>
+            <h4 class="h2-ic">{{ARSuccess_8}}</h4>
         </div>
     </div>
 
@@ -700,12 +700,12 @@
             <div class="inbetween fivehundredpxbox" style="margin-left: 65%;">
                 <!-- <h4 class="h2-ic">Jenis Akaun</h4> -->
                 <h4 class="h2-ic">{{'ARSuccess_9' | translate }}</h4>
-                <h4 class="h2-ic">:</h4>
+                <!-- <h4 class="h2-ic">:</h4> -->
             </div>
         </div>
         <div class="col-md-6 " >
             <!-- <h4 class="h2-ic">Sendiri</h4> -->
-            <h4 class="h2-ic">{{'ARSuccess_10' | translate }}</h4>
+            <h4 class="h2-ic">{{ARSuccess_10}}</h4>
         </div>
     </div>
     
@@ -714,11 +714,11 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:10rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="AR_Print">
+                <button type="button" class="btn btn-next" id="AR_Print" (click)="Print()">
                     <!-- Cetak Resit -->
                     {{'BTN_Print' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="AR_Email">
+                <button type="button" class="btn btn-next" id="AR_Email" (click)="Email()">
                     <!-- Emel Resit -->
                     {{'BTN_Email' | translate }}
                 </button>

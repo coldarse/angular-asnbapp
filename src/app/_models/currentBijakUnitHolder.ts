@@ -7,6 +7,46 @@ import { minorDetails } from './minorDetails';
 })
 
 export class currentBijakHolder {
+    static resetCurretnBijakHolder(){
+        this.channeltype = "";
+        this.requestoridentification = "";
+        this.deviceowner = "";
+        this.unitholderid = "";
+        this.firstname = "";
+        this.identificationtype = "";
+        this.identificationnumber = "";
+        this.fundid = "";
+        this.inquirycode = "";
+        this.transactiondate = "";
+        this.transactiontime = "";
+        this.banktxnreferencenumber = "";
+        this.bankcustphonenumber = "";
+        this.filtrationflag = "";
+        this.typeclosed = "";
+        this.participateinasnbmkt = "";
+        this.funddetail = [];
+        this.grandtotalunitbalance = "";
+        this.grandtotalepfunits = "";
+        this.grandtotalloanunits = "";
+        this.grandtotalcertunits = "";
+        this.grandtotalblockedunits = "";
+        this.grandtotalprovisionalunits = "";
+        this.grandtotalunits = "";
+        this.grandtotaluhholdings = "";
+        this.totalminoraccount = "";
+        this.minordetail = [];
+        this.guardianid = "";
+        this.guardianictype = "";
+        this.guardianicnumber = "";
+        this.agentcode = "";
+        this.branchcode = "";
+        this.lastupdatedate = "";
+        this.transactionchannel = "";
+        this.transactionstatus = "";
+        this.rejectcode = "";
+        this.rejectreason = "";
+    }
+
     static channeltype : string;
     static requestoridentification : string;
     static deviceowner : string;

@@ -241,31 +241,33 @@ export class ServiceService {
   //     );    
   // }
 
-  postAccountRegistration(body: any | undefined): Observable<AccountReg>
+  postAccountRegistration(body: any)//: Observable<AccountReg>
   {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `RegWithoutMinInvestment Request: ${body}.`);
     return this.http.post(
       this.url + "services/app/OpenAPI/RegWithoutMinInvestment",
       body,
       accessToken.httpOptions
-    ).pipe(retry(1), _observableMergeMap((response: any) => 
-    {
-      let result = this.processAccountReg(response);
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `RegWithoutMinInvestment Response: ${result}.`);
-      return result;
-    }));
+    );
   }
 
-  protected processAccountReg(response: any): Observable<AccountReg> {
-    const status = response.success;
-    if (status) {
-        let result200: any = null;
-        result200 = UnitHolder.fromJS(response);
-        return _observableOf(result200);
-    } else {
-        return _observableOf(status);
-    }
-  }
+  // protected processAccountReg(response: any): Observable<AccountReg> {
+  //   const status = response.success;
+  //   if (status) {
+  //       let result200: any = null;
+  //       result200 = UnitHolder.fromJS(response);
+  //       return _observableOf(result200);
+  //   } else {
+  //       return _observableOf(status);
+  //   }
+  // }
+
+  // .pipe(retry(1), _observableMergeMap((response: any) => 
+  //   {
+  //     let result = this.processAccountReg(response);
+  //     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `RegWithoutMinInvestment Response: ${result}.`);
+  //     return result;
+  //   }));
   
 
   getAccountInquiry(body: any | undefined): Observable<UnitHolder>
