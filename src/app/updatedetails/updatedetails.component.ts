@@ -48,6 +48,7 @@ export class UpdatedetailsComponent implements OnInit {
   form_occupationCatergory : any = appFunc.occupationCategory;//
   form_businessnature : any = appFunc.businessNature;//
   form_income : any = appFunc.monthlyIncome;//
+  form_relationships : any = appFunc.relationship;
 
   BTN_Cancel = "";
   BTN_MainMenu = "";
@@ -288,7 +289,47 @@ export class UpdatedetailsComponent implements OnInit {
     });
   }
 
-  
+  filterJobCategory(category: any) {
+    this.enableJob();
+
+    let code = category.target.value;
+
+    if (code.includes('EM')){
+      this.AR_Form.controls.natureofjob.disable();
+    }
+    else if (code.includes('SE')){
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.jobsector.disable();
+    }
+    else if (code.includes('HM')){
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.jobsector.disable();
+      this.AR_Form.controls.natureofjob.disable();
+      this.AR_Form.controls.companyname.disable();
+    }
+    else if (code.includes('RY')){
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.jobsector.disable();
+      this.AR_Form.controls.natureofjob.disable();
+      this.AR_Form.controls.companyname.disable();
+    }
+    else if (code.includes('UM')){
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.natureofjob.disable();
+      this.AR_Form.controls.jobsector.disable();
+      this.AR_Form.controls.monthlyincome.disable();
+      this.AR_Form.controls.companyname.disable();
+    }
+
+  }
+
+  enableJob() {
+    this.AR_Form.controls.jobname.enable();
+    this.AR_Form.controls.natureofjob.enable();
+    this.AR_Form.controls.jobsector.enable();
+    this.AR_Form.controls.monthlyincome.enable();
+    this.AR_Form.controls.companyname.enable();
+  }
 
   updateDetails1Cancel(){
     let kActivit = new kActivity();
@@ -603,6 +644,10 @@ export class UpdatedetailsComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Cancel.");
   }
 
+  usekeyboardinput(event: any) {
+    console.log(event);
+  }
+
   ConfirmNo(){
     this.UDConfirm_Visible = false;
   }
@@ -639,43 +684,24 @@ export class UpdatedetailsComponent implements OnInit {
         "CHANNELTYPE":"ASNB KIOSK",
         "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
         "DEVICEOWNER":"ASNB",
-        "UNITHOLDERID":"",
-        "FIRSTNAME": currentMyKadDetails.Name,
-        "IDENTIFICATIONTYPE":"W",
+        "UNITHOLDERID": currentHolder.unitholderid,
+        "IDENTIFICATIONTYPE":currentMyKadDetails.CategoryType,
         "IDENTIFICATIONNUMBER":currentMyKadDetails.ICNo,
-        "AGENTCODE":"ASNB",
-        "BRANCHCODE":"ASNBHQ001",
-        "UHCATEGORY":"",
-        "RACE": this.AR_Form.controls.race.value,
-        "CELLPHONENUMBER": this.AR_Form.controls.telephone.value,
-        "TELEPHONE1": this.AR_Form.controls.homenumber.value,
-        "ADDRESSLINE1": this.AR_Form.controls.address1.value,
-        "ADDRESSLINE2":this.AR_Form.controls.address2.value,
-        "ADDRESSLINE3":this.AR_Form.controls.city.value,
-        "ADDRESSLINE4":this.AR_Form.controls.state.value,
-        "OTHERINFO10":"",
-        "ZIPCODE": this.AR_Form.controls.postcode.value,
-        "DATEOFBIRTH": formatDate(currentMyKadDetails.DOB, 'dd/MM/yyyy', 'en'),
-        "SEX": currentMyKadDetails.Gender.substring(0, 1),
-        "OCCUPATION":this.AR_Form.controls.jobname.value,             //
+        "BANKTXNREFERENCENUMBER":"ASNB20210405",
+        "OCCUPATION":this.AR_Form.controls.jobname.value,
         "EMAIL":this.AR_Form.controls.email.value,
-        "FATHER_SPOUSENAME":"",
         "OTHERINFO8":this.AR_Form.controls.monthlyincome.value,
         "OCCUPATIONSECTOR":this.AR_Form.controls.jobsector.value,
         "OCCUPATIONCATEGORY":this.AR_Form.controls.jobcategory.value,
         "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
-        "COMPANYNAME":this.AR_Form.controls.companyname.value,
-        "TITLE":this.AR_Form.controls.salutation.value,
-        "RELIGION":this.AR_Form.controls.religion.value,
-        "GUARDIANID":"",
-        "FATCA":this.AR_Form.controls.fatca.value,
-        "CRS":this.AR_Form.controls.crs.value,
-        "PEP":this.AR_Form.controls.pep.value,
-        "PARTICIPATEINASNBMKT":this.AR_Form.controls.news.value,
+        "CELLPHONENUMBER" :this.AR_Form.controls.telephone.value,
         "BANKCODE":this.AR_Form.controls.bankname.value,
         "BANKACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
-        "RELATIONSHIP":"",
-        "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value
+        "GUARDIANID":"",
+        "PEP":this.AR_Form.controls.pep.value,
+        "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
+        "AGENTCODE": "MBB",
+        "BRANCHCODE": "MBBWI001"
       }
 
       this.serviceService.updateDetails(body).subscribe((data: any) => {
@@ -730,43 +756,24 @@ export class UpdatedetailsComponent implements OnInit {
         "CHANNELTYPE":"ASNB KIOSK",
         "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
         "DEVICEOWNER":"ASNB",
-        "UNITHOLDERID":"",
-        "FIRSTNAME": currentMyKidDetails.Name,
+        "UNITHOLDERID": currentBijakHolder.unitholderid,
         "IDENTIFICATIONTYPE":"W",
         "IDENTIFICATIONNUMBER":currentMyKidDetails.ICNo,
-        "AGENTCODE":"ASNB",
-        "BRANCHCODE":"ASNBHQ001",
-        "UHCATEGORY":"",
-        "RACE": this.AR_Form.controls.race.value,
-        "CELLPHONENUMBER": this.AR_Form.controls.telephone.value,
-        "TELEPHONE1": this.AR_Form.controls.homenumber.value,
-        "ADDRESSLINE1": this.AR_Form.controls.address1.value,
-        "ADDRESSLINE2":this.AR_Form.controls.address2.value,
-        "ADDRESSLINE3":this.AR_Form.controls.city.value,
-        "ADDRESSLINE4":this.AR_Form.controls.state.value,
-        "OTHERINFO10":"",
-        "ZIPCODE": this.AR_Form.controls.postcode.value,
-        "DATEOFBIRTH": formatDate(currentMyKidDetails.DOB, 'dd/MM/yyyy', 'en'),
-        "SEX": currentMyKidDetails.Gender.substring(0, 1),
-        "OCCUPATION":this.AR_Form.controls.jobname.value,             //
+        "BANKTXNREFERENCENUMBER":"ASNB20210405",
+        "OCCUPATION":this.AR_Form.controls.jobname.value,
         "EMAIL":this.AR_Form.controls.email.value,
-        "FATHER_SPOUSENAME":"",
         "OTHERINFO8":this.AR_Form.controls.monthlyincome.value,
         "OCCUPATIONSECTOR":this.AR_Form.controls.jobsector.value,
         "OCCUPATIONCATEGORY":this.AR_Form.controls.jobcategory.value,
         "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
-        "COMPANYNAME":this.AR_Form.controls.companyname.value,
-        "TITLE":this.AR_Form.controls.salutation.value,
-        "RELIGION":this.AR_Form.controls.religion.value,
-        "GUARDIANID": currentHolder.unitholderid,
-        "FATCA":this.AR_Form.controls.fatca.value,
-        "CRS":this.AR_Form.controls.crs.value,
-        "PEP":this.AR_Form.controls.pep.value,
-        "PARTICIPATEINASNBMKT":this.AR_Form.controls.news.value,
+        "CELLPHONENUMBER" :this.AR_Form.controls.telephone.value,
         "BANKCODE":this.AR_Form.controls.bankname.value,
         "BANKACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
-        "RELATIONSHIP":this.AR_Form.controls.g_relation.value,
-        "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value
+        "GUARDIANID":currentHolder.unitholderid,
+        "PEP":this.AR_Form.controls.pep.value,
+        "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
+        "AGENTCODE": "MBB",
+        "BRANCHCODE": "MBBWI001"
       }
 
       this.serviceService.updateDetails(body).subscribe((data: any) => {
