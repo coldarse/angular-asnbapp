@@ -15,6 +15,7 @@ import { kActivity } from '../_models/kActivity';
 import { SelectorContext } from '@angular/compiler';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { errorCodes } from '../_models/errorCode';
+import { accessToken } from '../_models/apiToken';
 
 
 declare const loadKeyboard: any;
@@ -97,6 +98,8 @@ export class AccountregistrationComponent implements OnInit {
   NOJ_Warning : boolean = false;
   JN_Warning : boolean = false;
   JC_Warning : boolean = false;
+
+  Email_Visible : boolean = true;
 
   //Page Elements Fixed Values from API and MyKad
   Header_Title = "";
@@ -485,6 +488,8 @@ export class AccountregistrationComponent implements OnInit {
     this.AR_Form.controls.state.enable();
     console.log(this.AR_Form.value);
 
+
+    //currentMyKadDetails.ICNo = "521030135180";
     const body = {
       "CHANNELTYPE":"ASNB KIOSK",
       "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
@@ -538,10 +543,19 @@ export class AccountregistrationComponent implements OnInit {
         this.ARSuccess_4 = currentMyKadDetails.Name;
         this.ARSuccess_6 = data.result.unitholderid;
         this.ARSuccess_8 = formatDate(new Date(), 'dd/MM/yyyy', 'en');
-        this.ARSuccess_10 = "Self";
+        this.ARSuccess_10 = "Sendiri/Self";
       }
       this.ARTNC_Visible = false;
+
+      if (this.AR_Form.controls.email.value == ""){
+        this.Email_Visible = false;
+      }
+      else{
+        this.Email_Visible = true;
+      }
+
       this.ARSuccess_Visible = true;
+
     });
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Submitted Account Registration Form.");
@@ -551,22 +565,64 @@ export class AccountregistrationComponent implements OnInit {
   Print(){
     this.ARSuccess_Visible = false;
     this.ARPrint1_Visible = true;
-    setTimeout(()=>{   
-      this.ARPrint1_Visible = false;
-      this.ARPrint2_Visible = true;
-      setTimeout(() => {
-        this._router.navigate(['transactionsuccessful'])
-      }, 3000);
-    }, 3000);
 
+    const body = {
+      "Transaksi": "Pendaftaran Akaun/Account Registration",
+      "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Lokasi": "KL MAIN 01",
+      "Name": currentMyKadDetails.Name,
+      "NoAkaun": this.ARSuccess_6,
+      "JenisAkaun": this.ARSuccess_10
+    }
+
+    //GetNonFinancialTransactionPrintout
+
+    signalrConnection.connection.invoke('PrintHelpPageAsync', body, "GetNonFinancialTransactionPrintout").then((data: any) => {
+      setTimeout(()=>{   
+        if (data == true){
+          this.ARPrint1_Visible = false;
+          this.ARPrint2_Visible = true;
+          setTimeout(()=>{   
+            this._router.navigate(['transactionsuccessful']);
+          }, 3000);
+        }else{
+          errorCodes.Ecode = "0068";
+          errorCodes.Emessage = "Printing Failed";
+          this._router.navigate(['errorscreen']);
+        }
+      }, 3000);
+    });
   }
 
   Email(){
     this.ARSuccess_Visible = false;
     this.AREmail_Visible = true;
-    setTimeout(() => {
-      this._router.navigate(['transactionsuccessful'])
-    }, 3000);
+
+    const body = {
+      "Transaksi": "Pendaftaran Akaun/Account Registration",
+      "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Lokasi": "KL MAIN 01",
+      "Name": currentMyKadDetails.Name,
+      "NoAkaun": this.ARSuccess_6,
+      "JenisAkaun": this.ARSuccess_10
+    }
+
+    signalrConnection.connection.invoke('EmailHelpPageAsync', body, accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout").then((data: any) => {
+      setTimeout(()=>{   
+        if (data == true){
+          setTimeout(()=>{   
+            this.AREmail_Visible = false;
+            this._router.navigate(['transactionsuccessful']);
+          }, 3000);
+        }else{
+          errorCodes.Ecode = "0069";
+          errorCodes.Emessage = "Email Failed";
+          this._router.navigate(['errorscreen']);
+        }
+      }, 3000);
+    });
   }
 
   TNCDisgree(){

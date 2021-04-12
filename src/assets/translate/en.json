@@ -247,5 +247,6 @@
 	"optionSelect" : "Please Select One.",
 	"BRError_3" : "Bijak Account has already been registered. Please go to the Transaction Menu to start investing.",
 	"CNWarning" : "Company Name is required.",
-	"EAWarning1" : "Email not valid."
+	"EAWarning1" : "Email not valid.",
+	"RMError4_1" : "Please update your account to continue with the transaction."
 }

@@ -162,7 +162,7 @@
 
         </div>
         <div class="col-md-10">
-            <input type="checkbox" id="agreeCheck" name="tncCheck" value="agree">
+            <input type="checkbox" id="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC()">
             <!-- <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">Saya telah membaca dan bersetuju dengan <a href="#" style="text-decoration:none;">Terma & Syarat</a> dan <a href="#" style="text-decoration:none;">Dasar Privasi</a></label><br> -->
             <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">
                 {{'PRTNC_3' | translate }}<a href="#" style="text-decoration:none;">{{'PRTNC_4' | translate }}</a>{{'PRTNC_5' | translate }}<a href="#" style="text-decoration:none;">{{'PRTNC_6' | translate }}</a>
@@ -181,7 +181,7 @@
                     <!-- Tidak Setuju -->
                     {{'BTN_xAgree' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="PR_Agree" (click)="tncAgree()">
+                <button type="button" class="btn btn-next" id="PR_Agree" (click)="tncAgree()" [disabled]="TNCAgreed">
                     <!-- Setuju -->
                     {{'BTN_Agree' | translate }}
                 </button>
@@ -222,6 +222,7 @@
             </div>  
         </div>
     </div>
+
 
     <div class="row" style="padding-left: 4rem; padding-top: 1rem;">
         <div class="col-md-12">
@@ -365,7 +366,7 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 50%;" class="use-keyboard-input">
-                    <button id="TACreq" class="btn btn-primary" style="margin-left: 1rem;">
+                    <button id="TACreq" class="btn btn-primary" style="margin-left: 1rem;" (click)="TACClick()">
                         <!-- Permintaan TAC -->
                         {{'BTN_TAC' | translate }}
                     </button>
@@ -393,11 +394,11 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:1rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="PR_Cancel">
+                <button type="button" class="btn btn-cancel" id="PR_Cancel" (click)="cancelDetails()">
                     <!-- Batal  -->
                     {{'BTN_Cancel' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="PR_Continue">
+                <button type="button" class="btn btn-next" id="PR_Continue" (click)="nextDetails()">
                     <!-- Teruskan -->
                     {{'BTN_Next' | translate }}
                 </button>

@@ -47,6 +47,8 @@ export class PortalregistrationComponent implements OnInit {
   PR_Print2Visible = false;
   PR_EmailVisible = false;
 
+  TNCAgreed = true;
+
 
   Header_Title = "";
 
@@ -171,6 +173,10 @@ export class PortalregistrationComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Cleared Interval.");
   }
 
+  agreeTNC(){
+    this.TNCAgreed = !this.TNCAgreed;
+  }
+
   DetectMyKad() {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
       console.log(data);
@@ -261,6 +267,18 @@ export class PortalregistrationComponent implements OnInit {
     this.PR_Details = true;
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Agreed to Portal Registration Terms and Conditions.");
   }
-}
 
+  cancelDetails(){
+
+  }
+
+  nextDetails(){
+
+  }
+
+  TACClick(){
+    //call 
+  }
+
+}
 

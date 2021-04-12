@@ -19,13 +19,6 @@ import { appFunc } from '../_models/appFunctions';
 import { AppConfiguration } from '../config/app-configuration';
 
 
-// const httpOptions = {
-//   headers: new HttpHeaders({
-//     Authorization: 'Bearer ' + accessToken.token
-//     //Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJhZG1pbkBhc25iLmNvbS5teSIsIkFzcE5ldC5JZGVudGl0eS5TZWN1cml0eVN0YW1wIjoiY2E2Nzg2NjgtZDk1Mi03M2ExLTA2OTMtMzlmYjIzNTE4MGI2IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJzdWIiOiIxIiwianRpIjoiODM2NjEzOWItNzQ2NS00ZWEzLWI3ZDktZjhjZWRmOGU0NGY5IiwiaWF0IjoxNjE2ODEzNTczLCJuYmYiOjE2MTY4MTM1NzMsImV4cCI6MTYxNjg5OTk3MywiaXNzIjoiQVNOQiIsImF1ZCI6IkFTTkIifQ.wQ6ZhPuispL6463ErPBG8CHT7FbRThY-SqlUpZmSqAA'
-//   })
-// }
-
 @Injectable({
   providedIn: 'root'
 })
@@ -111,137 +104,101 @@ export class ServiceService {
     )
   }
 
-  //Post get 5 transaction.
-  getReceiptTemplate(body: any)
+  //Update CIF
+  updateDetails(body: any)
   {
-    body = {
-      "Date": "sample string 1",
-      "Time": "sample string 2",
-      "UNITHOLDERID": "sample string 3",
-      "FIRSTNAME": "sample string 4",
-      "GRANDTOTALUNITBALANCE": 5.1,
-      "GRANDTOTALEPFUNITS": 6.1,
-      "GRANDTOTALLOANUNITS": 7.1,
-      "GRANDTOTALCERTUNITS": 8.1,
-      "GRANDTOTALBLOCKEDUNITS": 9.1,
-      "GRANDTOTALPROVISIONALUNITS": 10.1,
-      "GRANDTOTALUNITS": 11.1,
-      "GRANDTOTALUHHOLDINGS": 12.1,
-      "FUNDS": [
-        {
-          "FUNDID": "sample string 1",
-          "UHHOLDINGS": "sample string 2",
-          "UNITBALANCE": "sample string 3",
-          "EPFUNITS": 4.1,
-          "LOANUNITS": 5.1,
-          "CERTUNITS": 6.1,
-          "BLOCKEDUNITS": 7.1,
-          "TOTALUNITS": "sample string 8",
-          "TRANSACTIONDETAIL": [
-            {
-              "TXNSEQNO": 1,
-              "TRANSACTIONDATE": "sample string 2",
-              "TRANSACTIONCHANNEL": "sample string 3",
-              "BRANCHCODE": "sample string 4",
-              "TRANSACTIONTYPE": "sample string 5",
-              "TRANSACTIONAMOUNT": 6.1,
-              "NAV": 7.1,
-              "SALESCHARGE": 8.1,
-              "GSTAMOUNT": 9.1,
-              "NETAMOUNT": 10.1,
-              "CONFIRMEDUNITS": 11.1,
-              "UNITBALANCE": "sample string 12"
-            },
-            {
-              "TXNSEQNO": 1,
-              "TRANSACTIONDATE": "sample string 2",
-              "TRANSACTIONCHANNEL": "sample string 3",
-              "BRANCHCODE": "sample string 4",
-              "TRANSACTIONTYPE": "sample string 5",
-              "TRANSACTIONAMOUNT": 6.1,
-              "NAV": 7.1,
-              "SALESCHARGE": 8.1,
-              "GSTAMOUNT": 9.1,
-              "NETAMOUNT": 10.1,
-              "CONFIRMEDUNITS": 11.1,
-              "UNITBALANCE": "sample string 12"
-            }
-          ]
-        },
-        {
-          "FUNDID": "sample string 1",
-          "UHHOLDINGS": "sample string 2",
-          "UNITBALANCE": "sample string 3",
-          "EPFUNITS": 4.1,
-          "LOANUNITS": 5.1,
-          "CERTUNITS": 6.1,
-          "BLOCKEDUNITS": 7.1,
-          "TOTALUNITS": "sample string 8",
-          "TRANSACTIONDETAIL": [
-            {
-              "TXNSEQNO": 1,
-              "TRANSACTIONDATE": "sample string 2",
-              "TRANSACTIONCHANNEL": "sample string 3",
-              "BRANCHCODE": "sample string 4",
-              "TRANSACTIONTYPE": "sample string 5",
-              "TRANSACTIONAMOUNT": 6.1,
-              "NAV": 7.1,
-              "SALESCHARGE": 8.1,
-              "GSTAMOUNT": 9.1,
-              "NETAMOUNT": 10.1,
-              "CONFIRMEDUNITS": 11.1,
-              "UNITBALANCE": "sample string 12"
-            },
-            {
-              "TXNSEQNO": 1,
-              "TRANSACTIONDATE": "sample string 2",
-              "TRANSACTIONCHANNEL": "sample string 3",
-              "BRANCHCODE": "sample string 4",
-              "TRANSACTIONTYPE": "sample string 5",
-              "TRANSACTIONAMOUNT": 6.1,
-              "NAV": 7.1,
-              "SALESCHARGE": 8.1,
-              "GSTAMOUNT": 9.1,
-              "NETAMOUNT": 10.1,
-              "CONFIRMEDUNITS": 11.1,
-              "UNITBALANCE": "sample string 12"
-            }
-          ]
-        }
-      ]
-    }
-
-    let result =  this.http.post(
-      this.receipturl + "ssrs/GetStatementPrintout",
-      body,  { responseType: 'arraybuffer' }
-    ).toPromise();
-    
-    return result;
+    return this.http.post(
+      this.url + "services/app/PortalAPI/UpdateDetails",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
   }
 
-  // Sam Testing Purpose
-  // getToken()
-  // {
-  //   const body = 
-  //   {
-  //     "username": "admin",
-  //     "password": "123qwe"
-  //   };
+  //UH Verification
+  unitHolderVerification(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/PortalAPI/UHVerification",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
 
-  //   return this.http.post(this.url + 
-  //     "TokenAuth/Authenticate",
-  //     body)
-  //     .pipe(
-  //       map((response: any) => {
-  //         // console.log(response);
-  //         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `Authenticate Response: ${response}.`);
-  //       }),
-  //       retry(1),       
-  //       catchError(this.handleError),     
-  //     );    
-  // }
 
-  postAccountRegistration(body: any)//: Observable<AccountReg>
+  //TAC Verification
+  tacVerification(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/PortalAPI/TacVerification",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //UH Registration
+  unitHolderRegistration(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/PortalAPI/Registration",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //UH Username Verification
+  unitHolderUsernameVerification(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/PortalAPI/UsernameVerification",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //UH Credential Verification
+  unitHolderCredentialVerification(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/PortalAPI/CredentialVerification",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //UH Change Password
+  unitHolderChangePassword(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/PortalAPI/ChgPwd",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+
+  //Account Registration (Bijak and Major)
+  postAccountRegistration(body: any)
   {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `RegWithoutMinInvestment Request: ${body}.`);
     return this.http.post(
@@ -251,25 +208,8 @@ export class ServiceService {
     );
   }
 
-  // protected processAccountReg(response: any): Observable<AccountReg> {
-  //   const status = response.success;
-  //   if (status) {
-  //       let result200: any = null;
-  //       result200 = UnitHolder.fromJS(response);
-  //       return _observableOf(result200);
-  //   } else {
-  //       return _observableOf(status);
-  //   }
-  // }
-
-  // .pipe(retry(1), _observableMergeMap((response: any) => 
-  //   {
-  //     let result = this.processAccountReg(response);
-  //     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `RegWithoutMinInvestment Response: ${result}.`);
-  //     return result;
-  //   }));
   
-
+  //Account Enquiry (Bijak and Major)
   getAccountInquiry(body: any | undefined): Observable<UnitHolder>
   {
     let kActivit = new kActivity();

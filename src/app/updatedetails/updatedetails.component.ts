@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
@@ -12,6 +12,13 @@ import { ServiceService } from '../_shared/service.service';
 import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
+import { errorCodes } from '../_models/errorCode';
+import { accessToken } from '../_models/apiToken';
+import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
+
+
+declare const loadKeyboard: any;
+declare const deleteKeyboard: any;
 
 @Component({
   selector: 'app-updatedetails',
@@ -19,6 +26,28 @@ import { appFunc } from '../_models/appFunctions';
   styleUrls: ['./updatedetails.component.css']
 })
 export class UpdatedetailsComponent implements OnInit {
+
+  @ViewChild('address1') add1 : ElementRef | undefined;
+  @ViewChild('address2') add2 : ElementRef | undefined;
+  @ViewChild('postcode') postcode : ElementRef | undefined;
+  @ViewChild('homenumber') homeno : ElementRef | undefined;
+  @ViewChild('telephone') phoneno : ElementRef | undefined;
+  @ViewChild('email') email : ElementRef | undefined;
+  @ViewChild('bankaccount') bankno : ElementRef | undefined;
+  @ViewChild('companyname') compname : ElementRef | undefined;
+
+  form_salutation : any = appFunc.titleSalutation;
+  form_races : any = appFunc.races; //
+  form_religion : any = appFunc.religion; //
+  form_states : any = appFunc.states; 
+  form_cities : any = appFunc.cities;
+  form_preferredDelivery : any = appFunc.preferredDelivery;
+  form_bankname : any = appFunc.bankName;
+  form_occupationSector : any = appFunc.occupationSector;//
+  form_occupationName : any = appFunc.occupationName;
+  form_occupationCatergory : any = appFunc.occupationCategory;//
+  form_businessnature : any = appFunc.businessNature;//
+  form_income : any = appFunc.monthlyIncome;//
 
   BTN_Cancel = "";
   BTN_MainMenu = "";
@@ -30,6 +59,9 @@ export class UpdatedetailsComponent implements OnInit {
 
   BTN_Print = "";
   BTN_Email = "";
+
+  isMain = false;
+  Email_Visible = true;
 
   UD1_Visible = true;
   UDForm_Visible = false;
@@ -52,6 +84,24 @@ export class UpdatedetailsComponent implements OnInit {
   ARPostcode_disabled : boolean = true;
   ARCity_disabled : boolean = true;
   ARState_disabled : boolean = true;
+
+
+  address1_Warning : boolean = false;
+  address2_Warning : boolean = false;
+  postcode_Warning : boolean = false;
+
+  telephone_Warning : boolean = false;
+  email_Warning : boolean = false;
+  email_Warning1 : boolean = false;
+  bank_Warning : boolean = false;
+  bankNo_Warning : boolean = false;
+  companyName_Warning : boolean = false;
+
+  MI_Warning : boolean = false;
+  JS_Warning : boolean = false;
+  NOJ_Warning : boolean = false;
+  JN_Warning : boolean = false;
+  JC_Warning : boolean = false;
 
   noAhli = "";
   namaAhli = "";
@@ -154,6 +204,19 @@ export class UpdatedetailsComponent implements OnInit {
   AR_Form: any;
   id: any; 
 
+  city: any;
+  state: any;
+  religion: any;
+  race: any;
+
+  bank: any;
+  occupationCat: any;
+  occupation: any;
+  occupationSect: any;
+  businessNature: any;
+  monthlyIncome: any;
+  companyName: any;
+
   constructor(private _router: Router,
     private translate: TranslateService,
     private fb: FormBuilder,
@@ -180,6 +243,9 @@ export class UpdatedetailsComponent implements OnInit {
       this.DetectMyKad();
     }, 1000);
 
+
+    
+
     let kActivit = new kActivity();
     kActivit.trxno = "";
     kActivit.kioskCode = signalrConnection.kioskCode;
@@ -196,6 +262,7 @@ export class UpdatedetailsComponent implements OnInit {
 
   ngOnDestroy() {
     clearInterval(this.id);
+    deleteKeyboard();
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Cleared Interval.");
   }
 
@@ -256,6 +323,7 @@ export class UpdatedetailsComponent implements OnInit {
   }
 
   UpdateMainAccount(){
+    this.isMain = true;
     let kActivit = new kActivity();
     kActivit.trxno = "";
     kActivit.kioskCode = signalrConnection.kioskCode;
@@ -266,11 +334,19 @@ export class UpdatedetailsComponent implements OnInit {
     kActivit.endTime = new Date();
     kActivit.status = true;
 
+    this.initializeForm("major");
+    this.UD1_Visible = false;
+    this.UDForm_Visible = true;
+    setTimeout(() => {
+      loadKeyboard();
+    }, 2000);
+
     appFunc.kioskActivity.push(kActivit);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Selected Update Main Account.");
   }
 
   UpdateMinor(selectedMinorDetails: any) {
+    this.isMain = false;
     let kActivit = new kActivity();
     kActivit.trxno = "";
     kActivit.kioskCode = signalrConnection.kioskCode;
@@ -293,7 +369,7 @@ export class UpdatedetailsComponent implements OnInit {
       "IDENTIFICATIONTYPE": "W",
       "IDENTIFICATIONNUMBER": "060915101139",
       "FUNDID": "",
-      "INQUIRYCODE": "4",
+      "INQUIRYCODE": "5",
       "TRANSACTIONDATE": "23/12/2019",
       "TRANSACTIONTIME": "15:43:10",
       "BANKTXNREFERENCENUMBER": "20191003001325",
@@ -354,7 +430,72 @@ export class UpdatedetailsComponent implements OnInit {
         kActivit1.endTime = new Date();
         kActivit1.status = true;
 
-        appFunc.kioskActivity.push(kActivit1);
+
+        if (currentBijakHolder.transactionstatus.toLowerCase().includes('successful')){
+        
+          if (!currentBijakHolder.typeclosed.toLowerCase().includes('n')){
+            errorCodes.Ecode = "0168";
+            errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
+            this._router.navigate(['errorscreen']);
+          }
+          else{
+
+            if(currentBijakHolder.unitholderid != "" || currentBijakHolder.unitholderid != undefined){
+              
+              let kActivit2 = new kActivity();
+              kActivit2.trxno = "";
+              kActivit2.kioskCode = signalrConnection.kioskCode;
+              kActivit2.moduleID = 0;
+              kActivit2.submoduleID = undefined;
+              kActivit2.action = "Bijak Unit Holder Exists.";
+              kActivit2.startTime = new Date();
+              kActivit2.endTime = new Date();
+              kActivit2.status = true;
+
+              appFunc.kioskActivity.push(kActivit2);
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update CIF]" + ": " + "Bijak Account Found.");
+
+              
+              this.initializeForm("minor");
+              this.UD1_Visible = false;
+              this.UDBForm_Visible = true;
+              setTimeout(() => {
+                loadKeyboard();
+              }, 2000);
+              appFunc.kioskActivity.push(kActivit1);
+            }
+          }
+
+          
+        }
+        else{
+          if (currentBijakHolder.rejectreason.includes('not exists')){
+            console.log("Reached Here A");
+            let kActivit1 = new kActivity();
+            kActivit1.trxno = "";
+            kActivit1.kioskCode = signalrConnection.kioskCode;
+            kActivit1.moduleID = 0;
+            kActivit1.submoduleID = undefined;
+            kActivit1.action = "Bijak Unit Holder Doesn't Exist.";
+            kActivit1.startTime = new Date();
+            kActivit1.endTime = new Date();
+            kActivit1.status = true;
+
+            appFunc.kioskActivity.push(kActivit1);
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update CIF]" + ": " + "No Bijak account found.");
+
+            errorCodes.Ecode = currentBijakHolder.rejectcode;
+            errorCodes.Emessage = currentBijakHolder.rejectreason;
+            this._router.navigate(['errorscreen']);
+          }
+          else{
+            errorCodes.Ecode = currentBijakHolder.rejectcode;
+            errorCodes.Emessage = currentBijakHolder.rejectreason;
+            this._router.navigate(['errorscreen']);
+          }
+        }
+
+        
      });
 
      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Selected Minor Account Balance. ${currentBijakHolder.firstname}, ${currentBijakHolder.identificationnumber}, ${currentBijakHolder.unitholderid}`);
@@ -362,43 +503,67 @@ export class UpdatedetailsComponent implements OnInit {
 
   noEmailCheck() {
     if (this.AR_Form.controls.noemail.value == false){
+      this.AR_Form.controls.email.reset();
       this.AR_Form.controls.email.disable();
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Checked No Email.");
+      this.AR_Form.controls.deliverystate.setValue('ST');
+      this.AR_Form.controls.deliverystate.disable();
+      if (this.email_Warning == true) this.email_Warning = false;
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Email.");
     }
     else{
       this.AR_Form.controls.email.enable();
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Unchecked No Email.");
+      this.AR_Form.controls.deliverystate.enable();
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Unchecked No Email.");
     }
   }
 
 
   noTelephoneCheck() {
     if (this.AR_Form.controls.notelephone.value == false){
+      this.AR_Form.controls.telephone.reset();
       this.AR_Form.controls.telephone.disable();
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Checked No Telephone.");
+      if (this.telephone_Warning == true) this.telephone_Warning = false;
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Telephone.");
     }
     else{
       this.AR_Form.controls.telephone.enable();
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Unchecked No Telephone.");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Unchecked No Telephone.");
     }
   }
 
   myKadAddress() {
     if (this.AR_Form.controls.mykadaddress.value == false){
+      if (this.address1_Warning == true) this.address1_Warning = false;
+      if (this.address2_Warning == true) this.address2_Warning = false;
+      if (this.postcode_Warning == true) this.postcode_Warning = false;
+
+
+
+      this.AR_Form.controls.address1.setValue(currentMyKadDetails.Address1 + currentMyKadDetails.Address2);
+      this.AR_Form.controls.address2.setValue(currentMyKadDetails.Address3);
+      this.AR_Form.controls.postcode.setValue(currentMyKadDetails.PostCode);
+      this.AR_Form.controls.city.setValue(this.city);
+      this.AR_Form.controls.state.setValue(this.state);
+
+
       this.AR_Form.controls.address1.disable();
       this.AR_Form.controls.address2.disable();
       this.AR_Form.controls.postcode.disable();
       this.AR_Form.controls.city.disable();
       this.AR_Form.controls.state.disable();
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Checked MyKad Address.");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked MyKad Address.");
     }
     else{
+      this.AR_Form.controls.address1.reset();
+      this.AR_Form.controls.address2.reset();
+      this.AR_Form.controls.postcode.reset();
+
       this.AR_Form.controls.address1.enable();
       this.AR_Form.controls.address2.enable();
       this.AR_Form.controls.postcode.enable();
       this.AR_Form.controls.city.enable();
       this.AR_Form.controls.state.enable();
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Unhecked MyKad Address.");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Unhecked MyKad Address.");
     }
   }
 
@@ -413,6 +578,9 @@ export class UpdatedetailsComponent implements OnInit {
     kActivit1.startTime = new Date();
     kActivit1.endTime = new Date();
     kActivit1.status = false;
+
+    this.UDForm_Visible = false;
+    this.UD1_Visible = true;
 
     appFunc.kioskActivity.push(kActivit1);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Back.");
@@ -429,22 +597,301 @@ export class UpdatedetailsComponent implements OnInit {
     kActivit1.endTime = new Date();
     kActivit1.status = false;
 
+    this._router.navigate(['feedbackscreen']);
+
     appFunc.kioskActivity.push(kActivit1);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Cancel.");
   }
 
+  ConfirmNo(){
+    this.UDConfirm_Visible = false;
+  }
+
+  ConfirmYes(){
+    if(this.isMain){
+      let kActivit = new kActivity();
+      kActivit.trxno = "";
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Started Update Account.";
+      kActivit.startTime = new Date();
+      kActivit.endTime = new Date();
+      kActivit.status = true;
+
+      appFunc.kioskActivity.push(kActivit);
+
+      this.AR_Form.controls.fullname.enable();
+      this.AR_Form.controls.identificationcardno.enable();
+      this.AR_Form.controls.dob.enable();
+      this.AR_Form.controls.race.enable();
+      this.AR_Form.controls.religion.enable();
+      this.AR_Form.controls.address1.enable();
+      this.AR_Form.controls.address2.enable();
+      this.AR_Form.controls.postcode.enable();
+      this.AR_Form.controls.city.enable();
+      this.AR_Form.controls.state.enable();
+      console.log(this.AR_Form.value);
+
+
+      //currentMyKadDetails.ICNo = "521030135180";
+      const body = {
+        "CHANNELTYPE":"ASNB KIOSK",
+        "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+        "DEVICEOWNER":"ASNB",
+        "UNITHOLDERID":"",
+        "FIRSTNAME": currentMyKadDetails.Name,
+        "IDENTIFICATIONTYPE":"W",
+        "IDENTIFICATIONNUMBER":currentMyKadDetails.ICNo,
+        "AGENTCODE":"ASNB",
+        "BRANCHCODE":"ASNBHQ001",
+        "UHCATEGORY":"",
+        "RACE": this.AR_Form.controls.race.value,
+        "CELLPHONENUMBER": this.AR_Form.controls.telephone.value,
+        "TELEPHONE1": this.AR_Form.controls.homenumber.value,
+        "ADDRESSLINE1": this.AR_Form.controls.address1.value,
+        "ADDRESSLINE2":this.AR_Form.controls.address2.value,
+        "ADDRESSLINE3":this.AR_Form.controls.city.value,
+        "ADDRESSLINE4":this.AR_Form.controls.state.value,
+        "OTHERINFO10":"",
+        "ZIPCODE": this.AR_Form.controls.postcode.value,
+        "DATEOFBIRTH": formatDate(currentMyKadDetails.DOB, 'dd/MM/yyyy', 'en'),
+        "SEX": currentMyKadDetails.Gender.substring(0, 1),
+        "OCCUPATION":this.AR_Form.controls.jobname.value,             //
+        "EMAIL":this.AR_Form.controls.email.value,
+        "FATHER_SPOUSENAME":"",
+        "OTHERINFO8":this.AR_Form.controls.monthlyincome.value,
+        "OCCUPATIONSECTOR":this.AR_Form.controls.jobsector.value,
+        "OCCUPATIONCATEGORY":this.AR_Form.controls.jobcategory.value,
+        "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
+        "COMPANYNAME":this.AR_Form.controls.companyname.value,
+        "TITLE":this.AR_Form.controls.salutation.value,
+        "RELIGION":this.AR_Form.controls.religion.value,
+        "GUARDIANID":"",
+        "FATCA":this.AR_Form.controls.fatca.value,
+        "CRS":this.AR_Form.controls.crs.value,
+        "PEP":this.AR_Form.controls.pep.value,
+        "PARTICIPATEINASNBMKT":this.AR_Form.controls.news.value,
+        "BANKCODE":this.AR_Form.controls.bankname.value,
+        "BANKACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
+        "RELATIONSHIP":"",
+        "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value
+      }
+
+      this.serviceService.updateDetails(body).subscribe((data: any) => {
+        console.log(data);
+        if(data.result.transactionstatus.toLowerCase().includes('reject')){
+          errorCodes.Ecode = data.result.rejectcode;
+          errorCodes.Emessage = data.result.rejectreason;
+          this._router.navigate(['errorscreen']);
+        }else{
+          if (this.AR_Form.controls.email.value == ""){
+            this.Email_Visible = false;
+          }
+          else{
+            this.Email_Visible = true;
+          }
+  
+          this.UDForm_Visible = false;
+          this.UDSuccess_Visible = true;
+        }
+      });
+
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update CIF]" + ": " + "Submitted Update Account Form.");
+    
+    }else{
+      let kActivit = new kActivity();
+      kActivit.trxno = "";
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Started Update Bijak.";
+      kActivit.startTime = new Date();
+      kActivit.endTime = new Date();
+      kActivit.status = true;
+
+      appFunc.kioskActivity.push(kActivit);
+
+      this.AR_Form.controls.fullname.enable();
+      this.AR_Form.controls.identificationcardno.enable();
+      this.AR_Form.controls.dob.enable();
+      this.AR_Form.controls.race.enable();
+      this.AR_Form.controls.religion.enable();
+      this.AR_Form.controls.address1.enable();
+      this.AR_Form.controls.address2.enable();
+      this.AR_Form.controls.postcode.enable();
+      this.AR_Form.controls.city.enable();
+      this.AR_Form.controls.state.enable();
+
+
+      console.log(this.AR_Form.value);
+
+      const body = {
+        "CHANNELTYPE":"ASNB KIOSK",
+        "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+        "DEVICEOWNER":"ASNB",
+        "UNITHOLDERID":"",
+        "FIRSTNAME": currentMyKidDetails.Name,
+        "IDENTIFICATIONTYPE":"W",
+        "IDENTIFICATIONNUMBER":currentMyKidDetails.ICNo,
+        "AGENTCODE":"ASNB",
+        "BRANCHCODE":"ASNBHQ001",
+        "UHCATEGORY":"",
+        "RACE": this.AR_Form.controls.race.value,
+        "CELLPHONENUMBER": this.AR_Form.controls.telephone.value,
+        "TELEPHONE1": this.AR_Form.controls.homenumber.value,
+        "ADDRESSLINE1": this.AR_Form.controls.address1.value,
+        "ADDRESSLINE2":this.AR_Form.controls.address2.value,
+        "ADDRESSLINE3":this.AR_Form.controls.city.value,
+        "ADDRESSLINE4":this.AR_Form.controls.state.value,
+        "OTHERINFO10":"",
+        "ZIPCODE": this.AR_Form.controls.postcode.value,
+        "DATEOFBIRTH": formatDate(currentMyKidDetails.DOB, 'dd/MM/yyyy', 'en'),
+        "SEX": currentMyKidDetails.Gender.substring(0, 1),
+        "OCCUPATION":this.AR_Form.controls.jobname.value,             //
+        "EMAIL":this.AR_Form.controls.email.value,
+        "FATHER_SPOUSENAME":"",
+        "OTHERINFO8":this.AR_Form.controls.monthlyincome.value,
+        "OCCUPATIONSECTOR":this.AR_Form.controls.jobsector.value,
+        "OCCUPATIONCATEGORY":this.AR_Form.controls.jobcategory.value,
+        "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
+        "COMPANYNAME":this.AR_Form.controls.companyname.value,
+        "TITLE":this.AR_Form.controls.salutation.value,
+        "RELIGION":this.AR_Form.controls.religion.value,
+        "GUARDIANID": currentHolder.unitholderid,
+        "FATCA":this.AR_Form.controls.fatca.value,
+        "CRS":this.AR_Form.controls.crs.value,
+        "PEP":this.AR_Form.controls.pep.value,
+        "PARTICIPATEINASNBMKT":this.AR_Form.controls.news.value,
+        "BANKCODE":this.AR_Form.controls.bankname.value,
+        "BANKACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
+        "RELATIONSHIP":this.AR_Form.controls.g_relation.value,
+        "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value
+      }
+
+      this.serviceService.updateDetails(body).subscribe((data: any) => {
+        console.log(data);
+        if(data.result.transactionstatus.toLowerCase().includes('reject')){
+          errorCodes.Ecode = data.result.rejectcode;
+          errorCodes.Emessage = data.result.rejectreason;
+          this._router.navigate(['errorscreen']);
+        }else{
+          if (this.AR_Form.controls.email.value == ""){
+            this.Email_Visible = false;
+          }
+          else{
+            this.Email_Visible = true;
+          }
+  
+          this.UDForm_Visible = false;
+          this.UDSuccess_Visible = true;
+        }
+      });
+
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Submitted Bijak Registration Form.");
+    
+    }
+  }
+
   majorUpdateNext(){
+    let a1 = this.AR_Form.get('address1').value;
+    let a2 = this.AR_Form.get('address2').value;
+    let postcode = this.AR_Form.get('postcode').value;
+    let city = this.AR_Form.get('city').value;
+    let state = this.AR_Form.get('state').value;
+
+    this.AR_Form.controls.address1.setValue(this.add1?.nativeElement.value);
+    this.AR_Form.controls.address2.setValue(this.add2?.nativeElement.value);
+    this.AR_Form.controls.postcode.setValue(this.postcode?.nativeElement.value);
+    this.AR_Form.controls.homenumber.setValue(this.homeno?.nativeElement.value);
+    this.AR_Form.controls.telephone.setValue(this.phoneno?.nativeElement.value);
+    this.AR_Form.controls.email.setValue(this.email?.nativeElement.value);
+    this.AR_Form.controls.bankaccount.setValue(this.bankno?.nativeElement.value);
+    this.AR_Form.controls.companyname.setValue(this.compname?.nativeElement.value);
+
+    this.address1_Warning = false;
+    this.address2_Warning = false;
+    this.postcode_Warning = false;
+
+    this.telephone_Warning = false;
+    this.email_Warning = false;
+    this.email_Warning1 = false;
+    this.bank_Warning = false;
+    this.bankNo_Warning = false;
+    this.companyName_Warning = false;
+
+    this.MI_Warning = false;
+    this.JS_Warning = false;
+    this.NOJ_Warning = false;
+    this.JN_Warning = false;
+    this.JC_Warning = false;
+
+    this.AR_Form.controls.address1.setValue(a1);
+    this.AR_Form.controls.address2.setValue(a2);
+    this.AR_Form.controls.postcode.setValue(postcode);
+    this.AR_Form.controls.city.setValue(city);
+    this.AR_Form.controls.state.setValue(state);
+
+
     let x = 0
     Object.keys(this.AR_Form.controls).forEach(key => {
       if(this.AR_Form.controls[key].hasError('required')){
-        x += 1;
+        x += 1
+        if(key.includes('telephone')){
+          this.telephone_Warning = true;
+        }
+        else if(key.includes('email')){
+          this.email_Warning = true;
+        }
+        else if(key.includes('bankaccount')){
+          this.bankNo_Warning = true;
+        }
+        else if(key.includes('companyname')){
+          this.companyName_Warning = true;
+        }
+
+        else if(key.includes('address1')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.address1_Warning = true;
+        }
+        else if(key.includes('address2')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.address2_Warning = true;
+        }
+        else if(key.includes('postcode')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.postcode_Warning = true;
+        }
+      }
+      else if (this.AR_Form.controls[key].hasError('pattern')){
+        if(key.includes('email')){
+          this.email_Warning1 = true;
+        }
+      }
+      else {
+        if(key.includes('bankname') && (this.AR_Form.controls.bankname.value == '')){
+          this.bank_Warning = true;
+        }
+        else if(key.includes('jobcategory') && (this.AR_Form.controls.bankname.value == '')){
+          this.JC_Warning = true;
+        }
+        else if(key.includes('jobname') && (this.AR_Form.controls.bankname.value == '')){
+          this.JN_Warning = true;
+        }
+        else if(key.includes('natureofjob') && (this.AR_Form.controls.bankname.value == '')){
+          this.NOJ_Warning = true;
+        }
+        else if(key.includes('jobsector') && (this.AR_Form.controls.bankname.value == '')){
+          this.JS_Warning = true;
+        }
+        else if(key.includes('monthlyincome') && (this.AR_Form.controls.bankname.value == '')){
+          this.MI_Warning = true;
+        }
       }
     })
     if (x > 0){
       console.log("Error");
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Major Form: ${x} field(s) empty.`);
-    }
-    else{
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
+    }else{
+      this.UDConfirm_Visible = true;
+
       let kActivit1 = new kActivity();
       kActivit1.trxno = "";
       kActivit1.kioskCode = signalrConnection.kioskCode;
@@ -466,7 +913,8 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.postcode.enable();
       this.AR_Form.controls.city.enable();
       this.AR_Form.controls.state.enable();
-      console.log(this.AR_Form.value);
+      //console.log(this.AR_Form.value);
+
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Submit.");
     }
   }
@@ -482,6 +930,9 @@ export class UpdatedetailsComponent implements OnInit {
     kActivit1.endTime = new Date();
     kActivit1.status = false;
 
+    this.UDBForm_Visible = false;
+    this.UD1_Visible = true;
+
     appFunc.kioskActivity.push(kActivit1);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Cancel.");
   }
@@ -496,6 +947,8 @@ export class UpdatedetailsComponent implements OnInit {
     kActivit1.startTime = new Date();
     kActivit1.endTime = new Date();
     kActivit1.status = false;
+
+    this._router.navigate(['feedbackscreen']);
 
     appFunc.kioskActivity.push(kActivit1);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Cancel.");
@@ -513,6 +966,8 @@ export class UpdatedetailsComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Bijak Form: ${x} field(s) empty.`);
     }
     else{
+      this.UDConfirm_Visible = true;
+
       let kActivit1 = new kActivity();
       kActivit1.trxno = "";
       kActivit1.kioskCode = signalrConnection.kioskCode;
@@ -529,12 +984,6 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.dob.enable();
       this.AR_Form.controls.race.enable();
       this.AR_Form.controls.religion.enable();
-      this.AR_Form.controls.g_memberid.enable();
-      this.AR_Form.controls.g_fullname.enable();
-      this.AR_Form.controls.g_identificationnumber.enable();
-      this.AR_Form.controls.g_dob.enable();
-      this.AR_Form.controls.g_race.enable();
-      this.AR_Form.controls.g_religion.enable();
       this.AR_Form.controls.address1.enable();
       this.AR_Form.controls.address2.enable();
       this.AR_Form.controls.postcode.enable();
@@ -549,99 +998,196 @@ export class UpdatedetailsComponent implements OnInit {
     if (acctType == 'major'){
       this.AR_Form = this.fb.group(
         {
-          salutation: ['Datuk'],
-          fullname: [{value: currentMyKadDetails.Name, disabled: true}],
-          identificationcardno: [{value: currentMyKadDetails.ICNo, disabled: true}],
-          dob: [{value: formatDate(currentMyKadDetails.DOB, 'dd MMM yyyy', 'en'), disabled: true}],
-          race: [{value: currentMyKadDetails.Race, disabled: true}],
-          religion: [{value: currentMyKadDetails.Religion, disabled: true}],
-  
-          address1 : [{value: currentMyKadDetails.Address1 + currentMyKadDetails.Address2, disabled: true}],
-          address2 : [{value: currentMyKadDetails.Address3, disabled: true}],
-          postcode : [{value: currentMyKadDetails.PostCode, disabled: true}],
-          city : [{value: currentMyKadDetails.City, disabled: true}],
-          state : [{value: currentMyKadDetails.State, disabled: true}],
-          mykadaddress: [true],
-  
-          homenumber : ['', Validators.required],
-          // telephone: ['', Validators.required],
-          telephone: new FormControl('', Validators.required),
+          salutation: ['EN'],
+          fullname: [{value: currentHolder.firstname, disabled: true}],
+          identificationcardno: [{value: currentHolder.identificationnumber, disabled: true}],
+          dob: [{value: formatDate(currentHolder.dateofbirth, 'dd MMM yyyy', 'en'), disabled: true}],
+          race: [{value: this.race, disabled: true}],
+          religion: [{value: this.religion, disabled: true}],
+
+          address1 : [{value: currentHolder.addresslinE1, disabled: true}, Validators.required],
+          address2 : [{value: currentHolder.addresslinE2, disabled: true}, Validators.required],
+          postcode : [{value: currentHolder.zipcode, disabled: true}, Validators.required],
+          city : [{value: currentHolder.addresslinE3, disabled: true}],
+          state : [{value: currentHolder.addresslinE4, disabled: true}],
+          mykadaddress: [{value: true, disabled: true}],
+
+          homenumber : [currentHolder.telephonE1],
+          telephone: [currentHolder.cellphonenumber , Validators.required],
           notelephone: [false],
-  
-          email: ['', Validators.required],
+
+          email: [currentHolder.email, [
+            Validators.required,
+            Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
           noemail: [false],
-          deliverystate: ['Sila Pilih Satu'],
-  
-          bankname: ['Sila Pilih Satu'],
-          bankaccount: ['', Validators.required],
-  
-          jobcategory: ['Sila Pilih Satu'],
-          jobname: ['Sila Pilih Satu'],
-          natureofjob: ['Sila Pilih Satu'],
-          jobsector: ['Sila Pilih Satu'],
-          monthlyincome: ['Sila Pilih Satu'],
-          companyname: ['', Validators.required],
-  
-          fatca: ['No'],
-          pep: ['No'],
-          news: ['No'],
-          crs: ['No'],
-      });
+          deliverystate: [currentHolder.preferredmailmode],
+
+          bankname: [currentHolder.bankcode],
+          bankaccount: [currentHolder.accountnumber, Validators.required],
+
+          jobcategory: [currentHolder.occupationcategory],
+          jobname: [currentHolder.occupation],
+          natureofjob: [currentHolder.natureofbusiness],
+          jobsector: [currentHolder.occupationsector],
+          monthlyincome: [currentHolder.otherinfO8],
+          companyname: [currentHolder.companyname, Validators.required],
+
+          fatca: [{value: currentHolder.fatca, disabled: true}],
+          pep: [{value: currentHolder.pep, disabled: true}],
+          news: [{value: currentHolder.participateinasnbmkt, disabled: true}],
+          crs: [{value: currentHolder.crs, disabled: true}],
+        });
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Major Form")
     }
     else if (acctType == 'minor'){
       this.AR_Form = this.fb.group(
         {
-          salutation: ['Datuk'],
-          fullname: [{value: currentMyKidDetails.Name, disabled: true}],
-          identificationcardno: [{value: currentMyKidDetails.ICNo, disabled: true}],
-          dob: [{value: formatDate(currentMyKidDetails.DOB, 'dd MMM yyyy', 'en'), disabled: true}],
-          race: [{value: currentMyKidDetails.FathersRace, disabled: true}],
-          religion: [{value: currentMyKidDetails.FathersReligion, disabled: true}],
-  
-          g_memberid: [{value: currentHolder.unitholderid, disabled: true}],
-          g_salution: [{value: 'Datuk', disabled: false}],
-          g_fullname: [{value: currentMyKadDetails.Name, disabled: true}],
-          g_identificationnumber: [{value: currentMyKadDetails.ICNo, disabled: true}],
-          g_dob: [{value: currentMyKadDetails.DOB, disabled: true}],
-          g_race: [{value: currentMyKadDetails.Race, disabled: true}],
-          g_religion: [{value: currentMyKadDetails.Religion, disabled: true}],
-          g_relation: [{value: 'Sila Pilih Satu', disabled: false}],
-  
-          address1 : [{value: currentMyKidDetails.Address1 + currentMyKidDetails.Address2, disabled: true}],
-          address2 : [{value: currentMyKidDetails.Address3, disabled: true}],
-          postcode : [{value: currentMyKidDetails.PostCode, disabled: true}],
-          city : [{value: currentMyKidDetails.City, disabled: true}],
-          state : [{value: currentMyKidDetails.State, disabled: true}],
-          mykadaddress: [true],
-  
-          homenumber : ['', Validators.required],
-          telephone: ['', Validators.required],
-          notelephone: [false],
-  
-          email: ['', Validators.required],
-          noemail: [false],
-          deliverystate: ['Sila Pilih Satu'],
-  
-          bankname: ['Sila Pilih Satu'],
-          bankaccount: ['', Validators.required],
-  
-          jobcategory: ['Sila Pilih Satu'],
-          jobname: ['Sila Pilih Satu'],
-          natureofjob: ['Sila Pilih Satu'],
-          jobsector: ['Sila Pilih Satu'],
-          monthlyincome: ['Sila Pilih Satu'],
-          companyname: ['', Validators.required],
-  
-          fatca: ['No'],
-          pep: ['No'],
-          news: ['No'],
-          crs: ['No'],
+          salutation: [currentBijakHolder.title],
+          fullname: [{value: currentBijakHolder.firstname, disabled: true}],
+          identificationcardno: [{value: currentBijakHolder.identificationnumber, disabled: true}],
+          dob: [{value: formatDate(currentBijakHolder.dateofbirth, 'dd MMM yyyy', 'en'), disabled: true}],
+          race: [{value: currentBijakHolder.race, disabled: true}],
+          religion: [{value: currentBijakHolder.religion, disabled: true}],
 
-      });
+          g_memberid: [{value: currentHolder.unitholderid, disabled: true}],
+          g_salution: [currentHolder.title],
+          g_fullname: [{value: currentHolder.firstname, disabled: true}],
+          g_identificationnumber: [{value: currentHolder.identificationnumber, disabled: true}],
+          g_dob: [{value: formatDate(currentHolder.dateofbirth, 'dd MMM yyyy', 'en'), disabled: true}],
+          g_race: [{value: currentHolder.race, disabled: true}],
+          g_religion: [{value: currentHolder.religion, disabled: true}],
+          g_relation: [{value: currentBijakHolder.relationship, disabled: false}],
+
+          address1 : [{value: currentBijakHolder.addresslinE1, disabled: true}],
+          address2 : [{value: currentBijakHolder.addresslinE2, disabled: true}],
+          postcode : [{value: currentBijakHolder.zipcode, disabled: true}],
+          city : [{value: currentBijakHolder.addresslinE3, disabled: true}],
+          state : [{value: currentBijakHolder.addresslinE4, disabled: true}],
+          mykadaddress: [{value: true, disabled: true}],
+
+          homenumber : [{value: currentBijakHolder.telephonE1, disabled: true}],
+          telephone: [currentBijakHolder.cellphonenumber, Validators.required],
+          notelephone: [false],
+
+          email: [currentBijakHolder.email, [
+            Validators.required,
+            Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+          noemail: [false],
+          deliverystate: [currentBijakHolder.preferredmailmode],
+
+          bankname: [{value: currentBijakHolder.bankcode, disabled: true}],
+          bankaccount: [{value: currentBijakHolder.accountnumber, disabled: true}],
+
+          jobcategory: [{value: currentBijakHolder.occupationcategory, disabled: true}],
+          jobname: [{value: currentBijakHolder.occupation, disabled: true}],
+          natureofjob: [{value: currentBijakHolder.natureofbusiness, disabled: true}],
+          jobsector: [{value: currentBijakHolder.occupationsector, disabled: true}],
+          monthlyincome: [{value: currentBijakHolder.otherinfO8, disabled: true}],
+          companyname: [{value: currentBijakHolder.companyname, disabled: true}],
+
+          fatca: [{value: currentBijakHolder.fatca, disabled: true}],
+          pep: [{value: currentBijakHolder.pep, disabled: true}],
+          news: [{value: currentBijakHolder.participateinasnbmkt, disabled: true}],
+          crs: [{value: currentBijakHolder.crs, disabled: true}],
+        });
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Bijak Form")
     }
     
   }  
+
+
+  Print(){
+    this.UDSuccess_Visible = false;
+    this.UD_Print1Visible = true;
+
+    let name = "";
+    let accountNo = "";
+    let accountType = "";
+    
+    if (this.isMain){
+      name = currentMyKadDetails.Name;
+      accountNo = currentHolder.unitholderid;
+      accountType = "Self";
+    }else{
+      name = currentMyKidDetails.Name;
+      accountNo = currentBijakHolder.unitholderid;
+      accountType = "Bijak";
+    }
+
+
+    const body = {
+      "Transaksi": "Pendaftaran Akaun/Account Registration",
+      "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Lokasi": "KL MAIN 01",
+      "Name": name,
+      "NoAkaun": accountNo,
+      "JenisAkaun": accountType
+    }
+
+    //GetNonFinancialTransactionPrintout
+
+    signalrConnection.connection.invoke('PrintHelpPageAsync', body, "GetNonFinancialTransactionPrintout").then((data: any) => {
+      setTimeout(()=>{   
+        if (data == true){
+          this.UD_Print1Visible = false;
+          this.UD_Print2Visible = true;
+          setTimeout(()=>{   
+            this._router.navigate(['transactionsuccessful']);
+          }, 3000);
+        }else{
+          errorCodes.Ecode = "0068";
+          errorCodes.Emessage = "Printing Failed";
+          this._router.navigate(['errorscreen']);
+        }
+      }, 3000);
+    });
+  }
+
+  Email(){
+    this.UDSuccess_Visible = false;
+    this.UD_EmailVisible = true;
+
+    let name = "";
+    let accountNo = "";
+    let accountType = "";
+    
+    if (this.isMain){
+      name = currentMyKadDetails.Name;
+      accountNo = currentHolder.unitholderid;
+      accountType = "Self";
+    }else{
+      name = currentMyKidDetails.Name;
+      accountNo = currentBijakHolder.unitholderid;
+      accountType = "Bijak";
+    }
+
+    const body = {
+      "Transaksi": "Pendaftaran Akaun/Account Registration",
+      "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Lokasi": "KL MAIN 01",
+      "Name": name,
+      "NoAkaun": accountNo,
+      "JenisAkaun": accountType
+    }
+
+    signalrConnection.connection.invoke('EmailHelpPageAsync', body, accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout").then((data: any) => {
+      setTimeout(()=>{   
+        if (data == true){
+          setTimeout(()=>{   
+            this.UD_EmailVisible = false;
+            this._router.navigate(['transactionsuccessful']);
+          }, 3000);
+        }else{
+          errorCodes.Ecode = "0069";
+          errorCodes.Emessage = "Email Failed";
+          this._router.navigate(['errorscreen']);
+        }
+      }, 3000);
+    });
+  }
+
+  
 
 }

@@ -56,6 +56,7 @@ export class VerifymykadComponent implements OnInit {
   loadingVisible = false;
   readThumbprintVisible = false;
   insertMykadVisible = true;
+  RMError4_Visible = false;
 
   //Initializing SignalR properties
   _conn: any;
@@ -408,6 +409,11 @@ export class VerifymykadComponent implements OnInit {
 
  //660322107550
 
+
+  nextToUpdate() {
+    this._router.navigate(['updatedetails']);
+  }
+
   getAccountInquiry(): void {
     try{
 
@@ -415,23 +421,23 @@ export class VerifymykadComponent implements OnInit {
       
       const body = { 
 
-        "CHANNELTYPE": "ASNB KIOSK",
-        "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
-        "DEVICEOWNER": "ASNB",
-        "UNITHOLDERID": "",
-        "FIRSTNAME": "",
-        "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
-        "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
-        "FUNDID": "",
-        "INQUIRYCODE": "5",
-        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-        "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
-        "BANKCUSTPHONENUMBER": "",
-        "FILTRATIONFLAG": "1",
-        "GUARDIANID": "",
-        "GUARDIANICTYPE": "",
-        "GUARDIANICNUMBER": ""
+        // "CHANNELTYPE": "ASNB KIOSK",
+        // "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+        // "DEVICEOWNER": "ASNB",
+        // "UNITHOLDERID": "",
+        // "FIRSTNAME": "",
+        // "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
+        // "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
+        // "FUNDID": "",
+        // "INQUIRYCODE": "5",
+        // "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        // "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        // "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
+        // "BANKCUSTPHONENUMBER": "",
+        // "FILTRATIONFLAG": "1",
+        // "GUARDIANID": "",
+        // "GUARDIANICTYPE": "",
+        // "GUARDIANICNUMBER": ""
 
         // "CHANNELTYPE": "ASNB KIOSK",
         // "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
@@ -450,6 +456,24 @@ export class VerifymykadComponent implements OnInit {
         // "GUARDIANID": "",
         // "GUARDIANICTYPE": "",
         // "GUARDIANICNUMBER": ""
+
+        "CHANNELTYPE": "ASNB KIOSK",
+        "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+        "DEVICEOWNER": "ASNB",
+        "UNITHOLDERID": "",
+        "FIRSTNAME": "",
+        "IDENTIFICATIONTYPE": "W",
+        "IDENTIFICATIONNUMBER": "521030135180",
+        "FUNDID": "",
+        "INQUIRYCODE": "5",
+        "TRANSACTIONDATE": "26/3/2021",
+        "TRANSACTIONTIME": "15:43:10",
+        "BANKTXNREFERENCENUMBER": "20191003001325",
+        "BANKCUSTPHONENUMBER": "",
+        "FILTRATIONFLAG": "1",
+        "GUARDIANID": "",
+        "GUARDIANICTYPE": "",
+        "GUARDIANICNUMBER": ""
 
   
        };
@@ -576,45 +600,74 @@ export class VerifymykadComponent implements OnInit {
             this._router.navigate(['errorscreen']);
           }
           else{
-            //Scenario 1: Unit Holder Not Exist
-            
-            //Scenario 2: FundID = ""
-            if (currentHolder.funddetail.length == 0 && currentHolder.unitholderid != undefined){
-              console.log("Reached Here B");
+            if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
               let kActivit2 = new kActivity();
               kActivit2.trxno = "";
               kActivit2.kioskCode = signalrConnection.kioskCode;
               kActivit2.moduleID = 0;
               kActivit2.submoduleID = undefined;
-              kActivit2.action = "Unit Holder Exists but does not have any Funds.";
+              kActivit2.action = "Unit Holder Exists.";
               kActivit2.startTime = new Date();
               kActivit2.endTime = new Date();
               kActivit2.status = true;
 
               appFunc.kioskActivity.push(kActivit2);
-              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found, But no Fund.");
-              this._router.navigate(['transactionmenu']);
-            }
-            //Scenario 3: FundID & UnitHolderID exists
-            else if (currentHolder.funddetail.length > 0 && currentHolder.unitholderid != undefined){
-              console.log("Reached Here C");
-              let kActivit3 = new kActivity();
-              kActivit3.trxno = "";
-              kActivit3.kioskCode = signalrConnection.kioskCode;
-              kActivit3.moduleID = 0;
-              kActivit3.submoduleID = undefined;
-              kActivit3.action = "Unit Holder Exists.";
-              kActivit3.startTime = new Date();
-              kActivit3.endTime = new Date();
-              kActivit3.status = true;
-
-              appFunc.kioskActivity.push(kActivit3);
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found.");
-              this._router.navigate(['transactionmenu']);
-            }
-          }
 
-          
+              if (
+                (currentHolder.occupationcategory == "" || currentHolder.occupationcategory == undefined) ||
+                (currentHolder.occupation == "" || currentHolder.occupation == undefined) ||
+                (currentHolder.natureofbusiness == "" || currentHolder.natureofbusiness == undefined) ||
+                (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
+                (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
+                (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
+                (currentHolder.email == "" || currentHolder.email == undefined) ||
+                (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined) ||
+                (currentHolder.preferredmailmode == "" || currentHolder.preferredmailmode == undefined) ||
+                (currentHolder.bankcode == "" || currentHolder.bankcode == undefined) ||
+                (currentHolder.accountnumber == "" || currentHolder.accountnumber == undefined) 
+              ){
+                this.loadingVisible = false;
+                this.RMError4_Visible = true;
+              }else{
+                this._router.navigate(['transactionmenu']);
+              }
+            }
+            // //Scenario 2: FundID = ""
+            // if (currentHolder.funddetail.length == 0 && currentHolder.unitholderid != undefined){
+            //   console.log("Reached Here B");
+            //   let kActivit2 = new kActivity();
+            //   kActivit2.trxno = "";
+            //   kActivit2.kioskCode = signalrConnection.kioskCode;
+            //   kActivit2.moduleID = 0;
+            //   kActivit2.submoduleID = undefined;
+            //   kActivit2.action = "Unit Holder Exists but does not have any Funds.";
+            //   kActivit2.startTime = new Date();
+            //   kActivit2.endTime = new Date();
+            //   kActivit2.status = true;
+
+            //   appFunc.kioskActivity.push(kActivit2);
+            //   signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found, But no Fund.");
+            //   this._router.navigate(['transactionmenu']);
+            // }
+            // //Scenario 3: FundID & UnitHolderID exists
+            // else if (currentHolder.funddetail.length > 0 && currentHolder.unitholderid != undefined){
+            //   console.log("Reached Here C");
+            //   let kActivit3 = new kActivity();
+            //   kActivit3.trxno = "";
+            //   kActivit3.kioskCode = signalrConnection.kioskCode;
+            //   kActivit3.moduleID = 0;
+            //   kActivit3.submoduleID = undefined;
+            //   kActivit3.action = "Unit Holder Exists.";
+            //   kActivit3.startTime = new Date();
+            //   kActivit3.endTime = new Date();
+            //   kActivit3.status = true;
+
+            //   appFunc.kioskActivity.push(kActivit3);
+            //   signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found.");
+            //   this._router.navigate(['transactionmenu']);
+            // }
+          }
         }
         else{
           if (currentHolder.rejectreason.includes('not exists')){
@@ -648,23 +701,23 @@ export class VerifymykadComponent implements OnInit {
 
               const body = { 
 
-                "CHANNELTYPE": "ASNB KIOSK",
-                "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
-                "DEVICEOWNER": "ASNB",
-                "UNITHOLDERID": "",
-                "FIRSTNAME": "",
-                "IDENTIFICATIONTYPE": "OL",
-                "IDENTIFICATIONNUMBER": currentMyKadDetails.OldICNo,
-                "FUNDID": "",
-                "INQUIRYCODE": "5",
-                "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-                "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-                "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
-                "BANKCUSTPHONENUMBER": "",
-                "FILTRATIONFLAG": "1",
-                "GUARDIANID": "",
-                "GUARDIANICTYPE": "",
-                "GUARDIANICNUMBER": ""
+                // "CHANNELTYPE": "ASNB KIOSK",
+                // "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+                // "DEVICEOWNER": "ASNB",
+                // "UNITHOLDERID": "",
+                // "FIRSTNAME": "",
+                // "IDENTIFICATIONTYPE": "OL",
+                // "IDENTIFICATIONNUMBER": currentMyKadDetails.OldICNo,
+                // "FUNDID": "",
+                // "INQUIRYCODE": "5",
+                // "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+                // "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+                // "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
+                // "BANKCUSTPHONENUMBER": "",
+                // "FILTRATIONFLAG": "1",
+                // "GUARDIANID": "",
+                // "GUARDIANICTYPE": "",
+                // "GUARDIANICNUMBER": ""
         
                 // "CHANNELTYPE": "ASNB KIOSK",
                 // "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
@@ -683,6 +736,24 @@ export class VerifymykadComponent implements OnInit {
                 // "GUARDIANID": "",
                 // "GUARDIANICTYPE": "",
                 // "GUARDIANICNUMBER": ""
+
+                "CHANNELTYPE": "ASNB KIOSK",
+                "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+                "DEVICEOWNER": "ASNB",
+                "UNITHOLDERID": "",
+                "FIRSTNAME": "",
+                "IDENTIFICATIONTYPE": "W",
+                "IDENTIFICATIONNUMBER": "521030135180",
+                "FUNDID": "",
+                "INQUIRYCODE": "5",
+                "TRANSACTIONDATE": "26/3/2021",
+                "TRANSACTIONTIME": "15:43:10",
+                "BANKTXNREFERENCENUMBER": "20191003001325",
+                "BANKCUSTPHONENUMBER": "",
+                "FILTRATIONFLAG": "1",
+                "GUARDIANID": "",
+                "GUARDIANICTYPE": "",
+                "GUARDIANICNUMBER": ""
         
           
               };
@@ -809,11 +880,9 @@ export class VerifymykadComponent implements OnInit {
                     this._router.navigate(['errorscreen']);
                   }
                   else{
-                    //Scenario 1: Unit Holder Not Exist
-                    
-                    //Scenario 2: FundID = ""
-                    if (currentHolder.funddetail.length == 0 && currentHolder.unitholderid != undefined){
-                      console.log("Reached Here B Old IC");
+
+                    if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
+                      
                       let kActivit2 = new kActivity();
                       kActivit2.trxno = "";
                       kActivit2.kioskCode = signalrConnection.kioskCode;
@@ -826,25 +895,60 @@ export class VerifymykadComponent implements OnInit {
         
                       appFunc.kioskActivity.push(kActivit2);
                       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Old IC Account Found, But no Fund.");
-                      this._router.navigate(['transactionmenu']);
+
+                      if (
+                        (currentHolder.occupationcategory == "" || currentHolder.occupationcategory == undefined) ||
+                        (currentHolder.occupation == "" || currentHolder.occupation == undefined) ||
+                        (currentHolder.natureofbusiness == "" || currentHolder.natureofbusiness == undefined) ||
+                        (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
+                        (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
+                        (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
+                        (currentHolder.email == "" || currentHolder.email == undefined) ||
+                        (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined) ||
+                        (currentHolder.preferredmailmode == "" || currentHolder.preferredmailmode == undefined) ||
+                        (currentHolder.bankcode == "" || currentHolder.bankcode == undefined) ||
+                        (currentHolder.accountnumber == "" || currentHolder.accountnumber == undefined) 
+                      ){
+                        this.loadingVisible = false;
+                        this.RMError4_Visible = true;
+                      }else{
+                        this._router.navigate(['transactionmenu']);
+                      }
                     }
-                    //Scenario 3: FundID & UnitHolderID exists
-                    else if (currentHolder.funddetail.length > 0 && currentHolder.unitholderid != undefined){
-                      console.log("Reached Here C Old IC");
-                      let kActivit3 = new kActivity();
-                      kActivit3.trxno = "";
-                      kActivit3.kioskCode = signalrConnection.kioskCode;
-                      kActivit3.moduleID = 0;
-                      kActivit3.submoduleID = undefined;
-                      kActivit3.action = "Old IC Unit Holder Exists.";
-                      kActivit3.startTime = new Date();
-                      kActivit3.endTime = new Date();
-                      kActivit3.status = true;
+                    // //Scenario 2: FundID = ""
+                    // if (currentHolder.funddetail.length == 0 && currentHolder.unitholderid != undefined){
+                    //   console.log("Reached Here B Old IC");
+                    //   let kActivit2 = new kActivity();
+                    //   kActivit2.trxno = "";
+                    //   kActivit2.kioskCode = signalrConnection.kioskCode;
+                    //   kActivit2.moduleID = 0;
+                    //   kActivit2.submoduleID = undefined;
+                    //   kActivit2.action = "Old IC Unit Holder Exists but does not have any Funds.";
+                    //   kActivit2.startTime = new Date();
+                    //   kActivit2.endTime = new Date();
+                    //   kActivit2.status = true;
         
-                      appFunc.kioskActivity.push(kActivit3);
-                      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Old IC Account Found.");
-                      this._router.navigate(['transactionmenu']);
-                    }
+                    //   appFunc.kioskActivity.push(kActivit2);
+                    //   signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Old IC Account Found, But no Fund.");
+                    //   this._router.navigate(['transactionmenu']);
+                    // }
+                    // //Scenario 3: FundID & UnitHolderID exists
+                    // else if (currentHolder.funddetail.length > 0 && currentHolder.unitholderid != undefined){
+                    //   console.log("Reached Here C Old IC");
+                    //   let kActivit3 = new kActivity();
+                    //   kActivit3.trxno = "";
+                    //   kActivit3.kioskCode = signalrConnection.kioskCode;
+                    //   kActivit3.moduleID = 0;
+                    //   kActivit3.submoduleID = undefined;
+                    //   kActivit3.action = "Old IC Unit Holder Exists.";
+                    //   kActivit3.startTime = new Date();
+                    //   kActivit3.endTime = new Date();
+                    //   kActivit3.status = true;
+        
+                    //   appFunc.kioskActivity.push(kActivit3);
+                    //   signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Old IC Account Found.");
+                    //   this._router.navigate(['transactionmenu']);
+                    // }
                   }
         
                   
@@ -907,7 +1011,13 @@ export class VerifymykadComponent implements OnInit {
       this._router.navigate(['outofservice']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }
+
+
+    
   }
+
+
+
 
   
 

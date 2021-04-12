@@ -310,7 +310,7 @@ export class CheckbalanceComponent implements OnInit {
 
       appFunc.kioskActivity.push(kActivit1);
 
-      signalrConnection.connection.invoke('PrintHelpPage', trans.result).then((data: any) => {
+      signalrConnection.connection.invoke('PrintHelpPageAsync', trans.result, "GetStatementPrintout").then((data: any) => {
         setTimeout(()=>{   
           if (data == true){
             this.CB3_Visible = false;
@@ -429,6 +429,8 @@ export class CheckbalanceComponent implements OnInit {
     this.serviceService.postFiveTransactions(body)
     .subscribe((trans: any) => {
 
+      console.log(JSON.stringify(trans.result));
+
       let kActivit1 = new kActivity();
       kActivit1.trxno = "";
       kActivit1.kioskCode = signalrConnection.kioskCode;
@@ -450,7 +452,7 @@ export class CheckbalanceComponent implements OnInit {
         //currentBijakHolder.email;
       }
 
-      signalrConnection.connection.invoke('EmailHelpPageAsync', trans.result, accessToken.token, email).then((data: any) => {
+      signalrConnection.connection.invoke('EmailHelpPageAsync', trans.result, accessToken.token, email, "GetStatementPrintout").then((data: any) => {
         setTimeout(()=>{   
           if (data == true){
             setTimeout(()=>{   
@@ -485,39 +487,72 @@ export class CheckbalanceComponent implements OnInit {
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
 
-    const body = {
-      "CHANNELTYPE":"ATM",
-      "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
-      "DEVICEOWNER":"ASNB",
-      "NUMBEROFTXNS":"4", 
-      "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en'),
-      "UNITHOLDERID": this.CB2_7,
-      "IDENTIFICATIONTYPE":"W",
-      "IDENTIFICATIONNUMBER":this.CB2_5,
-      "GUARDIANIDNUMBER":this.CB_GuardianID,
-      "FUNDID":selectedFundDetails.FUNDID,
-      "POLICYTYPE":"UT"
-    };
+    let body: any;
+    if (this.isMain){
+      body = {
+        "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "UNITHOLDERID": this.CB2_7,
+        "FIRSTNAME": currentHolder.firstname,
+        "GRANDTOTALUNITBALANCE": currentHolder.grandtotalunitbalance,
+        "GRANDTOTALEPFUNITS": currentHolder.grandtotalepfunits,
+        "GRANDTOTALLOANUNITS": currentHolder.grandtotalloanunits,
+        "GRANDTOTALCERTUNITS": currentHolder.grandtotalcertunits,
+        "GRANDTOTALBLOCKEDUNITS": currentHolder.grandtotalblockedunits,
+        "GRANDTOTALPROVISIONALUNITS": currentHolder.grandtotalprovisionalunits,
+        "GRANDTOTALUNITS": currentHolder.grandtotalunits,
+        "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings,
+        "FUNDS": currentHolder.funddetail
+      };
+    }
+    else{
+      body = {
+        "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "UNITHOLDERID": this.CB2_7,
+        "FIRSTNAME": currentBijakHolder.firstname,
+        "GRANDTOTALUNITBALANCE": currentBijakHolder.grandtotalunitbalance,
+        "GRANDTOTALEPFUNITS": currentBijakHolder.grandtotalepfunits,
+        "GRANDTOTALLOANUNITS": currentBijakHolder.grandtotalloanunits,
+        "GRANDTOTALCERTUNITS": currentBijakHolder.grandtotalcertunits,
+        "GRANDTOTALBLOCKEDUNITS": currentBijakHolder.grandtotalblockedunits,
+        "GRANDTOTALPROVISIONALUNITS": currentBijakHolder.grandtotalprovisionalunits,
+        "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits,
+        "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings,
+        "FUNDS": currentBijakHolder.funddetail
+      };
+    }
 
-    this.serviceService.postFiveTransactions(body)
-    .subscribe((result: any) => {
+    let kActivit1 = new kActivity();
+    kActivit1.trxno = "";
+    kActivit1.kioskCode = signalrConnection.kioskCode;
+    kActivit1.moduleID = 0;
+    kActivit1.submoduleID = undefined;
+    kActivit1.action = "Calling SignalR for Print All";
+    kActivit1.startTime = new Date();
+    
+    kActivit1.endTime = new Date();
+    kActivit1.status = true; 
 
-      let kActivit1 = new kActivity();
-      kActivit1.trxno = "";
-      kActivit1.kioskCode = signalrConnection.kioskCode;
-      kActivit1.moduleID = 0;
-      kActivit1.submoduleID = undefined;
-      kActivit1.action = "Calling SignalR for Print All";
-      kActivit1.startTime = new Date();
-      
-      kActivit1.endTime = new Date();
-      kActivit1.status = true; 
+    appFunc.kioskActivity.push(kActivit1);
 
-      appFunc.kioskActivity.push(kActivit1);
-
-      signalrConnection.connection.invoke('EmailHelpPage', `https://kioskdev.asnb.com.my/GetPDF/api/ssrs/GetStaffData?${result.policytypedetail.transactiondetail}`);
+    signalrConnection.connection.invoke('PrintHelpPageAsync', body, "GetSummaryStatementPrintout").then((data: any) => {
+      setTimeout(()=>{   
+        if (data == true){
+          this.CB3_Visible = false;
+          this.CB4_Visible = true;
+          setTimeout(()=>{   
+            this.CB4_Visible = false;
+            this._router.navigate(['transactionsuccessful']);
+          }, 3000);
+        }else{
+          errorCodes.Ecode = "0068";
+          errorCodes.Emessage = "Printing Failed";
+          this._router.navigate(['errorscreen']);
+        }
+      }, 3000);
     });
+
   }
 
   EmailAllStatement(selectedFundDetails: any) {
@@ -536,41 +571,78 @@ export class CheckbalanceComponent implements OnInit {
     console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
 
-    const body = {
-      "CHANNELTYPE":"ATM",
-      "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
-      "DEVICEOWNER":"ASNB",
-      "NUMBEROFTXNS":"4", 
-      "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en'),
-      "UNITHOLDERID": this.CB2_7,
-      "IDENTIFICATIONTYPE":"W",
-      "IDENTIFICATIONNUMBER":this.CB2_5,
-      "GUARDIANIDNUMBER":this.CB_GuardianID,
-      "FUNDID":selectedFundDetails.FUNDID,
-      "POLICYTYPE":"UT"
-    };
+    let body: any;
+    if (this.isMain){
+      body = {
+        "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "UNITHOLDERID": this.CB2_7,
+        "FIRSTNAME": currentHolder.firstname,
+        "GRANDTOTALUNITBALANCE": currentHolder.grandtotalunitbalance,
+        "GRANDTOTALEPFUNITS": currentHolder.grandtotalepfunits,
+        "GRANDTOTALLOANUNITS": currentHolder.grandtotalloanunits,
+        "GRANDTOTALCERTUNITS": currentHolder.grandtotalcertunits,
+        "GRANDTOTALBLOCKEDUNITS": currentHolder.grandtotalblockedunits,
+        "GRANDTOTALPROVISIONALUNITS": currentHolder.grandtotalprovisionalunits,
+        "GRANDTOTALUNITS": currentHolder.grandtotalunits,
+        "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings,
+        "FUNDS": currentHolder.funddetail
+      };
+    }
+    else{
+      body = {
+        "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "UNITHOLDERID": this.CB2_7,
+        "FIRSTNAME": currentBijakHolder.firstname,
+        "GRANDTOTALUNITBALANCE": currentBijakHolder.grandtotalunitbalance,
+        "GRANDTOTALEPFUNITS": currentBijakHolder.grandtotalepfunits,
+        "GRANDTOTALLOANUNITS": currentBijakHolder.grandtotalloanunits,
+        "GRANDTOTALCERTUNITS": currentBijakHolder.grandtotalcertunits,
+        "GRANDTOTALBLOCKEDUNITS": currentBijakHolder.grandtotalblockedunits,
+        "GRANDTOTALPROVISIONALUNITS": currentBijakHolder.grandtotalprovisionalunits,
+        "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits,
+        "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings,
+        "FUNDS": currentBijakHolder.funddetail
+      };
+    }
 
+    let kActivit1 = new kActivity();
+    kActivit1.trxno = "";
+    kActivit1.kioskCode = signalrConnection.kioskCode;
+    kActivit1.moduleID = 0;
+    kActivit1.submoduleID = undefined;
+    kActivit1.action = "Calling SignalR for Email All";
+    kActivit1.startTime = new Date();
     
-    
-    this.serviceService.postFiveTransactions(body)
-    .subscribe((result: any) => {
+    kActivit1.endTime = new Date();
+    kActivit1.status = true; 
 
-      let kActivit1 = new kActivity();
-      kActivit1.trxno = "";
-      kActivit1.kioskCode = signalrConnection.kioskCode;
-      kActivit1.moduleID = 0;
-      kActivit1.submoduleID = undefined;
-      kActivit1.action = "Calling SignalR for Email All";
-      kActivit1.startTime = new Date();
-      
-      kActivit1.endTime = new Date();
-      kActivit1.status = true; 
+    appFunc.kioskActivity.push(kActivit1);
 
-      appFunc.kioskActivity.push(kActivit1);
+    let email = "";
+      if (this.isMain){
+        currentHolder.email;
+      }
+      else{
+        //currentBijakHolder.email;
+      }
 
-      signalrConnection.connection.invoke('EmailHelpPage', `https://kioskdev.asnb.com.my/GetPDF/api/ssrs/GetStaffData?${result.policytypedetail.transactiondetail}`);
+    signalrConnection.connection.invoke('EmailHelpPageAsync', body, accessToken.token, email, "GetSummaryStatementPrintout").then((data: any) => {
+      setTimeout(()=>{   
+        if (data == true){
+          setTimeout(()=>{   
+            this.CB5_Visible = false;
+            this._router.navigate(['transactionsuccessful']);
+          }, 3000);
+        }else{
+          errorCodes.Ecode = "0069";
+          errorCodes.Emessage = "Email Failed";
+          this._router.navigate(['errorscreen']);
+        }
+      }, 3000);
     });
+
   }
 
 

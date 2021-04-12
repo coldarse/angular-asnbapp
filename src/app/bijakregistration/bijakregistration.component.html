@@ -1004,7 +1004,7 @@
                     <!-- Cetak Resit -->
                     {{'BTN_Print' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="BR_Email" (click)="Email()">
+                <button type="button" class="btn btn-next" id="BR_Email" (click)="Email()" *ngIf="Email_Visible">
                     <!-- Emel Resit -->
                     {{'BTN_Email' | translate }}
                 </button>

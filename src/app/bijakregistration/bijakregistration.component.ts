@@ -14,6 +14,7 @@ import { MyKidDetails } from '../_models/myKidDetails';
 import { errorCodes } from '../_models/errorCode';
 import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 import { ServiceService } from '../_shared/service.service';
+import { accessToken } from '../_models/apiToken';
 
 declare const loadKeyboard: any;
 declare const deleteKeyboard: any;
@@ -93,6 +94,9 @@ export class BijakregistrationComponent implements OnInit {
   NOJ_Warning : boolean = false;
   JN_Warning : boolean = false;
   JC_Warning : boolean = false;
+
+  Email_Visible : boolean = true;
+
 
 
   form_salutation : any = appFunc.titleSalutation;
@@ -576,6 +580,7 @@ export class BijakregistrationComponent implements OnInit {
 
   getAccountInquiry(): void {
     try{
+      currentMyKidDetails.ICNo = "190112107788";
       const body = { 
 
         "CHANNELTYPE": "ASNB KIOSK",
@@ -768,7 +773,11 @@ export class BijakregistrationComponent implements OnInit {
 
             this.BRLoading_Visible = false;
             this.BRForm_Visible = true;
-            loadKeyboard();
+
+
+            setTimeout(() => {
+              loadKeyboard();
+            } , 2000);
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "After form is loaded, initialized keyboard");
           }
           else{
@@ -1057,12 +1066,6 @@ export class BijakregistrationComponent implements OnInit {
     this.AR_Form.controls.city.enable();
     this.AR_Form.controls.state.enable();
 
-    //this.AR_Form.control.g_memberid.enable();
-    // this.AR_Form.control.g_fullname.enable();
-    // this.AR_Form.control.g_identificationnumber.enable();
-    // this.AR_Form.control.g_dob.enable();
-    // this.AR_Form.control.g_race.enable();
-    // this.AR_Form.control.g_religion.enable();
 
     console.log(this.AR_Form.value);
 
@@ -1132,21 +1135,64 @@ export class BijakregistrationComponent implements OnInit {
   Print(){
     this.BRSuccess_Visible = false;
     this.BRPrint1_Visible = true;
-    setTimeout(()=>{   
-      this.BRPrint1_Visible = false;
-      this.BRPrint2_Visible = true;
-      setTimeout(() => {
-        this._router.navigate(['transactionsuccessful'])
+
+    const body = {
+      "Transaksi": "Pendaftaran Akaun/Account Registration",
+      "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Lokasi": "KL MAIN 01",
+      "Name": currentMyKidDetails.Name,
+      "NoAkaun": this.BRSuccess_6,
+      "JenisAkaun": this.BRSuccess_10
+    }
+
+    //GetNonFinancialTransactionPrintout
+
+    signalrConnection.connection.invoke('PrintHelpPageAsync', body, "GetNonFinancialTransactionPrintout").then((data: any) => {
+      setTimeout(()=>{   
+        if (data == true){
+          this.BRPrint1_Visible = false;
+          this.BRPrint2_Visible = true;
+          setTimeout(()=>{   
+            this._router.navigate(['transactionsuccessful']);
+          }, 3000);
+        }else{
+          errorCodes.Ecode = "0068";
+          errorCodes.Emessage = "Printing Failed";
+          this._router.navigate(['errorscreen']);
+        }
       }, 3000);
-    }, 3000);
+    });
   }
 
   Email(){
     this.BRSuccess_Visible = false;
     this.BREmail_Visible = true;
-    setTimeout(() => {
-      this._router.navigate(['transactionsuccessful'])
-    }, 3000);
+
+    const body = {
+      "Transaksi": "Pendaftaran Akaun/Account Registration",
+      "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Lokasi": "KL MAIN 01",
+      "Name": currentMyKidDetails.Name,
+      "NoAkaun": this.BRSuccess_6,
+      "JenisAkaun": this.BRSuccess_10
+    }
+
+    signalrConnection.connection.invoke('EmailHelpPageAsync', body, accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout").then((data: any) => {
+      setTimeout(()=>{   
+        if (data == true){
+          setTimeout(()=>{   
+            this.BREmail_Visible = false;
+            this._router.navigate(['transactionsuccessful']);
+          }, 3000);
+        }else{
+          errorCodes.Ecode = "0069";
+          errorCodes.Emessage = "Email Failed";
+          this._router.navigate(['errorscreen']);
+        }
+      }, 3000);
+    });
   }
 
 }

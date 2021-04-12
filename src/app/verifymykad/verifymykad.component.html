@@ -113,6 +113,34 @@
     </div>
 </div> 
 
+
+
+<div class="bg-popup" id="RM_Error1" *ngIf="RMError4_Visible">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+        
+
+
+
+        <h2 id="RM2_ErrorMessage" class="h2-ic" style="padding-top:15rem;">( {{'RMError4_1' | translate }} )</h2>
+
+        <footer class="site-footer" style="padding-top:15rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-cancel" id="RM_Cancel" (click)="endTransaction()">
+                        <!-- Tamatkan Transaksi -->
+                        {{'BTN_End' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="nextToUpdate()">
+                        <!-- Cuba Lagi -->
+                        {{'BTN_Next' | translate }}
+                    </button>
+                </div>
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
 <!-- IC Reader Screen 1 -->
 <div *ngIf="insertMykadVisible" class="row" id="ICReaderScreen1">
     <div class="col-md-6 text-center" style="padding-top:13rem">

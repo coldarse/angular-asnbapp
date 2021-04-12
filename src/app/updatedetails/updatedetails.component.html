@@ -81,10 +81,10 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_2' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <select name="Salutation" id="salutation" id="AR0" [formControl]='AR_Form.controls["salutation"]'>
-                            <option value="Datuk">DTK</option>
-                            <option value="Encik">ENCIK</option>
-                            <option value="Puan">PUAN</option>
+                        <select name="Salutation" id="salutation"  [formControl]='AR_Form.controls["salutation"]' class="salutation form-control">
+                            <option *ngFor="let salutation of form_salutation" value={{salutation.value}}>
+                                {{salutation.text}}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_3' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input #someVar type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["fullname"]' id="AR1">
+                        <input  type="text" class="input-long use-keyboard-input form-control" (input)="usekeyboardinput($event)" [readonly]="true" [formControl]='AR_Form.controls["fullname"]' id="AR1">
                     </div>
                 </div>
                 <div class="row">
@@ -105,14 +105,14 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["identificationcardno"]' id="AR2">
+                                <input type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" [readonly]="true" [formControl]='AR_Form.controls["identificationcardno"]' id="AR2">
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Tarikh lahir</h4> -->
                                 <h4>{{'FL_5' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["dob"]' id="AR3">
+                                <input type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" [readonly]="true" [formControl]='AR_Form.controls["dob"]' id="AR3">
                             </div>
                         </div>
                     </div>
@@ -125,14 +125,23 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["race"]' id="AR4">
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["race"]' class="form-control">
+                                    <option *ngFor="let races of form_races" value={{races.value}}>
+                                        <!-- {{if(defLang=="en"){races.text}else{races.textBM}}} -->
+                                        {{races.text}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Agama</h4> -->
                                 <h4>{{'FL_7' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["religion"]' id="AR5">
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["religion"]' class="form-control">
+                                    <option *ngFor="let religion of form_religion" value={{religion.value}}>
+                                        {{religion.text}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -151,7 +160,9 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_9' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARAddress1_disabled" [formControl]='AR_Form.controls["address1"]' id="AR_Address1">
+                        <input [class.is-invalid]="address1_Warning" name="add1" #address1 type="text" class="input-long use-keyboard-input form-control" (input)="usekeyboardinput($event)" [disabled]="ARAddress1_disabled" [formControl]='AR_Form.controls["address1"]' id="AR_Address1">
+                        <div style="color: rgba(255,0,0); font-style: italic" *ngIf="address1_Warning">{{'AD1Warning' | translate}}</div>
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -160,7 +171,9 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_10' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARAddress2_disabled" [formControl]='AR_Form.controls["address2"]' id="AR_Address2">
+                        <input [class.is-invalid]="address2_Warning" name="add2" #address2 type="text" class="input-long use-keyboard-input form-control" (input)="usekeyboardinput($event)" [disabled]="ARAddress2_disabled" [formControl]='AR_Form.controls["address2"]' id="AR_Address2">
+                        <div style="color: rgba(255,0,0); font-style: italic" *ngIf="address2_Warning">{{'AD2Warning' | translate}}</div>
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -171,14 +184,21 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARPostcode_disabled" [formControl]='AR_Form.controls["postcode"]' id="AR_Postcode">
+                                <input [class.is-invalid]="postcode_Warning" name="postc" #postcode type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" [disabled]="ARPostcode_disabled" [formControl]='AR_Form.controls["postcode"]' id="AR_Postcode">
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="postcode_Warning">{{'PCWarning' | translate}}</div>
+                                
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Bandar</h4> -->
                                 <h4>{{'FL_12' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City">
+                                <!-- <select name="Salutation" id="PPP" [formControl]='AR_Form.controls["city"]' class="form-control"> 
+                                    <option *ngFor="let cities of form_cities" value={{cities.name}}>
+                                        {{cities.name}}
+                                    </option>
+                                </select> -->
+                                <input type="text" class="input-normal use-keyboard-input" (input)="usekeyboardinput($event)" [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City">
                             </div>
                         </div>
                     </div>
@@ -199,7 +219,11 @@
                                 <h4>{{'FL_14' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARState_disabled" [formControl]='AR_Form.controls["state"]' id="AR_State">
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["state"]' class="form-control">
+                                    <option *ngFor="let states of form_states" value={{states.value}}>
+                                        {{states.text}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -212,15 +236,15 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
+                                <input name="homeno" type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Telefon Bimbit</h4> -->
                                 <h4>{{'FL_16' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input class="input-normal use-keyboard-input" [formControl]='AR_Form.controls["telephone"]' ngclick="usekeyboardinput()" formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
-                                <!-- <div class="invalid-mobile alert alert-danger" *ngIf="AR_Form.get('telephone').hasError('required')">Please enter mobile</div> -->
+                                <input [class.is-invalid]="telephone_Warning" name="phoneno" #telephone class="input-normal use-keyboard-input form-control" [formControl]='AR_Form.controls["telephone"]' (input)="usekeyboardinput($event)" formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning">{{'MNWarning' | translate}}</div>
                                 <input type="checkbox" id="noPhone" name="noPhone" [formControl]='AR_Form.controls["notelephone"]' (click)="noTelephoneCheck()" style="margin-top: 0.8rem;" >
                                 <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
                                 <label for="noPhone">{{'FL_17' | translate }}</label><br>
@@ -241,7 +265,9 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="checkedXEmail"  name="AR_Email" [formControl]='AR_Form.controls["email"]'>
+                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email type="text" ng-model="emailAddress" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" [disabled]="checkedXEmail" [formControl]='AR_Form.controls["email"]'>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning">{{'EAWarning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning1">{{'EAWarning1' | translate}}</div> 
                                 <input type="checkbox" id="noEmail" name="noEmail" [formControl]='AR_Form.controls["noemail"]' (click)="noEmailCheck()" style="margin-top: 0.8rem;">
                                 <!-- <label for="noEmail" >Tiada Emel</label><br> -->
                                 <label for="noEmail" >{{'FL_19' | translate }}</label><br>
@@ -251,10 +277,10 @@
                                 <h4>{{'FL_20' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="PPP" id="PPP" [formControl]='AR_Form.controls["deliverystate"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["deliverystate"]' class="form-control">
+                                    <option *ngFor="let preferredDelivery of form_preferredDelivery" value={{preferredDelivery.value}}>
+                                        {{preferredDelivery.desc}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -275,18 +301,21 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="NB" id="NB" [formControl]='AR_Form.controls["bankname"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["bankname"]' class="form-control" >
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option *ngFor="let bankname of form_bankname" value={{bankname.code}}>
+                                        {{bankname.name}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bank_Warning">{{'Warning' | translate}}</div> 
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Akaun Bank</h4> -->
                                 <h4>{{'FL_23' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
+                                <input [class.is-invalid]="bankNo_Warning" type="text" #bankaccount name="acctno" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning">{{'BANWarning' | translate}}.</div> 
                             </div>
                         </div>
                     </div>
@@ -306,22 +335,28 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="KP" id="KP" [formControl]='AR_Form.controls["jobcategory"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobcategory"]' (change)="filterJobCategory($event)" class="form-control">
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option *ngFor="let occupationCatergory of form_occupationCatergory" value={{occupationCatergory.code}}>
+                                        {{occupationCatergory.desc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JC_Warning">{{'Warning' | translate}}</div> 
+                                
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Nama Pekerjaan</h4> -->
                                 <h4>{{'FL_26' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="NP" id="NP" [formControl]='AR_Form.controls["jobname"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobname"]' class="form-control">
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option *ngFor="let occupationName of form_occupationName" value={{occupationName.value}}>
+                                        {{occupationName.desc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JN_Warning">{{'Warning' | translate}}</div> 
+                            
                             </div>
                         </div>
                     </div>
@@ -334,22 +369,28 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="JP" id="JP" [formControl]='AR_Form.controls["natureofjob"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["natureofjob"]' class="form-control">
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option *ngFor="let businessnature of form_businessnature" value={{businessnature.value}}>
+                                        {{businessnature.text}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="NOJ_Warning">{{'Warning' | translate}}</div> 
+                            
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Sektor Pekerjaan</h4> -->
                                 <h4>{{'FL_28' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="SP" id="SP" [formControl]='AR_Form.controls["jobsector"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobsector"]' class="form-control">
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option *ngFor="let occupationSector of form_occupationSector" value={{occupationSector.sector}}>
+                                        {{occupationSector.sectorDesc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JS_Warning">{{'Warning' | translate}}</div> 
+                            
                             </div>
                         </div>
                     </div>
@@ -362,18 +403,22 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="PB" id="PB" [formControl]='AR_Form.controls["monthlyincome"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["monthlyincome"]' class="form-control">
+                                    <option value="7">{{ 'optionSelect' | translate }}</option>
+                                    <option *ngFor="let income of form_income" value={{income.validValue}}>
+                                        {{income.valueDesc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning">{{'Warning' | translate}}</div> 
+                            
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Nama Syarikat</h4> -->
                                 <h4>{{'FL_30' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
+                                <input [class.is-invalid]="companyName_Warning" name="compname" #compname type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="companyName_Warning">{{'CNWarning' | translate}}</div> 
                             </div>
                         </div>
                     </div>
@@ -400,9 +445,9 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="FATCA" id="FATCA" [formControl]='AR_Form.controls["fatca"]'>
-                                    <option value="No">{{'OPTION_No' | translate}}</option>
-                                    <option value="Yes">{{'OPTION_Yes' | translate}}</option>
+                                <select name="FATCA" id="FATCA" [formControl]='AR_Form.controls["fatca"]' class="form-control">
+                                    <option value="N">{{'OPTION_No' | translate}}</option>
+                                    <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
                             </div>
                             <div class="col-md-8">
@@ -425,18 +470,18 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="PEP" id="PEP" [formControl]='AR_Form.controls["pep"]'>
-                                    <option value="No">{{'OPTION_No' | translate}}</option>
-                                    <option value="Yes">{{'OPTION_Yes' | translate}}</option>
+                                <select name="PEP" id="PEP" [formControl]='AR_Form.controls["pep"]' class="form-control">
+                                    <option value="N">{{'OPTION_No' | translate}}</option>
+                                    <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 
                             </div>
                             <div class="col-md-4">
-                                <select name="AD" id="AD" [formControl]='AR_Form.controls["news"]'>
-                                    <option value="No">{{'OPTION_No' | translate}}</option>
-                                    <option value="Yes">{{'OPTION_Yes' | translate}}</option>
+                                <select name="AD" id="AD" [formControl]='AR_Form.controls["news"]' class="form-control">
+                                    <option value="N">{{'OPTION_No' | translate}}</option>
+                                    <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
                             </div>
                         </div>
@@ -455,9 +500,9 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="CRS" id="CRS" [formControl]='AR_Form.controls["crs"]'>
-                                    <option value="No">{{'OPTION_No' | translate}}</option>
-                                    <option value="Yes">{{'OPTION_Yes' | translate}}</option>
+                                <select name="CRS" id="CRS" [formControl]='AR_Form.controls["crs"]' class="form-control">
+                                    <option value="N">{{'OPTION_No' | translate}}</option>
+                                    <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -495,7 +540,7 @@
 <!-- UDBForm_Visible -->
 <form *ngIf="UDBForm_Visible" [formGroup]="AR_Form" (ngSubmit)="bijakUpdateNext()" name="registerForm" >
     <div class="col-md-12">
-        <div class="bijakregistrationForm">
+        <div class="registrationForm">
             <div class="formcontent">
                 <div class="row">
                     <div class="col-md-12">
@@ -509,10 +554,10 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_2' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <select name="Salutation" id="salutation" id="AR0" [formControl]='AR_Form.controls["salutation"]'>
-                            <option value="Datuk">DTK</option>
-                            <option value="Encik">ENCIK</option>
-                            <option value="Puan">PUAN</option>
+                        <select name="Salutation" id="salutation"  [formControl]='AR_Form.controls["salutation"]' class="salutation form-control">
+                            <option *ngFor="let salutation of form_salutation" value={{salutation.value}}>
+                                {{salutation.text}}
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -522,7 +567,7 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_3' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input #someVar type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["fullname"]' id="AR1">
+                        <input  type="text" class="input-long use-keyboard-input form-control" (input)="usekeyboardinput($event)" [readonly]="true" [formControl]='AR_Form.controls["fullname"]' id="AR1">
                     </div>
                 </div>
                 <div class="row">
@@ -533,14 +578,14 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["identificationcardno"]' id="AR2">
+                                <input type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" [readonly]="true" [formControl]='AR_Form.controls["identificationcardno"]' id="AR2">
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Tarikh lahir</h4> -->
                                 <h4>{{'FL_5' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["dob"]' id="AR3">
+                                <input type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" [readonly]="true" [formControl]='AR_Form.controls["dob"]' id="AR3">
                             </div>
                         </div>
                     </div>
@@ -553,14 +598,23 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["race"]' id="AR4">
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["race"]' class="form-control">
+                                    <option *ngFor="let races of form_races" value={{races.value}}>
+                                        <!-- {{if(defLang=="en"){races.text}else{races.textBM}}} -->
+                                        {{races.text}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Agama</h4> -->
                                 <h4>{{'FL_7' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [readonly]="true" [formControl]='AR_Form.controls["religion"]' id="AR5">
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["religion"]' class="form-control">
+                                    <option *ngFor="let religion of form_religion" value={{religion.value}}>
+                                        {{religion.text}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -585,17 +639,17 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [formControl]='AR_Form.controls["g_memberid"]'  id="AR6">
+                                <input type="text" class="input-normal use-keyboard-input form-control" ngclick="usekeyboardinput()" [formControl]='AR_Form.controls["g_memberid"]'  id="AR6">
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Gelaran</h4> -->
                                 <h4>{{'FLB_3' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="SalutationMyKID" id="salutationMyKID" [formControl]='AR_Form.controls["g_salutation"]' >
-                                    <option value="Datuk">DTK</option>
-                                    <option value="Encik">ENCIK</option>
-                                    <option value="Puan">PUAN</option>
+                                <select name="SalutationMyKID" id="salutationMyKID" [formControl]='AR_Form.controls["g_salution"]' class="form-control" >
+                                    <option *ngFor="let salutation of form_salutation" value={{salutation.value}}>
+                                        {{salutation.text}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -607,7 +661,7 @@
                         <h4 style="padding-left: 0.5rem;">{{'FLB_4' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [formControl]='AR_Form.controls["g_fullname"]'  id="AR7">
+                        <input type="text" class="input-long use-keyboard-input form-control" ngclick="usekeyboardinput()" [formControl]='AR_Form.controls["g_fullname"]'  id="AR7">
                     </div>
                 </div>
                 <div class="row">
@@ -618,14 +672,14 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [formControl]='AR_Form.controls["g_identificationnumber"]'  id="AR8">
+                                <input type="text" class="input-normal use-keyboard-input form-control" ngclick="usekeyboardinput()" [formControl]='AR_Form.controls["g_identificationnumber"]'  id="AR8">
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Tarikh lahir</h4> -->
                                 <h4>{{'FLB_6' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [formControl]='AR_Form.controls["g_dob"]'  id="AR9">
+                                <input type="text" class="input-normal use-keyboard-input form-control" ngclick="usekeyboardinput()" [formControl]='AR_Form.controls["g_dob"]'  id="AR9">
                             </div>
                         </div>
                     </div>
@@ -638,14 +692,14 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [formControl]='AR_Form.controls["g_race"]'  id="AR10">
+                                <input type="text" class="input-normal use-keyboard-input form-control" ngclick="usekeyboardinput()" [formControl]='AR_Form.controls["g_race"]'  id="AR10">
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Agama</h4> -->
                                 <h4>{{'FLB_8' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [formControl]='AR_Form.controls["g_religion"]'  id="AR11">
+                                <input type="text" class="input-normal use-keyboard-input form-control" ngclick="usekeyboardinput()" [formControl]='AR_Form.controls["g_religion"]'  id="AR11">
                             </div>
                         </div>
                     </div>
@@ -659,9 +713,9 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="HBGN" id="HBGN" [formControl]='AR_Form.controls["g_relation"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                    <option *ngFor="let relationship of form_relationships" value={{relationship.code}}>
+                                        {{relationship.desc}}
+                                    </option>
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -688,7 +742,9 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_9' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARAddress1_disabled" [formControl]='AR_Form.controls["address1"]' id="AR_Address1">
+                        <input [class.is-invalid]="address1_Warning" name="add1" #address1 type="text" class="input-long use-keyboard-input form-control" (input)="usekeyboardinput($event)" [disabled]="ARAddress1_disabled" [formControl]='AR_Form.controls["address1"]' id="AR_Address1">
+                        <div style="color: rgba(255,0,0); font-style: italic" *ngIf="address1_Warning">{{'AD1Warning' | translate}}</div>
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -697,7 +753,9 @@
                         <h4 style="padding-left: 0.5rem;">{{'FL_10' | translate }}</h4>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="input-long use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARAddress2_disabled" [formControl]='AR_Form.controls["address2"]' id="AR_Address2">
+                        <input [class.is-invalid]="address2_Warning" name="add2" #address2 type="text" class="input-long use-keyboard-input form-control" (input)="usekeyboardinput($event)" [disabled]="ARAddress2_disabled" [formControl]='AR_Form.controls["address2"]' id="AR_Address2">
+                        <div style="color: rgba(255,0,0); font-style: italic" *ngIf="address2_Warning">{{'AD2Warning' | translate}}</div>
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -708,14 +766,21 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARPostcode_disabled" [formControl]='AR_Form.controls["postcode"]' id="AR_Postcode">
+                                <input [class.is-invalid]="postcode_Warning" name="postc" #postcode type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" [disabled]="ARPostcode_disabled" [formControl]='AR_Form.controls["postcode"]' id="AR_Postcode">
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="postcode_Warning">{{'PCWarning' | translate}}</div>
+                                
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Bandar</h4> -->
                                 <h4>{{'FL_12' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City">
+                                <!-- <select name="Salutation" id="PPP" [formControl]='AR_Form.controls["city"]' class="form-control"> 
+                                    <option *ngFor="let cities of form_cities" value={{cities.name}}>
+                                        {{cities.name}}
+                                    </option>
+                                </select> -->
+                                <input type="text" class="input-normal use-keyboard-input" (input)="usekeyboardinput($event)" [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City">
                             </div>
                         </div>
                     </div>
@@ -736,7 +801,11 @@
                                 <h4>{{'FL_14' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="ARState_disabled" [formControl]='AR_Form.controls["state"]' id="AR_State">
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["state"]' class="form-control">
+                                    <option *ngFor="let states of form_states" value={{states.value}}>
+                                        {{states.text}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -749,15 +818,15 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
+                                <input name="homeno" type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Telefon Bimbit</h4> -->
                                 <h4>{{'FL_16' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input class="input-normal use-keyboard-input" [formControl]='AR_Form.controls["telephone"]' ngclick="usekeyboardinput()" formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
-                                <!-- <div class="invalid-mobile alert alert-danger" *ngIf="AR_Form.get('telephone').hasError('required')">Please enter mobile</div> -->
+                                <input [class.is-invalid]="telephone_Warning" name="phoneno" #telephone class="input-normal use-keyboard-input form-control" [formControl]='AR_Form.controls["telephone"]' (input)="usekeyboardinput($event)" formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning">{{'MNWarning' | translate}}</div>
                                 <input type="checkbox" id="noPhone" name="noPhone" [formControl]='AR_Form.controls["notelephone"]' (click)="noTelephoneCheck()" style="margin-top: 0.8rem;" >
                                 <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
                                 <label for="noPhone">{{'FL_17' | translate }}</label><br>
@@ -778,7 +847,9 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" [disabled]="checkedXEmail"  name="AR_Email" [formControl]='AR_Form.controls["email"]'>
+                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email type="text" ng-model="emailAddress" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" [disabled]="checkedXEmail" [formControl]='AR_Form.controls["email"]'>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning">{{'EAWarning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning1">{{'EAWarning1' | translate}}</div> 
                                 <input type="checkbox" id="noEmail" name="noEmail" [formControl]='AR_Form.controls["noemail"]' (click)="noEmailCheck()" style="margin-top: 0.8rem;">
                                 <!-- <label for="noEmail" >Tiada Emel</label><br> -->
                                 <label for="noEmail" >{{'FL_19' | translate }}</label><br>
@@ -788,10 +859,10 @@
                                 <h4>{{'FL_20' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="PPP" id="PPP" [formControl]='AR_Form.controls["deliverystate"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["deliverystate"]' class="form-control">
+                                    <option *ngFor="let preferredDelivery of form_preferredDelivery" value={{preferredDelivery.value}}>
+                                        {{preferredDelivery.desc}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -812,18 +883,21 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="NB" id="NB" [formControl]='AR_Form.controls["bankname"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["bankname"]' class="form-control" >
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option *ngFor="let bankname of form_bankname" value={{bankname.code}}>
+                                        {{bankname.name}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bank_Warning">{{'Warning' | translate}}</div> 
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Akaun Bank</h4> -->
                                 <h4>{{'FL_23' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
+                                <input [class.is-invalid]="bankNo_Warning" type="text" #bankaccount name="acctno" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning">{{'BANWarning' | translate}}.</div> 
                             </div>
                         </div>
                     </div>
@@ -843,22 +917,28 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="KP" id="KP" [formControl]='AR_Form.controls["jobcategory"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobcategory"]' (change)="filterJobCategory($event)" class="form-control">
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option *ngFor="let occupationCatergory of form_occupationCatergory" value={{occupationCatergory.code}}>
+                                        {{occupationCatergory.desc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JC_Warning">{{'Warning' | translate}}</div> 
+                                
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Nama Pekerjaan</h4> -->
                                 <h4>{{'FL_26' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="NP" id="NP" [formControl]='AR_Form.controls["jobname"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobname"]' class="form-control">
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option *ngFor="let occupationName of form_occupationName" value={{occupationName.value}}>
+                                        {{occupationName.desc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JN_Warning">{{'Warning' | translate}}</div> 
+                            
                             </div>
                         </div>
                     </div>
@@ -871,22 +951,28 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="JP" id="JP" [formControl]='AR_Form.controls["natureofjob"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["natureofjob"]' class="form-control">
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option *ngFor="let businessnature of form_businessnature" value={{businessnature.value}}>
+                                        {{businessnature.text}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="NOJ_Warning">{{'Warning' | translate}}</div> 
+                            
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Sektor Pekerjaan</h4> -->
                                 <h4>{{'FL_28' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <select name="SP" id="SP" [formControl]='AR_Form.controls["jobsector"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobsector"]' class="form-control">
+                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option *ngFor="let occupationSector of form_occupationSector" value={{occupationSector.sector}}>
+                                        {{occupationSector.sectorDesc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JS_Warning">{{'Warning' | translate}}</div> 
+                            
                             </div>
                         </div>
                     </div>
@@ -899,18 +985,22 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="PB" id="PB" [formControl]='AR_Form.controls["monthlyincome"]'>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
-                                    <option value="Sila Pilih Satu">Sila Pilih Satu</option>
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["monthlyincome"]' class="form-control">
+                                    <option value="7">{{ 'optionSelect' | translate }}</option>
+                                    <option *ngFor="let income of form_income" value={{income.validValue}}>
+                                        {{income.valueDesc}}
+                                    </option>
                                 </select>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning">{{'Warning' | translate}}</div> 
+                            
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Nama Syarikat</h4> -->
                                 <h4>{{'FL_30' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input" ngclick="usekeyboardinput()" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
+                                <input [class.is-invalid]="companyName_Warning" name="compname" #compname type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="companyName_Warning">{{'CNWarning' | translate}}</div> 
                             </div>
                         </div>
                     </div>
@@ -937,9 +1027,9 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="FATCA" id="FATCA" [formControl]='AR_Form.controls["fatca"]'>
-                                    <option value="No">{{'OPTION_No' | translate}}</option>
-                                    <option value="Yes">{{'OPTION_Yes' | translate}}</option>
+                                <select name="FATCA" id="FATCA" [formControl]='AR_Form.controls["fatca"]' class="form-control">
+                                    <option value="N">{{'OPTION_No' | translate}}</option>
+                                    <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
                             </div>
                             <div class="col-md-8">
@@ -962,18 +1052,18 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="PEP" id="PEP" [formControl]='AR_Form.controls["pep"]'>
-                                    <option value="No">{{'OPTION_No' | translate}}</option>
-                                    <option value="Yes">{{'OPTION_Yes' | translate}}</option>
+                                <select name="PEP" id="PEP" [formControl]='AR_Form.controls["pep"]' class="form-control">
+                                    <option value="N">{{'OPTION_No' | translate}}</option>
+                                    <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
                                 
                             </div>
                             <div class="col-md-4">
-                                <select name="AD" id="AD" [formControl]='AR_Form.controls["news"]'>
-                                    <option value="No">{{'OPTION_No' | translate}}</option>
-                                    <option value="Yes">{{'OPTION_Yes' | translate}}</option>
+                                <select name="AD" id="AD" [formControl]='AR_Form.controls["news"]' class="form-control">
+                                    <option value="N">{{'OPTION_No' | translate}}</option>
+                                    <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
                             </div>
                         </div>
@@ -992,9 +1082,9 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="CRS" id="CRS" [formControl]='AR_Form.controls["crs"]'>
-                                    <option value="No">{{'OPTION_No' | translate}}</option>
-                                    <option value="Yes">{{'OPTION_Yes' | translate}}</option>
+                                <select name="CRS" id="CRS" [formControl]='AR_Form.controls["crs"]' class="form-control">
+                                    <option value="N">{{'OPTION_No' | translate}}</option>
+                                    <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
@@ -1049,11 +1139,11 @@
         <footer class="site-footer" style="padding-top:11rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-cancel" id="UD_No">
+                    <button type="button" class="btn btn-cancel" id="UD_No" (click)="ConfirmNo()">
                         <!-- Tidak -->
                         {{'BTN_No' | translate }}
                     </button>
-                    <button type="button" class="btn btn-next" id="UD_Yes" >
+                    <button type="button" class="btn btn-next" id="UD_Yes" (click)="ConfirmYes()">
                         <!-- Ya -->
                         {{'BTN_Yes' | translate }}
                     </button>
@@ -1082,11 +1172,11 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="UD_MainMenu">
+                <button type="button" class="btn btn-next" id="UD_MainMenu" (click)="Print()">
                     <!-- Cetak Resit -->
                     {{'BTN_Print' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="UD_MainMenu">
+                <button type="button" class="btn btn-next" id="UD_MainMenu" *ngIf="Email_Visible" (click)="Email()">
                     <!-- Emel Resit -->
                     {{'BTN_Email' | translate }}
                 </button>
