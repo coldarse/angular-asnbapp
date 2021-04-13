@@ -13,6 +13,72 @@
     </div>
 </nav>
 
+
+<div class="bg-popup" id="BR_ErrorPop" *ngIf="UserError_Visible">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+
+        <!-- <h1 id="BR_ResponseCode" class="padding-top-2rem">Mesej Ralat</h1> -->
+        <h1 id="BR_ResponseCode" class="padding-top-2rem">{{'BRError_1' | translate }}</h1>
+
+        <!-- <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:8rem; padding-left: 8rem; padding-right: 8rem">
+            Kad tidak dapat dikesan atau kad yang digunakan tiday sah.
+            Sila pastikan anda menggunakan MyKid yang sah
+            sebelum meneruskan transaksi.
+        </h2> -->
+
+        <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:8rem; padding-left: 8rem; padding-right: 8rem">
+            {{'UEError_1' | translate }}
+        </h2>
+
+
+        <footer class="site-footer" style="padding-top:10rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-cancel" id="BR_Cancel" (click)="EndTransactionBtn()">
+                        <!-- Tamatkan Transaksi -->
+                        {{'BTN_End' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="MainMenuBtn()">
+                        <!-- Cuba Lagi -->
+                        {{'BTN_MainMenu | translate }}
+                    </button>
+
+                </div>
+
+            </div>
+        </footer>
+
+    </div>
+</div>
+
+
+<div class="bg-popup" id="RM_Error1" *ngIf="RMError4_Visible">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+        
+
+
+
+        <h2 id="RM2_ErrorMessage" class="h2-ic" style="padding-top:15rem;">( {{'RMError4_1' | translate }} )</h2>
+
+        <footer class="site-footer" style="padding-top:15rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-back" id="RM_Cancel" (click)="backToMain()">
+                        <!-- Tamatkan Transaksi -->
+                        {{'BTN_Back' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="nextToUpdate()">
+                        <!-- Cuba Lagi -->
+                        {{'BTN_Next' | translate }}
+                    </button>
+                </div>
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
 <div class="row" style="padding-top: 6rem;" *ngIf="PR_Intro">
     <div class="row">
         <div class="col-md-1">
@@ -191,7 +257,9 @@
     </footer>
 </div>
 
-<div class="row" *ngIf="PR_Details">
+
+<!-- [fromGroup]='PForm_1' (ngSubmit)='nextDetails()' autocomplete="off" novalidate> -->
+<div   class="row" *ngIf="PR_Details"> 
     <div class="row" style="padding-left: 4rem; padding-top: 2rem;">
         <div class="col-md-12">
             <!-- <h4><u>Daftar Masuk Portal myASNB</u></h4> -->
@@ -207,6 +275,8 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
+                     <!-- [formControl]='PForm_1.controls["username"]' -->
+                    >
                 </div>
             </div>
         </div>
@@ -218,6 +288,7 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
+                    <!-- [formControl]='PForm_1.controls["email"]'> -->
                 </div>
             </div>  
         </div>
@@ -241,6 +312,7 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
+                    <!-- [formControl]='PForm_1.controls["securephrase"]'> -->
                 </div>
             </div>
             <div class="row" style="padding-left: 3.3rem;">
@@ -250,9 +322,11 @@
                 </div>
                 <div class="col-md-7">
                     <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
-                        <option value="Datuk">DTK</option>
-                        <option value="Encik">ENCIK</option>
-                        <option value="Puan">PUAN</option>
+                    <!-- [formControl]='PForm_1.controls["seq1"]'> -->
+                        <option value="0">{{ 'optionSelect' | translate }}</option>
+                        <!-- <option *ngFor="let seq of form_securityQuestions" value={{seq.sqCode}}>
+                            {{seq.questionEN}}
+                        </option> -->
                     </select>
                 </div>
             </div>
@@ -263,6 +337,7 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input">
+                    <!-- [formControl]='PForm_1.controls["ans1"]'> -->
                 </div>
             </div>
             <div class="row" style="padding-left: 3.3rem;">
@@ -398,7 +473,7 @@
                     <!-- Batal  -->
                     {{'BTN_Cancel' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="PR_Continue" (click)="nextDetails()">
+                <button type="button" class="btn btn-next" id="PR_Continue" (click)="nextDetails()" [disabled]="nextDetails_disabled">
                     <!-- Teruskan -->
                     {{'BTN_Next' | translate }}
                 </button>

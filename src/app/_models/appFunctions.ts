@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { bankName, businessNature, cities, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, relationship, religions, states, TitleDetails } from './dropDownLists';
+import { bankName, businessNature, cities, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, relationship, religions, securityQuestions, states, TitleDetails } from './dropDownLists';
 import { eModules } from './enabledModules';
 import { kioskActivities } from './kioskActivities';
 
@@ -22,6 +22,7 @@ export class appFunc {
   static bankName: bankName[];
   static religion: religions[];
   static relationship: relationship[];
+  static securityQuestions: securityQuestions[];
 
   static kioskActivity: kioskActivities[];
 }

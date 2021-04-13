@@ -101,7 +101,7 @@ export class VerifymykadComponent implements OnInit {
 
   tryAgain() : void {
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -163,7 +163,7 @@ export class VerifymykadComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         let kActivit = new kActivity();
-        kActivit.trxno = "";
+        kActivit.trxno = signalrConnection.trxno;
         kActivit.kioskCode = signalrConnection.kioskCode;
         kActivit.moduleID = 0;
         kActivit.submoduleID = undefined;
@@ -207,7 +207,7 @@ export class VerifymykadComponent implements OnInit {
   verify() : void {
     try {
       let kActivit0 = new kActivity();
-      kActivit0.trxno = "";
+      kActivit0.trxno = signalrConnection.trxno;
       kActivit0.kioskCode = signalrConnection.kioskCode;
       kActivit0.moduleID = 0;
       kActivit0.submoduleID = undefined;
@@ -245,7 +245,7 @@ export class VerifymykadComponent implements OnInit {
         appFunc.kioskActivity.push(kActivit0);
         //this.DetectMyKad();
         let kActivit = new kActivity();
-        kActivit.trxno = "";
+        kActivit.trxno = signalrConnection.trxno;
         kActivit.kioskCode = signalrConnection.kioskCode;
         kActivit.moduleID = 0;
         kActivit.submoduleID = undefined;
@@ -264,7 +264,7 @@ export class VerifymykadComponent implements OnInit {
             appFunc.kioskActivity.push(kActivit);
 
             let kActivit1 = new kActivity();
-            kActivit1.trxno = "";
+            kActivit1.trxno = signalrConnection.trxno;
             kActivit1.kioskCode = signalrConnection.kioskCode;
             kActivit1.moduleID = 0;
             kActivit1.submoduleID = undefined;
@@ -345,7 +345,7 @@ export class VerifymykadComponent implements OnInit {
   bindMyKadData(): void {
     try {
       let kActivit = new kActivity();
-      kActivit.trxno = "";
+      kActivit.trxno = signalrConnection.trxno;
       kActivit.kioskCode = signalrConnection.kioskCode;
       kActivit.moduleID = 0;
       kActivit.submoduleID = undefined;
@@ -389,7 +389,7 @@ export class VerifymykadComponent implements OnInit {
     }
     catch(e) {
       let kActivit = new kActivity();
-      kActivit.trxno = "";
+      kActivit.trxno = signalrConnection.trxno;
       kActivit.kioskCode = signalrConnection.kioskCode;
       kActivit.moduleID = 0;
       kActivit.submoduleID = undefined;
@@ -460,7 +460,7 @@ export class VerifymykadComponent implements OnInit {
         "CHANNELTYPE": "ASNB KIOSK",
         "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
         "DEVICEOWNER": "ASNB",
-        "UNITHOLDERID": "",
+        "UNITHOLDERID": "000013053909",
         "FIRSTNAME": "",
         "IDENTIFICATIONTYPE": "W",
         "IDENTIFICATIONNUMBER": "521030135180",
@@ -485,7 +485,7 @@ export class VerifymykadComponent implements OnInit {
       .subscribe((result: any) => {
         
         let kActivit = new kActivity();
-        kActivit.trxno = "";
+        kActivit.trxno = signalrConnection.trxno;
         kActivit.kioskCode = signalrConnection.kioskCode;
         kActivit.moduleID = 0;
         kActivit.submoduleID = undefined;
@@ -584,7 +584,7 @@ export class VerifymykadComponent implements OnInit {
         currentHolder.rejectcode = result.rejectcode;
         currentHolder.rejectreason = result.rejectreason;
 
-        console.log(currentHolder.transactionstatus);
+        console.log(currentHolder.occupationcategory);
 
         kActivit.endTime = new Date();
         kActivit.status = true; 
@@ -602,7 +602,7 @@ export class VerifymykadComponent implements OnInit {
           else{
             if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
               let kActivit2 = new kActivity();
-              kActivit2.trxno = "";
+              kActivit2.trxno = signalrConnection.trxno;
               kActivit2.kioskCode = signalrConnection.kioskCode;
               kActivit2.moduleID = 0;
               kActivit2.submoduleID = undefined;
@@ -637,7 +637,7 @@ export class VerifymykadComponent implements OnInit {
             // if (currentHolder.funddetail.length == 0 && currentHolder.unitholderid != undefined){
             //   console.log("Reached Here B");
             //   let kActivit2 = new kActivity();
-            //   kActivit2.trxno = "";
+            //   kActivit2.trxno = signalrConnection.trxno;
             //   kActivit2.kioskCode = signalrConnection.kioskCode;
             //   kActivit2.moduleID = 0;
             //   kActivit2.submoduleID = undefined;
@@ -654,7 +654,7 @@ export class VerifymykadComponent implements OnInit {
             // else if (currentHolder.funddetail.length > 0 && currentHolder.unitholderid != undefined){
             //   console.log("Reached Here C");
             //   let kActivit3 = new kActivity();
-            //   kActivit3.trxno = "";
+            //   kActivit3.trxno = signalrConnection.trxno;
             //   kActivit3.kioskCode = signalrConnection.kioskCode;
             //   kActivit3.moduleID = 0;
             //   kActivit3.submoduleID = undefined;
@@ -673,7 +673,7 @@ export class VerifymykadComponent implements OnInit {
           if (currentHolder.rejectreason.includes('not exists')){
             console.log("Reached Here A");
             let kActivit1 = new kActivity();
-            kActivit1.trxno = "";
+            kActivit1.trxno = signalrConnection.trxno;
             kActivit1.kioskCode = signalrConnection.kioskCode;
             kActivit1.moduleID = 0;
             kActivit1.submoduleID = undefined;
@@ -687,7 +687,7 @@ export class VerifymykadComponent implements OnInit {
 
             if (currentMyKadDetails.OldICNo != ""){
               let kActivit2 = new kActivity();
-              kActivit2.trxno = "";
+              kActivit2.trxno = signalrConnection.trxno;
               kActivit2.kioskCode = signalrConnection.kioskCode;
               kActivit2.moduleID = 0;
               kActivit2.submoduleID = undefined;
@@ -740,7 +740,7 @@ export class VerifymykadComponent implements OnInit {
                 "CHANNELTYPE": "ASNB KIOSK",
                 "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
                 "DEVICEOWNER": "ASNB",
-                "UNITHOLDERID": "",
+                "UNITHOLDERID": "000013053909",
                 "FIRSTNAME": "",
                 "IDENTIFICATIONTYPE": "W",
                 "IDENTIFICATIONNUMBER": "521030135180",
@@ -765,7 +765,7 @@ export class VerifymykadComponent implements OnInit {
               .subscribe((result: any) => {
                 
                 let kActivit = new kActivity();
-                kActivit.trxno = "";
+                kActivit.trxno = signalrConnection.trxno;
                 kActivit.kioskCode = signalrConnection.kioskCode;
                 kActivit.moduleID = 0;
                 kActivit.submoduleID = undefined;
@@ -884,7 +884,7 @@ export class VerifymykadComponent implements OnInit {
                     if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
                       
                       let kActivit2 = new kActivity();
-                      kActivit2.trxno = "";
+                      kActivit2.trxno = signalrConnection.trxno;
                       kActivit2.kioskCode = signalrConnection.kioskCode;
                       kActivit2.moduleID = 0;
                       kActivit2.submoduleID = undefined;
@@ -919,7 +919,7 @@ export class VerifymykadComponent implements OnInit {
                     // if (currentHolder.funddetail.length == 0 && currentHolder.unitholderid != undefined){
                     //   console.log("Reached Here B Old IC");
                     //   let kActivit2 = new kActivity();
-                    //   kActivit2.trxno = "";
+                    //   kActivit2.trxno = signalrConnection.trxno;
                     //   kActivit2.kioskCode = signalrConnection.kioskCode;
                     //   kActivit2.moduleID = 0;
                     //   kActivit2.submoduleID = undefined;
@@ -936,7 +936,7 @@ export class VerifymykadComponent implements OnInit {
                     // else if (currentHolder.funddetail.length > 0 && currentHolder.unitholderid != undefined){
                     //   console.log("Reached Here C Old IC");
                     //   let kActivit3 = new kActivity();
-                    //   kActivit3.trxno = "";
+                    //   kActivit3.trxno = signalrConnection.trxno;
                     //   kActivit3.kioskCode = signalrConnection.kioskCode;
                     //   kActivit3.moduleID = 0;
                     //   kActivit3.submoduleID = undefined;
@@ -957,7 +957,7 @@ export class VerifymykadComponent implements OnInit {
                   if (currentHolder.rejectreason.includes('not exists')){
                     console.log("Reached Here A Old IC");
                     let kActivit1 = new kActivity();
-                    kActivit1.trxno = "";
+                    kActivit1.trxno = signalrConnection.trxno;
                     kActivit1.kioskCode = signalrConnection.kioskCode;
                     kActivit1.moduleID = 0;
                     kActivit1.submoduleID = undefined;
@@ -995,7 +995,7 @@ export class VerifymykadComponent implements OnInit {
     }
     catch (e){
       let kActivit = new kActivity();
-      kActivit.trxno = "";
+      kActivit.trxno = signalrConnection.trxno;
       kActivit.kioskCode = signalrConnection.kioskCode;
       kActivit.moduleID = 0;
       kActivit.submoduleID = undefined;

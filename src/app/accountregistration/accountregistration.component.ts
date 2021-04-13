@@ -308,7 +308,7 @@ export class AccountregistrationComponent implements OnInit {
     }, 1000);
 
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -348,7 +348,7 @@ export class AccountregistrationComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         let kActivit = new kActivity();
-        kActivit.trxno = "";
+        kActivit.trxno = signalrConnection.trxno;
         kActivit.kioskCode = signalrConnection.kioskCode;
         kActivit.moduleID = 0;
         kActivit.submoduleID = undefined;
@@ -465,7 +465,7 @@ export class AccountregistrationComponent implements OnInit {
 
   TNCAgree(){
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -777,7 +777,7 @@ export class AccountregistrationComponent implements OnInit {
 
   registrationCancel() {
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;

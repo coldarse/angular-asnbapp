@@ -122,7 +122,7 @@ export class CheckbalanceComponent implements OnInit {
     }, 1000);
 
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -146,7 +146,7 @@ export class CheckbalanceComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         let kActivit = new kActivity();
-        kActivit.trxno = "";
+        kActivit.trxno = signalrConnection.trxno;
         kActivit.kioskCode = signalrConnection.kioskCode;
         kActivit.moduleID = 0;
         kActivit.submoduleID = undefined;
@@ -164,7 +164,7 @@ export class CheckbalanceComponent implements OnInit {
   
   CancelCheckBalance() {
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -180,7 +180,7 @@ export class CheckbalanceComponent implements OnInit {
 
   MainMenu() {
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -201,7 +201,7 @@ export class CheckbalanceComponent implements OnInit {
     this.CB3_Visible = true;
 
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -298,7 +298,7 @@ export class CheckbalanceComponent implements OnInit {
       console.log(JSON.stringify(trans.result));
 
       let kActivit1 = new kActivity();
-      kActivit1.trxno = "";
+      kActivit1.trxno = signalrConnection.trxno;
       kActivit1.kioskCode = signalrConnection.kioskCode;
       kActivit1.moduleID = 0;
       kActivit1.submoduleID = undefined;
@@ -336,7 +336,7 @@ export class CheckbalanceComponent implements OnInit {
     this.CB5_Visible = true;
 
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -432,7 +432,7 @@ export class CheckbalanceComponent implements OnInit {
       console.log(JSON.stringify(trans.result));
 
       let kActivit1 = new kActivity();
-      kActivit1.trxno = "";
+      kActivit1.trxno = signalrConnection.trxno;
       kActivit1.kioskCode = signalrConnection.kioskCode;
       kActivit1.moduleID = 0;
       kActivit1.submoduleID = undefined;
@@ -473,7 +473,7 @@ export class CheckbalanceComponent implements OnInit {
 
   PrintAllStatement(selectedFundDetails: any) {
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -524,7 +524,7 @@ export class CheckbalanceComponent implements OnInit {
     }
 
     let kActivit1 = new kActivity();
-    kActivit1.trxno = "";
+    kActivit1.trxno = signalrConnection.trxno;
     kActivit1.kioskCode = signalrConnection.kioskCode;
     kActivit1.moduleID = 0;
     kActivit1.submoduleID = undefined;
@@ -557,7 +557,7 @@ export class CheckbalanceComponent implements OnInit {
 
   EmailAllStatement(selectedFundDetails: any) {
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -608,7 +608,7 @@ export class CheckbalanceComponent implements OnInit {
     }
 
     let kActivit1 = new kActivity();
-    kActivit1.trxno = "";
+    kActivit1.trxno = signalrConnection.trxno;
     kActivit1.kioskCode = signalrConnection.kioskCode;
     kActivit1.moduleID = 0;
     kActivit1.submoduleID = undefined;
@@ -671,7 +671,7 @@ export class CheckbalanceComponent implements OnInit {
      this.serviceService.getAccountInquiry(body)
      .subscribe((result: any) => {
         let kActivit = new kActivity();
-        kActivit.trxno = "";
+        kActivit.trxno = signalrConnection.trxno;
         kActivit.kioskCode = signalrConnection.kioskCode;
         kActivit.moduleID = 0;
         kActivit.submoduleID = undefined;
@@ -729,7 +729,7 @@ export class CheckbalanceComponent implements OnInit {
   CheckMainAccount() {
     this.isMain = true;
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -780,7 +780,7 @@ export class CheckbalanceComponent implements OnInit {
 
   CheckBijakAccount() {
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;

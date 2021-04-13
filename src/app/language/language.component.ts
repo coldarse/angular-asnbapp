@@ -14,7 +14,7 @@ import { appFunc } from '../_models/appFunctions';
 import { eModules } from '../_models/enabledModules';
 import { errorCodes } from '../_models/errorCode';
 import { fundDetails } from '../_models/fundDetails';
-import { bankName, businessNature, cities, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, relationship, religions, states, TitleDetails } from '../_models/dropDownLists';
+import { bankName, businessNature, cities, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, relationship, religions, securityQuestions, states, TitleDetails } from '../_models/dropDownLists';
 import { kActivity } from '../_models/kActivity';
 import { kioskActivities } from '../_models/kioskActivities';
 import { AppConfiguration } from '../config/app-configuration';
@@ -76,7 +76,10 @@ export class LanguageComponent implements OnInit {
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
     }
     if(appFunc.kioskActivity != undefined){
-      console.log(appFunc.kioskActivity);
+      console.log(JSON.stringify(appFunc.kioskActivity));
+      this.serviceService.postKioskActivity(appFunc.kioskActivity).subscribe((res: any) => {
+        console.log(res);
+      });
     }
     
     currentMyKidDetails.resetCurrentMyKid();
@@ -122,7 +125,12 @@ export class LanguageComponent implements OnInit {
             Authorization: 'Bearer ' + accessToken.token
           })
         };
+        this.serviceService.genTrxNo(signalrConnection.kioskCode).subscribe((res: any) => {
+          signalrConnection.trxno = res.result.toString();
+          console.log(`The TRX No is ${res.result.toString()}`);
+        });
       });
+      
       
     }).catch((err: any) => {console.log(err)});
   }
@@ -134,7 +142,7 @@ export class LanguageComponent implements OnInit {
     this.route.navigate(['/verifymykad']);
 
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -149,6 +157,8 @@ export class LanguageComponent implements OnInit {
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected English.");
     this.getDropDowns();
+
+    
   }
 
   selectMalay() {
@@ -158,7 +168,7 @@ export class LanguageComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
   
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -188,6 +198,7 @@ export class LanguageComponent implements OnInit {
       appFunc.bankName = res[10].result.items.map((bn: any) => new bankName(bn));
       appFunc.occupationName = res[11].result.items.map((on: any) => new occupationName(on));
       appFunc.relationship = res[12].result.items.map((rs: any) => new relationship(rs));
+      appFunc.securityQuestions = res[13].result.items.map((sq: any) => new securityQuestions(sq));
 
       console.log(appFunc.titleSalutation);
       console.log(appFunc.cities);
@@ -202,6 +213,7 @@ export class LanguageComponent implements OnInit {
       console.log(appFunc.bankName);
       console.log(appFunc.occupationName);
       console.log(appFunc.relationship);
+      console.log(appFunc.securityQuestions);
       
     });
   }

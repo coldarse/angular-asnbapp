@@ -158,5 +158,20 @@ export class relationship {
 	}
 }
 
+
+export class securityQuestions {
+    sqCode: number;
+    set: string;
+    questionEN: string;
+    questionBM: string;
+
+    constructor(securityQuestions: any){
+        this.sqCode = securityQuestions.sqCode;
+        this.set = securityQuestions.set;
+        this.questionEN = securityQuestions.questionEN;
+        this.questionBM = securityQuestions.questionBM;
+    }
+}
+
   
 

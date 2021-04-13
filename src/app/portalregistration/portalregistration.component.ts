@@ -7,6 +7,9 @@ import { formatDate } from '@angular/common';
 import { ServiceService } from '../_shared/service.service';
 import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
+import { currentHolder } from '../_models/currentUnitHolder';
+import { FindValueSubscriber } from 'rxjs/internal/operators/find';
+import { errorCodes } from '../_models/errorCode';
 
 @Component({
   selector: 'app-portalregistration',
@@ -15,6 +18,13 @@ import { appFunc } from '../_models/appFunctions';
 })
 
 export class PortalregistrationComponent implements OnInit {
+
+  form_securityQuestions = appFunc.securityQuestions;
+  lang = selectLang.selectedLang;
+
+  form_SetA : any;
+  form_SetB : any;
+  form_SetC : any;
 
 
   BTN_Cancel = "";
@@ -49,6 +59,12 @@ export class PortalregistrationComponent implements OnInit {
 
   TNCAgreed = true;
 
+  RMError4_Visible = false;
+  UserError_Visible = false;
+
+  nextDetails_disabled = true;
+
+  generatedTAC = "";
 
   Header_Title = "";
 
@@ -148,24 +164,68 @@ export class PortalregistrationComponent implements OnInit {
     }
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
+
+    if (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined){
+      this.RMError4_Visible = true;
+    }else{
+
+
+
+      const body = {
+        // "idno": currentHolder.identificationnumber,
+        // "idtype": currentHolder.identificationtype,
+        // "uhid": currentHolder.unitholderid,
+        //"language": selectLang.selectedLang
+        "idno": "980112106085",
+        "idtype": "W",
+        "uhid": "0000130539123",
+        "language": selectLang.selectedLang
+      }
+      this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
+        if (res.result.member_status == "non_member"){
+          this.id = setInterval(() => {
+            this.DetectMyKad();
+          }, 1000);
+      
+          let kActivit = new kActivity();
+          kActivit.trxno = signalrConnection.trxno;
+          kActivit.kioskCode = signalrConnection.kioskCode;
+          kActivit.moduleID = 0;
+          kActivit.submoduleID = undefined;
+          kActivit.action = "Arrived Portal Registration Screen.";
+          kActivit.startTime = new Date();
+          kActivit.endTime = new Date();
+          kActivit.status = true;
+      
+          appFunc.kioskActivity.push(kActivit);
+      
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
+          
+          for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+            if (appFunc.securityQuestions[i].set == "A") {
+                this.form_SetA.push(appFunc.securityQuestions[i]);
+            }
+          } 
+          for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+            if (appFunc.securityQuestions[i].set == "B") {
+                this.form_SetB.push(appFunc.securityQuestions[i]);
+            }
+          } 
+          for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+            if (appFunc.securityQuestions[i].set == "C") {
+                this.form_SetC.push(appFunc.securityQuestions[i]);
+            }
+          } 
+          
+
+        }else{
+          this.UserError_Visible = true;
+        }
+      });
+      
+    }
     
-    this.id = setInterval(() => {
-      this.DetectMyKad();
-    }, 1000);
-
-    let kActivit = new kActivity();
-    kActivit.trxno = "";
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Arrived Portal Registration Screen.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
-
-    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
+   
   }
 
   ngOnDestroy() {
@@ -183,7 +243,7 @@ export class PortalregistrationComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         let kActivit = new kActivity();
-        kActivit.trxno = "";
+        kActivit.trxno = signalrConnection.trxno;
         kActivit.kioskCode = signalrConnection.kioskCode;
         kActivit.moduleID = 0;
         kActivit.submoduleID = undefined;
@@ -199,9 +259,17 @@ export class PortalregistrationComponent implements OnInit {
     });
   }
 
+  nextToUpdate(){
+    this._router.navigate(['updatedetails']);
+  }
+
+  backToMain(){
+    this._router.navigate(['transactionmenu']);
+  }
+
   introCancel(){
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -217,7 +285,7 @@ export class PortalregistrationComponent implements OnInit {
 
   introNext(){
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -234,7 +302,7 @@ export class PortalregistrationComponent implements OnInit {
 
   tncDisagree(){
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -252,7 +320,7 @@ export class PortalregistrationComponent implements OnInit {
 
   tncAgree(){
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -277,8 +345,37 @@ export class PortalregistrationComponent implements OnInit {
   }
 
   TACClick(){
-    //call 
+    const body = {
+      "mobileno" : currentHolder.cellphonenumber,
+      "moduleid" : "316",
+      "message" : "ASNB KIOSK: myASNB Portal Registration TAC",
+      "language" : selectLang.selectedLang
+    }
+    this.serviceService.tacVerification(body).subscribe((res: any) => {
+      if (res.result.error_reason == ""){
+        this.nextDetails_disabled = false;
+        this.generatedTAC = res.result.tac;
+        let expiry = parseInt(res.result.tac_expiry_duration) * 1000; 
+        setTimeout(() => {
+          this.nextDetails_disabled = true;
+        }, expiry);
+      }else{
+        errorCodes.Ecode = res.result.error_code;
+        errorCodes.Emessage = res.result.error_reason;
+        this._router.navigate(['errorscreen']);
+      }
+    });
   }
+
+  EndTransactionBtn(){
+    this._router.navigate(['feedbackscreen']);
+  }
+
+  MainMenuBtn(){
+    this._router.navigate(['transactionmenu']);
+  }
+
+  
 
 }
 

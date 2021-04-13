@@ -43,7 +43,7 @@ export class FeedbackscreenComponent implements OnInit {
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -62,7 +62,7 @@ export class FeedbackscreenComponent implements OnInit {
 
   SubmitFeedback(){
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -92,7 +92,7 @@ export class FeedbackscreenComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         let kActivit = new kActivity();
-        kActivit.trxno = "";
+        kActivit.trxno = signalrConnection.trxno;
         kActivit.kioskCode = signalrConnection.kioskCode;
         kActivit.moduleID = 0;
         kActivit.submoduleID = undefined;

@@ -34,7 +34,7 @@ export class ErrorscreenComponent implements OnInit {
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -52,7 +52,7 @@ export class ErrorscreenComponent implements OnInit {
 
   endTransaction(){
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;

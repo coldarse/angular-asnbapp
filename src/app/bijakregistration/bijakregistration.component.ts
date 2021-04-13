@@ -258,7 +258,7 @@ export class BijakregistrationComponent implements OnInit {
     this.initializeForm();
 
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -291,7 +291,7 @@ export class BijakregistrationComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         let kActivit = new kActivity();
-        kActivit.trxno = "";
+        kActivit.trxno = signalrConnection.trxno;
         kActivit.kioskCode = signalrConnection.kioskCode;
         kActivit.moduleID = 0;
         kActivit.submoduleID = undefined;
@@ -364,7 +364,7 @@ export class BijakregistrationComponent implements OnInit {
 
   bijakDisagree(){
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -381,7 +381,7 @@ export class BijakregistrationComponent implements OnInit {
 
   bijakAgree(){
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -412,7 +412,7 @@ export class BijakregistrationComponent implements OnInit {
       this.BRLoading_Visible = true;
 
       let kActivit = new kActivity();
-      kActivit.trxno = "";
+      kActivit.trxno = signalrConnection.trxno;
       kActivit.kioskCode = signalrConnection.kioskCode;
       kActivit.moduleID = 0;
       kActivit.submoduleID = undefined;
@@ -459,7 +459,7 @@ export class BijakregistrationComponent implements OnInit {
   bindMyKidData(): void {
     try {
       let kActivit = new kActivity();
-      kActivit.trxno = "";
+      kActivit.trxno = signalrConnection.trxno;
       kActivit.kioskCode = signalrConnection.kioskCode;
       kActivit.moduleID = 0;
       kActivit.submoduleID = undefined;
@@ -518,7 +518,7 @@ export class BijakregistrationComponent implements OnInit {
     }
     catch(e) {
       let kActivit = new kActivity();
-      kActivit.trxno = "";
+      kActivit.trxno = signalrConnection.trxno;
       kActivit.kioskCode = signalrConnection.kioskCode;
       kActivit.moduleID = 0;
       kActivit.submoduleID = undefined;
@@ -609,7 +609,7 @@ export class BijakregistrationComponent implements OnInit {
        this.serviceService.getAccountInquiry(body)
        .subscribe((result: any) => {
         let kActivit = new kActivity();
-        kActivit.trxno = "";
+        kActivit.trxno = signalrConnection.trxno;
         kActivit.kioskCode = signalrConnection.kioskCode;
         kActivit.moduleID = 0;
         kActivit.submoduleID = undefined;
@@ -672,7 +672,7 @@ export class BijakregistrationComponent implements OnInit {
             if (currentBijakHolder.funddetail.length == 0 && currentBijakHolder.unitholderid != undefined){
               console.log("Reached Here B");
               let kActivit2 = new kActivity();
-              kActivit2.trxno = "";
+              kActivit2.trxno = signalrConnection.trxno;
               kActivit2.kioskCode = signalrConnection.kioskCode;
               kActivit2.moduleID = 0;
               kActivit2.submoduleID = undefined;
@@ -689,7 +689,7 @@ export class BijakregistrationComponent implements OnInit {
             else if (currentBijakHolder.funddetail.length > 0 && currentBijakHolder.unitholderid != undefined){
               console.log("Reached Here C");
               let kActivit3 = new kActivity();
-              kActivit3.trxno = "";
+              kActivit3.trxno = signalrConnection.trxno;
               kActivit3.kioskCode = signalrConnection.kioskCode;
               kActivit3.moduleID = 0;
               kActivit3.submoduleID = undefined;
@@ -712,7 +712,7 @@ export class BijakregistrationComponent implements OnInit {
           if (currentBijakHolder.rejectreason.includes('not exists')){
             console.log("Reached Here A");
             let kActivit1 = new kActivity();
-            kActivit1.trxno = "";
+            kActivit1.trxno = signalrConnection.trxno;
             kActivit1.kioskCode = signalrConnection.kioskCode;
             kActivit1.moduleID = 0;
             kActivit1.submoduleID = undefined;
@@ -791,7 +791,7 @@ export class BijakregistrationComponent implements OnInit {
     }
     catch (e){
       let kActivit = new kActivity();
-      kActivit.trxno = "";
+      kActivit.trxno = signalrConnection.trxno;
       kActivit.kioskCode = signalrConnection.kioskCode;
       kActivit.moduleID = 0;
       kActivit.submoduleID = undefined;
@@ -879,7 +879,7 @@ export class BijakregistrationComponent implements OnInit {
 
   bijakregistrationCancel() {
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -1006,7 +1006,7 @@ export class BijakregistrationComponent implements OnInit {
     // }
     // else{
     //   let kActivit = new kActivity();
-    //   kActivit.trxno = "";
+    //   kActivit.trxno = signalrConnection.trxno;
     //   kActivit.kioskCode = signalrConnection.kioskCode;
     //   kActivit.moduleID = 0;
     //   kActivit.submoduleID = undefined;
@@ -1044,7 +1044,7 @@ export class BijakregistrationComponent implements OnInit {
 
   TNCAgree(){
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;

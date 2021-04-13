@@ -104,6 +104,7 @@ export class UpdatedetailsComponent implements OnInit {
   JN_Warning : boolean = false;
   JC_Warning : boolean = false;
 
+
   noAhli = "";
   namaAhli = "";
   noAhliBijak = "";
@@ -248,7 +249,7 @@ export class UpdatedetailsComponent implements OnInit {
     
 
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -273,7 +274,7 @@ export class UpdatedetailsComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         let kActivit = new kActivity();
-        kActivit.trxno = "";
+        kActivit.trxno = signalrConnection.trxno;
         kActivit.kioskCode = signalrConnection.kioskCode;
         kActivit.moduleID = 0;
         kActivit.submoduleID = undefined;
@@ -333,7 +334,7 @@ export class UpdatedetailsComponent implements OnInit {
 
   updateDetails1Cancel(){
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -349,7 +350,7 @@ export class UpdatedetailsComponent implements OnInit {
 
   updateDetails1MainMenu(){
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -366,7 +367,7 @@ export class UpdatedetailsComponent implements OnInit {
   UpdateMainAccount(){
     this.isMain = true;
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -389,7 +390,7 @@ export class UpdatedetailsComponent implements OnInit {
   UpdateMinor(selectedMinorDetails: any) {
     this.isMain = false;
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
@@ -424,7 +425,7 @@ export class UpdatedetailsComponent implements OnInit {
      this.serviceService.getAccountInquiry(body)
      .subscribe((result: any) => {
         let kActivit1 = new kActivity();
-        kActivit1.trxno = "";
+        kActivit1.trxno = signalrConnection.trxno;
         kActivit1.kioskCode = signalrConnection.kioskCode;
         kActivit1.moduleID = 0;
         kActivit1.submoduleID = undefined;
@@ -484,7 +485,7 @@ export class UpdatedetailsComponent implements OnInit {
             if(currentBijakHolder.unitholderid != "" || currentBijakHolder.unitholderid != undefined){
               
               let kActivit2 = new kActivity();
-              kActivit2.trxno = "";
+              kActivit2.trxno = signalrConnection.trxno;
               kActivit2.kioskCode = signalrConnection.kioskCode;
               kActivit2.moduleID = 0;
               kActivit2.submoduleID = undefined;
@@ -513,7 +514,7 @@ export class UpdatedetailsComponent implements OnInit {
           if (currentBijakHolder.rejectreason.includes('not exists')){
             console.log("Reached Here A");
             let kActivit1 = new kActivity();
-            kActivit1.trxno = "";
+            kActivit1.trxno = signalrConnection.trxno;
             kActivit1.kioskCode = signalrConnection.kioskCode;
             kActivit1.moduleID = 0;
             kActivit1.submoduleID = undefined;
@@ -611,7 +612,7 @@ export class UpdatedetailsComponent implements OnInit {
 
   majorUpdateBack(){
     let kActivit1 = new kActivity();
-    kActivit1.trxno = "";
+    kActivit1.trxno = signalrConnection.trxno;
     kActivit1.kioskCode = signalrConnection.kioskCode;
     kActivit1.moduleID = 0;
     kActivit1.submoduleID = undefined;
@@ -629,7 +630,7 @@ export class UpdatedetailsComponent implements OnInit {
 
   majorUpdateCancel(){
     let kActivit1 = new kActivity();
-    kActivit1.trxno = "";
+    kActivit1.trxno = signalrConnection.trxno;
     kActivit1.kioskCode = signalrConnection.kioskCode;
     kActivit1.moduleID = 0;
     kActivit1.submoduleID = undefined;
@@ -655,7 +656,7 @@ export class UpdatedetailsComponent implements OnInit {
   ConfirmYes(){
     if(this.isMain){
       let kActivit = new kActivity();
-      kActivit.trxno = "";
+      kActivit.trxno = signalrConnection.trxno;
       kActivit.kioskCode = signalrConnection.kioskCode;
       kActivit.moduleID = 0;
       kActivit.submoduleID = undefined;
@@ -727,7 +728,7 @@ export class UpdatedetailsComponent implements OnInit {
     
     }else{
       let kActivit = new kActivity();
-      kActivit.trxno = "";
+      kActivit.trxno = signalrConnection.trxno;
       kActivit.kioskCode = signalrConnection.kioskCode;
       kActivit.moduleID = 0;
       kActivit.submoduleID = undefined;
@@ -900,7 +901,7 @@ export class UpdatedetailsComponent implements OnInit {
       this.UDConfirm_Visible = true;
 
       let kActivit1 = new kActivity();
-      kActivit1.trxno = "";
+      kActivit1.trxno = signalrConnection.trxno;
       kActivit1.kioskCode = signalrConnection.kioskCode;
       kActivit1.moduleID = 0;
       kActivit1.submoduleID = undefined;
@@ -928,7 +929,7 @@ export class UpdatedetailsComponent implements OnInit {
 
   bijakUpdateBack() {
     let kActivit1 = new kActivity();
-    kActivit1.trxno = "";
+    kActivit1.trxno = signalrConnection.trxno;
     kActivit1.kioskCode = signalrConnection.kioskCode;
     kActivit1.moduleID = 0;
     kActivit1.submoduleID = undefined;
@@ -946,7 +947,7 @@ export class UpdatedetailsComponent implements OnInit {
 
   bijakUpdateCancel(){
     let kActivit1 = new kActivity();
-    kActivit1.trxno = "";
+    kActivit1.trxno = signalrConnection.trxno;
     kActivit1.kioskCode = signalrConnection.kioskCode;
     kActivit1.moduleID = 0;
     kActivit1.submoduleID = undefined;
@@ -976,7 +977,7 @@ export class UpdatedetailsComponent implements OnInit {
       this.UDConfirm_Visible = true;
 
       let kActivit1 = new kActivity();
-      kActivit1.trxno = "";
+      kActivit1.trxno = signalrConnection.trxno;
       kActivit1.kioskCode = signalrConnection.kioskCode;
       kActivit1.moduleID = 0;
       kActivit1.submoduleID = undefined;
@@ -1102,6 +1103,8 @@ export class UpdatedetailsComponent implements OnInit {
     
   }  
 
+
+  
 
   Print(){
     this.UDSuccess_Visible = false;

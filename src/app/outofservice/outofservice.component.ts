@@ -26,7 +26,7 @@ export class OutofserviceComponent implements OnInit {
     this.EM1 = errorCodes.message;
     this.MR1 = errorCodes.message;
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;

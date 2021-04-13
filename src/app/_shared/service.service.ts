@@ -74,6 +74,7 @@ export class ServiceService {
     const response11 = this.http.get(this.url + "services/app/BankName/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); 
     const response12 = this.http.get(this.url + "services/app/OccupationName/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions);
     const response13 = this.http.get(this.url + "services/app/FamilyRelationship/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); //
+    const response14 = this.http.get(this.url + "services/app/SecurityQuestions/GetAll?MaxResultCount=100&Sorting=id", accessToken.httpOptions);
     return forkJoin([
       response1.pipe(retry(1), catchError(this.handleError)), 
       response2.pipe(delay(3000), retry(1), catchError(this.handleError)),
@@ -88,7 +89,31 @@ export class ServiceService {
       response11.pipe(delay(3000), retry(1), catchError(this.handleError)),
       response12.pipe(delay(3000), retry(1), catchError(this.handleError)),
       response13.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response14.pipe(delay(3000), retry(1), catchError(this.handleError)),
     ]);
+  }
+
+  //Add kiosk activity to DB
+  postKioskActivity(body: any){
+    return this.http.post(
+      this.url + "services/app/KioskActivity/insertKioskActivity",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //getTrxNo
+  genTrxNo(kioskcode: string){
+    return this.http.get(
+      this.url + `services/app/Sequence/generateTrxNo?KioskCode=${kioskcode}`,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
   }
 
   //Post get 5 transaction.
@@ -116,6 +141,8 @@ export class ServiceService {
       catchError(this.handleError),
     )
   }
+
+
 
   //UH Verification
   unitHolderVerification(body: any)
@@ -213,7 +240,7 @@ export class ServiceService {
   getAccountInquiry(body: any | undefined): Observable<UnitHolder>
   {
     let kActivit = new kActivity();
-    kActivit.trxno = "";
+    kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
     kActivit.moduleID = 0;
     kActivit.submoduleID = undefined;
