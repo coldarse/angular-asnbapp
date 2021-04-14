@@ -132,8 +132,8 @@ export class ServiceService {
   //Update CIF
   updateDetails(body: any)
   {
-    return this.http.post(
-      this.url + "services/app/PortalAPI/UpdateDetails",
+    return this.http.put(
+      this.url + "services/app/OpenAPI/UpdateDetails",
       body,
       accessToken.httpOptions
     ).pipe(

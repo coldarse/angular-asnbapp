@@ -721,6 +721,7 @@ export class UpdatedetailsComponent implements OnInit {
   
           this.UDForm_Visible = false;
           this.UDSuccess_Visible = true;
+          this.UDConfirm_Visible = false;
         }
       });
 
@@ -898,6 +899,7 @@ export class UpdatedetailsComponent implements OnInit {
       console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
     }else{
+      window.scroll(0,0);
       this.UDConfirm_Visible = true;
 
       let kActivit1 = new kActivity();
@@ -1002,16 +1004,86 @@ export class UpdatedetailsComponent implements OnInit {
     }
   }
 
+  formHandling(code: any) {
+    this.enableJob();
+
+    if(currentHolder.telephonE1 == "null"){
+      this.AR_Form.controls.homenumber.setValue("");
+    }
+
+    if(currentHolder.cellphonenumber == ""){
+      this.AR_Form.controls.telephone.setValue("");
+      this.AR_Form.controls.telephone.disable();
+      this.AR_Form.controls.notelephone.setValue(true);
+    }
+
+    if(currentHolder.email == ""){
+      this.AR_Form.controls.email.setValue("");
+      this.AR_Form.controls.email.disable();
+      this.AR_Form.controls.noemail.setValue(true);
+      this.AR_Form.controls.deliverystate.setValue('ST');
+      this.AR_Form.controls.deliverystate.disable();
+    }
+
+    if(currentHolder.pep == 'Y'){
+      this.AR_Form.controls.pep.enable();
+    }
+
+    if (code.includes('EM')){
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.natureofjob.disable();
+    }
+    else if (code.includes('SE')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.jobsector.disable();
+    }
+    else if (code.includes('HM')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.companyname.setValue('');
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.jobsector.disable();
+      this.AR_Form.controls.natureofjob.disable();
+      this.AR_Form.controls.companyname.disable();
+    }
+    else if (code.includes('RY')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.companyname.setValue('');
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.jobsector.disable();
+      this.AR_Form.controls.natureofjob.disable();
+      this.AR_Form.controls.companyname.disable();
+    }
+    else if (code.includes('UM')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.companyname.setValue('');
+      this.AR_Form.controls.monthlyincome.setValue('7');
+      this.AR_Form.controls.jobname.disable();
+      this.AR_Form.controls.natureofjob.disable();
+      this.AR_Form.controls.jobsector.disable();
+      this.AR_Form.controls.monthlyincome.disable();
+      this.AR_Form.controls.companyname.disable();
+    }
+
+  }
+
   initializeForm(acctType: string)  {
     if (acctType == 'major'){
       this.AR_Form = this.fb.group(
         {
-          salutation: ['EN'],
+          salutation: [currentHolder.title],
           fullname: [{value: currentHolder.firstname, disabled: true}],
           identificationcardno: [{value: currentHolder.identificationnumber, disabled: true}],
-          dob: [{value: formatDate(currentHolder.dateofbirth, 'dd MMM yyyy', 'en'), disabled: true}],
-          race: [{value: this.race, disabled: true}],
-          religion: [{value: this.religion, disabled: true}],
+          dob: [{value: currentHolder.dateofbirth, disabled: true}],
+          race: [{value: currentHolder.race, disabled: true}],
+          religion: [{value: currentHolder.religion, disabled: true}],
 
           address1 : [{value: currentHolder.addresslinE1, disabled: true}, Validators.required],
           address2 : [{value: currentHolder.addresslinE2, disabled: true}, Validators.required],
@@ -1045,6 +1117,7 @@ export class UpdatedetailsComponent implements OnInit {
           news: [{value: currentHolder.participateinasnbmkt, disabled: true}],
           crs: [{value: currentHolder.crs, disabled: true}],
         });
+        this.formHandling(currentHolder.occupationcategory);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Major Form")
     }
     else if (acctType == 'minor'){
@@ -1053,7 +1126,7 @@ export class UpdatedetailsComponent implements OnInit {
           salutation: [currentBijakHolder.title],
           fullname: [{value: currentBijakHolder.firstname, disabled: true}],
           identificationcardno: [{value: currentBijakHolder.identificationnumber, disabled: true}],
-          dob: [{value: formatDate(currentBijakHolder.dateofbirth, 'dd MMM yyyy', 'en'), disabled: true}],
+          dob: [{value: currentBijakHolder.dateofbirth, disabled: true}],
           race: [{value: currentBijakHolder.race, disabled: true}],
           religion: [{value: currentBijakHolder.religion, disabled: true}],
 
@@ -1098,6 +1171,7 @@ export class UpdatedetailsComponent implements OnInit {
           news: [{value: currentBijakHolder.participateinasnbmkt, disabled: true}],
           crs: [{value: currentBijakHolder.crs, disabled: true}],
         });
+        this.formHandling(currentBijakHolder.occupationcategory);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Bijak Form")
     }
     
@@ -1137,7 +1211,7 @@ export class UpdatedetailsComponent implements OnInit {
 
     //GetNonFinancialTransactionPrintout
 
-    signalrConnection.connection.invoke('PrintHelpPageAsync', body, "GetNonFinancialTransactionPrintout").then((data: any) => {
+    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           this.UD_Print1Visible = false;
@@ -1182,7 +1256,7 @@ export class UpdatedetailsComponent implements OnInit {
       "JenisAkaun": accountType
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', body, accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout").then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   

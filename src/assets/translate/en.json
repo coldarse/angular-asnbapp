@@ -249,5 +249,7 @@
 	"CNWarning" : "Company Name is required.",
 	"EAWarning1" : "Email not valid.",
 	"RMError4_1" : "Please update your account to continue with the transaction.",
-	"UEError_1" : "You have already registered for myASNB Portal."
+	"UEError_1" : "You have already registered for myASNB Portal.",
+	"BTN_Summ5" : "Summary & 5 Latest transactions",
+	"BTN_LatestDiv" : "Latest dividend statement"
 }

@@ -134,7 +134,7 @@
 	"CBTH_3":"SPA KWSP",
 	"CBTH_4":"Sijil Pinjaman/Cegaran",
 	"CBTH_5":"Sijil",
-	"CBTH_6":"Block",
+	"CBTH_6":"Blok",
 	"CBTH_7":"Jumlah Unit",
 	"CBTH_8":"Nilai Semasa (RM)",
 	"CBTH_9":"Cetak",
@@ -249,5 +249,7 @@
 	"CNWarning" : "Nama Syarikat adalah wajib.",
 	"EAWarning1" : "Emel tidak sah.",
 	"RMError4_1" : "Sila kemas kini akaun anda untuk meneruskan transaksi.",
-	"UEError_1" : "Anda telah mendaftar ke myASNB Portal."
+	"UEError_1" : "Anda telah mendaftar ke myASNB Portal.",
+	"BTN_Summ5" : "Ringkasan & 5 Transaksi terkini",
+	"BTN_LatestDiv" : "Penyata dividen terkini"
 }

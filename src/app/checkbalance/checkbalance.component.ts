@@ -310,7 +310,7 @@ export class CheckbalanceComponent implements OnInit {
 
       appFunc.kioskActivity.push(kActivit1);
 
-      signalrConnection.connection.invoke('PrintHelpPageAsync', trans.result, "GetStatementPrintout").then((data: any) => {
+      signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetStatementPrintout").then((data: any) => {
         setTimeout(()=>{   
           if (data == true){
             this.CB3_Visible = false;
@@ -452,7 +452,7 @@ export class CheckbalanceComponent implements OnInit {
         //currentBijakHolder.email;
       }
 
-      signalrConnection.connection.invoke('EmailHelpPageAsync', trans.result, accessToken.token, email, "GetStatementPrintout").then((data: any) => {
+      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, email, "GetStatementPrintout").then((data: any) => {
         setTimeout(()=>{   
           if (data == true){
             setTimeout(()=>{   
@@ -536,7 +536,7 @@ export class CheckbalanceComponent implements OnInit {
 
     appFunc.kioskActivity.push(kActivit1);
 
-    signalrConnection.connection.invoke('PrintHelpPageAsync', body, "GetSummaryStatementPrintout").then((data: any) => {
+    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetSummaryStatementPrintout").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           this.CB3_Visible = false;
@@ -628,7 +628,7 @@ export class CheckbalanceComponent implements OnInit {
         //currentBijakHolder.email;
       }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', body, accessToken.token, email, "GetSummaryStatementPrintout").then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, email, "GetSummaryStatementPrintout").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   
