@@ -251,6 +251,8 @@
                             <div class="col-md-4">
                                 <input [class.is-invalid]="telephone_Warning" name="phoneno" #telephone class="input-normal use-keyboard-input form-control" [formControl]='AR_Form.controls["telephone"]' (input)="usekeyboardinput($event)" formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning">{{'MNWarning' | translate}}</div>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning1">{{'EAWarning1' | translate}}</div> 
+
                                 <input type="checkbox" id="noPhone" name="noPhone" [formControl]='AR_Form.controls["notelephone"]' (click)="noTelephoneCheck()" style="margin-top: 0.8rem;" >
                                 <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
                                 <label for="noPhone">{{'FL_17' | translate }}</label><br>
@@ -322,6 +324,8 @@
                             <div class="col-md-4">
                                 <input [class.is-invalid]="bankNo_Warning" type="text" #bankaccount name="acctno" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning">{{'BANWarning' | translate}}.</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning1">{{'EAWarning1' | translate}}</div> 
+
                             </div>
                         </div>
                     </div>
@@ -423,7 +427,7 @@
                                 <h4>{{'FL_30' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input [class.is-invalid]="companyName_Warning" name="compname" #compname type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
+                                <input [class.is-invalid]="companyName_Warning" name="compname" #companyname type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="companyName_Warning">{{'CNWarning' | translate}}</div> 
                             </div>
                         </div>
@@ -833,6 +837,8 @@
                             <div class="col-md-4">
                                 <input [class.is-invalid]="telephone_Warning" name="phoneno" #telephone class="input-normal use-keyboard-input form-control" [formControl]='AR_Form.controls["telephone"]' (input)="usekeyboardinput($event)" formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning">{{'MNWarning' | translate}}</div>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning1">{{'EAWarning1' | translate}}</div> 
+
                                 <input type="checkbox" id="noPhone" name="noPhone" [formControl]='AR_Form.controls["notelephone"]' (click)="noTelephoneCheck()" style="margin-top: 0.8rem;" >
                                 <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
                                 <label for="noPhone">{{'FL_17' | translate }}</label><br>
@@ -904,6 +910,8 @@
                             <div class="col-md-4">
                                 <input [class.is-invalid]="bankNo_Warning" type="text" #bankaccount name="acctno" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning">{{'BANWarning' | translate}}.</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning1">{{'EAWarning1' | translate}}</div> 
+                            
                             </div>
                         </div>
                     </div>
@@ -1005,7 +1013,7 @@
                                 <h4>{{'FL_30' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input [class.is-invalid]="companyName_Warning" name="compname" #compname type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
+                                <input [class.is-invalid]="companyName_Warning" name="compname" #companyname type="text" class="input-normal use-keyboard-input form-control" (input)="usekeyboardinput($event)" id="AR14" [formControl]='AR_Form.controls["companyname"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="companyName_Warning">{{'CNWarning' | translate}}</div> 
                             </div>
                         </div>

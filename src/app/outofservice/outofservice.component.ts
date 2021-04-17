@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { signalrConnection } from 'src/app/_models/signalr';
 import { appFunc } from '../_models/appFunctions';
 import { errorCodes } from '../_models/errorCode';
@@ -17,7 +18,7 @@ export class OutofserviceComponent implements OnInit {
   EM1 = "";
   MR1 = "";
 
-  constructor() { }
+  constructor(private _router: Router,) { }
 
   ngOnInit(): void {
     this.XXX1 = errorCodes.code;
@@ -36,6 +37,11 @@ export class OutofserviceComponent implements OnInit {
     kActivit.status = false;
 
     appFunc.kioskActivity.push(kActivit);
+
+
+    setTimeout(() =>{
+      this._router.navigate(['/'])
+    }, 120000);
   }
 
 }

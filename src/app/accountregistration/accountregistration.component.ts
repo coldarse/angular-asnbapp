@@ -16,6 +16,7 @@ import { SelectorContext } from '@angular/compiler';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { errorCodes } from '../_models/errorCode';
 import { accessToken } from '../_models/apiToken';
+import { currentHolder } from '../_models/currentUnitHolder';
 
 
 declare const loadKeyboard: any;
@@ -87,10 +88,12 @@ export class AccountregistrationComponent implements OnInit {
   postcode_Warning : boolean = false;
 
   telephone_Warning : boolean = false;
+  telephone_Warning1 : boolean = false;
   email_Warning : boolean = false;
   email_Warning1 : boolean = false;
   bank_Warning : boolean = false;
   bankNo_Warning : boolean = false;
+  bankNo_Warning1 : boolean = false;
   companyName_Warning : boolean = false;
 
   MI_Warning : boolean = false;
@@ -268,7 +271,10 @@ export class AccountregistrationComponent implements OnInit {
         mykadaddress: [true],
 
         homenumber : [''],
-        telephone: ['', Validators.required],
+        telephone: ['', [
+          Validators.required,
+          Validators.pattern('^[0-9]*$')
+        ]],
         notelephone: [false],
 
         email: ['', [
@@ -278,7 +284,10 @@ export class AccountregistrationComponent implements OnInit {
         deliverystate: [''],
 
         bankname: [''],
-        bankaccount: ['', Validators.required],
+        bankaccount: ['', [
+          Validators.required,
+          Validators.pattern('^[0-9]*$')
+        ]],
 
         jobcategory: [''],
         jobname: [''],
@@ -303,9 +312,11 @@ export class AccountregistrationComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Set translation page to selected language.");
     
-    this.id = setInterval(() => {
-      this.DetectMyKad();
-    }, 1000);
+    if (!signalrConnection.isHardcodedIC){
+      this.id = setInterval(() => {
+        this.DetectMyKad();
+      }, 1000);
+    }
 
     let kActivit = new kActivity();
     kActivit.trxno = signalrConnection.trxno;
@@ -406,6 +417,7 @@ export class AccountregistrationComponent implements OnInit {
       this.AR_Form.controls.deliverystate.setValue('ST');
       this.AR_Form.controls.deliverystate.disable();
       if (this.email_Warning == true) this.email_Warning = false;
+      if (this.email_Warning1 == true) this.email_Warning1 = false;
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Email.");
     }
     else{
@@ -421,6 +433,7 @@ export class AccountregistrationComponent implements OnInit {
       this.AR_Form.controls.telephone.reset();
       this.AR_Form.controls.telephone.disable();
       if (this.telephone_Warning == true) this.telephone_Warning = false;
+      if (this.telephone_Warning1 == true) this.telephone_Warning1 = false;
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Telephone.");
     }
     else{
@@ -535,7 +548,7 @@ export class AccountregistrationComponent implements OnInit {
 
     this.serviceService.postAccountRegistration(body).subscribe((data: any) => {
       console.log(data);
-      if(data.result.transactionstatus.toLowerCase().includes('reject')){
+      if(data.result.transactionstatus.toLowerCase().includes('reject') || data.result.rejectcode != ""){
         errorCodes.Ecode = data.result.rejectcode;
         errorCodes.Emessage = data.result.rejectreason;
         this._router.navigate(['errorscreen']);
@@ -578,14 +591,15 @@ export class AccountregistrationComponent implements OnInit {
 
     //GetNonFinancialTransactionPrintout
 
-    signalrConnection.connection.invoke('PrintHelpPageAsync', body, "GetNonFinancialTransactionPrintout").then((data: any) => {
+    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           this.ARPrint1_Visible = false;
           this.ARPrint2_Visible = true;
-          setTimeout(()=>{   
-            this._router.navigate(['transactionsuccessful']);
-          }, 3000);
+          this.getAccountInquiry();
+          // setTimeout(()=>{   
+          //   this._router.navigate(['transactionsuccessful']);
+          // }, 3000);
         }else{
           errorCodes.Ecode = "0068";
           errorCodes.Emessage = "Printing Failed";
@@ -609,7 +623,7 @@ export class AccountregistrationComponent implements OnInit {
       "JenisAkaun": this.ARSuccess_10
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', body, accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout").then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   
@@ -652,10 +666,12 @@ export class AccountregistrationComponent implements OnInit {
     this.postcode_Warning = false;
 
     this.telephone_Warning = false;
+    this.telephone_Warning1 = false;
     this.email_Warning = false;
     this.email_Warning1 = false;
     this.bank_Warning = false;
     this.bankNo_Warning = false;
+    this.bankNo_Warning1 = false;
     this.companyName_Warning = false;
 
     this.MI_Warning = false;
@@ -702,24 +718,30 @@ export class AccountregistrationComponent implements OnInit {
         if(key.includes('email')){
           this.email_Warning1 = true;
         }
+        else if(key.includes('telephone')){
+          this.telephone_Warning1 = true;
+        }
+        else if(key.includes('bankaccount')){
+          this.bankNo_Warning1 = true;
+        }
       }
       else {
         if(key.includes('bankname') && (this.AR_Form.controls.bankname.value == '')){
           this.bank_Warning = true;
         }
-        else if(key.includes('jobcategory') && (this.AR_Form.controls.bankname.value == '')){
+        else if(key.includes('jobcategory') && (this.AR_Form.controls.jobcategory.value == '')){
           this.JC_Warning = true;
         }
-        else if(key.includes('jobname') && (this.AR_Form.controls.bankname.value == '')){
+        else if(key.includes('jobname') && (this.AR_Form.controls.jobname.value == '')){
           this.JN_Warning = true;
         }
-        else if(key.includes('natureofjob') && (this.AR_Form.controls.bankname.value == '')){
+        else if(key.includes('natureofjob') && (this.AR_Form.controls.natureofjob.value == '')){
           this.NOJ_Warning = true;
         }
-        else if(key.includes('jobsector') && (this.AR_Form.controls.bankname.value == '')){
+        else if(key.includes('jobsector') && (this.AR_Form.controls.jobsector.value == '')){
           this.JS_Warning = true;
         }
-        else if(key.includes('monthlyincome') && (this.AR_Form.controls.bankname.value == '')){
+        else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '')){
           this.MI_Warning = true;
         }
       }
@@ -739,25 +761,41 @@ export class AccountregistrationComponent implements OnInit {
     let code = category.target.value;
 
     if (code.includes('EM')){
+      this.AR_Form.controls.natureofjob.setValue('');
       this.AR_Form.controls.natureofjob.disable();
     }
     else if (code.includes('SE')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
     }
     else if (code.includes('HM')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.companyname.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.companyname.disable();
     }
     else if (code.includes('RY')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.companyname.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.companyname.disable();
     }
     else if (code.includes('UM')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.companyname.setValue('');
+      this.AR_Form.controls.monthlyincome.setValue('7');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.jobsector.disable();
@@ -789,6 +827,224 @@ export class AccountregistrationComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Canceled Account Registration.");
     this._router.navigate(['language']);
   
+  }
+
+  getAccountInquiry(): void {
+    try{
+
+      //currentMyKadDetails.ICNo = "980112106087";
+      
+      const body = { 
+
+        "CHANNELTYPE": "ASNB KIOSK",
+        "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+        "DEVICEOWNER": "ASNB",
+        "UNITHOLDERID": "",
+        "FIRSTNAME": "",
+        "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
+        "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
+        "FUNDID": "",
+        "INQUIRYCODE": "5",
+        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
+        "BANKCUSTPHONENUMBER": "",
+        "FILTRATIONFLAG": "1",
+        "GUARDIANID": "",
+        "GUARDIANICTYPE": "",
+        "GUARDIANICNUMBER": ""
+
+       };
+
+
+  
+  
+      this.serviceService.getAccountInquiry(body)
+      .subscribe((result: any) => {
+        
+        let kActivit = new kActivity();
+        kActivit.trxno = signalrConnection.trxno;
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "Binding Unit Holder";
+        kActivit.startTime = new Date();
+
+        
+
+        console.log("Subscribing");
+        currentHolder.channeltype = result.channeltype;
+        currentHolder.requestoridentification = result.requestoridentification;
+        currentHolder.deviceowner = result.deviceowner;
+        currentHolder.unitholderid = result.unitholderid;
+        currentHolder.firstname = result.firstname;
+        currentHolder.identificationtype = result.identificationtype;
+        currentHolder.identificationnumber = result.identificationnumber;
+        currentHolder.fundid = result.fundid;
+        currentHolder.inquirycode = result.inquirycode;
+        currentHolder.transactiondate = result.transactiondate;
+        currentHolder.transactiontime = result.transactiontime;
+        currentHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+        currentHolder.bankcustphonenumber = result.bankcustphonenumber;
+        currentHolder.filtrationflag = result.filtrationflag;      		
+        currentHolder.cifstopaccountstatus = result.cifstopaccountstatus
+        currentHolder.typeclosed = result.typeclosed;
+        currentHolder.participateinasnbmkt = result.participateinasnbmkt;
+        currentHolder.unitbalance = result.unitbalance;
+        currentHolder.funddetail = result.funddetail;
+        currentHolder.cifnumber = result.cifnumber;
+        currentHolder.race = result.race;
+        currentHolder.religion = result.religion;
+        currentHolder.uhcategory = result.uhcategory;
+        currentHolder.title = result.title;
+        currentHolder.accountopeningdate = result.accountopeningdate;
+        currentHolder.investortype = result.investortype;
+        currentHolder.maritalstatus = result.maritalstatus;
+        currentHolder.addresslinE1 = result.addresslinE1;
+        currentHolder.addresslinE2 = result.addresslinE2;
+        currentHolder.addresslinE3 = result.addresslinE3;
+        currentHolder.addresslinE4 = result.addresslinE4;
+        currentHolder.country = result.country;
+        currentHolder.email = result.email;
+        currentHolder.zipcode = result.zipcode;
+        currentHolder.contactperson = result.contactperson;
+        currentHolder.telephonE1 = result.telephonE1;
+        currentHolder.telephonE2 = result.telephonE2;
+        currentHolder.cellphonenumber = result.cellphonenumber;
+        currentHolder.fax = result.fax;
+        currentHolder.dateofbirth = result.dateofbirth;
+        currentHolder.bankcode = result.bankcode;
+        currentHolder.bankbranchcode = result.bankbranchcode;
+        currentHolder.accounttype = result.accounttype;
+        currentHolder.accountnumber = result.accountnumber;
+        currentHolder.accountcurrency = result.accountcurrency;
+        currentHolder.fundcode = result.fundcode;
+        currentHolder.transactiontype = result.transactiontype;
+        currentHolder.directdebit = result.directdebit;
+        currentHolder.mothername = result.mothername;
+        currentHolder.portalenabled = result.portalenabled;				
+        currentHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+        currentHolder.grandtotalepfunits = result.grandtotalepfunits;
+        currentHolder.grandtotalloanunits = result.grandtotalloanunits;
+        currentHolder.grandtotalcertunits = result.grandtotalcertunits;
+        currentHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+        currentHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+        currentHolder.grandtotalunits = result.grandtotalunits;
+        currentHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+        currentHolder.totalminoraccount = result.totalminoraccount;
+        currentHolder.minordetail = result.minordetail;
+        currentHolder.guardianid = result.guardianid;
+        currentHolder.guardianictype = result.guardianictype;
+        currentHolder.guardianicnumber = result.guardianicnumber;
+        currentHolder.epfnumber = result.epfnumber;
+        currentHolder.epfapplicable = result.epfapplicable;
+        currentHolder.epfaccounttype = result.epfaccounttype;
+        currentHolder.epfaccounttypeeffdate = result.epfaccounttypeeffdate;
+        currentHolder.agentcode  = result.agentcode;
+        currentHolder.branchcode  = result.branchcode;
+        currentHolder.occupation = result.occupation;
+        currentHolder.otherinfO8 = result.otherinfO8;
+        currentHolder.occupationsector = result.occupationsector;
+        currentHolder.occupationcategory = result.occupationcategory;
+        currentHolder.natureofbusiness = result.natureofbusiness;
+        currentHolder.companyname = result.companyname;
+        currentHolder.preferredmailmode = result.preferredmailmode;
+        currentHolder.fatca = result.fatca;
+        currentHolder.crs = result.crs;
+        currentHolder.pep = result.pep;
+        currentHolder.riskprofile = result.riskprofile;
+        currentHolder.relationship = result.relationship;
+        currentHolder.agentcode = result.agentcode;
+        currentHolder.branchcode = result.branchcode;
+        currentHolder.lastupdatedate = result.lastupdatedate;
+        currentHolder.transactionchannel = result.transactionchannel;
+        currentHolder.transactionstatus = result.transactionstatus;
+        currentHolder.rejectcode = result.rejectcode;
+        currentHolder.rejectreason = result.rejectreason;
+
+        console.log(currentHolder.occupationcategory);
+
+        kActivit.endTime = new Date();
+        kActivit.status = true; 
+
+        appFunc.kioskActivity.push(kActivit);
+
+
+        if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
+
+          if (!currentHolder.typeclosed.toLowerCase().includes('n')){
+            errorCodes.Ecode = "0168";
+            errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
+            this._router.navigate(['errorscreen']);
+          }
+          else{
+            if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
+              let kActivit2 = new kActivity();
+              kActivit2.trxno = signalrConnection.trxno;
+              kActivit2.kioskCode = signalrConnection.kioskCode;
+              kActivit2.moduleID = 0;
+              kActivit2.submoduleID = undefined;
+              kActivit2.action = "Unit Holder Exists.";
+              kActivit2.startTime = new Date();
+              kActivit2.endTime = new Date();
+              kActivit2.status = true;
+
+              appFunc.kioskActivity.push(kActivit2);
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Account Found.");
+
+              
+              this._router.navigate(['transactionsuccessful']);
+            }
+          }
+        }
+        else{
+          if (currentHolder.rejectreason.includes('not exists')){
+            console.log("Reached Here A");
+            let kActivit1 = new kActivity();
+            kActivit1.trxno = signalrConnection.trxno;
+            kActivit1.kioskCode = signalrConnection.kioskCode;
+            kActivit1.moduleID = 0;
+            kActivit1.submoduleID = undefined;
+            kActivit1.action = "Unit Holder Doesn't Exist.";
+            kActivit1.startTime = new Date();
+            kActivit1.endTime = new Date();
+            kActivit1.status = true;
+
+            appFunc.kioskActivity.push(kActivit1);
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
+
+            
+            this._router.navigate(['feedbackscreen']);
+          }
+          else{
+            errorCodes.Ecode = currentHolder.rejectcode;
+            errorCodes.Emessage = currentHolder.rejectreason;
+            this._router.navigate(['errorscreen']);
+          }
+        }
+      });
+    }
+    catch (e){
+      let kActivit = new kActivity();
+      kActivit.trxno = signalrConnection.trxno;
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Unit Holder Exists.";
+      kActivit.startTime = new Date();
+      kActivit.endTime = new Date();
+      kActivit.status = false;
+
+      appFunc.kioskActivity.push(kActivit);
+      console.log(e);
+      errorCodes.code = "0168";
+      errorCodes.message = e;
+      this._router.navigate(['outofservice']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
+    }
+
+
+    
   }
 
   

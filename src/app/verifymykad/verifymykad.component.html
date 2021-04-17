@@ -143,12 +143,17 @@
 
 <!-- IC Reader Screen 1 -->
 <div *ngIf="insertMykadVisible" class="row" id="ICReaderScreen1">
+    <div class="col-md-12 text-center" *ngIf="ishardcodeic">
+        <input type="text" #icnumber>
+    </div>
     <div class="col-md-6 text-center" style="padding-top:13rem">
         <!-- <h2 id="ICR1_Welcome">Selamat Datang</h2>
         &nbsp;
         <h2 class="h2-ic" id="ICR1_Title1">Sila masukkan MyKad anda</h2>
         <h2 class="h2-ic" id="ICR1_Title2">dan klik butang dibawah</h2>
         &nbsp; -->
+
+
         <h3 id="BR_Welcome">{{'InsertMyKad_1' | translate }}</h3>
         &nbsp;
         <h3 class="h2-ic" id="BR2_Title1">{{'InsertMyKad_2' | translate }}</h3>

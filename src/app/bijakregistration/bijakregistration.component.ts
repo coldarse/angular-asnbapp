@@ -26,6 +26,10 @@ declare const deleteKeyboard: any;
 })
 export class BijakregistrationComponent implements OnInit {
 
+  ishardcodeic = signalrConnection.isHardcodedIC;
+
+  @ViewChild('icnumber') icnumber : ElementRef | undefined;
+
   @ViewChild('address1') add1 : ElementRef | undefined;
   @ViewChild('address2') add2 : ElementRef | undefined;
   @ViewChild('postcode') postcode : ElementRef | undefined;
@@ -83,10 +87,12 @@ export class BijakregistrationComponent implements OnInit {
   postcode_Warning : boolean = false;
 
   telephone_Warning : boolean = false;
+  telephone_Warning1: boolean = false;
   email_Warning : boolean = false;
   email_Warning1 : boolean = false;
   bank_Warning : boolean = false;
   bankNo_Warning : boolean = false;
+  bankNo_Warning1 : boolean = false;
   companyName_Warning : boolean = false;
 
   MI_Warning : boolean = false;
@@ -334,8 +340,10 @@ export class BijakregistrationComponent implements OnInit {
         state : [{value: this.state, disabled: true}],
         mykadaddress: [true],
 
-        homenumber : [''],
-        telephone: ['', Validators.required],
+        telephone: ['', [
+          Validators.required,
+          Validators.pattern('^[0-9]*$')
+        ]],
         notelephone: [false],
 
         email: ['', [
@@ -345,7 +353,10 @@ export class BijakregistrationComponent implements OnInit {
         deliverystate: [''],
 
         bankname: [''],
-        bankaccount: ['', Validators.required],
+        bankaccount: ['', [
+          Validators.required,
+          Validators.pattern('^[0-9]*$')
+        ]],
 
         jobcategory: [''],
         jobname: [''],
@@ -408,38 +419,56 @@ export class BijakregistrationComponent implements OnInit {
 
   verify() {
     try{
-      this.BRInsertMyKid_Visible = false;
-      this.BRLoading_Visible = true;
+      if(signalrConnection.isHardcodedIC){
+        let kActivit0 = new kActivity();
+        kActivit0.trxno = signalrConnection.trxno;
+        kActivit0.kioskCode = signalrConnection.kioskCode;
+        kActivit0.moduleID = 0;
+        kActivit0.submoduleID = undefined;
+        kActivit0.action = "Verify MyKid (Hardcoded)";
+        kActivit0.startTime = new Date();
+        kActivit0.endTime = new Date();
+        kActivit0.status = true;
 
-      let kActivit = new kActivity();
-      kActivit.trxno = signalrConnection.trxno;
-      kActivit.kioskCode = signalrConnection.kioskCode;
-      kActivit.moduleID = 0;
-      kActivit.submoduleID = undefined;
-      kActivit.action = "Bijak Verify MyKid.";
-      kActivit.startTime = new Date();
-      kActivit.endTime = new Date();
-      kActivit.status = true;
+        appFunc.kioskActivity.push(kActivit0);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKid]" + ": " + "Verify MyKid Hardcoded.");
 
-      appFunc.kioskActivity.push(kActivit);
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Start Verifying MyKid.");
-
-      let status = "";
-
-      signalrConnection.connection.invoke('myKidRequest', this.CardType).then((data: any) => {
-        console.log(data);
-        status = data;
-
-        if (status.toLowerCase().includes('removecard')){
-          this.myKidData = Object.assign(new MyKidDetails(), JSON.parse(data));
-          this.bindMyKidData();
-        }
-        else{
+        this.bindMyKidDataHardcoded();
+      }else{
+        this.BRInsertMyKid_Visible = false;
+        this.BRLoading_Visible = true;
+  
+        let kActivit = new kActivity();
+        kActivit.trxno = signalrConnection.trxno;
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "Bijak Verify MyKid.";
+        kActivit.startTime = new Date();
+        kActivit.endTime = new Date();
+        kActivit.status = true;
+  
+        appFunc.kioskActivity.push(kActivit);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Start Verifying MyKid.");
+  
+        let status = "";
+  
+        signalrConnection.connection.invoke('myKidRequest', this.CardType).then((data: any) => {
           console.log(data);
-          this.BRError_Visible = true;
-        }
-
-      });
+          status = data;
+  
+          if (status.toLowerCase().includes('removecard')){
+            this.myKidData = Object.assign(new MyKidDetails(), JSON.parse(data));
+            this.bindMyKidData();
+          }
+          else{
+            console.log(data);
+            this.BRError_Visible = true;
+          }
+  
+        });
+      }
+      
 
     }catch (e){
 
@@ -536,31 +565,127 @@ export class BijakregistrationComponent implements OnInit {
     }
   }
 
+  bindMyKidDataHardcoded(): void {
+    try {
+      let kActivit = new kActivity();
+      kActivit.trxno = signalrConnection.trxno;
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Binding MyKid Details";
+      kActivit.startTime = new Date();
+
+      let age = this.calculateAge(new Date("2019-08-31"));
+
+      if (age <= 12){
+        //Mapping happens here.
+        currentMyKidDetails.VersionNo = "";
+        currentMyKidDetails.BirthCertNo = "123456";
+        currentMyKidDetails.Name = "John Smith Jr.";
+        currentMyKidDetails.ICNo = this.icnumber?.nativeElement.value;
+        currentMyKidDetails.Gender = "Male";
+        currentMyKidDetails.Citizenship = "WARGANEGARA";
+        currentMyKidDetails.SOB = "SELANGOR";
+        currentMyKidDetails.Address1 = "6 Jln 14/70A";
+        currentMyKidDetails.Address2 = "";
+        currentMyKidDetails.Address3 = "Sri Hartamas";
+        currentMyKidDetails.PostCode = "50480";
+        currentMyKidDetails.City = "Kuala Lumpur";
+        currentMyKidDetails.State = "W. PERSEKUTUAN(KL)";
+        currentMyKidDetails.DOB = new Date("2019-08-31");
+        currentMyKidDetails.TOB = "";
+        currentMyKidDetails.POB1 = "";
+        currentMyKidDetails.POB2 = "";
+        currentMyKidDetails.DOR = "";
+        currentMyKidDetails.Country = "Malaysia";
+        currentMyKidDetails.FathersName = "John Smith";
+        currentMyKidDetails.FathersICNo = "666666224444";
+        currentMyKidDetails.FathersRace = "CINA";
+        currentMyKidDetails.FathersReligion = "ISLAM";
+        currentMyKidDetails.MothersName = "Joanna Smith";
+        currentMyKidDetails.MothersICNo = "777777335555";
+        currentMyKidDetails.MothersRace = "CINA";
+        currentMyKidDetails.MothersReligion = "ISLAM";
+        
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKid details to Web App Object Class`);
+    
+
+        kActivit.endTime = new Date();
+        kActivit.status = true;
+
+        appFunc.kioskActivity.push(kActivit);
+        this.getAccountInquiry();
+      }
+      else{
+        kActivit.endTime = new Date();
+        kActivit.status = false;
+  
+        appFunc.kioskActivity.push(kActivit);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + `MyKid Returned Age is more than 12 years old`);
+        this.BRError_Visible = true;
+      }
+    }
+    catch(e) {
+      let kActivit = new kActivity();
+      kActivit.trxno = signalrConnection.trxno;
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Binding MyKid Details";
+      kActivit.startTime = new Date();
+      kActivit.endTime = new Date();
+      kActivit.status = false;
+
+      appFunc.kioskActivity.push(kActivit);
+      console.log(e);
+      errorCodes.code = "0168";
+      errorCodes.message = e;
+      this._router.navigate(['outofservice']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
+    }
+  }
+
   filterJobCategory(category: any) {
     this.enableJob();
 
     let code = category.target.value;
 
     if (code.includes('EM')){
+      this.AR_Form.controls.natureofjob.setValue('');
       this.AR_Form.controls.natureofjob.disable();
     }
     else if (code.includes('SE')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
     }
     else if (code.includes('HM')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.companyname.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.companyname.disable();
     }
     else if (code.includes('RY')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.companyname.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.companyname.disable();
     }
     else if (code.includes('UM')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.companyname.setValue('');
+      this.AR_Form.controls.monthlyincome.setValue('7');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.jobsector.disable();
@@ -771,6 +896,7 @@ export class BijakregistrationComponent implements OnInit {
             this.AR_Form.controls.city.setValue(currentMyKidDetails.City);
             this.AR_Form.controls.state.setValue(this.state);
 
+            this.BRInsertMyKid_Visible = false;
             this.BRLoading_Visible = false;
             this.BRForm_Visible = true;
 
@@ -816,6 +942,7 @@ export class BijakregistrationComponent implements OnInit {
       this.AR_Form.controls.deliverystate.setValue('ST');
       this.AR_Form.controls.deliverystate.disable();
       if (this.email_Warning == true) this.email_Warning = false;
+      if (this.email_Warning1 == true) this.email_Warning1 = false;
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Email.");
     }
     else{
@@ -831,6 +958,7 @@ export class BijakregistrationComponent implements OnInit {
       this.AR_Form.controls.telephone.reset();
       this.AR_Form.controls.telephone.disable();
       if (this.telephone_Warning == true) this.telephone_Warning = false;
+      if (this.telephone_Warning1 == true) this.telephone_Warning1 = false;
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Telephone.");
     }
     else{
@@ -915,10 +1043,12 @@ export class BijakregistrationComponent implements OnInit {
     this.postcode_Warning = false;
 
     this.telephone_Warning = false;
+    this.telephone_Warning1 = false;
     this.email_Warning = false;
     this.email_Warning1 = false;
     this.bank_Warning = false;
     this.bankNo_Warning = false;
+    this.bankNo_Warning1 = false;
     this.companyName_Warning = false;
 
     this.MI_Warning = false;
@@ -965,24 +1095,30 @@ export class BijakregistrationComponent implements OnInit {
         if(key.includes('email')){
           this.email_Warning1 = true;
         }
+        else if(key.includes('telephone')){
+          this.telephone_Warning1 = true;
+        }
+        else if(key.includes('bankaccount')){
+          this.bankNo_Warning1 = true;
+        }
       }
       else {
         if(key.includes('bankname') && (this.AR_Form.controls.bankname.value == '')){
           this.bank_Warning = true;
         }
-        else if(key.includes('jobcategory') && (this.AR_Form.controls.bankname.value == '')){
+        else if(key.includes('jobcategory') && (this.AR_Form.controls.jobcategory.value == '')){
           this.JC_Warning = true;
         }
-        else if(key.includes('jobname') && (this.AR_Form.controls.bankname.value == '')){
+        else if(key.includes('jobname') && (this.AR_Form.controls.jobname.value == '')){
           this.JN_Warning = true;
         }
-        else if(key.includes('natureofjob') && (this.AR_Form.controls.bankname.value == '')){
+        else if(key.includes('natureofjob') && (this.AR_Form.controls.natureofjob.value == '')){
           this.NOJ_Warning = true;
         }
-        else if(key.includes('jobsector') && (this.AR_Form.controls.bankname.value == '')){
+        else if(key.includes('jobsector') && (this.AR_Form.controls.jobsector.value == '')){
           this.JS_Warning = true;
         }
-        else if(key.includes('monthlyincome') && (this.AR_Form.controls.bankname.value == '')){
+        else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '')){
           this.MI_Warning = true;
         }
       }
@@ -1114,7 +1250,7 @@ export class BijakregistrationComponent implements OnInit {
 
     this.serviceService.postAccountRegistration(body).subscribe((data: any) => {
       console.log(data);
-      if(data.result.transactionstatus.toLowerCase().includes('reject')){
+      if(data.result.transactionstatus.toLowerCase().includes('reject')  || data.result.rejectcode != ""){
         errorCodes.Ecode = data.result.rejectcode;
         errorCodes.Emessage = data.result.rejectreason;
         this._router.navigate(['errorscreen']);
@@ -1148,14 +1284,15 @@ export class BijakregistrationComponent implements OnInit {
 
     //GetNonFinancialTransactionPrintout
 
-    signalrConnection.connection.invoke('PrintHelpPageAsync', body, "GetNonFinancialTransactionPrintout").then((data: any) => {
+    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           this.BRPrint1_Visible = false;
           this.BRPrint2_Visible = true;
-          setTimeout(()=>{   
-            this._router.navigate(['transactionsuccessful']);
-          }, 3000);
+          this.getAccountInquiryRetry();
+          // setTimeout(()=>{   
+          //   this._router.navigate(['transactionsuccessful']);
+          // }, 3000);
         }else{
           errorCodes.Ecode = "0068";
           errorCodes.Emessage = "Printing Failed";
@@ -1179,7 +1316,7 @@ export class BijakregistrationComponent implements OnInit {
       "JenisAkaun": this.BRSuccess_10
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', body, accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout").then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   
@@ -1193,6 +1330,173 @@ export class BijakregistrationComponent implements OnInit {
         }
       }, 3000);
     });
+  }
+
+  getAccountInquiryRetry(): void {
+    try{
+
+      //currentMyKadDetails.ICNo = "980112106087";
+      
+      const body = { 
+
+        "CHANNELTYPE": "ASNB KIOSK",
+        "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+        "DEVICEOWNER": "ASNB",
+        "UNITHOLDERID": "",
+        "FIRSTNAME": "",
+        "IDENTIFICATIONTYPE": "W",
+        "IDENTIFICATIONNUMBER": currentMyKidDetails.ICNo,
+        "FUNDID": "",
+        "INQUIRYCODE": "5",
+        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
+        "BANKCUSTPHONENUMBER": "",
+        "FILTRATIONFLAG": "1",
+        "GUARDIANID": "",
+        "GUARDIANICTYPE": "",
+        "GUARDIANICNUMBER": ""
+
+       };
+
+
+  
+  
+      this.serviceService.getAccountInquiry(body)
+      .subscribe((result: any) => {
+        
+        let kActivit = new kActivity();
+        kActivit.trxno = signalrConnection.trxno;
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "Binding Unit Holder";
+        kActivit.startTime = new Date();
+
+        
+
+        console.log("Subscribing");
+        currentBijakHolder.channeltype = result.channeltype;
+        currentBijakHolder.requestoridentification = result.requestoridentification;
+        currentBijakHolder.deviceowner = result.deviceowner;
+        currentBijakHolder.unitholderid = result.unitholderid;
+        currentBijakHolder.firstname = result.firstname;
+        currentBijakHolder.identificationtype = result.identificationtype;
+        currentBijakHolder.identificationnumber = result.identificationnumber;
+        currentBijakHolder.fundid = result.fundid;
+        currentBijakHolder.inquirycode = result.inquirycode;
+        currentBijakHolder.transactiondate = result.transactiondate;
+        currentBijakHolder.transactiontime = result.transactiontime;
+        currentBijakHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+        currentBijakHolder.bankcustphonenumber = result.bankcustphonenumber;
+        currentBijakHolder.filtrationflag = result.filtrationflag;
+        currentBijakHolder.typeclosed = result.typeclosed;
+        currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
+        currentBijakHolder.funddetail = result.fundetail;
+        currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+        currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
+        currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
+        currentBijakHolder.grandtotalcertunits = result.grandtotalcertunits;
+        currentBijakHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+        currentBijakHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+        currentBijakHolder.grandtotalunits = result.grandtotalunits;
+        currentBijakHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+        currentBijakHolder.totalminoraccount = result.totalminoraccount;
+        currentBijakHolder.minordetail = result.minordetail;
+        currentBijakHolder.guardianid = result.guardianid;
+        currentBijakHolder.guardianictype = result.guardianictype;
+        currentBijakHolder.guardianicnumber = result.guardianicnumber;
+        currentBijakHolder.agentcode = result.agentcode;
+        currentBijakHolder.branchcode = result.branchcode;
+        currentBijakHolder.lastupdatedate = result.lastupdatedate;
+        currentBijakHolder.transactionchannel = result.transactionchannel;
+        currentBijakHolder.transactionstatus = result.transactionstatus;
+        currentBijakHolder.rejectcode = result.rejectcode;
+        currentBijakHolder.rejectreason = result.rejectreason;
+
+        console.log(currentBijakHolder.occupationcategory);
+
+        kActivit.endTime = new Date();
+        kActivit.status = true; 
+
+        appFunc.kioskActivity.push(kActivit);
+
+
+        if (currentBijakHolder.transactionstatus.toLowerCase().includes('successful')){
+
+          if (!currentBijakHolder.typeclosed.toLowerCase().includes('n')){
+            errorCodes.Ecode = "0168";
+            errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
+            this._router.navigate(['errorscreen']);
+          }
+          else{
+            if(currentBijakHolder.unitholderid != "" || currentBijakHolder.unitholderid != undefined){
+              let kActivit2 = new kActivity();
+              kActivit2.trxno = signalrConnection.trxno;
+              kActivit2.kioskCode = signalrConnection.kioskCode;
+              kActivit2.moduleID = 0;
+              kActivit2.submoduleID = undefined;
+              kActivit2.action = "Unit Holder Exists.";
+              kActivit2.startTime = new Date();
+              kActivit2.endTime = new Date();
+              kActivit2.status = true;
+
+              appFunc.kioskActivity.push(kActivit2);
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "Account Found.");
+
+              
+              this._router.navigate(['transactionsuccessful']);
+            }
+          }
+        }
+        else{
+          if (currentBijakHolder.rejectreason.includes('not exists')){
+            console.log("Reached Here A");
+            let kActivit1 = new kActivity();
+            kActivit1.trxno = signalrConnection.trxno;
+            kActivit1.kioskCode = signalrConnection.kioskCode;
+            kActivit1.moduleID = 0;
+            kActivit1.submoduleID = undefined;
+            kActivit1.action = "Unit Holder Doesn't Exist.";
+            kActivit1.startTime = new Date();
+            kActivit1.endTime = new Date();
+            kActivit1.status = true;
+
+            appFunc.kioskActivity.push(kActivit1);
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "No account found.");
+
+            
+            this._router.navigate(['feedbackscreen']);
+          }
+          else{
+            errorCodes.Ecode = currentBijakHolder.rejectcode;
+            errorCodes.Emessage = currentBijakHolder.rejectreason;
+            this._router.navigate(['errorscreen']);
+          }
+        }
+      });
+    }
+    catch (e){
+      let kActivit = new kActivity();
+      kActivit.trxno = signalrConnection.trxno;
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Unit Holder Exists.";
+      kActivit.startTime = new Date();
+      kActivit.endTime = new Date();
+      kActivit.status = false;
+
+      appFunc.kioskActivity.push(kActivit);
+      console.log(e);
+      errorCodes.code = "0168";
+      errorCodes.message = e;
+      this._router.navigate(['outofservice']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
+    }
+
+
+    
   }
 
 }
