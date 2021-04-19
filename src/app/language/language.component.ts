@@ -141,6 +141,7 @@ export class LanguageComponent implements OnInit {
     selectLang.selectedLang = 'en';
     this.route.navigate(['/verifymykad']);
 
+
     let kActivit = new kActivity();
     kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
@@ -152,10 +153,7 @@ export class LanguageComponent implements OnInit {
     kActivit.status = true;
 
     appFunc.kioskActivity.push(kActivit);
-
     
-
-    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected English.");
     this.getDropDowns();
 
     

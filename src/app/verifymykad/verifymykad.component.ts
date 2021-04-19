@@ -463,7 +463,7 @@ export class VerifymykadComponent implements OnInit {
         "UNITHOLDERID": "",
         "FIRSTNAME": "",
         "IDENTIFICATIONTYPE": "W",
-        "IDENTIFICATIONNUMBER": "980112106085",
+        "IDENTIFICATIONNUMBER": "521030135188",
         "FUNDID": "",
         "INQUIRYCODE": "5",
         "TRANSACTIONDATE": "26/3/2021",
@@ -474,10 +474,7 @@ export class VerifymykadComponent implements OnInit {
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
         "GUARDIANICNUMBER": ""
-
-
-
-  
+ 
        };
 
 
