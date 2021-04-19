@@ -27,9 +27,11 @@ export class TransactionsuccessfulComponent implements OnInit {
     }
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
-    this.id = setInterval(() => {
-      this.DetectMyKad();
-    }, 1000);
+    if (!signalrConnection.isHardcodedIC){
+      this.id = setInterval(() => {
+        this.DetectMyKad();
+      }, 1000);
+    }
 
     let kActivit = new kActivity();
     kActivit.trxno = signalrConnection.trxno;

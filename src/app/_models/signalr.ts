@@ -10,6 +10,7 @@ export class signalrConnection {
   static logsaves: string[];
   static kioskCode: string;
   static trxno : string;
+  static isHardcodedIC : boolean;
 }
 
 

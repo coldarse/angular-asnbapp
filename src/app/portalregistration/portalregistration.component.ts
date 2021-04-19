@@ -183,10 +183,11 @@ export class PortalregistrationComponent implements OnInit {
       }
       this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
         if (res.result.member_status == "non_member"){
-          this.id = setInterval(() => {
-            this.DetectMyKad();
-          }, 1000);
-      
+          if (!signalrConnection.isHardcodedIC){
+            this.id = setInterval(() => {
+              this.DetectMyKad();
+            }, 1000);
+          }
           let kActivit = new kActivity();
           kActivit.trxno = signalrConnection.trxno;
           kActivit.kioskCode = signalrConnection.kioskCode;

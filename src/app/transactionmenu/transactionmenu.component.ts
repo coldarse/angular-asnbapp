@@ -84,9 +84,11 @@ export class TransactionmenuComponent implements OnInit {
 
 
     this.translate.use(selectLang.selectedLang);
-    this.id = setInterval(() => {
-      this.DetectMyKad();
-    }, 1000);
+    if (!signalrConnection.isHardcodedIC){
+      this.id = setInterval(() => {
+        this.DetectMyKad();
+      }, 1000);
+    }
 
     
     kActivit.endTime = new Date();

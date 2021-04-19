@@ -235,6 +235,18 @@ export class ServiceService {
     );
   }
 
+
+  getNewAccountInquiry(body: any){
+    return this.http.post(
+      this.url + "services/app/OpenAPI/BalanceInquiry",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
   
   //Account Enquiry (Bijak and Major)
   getAccountInquiry(body: any | undefined): Observable<UnitHolder>

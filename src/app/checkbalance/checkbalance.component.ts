@@ -117,9 +117,11 @@ export class CheckbalanceComponent implements OnInit {
       this.CBBijak_Visible = true;
     }
 
-    this.id = setInterval(() => {
-      this.DetectMyKad();
-    }, 1000);
+    if (!signalrConnection.isHardcodedIC){
+      this.id = setInterval(() => {
+        this.DetectMyKad();
+      }, 1000);
+    }
 
     let kActivit = new kActivity();
     kActivit.trxno = signalrConnection.trxno;
@@ -310,7 +312,7 @@ export class CheckbalanceComponent implements OnInit {
 
       appFunc.kioskActivity.push(kActivit1);
 
-      signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetStatementPrintout").then((data: any) => {
+      signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
         setTimeout(()=>{   
           if (data == true){
             this.CB3_Visible = false;
@@ -452,7 +454,7 @@ export class CheckbalanceComponent implements OnInit {
         //currentBijakHolder.email;
       }
 
-      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, email, "GetStatementPrintout").then((data: any) => {
+      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, email, "GetStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
         setTimeout(()=>{   
           if (data == true){
             setTimeout(()=>{   
@@ -472,6 +474,9 @@ export class CheckbalanceComponent implements OnInit {
   }
 
   PrintAllStatement(selectedFundDetails: any) {
+    this.CB2_Visible = false;
+    this.CB3_Visible = true;
+    
     let kActivit = new kActivity();
     kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
@@ -502,6 +507,7 @@ export class CheckbalanceComponent implements OnInit {
         "GRANDTOTALPROVISIONALUNITS": currentHolder.grandtotalprovisionalunits,
         "GRANDTOTALUNITS": currentHolder.grandtotalunits,
         "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings,
+        "NRIC": currentHolder.identificationnumber,
         "FUNDS": currentHolder.funddetail
       };
     }
@@ -519,6 +525,7 @@ export class CheckbalanceComponent implements OnInit {
         "GRANDTOTALPROVISIONALUNITS": currentBijakHolder.grandtotalprovisionalunits,
         "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits,
         "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings,
+        "NRIC": currentBijakHolder.identificationnumber,
         "FUNDS": currentBijakHolder.funddetail
       };
     }
@@ -536,7 +543,7 @@ export class CheckbalanceComponent implements OnInit {
 
     appFunc.kioskActivity.push(kActivit1);
 
-    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetSummaryStatementPrintout").then((data: any) => {
+    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetSummaryStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           this.CB3_Visible = false;
@@ -556,6 +563,9 @@ export class CheckbalanceComponent implements OnInit {
   }
 
   EmailAllStatement(selectedFundDetails: any) {
+    this.CB2_Visible = false;
+    this.CB5_Visible = true;
+
     let kActivit = new kActivity();
     kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
@@ -586,6 +596,7 @@ export class CheckbalanceComponent implements OnInit {
         "GRANDTOTALPROVISIONALUNITS": currentHolder.grandtotalprovisionalunits,
         "GRANDTOTALUNITS": currentHolder.grandtotalunits,
         "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings,
+        "NRIC": currentHolder.identificationnumber,
         "FUNDS": currentHolder.funddetail
       };
     }
@@ -603,6 +614,7 @@ export class CheckbalanceComponent implements OnInit {
         "GRANDTOTALPROVISIONALUNITS": currentBijakHolder.grandtotalprovisionalunits,
         "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits,
         "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings,
+        "NRIC": currentBijakHolder.identificationnumber,
         "FUNDS": currentBijakHolder.funddetail
       };
     }
@@ -628,7 +640,7 @@ export class CheckbalanceComponent implements OnInit {
         //currentBijakHolder.email;
       }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, email, "GetSummaryStatementPrintout").then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, email, "GetSummaryStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   

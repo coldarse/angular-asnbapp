@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
@@ -23,6 +23,10 @@ import { appFunc } from '../_models/appFunctions';
 
   
 export class VerifymykadComponent implements OnInit {
+
+  ishardcodeic = signalrConnection.isHardcodedIC;
+
+  @ViewChild('icnumber') icnumber : ElementRef | undefined;
 
   BTN_End = "";
   BTN_TryAgain = "";
@@ -85,6 +89,7 @@ export class VerifymykadComponent implements OnInit {
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
     this._conn = signalrConnection.connection;signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Set global variable 'signalrConnection.connection to this._conn.");
+
   }
 
 
@@ -206,129 +211,147 @@ export class VerifymykadComponent implements OnInit {
 
   verify() : void {
     try {
-      let kActivit0 = new kActivity();
-      kActivit0.trxno = signalrConnection.trxno;
-      kActivit0.kioskCode = signalrConnection.kioskCode;
-      kActivit0.moduleID = 0;
-      kActivit0.submoduleID = undefined;
-      kActivit0.action = "Verify MyKad";
-      kActivit0.startTime = new Date();
-      
-
-      this.insertMykadVisible = false;
-      this.loadingVisible = true;
-
-      let status = "";
-
-      //this.DetectMyKad();
-      //First Invoke
-      this._conn.invoke('myKadRequest', this.CardType).then((data: any) => {
-        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoke myKadRequest to read MyKad.");
-        console.log(data);
-        status = data;
-        
-        //Not ScanThumb
-        if(data.toLowerCase().includes("error")){
-          kActivit0.endTime = new Date();
-          kActivit0.status = false;
-
-          appFunc.kioskActivity.push(kActivit0);
-          console.log(data);
-          errorCodes.code = "0168";
-          errorCodes.message = data;
-          this._router.navigate(['outofservice']);
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
-        }
+      if(signalrConnection.isHardcodedIC){
+        let kActivit0 = new kActivity();
+        kActivit0.trxno = signalrConnection.trxno;
+        kActivit0.kioskCode = signalrConnection.kioskCode;
+        kActivit0.moduleID = 0;
+        kActivit0.submoduleID = undefined;
+        kActivit0.action = "Verify MyKad (Hardcoded)";
+        kActivit0.startTime = new Date();
         kActivit0.endTime = new Date();
         kActivit0.status = true;
 
         appFunc.kioskActivity.push(kActivit0);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Verify MyKad Hardcoded.");
+
+        this.bindMyKadDataHardcoded();
+
+      }else{
+        let kActivit0 = new kActivity();
+        kActivit0.trxno = signalrConnection.trxno;
+        kActivit0.kioskCode = signalrConnection.kioskCode;
+        kActivit0.moduleID = 0;
+        kActivit0.submoduleID = undefined;
+        kActivit0.action = "Verify MyKad";
+        kActivit0.startTime = new Date();
+        
+
+        this.insertMykadVisible = false;
+        this.loadingVisible = true;
+
+        let status = "";
+
         //this.DetectMyKad();
-        let kActivit = new kActivity();
-        kActivit.trxno = signalrConnection.trxno;
-        kActivit.kioskCode = signalrConnection.kioskCode;
-        kActivit.moduleID = 0;
-        kActivit.submoduleID = undefined;
-        kActivit.action = "Read MyKad";
-        kActivit.startTime = new Date();
-
-        this._conn.invoke('myKadRequest', status).then((data: any) => {
-          
+        //First Invoke
+        this._conn.invoke('myKadRequest', this.CardType).then((data: any) => {
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoke myKadRequest to read MyKad.");
           console.log(data);
-          //ScanThumb
-          //this.DetectMyKad();
-          if (data.toUpperCase().includes("SCANTHUMB")){
-            kActivit.endTime = new Date();
-            kActivit.status = true;
+          status = data;
+          
+          //Not ScanThumb
+          if(data.toLowerCase().includes("error")){
+            kActivit0.endTime = new Date();
+            kActivit0.status = false;
 
-            appFunc.kioskActivity.push(kActivit);
-
-            let kActivit1 = new kActivity();
-            kActivit1.trxno = signalrConnection.trxno;
-            kActivit1.kioskCode = signalrConnection.kioskCode;
-            kActivit1.moduleID = 0;
-            kActivit1.submoduleID = undefined;
-            kActivit1.action = "Scan Thumb";
-            kActivit1.startTime = new Date();
-
-            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoke myKadRequest to Scan Thumb.");
-            status = data;
-            this.loadingVisible = false;
-            this.readThumbprintVisible = true;
-            this._conn.invoke('myKadRequest', status).then((data: any) => {
-              status = data;
-              //this.DetectMyKad();
-              console.log(data);
-              if (status.toUpperCase().includes("MISMATCH")){
-                kActivit1.endTime = new Date();
-                kActivit1.status = false;
-
-                appFunc.kioskActivity.push(kActivit1);
-                signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Thumbprint Mismatched. ${this.tryCount} tries remaining.`);
-                this.DetectMyKad(data.toString());
-              }
-              else if(data.toUpperCase().includes("MATCH")){
-                kActivit1.endTime = new Date();
-                kActivit1.status = true;
-
-                appFunc.kioskActivity.push(kActivit1);  
-                signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Thumbprint Matched.");
-                this.DetectMyKad(data.toString());
-              }
-              else if(data.toUpperCase().includes("ERROR")){
-                kActivit1.endTime = new Date();
-                kActivit1.status = false;
-
-                appFunc.kioskActivity.push(kActivit1);
-                errorCodes.Ecode = "0333";
-                errorCodes.Emessage = data.replace("Error : ", "");
-                this._router.navigate(['errorscreen']);
-                signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Timeout Error.");
-              }
-              else{
-                kActivit1.endTime = new Date();
-                kActivit1.status = false;
-
-                appFunc.kioskActivity.push(kActivit1);
-                errorCodes.code = "0222";
-                errorCodes.message = data;
-                this._router.navigate(['outofservice']);
-                signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
-              }
-            }); 
-          }
-          else{
-            kActivit.endTime = new Date();
-            kActivit.status = false;
-
-            appFunc.kioskActivity.push(kActivit);
-            errorCodes.code = "0111";
+            appFunc.kioskActivity.push(kActivit0);
+            console.log(data);
+            errorCodes.code = "0168";
             errorCodes.message = data;
             this._router.navigate(['outofservice']);
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
-          }    
+          }
+          kActivit0.endTime = new Date();
+          kActivit0.status = true;
+
+          appFunc.kioskActivity.push(kActivit0);
+          //this.DetectMyKad();
+          let kActivit = new kActivity();
+          kActivit.trxno = signalrConnection.trxno;
+          kActivit.kioskCode = signalrConnection.kioskCode;
+          kActivit.moduleID = 0;
+          kActivit.submoduleID = undefined;
+          kActivit.action = "Read MyKad";
+          kActivit.startTime = new Date();
+
+          this._conn.invoke('myKadRequest', status).then((data: any) => {
+            
+            console.log(data);
+            //ScanThumb
+            //this.DetectMyKad();
+            if (data.toUpperCase().includes("SCANTHUMB")){
+              kActivit.endTime = new Date();
+              kActivit.status = true;
+
+              appFunc.kioskActivity.push(kActivit);
+
+              let kActivit1 = new kActivity();
+              kActivit1.trxno = signalrConnection.trxno;
+              kActivit1.kioskCode = signalrConnection.kioskCode;
+              kActivit1.moduleID = 0;
+              kActivit1.submoduleID = undefined;
+              kActivit1.action = "Scan Thumb";
+              kActivit1.startTime = new Date();
+
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoke myKadRequest to Scan Thumb.");
+              status = data;
+              this.loadingVisible = false;
+              this.readThumbprintVisible = true;
+              this._conn.invoke('myKadRequest', status).then((data: any) => {
+                status = data;
+                //this.DetectMyKad();
+                console.log(data);
+                if (status.toUpperCase().includes("MISMATCH")){
+                  kActivit1.endTime = new Date();
+                  kActivit1.status = false;
+
+                  appFunc.kioskActivity.push(kActivit1);
+                  signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Thumbprint Mismatched. ${this.tryCount} tries remaining.`);
+                  this.DetectMyKad(data.toString());
+                }
+                else if(data.toUpperCase().includes("MATCH")){
+                  kActivit1.endTime = new Date();
+                  kActivit1.status = true;
+
+                  appFunc.kioskActivity.push(kActivit1);  
+                  signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Thumbprint Matched.");
+                  this.DetectMyKad(data.toString());
+                }
+                else if(data.toUpperCase().includes("ERROR")){
+                  kActivit1.endTime = new Date();
+                  kActivit1.status = false;
+
+                  appFunc.kioskActivity.push(kActivit1);
+                  errorCodes.Ecode = "0333";
+                  errorCodes.Emessage = data.replace("Error : ", "");
+                  this._router.navigate(['errorscreen']);
+                  signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Timeout Error.");
+                }
+                else{
+                  kActivit1.endTime = new Date();
+                  kActivit1.status = false;
+
+                  appFunc.kioskActivity.push(kActivit1);
+                  errorCodes.code = "0222";
+                  errorCodes.message = data;
+                  this._router.navigate(['outofservice']);
+                  signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
+                }
+              }); 
+            }
+            else{
+              kActivit.endTime = new Date();
+              kActivit.status = false;
+
+              appFunc.kioskActivity.push(kActivit);
+              errorCodes.code = "0111";
+              errorCodes.message = data;
+              this._router.navigate(['outofservice']);
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
+            }    
+          });
         });
-      });
+      }
     }
     catch (e){
       console.log(e);
@@ -407,6 +430,71 @@ export class VerifymykadComponent implements OnInit {
     }
   }
 
+  bindMyKadDataHardcoded(): void {
+    try {
+      let kActivit = new kActivity();
+      kActivit.trxno = signalrConnection.trxno;
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Binding MyKad Details (Hardcode)";
+      kActivit.startTime = new Date();
+
+      currentMyKadDetails.Name = "John Smith";
+      currentMyKadDetails.ICNo = this.icnumber?.nativeElement.value;
+      currentMyKadDetails.OldICNo = "";
+      currentMyKadDetails.DOB = new Date("1957-08-31");
+      currentMyKadDetails.POB =  "SELANGOR";
+      currentMyKadDetails.Gender = "Male";
+      currentMyKadDetails.Citizenship = "WARGANEGARA";
+      currentMyKadDetails.IssueDate = new Date("2020-01-01");
+      currentMyKadDetails.Race = "CINA";
+      currentMyKadDetails.Religion = "ISLAM";
+      currentMyKadDetails.Address1 = "6 Jln 14/70A";
+      currentMyKadDetails.Address2 = "";
+      currentMyKadDetails.Address3 = "Sri Hartamas";
+      currentMyKadDetails.PostCode = "50480";
+      currentMyKadDetails.City = "Kuala Lumpur";
+      currentMyKadDetails.State = "W. PERSEKUTUAN(KL)";
+      currentMyKadDetails.Country = "Malaysia";
+      currentMyKadDetails.Address = "";
+      currentMyKadDetails.RJ = "";
+      currentMyKadDetails.KT = "";
+      currentMyKadDetails.GreenCardNationality = "";
+      currentMyKadDetails.GreenCardExpiryDate = new Date("0000-00-00");
+      currentMyKadDetails.CardVersion = "";
+      currentMyKadDetails.OtherID = "";
+      currentMyKadDetails.CategoryType = "W";
+
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
+  
+
+      kActivit.endTime = new Date();
+      kActivit.status = true;
+
+      appFunc.kioskActivity.push(kActivit);
+      this.getAccountInquiry();
+    }
+    catch(e) {
+      let kActivit = new kActivity();
+      kActivit.trxno = signalrConnection.trxno;
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Binding MyKad Details";
+      kActivit.startTime = new Date();
+      kActivit.endTime = new Date();
+      kActivit.status = false;
+
+      appFunc.kioskActivity.push(kActivit);
+      console.log(e);
+      errorCodes.code = "0168";
+      errorCodes.message = e;
+      this._router.navigate(['outofservice']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
+    }
+  }
+
  //660322107550
 
 
@@ -421,60 +509,23 @@ export class VerifymykadComponent implements OnInit {
       
       const body = { 
 
-        // "CHANNELTYPE": "ASNB KIOSK",
-        // "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
-        // "DEVICEOWNER": "ASNB",
-        // "UNITHOLDERID": "",
-        // "FIRSTNAME": "",
-        // "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
-        // "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
-        // "FUNDID": "",
-        // "INQUIRYCODE": "5",
-        // "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-        // "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-        // "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
-        // "BANKCUSTPHONENUMBER": "",
-        // "FILTRATIONFLAG": "1",
-        // "GUARDIANID": "",
-        // "GUARDIANICTYPE": "",
-        // "GUARDIANICNUMBER": ""
-
-        // "CHANNELTYPE": "ASNB KIOSK",
-        // "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
-        // "DEVICEOWNER": "ASNB",
-        // "UNITHOLDERID": "000013053909",
-        // "FIRSTNAME": "",
-        // "IDENTIFICATIONTYPE": "W",
-        // "IDENTIFICATIONNUMBER": "521030135188",
-        // "FUNDID": "",
-        // "INQUIRYCODE": "5",
-        // "TRANSACTIONDATE": "26/3/2021",
-        // "TRANSACTIONTIME": "15:43:10",
-        // "BANKTXNREFERENCENUMBER": "20191003001325",
-        // "BANKCUSTPHONENUMBER": "60173511111",
-        // "FILTRATIONFLAG": "1",
-        // "GUARDIANID": "",
-        // "GUARDIANICTYPE": "",
-        // "GUARDIANICNUMBER": ""
-
         "CHANNELTYPE": "ASNB KIOSK",
         "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
         "DEVICEOWNER": "ASNB",
         "UNITHOLDERID": "",
         "FIRSTNAME": "",
-        "IDENTIFICATIONTYPE": "W",
-        "IDENTIFICATIONNUMBER": "521030135188",
+        "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
+        "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
         "FUNDID": "",
         "INQUIRYCODE": "5",
-        "TRANSACTIONDATE": "26/3/2021",
-        "TRANSACTIONTIME": "15:43:10",
-        "BANKTXNREFERENCENUMBER": "20191003001325",
-        "BANKCUSTPHONENUMBER": "60173511111",
+        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
+        "BANKCUSTPHONENUMBER": "",
         "FILTRATIONFLAG": "1",
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
         "GUARDIANICNUMBER": ""
- 
        };
 
 

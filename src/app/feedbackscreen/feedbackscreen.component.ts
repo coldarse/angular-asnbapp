@@ -111,7 +111,7 @@ export class FeedbackscreenComponent implements OnInit {
 
   playAudio() {
     let audio = new Audio();
-    audio.src = "assets/sounds/litlit.mp3";
+    audio.src = "assets/sounds/samangry.mp3";
     audio.load();
     audio.play();
   }

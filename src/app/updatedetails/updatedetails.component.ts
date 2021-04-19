@@ -92,10 +92,12 @@ export class UpdatedetailsComponent implements OnInit {
   postcode_Warning : boolean = false;
 
   telephone_Warning : boolean = false;
+  telephone_Warning1 : boolean = false;
   email_Warning : boolean = false;
   email_Warning1 : boolean = false;
   bank_Warning : boolean = false;
   bankNo_Warning : boolean = false;
+  bankNo_Warning1 : boolean = false;
   companyName_Warning : boolean = false;
 
   MI_Warning : boolean = false;
@@ -241,9 +243,12 @@ export class UpdatedetailsComponent implements OnInit {
       this.UDBijak_Visible = false;
     }
 
-    this.id = setInterval(() => {
-      this.DetectMyKad();
-    }, 1000);
+    if (!signalrConnection.isHardcodedIC){
+      this.id = setInterval(() => {
+        this.DetectMyKad();
+      }, 1000);
+    }
+    
 
 
     
@@ -296,25 +301,41 @@ export class UpdatedetailsComponent implements OnInit {
     let code = category.target.value;
 
     if (code.includes('EM')){
+      this.AR_Form.controls.natureofjob.setValue('');
       this.AR_Form.controls.natureofjob.disable();
     }
     else if (code.includes('SE')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
     }
     else if (code.includes('HM')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.companyname.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.companyname.disable();
     }
     else if (code.includes('RY')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.companyname.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.companyname.disable();
     }
     else if (code.includes('UM')){
+      this.AR_Form.controls.jobname.setValue('');
+      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.companyname.setValue('');
+      this.AR_Form.controls.monthlyincome.setValue('7');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.jobsector.disable();
@@ -550,6 +571,7 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.deliverystate.setValue('ST');
       this.AR_Form.controls.deliverystate.disable();
       if (this.email_Warning == true) this.email_Warning = false;
+      if (this.email_Warning1 == true) this.email_Warning1 = false;
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Email.");
     }
     else{
@@ -565,6 +587,7 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.telephone.reset();
       this.AR_Form.controls.telephone.disable();
       if (this.telephone_Warning == true) this.telephone_Warning = false;
+      if (this.telephone_Warning1 == true) this.telephone_Warning1 = false;
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Checked No Telephone.");
     }
     else{
@@ -823,10 +846,12 @@ export class UpdatedetailsComponent implements OnInit {
     this.postcode_Warning = false;
 
     this.telephone_Warning = false;
+    this.telephone_Warning1 = false;
     this.email_Warning = false;
     this.email_Warning1 = false;
     this.bank_Warning = false;
     this.bankNo_Warning = false;
+    this.bankNo_Warning1 = false;
     this.companyName_Warning = false;
 
     this.MI_Warning = false;
@@ -872,6 +897,12 @@ export class UpdatedetailsComponent implements OnInit {
       else if (this.AR_Form.controls[key].hasError('pattern')){
         if(key.includes('email')){
           this.email_Warning1 = true;
+        }
+        else if(key.includes('telephone')){
+          this.telephone_Warning1 = true;
+        }
+        else if(key.includes('bankaccount')){
+          this.bankNo_Warning1 = true;
         }
       }
       else {
@@ -1211,7 +1242,7 @@ export class UpdatedetailsComponent implements OnInit {
 
     //GetNonFinancialTransactionPrintout
 
-    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout").then((data: any) => {
+    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           this.UD_Print1Visible = false;
@@ -1256,7 +1287,7 @@ export class UpdatedetailsComponent implements OnInit {
       "JenisAkaun": accountType
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout").then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   
