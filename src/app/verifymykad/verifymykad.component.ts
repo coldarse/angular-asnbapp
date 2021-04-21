@@ -526,7 +526,6 @@ export class VerifymykadComponent implements OnInit {
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
         "GUARDIANICNUMBER": ""
-
        };
 
 
