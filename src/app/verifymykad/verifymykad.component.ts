@@ -514,8 +514,8 @@ export class VerifymykadComponent implements OnInit {
         "DEVICEOWNER": "ASNB",
         "UNITHOLDERID": "",
         "FIRSTNAME": "",
-        "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
-        "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
+        "IDENTIFICATIONTYPE": "W",
+        "IDENTIFICATIONNUMBER": "980112106085",
         "FUNDID": "",
         "INQUIRYCODE": "5",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
@@ -526,10 +526,9 @@ export class VerifymykadComponent implements OnInit {
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
         "GUARDIANICNUMBER": ""
+
        };
 
-
-  
   
       this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
