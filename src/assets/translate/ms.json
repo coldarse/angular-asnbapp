@@ -20,9 +20,9 @@
 	"BTN_Submit":"Hantar",
 	"BTN_Enrol":"Daftar",
 	"RMError1_1":"Mesej Ralat",
-	"RMError1_2":"(Mesej Ralat)",
+	"RMError1_2":"Cap jari tidak sepadan dengan MyKad",
 	"RMError2_1":"Mesej Ralat",
-	"RMError2_2":"(Mesej Ralat)",
+	"RMError2_2":"Cap jari tidak sepadan dengan MyKad. Cubaan maksimum telah dicapai. Sila minta bantuan petugas dari kaunter.",
 	"RMError3_1":"Nombor Kad Pengenalan anda tiada dalam rekod ASNB",
 	"RMError3_2":"Klik 'Daftar' sekiranya anda ingin mendaftar akaun.",
 	"RMError3_3":"Klik 'Tamatkan Transaksi' dan rujuk ke kaunter sekiranya anda telah mempunyai akaun unit amanah ASNB.",
@@ -251,5 +251,9 @@
 	"RMError4_1" : "Sila kemas kini akaun anda untuk meneruskan transaksi.",
 	"UEError_1" : "Anda telah mendaftar ke myASNB Portal.",
 	"BTN_Summ5" : "Ringkasan & 5 Transaksi terkini",
-	"BTN_LatestDiv" : "Penyata dividen terkini"
+	"BTN_LatestDiv" : "Penyata dividen terkini",
+	"NotMatch" : "Kedua-dua kata laluan mesti sepadan.",
+	"BTN_TAC" : "Permintaan TAC",
+	"WrongTAC" : "TAC tidak sah.",
+	"BTN_Login" : "Log Masuk"
 }

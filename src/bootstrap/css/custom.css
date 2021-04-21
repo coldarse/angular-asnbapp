@@ -482,7 +482,7 @@ user-select: none;
 }
 
 .lock-scrolling {
-  max-width: 100%;
+  max-width: 99%;
   overflow-y: hidden;
 }
 
