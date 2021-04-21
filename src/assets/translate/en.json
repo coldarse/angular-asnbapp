@@ -20,10 +20,10 @@
 	"BTN_Submit":"Submit",
 	"BTN_Enrol":"Register",
 	"RMError1_1":"Error Message",
-	"RMError1_2":"(Error Message)",
+	"RMError1_2":"Fingerprint does not match MyKad",
 	"RMError2_1":"Error Message",
-	"RMError2_2":"(Error Message)",
-	"RMError3_1":"Your identification card number is not found in ASNB records",
+	"RMError2_2":"Fingerprint does not match MyKad. Maximum tries reached. Please ask for assistance from the counter.",
+	"RMError3_1":"Your identification card number is not on the ASNB's records.",
 	"RMError3_2":"Click 'Register' to create the account.",
 	"RMError3_3":"Click 'End Transaction' and refer to the counter if you already have an account.",
 	"InsertMyKad_1":"Welcome",
@@ -50,7 +50,7 @@
 	"FL_16":"Mobile Phone No",
 	"FL_17":"No Mobile Phone No",
 	"FL_18":"Email",
-	"FL_20":"Statement Delivery Method",
+	"FL_20":"Preferred Mailing Mode",
 	"FL_19":"No Email",
 	"FL_21":"Bank Details",
 	"FL_22":"Bank Name",
@@ -251,5 +251,9 @@
 	"RMError4_1" : "Please update your account to continue with the transaction.",
 	"UEError_1" : "You have already registered for myASNB Portal.",
 	"BTN_Summ5" : "Summary & 5 Latest transactions",
-	"BTN_LatestDiv" : "Latest dividend statement"
+	"BTN_LatestDiv" : "Latest dividend statement",
+	"NotMatch" : "Both passwords must match.",
+	"BTN_TAC" : "Request TAC",
+	"WrongTAC" : "Invalid TAC",
+	"BTN_Login" : "Login"
 }

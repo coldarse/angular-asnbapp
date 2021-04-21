@@ -70,6 +70,7 @@ export class LanguageComponent implements OnInit {
        this.startConnection();
     }
 
+
   
   ngOnInit(): void {
     if(signalrConnection.logsaves != undefined){
@@ -81,6 +82,7 @@ export class LanguageComponent implements OnInit {
         console.log(res);
       });
     }
+
     
     currentMyKidDetails.resetCurrentMyKid();
     currentMyKadDetails.resetCurrentMyKid();
@@ -192,16 +194,83 @@ export class LanguageComponent implements OnInit {
       appFunc.cities = res[1].result.items.map((ct: any) => new cities(ct));
       appFunc.monthlyIncome = res[2].result.items.map((mi: any) => new monthlyIncome(mi));
       appFunc.states = res[3].result.items.map((st: any) => new states(st));
-      appFunc.businessNature = res[4].result.items.map((bn: any) => new businessNature(bn));
-      appFunc.occupationSector = res[5].result.items.map((os: any) => new occupationSector(os));
-      appFunc.occupationCategory = res[6].result.items.map((oc: any) => new occupationCategory(oc));
-      appFunc.religion = res[7].result.items.map((rg: any) => new religions(rg));
-      appFunc.races = res[8].result.items.map((rc: any) => new races(rc));
-      appFunc.preferredDelivery = res[9].result.items.map((pd: any) => new preferredDelivery(pd));
       appFunc.bankName = res[10].result.items.map((bn: any) => new bankName(bn));
-      appFunc.occupationName = res[11].result.items.map((on: any) => new occupationName(on));
-      appFunc.relationship = res[12].result.items.map((rs: any) => new relationship(rs));
-      appFunc.securityQuestions = res[13].result.items.map((sq: any) => new securityQuestions(sq));
+
+
+      if (selectLang.selectedLang == 'ms'){
+        appFunc.businessNature = res[4].result.items.map((bn: any) => 
+          new businessNature({
+            value: bn.value,
+            text: bn.textBM,
+            textBM: bn.textBM
+          }));
+
+        appFunc.occupationSector = res[5].result.items.map((os: any) => 
+          new occupationSector({
+            label: os.label,
+            labelDesc: os.labelDesc,
+            sector: os.sector,
+            sectorDesc: os.sectorDescBM,
+            sectorDescBM: os.sectorDescBM
+          }));
+        appFunc.occupationCategory = res[6].result.items.map((oc: any) => 
+          new occupationCategory({
+            code: oc.code,
+            desc: oc.descBM,
+            descBM: oc.descBM
+          }));
+        appFunc.religion = res[7].result.items.map((rg: any) => 
+          new religions({
+            value: rg.value,
+            text: rg.textBM,
+            textBM: rg.textBM
+          }));
+
+        appFunc.races = res[8].result.items.map((rc: any) => 
+          new races({
+            value: rc.value,
+            text: rc.textBM,
+            textBM: rc.textBM
+          }));
+
+        appFunc.preferredDelivery = res[9].result.items.map((pd: any) => 
+          new preferredDelivery({
+            value: pd.value,
+            desc: pd.descBM,
+            DescBM: pd.DescBM
+          }));
+        appFunc.occupationName = res[11].result.items.map((on: any) => 
+          new occupationName({
+            value: on.value,
+            desc: on.descBM,
+            descBM: on.descBM
+          }));
+        appFunc.relationship = res[12].result.items.map((rs: any) => 
+          new relationship({
+            code: rs.code,
+            desc: rs.descBM,
+            descBM: rs.descBM
+          }));
+        appFunc.securityQuestions = res[13].result.items.map((sq: any) => 
+          new securityQuestions({
+            sqCode: sq.sqCode,
+            set: sq.set,
+            questionEN: sq.questionBM,
+            questionBM: sq.questionBM
+          }));
+
+      }else{
+        appFunc.businessNature = res[4].result.items.map((bn: any) => new businessNature(bn));
+        appFunc.occupationSector = res[5].result.items.map((os: any) => new occupationSector(os));
+        appFunc.occupationCategory = res[6].result.items.map((oc: any) => new occupationCategory(oc));
+        appFunc.religion = res[7].result.items.map((rg: any) => new religions(rg));
+        appFunc.races = res[8].result.items.map((rc: any) => new races(rc));
+        appFunc.preferredDelivery = res[9].result.items.map((pd: any) => new preferredDelivery(pd));
+        appFunc.occupationName = res[11].result.items.map((on: any) => new occupationName(on));
+        appFunc.relationship = res[12].result.items.map((rs: any) => new relationship(rs));
+        appFunc.securityQuestions = res[13].result.items.map((sq: any) => new securityQuestions(sq));
+      }
+
 
       console.log(appFunc.titleSalutation);
       console.log(appFunc.cities);

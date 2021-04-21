@@ -129,10 +129,12 @@ export class occupationName {
 export class preferredDelivery {
     value: string;
     desc: string;
+    DescBM: string;
 	
 	constructor(delivery: any){
         this.value = delivery.value;
         this.desc = delivery.desc;
+        this.DescBM = delivery.DescBM;
 	}
 }
 

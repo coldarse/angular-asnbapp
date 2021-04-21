@@ -296,6 +296,10 @@ function loadKeyboard() {
     Keyboard.init();
 }
 
+function closeKeyboard(){
+    Keyboard.close();
+}
+
 function deleteKeyboard() {
     Keyboard.removeElementsByClass('keyboard');
     Keyboard.removeElementsByClass('spaceHandling');

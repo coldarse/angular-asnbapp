@@ -18,6 +18,7 @@ import { accessToken } from '../_models/apiToken';
 
 declare const loadKeyboard: any;
 declare const deleteKeyboard: any;
+declare const closeKeyboard: any;
 
 @Component({
   selector: 'app-bijakregistration',
@@ -350,7 +351,7 @@ export class BijakregistrationComponent implements OnInit {
           Validators.required,
           Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
         noemail: [false],
-        deliverystate: [''],
+        deliverystate: ['ST'],
 
         bankname: [''],
         bankaccount: ['', [
@@ -1023,11 +1024,8 @@ export class BijakregistrationComponent implements OnInit {
   }
 
   bijakregistrationNext() {
-    let a1 = this.AR_Form.get('address1').value;
-    let a2 = this.AR_Form.get('address2').value;
-    let postcode = this.AR_Form.get('postcode').value;
-    let city = this.AR_Form.get('city').value;
-    let state = this.AR_Form.get('state').value;
+    closeKeyboard();
+
 
     this.AR_Form.controls.address1.setValue(this.add1?.nativeElement.value);
     this.AR_Form.controls.address2.setValue(this.add2?.nativeElement.value);
@@ -1057,11 +1055,6 @@ export class BijakregistrationComponent implements OnInit {
     this.JN_Warning = false;
     this.JC_Warning = false;
 
-    this.AR_Form.controls.address1.setValue(a1);
-    this.AR_Form.controls.address2.setValue(a2);
-    this.AR_Form.controls.postcode.setValue(postcode);
-    this.AR_Form.controls.city.setValue(city);
-    this.AR_Form.controls.state.setValue(state);
 
 
     let x = 0
@@ -1124,6 +1117,7 @@ export class BijakregistrationComponent implements OnInit {
       }
     })
     if (x > 0){
+      window.scroll(0,0);
       console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
     }else{

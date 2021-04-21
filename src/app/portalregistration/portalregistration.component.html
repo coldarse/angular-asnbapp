@@ -41,7 +41,7 @@
                     </button>
                     <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="MainMenuBtn()">
                         <!-- Cuba Lagi -->
-                        {{'BTN_MainMenu | translate }}
+                        {{'BTN_MainMenu' | translate }}
                     </button>
 
                 </div>
@@ -152,7 +152,7 @@
         </div>
         <div class="col-md-10">
             <!-- <h4 class="h2-ic">Apabila anda selesai mendaftar, <strong><u>kata lauan sementara</u></strong> akan diberikan. Sila cetak / simpan / catat kata laluan sementara berkenaan untuk log masuk kali pertama.</h4> -->
-            <h4 class="h2-ic">{{'PRIntro_6' | translate }}<strong><u>{{'PRIntro_7' | translate }}</u></strong>{{'PRIntro_8' | translate }}</h4>
+            <h4 class="h2-ic">{{'PRIntro_6' | translate }}<strong><u> {{'PRIntro_7' | translate }} </u></strong> {{'PRIntro_8' | translate }}</h4>
         </div>
         <div class="col-md-1">
             
@@ -231,7 +231,7 @@
             <input type="checkbox" id="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC()">
             <!-- <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">Saya telah membaca dan bersetuju dengan <a href="#" style="text-decoration:none;">Terma & Syarat</a> dan <a href="#" style="text-decoration:none;">Dasar Privasi</a></label><br> -->
             <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">
-                {{'PRTNC_3' | translate }}<a href="#" style="text-decoration:none;">{{'PRTNC_4' | translate }}</a>{{'PRTNC_5' | translate }}<a href="#" style="text-decoration:none;">{{'PRTNC_6' | translate }}</a>
+                {{'PRTNC_3' | translate }}<a href="#" style="text-decoration:none;"> {{'PRTNC_4' | translate }} </a> {{'PRTNC_5' | translate }} <a href="#" style="text-decoration:none;"> {{'PRTNC_6' | translate }} </a>
             </label><br>
         </div>
         <div class="col-md-1">
@@ -258,8 +258,31 @@
 </div>
 
 
+<div class="bg-popup" *ngIf="PForm_Error">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <h1 id="RM_ResponseCode" class="padding-top-2rem">{{PFormText_1}}</h1>
+
+        <h2 id="RM_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{PFormText_2}}</h2>
+
+        <footer class="site-footer" style="padding-top:15rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" (click)="PMForm_tryAgain()">
+                        {{'BTN_TryAgain' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
+
 <!-- [fromGroup]='PForm_1' (ngSubmit)='nextDetails()' autocomplete="off" novalidate> -->
-<div   class="row" *ngIf="PR_Details"> 
+<form   class="row" *ngIf="PR_Details" [formGroup]='PForm_1' (ngSubmit)='nextDetails()' autocomplete="off" novalidate> 
     <div class="row" style="padding-left: 4rem; padding-top: 2rem;">
         <div class="col-md-12">
             <!-- <h4><u>Daftar Masuk Portal myASNB</u></h4> -->
@@ -274,9 +297,10 @@
                     <h4 class="h2-ic">{{'PRDetails_2' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["userid"]' #uid>
                      <!-- [formControl]='PForm_1.controls["username"]' -->
-                    >
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="userid_warning">{{'Warning' | translate}}</div> 
+
                 </div>
             </div>
         </div>
@@ -287,8 +311,11 @@
                     <h4 class="h2-ic">{{'PRDetails_3' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["email"]' #eAddress>
                     <!-- [formControl]='PForm_1.controls["email"]'> -->
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_warning">{{'EAWarning' | translate}}</div> 
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email1_warning">{{'EAWarning1' | translate}}</div> 
+
                 </div>
             </div>  
         </div>
@@ -311,8 +338,10 @@
                     <h4 class="h2-ic">{{'PRDetails_5' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["securephrase"]' #securePhrase>
                     <!-- [formControl]='PForm_1.controls["securephrase"]'> -->
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="securephrase_warning">{{'Warning' | translate}}</div> 
+
                 </div>
             </div>
             <div class="row" style="padding-left: 3.3rem;">
@@ -321,12 +350,11 @@
                     <h4 class="h2-ic">{{'PRDetails_6' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
+                    <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;" [formControl]='PForm_1.controls["q1"]' #question1>
                     <!-- [formControl]='PForm_1.controls["seq1"]'> -->
-                        <option value="0">{{ 'optionSelect' | translate }}</option>
-                        <!-- <option *ngFor="let seq of form_securityQuestions" value={{seq.sqCode}}>
+                        <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
                             {{seq.questionEN}}
-                        </option> -->
+                        </option>
                     </select>
                 </div>
             </div>
@@ -336,8 +364,10 @@
                     <h4 class="h2-ic">{{'PRDetails_7' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a1"]' #answer1>
                     <!-- [formControl]='PForm_1.controls["ans1"]'> -->
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer1_warning">{{'Warning' | translate}}</div> 
+
                 </div>
             </div>
             <div class="row" style="padding-left: 3.3rem;">
@@ -346,10 +376,10 @@
                     <h4 class="h2-ic">{{'PRDetails_8' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
-                        <option value="Datuk">DTK</option>
-                        <option value="Encik">ENCIK</option>
-                        <option value="Puan">PUAN</option>
+                    <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;" [formControl]='PForm_1.controls["q2"]' #question2>
+                        <option *ngFor="let seq of filteritemsoftype('B')" value={{seq.sqCode}}>
+                            {{seq.questionEN}}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -359,7 +389,9 @@
                     <h4 class="h2-ic">{{'PRDetails_9' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a2"]' #answer2>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer2_warning">{{'Warning' | translate}}</div> 
+                
                 </div>
             </div>
             <div class="row" style="padding-left: 3.3rem;">
@@ -368,10 +400,10 @@
                     <h4 class="h2-ic">{{'PRDetails_10' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;">
-                        <option value="Datuk">DTK</option>
-                        <option value="Encik">ENCIK</option>
-                        <option value="Puan">PUAN</option>
+                    <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;" [formControl]='PForm_1.controls["q3"]' #question3>
+                        <option *ngFor="let seq of filteritemsoftype('C')" value={{seq.sqCode}}>
+                            {{seq.questionEN}}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -381,7 +413,9 @@
                     <h4 class="h2-ic">{{'PRDetails_11' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a3"]' #answer3>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer3_warning">{{'Warning' | translate}}</div> 
+                
                 </div>
             </div>
         </div>
@@ -440,7 +474,10 @@
                     <h4 class="h2-ic">{{'PRDetails_18' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 50%;" class="use-keyboard-input">
+                    <input type="text" style="width: 50%;" class="use-keyboard-input" [formControl]='PForm_1.controls["tac"]' #TAC>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="tac_warning">{{'Warning' | translate}}</div> 
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="tac1_warning">{{'WrongTAC' | translate}}</div> 
+                    
                     <button id="TACreq" class="btn btn-primary" style="margin-left: 1rem;" (click)="TACClick()">
                         <!-- Permintaan TAC -->
                         {{'BTN_TAC' | translate }}
@@ -469,9 +506,9 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:1rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="PR_Cancel" (click)="cancelDetails()">
+                <button type="button" class="btn btn-next" id="PR_Cancel" (click)="MainMenuBtn()">
                     <!-- Batal  -->
-                    {{'BTN_Cancel' | translate }}
+                    {{'BTN_MainMenu' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="PR_Continue" (click)="nextDetails()" [disabled]="nextDetails_disabled">
                     <!-- Teruskan -->
@@ -481,7 +518,7 @@
             
         </div>
     </footer>
-</div>
+</form>
 
 <div class="row" style="padding-top: 4rem;" *ngIf="PR_TempPass">
     <div class="row">
@@ -506,7 +543,7 @@
                 {{'PRTempPass_2' | translate }}
             </h3>
             <h3 class="h2-ic" style="text-align: center;">
-                {{'PRTempPass_3' | translate }}
+                {{PRTempPass_3}}
             </h3>
         </div>
         <div class="col-md-1">
@@ -535,11 +572,11 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:8rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="PR_xAgree">
+                <button type="button" class="btn btn-next" id="PR_xAgree" (click)="MainMenuBtn()">
                     <!-- Menu Utama   -->
                     {{'BTN_MainMenu' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="PR_Agree">
+                <button type="button" class="btn btn-next" id="PR_Agree" (click)="loginASNB()">
                     <!-- Log Masuk myASNB -->
                     {{'BTN_LoginASNB' | translate }}
                 </button>
@@ -550,7 +587,7 @@
 </div>
 
 
-<div class="row" style="padding-top: 2rem;" *ngIf="PR_Login">
+<form class="row" style="padding-top: 2rem;" *ngIf="PR_Login" [formGroup]='PForm_2' autocomplete="off" novalidate>
     <div class="row">
         <div class="cool-md-12 text-center">
             <!-- <h3 id="PRtnc">Log Masuk Pengguna</h3> -->
@@ -588,7 +625,11 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="text" class="use-keyboard-input" style="width: 100%;">
+            <input type="text" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_2.controls["useridlog"]' #uidlog >
+            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="useridlog_warning">{{'Warning' | translate}}</div> 
+            <button class="btn btn-primary" (click)='usernameVerify()'>
+                {{'BTN_Login' | translate}}
+            </button>
         </div>
     </div>
 
@@ -598,13 +639,13 @@
             portal myASNB di 03-77308899.
         </h4> -->
         <h4 style="padding-left:3.3rem;" class="h2-ic">
-            {{'PRLogin_4' | translate }}<strong>{{'PRLogin_5' | translate }}</strong>{{'PRLogin_6' | translate }}<strong>{{'PRLogin_7' | translate }}</strong>{{'PRLogin_8' | translate }}
+            {{'PRLogin_4' | translate }}<strong> {{'PRLogin_5' | translate }} </strong>{{'PRLogin_6' | translate }}<strong> {{'PRLogin_7' | translate }} </strong>{{'PRLogin_8' | translate }}
         </h4>
     </div>
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="text" style="width: 100%; height: 120%;" class="text-center" value="(Frasa Keselamatan)">
+            <input type="text" style="width: 100%; height: 120%;" class="text-center"  [formControl]='PForm_2.controls["securep"]'>
         </div>
         <div class="col-md-6">
             <div class="row">
@@ -620,11 +661,11 @@
                     
                 </div>
                 <div class="col-md-8 text-center">
-                    <button class="btn btn-primary" style="width: 30%; margin-right: 0.5rem;">
+                    <button class="btn btn-primary" style="width: 30%; margin-right: 0.5rem;" (click)="secureNo()" [disabled]="yesno">
                         <!-- Tidak -->
                         {{'BTN_No' | translate }}
                     </button>
-                    <button class="btn btn-primary" style="width: 30%; margin-left: 0.5rem;">
+                    <button class="btn btn-primary" style="width: 30%; margin-left: 0.5rem;" (click)="secureYes()" [disabled]="yesno">
                         <!-- Ya -->
                         {{'BTN_Yes' | translate }}
                     </button>
@@ -646,7 +687,9 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="text" class="use-keyboard-input" style="width: 100%;">
+            <input type="password" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_2.controls["temppass"]' #tempPass>
+            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="temppass_warning">{{'Warning' | translate}}</div> 
+        
         </div>
     </div>
 
@@ -654,11 +697,11 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:4rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="PR_xAgree">
+                <button type="button" class="btn btn-next" id="PR_xAgree" (click)="backToMain()">
                     <!-- Menu Utama   -->
                     {{'BTN_MainMenu' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="PR_Agree">
+                <button type="button" class="btn btn-next" id="PR_Agree" (click)="nextLogin()" [disabled]="loginASNB_disabled">
                     <!-- Log Masuk myASNB -->
                     {{'BTN_LoginASNB' | translate }}
                 </button>
@@ -666,9 +709,9 @@
             
         </div>
     </footer>
-</div>
+</form>
 
-<div class="row" style="padding-top: 2rem;" *ngIf="PR_NewPassword">
+<form class="row" style="padding-top: 2rem;" *ngIf="PR_NewPassword" [formGroup]='PForm_3' (ngSubmit)='newPassNext()' autocomplete="off" novalidate>
     <div class="row">
         <div class="cool-md-12 text-center">
             <!-- <h3 id="PRtnc">Log Masuk Pengguna</h3> -->
@@ -688,7 +731,9 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="text" class="use-keyboard-input" style="width: 100%;">
+            <input type="password" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpass"]' #newPass>
+            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpass_warning">{{'Warning' | translate}}</div> 
+        
         </div>
     </div>
 
@@ -704,7 +749,10 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="text" class="use-keyboard-input" style="width: 100%;">
+            <input type="password" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpassR"]' #newPassR>
+            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR_warning">{{'Warning' | translate}}</div> 
+            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR1_warning">{{'NotMatch' | translate}}</div> 
+        
         </div>
     </div>
 
@@ -798,7 +846,7 @@
                     <!-- Kembali -->
                     {{'BTN_Back' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="PR_Next">
+                <button type="button" class="btn btn-next" id="PR_Next" (click)="newPassNext()">
                     <!-- Teruskan -->
                     {{'BTN_Next' | translate }}
                 </button>
@@ -806,7 +854,7 @@
             
         </div>
     </footer>
-</div>
+</form>
 
 
 <div class="bg-popup" id="PR_ConfirmPop" *ngIf="PR_Confirm" >
@@ -826,11 +874,11 @@
         <footer class="site-footer" style="padding-top:11rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-cancel" id="PR_No">
+                    <button type="button" class="btn btn-cancel" id="PR_No" (click)="confirmNo()">
                         <!-- Tidak -->
                         {{'BTN_No' | translate }}
                     </button>
-                    <button type="button" class="btn btn-next" id="PR_Yes" >
+                    <button type="button" class="btn btn-next" id="PR_Yes" (click)="confirmYes()">
                         <!-- Ya -->
                         {{'BTN_Yes' | translate }}
                     </button>
@@ -861,11 +909,11 @@
         <footer class="site-footer" style="padding-top:7rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-next" id="PR_No">
+                    <button type="button" class="btn btn-next" id="PR_No" (click)="successPrint()">
                         <!-- Cetak Resit -->
                         {{'BTN_Print' | translate }}
                     </button>
-                    <button type="button" class="btn btn-next" id="PR_Yes" >
+                    <button type="button" class="btn btn-next" id="PR_Yes" (click)="successEmail()">
                         <!-- Emel Resit -->
                         {{'BTN_Email' | translate }}
                     </button>

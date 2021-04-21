@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
@@ -10,6 +10,14 @@ import { appFunc } from '../_models/appFunctions';
 import { currentHolder } from '../_models/currentUnitHolder';
 import { FindValueSubscriber } from 'rxjs/internal/operators/find';
 import { errorCodes } from '../_models/errorCode';
+import { FormBuilder, Validators } from '@angular/forms';
+import { accessToken } from '../_models/apiToken';
+import { stringify } from '@angular/compiler/src/util';
+
+
+declare const loadKeyboard: any;
+declare const deleteKeyboard: any;
+declare const closeKeyboard: any;
 
 @Component({
   selector: 'app-portalregistration',
@@ -18,6 +26,24 @@ import { errorCodes } from '../_models/errorCode';
 })
 
 export class PortalregistrationComponent implements OnInit {
+
+  @ViewChild('uid') uid : ElementRef | undefined;
+  @ViewChild('eAddress') eAddress : ElementRef | undefined;
+  @ViewChild('securePhrase') securePh : ElementRef | undefined;
+  @ViewChild('question1') question1 : ElementRef | undefined;
+  @ViewChild('question2') question2 : ElementRef | undefined;
+  @ViewChild('question3') question3 : ElementRef | undefined;
+  @ViewChild('answer1') answer1 : ElementRef | undefined;
+  @ViewChild('answer2') answer2 : ElementRef | undefined;
+  @ViewChild('answer3') answer3 : ElementRef | undefined;
+  @ViewChild('TAC') TAC : ElementRef | undefined;
+
+  @ViewChild('uidlog') uidlog : ElementRef | undefined;
+  @ViewChild('tempPass') tempPass : ElementRef | undefined;
+
+  @ViewChild('newPass') newPass : ElementRef | undefined;
+  @ViewChild('newPassR') newPassR : ElementRef | undefined;
+
 
   form_securityQuestions = appFunc.securityQuestions;
   lang = selectLang.selectedLang;
@@ -63,6 +89,33 @@ export class PortalregistrationComponent implements OnInit {
   UserError_Visible = false;
 
   nextDetails_disabled = true;
+
+  tryAgainErrorCodes = [103, 104, 105, 106, 108, 109, 122, 123, 124, 125, 126, 133, 134, 141, 142, 144];
+
+  userid_warning = false;
+  email_warning = false;
+  email1_warning = false;
+  securephrase_warning = false;
+  answer1_warning = false;
+  answer2_warning = false;
+  answer3_warning = false;
+  tac_warning = false;
+  tac1_warning = false;
+
+  useridlog_warning = false;
+  temppass_warning = false;
+
+  newpass_warning = false;
+  newpassR_warning = false;
+  newpassR1_warning = false;
+  
+  yesno = true;
+  loginASNB_disabled = true;
+  PForm_Error = false;
+
+
+  PFormText_1 = "";
+  PFormText_2 = "";
 
   generatedTAC = "";
 
@@ -154,9 +207,19 @@ export class PortalregistrationComponent implements OnInit {
   
   id: any;
 
+
+  tempPassword : any;
+  tempsecure : any;
+  tempusername : any;
+
+  PForm_1: any;
+  PForm_2: any;
+  PForm_3: any;
+
   constructor(private _router: Router,
     private translate: TranslateService,
-    private serviceService : ServiceService) { }
+    private serviceService : ServiceService,
+    private fb: FormBuilder) { }
 
   ngOnInit(): void {
     if(signalrConnection.logsaves != undefined){
@@ -172,14 +235,14 @@ export class PortalregistrationComponent implements OnInit {
 
 
       const body = {
-        // "idno": currentHolder.identificationnumber,
-        // "idtype": currentHolder.identificationtype,
-        // "uhid": currentHolder.unitholderid,
-        //"language": selectLang.selectedLang
-        "idno": "980112106085",
-        "idtype": "W",
-        "uhid": "0000130539123",
+        "idno": currentHolder.identificationnumber,
+        "idtype": currentHolder.identificationtype,
+        "uhid": currentHolder.unitholderid,
         "language": selectLang.selectedLang
+        // "idno": "980112106085",
+        // "idtype": "W",
+        // "uhid": "0000130539123",
+        // "language": selectLang.selectedLang
       }
       this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
         if (res.result.member_status == "non_member"){
@@ -234,8 +297,169 @@ export class PortalregistrationComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Cleared Interval.");
   }
 
+  format(value: string) {
+    let mask = value.replace(/.(?=.{2})/g, "*");
+    return mask;
+  }
+
+
+
   agreeTNC(){
     this.TNCAgreed = !this.TNCAgreed;
+  }
+
+
+  initializeForm1(){
+    this.PForm_1 = this.fb.group({
+      userid: ['', Validators.required],
+      email: ['', [
+        Validators.required,
+        Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+      securephrase: ['', Validators.required],
+      
+      q1: ['1000'],
+      a1: ['', Validators.required],
+      q2: ['1005'],
+      a2: ['', Validators.required],
+      q3: ['1010'],
+      a3: ['', Validators.required],
+
+      tac: ['', Validators.required]
+        
+    });
+  }
+
+  initializeForm2(){
+    this.PForm_2 = this.fb.group({
+      useridlog: ['', Validators.required],
+      temppass: [{value: '', disabled: true}, Validators.required],
+      securep: [{value: '', disabled: true}]
+    });
+  }
+
+  initializeForm3(){
+    this.PForm_3 = this.fb.group({
+      newpass: ['', Validators.required],
+      newpassR: ['', Validators.required]
+    });
+  }
+
+  nextLogin(){
+
+    closeKeyboard();
+
+    this.PForm_2.controls.useridlog.setValue(this.uidlog?.nativeElement.value);
+    this.PForm_2.controls.temppass.setValue(this.tempPass?.nativeElement.value);
+
+    
+    this.temppass_warning = false;
+
+    this.useridlog_warning = false;
+    let x = 0;
+    Object.keys(this.PForm_1.controls).forEach(key => {
+      if (this.PForm_1.controls[key].hasError('required')){
+        x += 1;
+        if(key.includes('useridlog')){
+          this.useridlog_warning = true;
+        }
+        else if (key.includes('temppass')){
+          this.temppass_warning = true;
+        }
+      }
+    });
+    if (x > 0){
+      console.log("Error");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
+    }else{
+      this.tempsecure = this.PForm_2.controls.securep.value;
+      this.tempusername = this.PForm_2.controls.useridlog.value;
+      const body = {
+        "username": this.PForm_2.controls.useridlog.value,
+        "password": this.PForm_2.controls.temppass.value,
+        "language": selectLang.selectedLang,
+        "secureph": this.PForm_2.controls.securep.value
+      }
+      this.serviceService.unitHolderCredentialVerification(body).subscribe((data: any) => {
+        if(data.result.error_code == "000"){
+          deleteKeyboard();
+          this.PR_Login = false;
+          this.PR_NewPassword = true;
+          this.initializeForm3();
+
+          setTimeout(() => {
+            loadKeyboard();
+          } , 2000);
+        }else{
+          this.tryAgainErrorCodes.forEach(elem => {
+            if (data.result.error_code == elem){
+              this.PForm_Error = true;
+              this.PFormText_1 = data.result.error_code;
+              this.PFormText_2 = data.result.error_reason;
+            }else{
+              errorCodes.Ecode = data.result.error_code;
+              errorCodes.Emessage = data.result.error_reason;
+              this._router.navigate(['errorscreen']);
+            }
+          });
+        }
+      });
+      
+    }
+  }
+
+  newPassNext(){
+
+    closeKeyboard();
+
+    this.PForm_3.controls.newpass.setValue(this.newPass?.nativeElement.value);
+    this.PForm_3.controls.newpassR.setValue(this.newPassR?.nativeElement.value);
+
+    this.newpass_warning = false;
+    this.newpassR_warning = false;
+    this.newpassR1_warning = false;
+
+    let x = 0;
+    Object.keys(this.PForm_1.controls).forEach(key => {
+      if (this.PForm_1.controls[key].hasError('required')){
+        x += 1;
+        if(key.includes('newpass')){
+          this.newpass_warning = true;
+        }
+        else if (key.includes('newpassR')){
+          this.newpassR_warning = true;
+        }
+      }
+    });
+    if (x > 0){
+      console.log("Error");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
+    }else{
+      if (this.PForm_3.controls.newpass.value == this.PForm_3.controls.newpassR.value){
+        this.PR_Confirm = true;
+        deleteKeyboard();
+      }
+      else{
+        this.newpassR1_warning = true;
+        console.log("Error");
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `Passwords not match`);
+      }
+    }
+  }
+
+  secureYes(){
+    this.PForm_2.controls.temppass.enable();
+    this.loginASNB_disabled = false;
+  }
+
+  secureNo(){
+    this.yesno = false;
+    this.PForm_2.controls.useridlog.setValue('');
+    this.PForm_2.controls.temppass.setValue('');
+    this.PForm_2.controls.temppass.disable();
+  }
+
+  filteritemsoftype(type: string){
+    return this.form_securityQuestions.filter(x => x.set == type);
   }
 
   DetectMyKad() {
@@ -258,6 +482,10 @@ export class PortalregistrationComponent implements OnInit {
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
     });
+  }
+
+  PMForm_tryAgain(){
+    this.PForm_Error = false;
   }
 
   nextToUpdate(){
@@ -334,22 +562,163 @@ export class PortalregistrationComponent implements OnInit {
 
     this.PR_TNC = false;
     this.PR_Details = true;
+    this.initializeForm1();
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Agreed to Portal Registration Terms and Conditions.");
+
+    setTimeout(() => {
+      loadKeyboard();
+    } , 2000);
   }
 
-  cancelDetails(){
-
-  }
 
   nextDetails(){
 
+    closeKeyboard();
+
+
+    this.PForm_1.controls.userid.setValue(this.uid?.nativeElement.value);
+    this.PForm_1.controls.email.setValue(this.eAddress?.nativeElement.value);
+    this.PForm_1.controls.securephrase.setValue(this.securePh?.nativeElement.value);
+    this.PForm_1.controls.a1.setValue(this.answer1?.nativeElement.value);
+    this.PForm_1.controls.a2.setValue(this.answer2?.nativeElement.value);
+    this.PForm_1.controls.a3.setValue(this.answer3?.nativeElement.value);
+    this.PForm_1.controls.tac.setValue(this.TAC?.nativeElement.value);
+
+    this.userid_warning = false;
+    this.email_warning = false;
+    this.securephrase_warning = false;
+    this.answer1_warning = false;
+    this.answer2_warning = false;
+    this.answer3_warning = false;
+    this.tac_warning = false;
+    this.tac1_warning = false;
+    this.email1_warning = false;
+
+    let x = 0;
+    Object.keys(this.PForm_1.controls).forEach(key => {
+      if (this.PForm_1.controls[key].hasError('required')){
+        x += 1;
+        if(key.includes('userid')){
+          this.userid_warning = true;
+        }
+        else if (key.includes('email')){
+          this.email_warning = true;
+        }
+        else if (key.includes('securephrase')){
+          this.securephrase_warning = true;
+        }
+        else if (key.includes('a1')){
+          this.answer1_warning = true;
+        }
+        else if (key.includes('a2')){
+          this.answer2_warning = true;
+        }
+        else if (key.includes('a3')){
+          this.answer3_warning = true;
+        }
+        else if (key.includes('tac')){
+          this.tac_warning = true;
+        }
+      }
+      else if (this.PForm_1.controls[key].hasError('pattern')){
+        if (key.includes('email')){
+          this.email1_warning = true;
+        }
+      }
+    });
+    if (x > 0){
+      window.scroll(0,0);
+      console.log("Error");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
+    }else{
+      if(this.generatedTAC != this.PForm_1.controls.tac.value){
+        this.tac1_warning = true;
+      }else{
+        const body = {
+          "idno": currentHolder.identificationnumber,
+          "idtype": currentHolder.identificationtype,
+          "uhid": currentHolder.unitholderid,
+          "username": this.PForm_1.controls.userid.value,
+          "secureph": this.PForm_1.controls.securephrase.value,
+          "ans1": this.PForm_1.controls.a1.value,
+          "ans2": this.PForm_1.controls.a2.value,
+          "ans3": this.PForm_1.controls.a3.value,
+          "secq1": this.PForm_1.controls.q1.value,
+          "secq2": this.PForm_1.controls.q2.value,
+          "secq3": this.PForm_1.controls.q3.value,
+          "email": this.PForm_1.controls.email.value,
+          "typeclosed": currentHolder.typeclosed,
+          "fundid": currentHolder.funddetail[0].FUNDID,
+          "language": selectLang.selectedLang,
+          "dateofbirth": currentHolder.dateofbirth,
+          "mobileno": currentHolder.cellphonenumber
+        }
+
+        this.serviceService.unitHolderRegistration(body).subscribe((data: any) => {
+          if (data.result.registration_status == true){
+            this.tempPassword = data.result.temporary_password;
+            this.PR_Details = false;
+            this.PRTempPass_3 = this.format(this.tempPassword);
+            this.PR_TempPass = true;
+            deleteKeyboard();
+          }else{
+            this.tryAgainErrorCodes.forEach(elem => {
+              if (data.result.error_code == elem){
+                this.PForm_Error = true;
+                this.PFormText_1 = data.result.error_code;
+                this.PFormText_2 = data.result.error_reason;
+              }else{
+                errorCodes.Ecode = data.result.error_code;
+                errorCodes.Emessage = data.result.error_reason;
+                this._router.navigate(['errorscreen']);
+              }
+            });
+          }
+        });
+        
+      }
+    }
+  }
+
+  usernameVerify(){
+    this.PForm_2.controls.useridlog.setValue(this.uidlog?.nativeElement.value);
+    this.useridlog_warning = false;
+
+    let x = 0;
+    Object.keys(this.PForm_1.controls).forEach(key => {
+      if (this.PForm_1.controls[key].hasError('required')){
+        x += 1;
+        if(key.includes('useridlog')){
+          this.useridlog_warning = true;
+        }
+      }
+    });
+    if (x > 0){
+      console.log("Error");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
+    }else{
+      const body = {
+        "username" : this.PForm_2.controls.useridlog.value,
+        "language" : selectLang.selectedLang
+      }
+      this.serviceService.unitHolderUsernameVerification(body).subscribe((data: any) => {
+        if(data.result.error_code == "000"){
+          this.PForm_2.controls.securep.setValue(data.result.secureph);
+          this.yesno = false;
+        }else{
+          errorCodes.Ecode = data.result.error_code;
+          errorCodes.Emessage = data.result.error_reason;
+          this._router.navigate(['errorscreen']);
+        }
+      });
+    }
   }
 
   TACClick(){
     const body = {
       "mobileno" : currentHolder.cellphonenumber,
       "moduleid" : "316",
-      "message" : "ASNB KIOSK: myASNB Portal Registration TAC",
+      "message" : "ASNB KIOSK: myASNB Portal Registration",
       "language" : selectLang.selectedLang
     }
     this.serviceService.tacVerification(body).subscribe((res: any) => {
@@ -368,12 +737,121 @@ export class PortalregistrationComponent implements OnInit {
     });
   }
 
+  loginASNB(){
+    this.PR_TempPass = false;
+    this.PR_Login = true;
+    this.initializeForm2();
+    setTimeout(() => {
+      loadKeyboard();
+    } , 2000);
+  }
+
   EndTransactionBtn(){
     this._router.navigate(['feedbackscreen']);
   }
 
   MainMenuBtn(){
     this._router.navigate(['transactionmenu']);
+  }
+
+  confirmYes(){
+    const body = {
+      "username": this.tempusername,
+      "currentpwd": this.tempPassword,
+      "secureph": this.tempsecure,
+      "language": selectLang.selectedLang,
+      "newPassword": this.PForm_3.controls.newpass.value
+    }
+    this.serviceService.unitHolderChangePassword(body).subscribe((data: any) => {
+      if (data.result.error_code == "000"){
+        this.PR_Confirm = false;
+        this.PR_Success = true;
+      }else{
+        this.tryAgainErrorCodes.forEach(elem => {
+          if (data.result.error_code == elem){
+            this.PR_Confirm = false;
+            this.PForm_Error = true;
+            this.PFormText_1 = data.result.error_code;
+            this.PFormText_2 = data.result.error_reason;
+          }else{
+            errorCodes.Ecode = data.result.error_code;
+            errorCodes.Emessage = data.result.error_reason;
+            this._router.navigate(['errorscreen']);
+          }
+        });
+      }
+    });
+    deleteKeyboard();
+  }
+
+  confirmNo(){
+    this.PR_Confirm = false;
+  }
+
+
+  successPrint(){
+    this.PR_Success = false;
+    this.PR_NewPassword = false;
+    this.PR_Print1Visible = true;
+
+    const body = {
+      "Transaksi": "Pendaftaran Portal myASNB / myASNB Portal Registration",
+      "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Lokasi": "KL MAIN 01",
+      "Name": currentHolder.name,
+      "NoAkaun": currentHolder.unitholderid,
+      "JenisAkaun": "Self/Sendiri"
+    }
+
+    //GetNonFinancialTransactionPrintout
+
+    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
+      setTimeout(()=>{   
+        if (data == true){
+          this.PR_Print1Visible = false;
+          this.PR_Print2Visible = true;
+          setTimeout(()=>{   
+            this._router.navigate(['transactionsuccessful']);
+          }, 3000);
+        }else{
+          errorCodes.Ecode = "0068";
+          errorCodes.Emessage = "Printing Failed";
+          this._router.navigate(['errorscreen']);
+        }
+      }, 3000);
+    });
+  }
+
+  successEmail(){
+    this.PR_Success = false;
+    this.PR_NewPassword = false;
+    this.PR_EmailVisible = true;
+
+    const body = {
+      "Transaksi": "Pendaftaran Portal myASNB / myASNB Portal Registration",
+      "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Lokasi": "KL MAIN 01",
+      "Name": currentHolder.name,
+      "NoAkaun": currentHolder.unitholderid,
+      "JenisAkaun": "Self/Sendiri"
+    }
+
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
+      setTimeout(()=>{   
+        if (data == true){
+          setTimeout(()=>{   
+            this.PR_EmailVisible = false;
+            this._router.navigate(['transactionsuccessful']);
+          }, 3000);
+        }else{
+          errorCodes.Ecode = "0069";
+          errorCodes.Emessage = "Email Failed";
+          this._router.navigate(['errorscreen']);
+        }
+      }, 3000);
+    });
   }
 
   
