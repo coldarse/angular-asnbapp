@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
 import { signalrConnection } from 'src/app/_models/signalr';
 import { appFunc } from '../_models/appFunctions';
@@ -52,30 +52,45 @@ export class TransactionmenuComponent implements OnInit {
     for (var val of appFunc.modules){
       if(val.module.toLowerCase().includes('update')){
         if(val.isEnabled == true){
+          if(val.startTime, val.stopTime, new Date()){
+
+          }
           this.updatedDetailsEnabled = false;
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
         }
       }
       else if(val.module.toLowerCase().includes('check')){
         if(val.isEnabled == true){
+          if(val.startTime, val.stopTime, new Date()){
+            
+          }
           this.checkBalanceEnabled = false;
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
         }
       }
       else if(val.module.toLowerCase().includes('financial')){
         if(val.isEnabled == true){
+          if(val.startTime, val.stopTime, new Date()){
+            
+          }
           this.financialTransactionEnabled = false;
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Financial Transaction Module.");
         }
       }
       else if(val.module.toLowerCase().includes('bijak')){
         if(val.isEnabled == true){
+          if(val.startTime, val.stopTime, new Date()){
+            
+          }
           this.bijakRegistrationEnabled = false;
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Bijak Registration Module.");
         }
       }
       else if(val.module.toLowerCase().includes('portal')){
         if(val.isEnabled == true){
+          if(val.startTime, val.stopTime, new Date()){
+            
+          }
           this.portalRegistrationEnabled = false;
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Portal Registration Module.");
         }
@@ -123,6 +138,14 @@ export class TransactionmenuComponent implements OnInit {
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
     });
+  }
+
+
+  isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {
+    if (current.getTime() >= startDateTime.getTime() && current.getTime() <= stopDateTime.getTime()){
+      return true;
+    }
+    return false;
   }
 
 }

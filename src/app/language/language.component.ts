@@ -1,26 +1,22 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServiceService } from 'src/app/_shared/service.service';
 import { selectLang } from '../_models/language';
-import { BroadcastEventListener, ConnectionStatus, IConnectionOptions, SignalR, SignalRConnection } from 'ng2-signalr';
+import { SignalR } from 'ng2-signalr';
 import { signalrConnection } from 'src/app/_models/signalr';
 import { accessToken } from 'src/app/_models/apiToken';
-import { UnitHolder } from '../_models/unitHolder';
-import { catchError } from 'rxjs/operators';
 import { currentHolder } from '../_models/currentUnitHolder';
 import { formatDate } from '@angular/common';
 import { appFunc } from '../_models/appFunctions';
 import { eModules } from '../_models/enabledModules';
 import { errorCodes } from '../_models/errorCode';
-import { fundDetails } from '../_models/fundDetails';
 import { bankName, businessNature, cities, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, relationship, religions, securityQuestions, states, TitleDetails } from '../_models/dropDownLists';
 import { kActivity } from '../_models/kActivity';
-import { kioskActivities } from '../_models/kioskActivities';
-import { AppConfiguration } from '../config/app-configuration';
 import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-language',
@@ -79,11 +75,10 @@ export class LanguageComponent implements OnInit {
     if(appFunc.kioskActivity != undefined){
       console.log(JSON.stringify(appFunc.kioskActivity));
       this.serviceService.postKioskActivity(appFunc.kioskActivity).subscribe((res: any) => {
-        console.log(res);
       });
     }
 
-    
+
     currentMyKidDetails.resetCurrentMyKid();
     currentMyKadDetails.resetCurrentMyKid();
     currentBijakHolder.resetCurretnBijakHolder();
@@ -93,7 +88,6 @@ export class LanguageComponent implements OnInit {
     appFunc.kioskActivity = [];
     var areDisabled = 0
     appFunc.modules = this.modis.map((em: any) => new eModules(em));
-    console.log(appFunc.modules);
     for (var val of appFunc.modules){
       if(val.isEnabled == false){
         areDisabled += 1;
@@ -109,8 +103,6 @@ export class LanguageComponent implements OnInit {
 
     
   }
-
-  
 
   startConnection() : void {
 
@@ -132,15 +124,12 @@ export class LanguageComponent implements OnInit {
         };
         this.serviceService.genTrxNo(signalrConnection.kioskCode).subscribe((res: any) => {
           signalrConnection.trxno = res.result.toString();
-          console.log(`The TRX No is ${res.result.toString()}`);
         });
       });
       
       
     }).catch((err: any) => {console.log(err)});
   }
-
-  
 
   selectEnglish() {
     selectLang.selectedLang = 'en';
@@ -165,7 +154,6 @@ export class LanguageComponent implements OnInit {
 
     
   }
-
   selectMalay() {
     selectLang.selectedLang = 'ms';
     this.route.navigate(['/verifymykad']);
@@ -185,7 +173,6 @@ export class LanguageComponent implements OnInit {
     appFunc.kioskActivity.push(kActivit);
     this.getDropDowns();
   }
-
 
   getDropDowns(){
     this.serviceService.getAllDropDown().subscribe((res : any) => {
@@ -271,24 +258,10 @@ export class LanguageComponent implements OnInit {
         appFunc.securityQuestions = res[13].result.items.map((sq: any) => new securityQuestions(sq));
       }
 
-
-      console.log(appFunc.titleSalutation);
-      console.log(appFunc.cities);
-      console.log(appFunc.monthlyIncome);
-      console.log(appFunc.states);
-      console.log(appFunc.businessNature);
-      console.log(appFunc.occupationSector);
-      console.log(appFunc.occupationCategory);
-      console.log(appFunc.religion);
-      console.log(appFunc.races);
-      console.log(appFunc.preferredDelivery);
-      console.log(appFunc.bankName);
-      console.log(appFunc.occupationName);
-      console.log(appFunc.relationship);
-      console.log(appFunc.securityQuestions);
-      
     });
   }
+
+  
 }
 
 

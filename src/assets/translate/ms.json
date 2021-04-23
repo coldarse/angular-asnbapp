@@ -255,5 +255,6 @@
 	"NotMatch" : "Kedua-dua kata laluan mesti sepadan.",
 	"BTN_TAC" : "Permintaan TAC",
 	"WrongTAC" : "TAC tidak sah.",
-	"BTN_Login" : "Log Masuk"
+	"BTN_Login" : "Log Masuk",
+	"RMErrorK_2" : "Sila massukan MyKad anda sebelum meneruskan."
 }

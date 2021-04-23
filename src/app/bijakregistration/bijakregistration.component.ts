@@ -104,7 +104,7 @@ export class BijakregistrationComponent implements OnInit {
 
   Email_Visible : boolean = true;
 
-
+  pep = true;
 
   form_salutation : any = appFunc.titleSalutation;
   form_races : any = appFunc.races; //
@@ -316,6 +316,10 @@ export class BijakregistrationComponent implements OnInit {
 
   initializeForm()  {
     
+    if(currentHolder.pep == 'Y'){
+      this.pep = false
+    }
+
     this.AR_Form = this.fb.group(
       {
         salutation: ['EN'],
@@ -334,40 +338,40 @@ export class BijakregistrationComponent implements OnInit {
         g_religion: [{value: currentMyKadDetails.Religion, disabled: true}],
         g_relation: [{value: 'F', disabled: false}],
 
-        address1 : [{value: currentMyKidDetails.Address1 + currentMyKidDetails.Address2, disabled: true}],
-        address2 : [{value: currentMyKidDetails.Address3, disabled: true}],
-        postcode : [{value: currentMyKidDetails.PostCode, disabled: true}],
-        city : [{value: currentMyKidDetails.City, disabled: true}],
-        state : [{value: this.state, disabled: true}],
-        mykadaddress: [true],
+        address1 : [{value: currentMyKadDetails.Address1 + currentMyKadDetails.Address2, disabled: true}],
+        address2 : [{value: currentMyKadDetails.Address3, disabled: true}],
+        postcode : [{value: currentMyKadDetails.PostCode, disabled: true}],
+        city : [{value: currentMyKadDetails.City, disabled: true}],
+        state : [{value: currentMyKadDetails.State, disabled: true}],
+        mykadaddress: [{value: true, disabled: true}],
 
-        telephone: ['', [
+        telephone: [{value: currentHolder.cellphonenumber, disabled: true}, [
           Validators.required,
           Validators.pattern('^[0-9]*$')
         ]],
         notelephone: [false],
 
-        email: ['', [
+        email: [{value: currentHolder.email, disabled: true}, [
           Validators.required,
           Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
         noemail: [false],
         deliverystate: ['ST'],
 
-        bankname: [''],
-        bankaccount: ['', [
+        bankname: [{value: currentHolder.bankcode, disabled: true}],
+        bankaccount: [{value: currentHolder.accountnumber, disabled: true}, [
           Validators.required,
           Validators.pattern('^[0-9]*$')
         ]],
 
-        jobcategory: [''],
-        jobname: [''],
-        natureofjob: [''],
-        jobsector: [''],
-        monthlyincome: ['7'],
-        companyname: ['', Validators.required],
+        jobcategory: [{value: currentHolder.occupationcategory, disabled: true}],
+        jobname: [{value: currentHolder.occupation, disabled: true}],
+        natureofjob: [{value: currentHolder.natureofbusiness, disabled: true}],
+        jobsector: [{value: currentHolder.occupationsector, disabled: true}],
+        monthlyincome: [{value: currentHolder.otherinfO8, disabled: true}],
+        companyname: [{value: currentHolder.companyname, disabled: true}, Validators.required],
 
         fatca: ['N'],
-        pep: ['N'],
+        pep: [{value: currentHolder.pep, disabled: this.pep}],
         news: ['Y'],
         crs: ['N'],
     });
@@ -1002,10 +1006,6 @@ export class BijakregistrationComponent implements OnInit {
     }
   }
 
-  usekeyboardinput(event: any) {
-    console.log(event);
-  }
-
   bijakregistrationCancel() {
     let kActivit = new kActivity();
     kActivit.trxno = signalrConnection.trxno;
@@ -1124,47 +1124,6 @@ export class BijakregistrationComponent implements OnInit {
       this.BRForm_Visible = false;
       this.BRTNC_Visible = true;
     }
-    // let x = 0
-    // Object.keys(this.AR_Form.controls).forEach(key => {
-    //   if(this.AR_Form.controls[key].hasError('required')){
-    //     x += 1;
-    //   }
-    // })
-    // if (x > 0){
-    //   console.log("Error");
-    //   signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + `${x} field(s) empty.`);
-    // }
-    // else{
-    //   let kActivit = new kActivity();
-    //   kActivit.trxno = signalrConnection.trxno;
-    //   kActivit.kioskCode = signalrConnection.kioskCode;
-    //   kActivit.moduleID = 0;
-    //   kActivit.submoduleID = undefined;
-    //   kActivit.action = "Bijak Registration Submit";
-    //   kActivit.startTime = new Date();
-    //   kActivit.endTime = new Date();
-    //   kActivit.status = true;
-
-    //   appFunc.kioskActivity.push(kActivit);
-    //   this.AR_Form.controls.fullname.enable();
-    //   this.AR_Form.controls.identificationcardno.enable();
-    //   this.AR_Form.controls.dob.enable();
-    //   this.AR_Form.controls.race.enable();
-    //   this.AR_Form.controls.religion.enable();
-    //   this.AR_Form.controls.g_memberid.enable();
-    //   this.AR_Form.controls.g_fullname.enable();
-    //   this.AR_Form.controls.g_identificationnumber.enable();
-    //   this.AR_Form.controls.g_dob.enable();
-    //   this.AR_Form.controls.g_race.enable();
-    //   this.AR_Form.controls.g_religion.enable();
-    //   this.AR_Form.controls.address1.enable();
-    //   this.AR_Form.controls.address2.enable();
-    //   this.AR_Form.controls.postcode.enable();
-    //   this.AR_Form.controls.city.enable();
-    //   this.AR_Form.controls.state.enable();
-    //   console.log(this.AR_Form.value);
-    //   signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Submitted Account Registration Form.");
-    
   }
 
   TNCDisagree(){

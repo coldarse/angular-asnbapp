@@ -1,4 +1,3 @@
-import { keyframes } from '@angular/animations';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -6,14 +5,10 @@ import { selectLang } from '../_models/language';
 import { signalrConnection } from 'src/app/_models/signalr';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { formatDate } from '@angular/common';
-import { currentMyKidDetails } from '../_models/currentMyKidDetails';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { appFunc } from '../_models/appFunctions';
 import { ServiceService } from '../_shared/service.service';
-import { Observable, forkJoin } from 'rxjs';
 import { kActivity } from '../_models/kActivity';
-import { SelectorContext } from '@angular/compiler';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { errorCodes } from '../_models/errorCode';
 import { accessToken } from '../_models/apiToken';
 import { currentHolder } from '../_models/currentUnitHolder';
@@ -50,17 +45,17 @@ export class AccountregistrationComponent implements OnInit {
   BTN_Email = "";
 
   form_salutation : any = appFunc.titleSalutation;
-  form_races : any = appFunc.races; //
-  form_religion : any = appFunc.religion; //
+  form_races : any = appFunc.races; 
+  form_religion : any = appFunc.religion; 
   form_states : any = appFunc.states; 
   form_cities : any = appFunc.cities;
   form_preferredDelivery : any = appFunc.preferredDelivery;
   form_bankname : any = appFunc.bankName;
-  form_occupationSector : any = appFunc.occupationSector;//
+  form_occupationSector : any = appFunc.occupationSector;
   form_occupationName : any = appFunc.occupationName;
-  form_occupationCatergory : any = appFunc.occupationCategory;//
-  form_businessnature : any = appFunc.businessNature;//
-  form_income : any = appFunc.monthlyIncome;//
+  form_occupationCatergory : any = appFunc.occupationCategory;
+  form_businessnature : any = appFunc.businessNature;
+  form_income : any = appFunc.monthlyIncome;
 
   defLang = selectLang.selectedLang;
 
@@ -104,6 +99,7 @@ export class AccountregistrationComponent implements OnInit {
   JC_Warning : boolean = false;
 
   Email_Visible : boolean = true;
+
 
   //Page Elements Fixed Values from API and MyKad
   Header_Title = "";
@@ -376,41 +372,6 @@ export class AccountregistrationComponent implements OnInit {
     });
   }
 
-  usekeyboardinput(event: any) {
-    console.log(event);
-  }
-
-  get primAddress1(){
-    return this.AR_Form.get('address1');
-  }
-
-  get primAddress2(){
-    return this.AR_Form.get('address2');
-  }
-
-  get primPostcode(){
-    return this.AR_Form.get('postcode');
-  }
-
-  get primTelephone(){
-    return this.AR_Form.get('telephone');
-  }
-
-  get primEmail(){
-    return this.AR_Form.get('email');
-  }
-
-  get primBankNo(){
-    return this.AR_Form.get('bankaccount');
-  }
-
-  get primCompName(){
-    return this.AR_Form.get('companyname');
-  }
-
-  
-
-
   noEmailCheck() {
     if (this.AR_Form.controls.noemail.value == false){
       this.AR_Form.controls.email.reset();
@@ -648,11 +609,6 @@ export class AccountregistrationComponent implements OnInit {
   registrationNext() {
     
     closeKeyboard();
-    // let a1 = this.AR_Form.get('address1').value;
-    // let a2 = this.AR_Form.get('address2').value;
-    // let postcode = this.AR_Form.get('postcode').value;
-    // let city = this.AR_Form.get('city').value;
-    // let state = this.AR_Form.get('state').value;
 
     this.AR_Form.controls.address1.setValue(this.add1?.nativeElement.value);
     this.AR_Form.controls.address2.setValue(this.add2?.nativeElement.value);
@@ -681,13 +637,6 @@ export class AccountregistrationComponent implements OnInit {
     this.NOJ_Warning = false;
     this.JN_Warning = false;
     this.JC_Warning = false;
-
-    // this.AR_Form.controls.address1.setValue(a1);
-    // this.AR_Form.controls.address2.setValue(a2);
-    // this.AR_Form.controls.postcode.setValue(postcode);
-    // this.AR_Form.controls.city.setValue(city);
-    // this.AR_Form.controls.state.setValue(state);
-
 
     let x = 0
     Object.keys(this.AR_Form.controls).forEach(key => {
@@ -850,7 +799,7 @@ export class AccountregistrationComponent implements OnInit {
         "INQUIRYCODE": "5",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
+        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'HH:MM:ss', 'en'),
         "BANKCUSTPHONENUMBER": "",
         "FILTRATIONFLAG": "1",
         "GUARDIANID": "",

@@ -14,11 +14,11 @@ import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
 import { errorCodes } from '../_models/errorCode';
 import { accessToken } from '../_models/apiToken';
-import { CursorError } from '@angular/compiler/src/ml_parser/lexer';
 
 
 declare const loadKeyboard: any;
 declare const deleteKeyboard: any;
+declare const closeKeyboard: any;
 
 @Component({
   selector: 'app-updatedetails',
@@ -37,17 +37,17 @@ export class UpdatedetailsComponent implements OnInit {
   @ViewChild('companyname') compname : ElementRef | undefined;
 
   form_salutation : any = appFunc.titleSalutation;
-  form_races : any = appFunc.races; //
-  form_religion : any = appFunc.religion; //
+  form_races : any = appFunc.races; 
+  form_religion : any = appFunc.religion; 
   form_states : any = appFunc.states; 
   form_cities : any = appFunc.cities;
   form_preferredDelivery : any = appFunc.preferredDelivery;
   form_bankname : any = appFunc.bankName;
-  form_occupationSector : any = appFunc.occupationSector;//
+  form_occupationSector : any = appFunc.occupationSector;
   form_occupationName : any = appFunc.occupationName;
-  form_occupationCatergory : any = appFunc.occupationCategory;//
-  form_businessnature : any = appFunc.businessNature;//
-  form_income : any = appFunc.monthlyIncome;//
+  form_occupationCatergory : any = appFunc.occupationCategory;
+  form_businessnature : any = appFunc.businessNature;
+  form_income : any = appFunc.monthlyIncome;
   form_relationships : any = appFunc.relationship;
 
   BTN_Cancel = "";
@@ -105,6 +105,8 @@ export class UpdatedetailsComponent implements OnInit {
   NOJ_Warning : boolean = false;
   JN_Warning : boolean = false;
   JC_Warning : boolean = false;
+
+  pep = true;
 
 
   noAhli = "";
@@ -668,10 +670,6 @@ export class UpdatedetailsComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Cancel.");
   }
 
-  usekeyboardinput(event: any) {
-    console.log(event);
-  }
-
   ConfirmNo(){
     this.UDConfirm_Visible = false;
   }
@@ -826,6 +824,7 @@ export class UpdatedetailsComponent implements OnInit {
   }
 
   majorUpdateNext(){
+    closeKeyboard();
     let a1 = this.AR_Form.get('address1').value;
     let a2 = this.AR_Form.get('address2').value;
     let postcode = this.AR_Form.get('postcode').value;
@@ -960,7 +959,7 @@ export class UpdatedetailsComponent implements OnInit {
     }
   }
 
-  bijakUpdateBack() {
+  bijakUpdateBack(){
     let kActivit1 = new kActivity();
     kActivit1.trxno = signalrConnection.trxno;
     kActivit1.kioskCode = signalrConnection.kioskCode;
@@ -996,10 +995,94 @@ export class UpdatedetailsComponent implements OnInit {
   }
   
   bijakUpdateNext(){
+    closeKeyboard();
+    this.AR_Form.controls.address1.setValue(this.add1?.nativeElement.value);
+    this.AR_Form.controls.address2.setValue(this.add2?.nativeElement.value);
+    this.AR_Form.controls.postcode.setValue(this.postcode?.nativeElement.value);
+    this.AR_Form.controls.homenumber.setValue(this.homeno?.nativeElement.value);
+    this.AR_Form.controls.telephone.setValue(this.phoneno?.nativeElement.value);
+    this.AR_Form.controls.email.setValue(this.email?.nativeElement.value);
+    this.AR_Form.controls.bankaccount.setValue(this.bankno?.nativeElement.value);
+    this.AR_Form.controls.companyname.setValue(this.compname?.nativeElement.value);
+
+    this.address1_Warning = false;
+    this.address2_Warning = false;
+    this.postcode_Warning = false;
+
+    this.telephone_Warning = false;
+    this.telephone_Warning1 = false;
+    this.email_Warning = false;
+    this.email_Warning1 = false;
+    this.bank_Warning = false;
+    this.bankNo_Warning = false;
+    this.bankNo_Warning1 = false;
+    this.companyName_Warning = false;
+
+    this.MI_Warning = false;
+    this.JS_Warning = false;
+    this.NOJ_Warning = false;
+    this.JN_Warning = false;
+    this.JC_Warning = false;
+
+
+
     let x = 0
     Object.keys(this.AR_Form.controls).forEach(key => {
       if(this.AR_Form.controls[key].hasError('required')){
-        x += 1;
+        x += 1
+        if(key.includes('telephone')){
+          this.telephone_Warning = true;
+        }
+        else if(key.includes('email')){
+          this.email_Warning = true;
+        }
+        else if(key.includes('bankaccount')){
+          this.bankNo_Warning = true;
+        }
+        else if(key.includes('companyname')){
+          this.companyName_Warning = true;
+        }
+
+        else if(key.includes('address1')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.address1_Warning = true;
+        }
+        else if(key.includes('address2')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.address2_Warning = true;
+        }
+        else if(key.includes('postcode')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.postcode_Warning = true;
+        }
+      }
+      else if (this.AR_Form.controls[key].hasError('pattern')){
+        if(key.includes('email')){
+          this.email_Warning1 = true;
+        }
+        else if(key.includes('telephone')){
+          this.telephone_Warning1 = true;
+        }
+        else if(key.includes('bankaccount')){
+          this.bankNo_Warning1 = true;
+        }
+      }
+      else {
+        if(key.includes('bankname') && (this.AR_Form.controls.bankname.value == '')){
+          this.bank_Warning = true;
+        }
+        else if(key.includes('jobcategory') && (this.AR_Form.controls.jobcategory.value == '')){
+          this.JC_Warning = true;
+        }
+        else if(key.includes('jobname') && (this.AR_Form.controls.jobname.value == '')){
+          this.JN_Warning = true;
+        }
+        else if(key.includes('natureofjob') && (this.AR_Form.controls.natureofjob.value == '')){
+          this.NOJ_Warning = true;
+        }
+        else if(key.includes('jobsector') && (this.AR_Form.controls.jobsector.value == '')){
+          this.JS_Warning = true;
+        }
+        else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '')){
+          this.MI_Warning = true;
+        }
       }
     })
     if (x > 0){
@@ -1035,7 +1118,7 @@ export class UpdatedetailsComponent implements OnInit {
     }
   }
 
-  formHandling(code: any) {
+  formHandling(code: any){
     this.enableJob();
 
     if(currentHolder.telephonE1 == "null"){
@@ -1105,7 +1188,11 @@ export class UpdatedetailsComponent implements OnInit {
 
   }
 
-  initializeForm(acctType: string)  {
+  initializeForm(acctType: string){
+
+    if(currentHolder.pep == 'Y'){
+      this.pep = false
+    }
     if (acctType == 'major'){
       this.AR_Form = this.fb.group(
         {
@@ -1143,10 +1230,10 @@ export class UpdatedetailsComponent implements OnInit {
           monthlyincome: [currentHolder.otherinfO8],
           companyname: [currentHolder.companyname, Validators.required],
 
-          fatca: [{value: currentHolder.fatca, disabled: true}],
-          pep: [{value: currentHolder.pep, disabled: true}],
-          news: [{value: currentHolder.participateinasnbmkt, disabled: true}],
-          crs: [{value: currentHolder.crs, disabled: true}],
+          fatca: [{value: currentHolder.fatca, disabled: false}],
+          pep: [{value: currentHolder.pep, disabled: this.pep}],
+          news: [{value: currentHolder.participateinasnbmkt, disabled: false}],
+          crs: [{value: currentHolder.crs, disabled: false}],
         });
         this.formHandling(currentHolder.occupationcategory);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Major Form")
@@ -1170,46 +1257,43 @@ export class UpdatedetailsComponent implements OnInit {
           g_religion: [{value: currentHolder.religion, disabled: true}],
           g_relation: [{value: currentBijakHolder.relationship, disabled: false}],
 
-          address1 : [{value: currentBijakHolder.addresslinE1, disabled: true}],
-          address2 : [{value: currentBijakHolder.addresslinE2, disabled: true}],
-          postcode : [{value: currentBijakHolder.zipcode, disabled: true}],
-          city : [{value: currentBijakHolder.addresslinE3, disabled: true}],
-          state : [{value: currentBijakHolder.addresslinE4, disabled: true}],
+          address1 : [{value: currentHolder.addresslinE1, disabled: true}],
+          address2 : [{value: currentHolder.addresslinE2, disabled: true}],
+          postcode : [{value: currentHolder.zipcode, disabled: true}],
+          city : [{value: currentHolder.addresslinE3, disabled: true}],
+          state : [{value: currentHolder.addresslinE4, disabled: true}],
           mykadaddress: [{value: true, disabled: true}],
 
-          homenumber : [{value: currentBijakHolder.telephonE1, disabled: true}],
-          telephone: [currentBijakHolder.cellphonenumber, Validators.required],
+          homenumber : [{value: currentHolder.telephonE1, disabled: true}],
+          telephone: [currentHolder.cellphonenumber, Validators.required],
           notelephone: [false],
 
-          email: [currentBijakHolder.email, [
+          email: [currentHolder.email, [
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
           noemail: [false],
-          deliverystate: [currentBijakHolder.preferredmailmode],
+          deliverystate: [currentHolder.preferredmailmode],
 
-          bankname: [{value: currentBijakHolder.bankcode, disabled: true}],
-          bankaccount: [{value: currentBijakHolder.accountnumber, disabled: true}],
+          bankname: [{value: currentHolder.bankcode, disabled: true}],
+          bankaccount: [{value: currentHolder.accountnumber, disabled: true}],
 
-          jobcategory: [{value: currentBijakHolder.occupationcategory, disabled: true}],
-          jobname: [{value: currentBijakHolder.occupation, disabled: true}],
-          natureofjob: [{value: currentBijakHolder.natureofbusiness, disabled: true}],
-          jobsector: [{value: currentBijakHolder.occupationsector, disabled: true}],
-          monthlyincome: [{value: currentBijakHolder.otherinfO8, disabled: true}],
-          companyname: [{value: currentBijakHolder.companyname, disabled: true}],
+          jobcategory: [{value: currentHolder.occupationcategory, disabled: true}],
+          jobname: [{value: currentHolder.occupation, disabled: true}],
+          natureofjob: [{value: currentHolder.natureofbusiness, disabled: true}],
+          jobsector: [{value: currentHolder.occupationsector, disabled: true}],
+          monthlyincome: [{value: currentHolder.otherinfO8, disabled: true}],
+          companyname: [{value: currentHolder.companyname, disabled: true}],
 
-          fatca: [{value: currentBijakHolder.fatca, disabled: true}],
-          pep: [{value: currentBijakHolder.pep, disabled: true}],
-          news: [{value: currentBijakHolder.participateinasnbmkt, disabled: true}],
-          crs: [{value: currentBijakHolder.crs, disabled: true}],
+          fatca: [{value: currentHolder.fatca, disabled: false}],
+          pep: [{value: currentHolder.pep, disabled: this.pep}],
+          news: [{value: currentHolder.participateinasnbmkt, disabled: false}],
+          crs: [{value: currentHolder.crs, disabled: false}],
         });
         this.formHandling(currentBijakHolder.occupationcategory);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Bijak Form")
     }
     
   }  
-
-
-  
 
   Print(){
     this.UDSuccess_Visible = false;
@@ -1248,7 +1332,12 @@ export class UpdatedetailsComponent implements OnInit {
           this.UD_Print1Visible = false;
           this.UD_Print2Visible = true;
           setTimeout(()=>{   
-            this._router.navigate(['transactionsuccessful']);
+            if(this.isMain){
+              this.getAccountInquiryMajor();
+            }
+            else{
+              this.getAccountInquiryMinor();
+            }
           }, 3000);
         }else{
           errorCodes.Ecode = "0068";
@@ -1292,7 +1381,12 @@ export class UpdatedetailsComponent implements OnInit {
         if (data == true){
           setTimeout(()=>{   
             this.UD_EmailVisible = false;
-            this._router.navigate(['transactionsuccessful']);
+            if(this.isMain){
+              this.getAccountInquiryMajor();
+            }
+            else{
+              this.getAccountInquiryMinor();
+            }
           }, 3000);
         }else{
           errorCodes.Ecode = "0069";
@@ -1301,6 +1395,391 @@ export class UpdatedetailsComponent implements OnInit {
         }
       }, 3000);
     });
+  }
+
+  getAccountInquiryMajor(): void{
+    try{
+
+      //currentMyKadDetails.ICNo = "980112106087";
+      
+      const body = { 
+
+        "CHANNELTYPE": "ASNB KIOSK",
+        "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+        "DEVICEOWNER": "ASNB",
+        "UNITHOLDERID": "",
+        "FIRSTNAME": "",
+        "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
+        "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
+        "FUNDID": "",
+        "INQUIRYCODE": "5",
+        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        "BANKCUSTPHONENUMBER": "",
+        "FILTRATIONFLAG": "1",
+        "GUARDIANID": "",
+        "GUARDIANICTYPE": "",
+        "GUARDIANICNUMBER": ""
+
+       };
+
+
+  
+  
+      this.serviceService.getAccountInquiry(body)
+      .subscribe((result: any) => {
+        
+        let kActivit = new kActivity();
+        kActivit.trxno = signalrConnection.trxno;
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "Binding Unit Holder";
+        kActivit.startTime = new Date();
+
+        
+
+        console.log("Subscribing");
+        currentHolder.channeltype = result.channeltype;
+        currentHolder.requestoridentification = result.requestoridentification;
+        currentHolder.deviceowner = result.deviceowner;
+        currentHolder.unitholderid = result.unitholderid;
+        currentHolder.firstname = result.firstname;
+        currentHolder.identificationtype = result.identificationtype;
+        currentHolder.identificationnumber = result.identificationnumber;
+        currentHolder.fundid = result.fundid;
+        currentHolder.inquirycode = result.inquirycode;
+        currentHolder.transactiondate = result.transactiondate;
+        currentHolder.transactiontime = result.transactiontime;
+        currentHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+        currentHolder.bankcustphonenumber = result.bankcustphonenumber;
+        currentHolder.filtrationflag = result.filtrationflag;      		
+        currentHolder.cifstopaccountstatus = result.cifstopaccountstatus
+        currentHolder.typeclosed = result.typeclosed;
+        currentHolder.participateinasnbmkt = result.participateinasnbmkt;
+        currentHolder.unitbalance = result.unitbalance;
+        currentHolder.funddetail = result.funddetail;
+        currentHolder.cifnumber = result.cifnumber;
+        currentHolder.race = result.race;
+        currentHolder.religion = result.religion;
+        currentHolder.uhcategory = result.uhcategory;
+        currentHolder.title = result.title;
+        currentHolder.accountopeningdate = result.accountopeningdate;
+        currentHolder.investortype = result.investortype;
+        currentHolder.maritalstatus = result.maritalstatus;
+        currentHolder.addresslinE1 = result.addresslinE1;
+        currentHolder.addresslinE2 = result.addresslinE2;
+        currentHolder.addresslinE3 = result.addresslinE3;
+        currentHolder.addresslinE4 = result.addresslinE4;
+        currentHolder.country = result.country;
+        currentHolder.email = result.email;
+        currentHolder.zipcode = result.zipcode;
+        currentHolder.contactperson = result.contactperson;
+        currentHolder.telephonE1 = result.telephonE1;
+        currentHolder.telephonE2 = result.telephonE2;
+        currentHolder.cellphonenumber = result.cellphonenumber;
+        currentHolder.fax = result.fax;
+        currentHolder.dateofbirth = result.dateofbirth;
+        currentHolder.bankcode = result.bankcode;
+        currentHolder.bankbranchcode = result.bankbranchcode;
+        currentHolder.accounttype = result.accounttype;
+        currentHolder.accountnumber = result.accountnumber;
+        currentHolder.accountcurrency = result.accountcurrency;
+        currentHolder.fundcode = result.fundcode;
+        currentHolder.transactiontype = result.transactiontype;
+        currentHolder.directdebit = result.directdebit;
+        currentHolder.mothername = result.mothername;
+        currentHolder.portalenabled = result.portalenabled;				
+        currentHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+        currentHolder.grandtotalepfunits = result.grandtotalepfunits;
+        currentHolder.grandtotalloanunits = result.grandtotalloanunits;
+        currentHolder.grandtotalcertunits = result.grandtotalcertunits;
+        currentHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+        currentHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+        currentHolder.grandtotalunits = result.grandtotalunits;
+        currentHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+        currentHolder.totalminoraccount = result.totalminoraccount;
+        currentHolder.minordetail = result.minordetail;
+        currentHolder.guardianid = result.guardianid;
+        currentHolder.guardianictype = result.guardianictype;
+        currentHolder.guardianicnumber = result.guardianicnumber;
+        currentHolder.epfnumber = result.epfnumber;
+        currentHolder.epfapplicable = result.epfapplicable;
+        currentHolder.epfaccounttype = result.epfaccounttype;
+        currentHolder.epfaccounttypeeffdate = result.epfaccounttypeeffdate;
+        currentHolder.agentcode  = result.agentcode;
+        currentHolder.branchcode  = result.branchcode;
+        currentHolder.occupation = result.occupation;
+        currentHolder.otherinfO8 = result.otherinfO8;
+        currentHolder.occupationsector = result.occupationsector;
+        currentHolder.occupationcategory = result.occupationcategory;
+        currentHolder.natureofbusiness = result.natureofbusiness;
+        currentHolder.companyname = result.companyname;
+        currentHolder.preferredmailmode = result.preferredmailmode;
+        currentHolder.fatca = result.fatca;
+        currentHolder.crs = result.crs;
+        currentHolder.pep = result.pep;
+        currentHolder.riskprofile = result.riskprofile;
+        currentHolder.relationship = result.relationship;
+        currentHolder.agentcode = result.agentcode;
+        currentHolder.branchcode = result.branchcode;
+        currentHolder.lastupdatedate = result.lastupdatedate;
+        currentHolder.transactionchannel = result.transactionchannel;
+        currentHolder.transactionstatus = result.transactionstatus;
+        currentHolder.rejectcode = result.rejectcode;
+        currentHolder.rejectreason = result.rejectreason;
+
+        console.log(currentHolder.occupationcategory);
+
+        kActivit.endTime = new Date();
+        kActivit.status = true; 
+
+        appFunc.kioskActivity.push(kActivit);
+
+
+        if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
+
+          if (!currentHolder.typeclosed.toLowerCase().includes('n')){
+            errorCodes.Ecode = "0168";
+            errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
+            this._router.navigate(['errorscreen']);
+          }
+          else{
+            if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
+              let kActivit2 = new kActivity();
+              kActivit2.trxno = signalrConnection.trxno;
+              kActivit2.kioskCode = signalrConnection.kioskCode;
+              kActivit2.moduleID = 0;
+              kActivit2.submoduleID = undefined;
+              kActivit2.action = "Unit Holder Exists.";
+              kActivit2.startTime = new Date();
+              kActivit2.endTime = new Date();
+              kActivit2.status = true;
+
+              appFunc.kioskActivity.push(kActivit2);
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Account Found.");
+
+              
+              this._router.navigate(['transactionsuccessful']);
+            }
+          }
+        }
+        else{
+          if (currentHolder.rejectreason.includes('not exists')){
+            console.log("Reached Here A");
+            let kActivit1 = new kActivity();
+            kActivit1.trxno = signalrConnection.trxno;
+            kActivit1.kioskCode = signalrConnection.kioskCode;
+            kActivit1.moduleID = 0;
+            kActivit1.submoduleID = undefined;
+            kActivit1.action = "Unit Holder Doesn't Exist.";
+            kActivit1.startTime = new Date();
+            kActivit1.endTime = new Date();
+            kActivit1.status = true;
+
+            appFunc.kioskActivity.push(kActivit1);
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
+
+            
+            this._router.navigate(['feedbackscreen']);
+          }
+          else{
+            errorCodes.Ecode = currentHolder.rejectcode;
+            errorCodes.Emessage = currentHolder.rejectreason;
+            this._router.navigate(['errorscreen']);
+          }
+        }
+      });
+    }
+    catch (e){
+      let kActivit = new kActivity();
+      kActivit.trxno = signalrConnection.trxno;
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Unit Holder Exists.";
+      kActivit.startTime = new Date();
+      kActivit.endTime = new Date();
+      kActivit.status = false;
+
+      appFunc.kioskActivity.push(kActivit);
+      console.log(e);
+      errorCodes.code = "0168";
+      errorCodes.message = e;
+      this._router.navigate(['outofservice']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
+    }
+
+
+    
+  }
+
+  getAccountInquiryMinor(): void{
+    try{
+
+      //currentMyKadDetails.ICNo = "980112106087";
+      
+      const body = { 
+
+        "CHANNELTYPE": "ASNB KIOSK",
+        "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+        "DEVICEOWNER": "ASNB",
+        "UNITHOLDERID": "",
+        "FIRSTNAME": "",
+        "IDENTIFICATIONTYPE": "W",
+        "IDENTIFICATIONNUMBER": currentMyKidDetails.ICNo,
+        "FUNDID": "",
+        "INQUIRYCODE": "5",
+        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
+        "BANKCUSTPHONENUMBER": "",
+        "FILTRATIONFLAG": "1",
+        "GUARDIANID": "",
+        "GUARDIANICTYPE": "",
+        "GUARDIANICNUMBER": ""
+
+       };
+
+
+  
+  
+      this.serviceService.getAccountInquiry(body)
+      .subscribe((result: any) => {
+        
+        let kActivit = new kActivity();
+        kActivit.trxno = signalrConnection.trxno;
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 0;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "Binding Unit Holder";
+        kActivit.startTime = new Date();
+
+        
+
+        console.log("Subscribing");
+        currentBijakHolder.channeltype = result.channeltype;
+        currentBijakHolder.requestoridentification = result.requestoridentification;
+        currentBijakHolder.deviceowner = result.deviceowner;
+        currentBijakHolder.unitholderid = result.unitholderid;
+        currentBijakHolder.firstname = result.firstname;
+        currentBijakHolder.identificationtype = result.identificationtype;
+        currentBijakHolder.identificationnumber = result.identificationnumber;
+        currentBijakHolder.fundid = result.fundid;
+        currentBijakHolder.inquirycode = result.inquirycode;
+        currentBijakHolder.transactiondate = result.transactiondate;
+        currentBijakHolder.transactiontime = result.transactiontime;
+        currentBijakHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+        currentBijakHolder.bankcustphonenumber = result.bankcustphonenumber;
+        currentBijakHolder.filtrationflag = result.filtrationflag;
+        currentBijakHolder.typeclosed = result.typeclosed;
+        currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
+        currentBijakHolder.funddetail = result.fundetail;
+        currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+        currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
+        currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
+        currentBijakHolder.grandtotalcertunits = result.grandtotalcertunits;
+        currentBijakHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+        currentBijakHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+        currentBijakHolder.grandtotalunits = result.grandtotalunits;
+        currentBijakHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+        currentBijakHolder.totalminoraccount = result.totalminoraccount;
+        currentBijakHolder.minordetail = result.minordetail;
+        currentBijakHolder.guardianid = result.guardianid;
+        currentBijakHolder.guardianictype = result.guardianictype;
+        currentBijakHolder.guardianicnumber = result.guardianicnumber;
+        currentBijakHolder.agentcode = result.agentcode;
+        currentBijakHolder.branchcode = result.branchcode;
+        currentBijakHolder.lastupdatedate = result.lastupdatedate;
+        currentBijakHolder.transactionchannel = result.transactionchannel;
+        currentBijakHolder.transactionstatus = result.transactionstatus;
+        currentBijakHolder.rejectcode = result.rejectcode;
+        currentBijakHolder.rejectreason = result.rejectreason;
+
+        console.log(currentBijakHolder.occupationcategory);
+
+        kActivit.endTime = new Date();
+        kActivit.status = true; 
+
+        appFunc.kioskActivity.push(kActivit);
+
+
+        if (currentBijakHolder.transactionstatus.toLowerCase().includes('successful')){
+
+          if (!currentBijakHolder.typeclosed.toLowerCase().includes('n')){
+            errorCodes.Ecode = "0168";
+            errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
+            this._router.navigate(['errorscreen']);
+          }
+          else{
+            if(currentBijakHolder.unitholderid != "" || currentBijakHolder.unitholderid != undefined){
+              let kActivit2 = new kActivity();
+              kActivit2.trxno = signalrConnection.trxno;
+              kActivit2.kioskCode = signalrConnection.kioskCode;
+              kActivit2.moduleID = 0;
+              kActivit2.submoduleID = undefined;
+              kActivit2.action = "Unit Holder Exists.";
+              kActivit2.startTime = new Date();
+              kActivit2.endTime = new Date();
+              kActivit2.status = true;
+
+              appFunc.kioskActivity.push(kActivit2);
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "Account Found.");
+
+              
+              this._router.navigate(['transactionsuccessful']);
+            }
+          }
+        }
+        else{
+          if (currentBijakHolder.rejectreason.includes('not exists')){
+            console.log("Reached Here A");
+            let kActivit1 = new kActivity();
+            kActivit1.trxno = signalrConnection.trxno;
+            kActivit1.kioskCode = signalrConnection.kioskCode;
+            kActivit1.moduleID = 0;
+            kActivit1.submoduleID = undefined;
+            kActivit1.action = "Unit Holder Doesn't Exist.";
+            kActivit1.startTime = new Date();
+            kActivit1.endTime = new Date();
+            kActivit1.status = true;
+
+            appFunc.kioskActivity.push(kActivit1);
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "No account found.");
+
+            
+            this._router.navigate(['feedbackscreen']);
+          }
+          else{
+            errorCodes.Ecode = currentBijakHolder.rejectcode;
+            errorCodes.Emessage = currentBijakHolder.rejectreason;
+            this._router.navigate(['errorscreen']);
+          }
+        }
+      });
+    }
+    catch (e){
+      let kActivit = new kActivity();
+      kActivit.trxno = signalrConnection.trxno;
+      kActivit.kioskCode = signalrConnection.kioskCode;
+      kActivit.moduleID = 0;
+      kActivit.submoduleID = undefined;
+      kActivit.action = "Unit Holder Exists.";
+      kActivit.startTime = new Date();
+      kActivit.endTime = new Date();
+      kActivit.status = false;
+
+      appFunc.kioskActivity.push(kActivit);
+      console.log(e);
+      errorCodes.code = "0168";
+      errorCodes.message = e;
+      this._router.navigate(['outofservice']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
+    }
+
+
+    
   }
 
   

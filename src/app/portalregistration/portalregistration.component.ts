@@ -8,11 +8,9 @@ import { ServiceService } from '../_shared/service.service';
 import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
 import { currentHolder } from '../_models/currentUnitHolder';
-import { FindValueSubscriber } from 'rxjs/internal/operators/find';
 import { errorCodes } from '../_models/errorCode';
 import { FormBuilder, Validators } from '@angular/forms';
 import { accessToken } from '../_models/apiToken';
-import { stringify } from '@angular/compiler/src/util';
 
 
 declare const loadKeyboard: any;
@@ -344,6 +342,115 @@ export class PortalregistrationComponent implements OnInit {
     });
   }
 
+  nextDetails(){
+
+    closeKeyboard();
+
+
+    this.PForm_1.controls.userid.setValue(this.uid?.nativeElement.value);
+    this.PForm_1.controls.email.setValue(this.eAddress?.nativeElement.value);
+    this.PForm_1.controls.securephrase.setValue(this.securePh?.nativeElement.value);
+    this.PForm_1.controls.a1.setValue(this.answer1?.nativeElement.value);
+    this.PForm_1.controls.a2.setValue(this.answer2?.nativeElement.value);
+    this.PForm_1.controls.a3.setValue(this.answer3?.nativeElement.value);
+    this.PForm_1.controls.tac.setValue(this.TAC?.nativeElement.value);
+
+    this.userid_warning = false;
+    this.email_warning = false;
+    this.securephrase_warning = false;
+    this.answer1_warning = false;
+    this.answer2_warning = false;
+    this.answer3_warning = false;
+    this.tac_warning = false;
+    this.tac1_warning = false;
+    this.email1_warning = false;
+
+    let x = 0;
+    Object.keys(this.PForm_1.controls).forEach(key => {
+      if (this.PForm_1.controls[key].hasError('required')){
+        x += 1;
+        if(key.includes('userid')){
+          this.userid_warning = true;
+        }
+        else if (key.includes('email')){
+          this.email_warning = true;
+        }
+        else if (key.includes('securephrase')){
+          this.securephrase_warning = true;
+        }
+        else if (key.includes('a1')){
+          this.answer1_warning = true;
+        }
+        else if (key.includes('a2')){
+          this.answer2_warning = true;
+        }
+        else if (key.includes('a3')){
+          this.answer3_warning = true;
+        }
+        else if (key.includes('tac')){
+          this.tac_warning = true;
+        }
+      }
+      else if (this.PForm_1.controls[key].hasError('pattern')){
+        if (key.includes('email')){
+          this.email1_warning = true;
+        }
+      }
+    });
+    if (x > 0){
+      window.scroll(0,0);
+      console.log("Error");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
+    }else{
+      if(this.generatedTAC != this.PForm_1.controls.tac.value){
+        this.tac1_warning = true;
+      }else{
+        const body = {
+          "idno": currentHolder.identificationnumber,
+          "idtype": currentHolder.identificationtype,
+          "uhid": currentHolder.unitholderid,
+          "username": this.PForm_1.controls.userid.value,
+          "secureph": this.PForm_1.controls.securephrase.value,
+          "ans1": this.PForm_1.controls.a1.value,
+          "ans2": this.PForm_1.controls.a2.value,
+          "ans3": this.PForm_1.controls.a3.value,
+          "secq1": this.PForm_1.controls.q1.value,
+          "secq2": this.PForm_1.controls.q2.value,
+          "secq3": this.PForm_1.controls.q3.value,
+          "email": this.PForm_1.controls.email.value,
+          "typeclosed": currentHolder.typeclosed,
+          "fundid": currentHolder.funddetail[0].FUNDID,
+          "language": selectLang.selectedLang,
+          "dateofbirth": currentHolder.dateofbirth,
+          "mobileno": currentHolder.cellphonenumber
+        }
+
+        this.serviceService.unitHolderRegistration(body).subscribe((data: any) => {
+          if (data.result.registration_status == true){
+            this.tempPassword = data.result.temporary_password;
+            this.PR_Details = false;
+            this.PRTempPass_3 = this.format(this.tempPassword);
+            this.PR_TempPass = true;
+            deleteKeyboard();
+          }else{
+            this.tryAgainErrorCodes.forEach(elem => {
+              if (data.result.error_code.toString() == elem.toString()){
+                this.PForm_Error = true;
+                this.PFormText_1 = data.result.error_code;
+                this.PFormText_2 = data.result.error_reason;
+              }else{
+                errorCodes.Ecode = data.result.error_code;
+                errorCodes.Emessage = data.result.error_reason;
+                this._router.navigate(['errorscreen']);
+              }
+            });
+          }
+        });
+        
+      }
+    }
+  }
+
   nextLogin(){
 
     closeKeyboard();
@@ -391,7 +498,7 @@ export class PortalregistrationComponent implements OnInit {
           } , 2000);
         }else{
           this.tryAgainErrorCodes.forEach(elem => {
-            if (data.result.error_code == elem){
+            if (data.result.error_code.toString() == elem.toString()){
               this.PForm_Error = true;
               this.PFormText_1 = data.result.error_code;
               this.PFormText_2 = data.result.error_reason;
@@ -529,6 +636,8 @@ export class PortalregistrationComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Clicked Next on Portal Introduction.");
   }
 
+
+  
   tncDisagree(){
     let kActivit = new kActivity();
     kActivit.trxno = signalrConnection.trxno;
@@ -571,115 +680,7 @@ export class PortalregistrationComponent implements OnInit {
   }
 
 
-  nextDetails(){
-
-    closeKeyboard();
-
-
-    this.PForm_1.controls.userid.setValue(this.uid?.nativeElement.value);
-    this.PForm_1.controls.email.setValue(this.eAddress?.nativeElement.value);
-    this.PForm_1.controls.securephrase.setValue(this.securePh?.nativeElement.value);
-    this.PForm_1.controls.a1.setValue(this.answer1?.nativeElement.value);
-    this.PForm_1.controls.a2.setValue(this.answer2?.nativeElement.value);
-    this.PForm_1.controls.a3.setValue(this.answer3?.nativeElement.value);
-    this.PForm_1.controls.tac.setValue(this.TAC?.nativeElement.value);
-
-    this.userid_warning = false;
-    this.email_warning = false;
-    this.securephrase_warning = false;
-    this.answer1_warning = false;
-    this.answer2_warning = false;
-    this.answer3_warning = false;
-    this.tac_warning = false;
-    this.tac1_warning = false;
-    this.email1_warning = false;
-
-    let x = 0;
-    Object.keys(this.PForm_1.controls).forEach(key => {
-      if (this.PForm_1.controls[key].hasError('required')){
-        x += 1;
-        if(key.includes('userid')){
-          this.userid_warning = true;
-        }
-        else if (key.includes('email')){
-          this.email_warning = true;
-        }
-        else if (key.includes('securephrase')){
-          this.securephrase_warning = true;
-        }
-        else if (key.includes('a1')){
-          this.answer1_warning = true;
-        }
-        else if (key.includes('a2')){
-          this.answer2_warning = true;
-        }
-        else if (key.includes('a3')){
-          this.answer3_warning = true;
-        }
-        else if (key.includes('tac')){
-          this.tac_warning = true;
-        }
-      }
-      else if (this.PForm_1.controls[key].hasError('pattern')){
-        if (key.includes('email')){
-          this.email1_warning = true;
-        }
-      }
-    });
-    if (x > 0){
-      window.scroll(0,0);
-      console.log("Error");
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
-    }else{
-      if(this.generatedTAC != this.PForm_1.controls.tac.value){
-        this.tac1_warning = true;
-      }else{
-        const body = {
-          "idno": currentHolder.identificationnumber,
-          "idtype": currentHolder.identificationtype,
-          "uhid": currentHolder.unitholderid,
-          "username": this.PForm_1.controls.userid.value,
-          "secureph": this.PForm_1.controls.securephrase.value,
-          "ans1": this.PForm_1.controls.a1.value,
-          "ans2": this.PForm_1.controls.a2.value,
-          "ans3": this.PForm_1.controls.a3.value,
-          "secq1": this.PForm_1.controls.q1.value,
-          "secq2": this.PForm_1.controls.q2.value,
-          "secq3": this.PForm_1.controls.q3.value,
-          "email": this.PForm_1.controls.email.value,
-          "typeclosed": currentHolder.typeclosed,
-          "fundid": currentHolder.funddetail[0].FUNDID,
-          "language": selectLang.selectedLang,
-          "dateofbirth": currentHolder.dateofbirth,
-          "mobileno": currentHolder.cellphonenumber
-        }
-
-        this.serviceService.unitHolderRegistration(body).subscribe((data: any) => {
-          if (data.result.registration_status == true){
-            this.tempPassword = data.result.temporary_password;
-            this.PR_Details = false;
-            this.PRTempPass_3 = this.format(this.tempPassword);
-            this.PR_TempPass = true;
-            deleteKeyboard();
-          }else{
-            this.tryAgainErrorCodes.forEach(elem => {
-              if (data.result.error_code == elem){
-                this.PForm_Error = true;
-                this.PFormText_1 = data.result.error_code;
-                this.PFormText_2 = data.result.error_reason;
-              }else{
-                errorCodes.Ecode = data.result.error_code;
-                errorCodes.Emessage = data.result.error_reason;
-                this._router.navigate(['errorscreen']);
-              }
-            });
-          }
-        });
-        
-      }
-    }
-  }
-
+  
   usernameVerify(){
     this.PForm_2.controls.useridlog.setValue(this.uidlog?.nativeElement.value);
     this.useridlog_warning = false;
@@ -754,6 +755,9 @@ export class PortalregistrationComponent implements OnInit {
     this._router.navigate(['transactionmenu']);
   }
 
+
+
+
   confirmYes(){
     const body = {
       "username": this.tempusername,
@@ -768,7 +772,7 @@ export class PortalregistrationComponent implements OnInit {
         this.PR_Success = true;
       }else{
         this.tryAgainErrorCodes.forEach(elem => {
-          if (data.result.error_code == elem){
+          if (data.result.error_code.toString() == elem.toString()){
             this.PR_Confirm = false;
             this.PForm_Error = true;
             this.PFormText_1 = data.result.error_code;
@@ -787,7 +791,6 @@ export class PortalregistrationComponent implements OnInit {
   confirmNo(){
     this.PR_Confirm = false;
   }
-
 
   successPrint(){
     this.PR_Success = false;

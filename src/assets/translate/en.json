@@ -255,5 +255,6 @@
 	"NotMatch" : "Both passwords must match.",
 	"BTN_TAC" : "Request TAC",
 	"WrongTAC" : "Invalid TAC",
-	"BTN_Login" : "Login"
+	"BTN_Login" : "Login",
+	"RMErrorK_2" : "Please insert your Mykad before proceeding."
 }
