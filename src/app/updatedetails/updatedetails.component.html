@@ -17,7 +17,7 @@
 
 
 <!-- Check Balance -->
-<div id="UpdateDetails1" *ngIf="UD1_Visible">
+<div id="UpdateDetails1" *ngIf="UD1_Visible" class="content-container">
    
     <div class="col-md-12 text-center" style="padding-top:4rem; font-family: helvetica ;">
         <!-- <h2 id="UD1_Title1">Sila pilah Akaun untuk semakan baki</h2> -->
@@ -71,7 +71,7 @@
 
 
 <!-- UDForm_Visible -->
-<form [formGroup]='AR_Form' (ngSubmit)="majorUpdateNext()" name="registerForm" *ngIf="UDForm_Visible" autocomplete="off" novalidate>
+<form [formGroup]='AR_Form' (ngSubmit)="majorUpdateNext()" name="registerForm" *ngIf="UDForm_Visible" autocomplete="off" novalidate class="content-container">
     <div class="col-md-12">
         <div class="registrationForm">
             <div class="formcontent">
@@ -548,7 +548,7 @@
 </form>
 
 <!-- UDBForm_Visible -->
-<form *ngIf="UDBForm_Visible" [formGroup]="AR_Form" (ngSubmit)="bijakUpdateNext()" name="registerForm" >
+<form *ngIf="UDBForm_Visible" [formGroup]="AR_Form" (ngSubmit)="bijakUpdateNext()" name="registerForm" class="content-container">
     <div class="col-md-12">
         <div class="registrationForm">
             <div class="formcontent">
@@ -1136,7 +1136,7 @@
 
 </form>
 
-<div class="bg-popup" id="UD_ConfirmPop" *ngIf="UDConfirm_Visible" style="position: absolute;">
+<div class="bg-popup content-container" id="UD_ConfirmPop" *ngIf="UDConfirm_Visible" style="position: absolute;">
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
         
         <!-- <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">Pengesahkan Kemas Kini</h2>
@@ -1171,7 +1171,7 @@
 </div>   
 
 
-<div id="updateSuccessful" *ngIf="UDSuccess_Visible">
+<div id="updateSuccessful" *ngIf="UDSuccess_Visible" class="content-container">
     <div class="row text-center">
         <div class="col-md-12 padding-top-2rem">
             <img src="assets/images/ASNB-tick.png" class="ticklogo " alt="ASNB">
@@ -1201,7 +1201,7 @@
 </div>
 
 
-<div id="UD_Print1" *ngIf="UD_Print1Visible">
+<div id="UD_Print1" *ngIf="UD_Print1Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <!-- <h2 class="h2-ic" id="UDP1_Title1">Resit anda sedang dicetak.</h2>
@@ -1216,7 +1216,7 @@
     </div>
 </div>
 
-<div id="UD_Print2" *ngIf="UD_Print2Visible">
+<div id="UD_Print2" *ngIf="UD_Print2Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="UDP2_Title1">Sila ambil resit anda</h2> -->
@@ -1229,7 +1229,7 @@
     </div>
 </div>
 
-<div id="UD_Email" *ngIf="UD_EmailVisible">
+<div id="UD_Email" *ngIf="UD_EmailVisible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="UDE_Title1">Salinan resit akan hantar ke</h2>

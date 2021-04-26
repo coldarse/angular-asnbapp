@@ -322,7 +322,7 @@ user-select: none;
 } 
 
 .bg-popup {
-  width: 100%;
+  width: 99%;
   height: 100%;
   position: absolute;
   top: 0;
@@ -442,7 +442,7 @@ user-select: none;
 }
 
 .middle{
-  width: 100%;
+  width: 95%;
 }
 
 .leftcol_1{
@@ -595,6 +595,10 @@ user-select: none;
   display: block;
   -webkit-animation: fadeIn 1s;
   animation: fadeIn 1s;
+}
+
+.content-container{
+  width: 1365px;
 }
 
 /* Add animation (fade in the popup) */

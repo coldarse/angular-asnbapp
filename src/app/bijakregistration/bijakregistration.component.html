@@ -14,7 +14,7 @@
     </div>
 </nav>
 
-<div id="BR_Reminder" *ngIf="BRReminder_Visible">
+<div id="BR_Reminder" *ngIf="BRReminder_Visible" class="content-container">
     <div class="col-md-12 text-center" style="margin-top:4rem;">
         <!-- <h2>Peringatan</h2> -->
         <h2>{{'BRReminder_1' | translate }}</h2>
@@ -53,7 +53,7 @@
 </div>
 
 <!-- Bijak IC Reader Screen 1 -->
-<div *ngIf="BRInsertMyKid_Visible" class="row" id="ICReaderScreen1">
+<div *ngIf="BRInsertMyKid_Visible" class="row content-container" id="ICReaderScreen1">
     <div class="col-md-12 text-center" *ngIf="ishardcodeic">
         <input type="text" #icnumber>
     </div>
@@ -78,7 +78,7 @@
 </div>
 
 <!-- IC Reader Screen 3 -->
-<div *ngIf="BRLoading_Visible" class="row" id="ICReaderScreen3">
+<div *ngIf="BRLoading_Visible" class="row content-container" id="ICReaderScreen3">
     <div class="col-md-6 text-center" style="padding-top:20rem">
         <!-- <h2 class="h2-ic" id="BR3_Title1">Maklumat MyKid sedang dibaca</h2> -->
         <h2 class="h2-ic" id="BR3_Title1">{{'BRLoading_1' | translate }}</h2>
@@ -90,7 +90,7 @@
     </div>
 </div>
 
-<form *ngIf="BRForm_Visible" [formGroup]="AR_Form" (ngSubmit)="bijakregistrationNext()" name="registerForm" >
+<form *ngIf="BRForm_Visible" [formGroup]="AR_Form" (ngSubmit)="bijakregistrationNext()" name="registerForm" class="content-container">
     <div class="col-md-12">
         <div class="registrationForm">
             <div class="formcontent">
@@ -672,7 +672,7 @@
 
 </form>
 
-<div class="bg-popup" id="BR_ErrorPop" *ngIf="BRError_Visible">
+<div class="bg-popup" id="BR_ErrorPop" *ngIf="BRError_Visible" >
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
 
 
@@ -710,7 +710,7 @@
     </div>
 </div>
 
-<div class="bg-popup" id="BR_ErrorPop" *ngIf="BRError1_Visible">
+<div class="bg-popup" id="BR_ErrorPop" *ngIf="BRError1_Visible" >
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
 
 
@@ -745,7 +745,7 @@
     </div>
 </div>
 
-<div class="bg-popup" id="BR_CancelPop" *ngIf="BRCancel_Visible">
+<div class="bg-popup" id="BR_CancelPop" *ngIf="BRCancel_Visible" >
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
 
 
@@ -775,7 +775,7 @@
 
 
 
-<div id="BR_TNC" *ngIf="BRTNC_Visible">
+<div id="BR_TNC" *ngIf="BRTNC_Visible" class="content-container">
     <div class="col-md-12 text-center" style="margin-top:2rem;">
         <!-- <h3>AKUAN PENGESAHAN</h3> -->
         <h3>{{'TNC_1' | translate }}</h3>
@@ -933,7 +933,7 @@
 </div>
 
 
-<div id="BR_Success" *ngIf="BRSuccess_Visible">
+<div id="BR_Success" *ngIf="BRSuccess_Visible" class="content-container">
     <div class="col-md-12 text-center" style="margin-top:2rem;">
         <!-- <h3>PENGESAHAN PENDAFTARAN</h3> -->
         <h3>{{'BRSuccess_1' | translate }}</h3>
@@ -1019,7 +1019,7 @@
     </footer>
 </div>
 
-<div id="BR_Print1" *ngIf="BRPrint1_Visible">
+<div id="BR_Print1" *ngIf="BRPrint1_Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <!-- <h2 class="h2-ic" id="BRP1_Title1">Resit anda sedang dicetak.</h2> -->
@@ -1034,7 +1034,7 @@
     </div>
 </div>
 
-<div id="BR_Print2" *ngIf="BRPrint2_Visible">
+<div id="BR_Print2" *ngIf="BRPrint2_Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="BRP2_Title1">Sila ambil resit anda</h2> -->
@@ -1046,7 +1046,7 @@
     </div>
 </div>
 
-<div id="BR_Email" *ngIf="BREmail_Visible">
+<div id="BR_Email" *ngIf="BREmail_Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="BRE_Title1">Salinan resit akan hantar ke</h2>

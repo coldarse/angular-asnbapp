@@ -110,7 +110,10 @@ export class PortalregistrationComponent implements OnInit {
   yesno = true;
   loginASNB_disabled = true;
   PForm_Error = false;
+  PForm_Error2 = false;
 
+  updateDisabled = true;
+  financialDisabled = true;
 
   PFormText_1 = "";
   PFormText_2 = "";
@@ -205,7 +208,6 @@ export class PortalregistrationComponent implements OnInit {
   
   id: any;
 
-
   tempPassword : any;
   tempsecure : any;
   tempusername : any;
@@ -226,69 +228,89 @@ export class PortalregistrationComponent implements OnInit {
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
 
+    for (var val of appFunc.modules){
+      if(val.module.toLowerCase().includes('update')){
+        if(val.isEnabled == true){
+          if(val.startTime, val.stopTime, new Date()){
+
+          }
+          this.updateDisabled = false;
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
+        }
+      }
+      else if(val.module.toLowerCase().includes('financial')){
+        if(val.isEnabled == true){
+          if(val.startTime, val.stopTime, new Date()){
+            
+          }
+          this.financialDisabled = false;
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Financial Transaction Module.");
+        }
+      }
+
     if (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined){
       this.RMError4_Visible = true;
     }else{
-
-
-
-      const body = {
-        "idno": currentHolder.identificationnumber,
-        "idtype": currentHolder.identificationtype,
-        "uhid": currentHolder.unitholderid,
-        "language": selectLang.selectedLang
-        // "idno": "980112106085",
-        // "idtype": "W",
-        // "uhid": "0000130539123",
-        // "language": selectLang.selectedLang
+      if(currentHolder.funddetail[0].FUNDID == "" || currentHolder.funddetail.length == 0){
+        this.PForm_Error2 = true;
       }
-      this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
-        if (res.result.member_status == "non_member"){
-          if (!signalrConnection.isHardcodedIC){
-            this.id = setInterval(() => {
-              this.DetectMyKad();
-            }, 1000);
-          }
-          let kActivit = new kActivity();
-          kActivit.trxno = signalrConnection.trxno;
-          kActivit.kioskCode = signalrConnection.kioskCode;
-          kActivit.moduleID = 0;
-          kActivit.submoduleID = undefined;
-          kActivit.action = "Arrived Portal Registration Screen.";
-          kActivit.startTime = new Date();
-          kActivit.endTime = new Date();
-          kActivit.status = true;
-      
-          appFunc.kioskActivity.push(kActivit);
-      
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
-          
-          for (let i = 0; i < appFunc.securityQuestions.length; i++) {
-            if (appFunc.securityQuestions[i].set == "A") {
-                this.form_SetA.push(appFunc.securityQuestions[i]);
-            }
-          } 
-          for (let i = 0; i < appFunc.securityQuestions.length; i++) {
-            if (appFunc.securityQuestions[i].set == "B") {
-                this.form_SetB.push(appFunc.securityQuestions[i]);
-            }
-          } 
-          for (let i = 0; i < appFunc.securityQuestions.length; i++) {
-            if (appFunc.securityQuestions[i].set == "C") {
-                this.form_SetC.push(appFunc.securityQuestions[i]);
-            }
-          } 
-          
-
-        }else{
-          this.UserError_Visible = true;
+      else{
+        const body = {
+          "idno": currentHolder.identificationnumber,
+          "idtype": currentHolder.identificationtype,
+          "uhid": currentHolder.unitholderid,
+          "language": selectLang.selectedLang
         }
-      });
-      
-    }
+        this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
+          if (res.result.member_status == "non_member"){
+            if (!signalrConnection.isHardcodedIC){
+              this.id = setInterval(() => {
+                this.DetectMyKad();
+              }, 1000);
+            }
+
+          
+            let kActivit = new kActivity();
+            kActivit.trxno = signalrConnection.trxno;
+            kActivit.kioskCode = signalrConnection.kioskCode;
+            kActivit.moduleID = 0;
+            kActivit.submoduleID = undefined;
+            kActivit.action = "Arrived Portal Registration Screen.";
+            kActivit.startTime = new Date();
+            kActivit.endTime = new Date();
+            kActivit.status = true;
+        
+            appFunc.kioskActivity.push(kActivit);
+        
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
+            
+            for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+              if (appFunc.securityQuestions[i].set == "A") {
+                  this.form_SetA.push(appFunc.securityQuestions[i]);
+              }
+            } 
+            for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+              if (appFunc.securityQuestions[i].set == "B") {
+                  this.form_SetB.push(appFunc.securityQuestions[i]);
+              }
+            } 
+            for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+              if (appFunc.securityQuestions[i].set == "C") {
+                  this.form_SetC.push(appFunc.securityQuestions[i]);
+              }
+            } 
+          
+            
+          }else{
+            this.UserError_Visible = true;
+          }
+        });
+     
     
-   
-  }
+      }
+    }
+   }
+  } 
 
   ngOnDestroy() {
     clearInterval(this.id);
@@ -341,6 +363,10 @@ export class PortalregistrationComponent implements OnInit {
       newpassR: ['', Validators.required]
     });
   }
+
+
+
+
 
   nextDetails(){
 
@@ -433,17 +459,21 @@ export class PortalregistrationComponent implements OnInit {
             this.PR_TempPass = true;
             deleteKeyboard();
           }else{
+            let ct = 0;
             this.tryAgainErrorCodes.forEach(elem => {
               if (data.result.error_code.toString() == elem.toString()){
-                this.PForm_Error = true;
-                this.PFormText_1 = data.result.error_code;
-                this.PFormText_2 = data.result.error_reason;
-              }else{
-                errorCodes.Ecode = data.result.error_code;
-                errorCodes.Emessage = data.result.error_reason;
-                this._router.navigate(['errorscreen']);
+                ct += 1;
               }
             });
+            if(ct > 0){
+              this.PForm_Error = true;
+              this.PFormText_1 = data.result.error_code;
+              this.PFormText_2 = data.result.error_reason;
+            }else{
+              errorCodes.Ecode = data.result.error_code;
+              errorCodes.Emessage = data.result.error_reason;
+              this._router.navigate(['errorscreen']);
+            }
           }
         });
         
@@ -497,17 +527,21 @@ export class PortalregistrationComponent implements OnInit {
             loadKeyboard();
           } , 2000);
         }else{
+          let ct = 0;
           this.tryAgainErrorCodes.forEach(elem => {
             if (data.result.error_code.toString() == elem.toString()){
-              this.PForm_Error = true;
-              this.PFormText_1 = data.result.error_code;
-              this.PFormText_2 = data.result.error_reason;
-            }else{
-              errorCodes.Ecode = data.result.error_code;
-              errorCodes.Emessage = data.result.error_reason;
-              this._router.navigate(['errorscreen']);
+              ct += 1;
             }
           });
+          if(ct > 0){
+            this.PForm_Error = true;
+            this.PFormText_1 = data.result.error_code;
+            this.PFormText_2 = data.result.error_reason;
+          }else{
+            errorCodes.Ecode = data.result.error_code;
+            errorCodes.Emessage = data.result.error_reason;
+            this._router.navigate(['errorscreen']);
+          }
         }
       });
       
@@ -552,6 +586,8 @@ export class PortalregistrationComponent implements OnInit {
       }
     }
   }
+
+
 
   secureYes(){
     this.PForm_2.controls.temppass.enable();
@@ -771,18 +807,21 @@ export class PortalregistrationComponent implements OnInit {
         this.PR_Confirm = false;
         this.PR_Success = true;
       }else{
+        let ct = 0;
         this.tryAgainErrorCodes.forEach(elem => {
           if (data.result.error_code.toString() == elem.toString()){
-            this.PR_Confirm = false;
-            this.PForm_Error = true;
-            this.PFormText_1 = data.result.error_code;
-            this.PFormText_2 = data.result.error_reason;
-          }else{
-            errorCodes.Ecode = data.result.error_code;
-            errorCodes.Emessage = data.result.error_reason;
-            this._router.navigate(['errorscreen']);
+            ct += 1;
           }
         });
+        if(ct > 0){
+          this.PForm_Error = true;
+          this.PFormText_1 = data.result.error_code;
+          this.PFormText_2 = data.result.error_reason;
+        }else{
+          errorCodes.Ecode = data.result.error_code;
+          errorCodes.Emessage = data.result.error_reason;
+          this._router.navigate(['errorscreen']);
+        }
       }
     });
     deleteKeyboard();
@@ -855,6 +894,12 @@ export class PortalregistrationComponent implements OnInit {
         }
       }, 3000);
     });
+  }
+
+
+
+  PMForm2_Financial(){
+    this._router.navigate(['/']);
   }
 
   

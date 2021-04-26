@@ -16,7 +16,7 @@
 </nav>
 
 
-<form [formGroup]='AR_Form' (ngSubmit)="registrationNext()" name="registerForm" *ngIf="ARForm_Visible" autocomplete="off" novalidate>
+<form [formGroup]='AR_Form' (ngSubmit)="registrationNext()" name="registerForm" *ngIf="ARForm_Visible" autocomplete="off" novalidate class="content-container">
     
     <div class="col-md-12">
         <div class="registrationForm">
@@ -487,7 +487,7 @@
     </footer>
 </form>
 
-<div id="AR_TNC" *ngIf="ARTNC_Visible">
+<div id="AR_TNC" *ngIf="ARTNC_Visible" class="content-container">
     <div class="col-md-12 text-center" style="margin-top:2rem;">
         <!-- <h3>AKUAN PENGESAHAN</h3> -->
         <h3>{{'TNC_1' | translate }}</h3>
@@ -644,7 +644,7 @@
 
 </div>
 
-<div id="AR_Success" *ngIf="ARSuccess_Visible">
+<div id="AR_Success" *ngIf="ARSuccess_Visible" class="content-container">
     <div class="col-md-12 text-center" style="margin-top:2rem;">
         <!-- <h3>PENGESAHAN PENDAFTARAN</h3> -->
         <h3>{{'ARSuccess_1' | translate }}</h3>
@@ -730,7 +730,7 @@
     </footer>
 </div>
 
-<div id="AR_Print1" *ngIf="ARPrint1_Visible">
+<div id="AR_Print1" *ngIf="ARPrint1_Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <!-- <h2 class="h2-ic" id="ARP1_Title1">Resit anda sedang dicetak.</h2> -->
@@ -745,7 +745,7 @@
     </div>
 </div>
 
-<div id="AR_Print2" *ngIf="ARPrint2_Visible">
+<div id="AR_Print2" *ngIf="ARPrint2_Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="ARP2_Title1">Sila ambil resit anda</h2> -->
@@ -757,7 +757,7 @@
     </div>
 </div>
 
-<div id="AR_Email" *ngIf="AREmail_Visible">
+<div id="AR_Email" *ngIf="AREmail_Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="ARE_Title1">Salinan resit akan hantar ke</h2>

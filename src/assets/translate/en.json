@@ -248,7 +248,7 @@
 	"BRError_3" : "Bijak Account has already been registered. Please go to the Transaction Menu to start investing.",
 	"CNWarning" : "Company Name is required.",
 	"EAWarning1" : "Invalid Format.",
-	"RMError4_1" : "Please update your account to continue with the transaction.",
+	"RMError4_1" : "A mobile number is required to register. Please update your account to continue with the transaction.",
 	"UEError_1" : "You have already registered for myASNB Portal.",
 	"BTN_Summ5" : "Summary & 5 Latest transactions",
 	"BTN_LatestDiv" : "Latest dividend statement",
@@ -256,5 +256,6 @@
 	"BTN_TAC" : "Request TAC",
 	"WrongTAC" : "Invalid TAC",
 	"BTN_Login" : "Login",
-	"RMErrorK_2" : "Please insert your Mykad before proceeding."
+	"RMErrorK_2" : "Please insert your Mykad before proceeding.",
+	"PFormText2_2" : "A minimum of 1 fund is required to register. Please purchase a fund to continue with the transaction."
 }
