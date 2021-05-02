@@ -38,7 +38,7 @@
         </div>
 
         <div class="col-md-12 text-center" style="padding-top:0.15rem;" *ngFor="let minor of mDetails">
-            <button type="button" class="btn btn-account" id="Account2" (click)="MinorCheckBalance(mDetails)">
+            <button type="button" class="btn btn-account" id="Account2" (click)="MinorCheckBalance(minor)">
                 {{ minor.UHID }}<br>{{ minor.NAME }}
             </button>
         </div>
@@ -69,13 +69,6 @@
 <div class="bg-popup" id="SB_Error" *ngIf="CB2_ErrorVisible">
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
         
-
-        <!-- <h1 id="SB_ResponseCode" class="padding-top-2rem">Mesej Ralat</h1>
-
-        <h2 id="SB_ErrorMessage" class="h2-ic" style="padding-top:10rem;">
-            Mohon maaf. Permohonan anda tidak dapat diproses.<br>
-            Sila rujuk ke kaunter.
-        </h2> -->
 
         <h1 id="SB_ResponseCode" class="padding-top-2rem">{{'CBError_1' | translate }}</h1>
 
@@ -179,16 +172,6 @@
         <table class="table checkbalancetable" id="CB2_BalanceTable">
             <thead class="thead-dark">
               <tr>
-                <!-- <th scope="col">Unit Amanah</th>
-                <th scope="col">Pelaburan Tunai</th>
-                <th scope="col">SPA KWSP</th>
-                <th scope="col">Sijil Pinjaman/Cagaran</th>
-                <th scope="col">Sijil</th>
-                <th scope="col">Blok</th>
-                <th scope="col">Jumlah Unit</th>
-                <th scope="col">Nilai Semasa (RM)</th>
-                <th scope="col">Cetak</th>
-                <th scope="col">Emel</th> -->
                 
                 <th scope="col">{{'CBTH_1' | translate }}</th>
                 <th scope="col">{{'CBTH_2' | translate }}</th>
@@ -198,12 +181,11 @@
                 <th scope="col">{{'CBTH_6' | translate }}</th>
                 <th scope="col">{{'CBTH_7' | translate }}</th>
                 <th scope="col">{{'CBTH_8' | translate }}</th>
-                <th scope="col">{{'CBTH_9' | translate }}</th>
-                <th scope="col">{{'CBTH_10' | translate }}</th>
+                <th scope="col" *ngIf="Print_Visible">{{'CBTH_9' | translate }}</th>
+                <th scope="col" *ngIf="Email_Visible">{{'CBTH_10' | translate }}</th>
             </tr>
             </thead>
             <tbody>
-                <!-- To be edited to fit data names -->
                 <tr *ngFor="let y of fDetails">
                     <td>{{ y.FUNDID }}</td>
                     <td>{{ y.UNITBALANCE }}</td>
@@ -214,19 +196,19 @@
                     <td>{{ y.TOTALUNITS }}</td>
                     <td>{{ y.UHHOLDINGS }}</td>
                 
-                    <td>
+                    <td *ngIf="Print_Visible">
                         <button (click)="PrintStatement(y)" class="btn btn-printoremail" id="CB2_PrintButton" >
                             {{'BTN_Summ5' | translate }}
                         </button>
-                        <button (click)="PrintStatement(y)" class="btn btn-printoremail" id="CB2_PrintButton" >
+                        <button (click)="PrintDivStatement(y)" class="btn btn-printoremail" id="CB2_PrintButton" >
                             {{'BTN_LatestDiv' | translate }}
                         </button>
                     </td>
-                    <td>
+                    <td *ngIf="Email_Visible">
                         <button (click)="EmailStatement(y)" class="btn btn-printoremail" id="CB2_EmailButton" >
                             {{'BTN_Summ5' | translate }}
                         </button>
-                        <button (click)="EmailStatement(y)" class="btn btn-printoremail" id="CB2_EmailButton" >
+                        <button (click)="EmailDivStatement(y)" class="btn btn-printoremail" id="CB2_EmailButton" >
                             {{'BTN_LatestDiv' | translate }}
                         </button>
                     </td>
@@ -242,11 +224,11 @@
                     <!-- Batal -->
                     {{'BTN_Cancel' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB2_Print" (click)="PrintAllStatement(fDetails)">
+                <button type="button" class="btn btn-next" id="CB2_Print" (click)="PrintAllStatement(fDetails)" *ngIf="Print_Visible">
                     <!-- Cetak -->
                     {{'BTN_Print1' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB2_Email" (click)="EmailAllStatement(fDetails)">
+                <button type="button" class="btn btn-next" id="CB2_Email" (click)="EmailAllStatement(fDetails)" *ngIf="Email_Visible">
                     <!-- Emel -->
                     {{'BTN_Email1' | translate }}
                 </button>

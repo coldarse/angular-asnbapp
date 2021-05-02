@@ -98,8 +98,8 @@ export class AccountregistrationComponent implements OnInit {
   JN_Warning : boolean = false;
   JC_Warning : boolean = false;
 
-  Email_Visible : boolean = true;
-
+  Email_Visible = true;
+  Print_Visible = true;
 
   //Page Elements Fixed Values from API and MyKad
   Header_Title = "";
@@ -251,6 +251,10 @@ export class AccountregistrationComponent implements OnInit {
         this.race = currentMyKadDetails.Race;
       }
     }
+    let ismobile = false;
+    if(signalrConnection.kioskType == 'Mobile'){
+      ismobile = true;
+    }
     this.AR_Form = this.fb.group(
       {
         salutation: ['EN'],
@@ -277,7 +281,7 @@ export class AccountregistrationComponent implements OnInit {
         email: ['', [
           Validators.required,
           Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-        noemail: [false],
+        noemail: [{value: false, disabled: ismobile}],
         deliverystate: ['ST'],
 
         bankname: [''],
@@ -315,17 +319,6 @@ export class AccountregistrationComponent implements OnInit {
       }, 1000);
     }
 
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Started Account Registration.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = false;
-
-    appFunc.kioskActivity.push(kActivit);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -355,17 +348,6 @@ export class AccountregistrationComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
-        let kActivit = new kActivity();
-        kActivit.trxno = signalrConnection.trxno;
-        kActivit.kioskCode = signalrConnection.kioskCode;
-        kActivit.moduleID = 0;
-        kActivit.submoduleID = undefined;
-        kActivit.action = "User Removed Identification Card.";
-        kActivit.startTime = new Date();
-        kActivit.endTime = new Date();
-        kActivit.status = false;
-
-        appFunc.kioskActivity.push(kActivit);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -442,14 +424,11 @@ export class AccountregistrationComponent implements OnInit {
     let kActivit = new kActivity();
     kActivit.trxno = signalrConnection.trxno;
     kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
+    kActivit.moduleID = 1;
     kActivit.submoduleID = undefined;
-    kActivit.action = "Started Account Registration.";
+    kActivit.action = "Major Account Registration";
     kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
+    
 
     this.AR_Form.controls.fullname.enable();
     this.AR_Form.controls.identificationcardno.enable();
@@ -514,11 +493,19 @@ export class AccountregistrationComponent implements OnInit {
         errorCodes.Ecode = data.result.rejectcode;
         errorCodes.Emessage = data.result.rejectreason;
         this._router.navigate(['errorscreen']);
+        kActivit.endTime = new Date();
+        kActivit.status = false;
+
+        appFunc.kioskActivity.push(kActivit);
       }else{
         this.ARSuccess_4 = currentMyKadDetails.Name;
         this.ARSuccess_6 = data.result.unitholderid;
         this.ARSuccess_8 = formatDate(new Date(), 'dd/MM/yyyy', 'en');
         this.ARSuccess_10 = "Sendiri/Self";
+        kActivit.endTime = new Date();
+        kActivit.status = true;
+
+        appFunc.kioskActivity.push(kActivit);
       }
       this.ARTNC_Visible = false;
 
@@ -527,6 +514,13 @@ export class AccountregistrationComponent implements OnInit {
       }
       else{
         this.Email_Visible = true;
+      }
+
+      if(signalrConnection.kioskType == 'Mobile'){
+        this.Print_Visible = false;
+      }
+      else{
+        this.Print_Visible = true;
       }
 
       this.ARSuccess_Visible = true;
@@ -538,36 +532,39 @@ export class AccountregistrationComponent implements OnInit {
   }
 
   Print(){
-    this.ARSuccess_Visible = false;
-    this.ARPrint1_Visible = true;
 
-    const body = {
-      "Transaksi": "Pendaftaran Akaun/Account Registration",
-      "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
-      "Lokasi": "KL MAIN 01",
-      "Name": currentMyKadDetails.Name,
-      "NoAkaun": this.ARSuccess_6,
-      "JenisAkaun": this.ARSuccess_10
-    }
-
-    //GetNonFinancialTransactionPrintout
-
-    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
-      setTimeout(()=>{   
-        if (data == true){
-          this.ARPrint1_Visible = false;
-          this.ARPrint2_Visible = true;
-          this.getAccountInquiry();
-          // setTimeout(()=>{   
-          //   this._router.navigate(['transactionsuccessful']);
-          // }, 3000);
-        }else{
-          errorCodes.Ecode = "0068";
-          errorCodes.Emessage = "Printing Failed";
-          this._router.navigate(['errorscreen']);
+    signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+      if (data){
+        this.ARSuccess_Visible = false;
+        this.ARPrint1_Visible = true;
+    
+        const body = {
+          "Transaksi": "Pendaftaran Akaun/Account Registration",
+          "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+          "Lokasi": "KL MAIN 01",
+          "Name": currentMyKadDetails.Name,
+          "NoAkaun": this.ARSuccess_6,
+          "JenisAkaun": this.ARSuccess_10
         }
-      }, 3000);
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
+          setTimeout(()=>{   
+            if (data == true){
+              this.ARPrint1_Visible = false;
+              this.ARPrint2_Visible = true;
+              this.getAccountInquiry();
+            }else{
+              errorCodes.Ecode = "0068";
+              errorCodes.Emessage = "Printing Failed";
+              this._router.navigate(['errorscreen']);
+            }
+          }, 3000);
+        });
+      }else{
+        errorCodes.Ecode = "6688";
+        errorCodes.Emessage = "Printer Error";
+        this._router.navigate(['errorscreen']);
+      }
     });
   }
 
@@ -590,7 +587,7 @@ export class AccountregistrationComponent implements OnInit {
         if (data == true){
           setTimeout(()=>{   
             this.AREmail_Visible = false;
-            this._router.navigate(['transactionsuccessful']);
+            this.getAccountInquiry();
           }, 3000);
         }else{
           errorCodes.Ecode = "0069";
@@ -696,7 +693,7 @@ export class AccountregistrationComponent implements OnInit {
           this.MI_Warning = true;
         }
       }
-    })
+    });
     if (x > 0){
       window.scroll(0,0);
       console.log("Error");
@@ -766,16 +763,6 @@ export class AccountregistrationComponent implements OnInit {
   }
 
   registrationCancel() {
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Cancel Registration";
-    kActivit.endTime = new Date();
-    kActivit.status = false;
-
-    appFunc.kioskActivity.push(kActivit);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Canceled Account Registration.");
     this._router.navigate(['language']);
   
@@ -784,8 +771,6 @@ export class AccountregistrationComponent implements OnInit {
   getAccountInquiry(): void {
     try{
 
-      //currentMyKadDetails.ICNo = "980112106087";
-      
       const body = { 
 
         "CHANNELTYPE": "ASNB KIOSK",
@@ -799,7 +784,7 @@ export class AccountregistrationComponent implements OnInit {
         "INQUIRYCODE": "5",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        "BANKTXNREFERENCENUMBER": signalrConnection.trxno ,
         "BANKCUSTPHONENUMBER": "",
         "FILTRATIONFLAG": "1",
         "GUARDIANID": "",
@@ -808,20 +793,9 @@ export class AccountregistrationComponent implements OnInit {
 
        };
 
-
-  
   
       this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
-        
-        let kActivit = new kActivity();
-        kActivit.trxno = signalrConnection.trxno;
-        kActivit.kioskCode = signalrConnection.kioskCode;
-        kActivit.moduleID = 0;
-        kActivit.submoduleID = undefined;
-        kActivit.action = "Binding Unit Holder";
-        kActivit.startTime = new Date();
-
         
 
         console.log("Subscribing");
@@ -916,10 +890,6 @@ export class AccountregistrationComponent implements OnInit {
 
         console.log(currentHolder.occupationcategory);
 
-        kActivit.endTime = new Date();
-        kActivit.status = true; 
-
-        appFunc.kioskActivity.push(kActivit);
 
 
         if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
@@ -931,17 +901,6 @@ export class AccountregistrationComponent implements OnInit {
           }
           else{
             if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
-              let kActivit2 = new kActivity();
-              kActivit2.trxno = signalrConnection.trxno;
-              kActivit2.kioskCode = signalrConnection.kioskCode;
-              kActivit2.moduleID = 0;
-              kActivit2.submoduleID = undefined;
-              kActivit2.action = "Unit Holder Exists.";
-              kActivit2.startTime = new Date();
-              kActivit2.endTime = new Date();
-              kActivit2.status = true;
-
-              appFunc.kioskActivity.push(kActivit2);
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Account Found.");
 
               
@@ -952,17 +911,6 @@ export class AccountregistrationComponent implements OnInit {
         else{
           if (currentHolder.rejectreason.includes('not exists')){
             console.log("Reached Here A");
-            let kActivit1 = new kActivity();
-            kActivit1.trxno = signalrConnection.trxno;
-            kActivit1.kioskCode = signalrConnection.kioskCode;
-            kActivit1.moduleID = 0;
-            kActivit1.submoduleID = undefined;
-            kActivit1.action = "Unit Holder Doesn't Exist.";
-            kActivit1.startTime = new Date();
-            kActivit1.endTime = new Date();
-            kActivit1.status = true;
-
-            appFunc.kioskActivity.push(kActivit1);
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
 
             
@@ -977,17 +925,6 @@ export class AccountregistrationComponent implements OnInit {
       });
     }
     catch (e){
-      let kActivit = new kActivity();
-      kActivit.trxno = signalrConnection.trxno;
-      kActivit.kioskCode = signalrConnection.kioskCode;
-      kActivit.moduleID = 0;
-      kActivit.submoduleID = undefined;
-      kActivit.action = "Unit Holder Exists.";
-      kActivit.startTime = new Date();
-      kActivit.endTime = new Date();
-      kActivit.status = false;
-
-      appFunc.kioskActivity.push(kActivit);
       console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;

@@ -248,7 +248,7 @@
 	"BRError_3" : "Akaun Bijak telah didaftarkan. Sila pergi ke Menu Transaksi untuk memulakan pelaburan.",
 	"CNWarning" : "Nama Syarikat adalah wajib.",
 	"EAWarning1" : "Format Tidak Sah.",
-	"RMError4_1" : "Nombor telefon diperlukan untuk mendaftar. Sila kemas kini akaun anda untuk meneruskan transaksi.",
+	"RMError4_1" : "Sila kemas kini akaun anda untuk meneruskan transaksi.",
 	"UEError_1" : "Anda telah mendaftar ke myASNB Portal.",
 	"BTN_Summ5" : "Ringkasan & 5 Transaksi terkini",
 	"BTN_LatestDiv" : "Penyata dividen terkini",
@@ -257,5 +257,5 @@
 	"WrongTAC" : "TAC tidak sah.",
 	"BTN_Login" : "Log Masuk",
 	"RMErrorK_2" : "Sila massukan MyKad anda sebelum meneruskan.",
-	"PFormText2_2" : "Minimum 1 dana diperlukan untuk mendaftar. Sila beli dana untuk meneruskan transaksi."
+	"PFormText2_2" : "Sila beli dana untuk meneruskan transaksi."
 }

@@ -1,13 +1,15 @@
 export class eModules {
-	module: string;
-	startTime: Date;
-	stopTime: Date;
-	isEnabled: boolean;
+	moduleID: number;
+	moduleName: string;
+	operationStart: Date;
+	operationEnd: Date;
+	enable: boolean;
 	
 	constructor(emodule: any){
-		this.module = emodule.module;
-		this.startTime = emodule.startTime;
-		this.stopTime = emodule.stopTime;
-		this.isEnabled = emodule.isEnabled;
+		this.moduleID = emodule.moduleID;
+		this.moduleName = emodule.moduleName;
+		this.operationStart = emodule.operationStart;
+		this.operationEnd = emodule.operationEnd;
+		this.enable = emodule.enable;
 	}
 }

@@ -115,6 +115,9 @@ export class PortalregistrationComponent implements OnInit {
   updateDisabled = true;
   financialDisabled = true;
 
+  Print_Visible = true;
+  Email_Visible = true;
+
   PFormText_1 = "";
   PFormText_2 = "";
 
@@ -229,22 +232,20 @@ export class PortalregistrationComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
 
     for (var val of appFunc.modules){
-      if(val.module.toLowerCase().includes('update')){
-        if(val.isEnabled == true){
-          if(val.startTime, val.stopTime, new Date()){
-
+      if(val.moduleName.toLowerCase().includes('update')){
+        if(val.enable == true){
+          if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.updateDisabled = false;
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
           }
-          this.updateDisabled = false;
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
         }
       }
-      else if(val.module.toLowerCase().includes('financial')){
-        if(val.isEnabled == true){
-          if(val.startTime, val.stopTime, new Date()){
-            
+      else if(val.moduleName.toLowerCase().includes('financial')){
+        if(val.enable == true){
+          if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.financialDisabled = false;
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Financial Transaction Module.");
           }
-          this.financialDisabled = false;
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Financial Transaction Module.");
         }
       }
 
@@ -255,58 +256,88 @@ export class PortalregistrationComponent implements OnInit {
         this.PForm_Error2 = true;
       }
       else{
-        const body = {
-          "idno": currentHolder.identificationnumber,
-          "idtype": currentHolder.identificationtype,
-          "uhid": currentHolder.unitholderid,
-          "language": selectLang.selectedLang
-        }
-        this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
-          if (res.result.member_status == "non_member"){
-            if (!signalrConnection.isHardcodedIC){
-              this.id = setInterval(() => {
-                this.DetectMyKad();
-              }, 1000);
-            }
-
-          
-            let kActivit = new kActivity();
-            kActivit.trxno = signalrConnection.trxno;
-            kActivit.kioskCode = signalrConnection.kioskCode;
-            kActivit.moduleID = 0;
-            kActivit.submoduleID = undefined;
-            kActivit.action = "Arrived Portal Registration Screen.";
-            kActivit.startTime = new Date();
-            kActivit.endTime = new Date();
-            kActivit.status = true;
-        
-            appFunc.kioskActivity.push(kActivit);
-        
-            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
-            
-            for (let i = 0; i < appFunc.securityQuestions.length; i++) {
-              if (appFunc.securityQuestions[i].set == "A") {
-                  this.form_SetA.push(appFunc.securityQuestions[i]);
-              }
-            } 
-            for (let i = 0; i < appFunc.securityQuestions.length; i++) {
-              if (appFunc.securityQuestions[i].set == "B") {
-                  this.form_SetB.push(appFunc.securityQuestions[i]);
-              }
-            } 
-            for (let i = 0; i < appFunc.securityQuestions.length; i++) {
-              if (appFunc.securityQuestions[i].set == "C") {
-                  this.form_SetC.push(appFunc.securityQuestions[i]);
-              }
-            } 
-          
-            
+        if(signalrConnection.kioskType == 'Mobile'){
+          if(currentHolder.email == ''){
+            this.RMError4_Visible = true;
           }else{
-            this.UserError_Visible = true;
-          }
-        });
-     
+            const body = {
+              "idno": currentHolder.identificationnumber,
+              "idtype": currentHolder.identificationtype,
+              "uhid": currentHolder.unitholderid,
+              "language": selectLang.selectedLang
+            }
+            this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
+              if (res.result.member_status == "non_member"){
+                if (signalrConnection.isHardcodedIC != true){
+                  this.id = setInterval(() => {
+                    this.DetectMyKad();
+                  }, 1000);
+                }
     
+                signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
+                
+                for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+                  if (appFunc.securityQuestions[i].set == "A") {
+                      this.form_SetA.push(appFunc.securityQuestions[i]);
+                  }
+                } 
+                for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+                  if (appFunc.securityQuestions[i].set == "B") {
+                      this.form_SetB.push(appFunc.securityQuestions[i]);
+                  }
+                } 
+                for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+                  if (appFunc.securityQuestions[i].set == "C") {
+                      this.form_SetC.push(appFunc.securityQuestions[i]);
+                  }
+                } 
+              
+                
+              }else{
+                this.UserError_Visible = true;
+              }
+            });
+          }
+        }else{
+          const body = {
+            "idno": currentHolder.identificationnumber,
+            "idtype": currentHolder.identificationtype,
+            "uhid": currentHolder.unitholderid,
+            "language": selectLang.selectedLang
+          }
+          this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
+            if (res.result.member_status == "non_member"){
+              if (signalrConnection.isHardcodedIC != true){
+                this.id = setInterval(() => {
+                  this.DetectMyKad();
+                }, 1000);
+              }
+  
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
+              
+              for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+                if (appFunc.securityQuestions[i].set == "A") {
+                    this.form_SetA.push(appFunc.securityQuestions[i]);
+                }
+              } 
+              for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+                if (appFunc.securityQuestions[i].set == "B") {
+                    this.form_SetB.push(appFunc.securityQuestions[i]);
+                }
+              } 
+              for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+                if (appFunc.securityQuestions[i].set == "C") {
+                    this.form_SetC.push(appFunc.securityQuestions[i]);
+                }
+              } 
+            
+              
+            }else{
+              this.UserError_Visible = true;
+            }
+          });
+       
+        }
       }
     }
    }
@@ -431,6 +462,16 @@ export class PortalregistrationComponent implements OnInit {
       if(this.generatedTAC != this.PForm_1.controls.tac.value){
         this.tac1_warning = true;
       }else{
+
+        let kActivit = new kActivity();
+        kActivit.trxno = signalrConnection.trxno;
+        kActivit.kioskCode = signalrConnection.kioskCode;
+        kActivit.moduleID = 4;
+        kActivit.submoduleID = undefined;
+        kActivit.action = "myASNB Portal Registration.";
+        kActivit.startTime = new Date();
+        
+
         const body = {
           "idno": currentHolder.identificationnumber,
           "idtype": currentHolder.identificationtype,
@@ -453,12 +494,20 @@ export class PortalregistrationComponent implements OnInit {
 
         this.serviceService.unitHolderRegistration(body).subscribe((data: any) => {
           if (data.result.registration_status == true){
+            kActivit.endTime = new Date();
+            kActivit.status = true;
+        
+            appFunc.kioskActivity.push(kActivit);
             this.tempPassword = data.result.temporary_password;
             this.PR_Details = false;
             this.PRTempPass_3 = this.format(this.tempPassword);
             this.PR_TempPass = true;
             deleteKeyboard();
           }else{
+            kActivit.endTime = new Date();
+            kActivit.status = false;
+        
+            appFunc.kioskActivity.push(kActivit);
             let ct = 0;
             this.tryAgainErrorCodes.forEach(elem => {
               if (data.result.error_code.toString() == elem.toString()){
@@ -610,17 +659,6 @@ export class PortalregistrationComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
-        let kActivit = new kActivity();
-        kActivit.trxno = signalrConnection.trxno;
-        kActivit.kioskCode = signalrConnection.kioskCode;
-        kActivit.moduleID = 0;
-        kActivit.submoduleID = undefined;
-        kActivit.action = "User Removed Identification Card.";
-        kActivit.startTime = new Date();
-        kActivit.endTime = new Date();
-        kActivit.status = false;
-
-        appFunc.kioskActivity.push(kActivit);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -640,33 +678,11 @@ export class PortalregistrationComponent implements OnInit {
   }
 
   introCancel(){
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Canceled Portal Introduction.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = false;
-
-    appFunc.kioskActivity.push(kActivit);
     this._router.navigate(['transactionmenu'])
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Redirect to Transaction Menu.");
   }
 
   introNext(){
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Portal Introduction Next.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
     this.PR_Intro = false;
     this.PR_TNC = true;
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Clicked Next on Portal Introduction.");
@@ -675,17 +691,6 @@ export class PortalregistrationComponent implements OnInit {
 
   
   tncDisagree(){
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Disagreed Portal Registration TNC.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = false;
-
-    appFunc.kioskActivity.push(kActivit);
 
     this.PR_Intro = true;
     this.PR_TNC = false;
@@ -693,17 +698,6 @@ export class PortalregistrationComponent implements OnInit {
   }
 
   tncAgree(){
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Agreed Portal Registration TNC.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
 
     this.PR_TNC = false;
     this.PR_Details = true;
@@ -804,6 +798,16 @@ export class PortalregistrationComponent implements OnInit {
     }
     this.serviceService.unitHolderChangePassword(body).subscribe((data: any) => {
       if (data.result.error_code == "000"){
+
+        
+        if(signalrConnection.kioskType == 'Mobile'){
+          this.Print_Visible = false;
+        }
+        else{
+          this.Print_Visible = true;
+        }
+
+
         this.PR_Confirm = false;
         this.PR_Success = true;
       }else{
@@ -832,36 +836,45 @@ export class PortalregistrationComponent implements OnInit {
   }
 
   successPrint(){
-    this.PR_Success = false;
-    this.PR_NewPassword = false;
-    this.PR_Print1Visible = true;
 
-    const body = {
-      "Transaksi": "Pendaftaran Portal myASNB / myASNB Portal Registration",
-      "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
-      "Lokasi": "KL MAIN 01",
-      "Name": currentHolder.name,
-      "NoAkaun": currentHolder.unitholderid,
-      "JenisAkaun": "Self/Sendiri"
-    }
-
-    //GetNonFinancialTransactionPrintout
-
-    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
-      setTimeout(()=>{   
-        if (data == true){
-          this.PR_Print1Visible = false;
-          this.PR_Print2Visible = true;
-          setTimeout(()=>{   
-            this._router.navigate(['transactionsuccessful']);
-          }, 3000);
-        }else{
-          errorCodes.Ecode = "0068";
-          errorCodes.Emessage = "Printing Failed";
-          this._router.navigate(['errorscreen']);
+    signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+      if(data){
+        this.PR_Success = false;
+        this.PR_NewPassword = false;
+        this.PR_Print1Visible = true;
+    
+        const body = {
+          "Transaksi": "Pendaftaran Portal myASNB / myASNB Portal Registration",
+          "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+          "Lokasi": "KL MAIN 01",
+          "Name": currentHolder.name,
+          "NoAkaun": currentHolder.unitholderid,
+          "JenisAkaun": "Self/Sendiri"
         }
-      }, 3000);
+    
+        //GetNonFinancialTransactionPrintout
+    
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
+          setTimeout(()=>{   
+            if (data == true){
+              this.PR_Print1Visible = false;
+              this.PR_Print2Visible = true;
+              setTimeout(()=>{   
+                this._router.navigate(['transactionsuccessful']);
+              }, 3000);
+            }else{
+              errorCodes.Ecode = "0068";
+              errorCodes.Emessage = "Printing Failed";
+              this._router.navigate(['errorscreen']);
+            }
+          }, 3000);
+        });
+      }else{
+        errorCodes.Ecode = "6688";
+        errorCodes.Emessage = "Printer Error";
+        this._router.navigate(['errorscreen']);
+      }
     });
   }
 
@@ -902,7 +915,12 @@ export class PortalregistrationComponent implements OnInit {
     this._router.navigate(['/']);
   }
 
-  
+  isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {
+    if (current.getTime() >= startDateTime.getTime() && current.getTime() <= stopDateTime.getTime()){
+      return true;
+    }
+    return false;
+  }
 
 }
 

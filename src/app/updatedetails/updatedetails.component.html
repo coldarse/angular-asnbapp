@@ -71,8 +71,8 @@
 
 
 <!-- UDForm_Visible -->
-<form [formGroup]='AR_Form' (ngSubmit)="majorUpdateNext()" name="registerForm" *ngIf="UDForm_Visible" autocomplete="off" novalidate class="content-container">
-    <div class="col-md-12">
+<form [formGroup]='AR_Form' (ngSubmit)="majorUpdateNext()" name="registerForm" *ngIf="UDForm_Visible" autocomplete="off" novalidate>
+    <div class="col-md-12 content-container">
         <div class="registrationForm">
             <div class="formcontent">
                 <div class="row">
@@ -548,8 +548,8 @@
 </form>
 
 <!-- UDBForm_Visible -->
-<form *ngIf="UDBForm_Visible" [formGroup]="AR_Form" (ngSubmit)="bijakUpdateNext()" name="registerForm" class="content-container">
-    <div class="col-md-12">
+<form *ngIf="UDBForm_Visible" [formGroup]="AR_Form" (ngSubmit)="bijakUpdateNext()" name="registerForm">
+    <div class="col-md-12 content-container">
         <div class="registrationForm">
             <div class="formcontent">
                 <div class="row">
@@ -1136,7 +1136,7 @@
 
 </form>
 
-<div class="bg-popup content-container" id="UD_ConfirmPop" *ngIf="UDConfirm_Visible" style="position: absolute;">
+<div class="bg-popup" id="UD_ConfirmPop" *ngIf="UDConfirm_Visible" style="position: absolute;">
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
         
         <!-- <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">Pengesahkan Kemas Kini</h2>
@@ -1186,7 +1186,7 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="UD_MainMenu" (click)="Print()">
+                <button type="button" class="btn btn-next" id="UD_MainMenu" *ngIf="Print_Visible" (click)="Print()">
                     <!-- Cetak Resit -->
                     {{'BTN_Print' | translate }}
                 </button>

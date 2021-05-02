@@ -63,6 +63,7 @@ export class UpdatedetailsComponent implements OnInit {
 
   isMain = false;
   Email_Visible = true;
+  Print_Visible = true;
 
   UD1_Visible = true;
   UDForm_Visible = false;
@@ -250,22 +251,6 @@ export class UpdatedetailsComponent implements OnInit {
         this.DetectMyKad();
       }, 1000);
     }
-    
-
-
-    
-
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Started Update Details.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -280,17 +265,6 @@ export class UpdatedetailsComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
-        let kActivit = new kActivity();
-        kActivit.trxno = signalrConnection.trxno;
-        kActivit.kioskCode = signalrConnection.kioskCode;
-        kActivit.moduleID = 0;
-        kActivit.submoduleID = undefined;
-        kActivit.action = "User Removed Identification Card.";
-        kActivit.startTime = new Date();
-        kActivit.endTime = new Date();
-        kActivit.status = false;
-
-        appFunc.kioskActivity.push(kActivit);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -356,48 +330,17 @@ export class UpdatedetailsComponent implements OnInit {
   }
 
   updateDetails1Cancel(){
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Update Details Canceled.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = false;
-
-    appFunc.kioskActivity.push(kActivit);
     this._router.navigate(['feedbackscreen']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Redirect to Feedback Screen.");
   }
 
   updateDetails1MainMenu(){
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Redirect To Transaction Menu.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = false;
-
-    appFunc.kioskActivity.push(kActivit);
     this._router.navigate(['transactionmenu']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Redirect to Transaction Menu.");
   }
 
   UpdateMainAccount(){
     this.isMain = true;
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Selected Main Account to Update";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
 
     this.initializeForm("major");
     this.UD1_Visible = false;
@@ -406,159 +349,121 @@ export class UpdatedetailsComponent implements OnInit {
       loadKeyboard();
     }, 2000);
 
-    appFunc.kioskActivity.push(kActivit);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Selected Update Main Account.");
   }
 
   UpdateMinor(selectedMinorDetails: any) {
     this.isMain = false;
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Selected Bijak Account to Update";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = false;
-
-    appFunc.kioskActivity.push(kActivit);
-
-
+    
     const body = {
-      "CHANNELTYPE": "IB",
-      "REQUESTORIDENTIFICATION": "RHBNOW",
-      "DEVICEOWNER": "RHB",
+      "CHANNELTYPE": "ASNB KIOSK",
+      "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+      "DEVICEOWNER": "ASNB",
       "UNITHOLDERID": "",
       "FIRSTNAME": "",
-      "IDENTIFICATIONTYPE": "W",
-      "IDENTIFICATIONNUMBER": "060915101139",
+      "IDENTIFICATIONTYPE": selectedMinorDetails.ICTYPE,
+      "IDENTIFICATIONNUMBER": selectedMinorDetails.ICNO,
       "FUNDID": "",
       "INQUIRYCODE": "5",
-      "TRANSACTIONDATE": "23/12/2019",
-      "TRANSACTIONTIME": "15:43:10",
-      "BANKTXNREFERENCENUMBER": "20191003001325",
-      "BANKCUSTPHONENUMBER": "60173518221",
-      "FILTRATIONFLAG": "",
-      "GUARDIANID": "",
-      "GUARDIANICTYPE": "W",
-      "GUARDIANICNUMBER": "751219135506"
+      "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+      "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
+      "BANKCUSTPHONENUMBER": "",
+      "FILTRATIONFLAG": "1",
+      "GUARDIANID": currentHolder.unitholderid,
+      "GUARDIANICTYPE": currentHolder.identificationtype,
+      "GUARDIANICNUMBER": currentHolder.identificationnumber
       };
 
-     this.serviceService.getAccountInquiry(body)
-     .subscribe((result: any) => {
-        let kActivit1 = new kActivity();
-        kActivit1.trxno = signalrConnection.trxno;
-        kActivit1.kioskCode = signalrConnection.kioskCode;
-        kActivit1.moduleID = 0;
-        kActivit1.submoduleID = undefined;
-        kActivit1.action = "Binding Bijak Holder Details.";
-        kActivit1.startTime = new Date();
-        currentBijakHolder.channeltype = result.channeltype;
-        currentBijakHolder.requestoridentification = result.requestoridentification;
-        currentBijakHolder.deviceowner = result.deviceowner;
-        currentBijakHolder.unitholderid = result.unitholderid;
-        currentBijakHolder.firstname = result.firstname;
-        currentBijakHolder.identificationtype = result.identificationtype;
-        currentBijakHolder.identificationnumber = result.identificationnumber;
-        currentBijakHolder.fundid = result.fundid;
-        currentBijakHolder.inquirycode = result.inquirycode;
-        currentBijakHolder.transactiondate = result.transactiondate;
-        currentBijakHolder.transactiontime = result.transactiontime;
-        currentBijakHolder.banktxnreferencenumber = result.banktxnreferencenumber;
-        currentBijakHolder.bankcustphonenumber = result.bankcustphonenumber;
-        currentBijakHolder.filtrationflag = result.filtrationflag;
-        currentBijakHolder.typeclosed = result.typeclosed;
-        currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
-        currentBijakHolder.funddetail = result.funddetail;
-        currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
-        currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
-        currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
-        currentBijakHolder.grandtotalcertunits = result.grandtotalcertunits;
-        currentBijakHolder.grandtotalblockedunits = result.grandtotalblockedunits;
-        currentBijakHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
-        currentBijakHolder.grandtotalunits = result.grandtotalunits;
-        currentBijakHolder.grandtotaluhholdings = result.grandtotaluhholdings;
-        currentBijakHolder.totalminoraccount = result.totalminoraccount;
-        currentBijakHolder.minordetail = result.minordetail;
-        currentBijakHolder.guardianid = result.guardianid;
-        currentBijakHolder.guardianictype = result.guardianictype;
-        currentBijakHolder.guardianicnumber = result.guardianicnumber;
-        currentBijakHolder.agentcode = result.agentcode;
-        currentBijakHolder.branchcode = result.branchcode;
-        currentBijakHolder.lastupdatedate = result.lastupdatedate;
-        currentBijakHolder.transactionchannel = result.transactionchannel;
-        currentBijakHolder.transactionstatus = result.transactionstatus;
-        currentBijakHolder.rejectcode = result.rejectcode;
-        currentBijakHolder.rejectreason = result.rejectreason;
+    this.serviceService.getAccountInquiry(body)
+    .subscribe((result: any) => {
+      let kActivit1 = new kActivity();
+      kActivit1.trxno = signalrConnection.trxno;
+      kActivit1.kioskCode = signalrConnection.kioskCode;
+      kActivit1.moduleID = 0;
+      kActivit1.submoduleID = undefined;
+      kActivit1.action = "Binding Bijak Holder Details.";
+      kActivit1.startTime = new Date();
+      currentBijakHolder.channeltype = result.channeltype;
+      currentBijakHolder.requestoridentification = result.requestoridentification;
+      currentBijakHolder.deviceowner = result.deviceowner;
+      currentBijakHolder.unitholderid = result.unitholderid;
+      currentBijakHolder.firstname = result.firstname;
+      currentBijakHolder.identificationtype = result.identificationtype;
+      currentBijakHolder.identificationnumber = result.identificationnumber;
+      currentBijakHolder.fundid = result.fundid;
+      currentBijakHolder.inquirycode = result.inquirycode;
+      currentBijakHolder.transactiondate = result.transactiondate;
+      currentBijakHolder.transactiontime = result.transactiontime;
+      currentBijakHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+      currentBijakHolder.bankcustphonenumber = result.bankcustphonenumber;
+      currentBijakHolder.filtrationflag = result.filtrationflag;
+      currentBijakHolder.typeclosed = result.typeclosed;
+      currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
+      currentBijakHolder.funddetail = result.funddetail;
+      currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+      currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
+      currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
+      currentBijakHolder.grandtotalcertunits = result.grandtotalcertunits;
+      currentBijakHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+      currentBijakHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+      currentBijakHolder.grandtotalunits = result.grandtotalunits;
+      currentBijakHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+      currentBijakHolder.totalminoraccount = result.totalminoraccount;
+      currentBijakHolder.minordetail = result.minordetail;
+      currentBijakHolder.guardianid = result.guardianid;
+      currentBijakHolder.guardianictype = result.guardianictype;
+      currentBijakHolder.guardianicnumber = result.guardianicnumber;
+      currentBijakHolder.agentcode = result.agentcode;
+      currentBijakHolder.branchcode = result.branchcode;
+      currentBijakHolder.lastupdatedate = result.lastupdatedate;
+      currentBijakHolder.transactionchannel = result.transactionchannel;
+      currentBijakHolder.transactionstatus = result.transactionstatus;
+      currentBijakHolder.rejectcode = result.rejectcode;
+      currentBijakHolder.rejectreason = result.rejectreason;
 
-        kActivit1.endTime = new Date();
-        kActivit1.status = true;
+      kActivit1.endTime = new Date();
+      kActivit1.status = true;
 
 
-        if (currentBijakHolder.transactionstatus.toLowerCase().includes('successful')){
-        
-          if (!currentBijakHolder.typeclosed.toLowerCase().includes('n')){
-            errorCodes.Ecode = "0168";
-            errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
-            this._router.navigate(['errorscreen']);
-          }
-          else{
-
-            if(currentBijakHolder.unitholderid != "" || currentBijakHolder.unitholderid != undefined){
-              
-              let kActivit2 = new kActivity();
-              kActivit2.trxno = signalrConnection.trxno;
-              kActivit2.kioskCode = signalrConnection.kioskCode;
-              kActivit2.moduleID = 0;
-              kActivit2.submoduleID = undefined;
-              kActivit2.action = "Bijak Unit Holder Exists.";
-              kActivit2.startTime = new Date();
-              kActivit2.endTime = new Date();
-              kActivit2.status = true;
-
-              appFunc.kioskActivity.push(kActivit2);
-              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update CIF]" + ": " + "Bijak Account Found.");
-
-              
-              this.initializeForm("minor");
-              this.UD1_Visible = false;
-              this.UDBForm_Visible = true;
-              setTimeout(() => {
-                loadKeyboard();
-              }, 2000);
-              appFunc.kioskActivity.push(kActivit1);
-            }
-          }
-
-          
+      if (currentBijakHolder.transactionstatus.toLowerCase().includes('successful')){
+      
+        if (!currentBijakHolder.typeclosed.toLowerCase().includes('n')){
+          errorCodes.Ecode = "0168";
+          errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
+          this._router.navigate(['errorscreen']);
         }
         else{
-          if (currentBijakHolder.rejectreason.includes('not exists')){
-            console.log("Reached Here A");
-            let kActivit1 = new kActivity();
-            kActivit1.trxno = signalrConnection.trxno;
-            kActivit1.kioskCode = signalrConnection.kioskCode;
-            kActivit1.moduleID = 0;
-            kActivit1.submoduleID = undefined;
-            kActivit1.action = "Bijak Unit Holder Doesn't Exist.";
-            kActivit1.startTime = new Date();
-            kActivit1.endTime = new Date();
-            kActivit1.status = true;
 
+          if(currentBijakHolder.unitholderid != "" || currentBijakHolder.unitholderid != undefined){
+            
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update CIF]" + ": " + "Bijak Account Found.");
+            this.initializeForm("minor");
+            this.UD1_Visible = false;
+            this.UDBForm_Visible = true;
+            setTimeout(() => {
+              loadKeyboard();
+            }, 2000);
             appFunc.kioskActivity.push(kActivit1);
-            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update CIF]" + ": " + "No Bijak account found.");
-
-            errorCodes.Ecode = currentBijakHolder.rejectcode;
-            errorCodes.Emessage = currentBijakHolder.rejectreason;
-            this._router.navigate(['errorscreen']);
-          }
-          else{
-            errorCodes.Ecode = currentBijakHolder.rejectcode;
-            errorCodes.Emessage = currentBijakHolder.rejectreason;
-            this._router.navigate(['errorscreen']);
           }
         }
+
+        
+      }
+      else{
+        if (currentBijakHolder.rejectreason.includes('not exists')){
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update CIF]" + ": " + "No Bijak account found.");
+
+          errorCodes.Ecode = currentBijakHolder.rejectcode;
+          errorCodes.Emessage = currentBijakHolder.rejectreason;
+          this._router.navigate(['errorscreen']);
+        }
+        else{
+          errorCodes.Ecode = currentBijakHolder.rejectcode;
+          errorCodes.Emessage = currentBijakHolder.rejectreason;
+          this._router.navigate(['errorscreen']);
+        }
+      }
 
         
      });
@@ -636,37 +541,15 @@ export class UpdatedetailsComponent implements OnInit {
 
 
   majorUpdateBack(){
-    let kActivit1 = new kActivity();
-    kActivit1.trxno = signalrConnection.trxno;
-    kActivit1.kioskCode = signalrConnection.kioskCode;
-    kActivit1.moduleID = 0;
-    kActivit1.submoduleID = undefined;
-    kActivit1.action = "Update Major Back.";
-    kActivit1.startTime = new Date();
-    kActivit1.endTime = new Date();
-    kActivit1.status = false;
-
     this.UDForm_Visible = false;
     this.UD1_Visible = true;
 
-    appFunc.kioskActivity.push(kActivit1);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Back.");
   }
 
   majorUpdateCancel(){
-    let kActivit1 = new kActivity();
-    kActivit1.trxno = signalrConnection.trxno;
-    kActivit1.kioskCode = signalrConnection.kioskCode;
-    kActivit1.moduleID = 0;
-    kActivit1.submoduleID = undefined;
-    kActivit1.action = "Update Major Canceled.";
-    kActivit1.startTime = new Date();
-    kActivit1.endTime = new Date();
-    kActivit1.status = false;
-
     this._router.navigate(['feedbackscreen']);
 
-    appFunc.kioskActivity.push(kActivit1);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Cancel.");
   }
 
@@ -679,14 +562,11 @@ export class UpdatedetailsComponent implements OnInit {
       let kActivit = new kActivity();
       kActivit.trxno = signalrConnection.trxno;
       kActivit.kioskCode = signalrConnection.kioskCode;
-      kActivit.moduleID = 0;
+      kActivit.moduleID = 3;
       kActivit.submoduleID = undefined;
-      kActivit.action = "Started Update Account.";
+      kActivit.action = "Update Major CIF.";
       kActivit.startTime = new Date();
-      kActivit.endTime = new Date();
-      kActivit.status = true;
-
-      appFunc.kioskActivity.push(kActivit);
+      
 
       this.AR_Form.controls.fullname.enable();
       this.AR_Form.controls.identificationcardno.enable();
@@ -729,15 +609,31 @@ export class UpdatedetailsComponent implements OnInit {
       this.serviceService.updateDetails(body).subscribe((data: any) => {
         console.log(data);
         if(data.result.transactionstatus.toLowerCase().includes('reject')){
+          kActivit.endTime = new Date();
+          kActivit.status = false;
+
+          appFunc.kioskActivity.push(kActivit);
           errorCodes.Ecode = data.result.rejectcode;
           errorCodes.Emessage = data.result.rejectreason;
           this._router.navigate(['errorscreen']);
         }else{
+
+          kActivit.endTime = new Date();
+          kActivit.status = true;
+
+          appFunc.kioskActivity.push(kActivit);
           if (this.AR_Form.controls.email.value == ""){
             this.Email_Visible = false;
           }
           else{
             this.Email_Visible = true;
+          }
+
+          if(signalrConnection.kioskType == 'Mobile'){
+            this.Print_Visible = false;
+          }
+          else{
+            this.Print_Visible = true;
           }
   
           this.UDForm_Visible = false;
@@ -752,14 +648,11 @@ export class UpdatedetailsComponent implements OnInit {
       let kActivit = new kActivity();
       kActivit.trxno = signalrConnection.trxno;
       kActivit.kioskCode = signalrConnection.kioskCode;
-      kActivit.moduleID = 0;
+      kActivit.moduleID = 3;
       kActivit.submoduleID = undefined;
-      kActivit.action = "Started Update Bijak.";
+      kActivit.action = "Update Bijak CIF.";
       kActivit.startTime = new Date();
-      kActivit.endTime = new Date();
-      kActivit.status = true;
-
-      appFunc.kioskActivity.push(kActivit);
+      
 
       this.AR_Form.controls.fullname.enable();
       this.AR_Form.controls.identificationcardno.enable();
@@ -802,15 +695,30 @@ export class UpdatedetailsComponent implements OnInit {
       this.serviceService.updateDetails(body).subscribe((data: any) => {
         console.log(data);
         if(data.result.transactionstatus.toLowerCase().includes('reject')){
+          kActivit.endTime = new Date();
+          kActivit.status = false;
+
+          appFunc.kioskActivity.push(kActivit);
           errorCodes.Ecode = data.result.rejectcode;
           errorCodes.Emessage = data.result.rejectreason;
           this._router.navigate(['errorscreen']);
         }else{
+          kActivit.endTime = new Date();
+          kActivit.status = true;
+
+          appFunc.kioskActivity.push(kActivit);
           if (this.AR_Form.controls.email.value == ""){
             this.Email_Visible = false;
           }
           else{
             this.Email_Visible = true;
+          }
+
+          if(signalrConnection.kioskType == 'Mobile'){
+            this.Print_Visible = false;
+          }
+          else{
+            this.Print_Visible = true;
           }
   
           this.UDForm_Visible = false;
@@ -931,18 +839,6 @@ export class UpdatedetailsComponent implements OnInit {
     }else{
       window.scroll(0,0);
       this.UDConfirm_Visible = true;
-
-      let kActivit1 = new kActivity();
-      kActivit1.trxno = signalrConnection.trxno;
-      kActivit1.kioskCode = signalrConnection.kioskCode;
-      kActivit1.moduleID = 0;
-      kActivit1.submoduleID = undefined;
-      kActivit1.action = "Update Major Submit.";
-      kActivit1.startTime = new Date();
-      kActivit1.endTime = new Date();
-      kActivit1.status = true;
-
-      appFunc.kioskActivity.push(kActivit1);
       this.AR_Form.controls.fullname.enable();
       this.AR_Form.controls.identificationcardno.enable();
       this.AR_Form.controls.dob.enable();
@@ -960,37 +856,15 @@ export class UpdatedetailsComponent implements OnInit {
   }
 
   bijakUpdateBack(){
-    let kActivit1 = new kActivity();
-    kActivit1.trxno = signalrConnection.trxno;
-    kActivit1.kioskCode = signalrConnection.kioskCode;
-    kActivit1.moduleID = 0;
-    kActivit1.submoduleID = undefined;
-    kActivit1.action = "Update Bijak Back.";
-    kActivit1.startTime = new Date();
-    kActivit1.endTime = new Date();
-    kActivit1.status = false;
-
     this.UDBForm_Visible = false;
     this.UD1_Visible = true;
 
-    appFunc.kioskActivity.push(kActivit1);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Cancel.");
   }
 
   bijakUpdateCancel(){
-    let kActivit1 = new kActivity();
-    kActivit1.trxno = signalrConnection.trxno;
-    kActivit1.kioskCode = signalrConnection.kioskCode;
-    kActivit1.moduleID = 0;
-    kActivit1.submoduleID = undefined;
-    kActivit1.action = "Update Bijak Canceled.";
-    kActivit1.startTime = new Date();
-    kActivit1.endTime = new Date();
-    kActivit1.status = false;
-
     this._router.navigate(['feedbackscreen']);
 
-    appFunc.kioskActivity.push(kActivit1);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Cancel.");
   }
   
@@ -1091,18 +965,6 @@ export class UpdatedetailsComponent implements OnInit {
     }
     else{
       this.UDConfirm_Visible = true;
-
-      let kActivit1 = new kActivity();
-      kActivit1.trxno = signalrConnection.trxno;
-      kActivit1.kioskCode = signalrConnection.kioskCode;
-      kActivit1.moduleID = 0;
-      kActivit1.submoduleID = undefined;
-      kActivit1.action = "Update Bijak Submit.";
-      kActivit1.startTime = new Date();
-      kActivit1.endTime = new Date();
-      kActivit1.status = true;
-
-      appFunc.kioskActivity.push(kActivit1);
       this.AR_Form.controls.fullname.enable();
       this.AR_Form.controls.identificationcardno.enable();
       this.AR_Form.controls.dob.enable();
@@ -1193,7 +1055,13 @@ export class UpdatedetailsComponent implements OnInit {
     if(currentHolder.pep == 'Y'){
       this.pep = false
     }
+
+    let isMobile = false;
+      if(signalrConnection.kioskCode == 'Mobile'){
+        isMobile = true;
+      }
     if (acctType == 'major'){
+
       this.AR_Form = this.fb.group(
         {
           salutation: [currentHolder.title],
@@ -1217,7 +1085,7 @@ export class UpdatedetailsComponent implements OnInit {
           email: [currentHolder.email, [
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-          noemail: [false],
+          noemail: [{value: false, disabled: isMobile}],
           deliverystate: [currentHolder.preferredmailmode],
 
           bankname: [currentHolder.bankcode],
@@ -1239,6 +1107,7 @@ export class UpdatedetailsComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Major Form")
     }
     else if (acctType == 'minor'){
+
       this.AR_Form = this.fb.group(
         {
           salutation: [currentBijakHolder.title],
@@ -1271,7 +1140,7 @@ export class UpdatedetailsComponent implements OnInit {
           email: [currentHolder.email, [
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-          noemail: [false],
+          noemail: [{value: false, disabled: isMobile}],
           deliverystate: [currentHolder.preferredmailmode],
 
           bankname: [{value: currentHolder.bankcode, disabled: true}],
@@ -1296,56 +1165,67 @@ export class UpdatedetailsComponent implements OnInit {
   }  
 
   Print(){
-    this.UDSuccess_Visible = false;
-    this.UD_Print1Visible = true;
 
-    let name = "";
-    let accountNo = "";
-    let accountType = "";
+    signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+      if(data){
+        this.UDSuccess_Visible = false;
+        this.UD_Print1Visible = true;
     
-    if (this.isMain){
-      name = currentMyKadDetails.Name;
-      accountNo = currentHolder.unitholderid;
-      accountType = "Self";
-    }else{
-      name = currentMyKidDetails.Name;
-      accountNo = currentBijakHolder.unitholderid;
-      accountType = "Bijak";
-    }
-
-
-    const body = {
-      "Transaksi": "Pendaftaran Akaun/Account Registration",
-      "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
-      "Lokasi": "KL MAIN 01",
-      "Name": name,
-      "NoAkaun": accountNo,
-      "JenisAkaun": accountType
-    }
-
-    //GetNonFinancialTransactionPrintout
-
-    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
-      setTimeout(()=>{   
-        if (data == true){
-          this.UD_Print1Visible = false;
-          this.UD_Print2Visible = true;
+        let name = "";
+        let accountNo = "";
+        let accountType = "";
+        
+        if (this.isMain){
+          name = currentMyKadDetails.Name;
+          accountNo = currentHolder.unitholderid;
+          accountType = "Self";
+        }else{
+          name = currentMyKidDetails.Name;
+          accountNo = currentBijakHolder.unitholderid;
+          accountType = "Bijak";
+        }
+    
+    
+        const body = {
+          "Transaksi": "Pendaftaran Akaun/Account Registration",
+          "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+          "Lokasi": "KL MAIN 01",
+          "Name": name,
+          "NoAkaun": accountNo,
+          "JenisAkaun": accountType
+        }
+    
+        //GetNonFinancialTransactionPrintout
+    
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
           setTimeout(()=>{   
-            if(this.isMain){
-              this.getAccountInquiryMajor();
-            }
-            else{
-              this.getAccountInquiryMinor();
+            if (data == true){
+              this.UD_Print1Visible = false;
+              this.UD_Print2Visible = true;
+              setTimeout(()=>{   
+                if(this.isMain){
+                  this.getAccountInquiryMajor();
+                }
+                else{
+                  this.getAccountInquiryMinor();
+                }
+              }, 3000);
+            }else{
+              errorCodes.Ecode = "0068";
+              errorCodes.Emessage = "Printing Failed";
+              this._router.navigate(['errorscreen']);
             }
           }, 3000);
-        }else{
-          errorCodes.Ecode = "0068";
-          errorCodes.Emessage = "Printing Failed";
-          this._router.navigate(['errorscreen']);
-        }
-      }, 3000);
+        });
+      }else{
+        errorCodes.Ecode = "6688";
+        errorCodes.Emessage = "Printer Error";
+        this._router.navigate(['errorscreen']);
+      }
     });
+
+    
   }
 
   Email(){
@@ -1400,8 +1280,6 @@ export class UpdatedetailsComponent implements OnInit {
   getAccountInquiryMajor(): void{
     try{
 
-      //currentMyKadDetails.ICNo = "980112106087";
-      
       const body = { 
 
         "CHANNELTYPE": "ASNB KIOSK",
@@ -1415,7 +1293,7 @@ export class UpdatedetailsComponent implements OnInit {
         "INQUIRYCODE": "5",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        "BANKTXNREFERENCENUMBER": signalrConnection.trxno ,
         "BANKCUSTPHONENUMBER": "",
         "FILTRATIONFLAG": "1",
         "GUARDIANID": "",
@@ -1429,18 +1307,6 @@ export class UpdatedetailsComponent implements OnInit {
   
       this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
-        
-        let kActivit = new kActivity();
-        kActivit.trxno = signalrConnection.trxno;
-        kActivit.kioskCode = signalrConnection.kioskCode;
-        kActivit.moduleID = 0;
-        kActivit.submoduleID = undefined;
-        kActivit.action = "Binding Unit Holder";
-        kActivit.startTime = new Date();
-
-        
-
-        console.log("Subscribing");
         currentHolder.channeltype = result.channeltype;
         currentHolder.requestoridentification = result.requestoridentification;
         currentHolder.deviceowner = result.deviceowner;
@@ -1530,14 +1396,6 @@ export class UpdatedetailsComponent implements OnInit {
         currentHolder.rejectcode = result.rejectcode;
         currentHolder.rejectreason = result.rejectreason;
 
-        console.log(currentHolder.occupationcategory);
-
-        kActivit.endTime = new Date();
-        kActivit.status = true; 
-
-        appFunc.kioskActivity.push(kActivit);
-
-
         if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
 
           if (!currentHolder.typeclosed.toLowerCase().includes('n')){
@@ -1547,17 +1405,6 @@ export class UpdatedetailsComponent implements OnInit {
           }
           else{
             if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
-              let kActivit2 = new kActivity();
-              kActivit2.trxno = signalrConnection.trxno;
-              kActivit2.kioskCode = signalrConnection.kioskCode;
-              kActivit2.moduleID = 0;
-              kActivit2.submoduleID = undefined;
-              kActivit2.action = "Unit Holder Exists.";
-              kActivit2.startTime = new Date();
-              kActivit2.endTime = new Date();
-              kActivit2.status = true;
-
-              appFunc.kioskActivity.push(kActivit2);
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Account Found.");
 
               
@@ -1567,21 +1414,7 @@ export class UpdatedetailsComponent implements OnInit {
         }
         else{
           if (currentHolder.rejectreason.includes('not exists')){
-            console.log("Reached Here A");
-            let kActivit1 = new kActivity();
-            kActivit1.trxno = signalrConnection.trxno;
-            kActivit1.kioskCode = signalrConnection.kioskCode;
-            kActivit1.moduleID = 0;
-            kActivit1.submoduleID = undefined;
-            kActivit1.action = "Unit Holder Doesn't Exist.";
-            kActivit1.startTime = new Date();
-            kActivit1.endTime = new Date();
-            kActivit1.status = true;
-
-            appFunc.kioskActivity.push(kActivit1);
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
-
-            
             this._router.navigate(['feedbackscreen']);
           }
           else{
@@ -1593,17 +1426,6 @@ export class UpdatedetailsComponent implements OnInit {
       });
     }
     catch (e){
-      let kActivit = new kActivity();
-      kActivit.trxno = signalrConnection.trxno;
-      kActivit.kioskCode = signalrConnection.kioskCode;
-      kActivit.moduleID = 0;
-      kActivit.submoduleID = undefined;
-      kActivit.action = "Unit Holder Exists.";
-      kActivit.startTime = new Date();
-      kActivit.endTime = new Date();
-      kActivit.status = false;
-
-      appFunc.kioskActivity.push(kActivit);
       console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
@@ -1618,8 +1440,6 @@ export class UpdatedetailsComponent implements OnInit {
   getAccountInquiryMinor(): void{
     try{
 
-      //currentMyKadDetails.ICNo = "980112106087";
-      
       const body = { 
 
         "CHANNELTYPE": "ASNB KIOSK",
@@ -1633,12 +1453,12 @@ export class UpdatedetailsComponent implements OnInit {
         "INQUIRYCODE": "5",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
+        "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
         "BANKCUSTPHONENUMBER": "",
         "FILTRATIONFLAG": "1",
-        "GUARDIANID": "",
-        "GUARDIANICTYPE": "",
-        "GUARDIANICNUMBER": ""
+        "GUARDIANID": currentHolder.unitholderid,
+        "GUARDIANICTYPE": currentHolder.identificationtype,
+        "GUARDIANICNUMBER": currentHolder.identificationnumber
 
        };
 
@@ -1647,18 +1467,6 @@ export class UpdatedetailsComponent implements OnInit {
   
       this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
-        
-        let kActivit = new kActivity();
-        kActivit.trxno = signalrConnection.trxno;
-        kActivit.kioskCode = signalrConnection.kioskCode;
-        kActivit.moduleID = 0;
-        kActivit.submoduleID = undefined;
-        kActivit.action = "Binding Unit Holder";
-        kActivit.startTime = new Date();
-
-        
-
-        console.log("Subscribing");
         currentBijakHolder.channeltype = result.channeltype;
         currentBijakHolder.requestoridentification = result.requestoridentification;
         currentBijakHolder.deviceowner = result.deviceowner;
@@ -1697,14 +1505,6 @@ export class UpdatedetailsComponent implements OnInit {
         currentBijakHolder.rejectcode = result.rejectcode;
         currentBijakHolder.rejectreason = result.rejectreason;
 
-        console.log(currentBijakHolder.occupationcategory);
-
-        kActivit.endTime = new Date();
-        kActivit.status = true; 
-
-        appFunc.kioskActivity.push(kActivit);
-
-
         if (currentBijakHolder.transactionstatus.toLowerCase().includes('successful')){
 
           if (!currentBijakHolder.typeclosed.toLowerCase().includes('n')){
@@ -1714,17 +1514,6 @@ export class UpdatedetailsComponent implements OnInit {
           }
           else{
             if(currentBijakHolder.unitholderid != "" || currentBijakHolder.unitholderid != undefined){
-              let kActivit2 = new kActivity();
-              kActivit2.trxno = signalrConnection.trxno;
-              kActivit2.kioskCode = signalrConnection.kioskCode;
-              kActivit2.moduleID = 0;
-              kActivit2.submoduleID = undefined;
-              kActivit2.action = "Unit Holder Exists.";
-              kActivit2.startTime = new Date();
-              kActivit2.endTime = new Date();
-              kActivit2.status = true;
-
-              appFunc.kioskActivity.push(kActivit2);
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "Account Found.");
 
               
@@ -1734,18 +1523,6 @@ export class UpdatedetailsComponent implements OnInit {
         }
         else{
           if (currentBijakHolder.rejectreason.includes('not exists')){
-            console.log("Reached Here A");
-            let kActivit1 = new kActivity();
-            kActivit1.trxno = signalrConnection.trxno;
-            kActivit1.kioskCode = signalrConnection.kioskCode;
-            kActivit1.moduleID = 0;
-            kActivit1.submoduleID = undefined;
-            kActivit1.action = "Unit Holder Doesn't Exist.";
-            kActivit1.startTime = new Date();
-            kActivit1.endTime = new Date();
-            kActivit1.status = true;
-
-            appFunc.kioskActivity.push(kActivit1);
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "No account found.");
 
             
@@ -1760,18 +1537,6 @@ export class UpdatedetailsComponent implements OnInit {
       });
     }
     catch (e){
-      let kActivit = new kActivity();
-      kActivit.trxno = signalrConnection.trxno;
-      kActivit.kioskCode = signalrConnection.kioskCode;
-      kActivit.moduleID = 0;
-      kActivit.submoduleID = undefined;
-      kActivit.action = "Unit Holder Exists.";
-      kActivit.startTime = new Date();
-      kActivit.endTime = new Date();
-      kActivit.status = false;
-
-      appFunc.kioskActivity.push(kActivit);
-      console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);

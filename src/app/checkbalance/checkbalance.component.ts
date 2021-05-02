@@ -50,6 +50,9 @@ export class CheckbalanceComponent implements OnInit {
 
   CB2_ErrorVisible = false;
 
+  Print_Visible = true;
+  Email_Visible = true;
+
   Header_Title = "";
 
   CB1_1 = "";
@@ -109,6 +112,19 @@ export class CheckbalanceComponent implements OnInit {
     this.noAhli = currentHolder.unitholderid;
     this.namaAhli = currentHolder.firstname;
 
+    if(signalrConnection.kioskCode == 'Mobile'){
+      this.Print_Visible = false;
+    }
+    else{
+      this.Print_Visible = true;
+    }
+
+    if(currentHolder.email == ''){
+      this.Email_Visible = false;
+    }
+    else{
+      this.Email_Visible = true;
+    }
 
     if(currentHolder.totalminoraccount == "0"){
       this.CBBijak_Visible = false;
@@ -123,17 +139,6 @@ export class CheckbalanceComponent implements OnInit {
       }, 1000);
     }
 
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Started Check Balance.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -147,17 +152,6 @@ export class CheckbalanceComponent implements OnInit {
       // console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
-        let kActivit = new kActivity();
-        kActivit.trxno = signalrConnection.trxno;
-        kActivit.kioskCode = signalrConnection.kioskCode;
-        kActivit.moduleID = 0;
-        kActivit.submoduleID = undefined;
-        kActivit.action = "Removed Identification Card.";
-        kActivit.startTime = new Date();
-        kActivit.endTime = new Date();
-        kActivit.status = false;
-
-        appFunc.kioskActivity.push(kActivit);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -165,33 +159,11 @@ export class CheckbalanceComponent implements OnInit {
   }
   
   CancelCheckBalance() {
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Canceled Check Balance.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = false;
-
-    appFunc.kioskActivity.push(kActivit);
     this._router.navigate(['feedbackscreen']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Canceled Check Balance.");
   }
 
   MainMenu() {
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Redirect to Transaction Menu.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = false;
-
-    appFunc.kioskActivity.push(kActivit);
     this._router.navigate(['transactionmenu']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Redirect to Transaction Menu.");
   }
@@ -199,137 +171,136 @@ export class CheckbalanceComponent implements OnInit {
 
 
   PrintStatement(selectedFundDetails: any) {
-    this.CB2_Visible = false;
-    this.CB3_Visible = true;
-
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Print Single Statement.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
-    console.log(selectedFundDetails.FUNDID);
-    console.log(selectedFundDetails.UNITBALANCE);
-    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
-  
-    let body : any;
-    if (this.isMain){
-      body = {
-
-        "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
-        "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-        "FIRSTNAME": currentHolder.firstname.toString(),
-        "GRANDTOTALUNITBALANCE": currentHolder.grandtotalunitbalance.toString(),
-        "GRANDTOTALEPFUNITS": currentHolder.grandtotalepfunits.toString(),
-        "GRANDTOTALLOANUNITS": currentHolder.grandtotalloanunits.toString(),
-        "GRANDTOTALCERTUNITS": currentHolder.grandtotalcertunits.toString(),
-        "GRANDTOTALBLOCKEDUNITS": currentHolder.grandtotalblockedunits.toString(),
-        "GRANDTOTALPROVISIONALUNITS": currentHolder.grandtotalprovisionalunits.toString(),
-        "GRANDTOTALUNITS": currentHolder.grandtotalunits.toString(),
-        "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings.toString(),	
-  
-        "CHANNELTYPE":"ATM",
-        "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
-        "DEVICEOWNER":"ASNB",
-        "NUMBEROFTXNS":"4", 
-        "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
-        "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
-        "UNITHOLDERID": this.CB2_7.toString(),
-        "IDENTIFICATIONTYPE":"W",
-        "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
-        "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
-        "FUNDID":selectedFundDetails.FUNDID.toString(),
-  
-        "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
-        "UNITBALANCE": selectedFundDetails.UNITBALANCE.toString(),
-        "EPFUNITS": selectedFundDetails.EPFUNITS.toString(),
-        "LOANUNITS": selectedFundDetails.LOANUNITS.toString(),
-        "CERTUNITS": selectedFundDetails.CERTUNITS.toString(),
-        "BLOCKEDUNITS": selectedFundDetails.BLOCKEDUNITS.toString(),
-        "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
-        "POLICYTYPE":"UT"
-      };
-    }else{
-      body = {
-
-        "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
-        "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-        "FIRSTNAME": currentBijakHolder.firstname.toString(),
-        "GRANDTOTALUNITBALANCE": currentBijakHolder.grandtotalunitbalance.toString(),
-        "GRANDTOTALEPFUNITS": currentBijakHolder.grandtotalepfunits.toString(),
-        "GRANDTOTALLOANUNITS": currentBijakHolder.grandtotalloanunits.toString(),
-        "GRANDTOTALCERTUNITS": currentBijakHolder.grandtotalcertunits.toString(),
-        "GRANDTOTALBLOCKEDUNITS": currentBijakHolder.grandtotalblockedunits.toString(),
-        "GRANDTOTALPROVISIONALUNITS": currentBijakHolder.grandtotalprovisionalunits.toString(),
-        "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits.toString(),
-        "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings.toString(),	
-  
-        "CHANNELTYPE":"ATM",
-        "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
-        "DEVICEOWNER":"ASNB",
-        "NUMBEROFTXNS":"4", 
-        "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
-        "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
-        "UNITHOLDERID": this.CB2_7.toString(),
-        "IDENTIFICATIONTYPE":"W",
-        "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
-        "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
-        "FUNDID":selectedFundDetails.FUNDID.toString(),
-  
-        "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
-        "UNITBALANCE": selectedFundDetails.UNITBALANCE.toString(),
-        "EPFUNITS": selectedFundDetails.EPFUNITS.toString(),
-        "LOANUNITS": selectedFundDetails.LOANUNITS.toString(),
-        "CERTUNITS": selectedFundDetails.CERTUNITS.toString(),
-        "BLOCKEDUNITS": selectedFundDetails.BLOCKEDUNITS.toString(),
-        "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
-        "POLICYTYPE":"UT"
-      };
-    }
-
-    console.log(body);
+    signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+      if (data){
+        this.CB2_Visible = false;
+        this.CB3_Visible = true;
     
-    this.serviceService.postFiveTransactions(body)
-    .subscribe((trans: any) => {
-
-      console.log(JSON.stringify(trans.result));
-
-      let kActivit1 = new kActivity();
-      kActivit1.trxno = signalrConnection.trxno;
-      kActivit1.kioskCode = signalrConnection.kioskCode;
-      kActivit1.moduleID = 0;
-      kActivit1.submoduleID = undefined;
-      kActivit1.action = "Calling SignalR for Printing";
-      kActivit1.startTime = new Date();
+        
+        console.log(selectedFundDetails.FUNDID);
+        console.log(selectedFundDetails.UNITBALANCE);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
       
-      kActivit1.endTime = new Date();
-      kActivit1.status = true; 
+        let body : any;
+        if (this.isMain){
+          body = {
+    
+            "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+            "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+            "FIRSTNAME": currentHolder.firstname.toString(),
+            "GRANDTOTALUNITBALANCE": currentHolder.grandtotalunitbalance.toString(),
+            "GRANDTOTALEPFUNITS": currentHolder.grandtotalepfunits.toString(),
+            "GRANDTOTALLOANUNITS": currentHolder.grandtotalloanunits.toString(),
+            "GRANDTOTALCERTUNITS": currentHolder.grandtotalcertunits.toString(),
+            "GRANDTOTALBLOCKEDUNITS": currentHolder.grandtotalblockedunits.toString(),
+            "GRANDTOTALPROVISIONALUNITS": currentHolder.grandtotalprovisionalunits.toString(),
+            "GRANDTOTALUNITS": currentHolder.grandtotalunits.toString(),
+            "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings.toString(),	
+      
+            "CHANNELTYPE":"ATM",
+            "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+            "DEVICEOWNER":"ASNB",
+            "NUMBEROFTXNS":"4", 
+            "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+            "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
+            "UNITHOLDERID": this.CB2_7.toString(),
+            "IDENTIFICATIONTYPE":"W",
+            "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
+            "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
+            "FUNDID":selectedFundDetails.FUNDID.toString(),
+      
+            "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
+            "UNITBALANCE": selectedFundDetails.UNITBALANCE.toString(),
+            "EPFUNITS": selectedFundDetails.EPFUNITS.toString(),
+            "LOANUNITS": selectedFundDetails.LOANUNITS.toString(),
+            "CERTUNITS": selectedFundDetails.CERTUNITS.toString(),
+            "BLOCKEDUNITS": selectedFundDetails.BLOCKEDUNITS.toString(),
+            "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
+            "POLICYTYPE":"UT"
+          };
+        }else{
+          body = {
+    
+            "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+            "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+            "FIRSTNAME": currentBijakHolder.firstname.toString(),
+            "GRANDTOTALUNITBALANCE": currentBijakHolder.grandtotalunitbalance.toString(),
+            "GRANDTOTALEPFUNITS": currentBijakHolder.grandtotalepfunits.toString(),
+            "GRANDTOTALLOANUNITS": currentBijakHolder.grandtotalloanunits.toString(),
+            "GRANDTOTALCERTUNITS": currentBijakHolder.grandtotalcertunits.toString(),
+            "GRANDTOTALBLOCKEDUNITS": currentBijakHolder.grandtotalblockedunits.toString(),
+            "GRANDTOTALPROVISIONALUNITS": currentBijakHolder.grandtotalprovisionalunits.toString(),
+            "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits.toString(),
+            "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings.toString(),	
+      
+            "CHANNELTYPE":"ATM",
+            "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+            "DEVICEOWNER":"ASNB",
+            "NUMBEROFTXNS":"4", 
+            "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+            "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
+            "UNITHOLDERID": this.CB2_7.toString(),
+            "IDENTIFICATIONTYPE":"W",
+            "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
+            "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
+            "FUNDID":selectedFundDetails.FUNDID.toString(),
+      
+            "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
+            "UNITBALANCE": selectedFundDetails.UNITBALANCE.toString(),
+            "EPFUNITS": selectedFundDetails.EPFUNITS.toString(),
+            "LOANUNITS": selectedFundDetails.LOANUNITS.toString(),
+            "CERTUNITS": selectedFundDetails.CERTUNITS.toString(),
+            "BLOCKEDUNITS": selectedFundDetails.BLOCKEDUNITS.toString(),
+            "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
+            "POLICYTYPE":"UT"
+          };
+        }
+    
+        console.log(body);
 
-      appFunc.kioskActivity.push(kActivit1);
-
-      signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
-        setTimeout(()=>{   
-          if (data == true){
-            this.CB3_Visible = false;
-            this.CB4_Visible = true;
+        let kActivit1 = new kActivity();
+        kActivit1.trxno = signalrConnection.trxno;
+        kActivit1.kioskCode = signalrConnection.kioskCode;
+        kActivit1.moduleID = 6;
+        kActivit1.submoduleID = undefined;
+        kActivit1.action = "Get Latest Five Transactions";
+        kActivit1.startTime = new Date();
+        
+        this.serviceService.postFiveTransactions(body)
+        .subscribe((trans: any) => {
+    
+          console.log(JSON.stringify(trans.result));
+    
+          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
             setTimeout(()=>{   
-              this.CB4_Visible = false;
-              this._router.navigate(['transactionsuccessful']);
+              if (data == true){
+                kActivit1.endTime = new Date();
+                kActivit1.status = true; 
+          
+                appFunc.kioskActivity.push(kActivit1);
+                this.CB3_Visible = false;
+                this.CB4_Visible = true;
+                setTimeout(()=>{   
+                  this.CB4_Visible = false;
+                  this._router.navigate(['transactionsuccessful']);
+                }, 3000);
+              }else{
+                kActivit1.endTime = new Date();
+                kActivit1.status = false; 
+          
+                appFunc.kioskActivity.push(kActivit1);
+                errorCodes.Ecode = "0068";
+                errorCodes.Emessage = "Printing Failed";
+                this._router.navigate(['errorscreen']);
+              }
             }, 3000);
-          }else{
-            errorCodes.Ecode = "0068";
-            errorCodes.Emessage = "Printing Failed";
-            this._router.navigate(['errorscreen']);
-          }
-        }, 3000);
-      });
-
-      
+          });
+        });
+      }else{
+        errorCodes.Ecode = "6688";
+        errorCodes.Emessage = "Printer Error";
+        this._router.navigate(['errorscreen']);
+      }
     });
   }
 
@@ -337,19 +308,6 @@ export class CheckbalanceComponent implements OnInit {
     this.CB2_Visible = false;
     this.CB5_Visible = true;
 
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Email Single Statement.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
-    console.log(selectedFundDetails.FUNDID);
-    console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
 
 
@@ -426,7 +384,6 @@ export class CheckbalanceComponent implements OnInit {
       };
     }
      
-    console.log(body);
 
     this.serviceService.postFiveTransactions(body)
     .subscribe((trans: any) => {
@@ -436,32 +393,213 @@ export class CheckbalanceComponent implements OnInit {
       let kActivit1 = new kActivity();
       kActivit1.trxno = signalrConnection.trxno;
       kActivit1.kioskCode = signalrConnection.kioskCode;
-      kActivit1.moduleID = 0;
+      kActivit1.moduleID = 6;
       kActivit1.submoduleID = undefined;
-      kActivit1.action = "Calling SignalR for Email";
+      kActivit1.action = "Get Latest Five Transactions";
       kActivit1.startTime = new Date();
       
-      kActivit1.endTime = new Date();
-      kActivit1.status = true; 
-
-      appFunc.kioskActivity.push(kActivit1);
-
-      let email = "";
-      if (this.isMain){
-        currentHolder.email;
-      }
-      else{
-        //currentBijakHolder.email;
-      }
-
-      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, email, "GetStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
         setTimeout(()=>{   
           if (data == true){
+            kActivit1.endTime = new Date();
+            kActivit1.status = true; 
+
+            appFunc.kioskActivity.push(kActivit1);
             setTimeout(()=>{   
               this.CB5_Visible = false;
               this._router.navigate(['transactionsuccessful']);
             }, 3000);
           }else{
+            kActivit1.endTime = new Date();
+            kActivit1.status = false; 
+
+            appFunc.kioskActivity.push(kActivit1);
+            errorCodes.Ecode = "0069";
+            errorCodes.Emessage = "Email Failed";
+            this._router.navigate(['errorscreen']);
+          }
+        }, 3000);
+      });
+    });
+  }
+
+  PrintDivStatement(selectedFundDetails: any) {
+
+    signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+      if(data){
+        this.CB2_Visible = false;
+        this.CB3_Visible = true;
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
+      
+        let body : any;
+        if (this.isMain){
+          body = {
+            "date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+            "time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+            "firstname": currentHolder.firstname.toString(),
+            "channeltype": "ATM",
+            "requestoridentification": "TESTFDSSERVER",
+            "deviceowner": "ASNB",
+            "typeofstatement": "DIVSTMT",
+            "requestdate": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+            "requesttime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+            "unitholderid": this.CB2_7.toString(),
+            "identificationtype": "W",
+            "identificationnumber": this.CB2_5.toString(),
+            "guardianidnumber": this.CB_GuardianID.toString(),
+            "fundid": selectedFundDetails.FUNDID.toString(),
+            "financialyear": new Date().getFullYear().toString()
+          };
+        }else{
+          body = {
+            "date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+            "time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+            "firstname": currentBijakHolder.firstname.toString(),
+            "channeltype": "ATM",
+            "requestoridentification": "TESTFDSSERVER",
+            "deviceowner": "ASNB",
+            "typeofstatement": "DIVSTMT",
+            "requestdate": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+            "requesttime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+            "unitholderid": this.CB2_7.toString(),
+            "identificationtype": "W",
+            "identificationnumber": this.CB2_5.toString(),
+            "guardianidnumber": this.CB_GuardianID.toString(),
+            "fundid": selectedFundDetails.FUNDID.toString(),
+            "financialyear": new Date().getFullYear().toString()
+          };
+        }
+    
+        console.log(body);
+        
+        this.serviceService.dividendStatement(body)
+        .subscribe((trans: any) => {
+    
+          console.log(JSON.stringify(trans.result));
+    
+          let kActivit1 = new kActivity();
+          kActivit1.trxno = signalrConnection.trxno;
+          kActivit1.kioskCode = signalrConnection.kioskCode;
+          kActivit1.moduleID = 6;
+          kActivit1.submoduleID = undefined;
+          kActivit1.action = "Get Dividend Statements";
+          kActivit1.startTime = new Date();
+          
+          kActivit1.endTime = new Date();
+          kActivit1.status = true; 
+    
+          appFunc.kioskActivity.push(kActivit1);
+    
+          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetDivStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+            setTimeout(()=>{   
+              if (data == true){
+                kActivit1.endTime = new Date();
+                kActivit1.status = true;
+            
+                appFunc.kioskActivity.push(kActivit1);
+                this.CB3_Visible = false;
+                this.CB4_Visible = true;
+                setTimeout(()=>{   
+                  this.CB4_Visible = false;
+                  this._router.navigate(['transactionsuccessful']);
+                }, 3000);
+              }else{
+                kActivit1.endTime = new Date();
+                kActivit1.status = false;
+            
+                appFunc.kioskActivity.push(kActivit1);
+                errorCodes.Ecode = "0068";
+                errorCodes.Emessage = "Printing Failed";
+                this._router.navigate(['errorscreen']);
+              }
+            }, 3000);
+          });
+        });
+      }else{
+        errorCodes.Ecode = "6688";
+        errorCodes.Emessage = "Printer Error";
+        this._router.navigate(['errorscreen']);
+      }
+    });
+  }
+
+  EmailDivStatement(selectedFundDetails: any) {
+    this.CB2_Visible = false;
+    this.CB5_Visible = true;
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
+
+
+    let body: any;
+    if (this.isMain){
+      body = {
+        "date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "firstname": currentHolder.firstname.toString(),
+        "channeltype": "ATM",
+        "requestoridentification": "TESTFDSSERVER",
+        "deviceowner": "ASNB",
+        "typeofstatement": "DIVSTMT",
+        "requestdate": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "requesttime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "unitholderid": this.CB2_7.toString(),
+        "identificationtype": "W",
+        "identificationnumber": this.CB2_5.toString(),
+        "guardianidnumber": this.CB_GuardianID.toString(),
+        "fundid": selectedFundDetails.FUNDID.toString(),
+        "financialyear": new Date().getFullYear().toString()
+      };
+    }else{
+      body = {
+        "date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "firstname": currentBijakHolder.firstname.toString(),
+        "channeltype": "ATM",
+        "requestoridentification": "TESTFDSSERVER",
+        "deviceowner": "ASNB",
+        "typeofstatement": "DIVSTMT",
+        "requestdate": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+        "requesttime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "unitholderid": this.CB2_7.toString(),
+        "identificationtype": "W",
+        "identificationnumber": this.CB2_5.toString(),
+        "guardianidnumber": this.CB_GuardianID.toString(),
+        "fundid": selectedFundDetails.FUNDID.toString(),
+        "financialyear": new Date().getFullYear().toString()
+      };
+    }
+     
+    console.log(body);
+
+    this.serviceService.dividendStatement(body)
+    .subscribe((trans: any) => {
+
+      console.log(JSON.stringify(trans.result));
+
+      let kActivit1 = new kActivity();
+      kActivit1.trxno = signalrConnection.trxno;
+      kActivit1.kioskCode = signalrConnection.kioskCode;
+      kActivit1.moduleID = 6;
+      kActivit1.submoduleID = undefined;
+      kActivit1.action = "Get Dividend Statements";
+      kActivit1.startTime = new Date();
+      
+
+      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetDivStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+        setTimeout(()=>{   
+          if (data == true){
+            kActivit1.endTime = new Date();
+            kActivit1.status = true; 
+
+            appFunc.kioskActivity.push(kActivit1);
+            setTimeout(()=>{   
+              this.CB5_Visible = false;
+              this._router.navigate(['transactionsuccessful']);
+            }, 3000);
+          }else{
+            kActivit1.endTime = new Date();
+            kActivit1.status = false; 
+
+            appFunc.kioskActivity.push(kActivit1);
             errorCodes.Ecode = "0069";
             errorCodes.Emessage = "Email Failed";
             this._router.navigate(['errorscreen']);
@@ -474,111 +612,99 @@ export class CheckbalanceComponent implements OnInit {
   }
 
   PrintAllStatement(selectedFundDetails: any) {
-    this.CB2_Visible = false;
-    this.CB3_Visible = true;
+
+
+    signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+      if(data){
+        this.CB2_Visible = false;
+        this.CB3_Visible = true;
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
     
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Print All Statement.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
-    console.log(selectedFundDetails.FUNDID);
-    console.log(selectedFundDetails.UNITBALANCE);
-    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
-
-    let body: any;
-    if (this.isMain){
-      body = {
-        "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
-        "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-        "UNITHOLDERID": this.CB2_7,
-        "FIRSTNAME": currentHolder.firstname,
-        "GRANDTOTALUNITBALANCE": currentHolder.grandtotalunitbalance,
-        "GRANDTOTALEPFUNITS": currentHolder.grandtotalepfunits,
-        "GRANDTOTALLOANUNITS": currentHolder.grandtotalloanunits,
-        "GRANDTOTALCERTUNITS": currentHolder.grandtotalcertunits,
-        "GRANDTOTALBLOCKEDUNITS": currentHolder.grandtotalblockedunits,
-        "GRANDTOTALPROVISIONALUNITS": currentHolder.grandtotalprovisionalunits,
-        "GRANDTOTALUNITS": currentHolder.grandtotalunits,
-        "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings,
-        "NRIC": currentHolder.identificationnumber,
-        "FUNDS": currentHolder.funddetail
-      };
-    }
-    else{
-      body = {
-        "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
-        "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-        "UNITHOLDERID": this.CB2_7,
-        "FIRSTNAME": currentBijakHolder.firstname,
-        "GRANDTOTALUNITBALANCE": currentBijakHolder.grandtotalunitbalance,
-        "GRANDTOTALEPFUNITS": currentBijakHolder.grandtotalepfunits,
-        "GRANDTOTALLOANUNITS": currentBijakHolder.grandtotalloanunits,
-        "GRANDTOTALCERTUNITS": currentBijakHolder.grandtotalcertunits,
-        "GRANDTOTALBLOCKEDUNITS": currentBijakHolder.grandtotalblockedunits,
-        "GRANDTOTALPROVISIONALUNITS": currentBijakHolder.grandtotalprovisionalunits,
-        "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits,
-        "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings,
-        "NRIC": currentBijakHolder.identificationnumber,
-        "FUNDS": currentBijakHolder.funddetail
-      };
-    }
-
-    let kActivit1 = new kActivity();
-    kActivit1.trxno = signalrConnection.trxno;
-    kActivit1.kioskCode = signalrConnection.kioskCode;
-    kActivit1.moduleID = 0;
-    kActivit1.submoduleID = undefined;
-    kActivit1.action = "Calling SignalR for Print All";
-    kActivit1.startTime = new Date();
-    
-    kActivit1.endTime = new Date();
-    kActivit1.status = true; 
-
-    appFunc.kioskActivity.push(kActivit1);
-
-    signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetSummaryStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
-      setTimeout(()=>{   
-        if (data == true){
-          this.CB3_Visible = false;
-          this.CB4_Visible = true;
-          setTimeout(()=>{   
-            this.CB4_Visible = false;
-            this._router.navigate(['transactionsuccessful']);
-          }, 3000);
-        }else{
-          errorCodes.Ecode = "0068";
-          errorCodes.Emessage = "Printing Failed";
-          this._router.navigate(['errorscreen']);
+        let body: any;
+        if (this.isMain){
+          body = {
+            "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+            "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+            "UNITHOLDERID": this.CB2_7,
+            "FIRSTNAME": currentHolder.firstname,
+            "GRANDTOTALUNITBALANCE": currentHolder.grandtotalunitbalance,
+            "GRANDTOTALEPFUNITS": currentHolder.grandtotalepfunits,
+            "GRANDTOTALLOANUNITS": currentHolder.grandtotalloanunits,
+            "GRANDTOTALCERTUNITS": currentHolder.grandtotalcertunits,
+            "GRANDTOTALBLOCKEDUNITS": currentHolder.grandtotalblockedunits,
+            "GRANDTOTALPROVISIONALUNITS": currentHolder.grandtotalprovisionalunits,
+            "GRANDTOTALUNITS": currentHolder.grandtotalunits,
+            "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings,
+            "NRIC": currentHolder.identificationnumber,
+            "FUNDS": currentHolder.funddetail
+          };
         }
-      }, 3000);
+        else{
+          body = {
+            "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
+            "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+            "UNITHOLDERID": this.CB2_7,
+            "FIRSTNAME": currentBijakHolder.firstname,
+            "GRANDTOTALUNITBALANCE": currentBijakHolder.grandtotalunitbalance,
+            "GRANDTOTALEPFUNITS": currentBijakHolder.grandtotalepfunits,
+            "GRANDTOTALLOANUNITS": currentBijakHolder.grandtotalloanunits,
+            "GRANDTOTALCERTUNITS": currentBijakHolder.grandtotalcertunits,
+            "GRANDTOTALBLOCKEDUNITS": currentBijakHolder.grandtotalblockedunits,
+            "GRANDTOTALPROVISIONALUNITS": currentBijakHolder.grandtotalprovisionalunits,
+            "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits,
+            "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings,
+            "NRIC": currentBijakHolder.identificationnumber,
+            "FUNDS": currentBijakHolder.funddetail
+          };
+        }
+    
+        let kActivit1 = new kActivity();
+        kActivit1.trxno = signalrConnection.trxno;
+        kActivit1.kioskCode = signalrConnection.kioskCode;
+        kActivit1.moduleID = 6;
+        kActivit1.submoduleID = undefined;
+        kActivit1.action = "Get Fund Summary";
+        kActivit1.startTime = new Date();
+        
+        
+    
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetSummaryStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+          setTimeout(()=>{   
+            if (data == true){
+              kActivit1.endTime = new Date();
+              kActivit1.status = true; 
+          
+              appFunc.kioskActivity.push(kActivit1);
+              this.CB3_Visible = false;
+              this.CB4_Visible = true;
+              setTimeout(()=>{   
+                this.CB4_Visible = false;
+                this._router.navigate(['transactionsuccessful']);
+              }, 3000);
+            }else{
+              kActivit1.endTime = new Date();
+              kActivit1.status = false; 
+          
+              appFunc.kioskActivity.push(kActivit1);
+              errorCodes.Ecode = "0068";
+              errorCodes.Emessage = "Printing Failed";
+              this._router.navigate(['errorscreen']);
+            }
+          }, 3000);
+        });
+      }else{
+        errorCodes.Ecode = "6688";
+        errorCodes.Emessage = "Printer Error";
+        this._router.navigate(['errorscreen']);
+      }
     });
+    
 
   }
 
   EmailAllStatement(selectedFundDetails: any) {
     this.CB2_Visible = false;
     this.CB5_Visible = true;
-
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Email All Statement.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
-    console.log(selectedFundDetails.FUNDID);
-    console.log(selectedFundDetails.UNITBALANCE);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
 
     let body: any;
@@ -622,32 +748,27 @@ export class CheckbalanceComponent implements OnInit {
     let kActivit1 = new kActivity();
     kActivit1.trxno = signalrConnection.trxno;
     kActivit1.kioskCode = signalrConnection.kioskCode;
-    kActivit1.moduleID = 0;
+    kActivit1.moduleID = 6;
     kActivit1.submoduleID = undefined;
-    kActivit1.action = "Calling SignalR for Email All";
+    kActivit1.action = "Get Fund Summary";
     kActivit1.startTime = new Date();
     
-    kActivit1.endTime = new Date();
-    kActivit1.status = true; 
-
-    appFunc.kioskActivity.push(kActivit1);
-
-    let email = "";
-      if (this.isMain){
-        currentHolder.email;
-      }
-      else{
-        //currentBijakHolder.email;
-      }
-
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, email, "GetSummaryStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetSummaryStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
+          kActivit1.endTime = new Date();
+          kActivit1.status = true; 
+
+          appFunc.kioskActivity.push(kActivit1);
           setTimeout(()=>{   
             this.CB5_Visible = false;
             this._router.navigate(['transactionsuccessful']);
           }, 3000);
         }else{
+          kActivit1.endTime = new Date();
+          kActivit1.status = false; 
+
+          appFunc.kioskActivity.push(kActivit1);
           errorCodes.Ecode = "0069";
           errorCodes.Emessage = "Email Failed";
           this._router.navigate(['errorscreen']);
@@ -661,34 +782,27 @@ export class CheckbalanceComponent implements OnInit {
   MinorCheckBalance(selectedMinorDetails: any) {
     this.isMain = false;
     const body = {
-      "CHANNELTYPE": "IB",
-      "REQUESTORIDENTIFICATION": "RHBNOW",
-      "DEVICEOWNER": "RHB",
+      "CHANNELTYPE": "ASNB KIOSK",
+      "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
+      "DEVICEOWNER": "ASNB",
       "UNITHOLDERID": "",
       "FIRSTNAME": "",
-      "IDENTIFICATIONTYPE": "W",
-      "IDENTIFICATIONNUMBER": "060915101139",
+      "IDENTIFICATIONTYPE": selectedMinorDetails.ICTYPE,
+      "IDENTIFICATIONNUMBER": selectedMinorDetails.ICNO,
       "FUNDID": "",
-      "INQUIRYCODE": "4",
-      "TRANSACTIONDATE": "23/12/2019",
-      "TRANSACTIONTIME": "15:43:10",
-      "BANKTXNREFERENCENUMBER": "20191003001325",
-      "BANKCUSTPHONENUMBER": "60173518221",
-      "FILTRATIONFLAG": "",
-      "GUARDIANID": "",
-      "GUARDIANICTYPE": "W",
-      "GUARDIANICNUMBER": "751219135506"
+      "INQUIRYCODE": "5",
+      "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+      "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
+      "BANKCUSTPHONENUMBER": "",
+      "FILTRATIONFLAG": "1",
+      "GUARDIANID": currentHolder.unitholderid,
+      "GUARDIANICTYPE": currentHolder.identificationtype,
+      "GUARDIANICNUMBER": currentHolder.identificationnumber
       };
 
      this.serviceService.getAccountInquiry(body)
      .subscribe((result: any) => {
-        let kActivit = new kActivity();
-        kActivit.trxno = signalrConnection.trxno;
-        kActivit.kioskCode = signalrConnection.kioskCode;
-        kActivit.moduleID = 0;
-        kActivit.submoduleID = undefined;
-        kActivit.action = "Binding Bijak Holder Details.";
-        kActivit.startTime = new Date();
         
         currentBijakHolder.channeltype = result.channeltype;
         currentBijakHolder.requestoridentification = result.requestoridentification;
@@ -728,10 +842,6 @@ export class CheckbalanceComponent implements OnInit {
         currentBijakHolder.rejectcode = result.rejectcode;
         currentBijakHolder.rejectreason = result.rejectreason;
 
-        kActivit.endTime = new Date();
-        kActivit.status = true;
-
-        appFunc.kioskActivity.push(kActivit);
 
         this.CheckBijakAccount();
      })
@@ -740,17 +850,6 @@ export class CheckbalanceComponent implements OnInit {
 
   CheckMainAccount() {
     this.isMain = true;
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Check Main Account Details.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
 
     this.fDetails = currentHolder.funddetail;
 
@@ -791,18 +890,6 @@ export class CheckbalanceComponent implements OnInit {
   }
 
   CheckBijakAccount() {
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Check Bijak Account Details.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
-
     this.fDetails = currentBijakHolder.funddetail;
 
     this.CB1_Visible = false;

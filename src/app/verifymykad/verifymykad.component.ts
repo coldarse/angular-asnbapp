@@ -89,6 +89,27 @@ export class VerifymykadComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
     this._conn = signalrConnection.connection;signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Set global variable 'signalrConnection.connection to this._conn.");
 
+
+    if (signalrConnection.isHardcodedIC != true){
+      signalrConnection.connection.invoke('CheckReaderStatus').then((data: boolean) => {
+        if(data != true){
+          errorCodes.Ecode = "7788";
+          errorCodes.Emessage = "MyKad Reader Error";
+          this._router.navigate(['errorscreen']);
+        }else{
+          signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+            if(data != true){
+              errorCodes.Ecode = "6688";
+              errorCodes.Emessage = "Printer Error";
+              this._router.navigate(['errorscreen']);
+            }
+          });
+        }
+      });
+    }
+    
+
+    
   }
 
   endTransaction() : void {
@@ -371,13 +392,6 @@ export class VerifymykadComponent implements OnInit {
 
   bindMyKadData(): void {
     try {
-      let kActivit = new kActivity();
-      kActivit.trxno = signalrConnection.trxno;
-      kActivit.kioskCode = signalrConnection.kioskCode;
-      kActivit.moduleID = 0;
-      kActivit.submoduleID = undefined;
-      kActivit.action = "Binding MyKad Details";
-      kActivit.startTime = new Date();
 
       currentMyKadDetails.Name = this.myKadData['Name'];
       currentMyKadDetails.ICNo = this.myKadData['ICNo'];
@@ -407,25 +421,9 @@ export class VerifymykadComponent implements OnInit {
 
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
   
-
-      kActivit.endTime = new Date();
-      kActivit.status = true;
-
-      appFunc.kioskActivity.push(kActivit);
       this.getAccountInquiry();
     }
     catch(e) {
-      let kActivit = new kActivity();
-      kActivit.trxno = signalrConnection.trxno;
-      kActivit.kioskCode = signalrConnection.kioskCode;
-      kActivit.moduleID = 0;
-      kActivit.submoduleID = undefined;
-      kActivit.action = "Binding MyKad Details";
-      kActivit.startTime = new Date();
-      kActivit.endTime = new Date();
-      kActivit.status = false;
-
-      appFunc.kioskActivity.push(kActivit);
       console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
@@ -436,13 +434,6 @@ export class VerifymykadComponent implements OnInit {
 
   bindMyKadDataHardcoded(): void {
     try {
-      let kActivit = new kActivity();
-      kActivit.trxno = signalrConnection.trxno;
-      kActivit.kioskCode = signalrConnection.kioskCode;
-      kActivit.moduleID = 0;
-      kActivit.submoduleID = undefined;
-      kActivit.action = "Binding MyKad Details (Hardcode)";
-      kActivit.startTime = new Date();
 
       currentMyKadDetails.Name = "John Smith";
       currentMyKadDetails.ICNo = this.icnumber?.nativeElement.value;
@@ -472,25 +463,9 @@ export class VerifymykadComponent implements OnInit {
 
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
   
-
-      kActivit.endTime = new Date();
-      kActivit.status = true;
-
-      appFunc.kioskActivity.push(kActivit);
       this.getAccountInquiry();
     }
     catch(e) {
-      let kActivit = new kActivity();
-      kActivit.trxno = signalrConnection.trxno;
-      kActivit.kioskCode = signalrConnection.kioskCode;
-      kActivit.moduleID = 0;
-      kActivit.submoduleID = undefined;
-      kActivit.action = "Binding MyKad Details";
-      kActivit.startTime = new Date();
-      kActivit.endTime = new Date();
-      kActivit.status = false;
-
-      appFunc.kioskActivity.push(kActivit);
       console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
@@ -510,7 +485,6 @@ export class VerifymykadComponent implements OnInit {
   getAccountInquiry(): void {
     try{
 
-      //currentMyKadDetails.ICNo = "980112106087";
       
       const body = { 
 
@@ -525,7 +499,7 @@ export class VerifymykadComponent implements OnInit {
         "INQUIRYCODE": "5",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-        "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
         "BANKCUSTPHONENUMBER": "",
         "FILTRATIONFLAG": "1",
         "GUARDIANID": "",
@@ -537,18 +511,6 @@ export class VerifymykadComponent implements OnInit {
   
       this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
-        
-        let kActivit = new kActivity();
-        kActivit.trxno = signalrConnection.trxno;
-        kActivit.kioskCode = signalrConnection.kioskCode;
-        kActivit.moduleID = 0;
-        kActivit.submoduleID = undefined;
-        kActivit.action = "Binding Unit Holder";
-        kActivit.startTime = new Date();
-
-        
-
-        console.log("Subscribing");
         currentHolder.channeltype = result.channeltype;
         currentHolder.requestoridentification = result.requestoridentification;
         currentHolder.deviceowner = result.deviceowner;
@@ -640,10 +602,6 @@ export class VerifymykadComponent implements OnInit {
 
         console.log(currentHolder.occupationcategory);
 
-        kActivit.endTime = new Date();
-        kActivit.status = true; 
-
-        appFunc.kioskActivity.push(kActivit);
 
 
         if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
@@ -655,26 +613,15 @@ export class VerifymykadComponent implements OnInit {
           }
           else{
             if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
-              let kActivit2 = new kActivity();
-              kActivit2.trxno = signalrConnection.trxno;
-              kActivit2.kioskCode = signalrConnection.kioskCode;
-              kActivit2.moduleID = 0;
-              kActivit2.submoduleID = undefined;
-              kActivit2.action = "Unit Holder Exists.";
-              kActivit2.startTime = new Date();
-              kActivit2.endTime = new Date();
-              kActivit2.status = true;
-
-              appFunc.kioskActivity.push(kActivit2);
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found.");
 
               if (
                 (currentHolder.occupationcategory == "" || currentHolder.occupationcategory == undefined) ||
-                (currentHolder.occupation == "" || currentHolder.occupation == undefined) ||
-                (currentHolder.natureofbusiness == "" || currentHolder.natureofbusiness == undefined) ||
-                (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
-                (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
-                (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
+                // (currentHolder.occupation == "" || currentHolder.occupation == undefined) ||
+                // (currentHolder.natureofbusiness == "" || currentHolder.natureofbusiness == undefined) ||
+                // (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
+                // (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
+                // (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
                 (currentHolder.email == "" || currentHolder.email == undefined) ||
                 (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined) ||
                 (currentHolder.preferredmailmode == "" || currentHolder.preferredmailmode == undefined) ||
@@ -691,18 +638,6 @@ export class VerifymykadComponent implements OnInit {
         }
         else{
           if (currentHolder.rejectreason.includes('not exists')){
-            console.log("Reached Here A");
-            let kActivit1 = new kActivity();
-            kActivit1.trxno = signalrConnection.trxno;
-            kActivit1.kioskCode = signalrConnection.kioskCode;
-            kActivit1.moduleID = 0;
-            kActivit1.submoduleID = undefined;
-            kActivit1.action = "Unit Holder Doesn't Exist.";
-            kActivit1.startTime = new Date();
-            kActivit1.endTime = new Date();
-            kActivit1.status = true;
-
-            appFunc.kioskActivity.push(kActivit1);
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No account found.");
 
             if (currentMyKadDetails.OldICNo != ""){
@@ -732,7 +667,7 @@ export class VerifymykadComponent implements OnInit {
                 "INQUIRYCODE": "5",
                 "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
                 "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-                "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'HH:MM:ss', 'en'),
+                "BANKTXNREFERENCENUMBER": signalrConnection.trxno ,
                 "BANKCUSTPHONENUMBER": "",
                 "FILTRATIONFLAG": "1",
                 "GUARDIANID": "",
@@ -881,11 +816,11 @@ export class VerifymykadComponent implements OnInit {
 
                       if (
                         (currentHolder.occupationcategory == "" || currentHolder.occupationcategory == undefined) ||
-                        (currentHolder.occupation == "" || currentHolder.occupation == undefined) ||
-                        (currentHolder.natureofbusiness == "" || currentHolder.natureofbusiness == undefined) ||
-                        (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
-                        (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
-                        (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
+                        // (currentHolder.occupation == "" || currentHolder.occupation == undefined) ||
+                        // (currentHolder.natureofbusiness == "" || currentHolder.natureofbusiness == undefined) ||
+                        // (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
+                        // (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
+                        // (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
                         (currentHolder.email == "" || currentHolder.email == undefined) ||
                         (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined) ||
                         (currentHolder.preferredmailmode == "" || currentHolder.preferredmailmode == undefined) ||
@@ -918,8 +853,21 @@ export class VerifymykadComponent implements OnInit {
                     appFunc.kioskActivity.push(kActivit1);
                     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No Old IC account found.");
         
-                    this.loadingVisible = false;
-                    this.RMError3_Visible = true;
+                    for (var val of appFunc.modules){
+                      if(val.moduleName.toLowerCase().includes('major')){
+                        if(val.enable == true){
+                          if(this.isInBetween(val.operationStart, val.operationEnd, new Date())){
+                            this.loadingVisible = false;
+                            this.RMError3_Visible = true;
+                          }
+                          else{
+                            errorCodes.Ecode = currentHolder.rejectcode;
+                            errorCodes.Emessage = currentHolder.rejectreason;
+                            this._router.navigate(['errorscreen']);
+                          }
+                        }
+                      }
+                    }
                   }
                   else{
                     errorCodes.Ecode = currentHolder.rejectcode;
@@ -930,8 +878,21 @@ export class VerifymykadComponent implements OnInit {
               });
             }
             else{
-              this.loadingVisible = false;
-              this.RMError3_Visible = true;
+              for (var val of appFunc.modules){
+                if(val.moduleName.toLowerCase().includes('major')){
+                  if(val.enable == true){
+                    if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                      this.loadingVisible = false;
+                      this.RMError3_Visible = true;
+                    }
+                    else{
+                      errorCodes.Ecode = currentHolder.rejectcode;
+                      errorCodes.Emessage = currentHolder.rejectreason;
+                      this._router.navigate(['errorscreen']);
+                    }
+                  }
+                }
+              }
             }
           }
           else{
@@ -943,17 +904,6 @@ export class VerifymykadComponent implements OnInit {
       });
     }
     catch (e){
-      let kActivit = new kActivity();
-      kActivit.trxno = signalrConnection.trxno;
-      kActivit.kioskCode = signalrConnection.kioskCode;
-      kActivit.moduleID = 0;
-      kActivit.submoduleID = undefined;
-      kActivit.action = "Unit Holder Exists.";
-      kActivit.startTime = new Date();
-      kActivit.endTime = new Date();
-      kActivit.status = false;
-
-      appFunc.kioskActivity.push(kActivit);
       console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
@@ -968,6 +918,12 @@ export class VerifymykadComponent implements OnInit {
     
   }
 
+  isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {
+    if (current.getTime() >= startDateTime.getTime() && current.getTime() <= stopDateTime.getTime()){
+      return true;
+    }
+    return false;
+  }
 
 
 

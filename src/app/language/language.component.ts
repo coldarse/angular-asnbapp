@@ -58,6 +58,8 @@ export class LanguageComponent implements OnInit {
   ]
 
 
+  id: any;
+
   constructor(
     private serviceService : ServiceService,
     private route: Router,
@@ -66,8 +68,6 @@ export class LanguageComponent implements OnInit {
        this.startConnection();
     }
 
-
-  
   ngOnInit(): void {
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
@@ -86,22 +86,16 @@ export class LanguageComponent implements OnInit {
 
     signalrConnection.logsaves = [];
     appFunc.kioskActivity = [];
-    var areDisabled = 0
-    appFunc.modules = this.modis.map((em: any) => new eModules(em));
-    for (var val of appFunc.modules){
-      if(val.isEnabled == false){
-        areDisabled += 1;
-      }
-    }
-
-    if(areDisabled == appFunc.modules.length){
-      errorCodes.code = "0168";
-      errorCodes.message = "Under Maintenance";
-      this.route.navigate(['outofservice']);
-    }
-
+    
 
     
+
+    
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.id);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language Screen]" + ": " + "Cleared Interval.");
   }
 
   startConnection() : void {
@@ -115,6 +109,9 @@ export class LanguageComponent implements OnInit {
       signalrConnection.connection.invoke('isHardcodedIC').then((data: boolean) => {
         signalrConnection.isHardcodedIC = data;
       });
+      signalrConnection.connection.invoke('KioskType').then((data: string) => {
+        signalrConnection.kioskType = data;
+      });
       signalrConnection.connection.invoke('GetLoginToken').then((data: string) => {
         accessToken.token = data;
         accessToken.httpOptions = {
@@ -125,6 +122,72 @@ export class LanguageComponent implements OnInit {
         this.serviceService.genTrxNo(signalrConnection.kioskCode).subscribe((res: any) => {
           signalrConnection.trxno = res.result.toString();
         });
+        this.serviceService.getKioskModules(signalrConnection.kioskCode).subscribe((res: any) => {
+          var areDisabled = 0
+          
+          appFunc.modules = res.result.map((em: any) => new eModules(em));
+          console.log(appFunc.modules);
+          for (var val of appFunc.modules){
+            if(val.enable == false){
+              areDisabled += 1;
+            }
+          }
+      
+          if(areDisabled == appFunc.modules.length){
+            errorCodes.code = "0168";
+            errorCodes.message = "Under Maintenance";
+            this.route.navigate(['outofservice']);
+          }
+
+          setTimeout(() => {
+            this.id = setInterval(() => {
+              let count = 0;
+              for (var val of appFunc.modules){
+                if(val.moduleName.toLowerCase().includes('update')){
+                  if(val.enable == true){
+                    if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                      count += 1;
+                    }
+                  }
+                }
+                else if(val.moduleName.toLowerCase().includes('balance')){
+                  if(val.enable == true){
+                    if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                      count += 1;
+                    }
+                  }
+                }
+                else if(val.moduleName.toLowerCase().includes('financial')){
+                  if(val.enable == true){
+                    if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                      count += 1;
+                    }
+                  }
+                }
+                else if(val.moduleName.toLowerCase().includes('bijak')){
+                  if(val.enable == true){
+                    if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                      count += 1;
+                    }
+                  }
+                }
+                else if(val.moduleName.toLowerCase().includes('portal')){
+                  if(val.enable == true){
+                    if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                      count += 1;
+                    }
+                  }
+                }
+              }
+        
+              if(count == 0){
+                errorCodes.code = "0168";
+                errorCodes.message = "Under Maintenance";
+                this.route.navigate(['outofservice']);
+              }
+            }, 1000);
+          } , 5000);
+        });
       });
       
       
@@ -132,22 +195,9 @@ export class LanguageComponent implements OnInit {
   }
 
   selectEnglish() {
+
     selectLang.selectedLang = 'en';
     this.route.navigate(['/verifymykad']);
-
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Selected English Language.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
-
-    
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected English.");
     this.getDropDowns();
@@ -159,18 +209,6 @@ export class LanguageComponent implements OnInit {
     this.route.navigate(['/verifymykad']);
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
-  
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Selected Bahasa Malaysia Language.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
     this.getDropDowns();
   }
 
@@ -259,6 +297,13 @@ export class LanguageComponent implements OnInit {
       }
 
     });
+  }
+
+  isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {
+    if (current.getTime() >= startDateTime.getTime() && current.getTime() <= stopDateTime.getTime()){
+      return true;
+    }
+    return false;
   }
 
   

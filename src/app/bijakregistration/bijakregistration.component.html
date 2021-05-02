@@ -90,8 +90,8 @@
     </div>
 </div>
 
-<form *ngIf="BRForm_Visible" [formGroup]="AR_Form" (ngSubmit)="bijakregistrationNext()" name="registerForm" class="content-container">
-    <div class="col-md-12">
+<form *ngIf="BRForm_Visible" [formGroup]="AR_Form" (ngSubmit)="bijakregistrationNext()" name="registerForm" >
+    <div class="col-md-12 content-container">
         <div class="registrationForm">
             <div class="formcontent">
                 <div class="row">
@@ -1005,7 +1005,7 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:10rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="BR_Print" (click)="Print()">
+                <button type="button" class="btn btn-next" id="BR_Print" (click)="Print()" *ngIf="Print_Visible">
                     <!-- Cetak Resit -->
                     {{'BTN_Print' | translate }}
                 </button>

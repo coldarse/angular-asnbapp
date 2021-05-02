@@ -116,11 +116,34 @@ export class ServiceService {
     )
   }
 
+  //getKioskModules
+  getKioskModules(kioskcode: string){
+    return this.http.get(
+      this.url + `services/app/KioskModuleOperation/GetKioskModuleOperationSummaries?KioskCode=${kioskcode}`,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
   //Post get 5 transaction.
   postFiveTransactions(body: any)
   {
     return this.http.post(
       this.url + "services/app/OpenAPI/CashTransaction",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Get Dividend Statement
+  dividendStatement(body: any){
+    return this.http.post(
+      this.url + "services/app/OpenAPI/DividendStatement",
       body,
       accessToken.httpOptions
     ).pipe(

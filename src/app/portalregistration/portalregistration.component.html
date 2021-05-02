@@ -79,7 +79,7 @@
     </div>
 </div> 
 
-<div class="row" style="padding-top: 6rem;" *ngIf="PR_Intro">
+<div class="row content-container" style="padding-top: 6rem;" *ngIf="PR_Intro">
     <div class="row">
         <div class="col-md-1">
 
@@ -194,7 +194,7 @@
     
 </div>
 
-<div class="row" style="padding-top: 3rem;" *ngIf="PR_TNC">
+<div class="row content-container" style="padding-top: 3rem;" *ngIf="PR_TNC">
     <div class="row">
         <div class="cool-md-12 text-center">
             <!-- <h2 id="PRtnc">Terma dan Syarat</h2> -->
@@ -307,7 +307,7 @@
 
 
 <!-- [fromGroup]='PForm_1' (ngSubmit)='nextDetails()' autocomplete="off" novalidate> -->
-<form   class="row" *ngIf="PR_Details" [formGroup]='PForm_1' (ngSubmit)='nextDetails()' autocomplete="off" novalidate> 
+<form class="row content-container" *ngIf="PR_Details" [formGroup]='PForm_1' (ngSubmit)='nextDetails()' autocomplete="off" novalidate> 
     <div class="row" style="padding-left: 4rem; padding-top: 2rem;">
         <div class="col-md-12">
             <!-- <h4><u>Daftar Masuk Portal myASNB</u></h4> -->
@@ -545,7 +545,7 @@
     </footer>
 </form>
 
-<div class="row" style="padding-top: 4rem;" *ngIf="PR_TempPass">
+<div class="row content-container" style="padding-top: 4rem;" *ngIf="PR_TempPass">
     <div class="row">
         <div class="cool-md-12 text-center">
             <!-- <h2 id="PRtnc">Anda telah berjaya mendaftar dengan Portal myASNB</h2> -->
@@ -612,7 +612,7 @@
 </div>
 
 
-<form class="row" style="padding-top: 2rem;" *ngIf="PR_Login" [formGroup]='PForm_2' autocomplete="off" novalidate>
+<form class="row content-container" style="padding-top: 2rem;" *ngIf="PR_Login" [formGroup]='PForm_2' autocomplete="off" novalidate>
     <div class="row">
         <div class="cool-md-12 text-center">
             <!-- <h3 id="PRtnc">Log Masuk Pengguna</h3> -->
@@ -736,7 +736,7 @@
     </footer>
 </form>
 
-<form class="row" style="padding-top: 2rem;" *ngIf="PR_NewPassword" [formGroup]='PForm_3' (ngSubmit)='newPassNext()' autocomplete="off" novalidate>
+<form class="row content-container" style="padding-top: 2rem;" *ngIf="PR_NewPassword" [formGroup]='PForm_3' (ngSubmit)='newPassNext()' autocomplete="off" novalidate>
     <div class="row">
         <div class="cool-md-12 text-center">
             <!-- <h3 id="PRtnc">Log Masuk Pengguna</h3> -->
@@ -934,11 +934,11 @@
         <footer class="site-footer" style="padding-top:7rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-next" id="PR_No" (click)="successPrint()">
+                    <button type="button" class="btn btn-next" id="PR_No" (click)="successPrint()" *ngIf="Print_Visible">
                         <!-- Cetak Resit -->
                         {{'BTN_Print' | translate }}
                     </button>
-                    <button type="button" class="btn btn-next" id="PR_Yes" (click)="successEmail()">
+                    <button type="button" class="btn btn-next" id="PR_Yes" (click)="successEmail()" *ngIf="Email_Visible">
                         <!-- Emel Resit -->
                         {{'BTN_Email' | translate }}
                     </button>
@@ -952,7 +952,7 @@
 </div>   
 
 
-<div id="PR_Print1" *ngIf="PR_Print1Visible">
+<div id="PR_Print1" *ngIf="PR_Print1Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <!-- <h2 class="h2-ic" id="PRP1_Title1">Resit anda sedang dicetak.</h2>
@@ -967,7 +967,7 @@
     </div>
 </div>
 
-<div id="PR_Print2" *ngIf="PR_Print2Visible">
+<div id="PR_Print2" *ngIf="PR_Print2Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="PRP2_Title1">Sila ambil resit anda</h2> -->
@@ -980,7 +980,7 @@
     </div>
 </div>
 
-<div id="PR_Email" *ngIf="PR_EmailVisible">
+<div id="PR_Email" *ngIf="PR_EmailVisible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="PRE_Title1">Salinan resit akan hantar ke</h2>

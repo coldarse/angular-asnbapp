@@ -26,19 +26,6 @@ export class OutofserviceComponent implements OnInit {
 
     this.EM1 = errorCodes.message;
     this.MR1 = errorCodes.message;
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Out of Service. " + errorCodes.message;
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = false;
-
-    appFunc.kioskActivity.push(kActivit);
-
-
     setTimeout(() =>{
       this._router.navigate(['/'])
     }, 120000);

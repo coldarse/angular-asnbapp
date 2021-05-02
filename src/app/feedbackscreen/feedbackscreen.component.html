@@ -15,7 +15,7 @@
 </nav>
 
 <!-- Feedback Screen -->
-<div  class="row content-container" id="FeedbackScreen1" *ngIf="FBS1_Visible">
+<div  class="row content-container grid" id="FeedbackScreen1" *ngIf="FBS1_Visible">
     <div class="row">
         <div class="col-md-12 text-center" style="padding-top:7rem">
             <!-- <h2 id="FS_Title1">Pastikan MyKad telah dikeluarkan sebelum anda beredar</h2> -->
@@ -31,23 +31,15 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 text-center" style="padding-top:7rem">
-            <table class="center">
-                <tr>
-                    <td>
-                        <input type="checkbox" name="checkboxG1" id="checkboxG1" class="css-checkbox" checked="checked"/>
-                        <label for="checkboxG1" class="css-label"></label>
-                    </td>
-                    <td>
-                        <input type="checkbox" name="checkboxG2" id="checkboxG2" class="css-checkbox" checked="checked"/>
-                        <label for="checkboxG2" class="css-label"></label>
-                    </td>
-                    <td>
-                        <input type="checkbox" name="checkboxG3" id="checkboxG3" class="css-checkbox" checked="checked"/>
-                        <label for="checkboxG3" class="css-label"></label>
-                    </td>
-                </tr>
-            </table>
+        <div class="col-md-12" style="padding-top:7rem">
+            <div class="rating">
+                <input type="radio" name="star" id="star1" checked="true">
+                <label for="star1"></label>
+                <input type="radio" name="star" id="star2">
+                <label for="star2"></label>
+                <input type="radio" name="star" id="star3">
+                <label for="star3"></label>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -60,8 +52,8 @@
     </div>
 </div>
 
-<div id="FeedbackScreen2" *ngIf="FBS2_Visible" class="content-container">
-    <div class="row">
+<div id="FeedbackScreen2" *ngIf="FBS2_Visible">
+    <div class="row content-container">
         <div class="col-md-6 text-center" style="padding-top:17rem ">
             <!-- <h2>Terima Kasih</h2> -->
             <h2>{{'FBS2_1' | translate }}</h2>

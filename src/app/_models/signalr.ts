@@ -11,6 +11,7 @@ export class signalrConnection {
   static kioskCode: string;
   static trxno : string;
   static isHardcodedIC : boolean;
+  static kioskType: string;
 }
 
 

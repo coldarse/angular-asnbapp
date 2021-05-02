@@ -33,17 +33,6 @@ export class ErrorscreenComponent implements OnInit {
     }
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Transaction Unsuccessful.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = false;
-
-    appFunc.kioskActivity.push(kActivit);
 
     this.ES_3 = "Error Code"
     this.ES_5 = errorCodes.Ecode;
@@ -51,17 +40,6 @@ export class ErrorscreenComponent implements OnInit {
   }
 
   endTransaction(){
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Redirect to Feedback Screen.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
     this._router.navigate(['feedbackscreen']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Error Screen]" + ": " + "Redirect to Feedback Screen.");
   }

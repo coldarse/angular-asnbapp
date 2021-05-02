@@ -12,6 +12,7 @@ import { FeedbackscreenComponent } from './feedbackscreen/feedbackscreen.compone
 import { BijakregistrationComponent } from './bijakregistration/bijakregistration.component';
 import { UpdatedetailsComponent } from './updatedetails/updatedetails.component';
 import { PortalregistrationComponent } from './portalregistration/portalregistration.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -32,7 +33,8 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes),
+    TranslateModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

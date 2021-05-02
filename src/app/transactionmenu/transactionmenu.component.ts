@@ -6,6 +6,7 @@ import { signalrConnection } from 'src/app/_models/signalr';
 import { appFunc } from '../_models/appFunctions';
 import { formatDate } from '@angular/common';
 import { kActivity } from '../_models/kActivity';
+import { errorCodes } from '../_models/errorCode';
 
 @Component({
   selector: 'app-transactionmenu',
@@ -36,13 +37,6 @@ export class TransactionmenuComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit(): void {
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Arrived Transaction Menu.";
-    kActivit.startTime = new Date();
     
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
@@ -50,51 +44,58 @@ export class TransactionmenuComponent implements OnInit {
     signalrConnection.logsaves = [];
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Start looping through module details to check each module availability during current DateTime.");
     for (var val of appFunc.modules){
-      if(val.module.toLowerCase().includes('update')){
-        if(val.isEnabled == true){
-          if(val.startTime, val.stopTime, new Date()){
+      if(val.moduleName.toLowerCase().includes('update')){
+        if(val.enable == true){
+          if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.updatedDetailsEnabled = false;
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
+          }
+        }
+      }
+      else if(val.moduleName.toLowerCase().includes('balance')){
+        if(val.enable == true){
+          if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.checkBalanceEnabled = false;
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
+          }
+        }
+      }
+      else if(val.moduleName.toLowerCase().includes('financial')){
+        if(val.enable == true){
+          if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.financialTransactionEnabled = false;
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Financial Transaction Module.");
+          }
+        }
+      }
+      else if(val.moduleName.toLowerCase().includes('bijak')){
+        if(val.enable == true){
+          if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.bijakRegistrationEnabled = false;
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Bijak Registration Module.");
+          }
+        }
+      }
+      else if(val.moduleName.toLowerCase().includes('portal')){
+        if(val.enable == true){
+          if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.portalRegistrationEnabled = false;
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Portal Registration Module.");
+          }
+        }
+      }
+    }
 
-          }
-          this.updatedDetailsEnabled = false;
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
-        }
-      }
-      else if(val.module.toLowerCase().includes('check')){
-        if(val.isEnabled == true){
-          if(val.startTime, val.stopTime, new Date()){
-            
-          }
-          this.checkBalanceEnabled = false;
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
-        }
-      }
-      else if(val.module.toLowerCase().includes('financial')){
-        if(val.isEnabled == true){
-          if(val.startTime, val.stopTime, new Date()){
-            
-          }
-          this.financialTransactionEnabled = false;
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Financial Transaction Module.");
-        }
-      }
-      else if(val.module.toLowerCase().includes('bijak')){
-        if(val.isEnabled == true){
-          if(val.startTime, val.stopTime, new Date()){
-            
-          }
-          this.bijakRegistrationEnabled = false;
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Bijak Registration Module.");
-        }
-      }
-      else if(val.module.toLowerCase().includes('portal')){
-        if(val.isEnabled == true){
-          if(val.startTime, val.stopTime, new Date()){
-            
-          }
-          this.portalRegistrationEnabled = false;
-          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Portal Registration Module.");
-        }
-      }
+    if(
+      this.updatedDetailsEnabled == true &&
+      this.checkBalanceEnabled == true &&
+      this.financialTransactionEnabled == true &&
+      this.bijakRegistrationEnabled == true &&
+      this.portalRegistrationEnabled == true
+    ){
+      errorCodes.code = "0168";
+      errorCodes.message = "Under Maintenance";
+      this._router.navigate(['outofservice']);
     }
 
 
@@ -104,12 +105,6 @@ export class TransactionmenuComponent implements OnInit {
         this.DetectMyKad();
       }, 1000);
     }
-
-    
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -123,17 +118,6 @@ export class TransactionmenuComponent implements OnInit {
       console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
-        let kActivit = new kActivity();
-        kActivit.trxno = signalrConnection.trxno;
-        kActivit.kioskCode = signalrConnection.kioskCode;
-        kActivit.moduleID = 0;
-        kActivit.submoduleID = undefined;
-        kActivit.action = "User Removed Identification Card.";
-        kActivit.startTime = new Date();
-        kActivit.endTime = new Date();
-        kActivit.status = false;
-
-        appFunc.kioskActivity.push(kActivit);
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }

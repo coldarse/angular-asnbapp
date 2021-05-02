@@ -42,17 +42,6 @@ export class FeedbackscreenComponent implements OnInit {
     }
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Arrived At Feedback Screen.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
   }
 
   ngOnDestroy() {
@@ -61,17 +50,6 @@ export class FeedbackscreenComponent implements OnInit {
   }
 
   SubmitFeedback(){
-    let kActivit = new kActivity();
-    kActivit.trxno = signalrConnection.trxno;
-    kActivit.kioskCode = signalrConnection.kioskCode;
-    kActivit.moduleID = 0;
-    kActivit.submoduleID = undefined;
-    kActivit.action = "Prompt User to Remove Identification Card.";
-    kActivit.startTime = new Date();
-    kActivit.endTime = new Date();
-    kActivit.status = true;
-
-    appFunc.kioskActivity.push(kActivit);
 
     this.FBS1_Visible = false;
     this.FBS2_Visible = true;
