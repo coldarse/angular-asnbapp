@@ -60,6 +60,8 @@ export class PortalregistrationComponent implements OnInit {
   BTN_MainMenu = "";
   BTN_LoginASNB = "";
 
+  PRDetails_19_1 = "";
+
   BTN_No = "";
   BTN_Yes = "";
 
@@ -249,6 +251,8 @@ export class PortalregistrationComponent implements OnInit {
         }
       }
 
+    this.PRDetails_19_1 = this.formatMobile(currentHolder.cellphonenumber);
+
     if (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined){
       this.RMError4_Visible = true;
     }else{
@@ -350,6 +354,11 @@ export class PortalregistrationComponent implements OnInit {
 
   format(value: string) {
     let mask = value.replace(/.(?=.{2})/g, "*");
+    return mask;
+  }
+
+  formatMobile(value: string){
+    let mask = value.replace(/.(?=.{4})/g, "X");
     return mask;
   }
 

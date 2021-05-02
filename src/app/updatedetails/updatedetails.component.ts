@@ -384,6 +384,8 @@ export class UpdatedetailsComponent implements OnInit {
       kActivit1.submoduleID = undefined;
       kActivit1.action = "Binding Bijak Holder Details.";
       kActivit1.startTime = new Date();
+
+
       currentBijakHolder.channeltype = result.channeltype;
       currentBijakHolder.requestoridentification = result.requestoridentification;
       currentBijakHolder.deviceowner = result.deviceowner;
@@ -397,10 +399,43 @@ export class UpdatedetailsComponent implements OnInit {
       currentBijakHolder.transactiontime = result.transactiontime;
       currentBijakHolder.banktxnreferencenumber = result.banktxnreferencenumber;
       currentBijakHolder.bankcustphonenumber = result.bankcustphonenumber;
-      currentBijakHolder.filtrationflag = result.filtrationflag;
+      currentBijakHolder.filtrationflag = result.filtrationflag;      		
+      currentBijakHolder.cifstopaccountstatus = result.cifstopaccountstatus
       currentBijakHolder.typeclosed = result.typeclosed;
       currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
+      currentBijakHolder.unitbalance = result.unitbalance;
       currentBijakHolder.funddetail = result.funddetail;
+      currentBijakHolder.cifnumber = result.cifnumber;
+      currentBijakHolder.race = result.race;
+      currentBijakHolder.religion = result.religion;
+      currentBijakHolder.uhcategory = result.uhcategory;
+      currentBijakHolder.title = result.title;
+      currentBijakHolder.accountopeningdate = result.accountopeningdate;
+      currentBijakHolder.investortype = result.investortype;
+      currentBijakHolder.maritalstatus = result.maritalstatus;
+      currentBijakHolder.addresslinE1 = result.addresslinE1;
+      currentBijakHolder.addresslinE2 = result.addresslinE2;
+      currentBijakHolder.addresslinE3 = result.addresslinE3;
+      currentBijakHolder.addresslinE4 = result.addresslinE4;
+      currentBijakHolder.country = result.country;
+      currentBijakHolder.email = result.email;
+      currentBijakHolder.zipcode = result.zipcode;
+      currentBijakHolder.contactperson = result.contactperson;
+      currentBijakHolder.telephonE1 = result.telephonE1;
+      currentBijakHolder.telephonE2 = result.telephonE2;
+      currentBijakHolder.cellphonenumber = result.cellphonenumber;
+      currentBijakHolder.fax = result.fax;
+      currentBijakHolder.dateofbirth = result.dateofbirth;
+      currentBijakHolder.bankcode = result.bankcode;
+      currentBijakHolder.bankbranchcode = result.bankbranchcode;
+      currentBijakHolder.accounttype = result.accounttype;
+      currentBijakHolder.accountnumber = result.accountnumber;
+      currentBijakHolder.accountcurrency = result.accountcurrency;
+      currentBijakHolder.fundcode = result.fundcode;
+      currentBijakHolder.transactiontype = result.transactiontype;
+      currentBijakHolder.directdebit = result.directdebit;
+      currentBijakHolder.mothername = result.mothername;
+      currentBijakHolder.portalenabled = result.portalenabled;				
       currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
       currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
       currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
@@ -414,6 +449,24 @@ export class UpdatedetailsComponent implements OnInit {
       currentBijakHolder.guardianid = result.guardianid;
       currentBijakHolder.guardianictype = result.guardianictype;
       currentBijakHolder.guardianicnumber = result.guardianicnumber;
+      currentBijakHolder.epfnumber = result.epfnumber;
+      currentBijakHolder.epfapplicable = result.epfapplicable;
+      currentBijakHolder.epfaccounttype = result.epfaccounttype;
+      currentBijakHolder.epfaccounttypeeffdate = result.epfaccounttypeeffdate;
+      currentBijakHolder.agentcode  = result.agentcode;
+      currentBijakHolder.branchcode  = result.branchcode;
+      currentBijakHolder.occupation = result.occupation;
+      currentBijakHolder.otherinfO8 = result.otherinfO8;
+      currentBijakHolder.occupationsector = result.occupationsector;
+      currentBijakHolder.occupationcategory = result.occupationcategory;
+      currentBijakHolder.natureofbusiness = result.natureofbusiness;
+      currentBijakHolder.companyname = result.companyname;
+      currentBijakHolder.preferredmailmode = result.preferredmailmode;
+      currentBijakHolder.fatca = result.fatca;
+      currentBijakHolder.crs = result.crs;
+      currentBijakHolder.pep = result.pep;
+      currentBijakHolder.riskprofile = result.riskprofile;
+      currentBijakHolder.relationship = result.relationship;
       currentBijakHolder.agentcode = result.agentcode;
       currentBijakHolder.branchcode = result.branchcode;
       currentBijakHolder.lastupdatedate = result.lastupdatedate;
@@ -1005,48 +1058,51 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.pep.enable();
     }
 
-    if (code.includes('EM')){
-      this.AR_Form.controls.natureofjob.setValue('');
-      this.AR_Form.controls.natureofjob.disable();
+    if(this.isMain){
+      if (code.includes('EM')){
+        this.AR_Form.controls.natureofjob.setValue('');
+        this.AR_Form.controls.natureofjob.disable();
+      }
+      else if (code.includes('SE')){
+        this.AR_Form.controls.jobname.setValue('');
+        this.AR_Form.controls.jobsector.setValue('');
+        this.AR_Form.controls.jobname.disable();
+        this.AR_Form.controls.jobsector.disable();
+      }
+      else if (code.includes('HM')){
+        this.AR_Form.controls.jobname.setValue('');
+        this.AR_Form.controls.jobsector.setValue('');
+        this.AR_Form.controls.natureofjob.setValue('');
+        this.AR_Form.controls.companyname.setValue('');
+        this.AR_Form.controls.jobname.disable();
+        this.AR_Form.controls.jobsector.disable();
+        this.AR_Form.controls.natureofjob.disable();
+        this.AR_Form.controls.companyname.disable();
+      }
+      else if (code.includes('RY')){
+        this.AR_Form.controls.jobname.setValue('');
+        this.AR_Form.controls.jobsector.setValue('');
+        this.AR_Form.controls.natureofjob.setValue('');
+        this.AR_Form.controls.companyname.setValue('');
+        this.AR_Form.controls.jobname.disable();
+        this.AR_Form.controls.jobsector.disable();
+        this.AR_Form.controls.natureofjob.disable();
+        this.AR_Form.controls.companyname.disable();
+      }
+      else if (code.includes('UM')){
+        this.AR_Form.controls.jobname.setValue('');
+        this.AR_Form.controls.jobsector.setValue('');
+        this.AR_Form.controls.natureofjob.setValue('');
+        this.AR_Form.controls.companyname.setValue('');
+        this.AR_Form.controls.monthlyincome.setValue('7');
+        this.AR_Form.controls.jobname.disable();
+        this.AR_Form.controls.natureofjob.disable();
+        this.AR_Form.controls.jobsector.disable();
+        this.AR_Form.controls.monthlyincome.disable();
+        this.AR_Form.controls.companyname.disable();
+      }
     }
-    else if (code.includes('SE')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.jobname.disable();
-      this.AR_Form.controls.jobsector.disable();
-    }
-    else if (code.includes('HM')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.natureofjob.setValue('');
-      this.AR_Form.controls.companyname.setValue('');
-      this.AR_Form.controls.jobname.disable();
-      this.AR_Form.controls.jobsector.disable();
-      this.AR_Form.controls.natureofjob.disable();
-      this.AR_Form.controls.companyname.disable();
-    }
-    else if (code.includes('RY')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.natureofjob.setValue('');
-      this.AR_Form.controls.companyname.setValue('');
-      this.AR_Form.controls.jobname.disable();
-      this.AR_Form.controls.jobsector.disable();
-      this.AR_Form.controls.natureofjob.disable();
-      this.AR_Form.controls.companyname.disable();
-    }
-    else if (code.includes('UM')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.natureofjob.setValue('');
-      this.AR_Form.controls.companyname.setValue('');
-      this.AR_Form.controls.monthlyincome.setValue('7');
-      this.AR_Form.controls.jobname.disable();
-      this.AR_Form.controls.natureofjob.disable();
-      this.AR_Form.controls.jobsector.disable();
-      this.AR_Form.controls.monthlyincome.disable();
-      this.AR_Form.controls.companyname.disable();
-    }
+    
 
   }
 
@@ -1064,6 +1120,7 @@ export class UpdatedetailsComponent implements OnInit {
 
       this.AR_Form = this.fb.group(
         {
+          uhid: [{value: currentHolder.unitholderid, disabled: true}],
           salutation: [currentHolder.title],
           fullname: [{value: currentHolder.firstname, disabled: true}],
           identificationcardno: [{value: currentHolder.identificationnumber, disabled: true}],
@@ -1110,6 +1167,7 @@ export class UpdatedetailsComponent implements OnInit {
 
       this.AR_Form = this.fb.group(
         {
+          uhid: [{value: currentBijakHolder.unitholderid, disabled: true}],
           salutation: [currentBijakHolder.title],
           fullname: [{value: currentBijakHolder.firstname, disabled: true}],
           identificationcardno: [{value: currentBijakHolder.identificationnumber, disabled: true}],
@@ -1121,7 +1179,7 @@ export class UpdatedetailsComponent implements OnInit {
           g_salution: [currentHolder.title],
           g_fullname: [{value: currentHolder.firstname, disabled: true}],
           g_identificationnumber: [{value: currentHolder.identificationnumber, disabled: true}],
-          g_dob: [{value: formatDate(currentHolder.dateofbirth, 'dd MMM yyyy', 'en'), disabled: true}],
+          g_dob: [{value: currentHolder.dateofbirth, disabled: true}],
           g_race: [{value: currentHolder.race, disabled: true}],
           g_religion: [{value: currentHolder.religion, disabled: true}],
           g_relation: [{value: currentBijakHolder.relationship, disabled: false}],
@@ -1158,7 +1216,7 @@ export class UpdatedetailsComponent implements OnInit {
           news: [{value: currentHolder.participateinasnbmkt, disabled: false}],
           crs: [{value: currentHolder.crs, disabled: false}],
         });
-        this.formHandling(currentBijakHolder.occupationcategory);
+        //this.formHandling(currentHolder.occupationcategory);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Bijak Form")
     }
     

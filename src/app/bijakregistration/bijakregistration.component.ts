@@ -59,6 +59,8 @@ export class BijakregistrationComponent implements OnInit {
   private CardType = "MyKid";
   myKidData: any;
 
+  ARPopUp1_Visible = false;
+
   BRReminder_Visible = true;
   BRInsertMyKid_Visible = false;
   BRLoading_Visible = false;
@@ -1054,10 +1056,15 @@ export class BijakregistrationComponent implements OnInit {
       }
 
       this.BRSuccess_Visible = true;
+      this.ARPopUp1_Visible = true;
     });
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Submitted Bijak Registration Form.");
   
+  }
+
+  Next(){
+    this.ARPopUp1_Visible = false;
   }
 
   Print(){

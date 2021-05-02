@@ -258,25 +258,35 @@ user-select: none;
 .input-long {
   height: 2rem;
   width:649px;
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
 }
 
 .input-normal {
   height: 2rem;
   width:194px;
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
 }
 
 #KP, #NP, #JP, #SP, #PB, #CRS, #PEP, #FATCA, #AD, #HBGN, #NB, #PPP {
   width:194px;
   height:2rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
 }
 
 .salutation {
   width: 300px;
   height: 2rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
 }
 #salutationMyKID {
   width: 194px;
   height: 2rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
 }
 
 .h2-ic{

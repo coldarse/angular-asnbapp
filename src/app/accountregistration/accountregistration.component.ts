@@ -101,6 +101,8 @@ export class AccountregistrationComponent implements OnInit {
   Email_Visible = true;
   Print_Visible = true;
 
+  ARPopUp1_Visible = false;
+
   //Page Elements Fixed Values from API and MyKad
   Header_Title = "";
 
@@ -524,11 +526,16 @@ export class AccountregistrationComponent implements OnInit {
       }
 
       this.ARSuccess_Visible = true;
+      this.ARPopUp1_Visible = true;
 
     });
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Submitted Account Registration Form.");
   
+  }
+
+  Next(){
+    this.ARPopUp1_Visible = false;
   }
 
   Print(){
