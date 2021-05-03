@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
@@ -6,6 +6,7 @@ import { signalrConnection } from 'src/app/_models/signalr';
 import { formatDate } from '@angular/common';
 import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
+import { ServiceService } from '../_shared/service.service';
 
 @Component({
   selector: 'app-feedbackscreen',
@@ -13,6 +14,11 @@ import { appFunc } from '../_models/appFunctions';
   styleUrls: ['./feedbackscreen.component.css']
 })
 export class FeedbackscreenComponent implements OnInit {
+
+  @ViewChild('starone') star1 : ElementRef | undefined;
+  @ViewChild('startwo') star2 : ElementRef | undefined;
+  @ViewChild('starthree') star3 : ElementRef | undefined;
+
 
   Header_Title = "";
 
@@ -34,7 +40,8 @@ export class FeedbackscreenComponent implements OnInit {
   
 
   constructor(private _router: Router,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private serviceService : ServiceService) { }
 
   ngOnInit(): void {
     if(signalrConnection.logsaves != undefined){
@@ -50,6 +57,43 @@ export class FeedbackscreenComponent implements OnInit {
   }
 
   SubmitFeedback(){
+
+    let sone = this.star1?.nativeElement.checked;
+    let stwo = this.star2?.nativeElement.checked;
+    let sthree = this.star3?.nativeElement.checked;
+
+    let body: any;
+
+    if(sone == true){
+      //three star
+      body = { 
+        "trxNo": signalrConnection.trxno,
+        "feedbackScore": 3,
+        "kioskCode": signalrConnection.kioskCode,
+       };
+
+      this.serviceService.postFeedbackSubmit(body).subscribe();
+    }
+    else if(stwo == true){
+      //two star
+      body = { 
+        "trxNo": signalrConnection.trxno,
+        "feedbackScore": 2,
+        "kioskCode": signalrConnection.kioskCode,
+       };
+
+      this.serviceService.postFeedbackSubmit(body).subscribe();
+    }
+    else if(sthree == true){
+      //one star
+      body = {    
+        "trxNo": signalrConnection.trxno,
+        "feedbackScore": 1,
+        "kioskCode": signalrConnection.kioskCode,
+       };
+
+      this.serviceService.postFeedbackSubmit(body).subscribe();
+    }
 
     this.FBS1_Visible = false;
     this.FBS2_Visible = true;
@@ -89,7 +133,7 @@ export class FeedbackscreenComponent implements OnInit {
 
   playAudio() {
     let audio = new Audio();
-    audio.src = "assets/sounds/samangry.mp3";
+    audio.src = "assets/sounds/litlit.mp3";
     audio.load();
     audio.play();
   }

@@ -1112,6 +1112,8 @@ export class BijakregistrationComponent implements OnInit {
     this.BRSuccess_Visible = false;
     this.BREmail_Visible = true;
 
+    
+
     const body = {
       "Transaksi": "Pendaftaran Akaun/Account Registration",
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
@@ -1122,7 +1124,16 @@ export class BijakregistrationComponent implements OnInit {
       "JenisAkaun": this.BRSuccess_10
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
+    const emailObj = {
+      "Name" : currentMyKidDetails.Name,
+      "UnitHolderID" : this.BRSuccess_6,
+      "Module" : "2",
+      "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+      "language" : selectLang.selectedLang,
+      "IC" : currentMyKidDetails.ICNo
+    }
+
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "2", JSON.stringify(emailObj)).then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   

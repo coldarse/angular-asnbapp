@@ -105,6 +105,19 @@ export class ServiceService {
     )
   }
 
+
+  //Add feedback to DB
+  postFeedbackSubmit(body: any){
+    return this.http.post(
+      this.url + "services/app/Feedback/Insert",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
   //getTrxNo
   genTrxNo(kioskcode: string){
     return this.http.get(

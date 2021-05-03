@@ -242,7 +242,7 @@ export class CheckbalanceComponent implements OnInit {
             "UNITHOLDERID": this.CB2_7.toString(),
             "IDENTIFICATIONTYPE":"W",
             "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
-            "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
+            "GUARDIANIDNUMBER":currentHolder.unitholderid,
             "FUNDID":selectedFundDetails.FUNDID.toString(),
       
             "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
@@ -370,7 +370,7 @@ export class CheckbalanceComponent implements OnInit {
         "UNITHOLDERID": this.CB2_7.toString(),
         "IDENTIFICATIONTYPE":currentBijakHolder.identificationtype,
         "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
-        "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
+        "GUARDIANIDNUMBER": currentHolder.unitholderid,
         "FUNDID":selectedFundDetails.FUNDID.toString(),
   
         "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
@@ -384,6 +384,17 @@ export class CheckbalanceComponent implements OnInit {
       };
     }
      
+    console.log(JSON.stringify(body));
+
+
+    const emailObj = {
+      "Name" : currentHolder.firstname,
+      "UnitHolderID" : currentHolder.unitholderid,
+      "Module" : "6",
+      "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+      "language" : selectLang.selectedLang,
+      "IC" : currentHolder.identificationnumber
+    }
 
     this.serviceService.postFiveTransactions(body)
     .subscribe((trans: any) => {
@@ -398,7 +409,7 @@ export class CheckbalanceComponent implements OnInit {
       kActivit1.action = "Get Latest Five Transactions";
       kActivit1.startTime = new Date();
       
-      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
         setTimeout(()=>{   
           if (data == true){
             kActivit1.endTime = new Date();
@@ -431,6 +442,10 @@ export class CheckbalanceComponent implements OnInit {
         this.CB3_Visible = true;
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
       
+        let thisYear = new Date().getFullYear();
+        let divYear: number = +thisYear;
+        divYear = divYear - 1;
+
         let body : any;
         if (this.isMain){
           body = {
@@ -448,7 +463,7 @@ export class CheckbalanceComponent implements OnInit {
             "identificationnumber": this.CB2_5.toString(),
             "guardianidnumber": this.CB_GuardianID.toString(),
             "fundid": selectedFundDetails.FUNDID.toString(),
-            "financialyear": new Date().getFullYear().toString()
+            "financialyear": divYear.toString()//new Date().getFullYear().toString()
           };
         }else{
           body = {
@@ -466,7 +481,7 @@ export class CheckbalanceComponent implements OnInit {
             "identificationnumber": this.CB2_5.toString(),
             "guardianidnumber": this.CB_GuardianID.toString(),
             "fundid": selectedFundDetails.FUNDID.toString(),
-            "financialyear": new Date().getFullYear().toString()
+            "financialyear": divYear.toString()
           };
         }
     
@@ -528,6 +543,9 @@ export class CheckbalanceComponent implements OnInit {
     this.CB5_Visible = true;
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
 
+    let thisYear = new Date().getFullYear();
+    let divYear: number = +thisYear;
+    divYear = divYear - 1;
 
     let body: any;
     if (this.isMain){
@@ -546,7 +564,7 @@ export class CheckbalanceComponent implements OnInit {
         "identificationnumber": this.CB2_5.toString(),
         "guardianidnumber": this.CB_GuardianID.toString(),
         "fundid": selectedFundDetails.FUNDID.toString(),
-        "financialyear": new Date().getFullYear().toString()
+        "financialyear": divYear.toString()
       };
     }else{
       body = {
@@ -564,11 +582,20 @@ export class CheckbalanceComponent implements OnInit {
         "identificationnumber": this.CB2_5.toString(),
         "guardianidnumber": this.CB_GuardianID.toString(),
         "fundid": selectedFundDetails.FUNDID.toString(),
-        "financialyear": new Date().getFullYear().toString()
+        "financialyear": divYear.toString()
       };
     }
      
     console.log(body);
+
+    const emailObj = {
+      "Name" : currentHolder.firstname,
+      "UnitHolderID" : currentHolder.unitholderid,
+      "Module" : "6",
+      "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+      "language" : selectLang.selectedLang,
+      "IC" : currentHolder.identificationnumber
+    }
 
     this.serviceService.dividendStatement(body)
     .subscribe((trans: any) => {
@@ -584,7 +611,7 @@ export class CheckbalanceComponent implements OnInit {
       kActivit1.startTime = new Date();
       
 
-      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetDivStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetDivStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
         setTimeout(()=>{   
           if (data == true){
             kActivit1.endTime = new Date();
@@ -745,6 +772,15 @@ export class CheckbalanceComponent implements OnInit {
       };
     }
 
+    const emailObj = {
+      "Name" : currentHolder.firstname,
+      "UnitHolderID" : currentHolder.unitholderid,
+      "Module" : "6",
+      "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+      "language" : selectLang.selectedLang,
+      "IC" : currentHolder.identificationnumber
+    }
+
     let kActivit1 = new kActivity();
     kActivit1.trxno = signalrConnection.trxno;
     kActivit1.kioskCode = signalrConnection.kioskCode;
@@ -753,7 +789,7 @@ export class CheckbalanceComponent implements OnInit {
     kActivit1.action = "Get Fund Summary";
     kActivit1.startTime = new Date();
     
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetSummaryStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetSummaryStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           kActivit1.endTime = new Date();

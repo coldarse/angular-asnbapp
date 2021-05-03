@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ɵɵtrustConstantResourceUrl } from '@angular/core';
 import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
@@ -1234,15 +1234,17 @@ export class UpdatedetailsComponent implements OnInit {
         let accountType = "";
         
         if (this.isMain){
-          name = currentMyKadDetails.Name;
+          name = currentHolder.firstname;
           accountNo = currentHolder.unitholderid;
           accountType = "Self";
         }else{
-          name = currentMyKidDetails.Name;
+          name = currentBijakHolder.name;
           accountNo = currentBijakHolder.unitholderid;
           accountType = "Bijak";
         }
     
+
+        console.log(currentHolder.firstname);
     
         const body = {
           "Transaksi": "Pendaftaran Akaun/Account Registration",
@@ -1314,7 +1316,16 @@ export class UpdatedetailsComponent implements OnInit {
       "JenisAkaun": accountType
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
+    const emailObj = {
+      "Name" : currentHolder.firstname,
+      "UnitHolderID" : currentHolder.unitholderid,
+      "Module" : "3",
+      "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+      "language" : selectLang.selectedLang,
+      "IC" : currentHolder.identificationnumber
+    }
+
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "3", JSON.stringify(emailObj)).then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   

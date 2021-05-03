@@ -589,7 +589,16 @@ export class AccountregistrationComponent implements OnInit {
       "JenisAkaun": this.ARSuccess_10
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
+    const emailObj = {
+      "Name" : currentHolder.firstname,
+      "UnitHolderID" : currentHolder.unitholderid,
+      "Module" : "1",
+      "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+      "language" : selectLang.selectedLang,
+      "IC" : currentHolder.identificationnumber
+    }
+
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "1", JSON.stringify(emailObj)).then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   
