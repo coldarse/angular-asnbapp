@@ -641,17 +641,6 @@ export class VerifymykadComponent implements OnInit {
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No account found.");
 
             if (currentMyKadDetails.OldICNo != ""){
-              let kActivit2 = new kActivity();
-              kActivit2.trxno = signalrConnection.trxno;
-              kActivit2.kioskCode = signalrConnection.kioskCode;
-              kActivit2.moduleID = 0;
-              kActivit2.submoduleID = undefined;
-              kActivit2.action = "Trying Old IC.";
-              kActivit2.startTime = new Date();
-              kActivit2.endTime = new Date();
-              kActivit2.status = true;
-
-              appFunc.kioskActivity.push(kActivit2);
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Retry with Old IC");
 
               const body = { 
@@ -674,24 +663,8 @@ export class VerifymykadComponent implements OnInit {
                 "GUARDIANICTYPE": "",
                 "GUARDIANICNUMBER": ""
               };
-        
-        
-          
-          
               this.serviceService.getAccountInquiry(body)
               .subscribe((result: any) => {
-                
-                let kActivit = new kActivity();
-                kActivit.trxno = signalrConnection.trxno;
-                kActivit.kioskCode = signalrConnection.kioskCode;
-                kActivit.moduleID = 0;
-                kActivit.submoduleID = undefined;
-                kActivit.action = "Binding Unit Holder";
-                kActivit.startTime = new Date();
-        
-                
-        
-                console.log("Subscribing");
                 currentHolder.channeltype = result.channeltype;
                 currentHolder.requestoridentification = result.requestoridentification;
                 currentHolder.deviceowner = result.deviceowner;
@@ -783,12 +756,6 @@ export class VerifymykadComponent implements OnInit {
         
                 console.log(currentHolder.transactionstatus);
         
-                kActivit.endTime = new Date();
-                kActivit.status = true; 
-        
-                appFunc.kioskActivity.push(kActivit);
-        
-        
                 if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
         
                   if (!currentHolder.typeclosed.toLowerCase().includes('n')){
@@ -797,20 +764,7 @@ export class VerifymykadComponent implements OnInit {
                     this._router.navigate(['errorscreen']);
                   }
                   else{
-
                     if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
-                      
-                      let kActivit2 = new kActivity();
-                      kActivit2.trxno = signalrConnection.trxno;
-                      kActivit2.kioskCode = signalrConnection.kioskCode;
-                      kActivit2.moduleID = 0;
-                      kActivit2.submoduleID = undefined;
-                      kActivit2.action = "Old IC Unit Holder Exists but does not have any Funds.";
-                      kActivit2.startTime = new Date();
-                      kActivit2.endTime = new Date();
-                      kActivit2.status = true;
-        
-                      appFunc.kioskActivity.push(kActivit2);
                       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Old IC Account Found, But no Fund.");
 
                       if (
@@ -838,18 +792,6 @@ export class VerifymykadComponent implements OnInit {
                 }
                 else{
                   if (currentHolder.rejectreason.includes('not exists')){
-                    console.log("Reached Here A Old IC");
-                    let kActivit1 = new kActivity();
-                    kActivit1.trxno = signalrConnection.trxno;
-                    kActivit1.kioskCode = signalrConnection.kioskCode;
-                    kActivit1.moduleID = 0;
-                    kActivit1.submoduleID = undefined;
-                    kActivit1.action = "Old IC Unit Holder Doesn't Exist.";
-                    kActivit1.startTime = new Date();
-                    kActivit1.endTime = new Date();
-                    kActivit1.status = true;
-        
-                    appFunc.kioskActivity.push(kActivit1);
                     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No Old IC account found.");
         
                     for (var val of appFunc.modules){
@@ -864,6 +806,11 @@ export class VerifymykadComponent implements OnInit {
                             errorCodes.Emessage = currentHolder.rejectreason;
                             this._router.navigate(['errorscreen']);
                           }
+                        }
+                        else{
+                          errorCodes.Ecode = currentHolder.rejectcode;
+                          errorCodes.Emessage = currentHolder.rejectreason;
+                          this._router.navigate(['errorscreen']);
                         }
                       }
                     }
@@ -889,6 +836,11 @@ export class VerifymykadComponent implements OnInit {
                       errorCodes.Emessage = currentHolder.rejectreason;
                       this._router.navigate(['errorscreen']);
                     }
+                  }
+                  else{
+                    errorCodes.Ecode = currentHolder.rejectcode;
+                    errorCodes.Emessage = currentHolder.rejectreason;
+                    this._router.navigate(['errorscreen']);
                   }
                 }
               }
