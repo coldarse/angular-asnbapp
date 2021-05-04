@@ -96,17 +96,18 @@ export class VerifymykadComponent implements OnInit {
           errorCodes.Ecode = "7788";
           errorCodes.Emessage = "MyKad Reader Error";
           this._router.navigate(['errorscreen']);
-        }else{
-          if(signalrConnection.kioskType == 'Standee'){
-            signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
-              if(data != true){
-                errorCodes.Ecode = "6688";
-                errorCodes.Emessage = "Printer Error";
-                this._router.navigate(['errorscreen']);
-              }
-            });
-          }
         }
+        // else{
+        //   if(signalrConnection.kioskType == 'Standee'){
+        //     signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+        //       if(data != true){
+        //         errorCodes.Ecode = "6688";
+        //         errorCodes.Emessage = "Printer Error";
+        //         this._router.navigate(['errorscreen']);
+        //       }
+        //     });
+        //   }
+        // }
       });
     }
     
