@@ -862,13 +862,7 @@ export class VerifymykadComponent implements OnInit {
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
-    }
-
-
-    
-
-
-    
+    } 
   }
 
   isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {
@@ -877,9 +871,4 @@ export class VerifymykadComponent implements OnInit {
     }
     return false;
   }
-
-
-
-  
-
 }
