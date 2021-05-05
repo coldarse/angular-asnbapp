@@ -93,12 +93,12 @@ export class VerifymykadComponent implements OnInit {
     if (signalrConnection.isHardcodedIC != true){
       signalrConnection.connection.invoke('CheckReaderStatus').then((data: boolean) => {
         if(data != true){
-          errorCodes.Ecode = "7788";
+          errorCodes.Ecode = "7788";        
           errorCodes.Emessage = "MyKad Reader Error";
           this._router.navigate(['errorscreen']);
         }else{
           if(signalrConnection.kioskType == 'Standee'){
-            signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+            signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => { 
               if(data != true){
                 errorCodes.Ecode = "6688";
                 errorCodes.Emessage = "Printer Error";

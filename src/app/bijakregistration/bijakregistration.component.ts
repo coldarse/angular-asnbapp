@@ -1076,7 +1076,7 @@ export class BijakregistrationComponent implements OnInit {
         this.BRPrint1_Visible = true;
     
         const body = {
-          "Transaksi": "Pendaftaran Akaun/Account Registration",
+          "Transaksi": "Pendaftaran Akaun Bijak/Bijak Account Registration",
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
           "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
           "Lokasi": "KL MAIN 01",
@@ -1115,7 +1115,7 @@ export class BijakregistrationComponent implements OnInit {
     
 
     const body = {
-      "Transaksi": "Pendaftaran Akaun/Account Registration",
+      "Transaksi": "Pendaftaran Akaun Bijak/Bijak Account Registration",
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
       "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
       "Lokasi": "KL MAIN 01",
