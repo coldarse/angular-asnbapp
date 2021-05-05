@@ -1247,7 +1247,7 @@ export class UpdatedetailsComponent implements OnInit {
         console.log(currentHolder.firstname);
     
         const body = {
-          "Transaksi": "Pendaftaran Akaun/Account Registration",
+          "Transaksi": "Kemaskini Maklumat/Update Information",
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
           "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
           "Lokasi": "KL MAIN 01",
@@ -1307,7 +1307,7 @@ export class UpdatedetailsComponent implements OnInit {
     }
 
     const body = {
-      "Transaksi": "Pendaftaran Akaun/Account Registration",
+      "Transaksi": "Kemaskini Maklumat/Update Information",
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
       "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
       "Lokasi": "KL MAIN 01",

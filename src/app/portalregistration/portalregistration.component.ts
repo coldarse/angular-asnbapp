@@ -853,7 +853,7 @@ export class PortalregistrationComponent implements OnInit {
         this.PR_Print1Visible = true;
     
         const body = {
-          "Transaksi": "Pendaftaran Portal myASNB / myASNB Portal Registration",
+          "Transaksi": "Pendaftaran Portal myASNB/myASNB Portal Registration",
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
           "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
           "Lokasi": "KL MAIN 01",
@@ -893,7 +893,7 @@ export class PortalregistrationComponent implements OnInit {
     this.PR_EmailVisible = true;
 
     const body = {
-      "Transaksi": "Pendaftaran Portal myASNB / myASNB Portal Registration",
+      "Transaksi": "Pendaftaran Portal myASNB/myASNB Portal Registration",
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
       "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
       "Lokasi": "KL MAIN 01",
