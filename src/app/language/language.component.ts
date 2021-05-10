@@ -24,39 +24,49 @@ import { HttpHeaders } from '@angular/common/http';
 })
 export class LanguageComponent implements OnInit {
 
-   modis = [
-    {
-      module: "Update Details",
-      startTime: "",
-      stopTime: "",
-      isEnabled: true,
-    },
-    {
-      module: "Check Balance",
-      startTime: "",
-      stopTime: "",
-      isEnabled: true,
-    },
-    {
-      module: "Financial Transaction",
-      startTime: "",
-      stopTime: "",
-      isEnabled: false,
-    },
-    {
-      module: "Bijak Registration",
-      startTime: "",
-      stopTime: "",
-      isEnabled: true,
-    },
-    {
-      module: "Portal Registration",
-      startTime: "",
-      stopTime: "",
-      isEnabled: true,
-    }
-  ]
+  imgSrc:any;
+  screensaver = false;
+  counter = 0;
 
+  imgArray = [
+    "ss1.png",
+    "ss2.png",
+    "ss3.png",
+    "ss4.png"
+  ];
+
+  modis = [
+  {
+    module: "Update Details",
+    startTime: "",
+    stopTime: "",
+    isEnabled: true,
+  },
+  {
+    module: "Check Balance",
+    startTime: "",
+    stopTime: "",
+    isEnabled: true,
+  },
+  {
+    module: "Financial Transaction",
+    startTime: "",
+    stopTime: "",
+    isEnabled: false,
+  },
+  {
+    module: "Bijak Registration",
+    startTime: "",
+    stopTime: "",
+    isEnabled: true,
+  },
+  {
+    module: "Portal Registration",
+    startTime: "",
+    stopTime: "",
+    isEnabled: true,
+  }
+  ]
 
   id: any;
 
@@ -69,6 +79,22 @@ export class LanguageComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.counter = 0;
+    this.imgArray = [
+      "ss1.png",
+      "ss2.png",
+      "ss3.png",
+      "ss4.png"
+    ];
+
+    if (appFunc.timedOut = true){
+      this.screensaver = true;
+      setInterval(this.imgCycle, 5000);
+    }
+    else{
+      this.screensaver = false;
+    }
+
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
     }
@@ -87,16 +113,31 @@ export class LanguageComponent implements OnInit {
     signalrConnection.logsaves = [];
     appFunc.kioskActivity = [];
     
-
-    
-
-    
   }
+
+  
 
   ngOnDestroy() {
     clearInterval(this.id);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language Screen]" + ": " + "Cleared Interval.");
   }
+
+
+  imgCycle() {
+    console.log(this.imgArray);
+    this.imgSrc = "/assets/screensaver/" + this.imgArray[this.counter];
+    console.log(this.imgSrc);
+    if (this.counter == this.imgArray.length) {
+      this.counter = 0;
+    }
+    this.counter++;
+  }
+
+  screensaverclick(){
+    this.screensaver = false;
+  }
+
+
 
   startConnection() : void {
 

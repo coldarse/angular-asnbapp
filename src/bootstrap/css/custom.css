@@ -611,6 +611,18 @@ user-select: none;
   width: 1365px;
 }
 
+.grid{
+  display: grid;
+  place-items: center;
+  position: absolute;
+  top: 0;
+}
+
+.screensaverimg{
+  width: 1367px;
+  height: 849px;
+}
+
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
   from {opacity: 0;} 

@@ -25,5 +25,7 @@ export class appFunc {
   static securityQuestions: securityQuestions[];
 
   static kioskActivity: kioskActivities[];
+
+  static timedOut: boolean = false;
 }
 

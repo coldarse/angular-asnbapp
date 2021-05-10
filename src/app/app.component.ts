@@ -3,6 +3,7 @@ import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 import { Keepalive } from '@ng-idle/keepalive';
 import { Router } from '@angular/router';
 import { AppConfiguration } from './config/app-configuration';
+import { appFunc } from './_models/appFunctions';
 
 @Component({
   selector: 'app-root',
@@ -13,14 +14,13 @@ export class AppComponent {
   title = 'angular-asnbapp';
 
   idleState = 'Not started.';
-  timedOut = false;
   lastPing: Date = new Date();
 
 
   constructor(private idle: Idle, private keepalive: Keepalive,
     private _router: Router,
     private appConfig: AppConfiguration,) {
-
+    
 
     console.log(appConfig.baseUrl);
     // sets an idle timeout of 5 seconds, for testing purposes.
@@ -38,7 +38,7 @@ export class AppComponent {
     
     idle.onTimeout.subscribe(() => {
       this.idleState = 'Timed out!';
-      this.timedOut = true;
+      appFunc.timedOut = true;
       console.log(this.idleState);
       this._router.navigate(['/']);
     });
@@ -64,7 +64,7 @@ export class AppComponent {
   reset() {
     this.idle.watch();
     this.idleState = 'Started.';
-    this.timedOut = false;
+    appFunc.timedOut = false;
   }
   
 }
