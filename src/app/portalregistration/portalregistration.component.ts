@@ -120,6 +120,9 @@ export class PortalregistrationComponent implements OnInit {
   Print_Visible = true;
   Email_Visible = true;
 
+  Notice_Visible = false;
+  emailexist = false;
+
   PFormText_1 = "";
   PFormText_2 = "";
 
@@ -210,6 +213,8 @@ export class PortalregistrationComponent implements OnInit {
   PREmail_1 = "";
   PREmail_2 = "";
   
+  UnitHolderMobile = "";
+  UnitHolderEmail = "";
   
   id: any;
 
@@ -227,6 +232,17 @@ export class PortalregistrationComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit(): void {
+
+    this.UnitHolderMobile = currentHolder.cellphonenumber;
+
+    if (currentHolder.email == ''){
+      this.emailexist = false;
+    }else{
+      this.emailexist = true;
+      this.UnitHolderEmail = currentHolder.email;
+    }
+    
+
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
     }
@@ -277,6 +293,15 @@ export class PortalregistrationComponent implements OnInit {
                     this.DetectMyKad();
                   }, 1000);
                 }
+
+                if(appFunc.isRedirectFromPortalRegistration == true){
+                  this.Notice_Visible = false;
+                  appFunc.isRedirectFromPortalRegistration = false;
+                }
+                else{
+                  this.Notice_Visible = true;
+                }
+                
     
                 signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
                 
@@ -317,6 +342,14 @@ export class PortalregistrationComponent implements OnInit {
                 }, 1000);
               }
   
+              if(appFunc.isRedirectFromPortalRegistration == true){
+                this.Notice_Visible = false;
+                appFunc.isRedirectFromPortalRegistration = false;
+              }
+              else{
+                this.Notice_Visible = true;
+              }
+
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
               
               for (let i = 0; i < appFunc.securityQuestions.length; i++) {
@@ -362,7 +395,9 @@ export class PortalregistrationComponent implements OnInit {
     return mask;
   }
 
-
+  NoticeClose(){
+    this.Notice_Visible = false;
+  }
 
   agreeTNC(){
     this.TNCAgreed = !this.TNCAgreed;
@@ -679,6 +714,7 @@ export class PortalregistrationComponent implements OnInit {
   }
 
   nextToUpdate(){
+    appFunc.isRedirectFromPortalRegistration = true;
     this._router.navigate(['updatedetails']);
   }
 
@@ -864,7 +900,7 @@ export class PortalregistrationComponent implements OnInit {
     
         //GetNonFinancialTransactionPrintout
     
-        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetPortalRegistrationPrintout", signalrConnection.trxno, "0").then((data: any) => {
           setTimeout(()=>{   
             if (data == true){
               this.PR_Print1Visible = false;
@@ -911,7 +947,7 @@ export class PortalregistrationComponent implements OnInit {
       "IC" : currentHolder.identificationnumber
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "4", JSON.stringify(emailObj)).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetPortalRegistrationPrintout", signalrConnection.trxno, "4", JSON.stringify(emailObj)).then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   

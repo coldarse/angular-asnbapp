@@ -252,6 +252,17 @@ export class UpdatedetailsComponent implements OnInit {
       }, 1000);
     }
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Set 1 second interval to detect MyKad.");
+
+
+    if(appFunc.isUpdateMajor == true){
+      this.UpdateMainAccount();
+      appFunc.isUpdateMajor = false;
+    }
+
+    if(appFunc.isRedirectFromPortalRegistration == true){
+      this.UpdateMainAccount();
+    }
+
   }
 
   ngOnDestroy() {
@@ -1476,8 +1487,12 @@ export class UpdatedetailsComponent implements OnInit {
             if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Account Found.");
 
+              if(appFunc.isRedirectFromPortalRegistration == true){
+                this._router.navigate(['portalregistration']);
+              }else{
+                this._router.navigate(['transactionsuccessful']);
+              }
               
-              this._router.navigate(['transactionsuccessful']);
             }
           }
         }

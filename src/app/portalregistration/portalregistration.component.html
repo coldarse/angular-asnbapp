@@ -13,6 +13,41 @@
     </div>
 </nav>
 
+<div class="bg-popup" id="BR_ErrorPop2" *ngIf="Notice_Visible">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <h1 id="BR_ResponseCode" class="padding-top-2rem">{{'BRReminder_1' | translate }}</h1>
+
+        <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:3rem; padding-left: 8rem; padding-right: 8rem">
+            {{'NoticeMsg1' | translate }}
+        </h2>
+
+        <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:4rem; padding-left: 8rem; padding-right: 8rem">
+            {{ 'FL_16' | translate }}: {{ UnitHolderMobile }}
+        </h2>
+        <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-left: 8rem; padding-right: 8rem" *ngIf="emailexist"> 
+            {{ 'FL_18' | translate }}: {{ UnitHolderEmail }}
+        </h2>
+
+        <footer class="site-footer" style="padding-top:4rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="BR_Cancel" (click)="nextToUpdate()">
+                        <!-- Tamatkan Transaksi -->
+                        {{'TMS_1' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="NoticeClose()">
+                        <!-- Cuba Lagi -->
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+
+            </div>
+        </footer>
+
+    </div>
+</div>
 
 <div class="bg-popup" id="BR_ErrorPop" *ngIf="UserError_Visible">
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
@@ -21,11 +56,6 @@
         <!-- <h1 id="BR_ResponseCode" class="padding-top-2rem">Mesej Ralat</h1> -->
         <h1 id="BR_ResponseCode" class="padding-top-2rem">{{'BRError_1' | translate }}</h1>
 
-        <!-- <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:8rem; padding-left: 8rem; padding-right: 8rem">
-            Kad tidak dapat dikesan atau kad yang digunakan tiday sah.
-            Sila pastikan anda menggunakan MyKid yang sah
-            sebelum meneruskan transaksi.
-        </h2> -->
 
         <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:8rem; padding-left: 8rem; padding-right: 8rem">
             {{'UEError_1' | translate }}

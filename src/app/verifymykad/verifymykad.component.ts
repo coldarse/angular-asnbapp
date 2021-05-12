@@ -495,6 +495,7 @@ export class VerifymykadComponent implements OnInit {
   }
 
   nextToUpdate() {
+    appFunc.isUpdateMajor = true;
     this._router.navigate(['updatedetails']);
   }
 
@@ -770,7 +771,6 @@ export class VerifymykadComponent implements OnInit {
                 currentHolder.rejectcode = result.rejectcode;
                 currentHolder.rejectreason = result.rejectreason;
         
-                console.log(currentHolder.transactionstatus);
         
                 if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
         
@@ -803,8 +803,6 @@ export class VerifymykadComponent implements OnInit {
                       }
                     }
                   }
-        
-                  
                 }
                 else{
                   if (currentHolder.rejectreason.includes('not exists')){
@@ -813,7 +811,7 @@ export class VerifymykadComponent implements OnInit {
                     for (var val of appFunc.modules){
                       if(val.moduleName.toLowerCase().includes('major')){
                         if(val.enable == true){
-                          if(this.isInBetween(val.operationStart, val.operationEnd, new Date())){
+                          if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
                             this.loadingVisible = false;
                             this.RMError3_Visible = true;
                           }

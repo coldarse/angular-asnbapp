@@ -44,7 +44,6 @@ const Keyboard = {
         console.log(document.body.firstChild.nextSibling);
         // Automatically use keyboard for elements with .use-keyboard-input
         document.querySelectorAll(".use-keyboard-input").forEach(element => {
-            console.log(element);
             element.addEventListener("focus", () => {
                 this.open(element, currentValue => {
                     element.value = currentValue;
@@ -186,9 +185,11 @@ const Keyboard = {
 
                     keyElement.addEventListener("click", () => {
                         this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
-                        this._triggerEvent("oninput");
                         this._limit(this.properties);
+                        this._isNumeric(this.properties);
+                        this._triggerEvent("oninput");
                     });
+
 
                     break;
             }
@@ -203,9 +204,25 @@ const Keyboard = {
         return fragment;
     },
 
+    _isNumeric(element){
+        if(element.tagname.toLowerCase().includes('phoneno')){
+            element.value = element.value.replace(/[^\d.-]/g, '');
+        }
+        else if(element.tagname.toLowerCase().includes('homeno')){
+            element.value = element.value.replace(/[^\d.-]/g, '');
+        }
+        else if(element.tagname.toLowerCase().includes('postc')){
+            element.value = element.value.replace(/[^\d.-]/g, '');
+        }
+        else if(element.tagname.toLowerCase().includes('acctno')){
+            element.value = element.value.replace(/[^\d.-]/g, '');
+        }
+    },
+
     _limit(element){
 
         var max_chars = 500;
+        
 
         if(element.tagname.toLowerCase().includes('phoneno')){
             max_chars = 16;
@@ -228,9 +245,6 @@ const Keyboard = {
         else if(element.tagname.toLowerCase().includes('postc')){
             max_chars = 5;
         }
-        else if(element.tagname.toLowerCase().includes('postc')){
-            max_chars = 5;
-        }
         else if(element.tagname.toLowerCase().includes('acctno')){
             max_chars = 16;
         }
@@ -238,6 +252,7 @@ const Keyboard = {
         if(element.value.length >= max_chars) {
             element.value = element.value.substr(0, max_chars - 1);
         }
+        
     },
 
     _triggerEvent(handlerName) {

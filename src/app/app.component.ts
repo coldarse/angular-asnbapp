@@ -11,20 +11,17 @@ import { appFunc } from './_models/appFunctions';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-asnbapp';
-
   idleState = 'Not started.';
+  timedOut = false;
   lastPing: Date = new Date();
+  title = 'angular-idle-timeout';
 
-
-  constructor(private idle: Idle, private keepalive: Keepalive,
-    private _router: Router,
-    private appConfig: AppConfiguration,) {
-    
-
-    console.log(appConfig.baseUrl);
+  constructor(
+    private idle: Idle, 
+    private keepalive: Keepalive,
+    private router: Router) {
     // sets an idle timeout of 5 seconds, for testing purposes.
-    idle.setIdle(120);
+    idle.setIdle(100);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
     idle.setTimeout(5);
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
@@ -38,9 +35,10 @@ export class AppComponent {
     
     idle.onTimeout.subscribe(() => {
       this.idleState = 'Timed out!';
-      appFunc.timedOut = true;
+      this.timedOut = true;
       console.log(this.idleState);
-      this._router.navigate(['/']);
+      this.router.navigate(['/']);
+      this.reset();
     });
     
     idle.onIdleStart.subscribe(() => {
@@ -60,11 +58,11 @@ export class AppComponent {
 
     this.reset();
   }
-  
+
   reset() {
     this.idle.watch();
     this.idleState = 'Started.';
-    appFunc.timedOut = false;
+    this.timedOut = false;
   }
   
 }

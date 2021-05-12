@@ -1,3 +1,4 @@
+import { flatten } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { bankName, businessNature, cities, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, relationship, religions, securityQuestions, states, TitleDetails } from './dropDownLists';
 import { eModules } from './enabledModules';
@@ -27,5 +28,7 @@ export class appFunc {
   static kioskActivity: kioskActivities[];
 
   static timedOut: boolean = false;
+  static isRedirectFromPortalRegistration = false;
+  static isUpdateMajor = false;
 }
 

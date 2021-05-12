@@ -262,5 +262,6 @@
 	"PFormText2_2" : "You do not have any investment account. You must have at least one investment account to continue myASNB registration. For any inquiries, please refer to the ASNB officer on duty.",
 	"AccountType" : "Self",
 	"ARMessage1_1" : "Peringatan",
-	"ARMessage1_2" : "Please ensure that you make the initial investment within SIX MONTHS from the date of account registration. Thank you."
+	"ARMessage1_2" : "Please ensure that you make the initial investment within SIX MONTHS from the date of account registration. Thank you.",
+	"NoticeMsg1" : "Kindly confirm that the below mobile number is your active phone number. Otherwise, kindly update your mobile number to register myASNB portal. Please refer to ASNB officer on duty for further information."
 }
