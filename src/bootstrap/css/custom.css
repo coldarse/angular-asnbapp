@@ -62,7 +62,7 @@ user-select: none;
 
 .downStyle {
   padding-left: 1rem;
-  font-size:1.75rem; 
+  font-size:1.45rem; 
   white-space: nowrap; 
   font-weight:bold;
   font-family: PNB;
@@ -367,6 +367,83 @@ user-select: none;
   margin-top: 2rem;
 }
 
+.pop-up-variable{
+  border-radius: 1rem;
+  border: 1px solid;
+  border-color: lightgray;
+  width: 1000px;
+  height: 220px;
+  background-color: white;
+  margin: auto;
+  margin-top: 0.5rem;
+}
+
+.pop-up-fixed{
+  border-radius: 1rem;
+  border: 1px solid;
+  border-color: lightgray;
+  width: 1000px;
+  height: 110px;
+  background-color: white;
+  margin: auto;
+  margin-top: 0.5rem;
+}
+
+.pop-up-addinvestment{
+  border-radius: 1rem;
+  border: 1px solid;
+  border-color: lightgray;
+  width: 800px;
+  height: 200px;
+  background-color: white;
+  margin: auto;
+  margin-top: 1.5rem;
+}
+
+.pop-up-third{
+  border-radius: 1rem;
+  border: 1px solid;
+  border-color: lightgray;
+  width: 800px;
+  height: auto;
+  background-color: white;
+  margin: auto;
+  margin-top: 1.5rem;
+}
+
+.pop-up-addinformation{
+  border-radius: 1rem;
+  border: 1px solid;
+  border-color: lightgray;
+  width: 800px;
+  height: 140px;
+  background-color: white;
+  margin: auto;
+  margin-top: 1.5rem;
+}
+
+.pop-up-thirdaddinformation{
+  border-radius: 1rem;
+  border: 1px solid;
+  border-color: lightgray;
+  width: 800px;
+  height: 100px;
+  background-color: white;
+  margin: auto;
+  margin-top: 1.5rem;
+}
+
+.pop-up-status{
+  border-radius: 1rem;
+  border: 1px solid;
+  border-color: lightgray;
+  width: 800px;
+  height: auto;
+  background-color: white;
+  margin: auto;
+  margin-top: 1.5rem;
+}
+
 .img-addon {
     display: block;
     max-width: 70%;
@@ -489,7 +566,7 @@ user-select: none;
 }
 .site-footer, .page-wrap:after {
   max-width: 99%;
-  height: 200px; 
+  height: 100px; 
 }
 .site-footer-1, .page-wrap:after {
   height: 50px; 
@@ -625,6 +702,34 @@ user-select: none;
 .screensaverimg{
   width: 1367px;
   height: 849px;
+}
+
+.fgb-container{
+  /* display: grid;
+  place-items: center; */
+}
+
+.overall-container{
+  width: 1200px;
+  height: 625px;
+  display: grid;
+  place-items: top;
+  padding-top: 5rem;
+}
+
+.button-container{
+  margin-left: 3rem;
+  display: flex;
+}
+
+
+.testborder{
+  border: 1px solid;
+  border-color: rgb(0, 0, 0);
+}
+
+.fundidicon{
+  max-width: 100%;
 }
 
 /* Add animation (fade in the popup) */

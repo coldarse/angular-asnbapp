@@ -13,11 +13,15 @@ import { BijakregistrationComponent } from './bijakregistration/bijakregistratio
 import { UpdatedetailsComponent } from './updatedetails/updatedetails.component';
 import { PortalregistrationComponent } from './portalregistration/portalregistration.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { PrintingemailComponent } from './printingemail/printingemail.component';
+import { FinancialtransactionmenuComponent } from './financialtransactionmenu/financialtransactionmenu.component';
+import { SubscriptioninvestmentComponent } from './subscriptioninvestment/subscriptioninvestment.component';
+import { ScreensaverComponent } from './screensaver/screensaver.component';
 
 
 
 const routes: Routes = [
-  {path: '', redirectTo: '/language', pathMatch: 'full'},
+  {path: '', redirectTo: '/screensaver', pathMatch: 'full'},
   {path: 'language', component: LanguageComponent},
   {path: 'verifymykad', component: VerifymykadComponent},
   {path: 'outofservice', component: OutofserviceComponent},
@@ -29,7 +33,11 @@ const routes: Routes = [
   {path: 'feedbackscreen', component: FeedbackscreenComponent},
   {path: 'bijakregistration', component: BijakregistrationComponent},
   {path: 'updatedetails', component: UpdatedetailsComponent},
-  {path: 'portalregistration', component: PortalregistrationComponent}
+  {path: 'portalregistration', component: PortalregistrationComponent},
+  {path: 'printingemail', component: PrintingemailComponent},
+  {path: 'financialtransactionmenu', component: FinancialtransactionmenuComponent},
+  {path: 'subscriptioninvestment', component: SubscriptioninvestmentComponent},
+  {path: 'screensaver', component: ScreensaverComponent}
 ];
 
 @NgModule({

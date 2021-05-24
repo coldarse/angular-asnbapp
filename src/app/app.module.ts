@@ -41,6 +41,10 @@ import { appFunc } from './_models/appFunctions';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { LoggerComponent } from './logger/logger.component';
 import { kActivity } from './_models/kActivity';
+import { PrintingemailComponent } from './printingemail/printingemail.component';
+import { FinancialtransactionmenuComponent } from './financialtransactionmenu/financialtransactionmenu.component';
+import { SubscriptioninvestmentComponent } from './subscriptioninvestment/subscriptioninvestment.component';
+import { ScreensaverComponent } from './screensaver/screensaver.component';
 
 
 export function createConfig(): SignalRConfiguration {
@@ -77,7 +81,11 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
     BijakregistrationComponent,
     UpdatedetailsComponent,
     PortalregistrationComponent,
-    LoggerComponent
+    LoggerComponent,
+    PrintingemailComponent,
+    FinancialtransactionmenuComponent,
+    SubscriptioninvestmentComponent,
+    ScreensaverComponent
   ],
   imports: [
     BrowserModule,

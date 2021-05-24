@@ -4,6 +4,7 @@ import { Keepalive } from '@ng-idle/keepalive';
 import { Router } from '@angular/router';
 import { AppConfiguration } from './config/app-configuration';
 import { appFunc } from './_models/appFunctions';
+import { errorCodes } from './_models/errorCode';
 
 @Component({
   selector: 'app-root',
@@ -15,13 +16,15 @@ export class AppComponent {
   timedOut = false;
   lastPing: Date = new Date();
   title = 'angular-idle-timeout';
+  id: any;
 
   constructor(
     private idle: Idle, 
     private keepalive: Keepalive,
-    private router: Router) {
+    private router: Router,
+    private appConfig: AppConfiguration) {
     // sets an idle timeout of 5 seconds, for testing purposes.
-    idle.setIdle(100);
+    idle.setIdle(appConfig.idletime);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
     idle.setTimeout(5);
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
@@ -37,8 +40,17 @@ export class AppComponent {
       this.idleState = 'Timed out!';
       this.timedOut = true;
       console.log(this.idleState);
-      this.router.navigate(['/']);
-      this.reset();
+      if (this.router.url === '/outofservice' ){//|| this.router.url === '/screensaver'){
+        if (errorCodes.code = "0168"){
+          this.checkinterval();
+        }else{
+          this.reset();
+        }
+      }else{
+        appFunc.timedOut = true;
+        this.router.navigate(['/']);
+        this.reset();
+      }
     });
     
     idle.onIdleStart.subscribe(() => {
@@ -63,6 +75,83 @@ export class AppComponent {
     this.idle.watch();
     this.idleState = 'Started.';
     this.timedOut = false;
+  }
+
+  isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {
+    if (current.getTime() >= startDateTime.getTime() && current.getTime() <= stopDateTime.getTime()){
+      return true;
+    }
+    return false;
+  }
+
+  checkinterval(){
+    setTimeout(() => {
+      this.id = setInterval(() => {
+        let count = 0;
+        for (var val of appFunc.modules){
+          if(val.moduleName.toLowerCase().includes('update')){
+            if(val.enable == true){
+              if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }else{
+              if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }
+          }
+          else if(val.moduleName.toLowerCase().includes('balance')){
+            if(val.enable == true){
+              if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }else{
+              if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }
+          }
+          else if(val.moduleName.toLowerCase().includes('financial')){
+            if(val.enable == true){
+              if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }else{
+              if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }
+          }
+          else if(val.moduleName.toLowerCase().includes('bijak')){
+            if(val.enable == true){
+              if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }else{
+              if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }
+          }
+          else if(val.moduleName.toLowerCase().includes('portal')){
+            if(val.enable == true){
+              if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }else{
+              if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }
+          }
+        }
+  
+        if(count > 0){
+          this.router.navigate(['/']);
+          clearInterval(this.id);
+        }
+      }, 1000);
+    } , 60000);
   }
   
 }

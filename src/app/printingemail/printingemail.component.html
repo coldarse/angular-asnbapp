@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
+    <div class="container-fluid">
+        <div >
+            <label class="navbar-brand addOn__v1" ></label>
+        </div>
+
+        <form class="d-flex">
+            <img src="assets/images/ASNBLogo.png" class="asnblogo" alt="ASNB">
+        </form>
+    </div>
+</nav>
+
+<div *ngIf="Print1Visible" class="content-container">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem;">
+            <h2 class="h2-ic" id="PRP1_Title1">{{'Print1_1' | translate }}</h2>
+            <h2 class="h2-ic" id="PRP1_Title2">{{'Print1_2' | translate }}</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-a.png" class="ICReader__centered img-addon-1 padding-top-2rem">
+        </div>
+    </div>
+</div>
+
+<div  *ngIf="Print2Visible" class="content-container">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="PRP2_Title1">{{'Print2_1' | translate }}</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-b.png" class="ICReader__centered img-addon-1 padding-top-2rem">
+        </div>
+    </div>
+</div>
+
+<div *ngIf="EmailVisible" class="content-container">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="PRE_Title1">{{'Email_1' | translate }}</h2>
+            <h2 class="h2-ic" id="PRE_Title2">{{'Email_2' | translate }}</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnb-mobile-emel.png" class="ICReader__centered img-addon padding-top-10rem">
+        </div>
+    </div>
+</div>

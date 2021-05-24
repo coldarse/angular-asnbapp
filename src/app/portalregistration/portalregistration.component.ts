@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AppConfiguration } from '../config/app-configuration';
 import { Router } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { selectLang } from '../_models/language'; 
@@ -11,6 +12,7 @@ import { currentHolder } from '../_models/currentUnitHolder';
 import { errorCodes } from '../_models/errorCode';
 import { FormBuilder, Validators } from '@angular/forms';
 import { accessToken } from '../_models/apiToken';
+import * as CryptoJS from 'crypto-js'; 
 
 
 declare const loadKeyboard: any;
@@ -229,7 +231,8 @@ export class PortalregistrationComponent implements OnInit {
   constructor(private _router: Router,
     private translate: TranslateService,
     private serviceService : ServiceService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private appConfig: AppConfiguration) { }
 
   ngOnInit(): void {
 
@@ -256,6 +259,10 @@ export class PortalregistrationComponent implements OnInit {
             this.updateDisabled = false;
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
           }
+        }else{
+          if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.updateDisabled = false;
+          }
         }
       }
       else if(val.moduleName.toLowerCase().includes('financial')){
@@ -263,6 +270,10 @@ export class PortalregistrationComponent implements OnInit {
           if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
             this.financialDisabled = false;
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Financial Transaction Module.");
+          }
+        }else{
+          if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.financialDisabled = false;
           }
         }
       }
@@ -834,12 +845,20 @@ export class PortalregistrationComponent implements OnInit {
 
 
   confirmYes(){
+    let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
+    let encryptedpass = CryptoJS.AES.encrypt(this.PForm_3.controls.newpass.value, key, {
+      keySize: 128,
+      blockSize: 128,
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7
+    });
+
     const body = {
       "username": this.tempusername,
       "currentpwd": this.tempPassword,
       "secureph": this.tempsecure,
       "language": selectLang.selectedLang,
-      "newPassword": this.PForm_3.controls.newpass.value
+      "newPassword": encryptedpass.toString()
     }
     this.serviceService.unitHolderChangePassword(body).subscribe((data: any) => {
       if (data.result.error_code == "000"){

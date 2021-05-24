@@ -50,6 +50,10 @@ export class TransactionmenuComponent implements OnInit {
             this.updatedDetailsEnabled = false;
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
           }
+        }else{
+          if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.updatedDetailsEnabled = false;
+          }
         }
       }
       else if(val.moduleName.toLowerCase().includes('balance')){
@@ -57,6 +61,10 @@ export class TransactionmenuComponent implements OnInit {
           if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
             this.checkBalanceEnabled = false;
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
+          }
+        }else{
+          if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.checkBalanceEnabled = false;
           }
         }
       }
@@ -66,6 +74,10 @@ export class TransactionmenuComponent implements OnInit {
             this.financialTransactionEnabled = false;
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Financial Transaction Module.");
           }
+        }else{
+          if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.financialTransactionEnabled = false;
+          }
         }
       }
       else if(val.moduleName.toLowerCase().includes('bijak')){
@@ -74,6 +86,10 @@ export class TransactionmenuComponent implements OnInit {
             this.bijakRegistrationEnabled = false;
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Bijak Registration Module.");
           }
+        }else{
+          if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.bijakRegistrationEnabled = false;
+          }
         }
       }
       else if(val.moduleName.toLowerCase().includes('portal')){
@@ -81,6 +97,10 @@ export class TransactionmenuComponent implements OnInit {
           if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
             this.portalRegistrationEnabled = false;
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Portal Registration Module.");
+          }
+        }else{
+          if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.portalRegistrationEnabled = false;
           }
         }
       }
