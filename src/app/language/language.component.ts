@@ -17,8 +17,6 @@ import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 import { HttpHeaders } from '@angular/common/http';
-import * as CryptoJS from 'crypto-js'; 
-import { TransactionsuccessfulComponent } from '../transactionsuccessful/transactionsuccessful.component';
 
 
 @Component({
@@ -98,6 +96,10 @@ export class LanguageComponent implements OnInit {
         };
         this.serviceService.genTrxNo(signalrConnection.kioskCode).subscribe((res: any) => {
           signalrConnection.trxno = res.result.toString();
+        }, error => {
+          errorCodes.code = error.status;
+          errorCodes.message = "Something bad happened; please try again later.";
+          this.route.navigate(['outofservice']);
         });
         this.serviceService.getKioskModules(signalrConnection.kioskCode).subscribe((res: any) => {
           var areDisabled = 0
@@ -165,6 +167,10 @@ export class LanguageComponent implements OnInit {
               }
             }, 1000);
           } , 60000);
+        }, error => {
+          errorCodes.code = error.status;
+          errorCodes.message = "Something bad happened; please try again later.";
+          this.route.navigate(['outofservice']);
         });
       });
       
@@ -182,7 +188,7 @@ export class LanguageComponent implements OnInit {
   selectEnglish() {
 
     selectLang.selectedLang = 'en';
-    this.route.navigate(['/subscriptioninvestment']);
+    this.route.navigate(['/verifymykad']);
     signalrConnection.connection.invoke('updateSelectedLang', selectLang.selectedLang);
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected English.");
@@ -282,6 +288,10 @@ export class LanguageComponent implements OnInit {
         appFunc.securityQuestions = res[13].result.items.map((sq: any) => new securityQuestions(sq));
       }
 
+    }, error => {
+      errorCodes.code = error.status;
+      errorCodes.message = "Something bad happened; please try again later.";
+      this.route.navigate(['outofservice']);
     });
   }
 

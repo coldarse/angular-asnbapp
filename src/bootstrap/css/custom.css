@@ -189,6 +189,20 @@ user-select: none;
 
 }
 
+.btn-transferswitching {
+  width: 120px;
+  height: 60px;
+  border-radius: 1.4rem;
+  border: 1px solid;
+  border-color: lightgray;
+  background-color: white;
+  text-align: center;
+  font-size: 1rem;
+  font-weight:700;
+  color:rgba(39, 39, 39, 0.9);
+
+}
+
 .btn-printoremail {
   width: 180px;
   height: 50px;
@@ -220,6 +234,14 @@ user-select: none;
 
 .info_icon_img {
   max-width: 5%;
+}
+
+.switchingtransferfundicon {
+  max-width: 35%;
+}
+
+.displayflex{
+  display: flex;
 }
 
 
@@ -257,6 +279,26 @@ user-select: none;
   border-radius: 0.5rem;
   padding-left: 0.5rem;
   height: 2.1rem;
+}
+
+.blue-title-bar-border {
+  background:rgba(255, 255, 255, 0);
+  color:rgb(0, 0, 0);
+  width:1000px;
+  border: 1px solid rgba(0, 87, 185, 0.9);
+  border-radius: 0.5rem;
+  padding-left: 0.5rem;
+  height: 2.1rem;
+}
+
+.blue-bar-border {
+  background:rgba(255, 255, 255, 0);
+  color:rgb(0, 0, 0);
+  width:1000px;
+  border: 1px solid rgba(0, 87, 185, 0.9);
+  border-radius: 0.5rem;
+  padding-left: 0.5rem;
+  height: 6rem;
 }
 
 .input-long {
@@ -697,6 +739,11 @@ user-select: none;
   place-items: center;
   position: absolute;
   top: 0;
+}
+
+.grid1{
+  display: grid;
+  place-items: center;
 }
 
 .screensaverimg{

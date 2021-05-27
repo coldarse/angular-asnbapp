@@ -45,6 +45,7 @@ import { PrintingemailComponent } from './printingemail/printingemail.component'
 import { FinancialtransactionmenuComponent } from './financialtransactionmenu/financialtransactionmenu.component';
 import { SubscriptioninvestmentComponent } from './subscriptioninvestment/subscriptioninvestment.component';
 import { ScreensaverComponent } from './screensaver/screensaver.component';
+import { TransferswitchingComponent } from './transferswitching/transferswitching.component';
 
 
 export function createConfig(): SignalRConfiguration {
@@ -85,7 +86,8 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
     PrintingemailComponent,
     FinancialtransactionmenuComponent,
     SubscriptioninvestmentComponent,
-    ScreensaverComponent
+    ScreensaverComponent,
+    TransferswitchingComponent
   ],
   imports: [
     BrowserModule,

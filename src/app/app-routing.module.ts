@@ -17,6 +17,7 @@ import { PrintingemailComponent } from './printingemail/printingemail.component'
 import { FinancialtransactionmenuComponent } from './financialtransactionmenu/financialtransactionmenu.component';
 import { SubscriptioninvestmentComponent } from './subscriptioninvestment/subscriptioninvestment.component';
 import { ScreensaverComponent } from './screensaver/screensaver.component';
+import { TransferswitchingComponent } from './transferswitching/transferswitching.component';
 
 
 
@@ -37,7 +38,8 @@ const routes: Routes = [
   {path: 'printingemail', component: PrintingemailComponent},
   {path: 'financialtransactionmenu', component: FinancialtransactionmenuComponent},
   {path: 'subscriptioninvestment', component: SubscriptioninvestmentComponent},
-  {path: 'screensaver', component: ScreensaverComponent}
+  {path: 'screensaver', component: ScreensaverComponent},
+  {path: 'transferswitching', component: TransferswitchingComponent}
 ];
 
 @NgModule({
