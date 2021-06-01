@@ -76,5 +76,82 @@ export class AppComponent {
     this.idleState = 'Started.';
     this.timedOut = false;
   }
+
+  isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {
+    if (current.getTime() >= startDateTime.getTime() && current.getTime() <= stopDateTime.getTime()){
+      return true;
+    }
+    return false;
+  }
+
+  checkinterval(){
+    setTimeout(() => {
+      this.id = setInterval(() => {
+        let count = 0;
+        for (var val of appFunc.modules){
+          if(val.moduleName.toLowerCase().includes('update')){
+            if(val.enable == true){
+              if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }else{
+              if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }
+          }
+          else if(val.moduleName.toLowerCase().includes('balance')){
+            if(val.enable == true){
+              if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }else{
+              if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }
+          }
+          else if(val.moduleName.toLowerCase().includes('financial')){
+            if(val.enable == true){
+              if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }else{
+              if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }
+          }
+          else if(val.moduleName.toLowerCase().includes('bijak')){
+            if(val.enable == true){
+              if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }else{
+              if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }
+          }
+          else if(val.moduleName.toLowerCase().includes('portal')){
+            if(val.enable == true){
+              if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }else{
+              if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                count += 1;
+              }
+            }
+          }
+        }
+  
+        if(count > 0){
+          this.router.navigate(['/']);
+          clearInterval(this.id);
+        }
+      }, 1000);
+    } , 60000);
+  }
   
 }
