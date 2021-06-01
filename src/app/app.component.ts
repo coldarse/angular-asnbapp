@@ -75,5 +75,6 @@ export class AppComponent {
     this.idle.watch();
     this.idleState = 'Started.';
     this.timedOut = false;
-  }  
+  }
+  
 }

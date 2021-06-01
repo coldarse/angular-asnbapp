@@ -724,7 +724,9 @@ export class CheckbalanceComponent implements OnInit {
         errorCodes.Emessage = "Printer Error";
         this._router.navigate(['errorscreen']);
       }
-    });  
+    });
+    
+
   }
 
   EmailAllStatement(selectedFundDetails: any) {
