@@ -661,8 +661,9 @@ export class UpdatedetailsComponent implements OnInit {
         "OCCUPATIONCATEGORY":this.AR_Form.controls.jobcategory.value,
         "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
         "CELLPHONENUMBER" :this.AR_Form.controls.telephone.value,
+        "COMPANYNAME": this.AR_Form.controls.companyname.value,
         "BANKCODE":this.AR_Form.controls.bankname.value,
-        "BANKACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
+        "ACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
         "GUARDIANID":"",
         "PEP":this.AR_Form.controls.pep.value,
         "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
@@ -747,8 +748,9 @@ export class UpdatedetailsComponent implements OnInit {
         "OCCUPATIONCATEGORY":this.AR_Form.controls.jobcategory.value,
         "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
         "CELLPHONENUMBER" :this.AR_Form.controls.telephone.value,
+        "COMPANYNAME": this.AR_Form.controls.companyname.value,
         "BANKCODE":this.AR_Form.controls.bankname.value,
-        "BANKACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
+        "ACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
         "GUARDIANID":currentHolder.unitholderid,
         "PEP":this.AR_Form.controls.pep.value,
         "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
@@ -758,15 +760,7 @@ export class UpdatedetailsComponent implements OnInit {
 
       this.serviceService.updateDetails(body).subscribe((data: any) => {
         console.log(data);
-        if(data.result.transactionstatus.toLowerCase().includes('reject')){
-          kActivit.endTime = new Date();
-          kActivit.status = false;
-
-          appFunc.kioskActivity.push(kActivit);
-          errorCodes.Ecode = data.result.rejectcode;
-          errorCodes.Emessage = data.result.rejectreason;
-          this._router.navigate(['errorscreen']);
-        }else{
+        if(data.result.transactionstatus.toLowerCase().includes('successful')){
           kActivit.endTime = new Date();
           kActivit.status = true;
 
@@ -787,6 +781,14 @@ export class UpdatedetailsComponent implements OnInit {
   
           this.UDForm_Visible = false;
           this.UDSuccess_Visible = true;
+        }else{
+          kActivit.endTime = new Date();
+          kActivit.status = false;
+
+          appFunc.kioskActivity.push(kActivit);
+          errorCodes.Ecode = data.result.rejectcode;
+          errorCodes.Emessage = data.result.rejectreason;
+          this._router.navigate(['errorscreen']);
         }
       });
 

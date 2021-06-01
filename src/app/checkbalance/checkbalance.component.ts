@@ -269,32 +269,39 @@ export class CheckbalanceComponent implements OnInit {
         this.serviceService.postFiveTransactions(body)
         .subscribe((trans: any) => {
     
-          console.log(JSON.stringify(trans.result));
-    
-          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
-            setTimeout(()=>{   
-              if (data == true){
-                kActivit1.endTime = new Date();
-                kActivit1.status = true; 
+          if (trans.result.requeststatus.toLowerCase().includes('successful')){
+            signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+              setTimeout(()=>{   
+                if (data == true){
+                  kActivit1.endTime = new Date();
+                  kActivit1.status = true; 
+            
+                  appFunc.kioskActivity.push(kActivit1);
+                  this.CB3_Visible = false;
+                  this.CB4_Visible = true;
+                  setTimeout(()=>{   
+                    this.CB4_Visible = false;
+                    this._router.navigate(['transactionsuccessful']);
+                  }, 3000);
+                }else{
+                  kActivit1.endTime = new Date();
+                  kActivit1.status = false; 
+            
+                  appFunc.kioskActivity.push(kActivit1);
+                  errorCodes.Ecode = "0068";
+                  errorCodes.Emessage = "Printing Failed";
+                  this._router.navigate(['errorscreen']);
+                }
+              }, 3000);
+            });
+          }
+          else{
+            errorCodes.Ecode = trans.result.rejectcode;
+            errorCodes.Emessage = trans.result.rejectreason;
+            this._router.navigate(['errorscreen']);
+          }
+
           
-                appFunc.kioskActivity.push(kActivit1);
-                this.CB3_Visible = false;
-                this.CB4_Visible = true;
-                setTimeout(()=>{   
-                  this.CB4_Visible = false;
-                  this._router.navigate(['transactionsuccessful']);
-                }, 3000);
-              }else{
-                kActivit1.endTime = new Date();
-                kActivit1.status = false; 
-          
-                appFunc.kioskActivity.push(kActivit1);
-                errorCodes.Ecode = "0068";
-                errorCodes.Emessage = "Printing Failed";
-                this._router.navigate(['errorscreen']);
-              }
-            }, 3000);
-          });
         });
       }else{
         errorCodes.Ecode = "6688";
@@ -399,8 +406,6 @@ export class CheckbalanceComponent implements OnInit {
     this.serviceService.postFiveTransactions(body)
     .subscribe((trans: any) => {
 
-      console.log(JSON.stringify(trans.result));
-
       let kActivit1 = new kActivity();
       kActivit1.trxno = signalrConnection.trxno;
       kActivit1.kioskCode = signalrConnection.kioskCode;
@@ -408,29 +413,42 @@ export class CheckbalanceComponent implements OnInit {
       kActivit1.submoduleID = undefined;
       kActivit1.action = "Get Latest Five Transactions";
       kActivit1.startTime = new Date();
+
+      console.log(trans.result);
+
+      if (trans.result.requeststatus.toLowerCase().includes('successful')){
+        signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
+          setTimeout(()=>{   
+            if (data == true){
+              kActivit1.endTime = new Date();
+              kActivit1.status = true; 
+  
+              appFunc.kioskActivity.push(kActivit1);
+              setTimeout(()=>{   
+                this.CB5_Visible = false;
+                this._router.navigate(['transactionsuccessful']);
+              }, 3000);
+            }else{
+              kActivit1.endTime = new Date();
+              kActivit1.status = false; 
+  
+              appFunc.kioskActivity.push(kActivit1);
+              errorCodes.Ecode = "0069";
+              errorCodes.Emessage = "Email Failed";
+              this._router.navigate(['errorscreen']);
+            }
+          }, 3000);
+        });
+      }
+      else{
+        errorCodes.Ecode = trans.result.rejectcode;
+        errorCodes.Emessage = trans.result.rejectreason;
+        this._router.navigate(['errorscreen']);
+      }
+
       
-      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
-        setTimeout(()=>{   
-          if (data == true){
-            kActivit1.endTime = new Date();
-            kActivit1.status = true; 
-
-            appFunc.kioskActivity.push(kActivit1);
-            setTimeout(()=>{   
-              this.CB5_Visible = false;
-              this._router.navigate(['transactionsuccessful']);
-            }, 3000);
-          }else{
-            kActivit1.endTime = new Date();
-            kActivit1.status = false; 
-
-            appFunc.kioskActivity.push(kActivit1);
-            errorCodes.Ecode = "0069";
-            errorCodes.Emessage = "Email Failed";
-            this._router.navigate(['errorscreen']);
-          }
-        }, 3000);
-      });
+      
+      
     });
   }
 
@@ -504,31 +522,40 @@ export class CheckbalanceComponent implements OnInit {
           kActivit1.status = true; 
     
           appFunc.kioskActivity.push(kActivit1);
+
+          if (trans.result.requeststatus.toLowerCase().includes('successful')){
+            signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetDivStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+              setTimeout(()=>{   
+                if (data == true){
+                  kActivit1.endTime = new Date();
+                  kActivit1.status = true;
+              
+                  appFunc.kioskActivity.push(kActivit1);
+                  this.CB3_Visible = false;
+                  this.CB4_Visible = true;
+                  setTimeout(()=>{   
+                    this.CB4_Visible = false;
+                    this._router.navigate(['transactionsuccessful']);
+                  }, 3000);
+                }else{
+                  kActivit1.endTime = new Date();
+                  kActivit1.status = false;
+              
+                  appFunc.kioskActivity.push(kActivit1);
+                  errorCodes.Ecode = "0068";
+                  errorCodes.Emessage = "Printing Failed";
+                  this._router.navigate(['errorscreen']);
+                }
+              }, 3000);
+            });
+          }
+          else{
+            errorCodes.Ecode = trans.result.rejectcode;
+            errorCodes.Emessage = trans.result.rejectreason;
+            this._router.navigate(['errorscreen']);
+          }
     
-          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetDivStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
-            setTimeout(()=>{   
-              if (data == true){
-                kActivit1.endTime = new Date();
-                kActivit1.status = true;
-            
-                appFunc.kioskActivity.push(kActivit1);
-                this.CB3_Visible = false;
-                this.CB4_Visible = true;
-                setTimeout(()=>{   
-                  this.CB4_Visible = false;
-                  this._router.navigate(['transactionsuccessful']);
-                }, 3000);
-              }else{
-                kActivit1.endTime = new Date();
-                kActivit1.status = false;
-            
-                appFunc.kioskActivity.push(kActivit1);
-                errorCodes.Ecode = "0068";
-                errorCodes.Emessage = "Printing Failed";
-                this._router.navigate(['errorscreen']);
-              }
-            }, 3000);
-          });
+          
         });
       }else{
         errorCodes.Ecode = "6688";
@@ -609,30 +636,40 @@ export class CheckbalanceComponent implements OnInit {
       kActivit1.submoduleID = undefined;
       kActivit1.action = "Get Dividend Statements";
       kActivit1.startTime = new Date();
+
+
+      if (trans.result.requeststatus.toLowerCase().includes('successful')){
+        signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetDivStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
+          setTimeout(()=>{   
+            if (data == true){
+              kActivit1.endTime = new Date();
+              kActivit1.status = true; 
+  
+              appFunc.kioskActivity.push(kActivit1);
+              setTimeout(()=>{   
+                this.CB5_Visible = false;
+                this._router.navigate(['transactionsuccessful']);
+              }, 3000);
+            }else{
+              kActivit1.endTime = new Date();
+              kActivit1.status = false; 
+  
+              appFunc.kioskActivity.push(kActivit1);
+              errorCodes.Ecode = "0069";
+              errorCodes.Emessage = "Email Failed";
+              this._router.navigate(['errorscreen']);
+            }
+          }, 3000);
+        });
+      }
+      else{
+        errorCodes.Ecode = trans.result.rejectcode;
+        errorCodes.Emessage = trans.result.rejectreason;
+        this._router.navigate(['errorscreen']);
+      }
       
 
-      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetDivStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
-        setTimeout(()=>{   
-          if (data == true){
-            kActivit1.endTime = new Date();
-            kActivit1.status = true; 
-
-            appFunc.kioskActivity.push(kActivit1);
-            setTimeout(()=>{   
-              this.CB5_Visible = false;
-              this._router.navigate(['transactionsuccessful']);
-            }, 3000);
-          }else{
-            kActivit1.endTime = new Date();
-            kActivit1.status = false; 
-
-            appFunc.kioskActivity.push(kActivit1);
-            errorCodes.Ecode = "0069";
-            errorCodes.Emessage = "Email Failed";
-            this._router.navigate(['errorscreen']);
-          }
-        }, 3000);
-      });
+     
       
       
     });
@@ -889,40 +926,51 @@ export class CheckbalanceComponent implements OnInit {
 
     this.fDetails = currentHolder.funddetail;
 
-    if (this.fDetails.length == 1 || this.fDetails.length == 0){
-      if(this.fDetails[0].FUNDID == "" || isNaN(this.fDetails[0].FUNDID)){
-        this.CB2_ErrorVisible = true;
-      }
-      else{
-        this.CB1_Visible = false;
-        this.CB2_Visible = true;
-    
-        this.CB2_3 = currentHolder.firstname;
-        this.CB2_5 = currentHolder.identificationnumber;
-        this.CB2_7 = currentHolder.unitholderid;
-        this.CB_GuardianID = currentHolder.guardianid;
-    
-        this.CB2_9 = currentHolder.grandtotaluhholdings;
-        this.CB2_10 = currentHolder.grandtotalunits;
-    
-        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Selected Main Account Balance.");
-      }
+    console.log(this.fDetails[0].FUNDID);
+
+    //if (this.fDetails.length == 1 || this.fDetails.length == 0){
+    if(this.fDetails[0].FUNDID.length < 1){
+      this.CB2_ErrorVisible = true;
     }
     else{
       this.CB1_Visible = false;
-    this.CB2_Visible = true;
+      this.CB2_Visible = true;
 
-    this.CB2_3 = currentHolder.firstname;
-    this.CB2_5 = currentHolder.identificationnumber;
-    this.CB2_7 = currentHolder.unitholderid;
-    this.CB_GuardianID = currentHolder.guardianid;
+      this.CB2_3 = currentHolder.firstname;
+      this.CB2_5 = currentHolder.identificationnumber;
+      this.CB2_7 = currentHolder.unitholderid;
+      this.CB_GuardianID = currentHolder.guardianid;
 
-    this.CB2_9 = currentHolder.grandtotaluhholdings;
-    this.CB2_10 = currentHolder.grandtotalunits;
+      this.CB2_9 = currentHolder.grandtotaluhholdings;
+      this.CB2_10 = currentHolder.grandtotalunits;
 
-    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Selected Main Account Balance.");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Selected Main Account Balance.");
+      
+      if(signalrConnection.kioskType == 'Mobile'){
+        this.Print_Visible = false;
+      }
+      else{
+        this.Print_Visible = true;
+      }
     }
+  //   }
+  //   else{
+  //     this.CB1_Visible = false;
+  //     this.CB2_Visible = true;
+
+  //     this.CB2_3 = currentHolder.firstname;
+  //     this.CB2_5 = currentHolder.identificationnumber;
+  //     this.CB2_7 = currentHolder.unitholderid;
+  //     this.CB_GuardianID = currentHolder.guardianid;
+
+  //     this.CB2_9 = currentHolder.grandtotaluhholdings;
+  //     this.CB2_10 = currentHolder.grandtotalunits;
+
+  //     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Selected Main Account Balance.");
+      
+  //   }
     
+  // }
   }
 
   CheckBijakAccount() {
@@ -939,9 +987,16 @@ export class CheckbalanceComponent implements OnInit {
     this.CB2_9 = currentBijakHolder.grandtotaluhholdings;
     this.CB2_10 = currentBijakHolder.grandtotalunits;
 
+    if(signalrConnection.kioskType == 'Mobile'){
+      this.Print_Visible = false;
+    }
+    else{
+      this.Print_Visible = true;
+    }
+
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected Minor Account Balance. ${currentBijakHolder.firstname}, ${currentBijakHolder.identificationnumber}, ${currentBijakHolder.unitholderid}`);
   }
-
+  
 
   ChooseOtherAccount(){
     this.CB2_ErrorVisible = false;

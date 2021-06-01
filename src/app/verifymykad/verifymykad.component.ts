@@ -511,9 +511,13 @@ export class VerifymykadComponent implements OnInit {
 
        };
 
+
   
       this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
+
+        console.log(result);
+
         currentHolder.channeltype = result.channeltype;
         currentHolder.requestoridentification = result.requestoridentification;
         currentHolder.deviceowner = result.deviceowner;

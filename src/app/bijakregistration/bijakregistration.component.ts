@@ -1021,15 +1021,8 @@ export class BijakregistrationComponent implements OnInit {
 
     this.serviceService.postAccountRegistration(body).subscribe((data: any) => {
       console.log(data);
-      if(data.result.transactionstatus.toLowerCase().includes('reject')  || data.result.rejectcode != ""){
-        errorCodes.Ecode = data.result.rejectcode;
-        errorCodes.Emessage = data.result.rejectreason;
-        this._router.navigate(['errorscreen']);
-        kActivit.endTime = new Date();
-        kActivit.status = false;
-
-        appFunc.kioskActivity.push(kActivit);
-      }else{
+      if(data.result.transactionstatus.toLowerCase().includes('successful')){
+        
         this.BRSuccess_4 = currentMyKidDetails.Name;
         this.BRSuccess_6 = data.result.unitholderid;
         this.BRSuccess_8 = formatDate(new Date(), 'dd/MM/yyyy', 'en');
@@ -1038,25 +1031,36 @@ export class BijakregistrationComponent implements OnInit {
         kActivit.status = true;
 
         appFunc.kioskActivity.push(kActivit);
-      }
-      this.BRTNC_Visible = false;
 
-      if (this.AR_Form.controls.email.value == ""){
-        this.Email_Visible = false;
-      }
-      else{
-        this.Email_Visible = true;
-      }
+        this.BRTNC_Visible = false;
 
-      if(signalrConnection.kioskType == 'Mobile'){
-        this.Print_Visible = false;
-      }
-      else{
-        this.Print_Visible = true;
-      }
+        if (this.AR_Form.controls.email.value == ""){
+          this.Email_Visible = false;
+        }
+        else{
+          this.Email_Visible = true;
+        }
 
-      this.BRSuccess_Visible = true;
-      this.ARPopUp1_Visible = true;
+        if(signalrConnection.kioskType == 'Mobile'){
+          this.Print_Visible = false;
+        }
+        else{
+          this.Print_Visible = true;
+        }
+
+        this.BRSuccess_Visible = true;
+        this.ARPopUp1_Visible = true;
+      }else{
+        errorCodes.Ecode = data.result.rejectcode;
+        errorCodes.Emessage = data.result.rejectreason;
+        this._router.navigate(['errorscreen']);
+        kActivit.endTime = new Date();
+        kActivit.status = false;
+
+        appFunc.kioskActivity.push(kActivit);
+
+      }
+      
     });
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Submitted Bijak Registration Form.");
