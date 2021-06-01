@@ -54,8 +54,10 @@ export class ServiceService {
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `Backend returned code: ${error.status}, body was: ${error.error}.`);
     }
     // Return an observable with a user-facing error message.
+    // return throwError(
+    //   'Something bad happened; please try again later.');
     return throwError(
-      'Something bad happened; please try again later.');
+      error);
   }
 
   //Get DropDown in Account Registration

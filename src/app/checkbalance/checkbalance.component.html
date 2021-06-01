@@ -187,7 +187,10 @@
             </thead>
             <tbody>
                 <tr *ngFor="let y of fDetails">
-                    <td>{{ y.FUNDID }}</td>
+                    <td>
+                        {{ y.FUNDID }}
+                        <!-- <img src="assets/fundicon/{{y.FUNDID}}.png" class="fundidicon"> -->
+                    </td>
                     <td>{{ y.UNITBALANCE }}</td>
                     <td>{{ y.EPFUNITS }}</td>
                     <td>{{ y.LOANUNITS }}</td>

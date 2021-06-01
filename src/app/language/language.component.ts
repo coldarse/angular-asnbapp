@@ -18,60 +18,18 @@ import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 import { HttpHeaders } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-language',
   templateUrl: './language.component.html'
 })
 export class LanguageComponent implements OnInit {
 
-  imgSrc:any;
-  screensaver = false;
-  counter = 0;
-
   loadingDisable = true;
 
-  imgArray = [
-    "ss1.png",
-    "ss2.png",
-    "ss3.png",
-    "ss4.png"
-  ]
-
-  modis = [
-  {
-    module: "Update Details",
-    startTime: "",
-    stopTime: "",
-    isEnabled: true,
-  },
-  {
-    module: "Check Balance",
-    startTime: "",
-    stopTime: "",
-    isEnabled: true,
-  },
-  {
-    module: "Financial Transaction",
-    startTime: "",
-    stopTime: "",
-    isEnabled: false,
-  },
-  {
-    module: "Bijak Registration",
-    startTime: "",
-    stopTime: "",
-    isEnabled: true,
-  },
-  {
-    module: "Portal Registration",
-    startTime: "",
-    stopTime: "",
-    isEnabled: true,
-  }
-  ]
+  
 
   id: any;
-  id2: any;
   
 
   constructor(
@@ -84,16 +42,7 @@ export class LanguageComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (appFunc.timedOut = true){
-      this.screensaver = true;
-      this.imgCycle();
-      this.id2 = setInterval(() => {
-        this.imgCycle();
-      }, 5000);
-    }
-    else{
-      this.screensaver = false;
-    }
+
 
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
@@ -113,12 +62,6 @@ export class LanguageComponent implements OnInit {
     signalrConnection.logsaves = [];
     appFunc.kioskActivity = [];
 
-
-    // setTimeout(() => {
-    //   if(signalrConnection.kioskCode = ''){
-        
-    //   }
-    // }, 3000)
     
   }
 
@@ -126,24 +69,9 @@ export class LanguageComponent implements OnInit {
 
   ngOnDestroy() {
     clearInterval(this.id);
-    clearInterval(this.id2);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language Screen]" + ": " + "Cleared Interval.");
   }
 
-
-  imgCycle() {
-    console.log(this.counter);
-    this.imgSrc = "/assets/screensaver/" + this.imgArray[this.counter];
-    console.log(this.imgSrc);
-    if (this.counter == this.imgArray.length - 1) {
-      this.counter = -1;
-    }
-    this.counter++;
-  }
-
-  screensaverclick(){
-    this.screensaver = false;
-  }
 
   startConnection() : void {
 
@@ -168,6 +96,10 @@ export class LanguageComponent implements OnInit {
         };
         this.serviceService.genTrxNo(signalrConnection.kioskCode).subscribe((res: any) => {
           signalrConnection.trxno = res.result.toString();
+        }, error => {
+          errorCodes.code = error.status;
+          errorCodes.message = "Something bad happened; please try again later.";
+          this.route.navigate(['outofservice']);
         });
         this.serviceService.getKioskModules(signalrConnection.kioskCode).subscribe((res: any) => {
           var areDisabled = 0
@@ -234,7 +166,11 @@ export class LanguageComponent implements OnInit {
                 this.route.navigate(['outofservice']);
               }
             }, 1000);
-          } , 3000);
+          } , 60000);
+        }, error => {
+          errorCodes.code = error.status;
+          errorCodes.message = "Something bad happened; please try again later.";
+          this.route.navigate(['outofservice']);
         });
       });
       
@@ -247,19 +183,22 @@ export class LanguageComponent implements OnInit {
     });
   }
 
+
+
   selectEnglish() {
 
     selectLang.selectedLang = 'en';
     this.route.navigate(['/verifymykad']);
+    signalrConnection.connection.invoke('updateSelectedLang', selectLang.selectedLang);
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected English.");
     this.getDropDowns();
-
-    
   }
   selectMalay() {
     selectLang.selectedLang = 'ms';
     this.route.navigate(['/verifymykad']);
+    signalrConnection.connection.invoke('updateSelectedLang', selectLang.selectedLang);
+
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language]" + ": " + "Selected Bahasa Malaysia.");
     this.getDropDowns();
@@ -349,6 +288,10 @@ export class LanguageComponent implements OnInit {
         appFunc.securityQuestions = res[13].result.items.map((sq: any) => new securityQuestions(sq));
       }
 
+    }, error => {
+      errorCodes.code = error.status;
+      errorCodes.message = "Something bad happened; please try again later.";
+      this.route.navigate(['outofservice']);
     });
   }
 

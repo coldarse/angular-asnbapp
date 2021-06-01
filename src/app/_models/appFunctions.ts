@@ -30,5 +30,13 @@ export class appFunc {
   static timedOut: boolean = false;
   static isRedirectFromPortalRegistration = false;
   static isUpdateMajor = false;
+
+
+  static printing = false;
+  static receiptFunction  = "";
+
+
+  static isInvesment = false;
+  static isOwn = "third";
 }
 

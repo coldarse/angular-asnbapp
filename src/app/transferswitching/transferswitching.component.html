@@ -1,0 +1,1047 @@
+
+<nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
+    <div class="container-fluid">
+        <div class="titleNLogo">
+            <!-- Language Screen NavBar -->
+            <img src="assets/images/OutOfService-icon.png" alt="OutOfServiceImage" class="icon_margin">
+            <div>
+                <label class="upStyle col-sm-12" *ngIf="transferswitching">{{ 'TransferSwitching' | translate }}</label>
+                <label class="upStyle col-sm-12" *ngIf="istransfer">{{ 'Transfer' | translate }}</label>
+                <label class="upStyle col-sm-12" *ngIf="isswitching">{{ 'Switching' | translate }}</label>
+                <label class="downStyle col-sm-12" *ngIf="isOwn">{{ 'Own' | translate }}</label>
+                <label class="downStyle col-sm-12" *ngIf="isBijak">{{ 'Bijak' | translate }}</label>
+            </div>
+        </div>
+
+        <form class="d-flex">
+            <img src="assets/images/ASNBLogo.png" class="asnblogo" alt="ASNB">
+        </form>
+    </div>
+</nav>
+
+<div *ngIf="BijakVisible" class="content-container">
+   
+    <div>
+        <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
+            <h2 id="CB1_Title3">{{'CB1_3' | translate }}</h2>
+        </div>
+
+        <div class="col-md-12 text-center" style="padding-top:0.15rem;" *ngFor="let minor of mDetails">
+            <button type="button" class="btn btn-account" id="Account2" (click)="Minor(minor)">
+                {{ minor.UHID }}<br>{{ minor.NAME }}
+            </button>
+        </div>
+    </div>
+
+    
+
+  
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+
+<div *ngIf="transferswitching" class="content-container">
+   
+    <div class="row text-center" style="padding-top:1rem">
+        <div class="col-md-1" >
+
+        </div>
+        <div class="col-md-10 text-center">
+            <h4 class="blue-title-bar h2-ic" style="margin-left: 4.1rem;">{{'ARSuccess_5' | translate }}: {{unitholderid}}   |   {{unitholdername}}</h4>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <div class="row text-center" style="padding-top:1rem">
+        <div class="col-md-1" >
+
+        </div>
+        <div class="col-md-10 text-center blue-title-bar-border" style="margin-left: 4.8rem;">
+            <div class="row ">
+                <div class="col-sm-4">
+                    <h5 class="h2-ic" style="padding-top: 0.2rem;">{{ 'FundName' | translate }}</h5>
+                </div>
+                <div class="col-sm-4">
+                    <h5 class="h2-ic" style="padding-top: 0.2rem;">{{ 'CurrentValue' | translate }}</h5>
+                </div>
+                <div class="col-sm-4">
+                    <h5 class="h2-ic" style="padding-top: 0.2rem;">{{ 'TypeOfInvestment' | translate }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <!-- NgFor how many funds -->
+    <div class="row text-center" style="padding-top:1rem">
+        <div class="col-md-1" >
+
+        </div>
+        <div class="col-md-10 text-center blue-bar-border" style="margin-left: 4.8rem;">
+            <div class="row ">
+                <div class="col-sm-4 displayflex">
+                    <img src="assets/fundicon/ASB.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
+                    <h5 class="h2-ic" style="padding-top: 1.2rem;">{{ actualfundname }}</h5> <!-- Fund.fundid -->
+                </div>
+                <div class="col-sm-4">
+                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ actualfundvalue }}</h5> <!-- Fund.fundvalue -->
+                </div>
+                <div class="col-sm-4" style="padding-top: 1rem;">
+                    <button type="button" class="btn btn-transferswitching" (click)="Transfer()">
+                        {{'Transfer' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-transferswitching" (click)="Switching()">
+                        {{'Switching' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+
+  
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transferswitchingBack()">
+                    {{'BTN_Back' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="transfer1" class="content-container">
+   
+    <div class="row text-center" style="padding-top:1rem">
+        <div class="col-md-1" >
+
+        </div>
+        <div class="col-md-10 text-center">
+            <h4 class="blue-title-bar h2-ic" style="margin-left: 4.1rem;">{{'ARSuccess_5' | translate }}: {{unitholderid}}   |   {{unitholdername}}</h4>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <div class="row text-center" style="padding-top:1rem">
+        <div class="col-md-1" >
+
+        </div>
+        <div class="col-md-10 text-center blue-title-bar-border" style="margin-left: 4.8rem;">
+            <div class="row ">
+                <div class="col-sm-4">
+                    <h5 class="h2-ic" style="padding-top: 0.2rem;">{{ 'FundName' | translate }}</h5>
+                </div>
+                <div class="col-sm-4">
+                    <h5 class="h2-ic" style="padding-top: 0.2rem;">{{ 'CurrentValue' | translate }}</h5>
+                </div>
+                <div class="col-sm-4">
+                    <h5 class="h2-ic" style="padding-top: 0.2rem;">{{ 'TypeOfInvestment' | translate }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <div class="row text-center" style="padding-top:1rem">
+        <div class="col-md-1" >
+
+        </div>
+        <div class="col-md-10 text-center blue-bar-border" style="margin-left: 4.8rem;">
+            <div class="row ">
+                <div class="col-sm-4 displayflex">
+                    <img src="assets/fundicon/ASB.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
+                    <h5 class="h2-ic" style="padding-top: 1.2rem;">{{ actualfundname }}</h5> <!-- Fund.fundid -->
+                </div>
+                <div class="col-sm-4">
+                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ actualfundvalue }}</h5> <!-- Fund.fundvalue -->
+                </div>
+                <div class="col-sm-4" style="padding-top: 1rem;">
+                    <h5 class="h2-ic" style="padding-top: 1rem;">{{ 'Transfer' | translate }}</h5> <!-- Fund.fundvalue -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <div class="col-md-12 text-center" style="padding-top:1rem;">
+        <h4>+ {{'TransferTo' | translate }}</h4>
+    </div>
+
+    <div class="pop-up-third">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'TransferTo' | translate}} - {{'ARSuccess_5' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["uhid"]' #tuhid>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhidWarning">{{'Warning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'TransferTo' | translate}} - {{'UHName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["uhname"]' #tuhname>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhnameWarning">{{'Warning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'TransferTo' | translate}} - {{'UHICNo' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["uhic"]' #tuhic>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhicWarning">{{'Warning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ReasonForTransfer' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["reason"]' #treason>
+                    <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
+                        {{seq.questionEN}}
+                    </option> -->
+                    <option value="122">112</option>
+                    <option value="233">223</option>
+                    <option value="134">134</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'FLB_9' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["relationship"]' #trelationship>
+                    <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
+                        {{seq.questionEN}}
+                    </option> -->
+                    <option value="122">112</option>
+                    <option value="233">223</option>
+                    <option value="134">134</option>
+                </select> 
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4 style="font-size: 1.25rem;">
+                    {{'AmountInclusiveSST2' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #tamount>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferamountWarning">{{'Warning' | translate}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:grid; place-items: center; padding-top: 2rem;">
+        <div style="width: 1200px">
+            <p>1. {{'TransferCopywriting1' | translate}}</p>
+            <p>2. {{'TransferCopywriting2' | translate}}</p>
+            <p>3. {{'TransferCopywriting3' | translate}}</p>
+        </div>
+    </div>
+
+    <div class="row text-center" style="padding-top: 1rem;">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <input type="checkbox" id="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC($event)">
+            <label for="tncCheck" style="padding-left:1rem; font-size: 1rem;">
+                {{'SIStep2_5' | translate }}
+            </label><br>
+        </div>
+        <div class="col-md-1">
+            
+        </div>
+    </div>
+
+
+  
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transfer1Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transfer1Next()" [disabled]="disagreedTNC">
+                    {{'BTN_Next' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="transfer2" class="content-container">
+   
+    <div class="text-center" style="padding-top:3rem">
+        <h2>
+            {{'Transfer' | translate}}
+        </h2>
+    </div>
+    <div class="text-center">
+        <h2 class="h2-ic">
+            + {{'TransferConfirmationPage' | translate}}
+        </h2>
+    </div>
+
+    
+
+    <div class="pop-up-third">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'TransferTo' | translate}} - {{'ARSuccess_5' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferuhid }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'TransferTo' | translate}} - {{'UHName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferuhname }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'TransferTo' | translate}} - {{'UHICNo' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferuhic }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ReasonForTransfer' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferreason }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'FLB_9' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferrelationship }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4 style="font-size: 1.25rem;">
+                    {{'AmountInclusiveSST2' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferamount }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'TransferFrom' | translate}} - {{'ARSuccess_5' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferfrom }}
+                </h4>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'FundName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferfunname }}
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transfer2Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transfer2Next()">
+                    {{'BTN_Next' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="transfer3" class="content-container">
+   
+    <div class="text-center" style="padding-top:3rem">
+        <h2>
+            {{'Transfer' | translate}}
+        </h2>
+    </div>
+    <div class="text-center">
+        <h2 class="h2-ic">
+            + {{'AcknowledgementStatus' | translate}}
+        </h2>
+    </div>
+
+    
+
+    <div class="pop-up-third">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'TransferTo' | translate}} - {{'ARSuccess_5' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferuhid }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'TransferTo' | translate}} - {{'UHName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferuhname }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'TransferTo' | translate}} - {{'UHICNo' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferuhic }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ReasonForTransfer' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferreason }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'FLB_9' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferrelationship }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4 style="font-size: 1.25rem;">
+                    {{'AmountInclusiveSST2' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferamount }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'TransferFrom' | translate}} - {{'ARSuccess_5' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferfrom }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'FundName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferfunname }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'NAV' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferNAV }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'Units' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferunits }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'SST' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferSST }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'InitialServiceChargeRM' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferinitialRM }}
+                </h4>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'InitialServiceChargePercentage' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ transferinitialPercentage }}
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transferPrint()">
+                    {{'BTN_Print1' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transferEmail()">
+                    {{'BTN_Email1' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="switching1" class="content-container">
+   
+    <div class="row text-center" style="padding-top:1rem">
+        <div class="col-md-1" >
+
+        </div>
+        <div class="col-md-10 text-center">
+            <h4 class="blue-title-bar h2-ic" style="margin-left: 4.1rem;">{{'ARSuccess_5' | translate }}: {{unitholderid}}   |   {{unitholdername}}</h4>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <div class="row text-center" style="padding-top:1rem">
+        <div class="col-md-1" >
+
+        </div>
+        <div class="col-md-10 text-center blue-title-bar-border" style="margin-left: 4.8rem;">
+            <div class="row ">
+                <div class="col-sm-4">
+                    <h5 class="h2-ic" style="padding-top: 0.2rem;">{{ 'FundName' | translate }}</h5>
+                </div>
+                <div class="col-sm-4">
+                    <h5 class="h2-ic" style="padding-top: 0.2rem;">{{ 'CurrentValue' | translate }}</h5>
+                </div>
+                <div class="col-sm-4">
+                    <h5 class="h2-ic" style="padding-top: 0.2rem;">{{ 'TypeOfInvestment' | translate }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <div class="row text-center" style="padding-top:1rem">
+        <div class="col-md-1" >
+
+        </div>
+        <div class="col-md-10 text-center blue-bar-border" style="margin-left: 4.8rem;">
+            <div class="row ">
+                <div class="col-sm-4 displayflex">
+                    <img src="assets/fundicon/ASB.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
+                    <h5 class="h2-ic" style="padding-top: 1.2rem;">{{ actualfundname }}</h5> <!-- Fund.fundid -->
+                </div>
+                <div class="col-sm-4">
+                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ actualfundvalue }}</h5> <!-- Fund.fundvalue -->
+                </div>
+                <div class="col-sm-4" style="padding-top: 1rem;">
+                    <h5 class="h2-ic" style="padding-top: 1rem;">{{ 'Switching' | translate }}</h5> <!-- Fund.fundvalue -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <div class="col-md-12 text-center" style="padding-top:1rem;">
+        <h4>+ {{'SwitchTo' | translate }}</h4>
+    </div>
+
+    <div class="pop-up-third">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'SwitchTo' | translate}} - {{'ARSuccess_5' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["fundname"]' #sfundid>
+                    <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
+                        {{seq.questionEN}}
+                    </option> -->
+                    <option value="122">112</option>
+                    <option value="233">223</option>
+                    <option value="134">134</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4 style="font-size: 1.25rem;">
+                    {{'AmountInclusiveSST2' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_2.controls["amount"]' #samount>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="switchingamountWarning">{{'Warning' | translate}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:grid; place-items: center; padding-top: 2rem;">
+        <div style="width: 1200px">
+            <p>1. {{'SwitchingCopywriting1' | translate}}</p>
+            <p>2. {{'SwitchingCopywriting2' | translate}}</p>
+            <p>3. {{'SwitchingCopywriting3' | translate}}</p>
+        </div>
+    </div>
+
+    <div class="row text-center" style="padding-top: 1rem;">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <input type="checkbox" id="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC($event)">
+            <label for="tncCheck" style="padding-left:1rem; font-size: 1rem;">
+                {{'SIStep2_5' | translate }}
+            </label><br>
+        </div>
+        <div class="col-md-1">
+            
+        </div>
+    </div>
+
+
+  
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="switching1Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="switching1Next()" [disabled]="disagreedTNC">
+                    {{'BTN_Next' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="switching2" class="content-container">
+   
+    <div class="text-center" style="padding-top:3rem">
+        <h2>
+            {{'Switching' | translate}}
+        </h2>
+    </div>
+    <div class="text-center">
+        <h2 class="h2-ic">
+            + {{'SwitchingConfirmationPage' | translate}}
+        </h2>
+    </div>
+
+    
+
+    <div class="pop-up-third">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ARSuccess_5' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchinguhid }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'SwitchFrom' | translate}} - {{'FundName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchingfrom }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'SwitchTo' | translate}} - {{'FundName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchingto }}
+                </h4>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4 style="font-size: 1.25rem;">
+                    {{'AmountInclusiveSST2' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchingamount }}
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="switching2Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="switching2Next()">
+                    {{'BTN_Next' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="switching3" class="content-container">
+   
+    <div class="text-center" style="padding-top:3rem">
+        <h2>
+            {{'Switching' | translate}}
+        </h2>
+    </div>
+    <div class="text-center">
+        <h2 class="h2-ic">
+            + {{'AcknowledgementStatus' | translate}}
+        </h2>
+    </div>
+
+    
+
+    <div class="pop-up-third">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ARSuccess_5' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchinguhid }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'SwitchFrom' | translate}} - {{'FundName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchingfrom }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'SwitchTo' | translate}} - {{'FundName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchingto }}
+                </h4>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4 style="font-size: 1.25rem;">
+                    {{'AmountInclusiveSST2' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchingamount }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'NAV' | translate}} ({{'FromFund' | translate}})
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchingNAVFrom }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'NAV' | translate}} ({{'ToFund' | translate}})
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchingNAVTo }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'Units' | translate}} ({{'FromFund' | translate}})
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchingUnitsFrom }}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'Units' | translate}} ({{'ToFund' | translate}})
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchingUnitsTo }}
+                </h4>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'SST' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    : {{ switchingSST }}
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top: 3rem; padding-bottom: 3rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="switchingPrint()">
+                    {{'BTN_Print1' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="switchingEmail()">
+                    {{'BTN_Email1' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+

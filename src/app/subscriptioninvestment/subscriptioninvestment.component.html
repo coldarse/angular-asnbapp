@@ -1,0 +1,952 @@
+<nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
+    <div class="container-fluid">
+        <div class="titleNLogo">
+            <!-- Language Screen NavBar -->
+            <img src="assets/images/OutOfService-icon.png" alt="OutOfServiceImage" class="icon_margin">
+            <div>
+                <label class="upStyle col-sm-12" *ngIf="isSubscription">{{ 'Subscription' | translate }}</label>
+                <label class="upStyle col-sm-12" *ngIf="isInvestment">{{ 'Investment' | translate }}</label>
+                <label class="downStyle col-sm-12" *ngIf="isOwn">{{ 'Own' | translate }}</label>
+                <label class="downStyle col-sm-12" *ngIf="isBijak">{{ 'Bijak' | translate }}</label>
+                <label class="downStyle col-sm-12" *ngIf="isThird">{{ 'Third' | translate }}</label>
+            </div>
+        </div>
+
+        <form class="d-flex">
+            <img src="assets/images/ASNBLogo.png" class="asnblogo" alt="ASNB">
+        </form>
+    </div>
+</nav>
+
+<div *ngIf="BijakVisible" class="content-container">
+   
+    <div>
+        <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
+            <h2 id="CB1_Title3">{{'CB1_3' | translate }}</h2>
+        </div>
+
+        <div class="col-md-12 text-center" style="padding-top:0.15rem;" *ngFor="let minor of mDetails">
+            <button type="button" class="btn btn-account" id="Account2" (click)="Minor(minor)">
+                {{ minor.UHID }}<br>{{ minor.NAME }}
+            </button>
+        </div>
+    </div>
+
+    
+
+  
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="SIStep1" class="content-container">
+   
+    <div class="text-center" style="padding-top:3rem">
+        <h2>
+            {{'SelectUnitTrust' | translate}}
+        </h2>
+    </div>
+
+    <div class="text-center" style="padding-top:1rem">
+        <h2 class="h2-ic">
+            {{'VariablePrice' | translate}}
+        </h2>
+    </div>
+
+    <div class="pop-up-variable">
+
+    </div>
+
+    <div class="text-center">
+        <h2 class="h2-ic">
+            {{'FixedPrice' | translate}}
+        </h2>
+    </div>
+
+    <div class="pop-up-fixed">
+
+    </div>
+  
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep1Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="SIStep2" class="content-container">
+   
+    <div class="text-center" style="padding-top:3rem">
+        <h2>
+            {{'AddInvestment' | translate}}
+        </h2>
+    </div>
+
+   
+
+    <div class="pop-up-addinvestment">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3>
+                    {{'ARSuccess_5' | translate}}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <h3>
+                    : {{unitholderid}}
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3>
+                    {{'FundName' | translate}}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <h3>
+                    : {{fundid}}
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3 style="font-size: 1.45rem;">
+                    {{'AmountInclusiveSST1' | translate}}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #amount>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning">{{'AWarning' | translate}}</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div style="display:grid; place-items: center; padding-top: 2rem;">
+        <div style="width: 1200px">
+            <p>1. {{'SIStep2_1' | translate}}</p>
+            <p>2. {{'SIStep2_2' | translate}}</p>
+            <p>3. {{'SIStep2_3' | translate}}</p>
+            <p>4. {{'SIStep2_4' | translate}}</p>
+        </div>
+    </div>
+
+    <div class="row text-center" style="padding-top: 1rem;">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <input type="checkbox" id="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC($event)">
+            <label for="tncCheck" style="padding-left:1rem; font-size: 1rem;">
+                {{'SIStep2_5' | translate }}
+            </label><br>
+        </div>
+        <div class="col-md-1">
+            
+        </div>
+    </div>
+  
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:3rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep2Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep2Next()" [disabled]="disagreedTNC">
+                    {{'BTN_Next' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="SIStep3" class="content-container">
+   
+    <div class="text-center" style="padding-top:3rem">
+        <h2>
+            {{'AdditionalInformation' | translate}}
+        </h2>
+    </div>
+
+   
+
+    <div class="pop-up-addinformation">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3>
+                    {{'SourceOfFund' | translate}}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["sourceoffund"]' #source>
+                        <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
+                            {{seq.questionEN}}
+                        </option> -->
+                    <option value="122">112</option>
+                    <option value="233">223</option>
+                    <option value="134">134</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3>
+                    {{'FunderName' | translate}}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="" class="use-keyboard-input" [formControl]='Form_2.controls["fundername"]' #fundername>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="funderWarning">{{'FWarning' | translate}}</div>
+            </div>
+        </div>
+    </div>
+
+
+    
+  
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:21.27rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep3Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep3Next()" [disabled]="disagreedTNC">
+                    {{'BTN_Next' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="SIStep4" class="content-container">
+   
+    <div class="text-center" style="padding-top:3rem">
+        <h2>
+            {{'AddInvestment' | translate}}
+        </h2>
+    </div>
+
+   
+
+    <div class="pop-up-addinvestment">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3>
+                    {{'ARSuccess_5' | translate}}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <h3>
+                    : {{unitholderid}}
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3>
+                    {{'FundName' | translate}}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <h3>
+                    : {{fundid}}
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3 style="font-size: 1.45rem;">
+                    {{'AmountInclusiveSST1' | translate}}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <h3>
+                    : {{amountKeyed}}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:17.47rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep4Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep4Next()" [disabled]="disagreedTNC">
+                    {{'BTN_Next' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="STPStep1" class="content-container">
+   
+    <div class="text-center" style="padding-top:3rem">
+        <h2>
+            {{'ThirdPartyDetails' | translate}}
+        </h2>
+    </div>
+
+   
+
+    <div class="pop-up-third">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ICType' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["ictype"]' #thirdictype>
+                        <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
+                            {{seq.questionEN}}
+                        </option> -->
+                    <option value="122">112</option>
+                    <option value="233">223</option>
+                    <option value="134">134</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'CB2_4' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_3.controls["icno"]' #thirdicno>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdicnoWarning">{{'Warning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'CB2_6' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_3.controls["uhid"]' #thirduhid>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirduhidWarning">{{'Warning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'CB2_2' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_3.controls["name"]' #thirdname>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdnameWarning">{{'Warning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ReasonForTransfer' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["reason"]' #thirdreason>
+                    <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
+                        {{seq.questionEN}}
+                    </option> -->
+                    <option value="122">112</option>
+                    <option value="233">223</option>
+                    <option value="134">134</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'FLB_9' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["relationship"]' #thirdrelationship>
+                    <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
+                        {{seq.questionEN}}
+                    </option> -->
+                    <option value="122">112</option>
+                    <option value="233">223</option>
+                    <option value="134">134</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'FundName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["fundname"]' #thirdfundname>
+                    <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
+                        {{seq.questionEN}}
+                    </option> -->
+                    <option value="122">112</option>
+                    <option value="233">223</option>
+                    <option value="134">134</option>
+                </select>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 1.75rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4 style="font-size: 1.25rem;">
+                    {{'AmountInclusiveSST1' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6" >
+                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_3.controls["amount"]' #thirdamount>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdamountWarning">{{'Warning' | translate}}</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div style="display:grid; place-items: center; padding-top: 2rem;">
+        <div style="width: 1200px">
+            <p>1. {{'SIStep2_1' | translate}}</p>
+            <p>2. {{'SIStep2_2' | translate}}</p>
+            <p>3. {{'SIStep2_3' | translate}}</p>
+            <p>4. {{'SIStep2_4' | translate}}</p>
+        </div>
+    </div>
+
+    <div class="row text-center" style="padding-top: 1rem;">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <input type="checkbox" id="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC($event)">
+            <label for="tncCheck" style="padding-left:1rem; font-size: 1rem;">
+                {{'SIStep2_5' | translate }}
+            </label><br>
+        </div>
+        <div class="col-md-1">
+            
+        </div>
+    </div>
+  
+    <footer class="site-footer"> 
+        <div class="row text-center" style="padding-top:3rem; padding-bottom: 3rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep1Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep1Next()" [disabled]="disagreedTNC">
+                    {{'BTN_Next' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="STPStep2" class="content-container">
+   
+    <div class="text-center" style="padding-top:3rem">
+        <h2>
+            {{'AdditionalInformation' | translate}}
+        </h2>
+    </div>
+
+   
+
+    <div class="pop-up-thirdaddinformation">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3>
+                    {{'SourceOfFund' | translate}}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_4.controls["sourceoffund"]' #thirdsource>
+                        <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
+                            {{seq.questionEN}}
+                        </option> -->
+                    <option value="122">112</option>
+                    <option value="233">223</option>
+                    <option value="134">134</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    
+  
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:21.27rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep2Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep2Next()" [disabled]="disagreedTNC">
+                    {{'BTN_Next' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+<div *ngIf="STPStep3" class="content-container">
+   
+    <div class="text-center" style="padding-top:3rem">
+        <h2>
+            {{'ThirdPartyDetails' | translate}}
+        </h2>
+    </div>
+
+   
+
+    <div class="pop-up-third">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ICType' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    {{thirdictypekeyed}}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'CB2_4' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    {{thirdicnokeyed}}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'CB2_6' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    {{thirduhidkeyed}}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'CB2_2' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    {{thirdnamekeyed}}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ReasonForTransfer' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    {{thirdreasonkeyed}}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'FLB_9' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    {{thirdrelationshipkeyed}}
+                </h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'FundName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <h4>
+                    {{thirdfundnamekeyed}}
+                </h4>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 1.75rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4 style="font-size: 1.25rem;">
+                    {{'AmountInclusiveSST1' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6" >
+                <h4>
+                    {{thirdamountkeyed}}
+                </h4>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="site-footer"> 
+        <div class="row text-center" style="padding-top:4.4rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep3Back()">
+                    {{'BTN_Back' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep3Next()" [disabled]="disagreedTNC">
+                    {{'BTN_Next' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+
+<div *ngIf="SIStep5" class="row content-container">
+    <div class="col-md-6 text-center" style="padding-top:15rem">
+        <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin1' | translate }}</h3>
+        <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin2' | translate }}</h3>
+        &nbsp;
+        <button type="button" class="btn btn-checkIC" (click)="SIStep5Cancel()">
+            <!-- Sahkan MyKad -->
+            {{'BTN_Cancel' | translate }}
+        </button>
+    </div>
+    <div class="col-md-6 text-center" style="padding-top:3rem">
+        <img src="assets/images/InsertDebitCard.gif" class="ICReader__centered img-addon padding-top-5rem" alt="ICReaderImage">
+    </div>
+</div>
+
+<div *ngIf="SIStep6" class="content-container">
+   
+    <div class="text-center" style="padding-top:3rem">
+        <h2>
+            {{'AcknowledgementStatus' | translate}}
+        </h2>
+    </div>
+
+   
+
+    <div class="pop-up-status">
+        <div class="row" style="padding-top:1rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'CB2_2' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{unitholderid}}
+                </h5>
+            </div>
+        </div>
+        <!-- isThird -->
+        <div class="row" *ngIf="isThird">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'ICType' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{thirdictypekeyed}}
+                </h5>
+            </div>
+        </div>
+        <div class="row" *ngIf="isThird">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'CB2_4' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{thirdicnokeyed}}
+                </h5>
+            </div>
+        </div>
+        <div class="row" *ngIf="isThird">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'CB2_6' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{thirduhidkeyed}}
+                </h5>
+            </div>
+        </div>
+        <div class="row" *ngIf="isThird">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'ReasonForTransfer' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{thirdreasonkeyed}}
+                </h5>
+            </div>
+        </div>
+        <div class="row" *ngIf="isThird">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'FLB_9' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{thirdrelationshipkeyed}}
+                </h5>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'RefNo' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{refno}}
+                </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'Status' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{status}}
+                </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'ApprovalCode' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{approvalcode}}
+                </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'AccountTypeCP' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{accounttype}}
+                </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'AmountInclusiveSST2' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{amountKeyed}}
+                </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'FundName' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{fundid}}
+                </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'NAV' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{nav}}
+                </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'SST' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{sst}}
+                </h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'UnitsAlloted' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{unitsalloted}}
+                </h5>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 1.5rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h5>
+                    {{'InitialSalesCharge' | translate}}
+                </h5>
+            </div>
+            <div class="col-md-6">
+                <h5>
+                    : {{initialcharges}}
+                </h5>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row text-center" style="padding-top: 1rem;">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+           <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">
+                {{'SIStep6_1' | translate }}
+            </label><br>
+        </div>
+        <div class="col-md-1">
+            
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:2rem; padding-bottom: 2rem;">
+            <div class="col-md-12">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="Print()">
+                    {{'BTN_Print1' | translate }}
+                </button>
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="Email()">
+                    {{'BTN_Email1' | translate }}
+                </button>
+            </div>
+            
+        </div>
+    </footer>
+    
+
+</div>
+
+

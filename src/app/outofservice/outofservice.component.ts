@@ -26,9 +26,6 @@ export class OutofserviceComponent implements OnInit {
 
     this.EM1 = errorCodes.message;
     this.MR1 = errorCodes.message;
-    setTimeout(() =>{
-      this._router.navigate(['/'])
-    }, 120000);
   }
 
 }

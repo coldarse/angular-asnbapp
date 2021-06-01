@@ -352,7 +352,7 @@
                     <h4 class="h2-ic">{{'PRDetails_2' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["userid"]' #uid>
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" name="" [formControl]='PForm_1.controls["userid"]' #uid>
                      <!-- [formControl]='PForm_1.controls["username"]' -->
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="userid_warning">{{'Warning' | translate}}</div> 
 
@@ -366,7 +366,7 @@
                     <h4 class="h2-ic">{{'PRDetails_3' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["email"]' #eAddress>
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" name="" [formControl]='PForm_1.controls["email"]' #eAddress>
                     <!-- [formControl]='PForm_1.controls["email"]'> -->
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_warning">{{'EAWarning' | translate}}</div> 
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email1_warning">{{'EAWarning1' | translate}}</div> 
@@ -419,7 +419,7 @@
                     <h4 class="h2-ic">{{'PRDetails_7' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a1"]' #answer1>
+                    <input type="text" name="" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a1"]' #answer1>
                     <!-- [formControl]='PForm_1.controls["ans1"]'> -->
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer1_warning">{{'Warning' | translate}}</div> 
 
@@ -444,7 +444,7 @@
                     <h4 class="h2-ic">{{'PRDetails_9' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a2"]' #answer2>
+                    <input type="text" name="" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a2"]' #answer2>
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer2_warning">{{'Warning' | translate}}</div> 
                 
                 </div>
@@ -468,7 +468,7 @@
                     <h4 class="h2-ic">{{'PRDetails_11' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a3"]' #answer3>
+                    <input type="text" name="" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a3"]' #answer3>
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer3_warning">{{'Warning' | translate}}</div> 
                 
                 </div>
@@ -529,7 +529,7 @@
                     <h4 class="h2-ic">{{'PRDetails_18' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 50%;" class="use-keyboard-input" [formControl]='PForm_1.controls["tac"]' #TAC>
+                    <input type="text" name="" style="width: 50%;" class="use-keyboard-input" [formControl]='PForm_1.controls["tac"]' #TAC>
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="tac_warning">{{'Warning' | translate}}</div> 
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="tac1_warning">{{'WrongTAC' | translate}}</div> 
                     
@@ -680,7 +680,7 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="text" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_2.controls["useridlog"]' #uidlog >
+            <input type="text" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_2.controls["useridlog"]' #uidlog >
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="useridlog_warning">{{'Warning' | translate}}</div> 
             <button class="btn btn-primary" (click)='usernameVerify()'>
                 {{'BTN_Login' | translate}}
@@ -700,7 +700,7 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="text" style="width: 100%; height: 120%;" class="text-center"  [formControl]='PForm_2.controls["securep"]'>
+            <input type="text" name="" style="width: 100%; height: 120%;" class="text-center"  [formControl]='PForm_2.controls["securep"]'>
         </div>
         <div class="col-md-6">
             <div class="row">
@@ -742,7 +742,7 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="password" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_2.controls["temppass"]' #tempPass>
+            <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_2.controls["temppass"]' #tempPass>
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="temppass_warning">{{'Warning' | translate}}</div> 
         
         </div>
@@ -786,7 +786,7 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="password" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpass"]' #newPass>
+            <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpass"]' #newPass>
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpass_warning">{{'Warning' | translate}}</div> 
         
         </div>
@@ -804,7 +804,7 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="password" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpassR"]' #newPassR>
+            <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpassR"]' #newPassR>
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR_warning">{{'Warning' | translate}}</div> 
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR1_warning">{{'NotMatch' | translate}}</div> 
         

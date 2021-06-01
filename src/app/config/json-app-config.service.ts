@@ -19,6 +19,8 @@ export class JsonAppConfigService extends AppConfiguration {
         this.baseUrl = data.baseUrl;
         this.AldanDevURL = data.AldanDevURL;
         this.AldanReceiptURL = data.AldanReceiptURL;
+        this.AESCrpytKey = data.AESCrpytKey;
+        this.idletime = Number(data.idletime);
       })
       .catch(() => {
         console.error('Could not load configuration');
