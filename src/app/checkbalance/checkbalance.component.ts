@@ -149,7 +149,6 @@ export class CheckbalanceComponent implements OnInit {
 
   DetectMyKad() {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
-      // console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
@@ -176,9 +175,6 @@ export class CheckbalanceComponent implements OnInit {
         this.CB2_Visible = false;
         this.CB3_Visible = true;
     
-        
-        console.log(selectedFundDetails.FUNDID);
-        console.log(selectedFundDetails.UNITBALANCE);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
       
         let body : any;
@@ -197,7 +193,7 @@ export class CheckbalanceComponent implements OnInit {
             "GRANDTOTALUNITS": currentHolder.grandtotalunits.toString(),
             "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings.toString(),	
       
-            "CHANNELTYPE":"ATM",
+            "CHANNELTYPE":"ASNB KIOSK",
             "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
             "DEVICEOWNER":"ASNB",
             "NUMBEROFTXNS":"4", 
@@ -233,7 +229,7 @@ export class CheckbalanceComponent implements OnInit {
             "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits.toString(),
             "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings.toString(),	
       
-            "CHANNELTYPE":"ATM",
+            "CHANNELTYPE":"ASNB KIOSK",
             "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
             "DEVICEOWNER":"ASNB",
             "NUMBEROFTXNS":"4", 
@@ -242,7 +238,7 @@ export class CheckbalanceComponent implements OnInit {
             "UNITHOLDERID": this.CB2_7.toString(),
             "IDENTIFICATIONTYPE":"W",
             "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
-            "GUARDIANIDNUMBER":currentHolder.unitholderid,
+            "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
             "FUNDID":selectedFundDetails.FUNDID.toString(),
       
             "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
@@ -256,7 +252,6 @@ export class CheckbalanceComponent implements OnInit {
           };
         }
     
-        console.log(body);
 
         let kActivit1 = new kActivity();
         kActivit1.trxno = signalrConnection.trxno;
@@ -270,7 +265,7 @@ export class CheckbalanceComponent implements OnInit {
         .subscribe((trans: any) => {
     
           if (trans.result.requeststatus.toLowerCase().includes('successful')){
-            signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+            signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetStatementPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
               setTimeout(()=>{   
                 if (data == true){
                   kActivit1.endTime = new Date();
@@ -333,7 +328,7 @@ export class CheckbalanceComponent implements OnInit {
         "GRANDTOTALUNITS": currentHolder.grandtotalunits.toString(),
         "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings.toString(),
   
-        "CHANNELTYPE":"ATM",
+        "CHANNELTYPE":"ASNB KIOSK",
         "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
         "DEVICEOWNER":"ASNB",
         "NUMBEROFTXNS":"4", 
@@ -368,7 +363,7 @@ export class CheckbalanceComponent implements OnInit {
         "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits.toString(),
         "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings.toString(),
   
-        "CHANNELTYPE":"ATM",
+        "CHANNELTYPE":"ASNB KIOSK",
         "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
         "DEVICEOWNER":"ASNB",
         "NUMBEROFTXNS":"4", 
@@ -377,7 +372,7 @@ export class CheckbalanceComponent implements OnInit {
         "UNITHOLDERID": this.CB2_7.toString(),
         "IDENTIFICATIONTYPE":currentBijakHolder.identificationtype,
         "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
-        "GUARDIANIDNUMBER": currentHolder.unitholderid,
+        "GUARDIANIDNUMBER": this.CB_GuardianID.toString(),
         "FUNDID":selectedFundDetails.FUNDID.toString(),
   
         "UHHOLDINGS": selectedFundDetails.UHHOLDINGS.toString(),
@@ -391,8 +386,6 @@ export class CheckbalanceComponent implements OnInit {
       };
     }
      
-    console.log(JSON.stringify(body));
-
 
     const emailObj = {
       "Name" : currentHolder.firstname,
@@ -414,7 +407,6 @@ export class CheckbalanceComponent implements OnInit {
       kActivit1.action = "Get Latest Five Transactions";
       kActivit1.startTime = new Date();
 
-      console.log(trans.result);
 
       if (trans.result.requeststatus.toLowerCase().includes('successful')){
         signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
@@ -470,7 +462,7 @@ export class CheckbalanceComponent implements OnInit {
             "date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
             "time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
             "firstname": currentHolder.firstname.toString(),
-            "channeltype": "ATM",
+            "channeltype": "ASNB KIOSK",
             "requestoridentification": "TESTFDSSERVER",
             "deviceowner": "ASNB",
             "typeofstatement": "DIVSTMT",
@@ -488,7 +480,7 @@ export class CheckbalanceComponent implements OnInit {
             "date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
             "time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
             "firstname": currentBijakHolder.firstname.toString(),
-            "channeltype": "ATM",
+            "channeltype": "ASNB KIOSK",
             "requestoridentification": "TESTFDSSERVER",
             "deviceowner": "ASNB",
             "typeofstatement": "DIVSTMT",
@@ -503,12 +495,10 @@ export class CheckbalanceComponent implements OnInit {
           };
         }
     
-        console.log(body);
         
         this.serviceService.dividendStatement(body)
         .subscribe((trans: any) => {
     
-          console.log(JSON.stringify(trans.result));
     
           let kActivit1 = new kActivity();
           kActivit1.trxno = signalrConnection.trxno;
@@ -524,7 +514,7 @@ export class CheckbalanceComponent implements OnInit {
           appFunc.kioskActivity.push(kActivit1);
 
           if (trans.result.requeststatus.toLowerCase().includes('successful')){
-            signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetDivStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+            signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetDivStatementPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
               setTimeout(()=>{   
                 if (data == true){
                   kActivit1.endTime = new Date();
@@ -580,7 +570,7 @@ export class CheckbalanceComponent implements OnInit {
         "date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
         "time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "firstname": currentHolder.firstname.toString(),
-        "channeltype": "ATM",
+        "channeltype": "ASNB KIOSK",
         "requestoridentification": "TESTFDSSERVER",
         "deviceowner": "ASNB",
         "typeofstatement": "DIVSTMT",
@@ -598,7 +588,7 @@ export class CheckbalanceComponent implements OnInit {
         "date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
         "time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "firstname": currentBijakHolder.firstname.toString(),
-        "channeltype": "ATM",
+        "channeltype": "ASNB KIOSK",
         "requestoridentification": "TESTFDSSERVER",
         "deviceowner": "ASNB",
         "typeofstatement": "DIVSTMT",
@@ -613,8 +603,6 @@ export class CheckbalanceComponent implements OnInit {
       };
     }
      
-    console.log(body);
-
     const emailObj = {
       "Name" : currentHolder.firstname,
       "UnitHolderID" : currentHolder.unitholderid,
@@ -627,7 +615,6 @@ export class CheckbalanceComponent implements OnInit {
     this.serviceService.dividendStatement(body)
     .subscribe((trans: any) => {
 
-      console.log(JSON.stringify(trans.result));
 
       let kActivit1 = new kActivity();
       kActivit1.trxno = signalrConnection.trxno;
@@ -732,7 +719,7 @@ export class CheckbalanceComponent implements OnInit {
         
         
     
-        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetSummaryStatementPrintout", signalrConnection.trxno, "0").then((data: any) => {
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetSummaryStatementPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
           setTimeout(()=>{   
             if (data == true){
               kActivit1.endTime = new Date();
@@ -926,7 +913,6 @@ export class CheckbalanceComponent implements OnInit {
 
     this.fDetails = currentHolder.funddetail;
 
-    console.log(this.fDetails[0].FUNDID);
 
     //if (this.fDetails.length == 1 || this.fDetails.length == 0){
     if(this.fDetails[0].FUNDID.length < 1){
@@ -982,7 +968,7 @@ export class CheckbalanceComponent implements OnInit {
     this.CB2_3 = currentBijakHolder.firstname;
     this.CB2_5 = currentBijakHolder.identificationnumber;
     this.CB2_7 = currentBijakHolder.unitholderid;
-    this.CB_GuardianID = currentBijakHolder.guardianid;
+    this.CB_GuardianID = currentHolder.identificationnumber;
 
     this.CB2_9 = currentBijakHolder.grandtotaluhholdings;
     this.CB2_10 = currentBijakHolder.grandtotalunits;

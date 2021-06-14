@@ -139,7 +139,6 @@ export class VerifymykadComponent implements OnInit {
 
     this._conn.invoke('myKadRequest', "ScanThumb").then((data: any) => {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoked myKadRequest to Scan Thumb.");
-      //console.log(data);
       //this.DetectMyKad();
       if (data.toUpperCase().includes("MISMATCH")){
         kActivit.endTime = new Date();
@@ -184,7 +183,6 @@ export class VerifymykadComponent implements OnInit {
 
   DetectMyKad(match?: string) {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
-      console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         let kActivit = new kActivity();
@@ -198,7 +196,6 @@ export class VerifymykadComponent implements OnInit {
         kActivit.status = false;
 
         appFunc.kioskActivity.push(kActivit);
-        console.log("No Identification Card Detected.");
         errorCodes.code = "0168";
         errorCodes.message = "No Identification Card Detected.";
         this._router.navigate(['outofservice']);
@@ -250,7 +247,6 @@ export class VerifymykadComponent implements OnInit {
       }else{
 
         signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
-          console.log(data);
           signalrConnection.cardDetect = data;
           if(signalrConnection.cardDetect != true){
             this.RMError5_Visible = true;
@@ -273,7 +269,7 @@ export class VerifymykadComponent implements OnInit {
             //First Invoke
             this._conn.invoke('myKadRequest', this.CardType).then((data: any) => {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoke myKadRequest to read MyKad.");
-              console.log(data);
+        
               status = data;
               
               //Not ScanThumb
@@ -282,7 +278,7 @@ export class VerifymykadComponent implements OnInit {
                 kActivit0.status = false;
 
                 appFunc.kioskActivity.push(kActivit0);
-                console.log(data);
+
                 errorCodes.code = "0168";
                 errorCodes.message = data;
                 this._router.navigate(['outofservice']);
@@ -303,9 +299,6 @@ export class VerifymykadComponent implements OnInit {
 
               this._conn.invoke('myKadRequest', status).then((data: any) => {
                 
-                console.log(data);
-                //ScanThumb
-                //this.DetectMyKad();
                 if (data.toUpperCase().includes("SCANTHUMB")){
                   kActivit.endTime = new Date();
                   kActivit.status = true;
@@ -327,7 +320,6 @@ export class VerifymykadComponent implements OnInit {
                   this._conn.invoke('myKadRequest', status).then((data: any) => {
                     status = data;
                     //this.DetectMyKad();
-                    console.log(data);
                     if (status.toUpperCase().includes("MISMATCH")){
                       kActivit1.endTime = new Date();
                       kActivit1.status = false;
@@ -371,9 +363,16 @@ export class VerifymykadComponent implements OnInit {
                   kActivit.status = false;
 
                   appFunc.kioskActivity.push(kActivit);
-                  errorCodes.code = "0111";
-                  errorCodes.message = data;
-                  this._router.navigate(['outofservice']);
+
+                  if (data.toLowerCase().includes("invalid")){
+                    errorCodes.Ecode = "0111";
+                    errorCodes.Emessage = data;
+                    this._router.navigate(['errorscreen']);
+                  }else{
+                    errorCodes.code = "0111";
+                    errorCodes.message = data;
+                    this._router.navigate(['outofservice']);
+                  }
                   signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
                 }    
               });
@@ -383,7 +382,6 @@ export class VerifymykadComponent implements OnInit {
       }
     }
     catch (e){
-      console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
@@ -426,7 +424,6 @@ export class VerifymykadComponent implements OnInit {
       this.getAccountInquiry();
     }
     catch(e) {
-      console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
@@ -468,7 +465,6 @@ export class VerifymykadComponent implements OnInit {
       this.getAccountInquiry();
     }
     catch(e) {
-      console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
@@ -516,8 +512,8 @@ export class VerifymykadComponent implements OnInit {
       this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
 
-        console.log(result);
 
+        console.log(result);
         currentHolder.channeltype = result.channeltype;
         currentHolder.requestoridentification = result.requestoridentification;
         currentHolder.deviceowner = result.deviceowner;
@@ -607,7 +603,6 @@ export class VerifymykadComponent implements OnInit {
         currentHolder.rejectcode = result.rejectcode;
         currentHolder.rejectreason = result.rejectreason;
 
-        console.log(currentHolder.occupationcategory);
 
 
 
@@ -859,7 +854,6 @@ export class VerifymykadComponent implements OnInit {
       });
     }
     catch (e){
-      console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);

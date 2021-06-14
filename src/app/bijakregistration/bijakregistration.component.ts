@@ -20,6 +20,8 @@ declare const loadKeyboard: any;
 declare const deleteKeyboard: any;
 declare const closeKeyboard: any;
 
+//ASNBHQ001
+
 @Component({
   selector: 'app-bijakregistration',
   templateUrl: './bijakregistration.component.html',
@@ -99,6 +101,7 @@ export class BijakregistrationComponent implements OnInit {
   companyName_Warning : boolean = false;
 
   MI_Warning : boolean = false;
+  MI_Warning2 : boolean = false;
   JS_Warning : boolean = false;
   NOJ_Warning : boolean = false;
   JN_Warning : boolean = false;
@@ -108,6 +111,8 @@ export class BijakregistrationComponent implements OnInit {
   Print_Visible = true;
 
   pep = true;
+
+  ASNBProspectus = false;
 
   form_salutation : any = appFunc.titleSalutation;
   form_races : any = appFunc.races; //
@@ -284,7 +289,6 @@ export class BijakregistrationComponent implements OnInit {
 
   DetectMyKad() {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
-      console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
@@ -308,6 +312,19 @@ export class BijakregistrationComponent implements OnInit {
       }
     }
 
+    
+
+
+    let tempadd1 = "";
+    let tempadd2 = "";
+    if(currentMyKidDetails.Address3.length != 0){
+      tempadd1 = currentMyKidDetails.Address1;
+      tempadd2 = currentMyKidDetails.Address2;
+    }else{
+      tempadd1 = currentMyKidDetails.Address1 + ", " + currentMyKidDetails.Address2;
+      tempadd2 = currentMyKidDetails.Address3;
+    }
+
     this.AR_Form = this.fb.group(
       {
         salutation: ['EN'],
@@ -318,7 +335,7 @@ export class BijakregistrationComponent implements OnInit {
         religion: [{value: this.religion, disabled: true}],
 
         g_memberid: [{value: currentHolder.unitholderid, disabled: true}],
-        g_salution: [{value: currentHolder.title}],
+        g_salution: [currentHolder.title],
         g_fullname: [{value: currentHolder.firstname, disabled: true}],
         g_identificationnumber: [{value: currentMyKadDetails.ICNo, disabled: true}],
         g_dob: [{value: formatDate(currentMyKadDetails.DOB, 'dd MMM yyyy', 'en'), disabled: true}],
@@ -326,8 +343,8 @@ export class BijakregistrationComponent implements OnInit {
         g_religion: [{value: currentMyKadDetails.Religion, disabled: true}],
         g_relation: [{value: 'F', disabled: false}],
 
-        address1 : [{value: currentMyKadDetails.Address1 + currentMyKadDetails.Address2, disabled: true}],
-        address2 : [{value: currentMyKadDetails.Address3, disabled: true}],
+        address1 : [{value: tempadd1, disabled: true}],
+        address2 : [{value: tempadd2, disabled: true}],
         postcode : [{value: currentMyKadDetails.PostCode, disabled: true}],
         city : [{value: currentMyKadDetails.City, disabled: true}],
         state : [{value: currentMyKadDetails.State, disabled: true}],
@@ -400,7 +417,7 @@ export class BijakregistrationComponent implements OnInit {
         let status = "";
   
         signalrConnection.connection.invoke('myKidRequest', this.CardType).then((data: any) => {
-          console.log(data);
+
           status = data;
   
           if (status.toLowerCase().includes('removecard')){
@@ -408,7 +425,7 @@ export class BijakregistrationComponent implements OnInit {
             this.bindMyKidData();
           }
           else{
-            console.log(data);
+
             this.BRError_Visible = true;
           }
   
@@ -475,7 +492,6 @@ export class BijakregistrationComponent implements OnInit {
       }
     }
     catch(e) {
-      console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
@@ -529,7 +545,6 @@ export class BijakregistrationComponent implements OnInit {
       }
     }
     catch(e) {
-      console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
@@ -543,41 +558,41 @@ export class BijakregistrationComponent implements OnInit {
     let code = category.target.value;
 
     if (code.includes('EM')){
-      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('NA');
       this.AR_Form.controls.natureofjob.disable();
     }
     else if (code.includes('SE')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.jobname.setValue('NA');
+      this.AR_Form.controls.jobsector.setValue('NA');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
     }
     else if (code.includes('HM')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.natureofjob.setValue('');
-      this.AR_Form.controls.companyname.setValue('');
+      this.AR_Form.controls.jobname.setValue('NA');
+      this.AR_Form.controls.jobsector.setValue('NA');
+      this.AR_Form.controls.natureofjob.setValue('NA');
+      this.AR_Form.controls.companyname.setValue('NA');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.companyname.disable();
     }
     else if (code.includes('RY')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.natureofjob.setValue('');
-      this.AR_Form.controls.companyname.setValue('');
+      this.AR_Form.controls.jobname.setValue('NA');
+      this.AR_Form.controls.jobsector.setValue('NA');
+      this.AR_Form.controls.natureofjob.setValue('NA');
+      this.AR_Form.controls.companyname.setValue('NA');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.companyname.disable();
     }
     else if (code.includes('UM')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.natureofjob.setValue('');
-      this.AR_Form.controls.companyname.setValue('');
-      this.AR_Form.controls.monthlyincome.setValue('7');
+      this.AR_Form.controls.jobname.setValue('NA');
+      this.AR_Form.controls.jobsector.setValue('NA');
+      this.AR_Form.controls.natureofjob.setValue('NA');
+      this.AR_Form.controls.companyname.setValue('NA');
+      this.AR_Form.controls.monthlyincome.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.jobsector.disable();
@@ -625,8 +640,7 @@ export class BijakregistrationComponent implements OnInit {
        this.serviceService.getAccountInquiry(body)
        .subscribe((result: any) => {
 
-        console.log("Subscribing");
-        
+        console.log(result);
         //Mapping Happens Here
         currentBijakHolder.channeltype = result.channeltype;
         currentBijakHolder.requestoridentification = result.requestoridentification;
@@ -644,7 +658,7 @@ export class BijakregistrationComponent implements OnInit {
         currentBijakHolder.filtrationflag = result.filtrationflag;
         currentBijakHolder.typeclosed = result.typeclosed;
         currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
-        currentBijakHolder.funddetail = result.fundetail;
+        currentBijakHolder.funddetail = result.funddetail;
         currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
         currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
         currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
@@ -667,6 +681,7 @@ export class BijakregistrationComponent implements OnInit {
         currentBijakHolder.rejectreason = result.rejectreason;
 
 
+
         if (currentBijakHolder.transactionstatus.toLowerCase().includes('successful')){
           if (!currentBijakHolder.typeclosed.toLowerCase().includes('n')){
             errorCodes.Ecode = "0168";
@@ -675,25 +690,25 @@ export class BijakregistrationComponent implements OnInit {
           }
           else{
             if (currentBijakHolder.funddetail.length == 0 && currentBijakHolder.unitholderid != undefined){
-              console.log("Reached Here B");
+
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "BijakAccount Found, But no Fund.");
               this.BRError1_Visible = true;
             }
             //Scenario 3: FundID & Bijak UnitHolderID exists
             else if (currentBijakHolder.funddetail.length > 0 && currentBijakHolder.unitholderid != undefined){
-              console.log("Reached Here C");
+
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Bijak Account Found.");
               this.BRError1_Visible = true;
             }
     
             else{
-              console.log("Reached Here D");
+
             }
           }
         }
         else{
           if (currentBijakHolder.rejectreason.includes('not exists')){
-            console.log("Reached Here A");
+
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "No bijak account found.");
 
             this.city = currentMyKidDetails.City;
@@ -714,7 +729,7 @@ export class BijakregistrationComponent implements OnInit {
                 this.state = currentMyKidDetails.State;
               }
             }
-            this.religion = currentMyKidDetails.FathersReligion;
+            this.religion = currentMyKadDetails.Religion;
             if(this.religion.toLowerCase().includes('islam')){
               this.religion = "M"
             }
@@ -731,14 +746,24 @@ export class BijakregistrationComponent implements OnInit {
               }
             }
 
+            let tempadd1 = "";
+            let tempadd2 = "";
+            if(currentMyKidDetails.Address3 == ""){
+              tempadd1 = currentMyKidDetails.Address1;
+              tempadd2 = currentMyKidDetails.Address2;
+            }else{
+              tempadd1 = currentMyKidDetails.Address1 + ", " + currentMyKidDetails.Address2;
+              tempadd2 = currentMyKidDetails.Address3;
+            }
+
             this.AR_Form.controls.fullname.setValue(currentMyKidDetails.Name);
             this.AR_Form.controls.identificationcardno.setValue(currentMyKidDetails.ICNo);
             this.AR_Form.controls.dob.setValue(formatDate(currentMyKidDetails.DOB, 'dd MMM yyyy', 'en'));
             this.AR_Form.controls.race.setValue(this.race);
             this.AR_Form.controls.religion.setValue(this.religion);
 
-            this.AR_Form.controls.address1.setValue(currentMyKidDetails.Address1 + ", " + currentMyKidDetails.Address2);
-            this.AR_Form.controls.address2.setValue(currentMyKidDetails.Address3);
+            this.AR_Form.controls.address1.setValue(tempadd1);
+            this.AR_Form.controls.address2.setValue(tempadd2);
             this.AR_Form.controls.postcode.setValue(currentMyKidDetails.PostCode);
             this.AR_Form.controls.city.setValue(currentMyKidDetails.City);
             this.AR_Form.controls.state.setValue(this.state);
@@ -763,7 +788,6 @@ export class BijakregistrationComponent implements OnInit {
       });
     }
     catch (e){
-      console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
@@ -809,8 +833,18 @@ export class BijakregistrationComponent implements OnInit {
       if (this.address2_Warning == true) this.address2_Warning = false;
       if (this.postcode_Warning == true) this.postcode_Warning = false;
 
-      this.AR_Form.controls.address1.setValue(currentMyKidDetails.Address1 + currentMyKadDetails.Address2);
-      this.AR_Form.controls.address2.setValue(currentMyKidDetails.Address3);
+      let tempadd1 = "";
+      let tempadd2 = "";
+      if(currentMyKidDetails.Address3 == ""){
+        tempadd1 = currentMyKidDetails.Address1;
+        tempadd2 = currentMyKidDetails.Address2;
+      }else{
+        tempadd1 = currentMyKidDetails.Address1 + ", " + currentMyKidDetails.Address2;
+        tempadd2 = currentMyKidDetails.Address3;
+      }
+
+      this.AR_Form.controls.address1.setValue(tempadd1);
+      this.AR_Form.controls.address2.setValue(tempadd2);
       this.AR_Form.controls.postcode.setValue(currentMyKidDetails.PostCode);
       this.AR_Form.controls.city.setValue(this.city);
       this.AR_Form.controls.state.setValue(this.state);
@@ -871,6 +905,7 @@ export class BijakregistrationComponent implements OnInit {
     this.companyName_Warning = false;
 
     this.MI_Warning = false;
+    this.MI_Warning2 = false;
     this.JS_Warning = false;
     this.NOJ_Warning = false;
     this.JN_Warning = false;
@@ -906,6 +941,7 @@ export class BijakregistrationComponent implements OnInit {
         }
       }
       else if (this.AR_Form.controls[key].hasError('pattern')){
+        x += 1;
         if(key.includes('email')){
           this.email_Warning1 = true;
         }
@@ -918,28 +954,67 @@ export class BijakregistrationComponent implements OnInit {
       }
       else {
         if(key.includes('bankname') && (this.AR_Form.controls.bankname.value == '')){
+          x += 1;
           this.bank_Warning = true;
         }
-        else if(key.includes('jobcategory') && (this.AR_Form.controls.jobcategory.value == '')){
+        else if(key.includes('jobcategory') && (this.AR_Form.controls.jobcategory.value == 'NA')){
+          x += 1;
           this.JC_Warning = true;
         }
-        else if(key.includes('jobname') && (this.AR_Form.controls.jobname.value == '')){
-          this.JN_Warning = true;
+        else if(key.includes('jobname') && (this.AR_Form.controls.jobname.value == 'NA')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'SE' &&
+            this.AR_Form.controls.jobcategory.value != 'HM' &&
+            this.AR_Form.controls.jobcategory.value != 'RY' &&
+            this.AR_Form.controls.jobcategory.value != 'UM' 
+            ){
+              console.log(this.AR_Form.controls.jobcategory.value);
+              x += 1;
+              this.JN_Warning = true;
+            }
         }
-        else if(key.includes('natureofjob') && (this.AR_Form.controls.natureofjob.value == '')){
-          this.NOJ_Warning = true;
+        else if(key.includes('natureofjob') && (this.AR_Form.controls.natureofjob.value == 'NA')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'EM' &&
+            this.AR_Form.controls.jobcategory.value != 'HM' &&
+            this.AR_Form.controls.jobcategory.value != 'RY' &&
+            this.AR_Form.controls.jobcategory.value != 'UM' 
+            ){
+              console.log(this.AR_Form.controls.jobcategory.value);
+              x += 1;
+              this.NOJ_Warning = true;
+            }
         }
-        else if(key.includes('jobsector') && (this.AR_Form.controls.jobsector.value == '')){
-          this.JS_Warning = true;
+        else if(key.includes('jobsector') && (this.AR_Form.controls.jobsector.value == 'NA')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'SE' &&
+            this.AR_Form.controls.jobcategory.value != 'HM' &&
+            this.AR_Form.controls.jobcategory.value != 'RY' &&
+            this.AR_Form.controls.jobcategory.value != 'UM' 
+            ){
+              console.log(this.AR_Form.controls.jobcategory.value);
+              x += 1;
+              this.JS_Warning = true;
+            }
         }
         else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '')){
-          this.MI_Warning = true;
+          if(
+            this.AR_Form.controls.jobcategory.value != 'UM'
+          ){
+            x += 1;
+            this.MI_Warning = true;
+          }
+        }
+        else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '7')){
+          if(this.AR_Form.controls.jobcategory.value == "HM"){
+            x += 1;
+            this.MI_Warning2 = true;
+          }
         }
       }
     })
     if (x > 0){
       window.scroll(0,0);
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       this.BRForm_Visible = false;
@@ -974,7 +1049,6 @@ export class BijakregistrationComponent implements OnInit {
     this.AR_Form.controls.state.enable();
 
 
-    console.log(this.AR_Form.value);
 
     const body = {
       "CHANNELTYPE":"ASNB KIOSK",
@@ -998,7 +1072,7 @@ export class BijakregistrationComponent implements OnInit {
       "ZIPCODE": this.AR_Form.controls.postcode.value,
       "DATEOFBIRTH": formatDate(currentMyKidDetails.DOB, 'dd/MM/yyyy', 'en'),
       "SEX": currentMyKidDetails.Gender.substring(0, 1),
-      "OCCUPATION":this.AR_Form.controls.jobname.value,             //
+      "OCCUPATION":this.AR_Form.controls.jobname.value,             
       "EMAIL":this.AR_Form.controls.email.value,
       "FATHER_SPOUSENAME":"",
       "OTHERINFO8":this.AR_Form.controls.monthlyincome.value,
@@ -1020,7 +1094,7 @@ export class BijakregistrationComponent implements OnInit {
     }
 
     this.serviceService.postAccountRegistration(body).subscribe((data: any) => {
-      console.log(data);
+
       if(data.result.transactionstatus.toLowerCase().includes('successful')){
         
         this.BRSuccess_4 = currentMyKidDetails.Name;
@@ -1071,6 +1145,14 @@ export class BijakregistrationComponent implements OnInit {
     this.ARPopUp1_Visible = false;
   }
 
+  NextProspectus(){
+    this.ASNBProspectus = false;
+  }
+
+  ClickProspectus(){
+    this.ASNBProspectus = true;
+  }
+
   Print(){
     
 
@@ -1078,9 +1160,16 @@ export class BijakregistrationComponent implements OnInit {
       if (data){
         this.BRSuccess_Visible = false;
         this.BRPrint1_Visible = true;
+
+        let transaction = "";
+        if(selectLang.selectedLang == 'en'){
+          transaction = "Bijak Account Registration";
+        }else{
+          transaction = "Pendaftaran Akaun Bijak";
+        }
     
         const body = {
-          "Transaksi": "Pendaftaran Akaun Bijak/Bijak Account Registration",
+          "Transaksi": transaction,
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
           "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
           "Lokasi": "KL MAIN 01",
@@ -1091,7 +1180,7 @@ export class BijakregistrationComponent implements OnInit {
     
         //GetNonFinancialTransactionPrintout
     
-        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
           setTimeout(()=>{   
             if (data == true){
               this.BRPrint1_Visible = false;
@@ -1116,10 +1205,15 @@ export class BijakregistrationComponent implements OnInit {
     this.BRSuccess_Visible = false;
     this.BREmail_Visible = true;
 
+    let transaction = "";
+    if(selectLang.selectedLang == 'en'){
+      transaction = "Bijak Account Registration";
+    }else{
+      transaction = "Pendaftaran Akaun Bijak";
+    }
     
-
     const body = {
-      "Transaksi": "Pendaftaran Akaun Bijak/Bijak Account Registration",
+      "Transaksi": transaction,
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
       "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
       "Lokasi": "KL MAIN 01",
@@ -1218,7 +1312,6 @@ export class BijakregistrationComponent implements OnInit {
         currentBijakHolder.rejectcode = result.rejectcode;
         currentBijakHolder.rejectreason = result.rejectreason;
 
-        console.log(currentBijakHolder.occupationcategory);
 
         if (currentBijakHolder.transactionstatus.toLowerCase().includes('successful')){
 
@@ -1236,7 +1329,6 @@ export class BijakregistrationComponent implements OnInit {
         }
         else{
           if (currentBijakHolder.rejectreason.includes('not exists')){
-            console.log("Reached Here A");
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "No account found.");
 
             
@@ -1251,7 +1343,6 @@ export class BijakregistrationComponent implements OnInit {
       });
     }
     catch (e){
-      console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);

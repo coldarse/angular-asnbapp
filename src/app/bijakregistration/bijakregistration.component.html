@@ -37,6 +37,31 @@
     </div>
 </div> 
 
+<div class="bg-popup"  *ngIf="ASNBProspectus">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <!-- Prospectus Header -->
+        <h1 class="padding-top-2rem">{{'ARMessage1_1' | translate }}</h1>
+
+        <!-- Prospectus message -->
+        <h2 class="h2-ic" style="padding-top:10rem;">{{'ARMessage1_2' | translate }}</h2>
+
+        <footer class="site-footer" style="padding-top:8rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextProspectus()">
+                        <!-- Cuba Lagi -->
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
 <div id="BR_Reminder" *ngIf="BRReminder_Visible" class="content-container">
     <div class="col-md-12 text-center" style="margin-top:4rem;">
         <!-- <h2>Peringatan</h2> -->
@@ -495,7 +520,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobcategory"]' (change)="filterJobCategory($event)" >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option value="NA">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationCatergory of form_occupationCatergory" value={{occupationCatergory.code}}>
                                         {{occupationCatergory.desc}}
                                     </option>
@@ -509,7 +534,7 @@
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobname"]' >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option value="NA">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationName of form_occupationName" value={{occupationName.value}}>
                                         {{occupationName.desc}}
                                     </option>
@@ -529,7 +554,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["natureofjob"]' >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option value="NA">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let businessnature of form_businessnature" value={{businessnature.value}}>
                                         {{businessnature.text}}
                                     </option>
@@ -543,7 +568,7 @@
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobsector"]' >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option value="NA">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationSector of form_occupationSector" value={{occupationSector.sector}}>
                                         {{occupationSector.sectorDesc}}
                                     </option>
@@ -569,6 +594,7 @@
                                     </option>
                                 </select>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning2">{{'MIWarning' | translate}}</div> 
                             
                             </div>
                             <div class="col-md-4">
@@ -858,7 +884,7 @@
         </div>
         <div class="col-md-10">
             <!-- <p>Klik sini untuk baca <a href="#">Prospektus induk ASNB</a></p> -->
-            <p>{{'TNC_5' | translate }}<a href="#">{{'TNC_6' | translate }}</a></p>
+            <p>{{'TNC_5' | translate }}<a href="#" (click)="ClickProspectus()">{{'TNC_6' | translate }}</a></p>
 
         </div>
         <div class="col-md-1">

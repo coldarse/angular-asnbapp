@@ -19,6 +19,7 @@ import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 import { HttpHeaders } from '@angular/common/http';
 
 
+
 @Component({
   selector: 'app-language',
   templateUrl: './language.component.html'
@@ -27,16 +28,21 @@ export class LanguageComponent implements OnInit {
 
   loadingDisable = true;
 
-  
+  // ASNBProspectus = false;
+
+  pdfSrc = "assets/SSDM_split_4.pdf";
 
   id: any;
+
+  name = 'Angular';
   
 
   constructor(
     private serviceService : ServiceService,
     private route: Router,
-    private _signalR: SignalR,) { 
-      
+    private _signalR: SignalR,
+    
+    ) { 
        this.startConnection();
     }
 
@@ -48,7 +54,6 @@ export class LanguageComponent implements OnInit {
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
     }
     if(appFunc.kioskActivity != undefined){
-      console.log(JSON.stringify(appFunc.kioskActivity));
       this.serviceService.postKioskActivity(appFunc.kioskActivity).subscribe((res: any) => {
       });
     }
@@ -106,12 +111,13 @@ export class LanguageComponent implements OnInit {
           
           this.loadingDisable = false;
           appFunc.modules = res.result.map((em: any) => new eModules(em));
-          console.log(appFunc.modules);
+          
           for (var val of appFunc.modules){
             if(val.enable == false){
               areDisabled += 1;
             }
           }
+
       
           if(areDisabled == appFunc.modules.length){
             errorCodes.code = "0168";
@@ -176,7 +182,6 @@ export class LanguageComponent implements OnInit {
       
       
     }).catch((err: any) => {
-      console.log(err);
       errorCodes.code = "0167";
       errorCodes.message = "Unauthorized";
       this.route.navigate(['outofservice']);
@@ -301,6 +306,21 @@ export class LanguageComponent implements OnInit {
     }
     return false;
   }
+
+  // NextProspectus(){
+  //   this.ASNBProspectus = true;
+  // }
+
+  // ClickProspectus(){
+  //   this.ASNBProspectus = !this.ASNBProspectus;
+  // }
+
+  // showGif(event: {loaded: number, total: number}) {
+  //   let x = event.loaded < event.total;
+  //   if(x == false){
+  //     this.ASNBProspectus = false;
+  //   }
+  // }
 
   
 }

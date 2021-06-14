@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { AppConfiguration } from './config/app-configuration';
 import { appFunc } from './_models/appFunctions';
 import { errorCodes } from './_models/errorCode';
+import { selectLang } from './_models/language';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -16,21 +18,27 @@ export class AppComponent {
   timedOut = false;
   lastPing: Date = new Date();
   title = 'angular-idle-timeout';
+  timer = 0;
+  timeoutidle = false
   id: any;
 
   constructor(
     private idle: Idle, 
     private keepalive: Keepalive,
     private router: Router,
-    private appConfig: AppConfiguration) {
+    private appConfig: AppConfiguration,
+    private translate: TranslateService) {
+
+    this.translate.use(selectLang.selectedLang);
     // sets an idle timeout of 5 seconds, for testing purposes.
     idle.setIdle(appConfig.idletime);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
-    idle.setTimeout(5);
+    idle.setTimeout(30);
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 
     idle.onIdleEnd.subscribe(() => { 
+      this.timeoutidle = false;
       this.idleState = 'No longer idle.'
       console.log(this.idleState);
       this.reset();
@@ -54,11 +62,19 @@ export class AppComponent {
     });
     
     idle.onIdleStart.subscribe(() => {
+      if(this.router.url === '/screensaver'){
+        this.timeoutidle = false;
         this.idleState = 'You\'ve gone idle!'
         console.log(this.idleState);
+      }else{
+        this.timeoutidle = true;
+        this.idleState = 'You\'ve gone idle!'
+        console.log(this.idleState);
+      }
     });
     
     idle.onTimeoutWarning.subscribe((countdown) => {
+      this.timer = countdown;
       this.idleState = 'You will time out in ' + countdown + ' seconds!'
       console.log(this.idleState);
     });
@@ -72,6 +88,7 @@ export class AppComponent {
   }
 
   reset() {
+    this.timeoutidle = false;
     this.idle.watch();
     this.idleState = 'Started.';
     this.timedOut = false;
@@ -82,6 +99,17 @@ export class AppComponent {
       return true;
     }
     return false;
+  }
+
+  Yes(){
+    this.timeoutidle = false;
+  }
+
+  No(){
+    console.log("clicked no");
+    appFunc.timedOut = true;
+    this.router.navigate(['/']);
+    this.reset();
   }
 
   checkinterval(){

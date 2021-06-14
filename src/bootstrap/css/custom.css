@@ -27,6 +27,8 @@ background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_019807af606
 user-select: none;
 }
 
+
+
 .center {
     margin-left: auto;
     margin-right: auto;
@@ -203,6 +205,20 @@ user-select: none;
 
 }
 
+.btn-redemption {
+  width: 120px;
+  height: 45px;
+  border-radius: 0.75rem;
+  border: 1px solid;
+  border-color: lightgray;
+  background-color: white;
+  text-align: center;
+  font-size: 1rem;
+  font-weight:700;
+  color:rgba(39, 39, 39, 0.9);
+  margin-top: 1.2rem;
+}
+
 .btn-printoremail {
   width: 180px;
   height: 50px;
@@ -238,6 +254,10 @@ user-select: none;
 
 .switchingtransferfundicon {
   max-width: 35%;
+}
+
+.redemptionfundicon {
+  max-width: 40%;
 }
 
 .displayflex{
@@ -291,6 +311,35 @@ user-select: none;
   height: 2.1rem;
 }
 
+.blue-title-bar-2 {
+  background:rgba(0, 87, 185, 0.9);
+  color:rgba(255,255,255);
+  width:1130px;
+  border-radius: 0.5rem;
+  padding-left: 0.5rem;
+  height: 2.1rem;
+}
+
+.blue-title-bar-border-2 {
+  background:rgba(255, 255, 255, 0);
+  color:rgb(0, 0, 0);
+  width:1130px;
+  border: 1px solid rgba(0, 87, 185, 0.9);
+  border-radius: 0.5rem;
+  padding-left: 0.5rem;
+  height: 4.3rem;
+}
+
+.blue-bar-border-2 {
+  background:rgba(255, 255, 255, 0);
+  color:rgb(0, 0, 0);
+  width:1130px;
+  border: 1px solid rgba(0, 87, 185, 0.9);
+  border-radius: 0.5rem;
+  padding-left: 0.5rem;
+  height: 5.5rem;
+}
+
 .blue-bar-border {
   background:rgba(255, 255, 255, 0);
   color:rgb(0, 0, 0);
@@ -300,6 +349,8 @@ user-select: none;
   padding-left: 0.5rem;
   height: 6rem;
 }
+
+
 
 .input-long {
   height: 2rem;
@@ -442,6 +493,16 @@ user-select: none;
   margin-top: 1.5rem;
 }
 
+.pop-up-thirdhalf{
+  border-radius: 1rem;
+  border: 1px solid;
+  border-color: lightgray;
+  width: 1000px;
+  height: auto;
+  background-color: white;
+  margin-left: 11.2rem;
+}
+
 .pop-up-third{
   border-radius: 1rem;
   border: 1px solid;
@@ -450,7 +511,16 @@ user-select: none;
   height: auto;
   background-color: white;
   margin: auto;
-  margin-top: 1.5rem;
+}
+
+.pop-up-fourth{
+  border-radius: 1rem;
+  border: 1px solid;
+  border-color: lightgray;
+  width: 1130px;
+  height: auto;
+  background-color: white;
+  margin: auto;
 }
 
 .pop-up-addinformation{

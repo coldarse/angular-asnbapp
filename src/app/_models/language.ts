@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 
 export class selectLang {
-  static selectedLang: string = 'en';
+  static selectedLang: string = 'ms';
 }
 
 

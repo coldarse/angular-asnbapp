@@ -251,7 +251,7 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input name="homeno" type="text" class="input-normal use-keyboard-input "  id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
+                                <input name="homeno" #homenumber type="text" class="input-normal use-keyboard-input "  id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Telefon Bimbit</h4> -->
@@ -355,7 +355,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobcategory"]' (change)="filterJobCategory($event)" >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option value="NA">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationCatergory of form_occupationCatergory" value={{occupationCatergory.code}}>
                                         {{occupationCatergory.desc}}
                                     </option>
@@ -369,7 +369,7 @@
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobname"]' >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option value="NA">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationName of form_occupationName" value={{occupationName.value}}>
                                         {{occupationName.desc}}
                                     </option>
@@ -389,7 +389,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["natureofjob"]' >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option value="NA">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let businessnature of form_businessnature" value={{businessnature.value}}>
                                         {{businessnature.text}}
                                     </option>
@@ -403,7 +403,7 @@
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobsector"]' >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option value="NA">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationSector of form_occupationSector" value={{occupationSector.sector}}>
                                         {{occupationSector.sectorDesc}}
                                     </option>
@@ -429,6 +429,7 @@
                                     </option>
                                 </select>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning2">{{'MIWarning' | translate}}</div> 
                             
                             </div>
                             <div class="col-md-4">
@@ -950,7 +951,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobcategory"]' (change)="filterJobCategory($event)" >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option value="NA">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationCatergory of form_occupationCatergory" value={{occupationCatergory.code}}>
                                         {{occupationCatergory.desc}}
                                     </option>
@@ -964,7 +965,7 @@
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobname"]' >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option value="NA">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationName of form_occupationName" value={{occupationName.value}}>
                                         {{occupationName.desc}}
                                     </option>
@@ -984,7 +985,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["natureofjob"]' >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option value="NA">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let businessnature of form_businessnature" value={{businessnature.value}}>
                                         {{businessnature.text}}
                                     </option>
@@ -998,7 +999,7 @@
                             </div>
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["jobsector"]' >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                    <option value="NA">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let occupationSector of form_occupationSector" value={{occupationSector.sector}}>
                                         {{occupationSector.sectorDesc}}
                                     </option>
@@ -1024,6 +1025,7 @@
                                     </option>
                                 </select>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning2">{{'MIWarning' | translate}}</div> 
                             
                             </div>
                             <div class="col-md-4">

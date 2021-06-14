@@ -32,9 +32,7 @@ export class ScreensaverComponent implements OnInit {
   }
 
   imgCycle() {
-    console.log(this.counter);
     this.imgSrc = "./assets/screensaver/" + this.imgArray[this.counter];
-    console.log(this.imgSrc);
     if (this.counter == this.imgArray.length - 1) {
       this.counter = -1;
     }

@@ -102,6 +102,7 @@ export class UpdatedetailsComponent implements OnInit {
   companyName_Warning : boolean = false;
 
   MI_Warning : boolean = false;
+  MI_Warning2 : boolean = false;
   JS_Warning : boolean = false;
   NOJ_Warning : boolean = false;
   JN_Warning : boolean = false;
@@ -273,7 +274,6 @@ export class UpdatedetailsComponent implements OnInit {
 
   DetectMyKad() {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
-      console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
@@ -288,19 +288,19 @@ export class UpdatedetailsComponent implements OnInit {
     let code = category.target.value;
 
     if (code.includes('EM')){
-      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('NA');
       this.AR_Form.controls.natureofjob.disable();
     }
     else if (code.includes('SE')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.jobname.setValue('NA');
+      this.AR_Form.controls.jobsector.setValue('NA');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
     }
     else if (code.includes('HM')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.jobname.setValue('NA');
+      this.AR_Form.controls.jobsector.setValue('NA');
+      this.AR_Form.controls.natureofjob.setValue('NA');
       this.AR_Form.controls.companyname.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
@@ -308,9 +308,9 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.companyname.disable();
     }
     else if (code.includes('RY')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.jobname.setValue('NA');
+      this.AR_Form.controls.jobsector.setValue('NA');
+      this.AR_Form.controls.natureofjob.setValue('NA');
       this.AR_Form.controls.companyname.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
@@ -318,11 +318,11 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.companyname.disable();
     }
     else if (code.includes('UM')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.jobname.setValue('NA');
+      this.AR_Form.controls.jobsector.setValue('NA');
+      this.AR_Form.controls.natureofjob.setValue('NA');
       this.AR_Form.controls.companyname.setValue('');
-      this.AR_Form.controls.monthlyincome.setValue('7');
+      this.AR_Form.controls.monthlyincome.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.jobsector.disable();
@@ -642,9 +642,8 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.postcode.enable();
       this.AR_Form.controls.city.enable();
       this.AR_Form.controls.state.enable();
-      console.log(this.AR_Form.value);
 
-
+      console.log(this.AR_Form.controls.natureofjob.value);
       //currentMyKadDetails.ICNo = "521030135180";
       const body = {
         "CHANNELTYPE":"ASNB KIOSK",
@@ -653,7 +652,7 @@ export class UpdatedetailsComponent implements OnInit {
         "UNITHOLDERID": currentHolder.unitholderid,
         "IDENTIFICATIONTYPE":currentMyKadDetails.CategoryType,
         "IDENTIFICATIONNUMBER":currentMyKadDetails.ICNo,
-        "BANKTXNREFERENCENUMBER":"ASNB20210405",
+        "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
         "OCCUPATION":this.AR_Form.controls.jobname.value,
         "EMAIL":this.AR_Form.controls.email.value,
         "OTHERINFO8":this.AR_Form.controls.monthlyincome.value,
@@ -661,18 +660,23 @@ export class UpdatedetailsComponent implements OnInit {
         "OCCUPATIONCATEGORY":this.AR_Form.controls.jobcategory.value,
         "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
         "CELLPHONENUMBER" :this.AR_Form.controls.telephone.value,
+        "TELEPHONE1": this.AR_Form.controls.homenumber.value,
         "COMPANYNAME": this.AR_Form.controls.companyname.value,
+        "TITLE":this.AR_Form.controls.salutation.value,
         "BANKCODE":this.AR_Form.controls.bankname.value,
         "ACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
         "GUARDIANID":"",
+        "FATCA":this.AR_Form.controls.fatca.value,
+        "CRS":this.AR_Form.controls.crs.value,
         "PEP":this.AR_Form.controls.pep.value,
+        "PARTICIPATEINASNBMKT":this.AR_Form.controls.news.value,
         "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
-        "AGENTCODE": "MBB",
-        "BRANCHCODE": "MBBWI001"
+        "AGENTCODE":"ASNB",
+        "BRANCHCODE":"ASNBHQ001",
+        "BANKBRANCHCODE": this.AR_Form.controls.bankname.value + "14001"
       }
 
       this.serviceService.updateDetails(body).subscribe((data: any) => {
-        console.log(data);
         if(data.result.transactionstatus.toLowerCase().includes('reject')){
           kActivit.endTime = new Date();
           kActivit.status = false;
@@ -731,7 +735,6 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.state.enable();
 
 
-      console.log(this.AR_Form.value);
 
       const body = {
         "CHANNELTYPE":"ASNB KIOSK",
@@ -740,7 +743,7 @@ export class UpdatedetailsComponent implements OnInit {
         "UNITHOLDERID": currentBijakHolder.unitholderid,
         "IDENTIFICATIONTYPE":"W",
         "IDENTIFICATIONNUMBER":currentMyKidDetails.ICNo,
-        "BANKTXNREFERENCENUMBER":"ASNB20210405",
+        "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
         "OCCUPATION":this.AR_Form.controls.jobname.value,
         "EMAIL":this.AR_Form.controls.email.value,
         "OTHERINFO8":this.AR_Form.controls.monthlyincome.value,
@@ -748,18 +751,23 @@ export class UpdatedetailsComponent implements OnInit {
         "OCCUPATIONCATEGORY":this.AR_Form.controls.jobcategory.value,
         "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
         "CELLPHONENUMBER" :this.AR_Form.controls.telephone.value,
+        "TELEPHONE1": this.AR_Form.controls.homenumber.value,
         "COMPANYNAME": this.AR_Form.controls.companyname.value,
+        "TITLE":this.AR_Form.controls.salutation.value,
         "BANKCODE":this.AR_Form.controls.bankname.value,
         "ACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
-        "GUARDIANID":currentHolder.unitholderid,
+        "GUARDIANID":currentBijakHolder.guardianid,
+        "FATCA":this.AR_Form.controls.fatca.value,
+        "CRS":this.AR_Form.controls.crs.value,
         "PEP":this.AR_Form.controls.pep.value,
+        "PARTICIPATEINASNBMKT":this.AR_Form.controls.news.value,
         "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
-        "AGENTCODE": "MBB",
-        "BRANCHCODE": "MBBWI001"
+        "AGENTCODE":"ASNB",
+        "BRANCHCODE":"ASNBHQ001",
+        "BANKBRANCHCODE": this.AR_Form.controls.bankname.value + "14001"
       }
 
       this.serviceService.updateDetails(body).subscribe((data: any) => {
-        console.log(data);
         if(data.result.transactionstatus.toLowerCase().includes('successful')){
           kActivit.endTime = new Date();
           kActivit.status = true;
@@ -828,6 +836,7 @@ export class UpdatedetailsComponent implements OnInit {
     this.companyName_Warning = false;
 
     this.MI_Warning = false;
+    this.MI_Warning2 = false;
     this.JS_Warning = false;
     this.NOJ_Warning = false;
     this.JN_Warning = false;
@@ -843,7 +852,7 @@ export class UpdatedetailsComponent implements OnInit {
     let x = 0
     Object.keys(this.AR_Form.controls).forEach(key => {
       if(this.AR_Form.controls[key].hasError('required')){
-        x += 1
+        x += 1;
         if(key.includes('telephone')){
           this.telephone_Warning = true;
         }
@@ -868,6 +877,7 @@ export class UpdatedetailsComponent implements OnInit {
         }
       }
       else if (this.AR_Form.controls[key].hasError('pattern')){
+        x += 1;
         if(key.includes('email')){
           this.email_Warning1 = true;
         }
@@ -880,27 +890,66 @@ export class UpdatedetailsComponent implements OnInit {
       }
       else {
         if(key.includes('bankname') && (this.AR_Form.controls.bankname.value == '')){
+          x += 1;
           this.bank_Warning = true;
         }
-        else if(key.includes('jobcategory') && (this.AR_Form.controls.bankname.value == '')){
+        else if(key.includes('jobcategory') && (this.AR_Form.controls.jobcategory.value == 'NA')){
+          x += 1;
           this.JC_Warning = true;
         }
-        else if(key.includes('jobname') && (this.AR_Form.controls.bankname.value == '')){
-          this.JN_Warning = true;
+        else if(key.includes('jobname') && (this.AR_Form.controls.jobname.value == 'NA')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'SE' &&
+            this.AR_Form.controls.jobcategory.value != 'HM' &&
+            this.AR_Form.controls.jobcategory.value != 'RY' &&
+            this.AR_Form.controls.jobcategory.value != 'UM' 
+            ){
+              console.log(this.AR_Form.controls.jobcategory.value);
+              x += 1;
+              this.JN_Warning = true;
+            }
         }
-        else if(key.includes('natureofjob') && (this.AR_Form.controls.bankname.value == '')){
-          this.NOJ_Warning = true;
+        else if(key.includes('natureofjob') && (this.AR_Form.controls.natureofjob.value == 'NA')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'EM' &&
+            this.AR_Form.controls.jobcategory.value != 'HM' &&
+            this.AR_Form.controls.jobcategory.value != 'RY' &&
+            this.AR_Form.controls.jobcategory.value != 'UM' 
+            ){
+              console.log(this.AR_Form.controls.jobcategory.value);
+              x += 1;
+              this.NOJ_Warning = true;
+            }
         }
-        else if(key.includes('jobsector') && (this.AR_Form.controls.bankname.value == '')){
-          this.JS_Warning = true;
+        else if(key.includes('jobsector') && (this.AR_Form.controls.jobsector.value == 'NA')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'SE' &&
+            this.AR_Form.controls.jobcategory.value != 'HM' &&
+            this.AR_Form.controls.jobcategory.value != 'RY' &&
+            this.AR_Form.controls.jobcategory.value != 'UM' 
+            ){
+              console.log(this.AR_Form.controls.jobcategory.value);
+              x += 1;
+              this.JS_Warning = true;
+            }
         }
-        else if(key.includes('monthlyincome') && (this.AR_Form.controls.bankname.value == '')){
-          this.MI_Warning = true;
+        else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'UM'
+          ){
+            x += 1;
+            this.MI_Warning = true;
+          }
+        }
+        else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '7')){
+          if(this.AR_Form.controls.jobcategory.value == "HM"){
+            x += 1;
+            this.MI_Warning2 = true;
+          }
         }
       }
     })
     if (x > 0){
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       window.scroll(0,0);
@@ -915,7 +964,6 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.postcode.enable();
       this.AR_Form.controls.city.enable();
       this.AR_Form.controls.state.enable();
-      //console.log(this.AR_Form.value);
 
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Submit.");
     }
@@ -959,6 +1007,7 @@ export class UpdatedetailsComponent implements OnInit {
     this.companyName_Warning = false;
 
     this.MI_Warning = false;
+    this.MI_Warning2 = false;
     this.JS_Warning = false;
     this.NOJ_Warning = false;
     this.JN_Warning = false;
@@ -969,7 +1018,7 @@ export class UpdatedetailsComponent implements OnInit {
     let x = 0
     Object.keys(this.AR_Form.controls).forEach(key => {
       if(this.AR_Form.controls[key].hasError('required')){
-        x += 1
+        x += 1;
         if(key.includes('telephone')){
           this.telephone_Warning = true;
         }
@@ -994,6 +1043,7 @@ export class UpdatedetailsComponent implements OnInit {
         }
       }
       else if (this.AR_Form.controls[key].hasError('pattern')){
+        x += 1;
         if(key.includes('email')){
           this.email_Warning1 = true;
         }
@@ -1006,27 +1056,66 @@ export class UpdatedetailsComponent implements OnInit {
       }
       else {
         if(key.includes('bankname') && (this.AR_Form.controls.bankname.value == '')){
+          x += 1;
           this.bank_Warning = true;
         }
-        else if(key.includes('jobcategory') && (this.AR_Form.controls.jobcategory.value == '')){
+        else if(key.includes('jobcategory') && (this.AR_Form.controls.jobcategory.value == 'NA')){
+          x += 1;
           this.JC_Warning = true;
         }
-        else if(key.includes('jobname') && (this.AR_Form.controls.jobname.value == '')){
-          this.JN_Warning = true;
+        else if(key.includes('jobname') && (this.AR_Form.controls.jobname.value == 'NA')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'SE' &&
+            this.AR_Form.controls.jobcategory.value != 'HM' &&
+            this.AR_Form.controls.jobcategory.value != 'RY' &&
+            this.AR_Form.controls.jobcategory.value != 'UM' 
+            ){
+              console.log(this.AR_Form.controls.jobcategory.value);
+              x += 1;
+              this.JN_Warning = true;
+            }
         }
-        else if(key.includes('natureofjob') && (this.AR_Form.controls.natureofjob.value == '')){
-          this.NOJ_Warning = true;
+        else if(key.includes('natureofjob') && (this.AR_Form.controls.natureofjob.value == 'NA')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'EM' &&
+            this.AR_Form.controls.jobcategory.value != 'HM' &&
+            this.AR_Form.controls.jobcategory.value != 'RY' &&
+            this.AR_Form.controls.jobcategory.value != 'UM' 
+            ){
+              console.log(this.AR_Form.controls.jobcategory.value);
+              x += 1;
+              this.NOJ_Warning = true;
+            }
         }
-        else if(key.includes('jobsector') && (this.AR_Form.controls.jobsector.value == '')){
-          this.JS_Warning = true;
+        else if(key.includes('jobsector') && (this.AR_Form.controls.jobsector.value == 'NA')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'SE' &&
+            this.AR_Form.controls.jobcategory.value != 'HM' &&
+            this.AR_Form.controls.jobcategory.value != 'RY' &&
+            this.AR_Form.controls.jobcategory.value != 'UM' 
+            ){
+              console.log(this.AR_Form.controls.jobcategory.value);
+              x += 1;
+              this.JS_Warning = true;
+            }
         }
         else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '')){
-          this.MI_Warning = true;
+          if(
+            this.AR_Form.controls.jobcategory.value != 'UM'
+          ){
+            x += 1;
+            this.MI_Warning = true;
+          }
+        }
+        else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '7')){
+          if(this.AR_Form.controls.jobcategory.value == "HM"){
+            x += 1;
+            this.MI_Warning2 = true;
+          }
         }
       }
     })
     if (x > 0){
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Bijak Form: ${x} field(s) empty.`);
     }
     else{
@@ -1041,7 +1130,6 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.postcode.enable();
       this.AR_Form.controls.city.enable();
       this.AR_Form.controls.state.enable();
-      console.log(this.AR_Form.value);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Submit.");
     }
   }
@@ -1073,19 +1161,19 @@ export class UpdatedetailsComponent implements OnInit {
 
     if(this.isMain){
       if (code.includes('EM')){
-        this.AR_Form.controls.natureofjob.setValue('');
+        this.AR_Form.controls.natureofjob.setValue('NA');
         this.AR_Form.controls.natureofjob.disable();
       }
       else if (code.includes('SE')){
-        this.AR_Form.controls.jobname.setValue('');
-        this.AR_Form.controls.jobsector.setValue('');
+        this.AR_Form.controls.jobname.setValue('NA');
+        this.AR_Form.controls.jobsector.setValue('NA');
         this.AR_Form.controls.jobname.disable();
         this.AR_Form.controls.jobsector.disable();
       }
       else if (code.includes('HM')){
-        this.AR_Form.controls.jobname.setValue('');
-        this.AR_Form.controls.jobsector.setValue('');
-        this.AR_Form.controls.natureofjob.setValue('');
+        this.AR_Form.controls.jobname.setValue('NA');
+        this.AR_Form.controls.jobsector.setValue('NA');
+        this.AR_Form.controls.natureofjob.setValue('NA');
         this.AR_Form.controls.companyname.setValue('');
         this.AR_Form.controls.jobname.disable();
         this.AR_Form.controls.jobsector.disable();
@@ -1093,9 +1181,9 @@ export class UpdatedetailsComponent implements OnInit {
         this.AR_Form.controls.companyname.disable();
       }
       else if (code.includes('RY')){
-        this.AR_Form.controls.jobname.setValue('');
-        this.AR_Form.controls.jobsector.setValue('');
-        this.AR_Form.controls.natureofjob.setValue('');
+        this.AR_Form.controls.jobname.setValue('NA');
+        this.AR_Form.controls.jobsector.setValue('NA');
+        this.AR_Form.controls.natureofjob.setValue('NA');
         this.AR_Form.controls.companyname.setValue('');
         this.AR_Form.controls.jobname.disable();
         this.AR_Form.controls.jobsector.disable();
@@ -1103,11 +1191,11 @@ export class UpdatedetailsComponent implements OnInit {
         this.AR_Form.controls.companyname.disable();
       }
       else if (code.includes('UM')){
-        this.AR_Form.controls.jobname.setValue('');
-        this.AR_Form.controls.jobsector.setValue('');
-        this.AR_Form.controls.natureofjob.setValue('');
+        this.AR_Form.controls.jobname.setValue('NA');
+        this.AR_Form.controls.jobsector.setValue('NA');
+        this.AR_Form.controls.natureofjob.setValue('NA');
         this.AR_Form.controls.companyname.setValue('');
-        this.AR_Form.controls.monthlyincome.setValue('7');
+        this.AR_Form.controls.monthlyincome.setValue('');
         this.AR_Form.controls.jobname.disable();
         this.AR_Form.controls.natureofjob.disable();
         this.AR_Form.controls.jobsector.disable();
@@ -1122,7 +1210,10 @@ export class UpdatedetailsComponent implements OnInit {
   initializeForm(acctType: string){
 
     if(currentHolder.pep == 'Y'){
-      this.pep = false
+      this.pep = true
+    }
+    else{
+      this.pep = false;
     }
 
     let isMobile = false;
@@ -1168,10 +1259,10 @@ export class UpdatedetailsComponent implements OnInit {
           monthlyincome: [currentHolder.otherinfO8],
           companyname: [currentHolder.companyname, Validators.required],
 
-          fatca: [{value: currentHolder.fatca, disabled: false}],
+          fatca: [{value: currentHolder.fatca, disabled: true}],
           pep: [{value: currentHolder.pep, disabled: this.pep}],
-          news: [{value: currentHolder.participateinasnbmkt, disabled: false}],
-          crs: [{value: currentHolder.crs, disabled: false}],
+          news: [{value: currentHolder.participateinasnbmkt, disabled: true}],
+          crs: [{value: currentHolder.crs, disabled: true}],
         });
         this.formHandling(currentHolder.occupationcategory);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Major Form")
@@ -1224,10 +1315,10 @@ export class UpdatedetailsComponent implements OnInit {
           monthlyincome: [{value: currentHolder.otherinfO8, disabled: true}],
           companyname: [{value: currentHolder.companyname, disabled: true}],
 
-          fatca: [{value: currentHolder.fatca, disabled: false}],
+          fatca: [{value: currentHolder.fatca, disabled: true}],
           pep: [{value: currentHolder.pep, disabled: this.pep}],
-          news: [{value: currentHolder.participateinasnbmkt, disabled: false}],
-          crs: [{value: currentHolder.crs, disabled: false}],
+          news: [{value: currentHolder.participateinasnbmkt, disabled: true}],
+          crs: [{value: currentHolder.crs, disabled: true}],
         });
         //this.formHandling(currentHolder.occupationcategory);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Bijak Form")
@@ -1249,18 +1340,26 @@ export class UpdatedetailsComponent implements OnInit {
         if (this.isMain){
           name = currentHolder.firstname;
           accountNo = currentHolder.unitholderid;
-          accountType = "Self";
+          if(selectLang.selectedLang == 'en'){
+            accountType = "Self";
+          }else{
+            accountType = "Sendiri";
+          }
         }else{
           name = currentBijakHolder.name;
           accountNo = currentBijakHolder.unitholderid;
           accountType = "Bijak";
         }
-    
 
-        console.log(currentHolder.firstname);
+        let transaction = "";
+        if(selectLang.selectedLang == 'en'){
+          transaction = "Update Information";
+        }else{
+          transaction = "Kemaskini Maklumat";
+        }
     
         const body = {
-          "Transaksi": "Kemaskini Maklumat/Update Information",
+          "Transaksi": transaction,
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
           "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
           "Lokasi": "KL MAIN 01",
@@ -1271,7 +1370,7 @@ export class UpdatedetailsComponent implements OnInit {
     
         //GetNonFinancialTransactionPrintout
     
-        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
           setTimeout(()=>{   
             if (data == true){
               this.UD_Print1Visible = false;
@@ -1312,15 +1411,26 @@ export class UpdatedetailsComponent implements OnInit {
     if (this.isMain){
       name = currentMyKadDetails.Name;
       accountNo = currentHolder.unitholderid;
-      accountType = "Self";
+      if(selectLang.selectedLang == 'en'){
+        accountType = "Self";
+      }else{
+        accountType = "Sendiri";
+      }
     }else{
       name = currentMyKidDetails.Name;
       accountNo = currentBijakHolder.unitholderid;
       accountType = "Bijak";
     }
 
+    let transaction = "";
+    if(selectLang.selectedLang == 'en'){
+      transaction = "Update Information";
+    }else{
+      transaction = "Kemaskini Maklumat";
+    }
+
     const body = {
-      "Transaksi": "Kemaskini Maklumat/Update Information",
+      "Transaksi": transaction,
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
       "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
       "Lokasi": "KL MAIN 01",
@@ -1491,7 +1601,11 @@ export class UpdatedetailsComponent implements OnInit {
 
               if(appFunc.isRedirectFromPortalRegistration == true){
                 this._router.navigate(['portalregistration']);
-              }else{
+              }
+              else if(appFunc.isRedirectFromRedemption == true){
+                this._router.navigate(['redemption']);
+              }
+              else{
                 this._router.navigate(['transactionsuccessful']);
               }
               
@@ -1512,7 +1626,6 @@ export class UpdatedetailsComponent implements OnInit {
       });
     }
     catch (e){
-      console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);

@@ -273,6 +273,16 @@ export class ServiceService {
     );
   }
 
+  postAccountRegistrationWithInvestment(body: any)
+  {
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Service Service]" + ": " + `RegWithMinInvestment Request: ${body}.`);
+    return this.http.post(
+      this.url + "services/app/OpenAPI/RegWithMinInvestment",
+      body,
+      accessToken.httpOptions
+    );
+  }
+
 
   getNewAccountInquiry(body: any){
     return this.http.post(

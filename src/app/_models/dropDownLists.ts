@@ -141,10 +141,12 @@ export class preferredDelivery {
 export class bankName {
     name: string;
     code: string;
+    bankBranchCode : string;
 	
 	constructor(bank: any){
         this.name = bank.name;
         this.code = bank.code;
+        this.bankBranchCode = bank.bankBranchCode;
 	}
 }
 

@@ -3,7 +3,7 @@
     "AldanDevURL": "https://kioskdev.asnb.com.my/ASNBAPI/api/",
     "AldanReceiptURL": "https://kioskdev.asnb.com.my/GetPDF/api/",
     "AESCrpytKey": "gsKxGZ012HLL3MI5",
-    "idletime": "1000"
+    "idletime": "100"
 }
 
 

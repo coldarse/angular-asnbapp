@@ -210,7 +210,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
       }
     });
     if (x > 0){
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       this.amountKeyed = this.Form_1.controls.amount.value;
@@ -246,7 +245,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
       }
     });
     if (x > 0){
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       this.SIStep3 = false;
@@ -306,7 +304,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
       }
     });
     if (x > 0){
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       this.thirdictypekeyed = this.Form_3.controls.ictype.value;

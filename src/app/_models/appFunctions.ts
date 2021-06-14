@@ -29,6 +29,7 @@ export class appFunc {
 
   static timedOut: boolean = false;
   static isRedirectFromPortalRegistration = false;
+  static isRedirectFromRedemption = false;
   static isUpdateMajor = false;
 
 

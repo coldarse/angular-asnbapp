@@ -18,6 +18,7 @@ import { FinancialtransactionmenuComponent } from './financialtransactionmenu/fi
 import { SubscriptioninvestmentComponent } from './subscriptioninvestment/subscriptioninvestment.component';
 import { ScreensaverComponent } from './screensaver/screensaver.component';
 import { TransferswitchingComponent } from './transferswitching/transferswitching.component';
+import { RedemptionComponent } from './redemption/redemption.component';
 
 
 
@@ -39,7 +40,8 @@ const routes: Routes = [
   {path: 'financialtransactionmenu', component: FinancialtransactionmenuComponent},
   {path: 'subscriptioninvestment', component: SubscriptioninvestmentComponent},
   {path: 'screensaver', component: ScreensaverComponent},
-  {path: 'transferswitching', component: TransferswitchingComponent}
+  {path: 'transferswitching', component: TransferswitchingComponent},
+  {path: 'redemption', component: RedemptionComponent}
 ];
 
 @NgModule({

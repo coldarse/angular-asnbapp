@@ -172,7 +172,6 @@ export class TransferswitchingComponent implements OnInit {
       }
     });
     if (x > 0){
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       this.transfer1 = false;
@@ -248,7 +247,6 @@ export class TransferswitchingComponent implements OnInit {
       }
     });
     if (x > 0){
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       this.switching1 = false;

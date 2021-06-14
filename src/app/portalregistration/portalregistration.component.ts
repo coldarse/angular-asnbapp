@@ -393,6 +393,7 @@ export class PortalregistrationComponent implements OnInit {
 
   ngOnDestroy() {
     clearInterval(this.id);
+    deleteKeyboard();
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Cleared Interval.");
   }
 
@@ -511,7 +512,6 @@ export class PortalregistrationComponent implements OnInit {
     });
     if (x > 0){
       window.scroll(0,0);
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       if(this.generatedTAC != this.PForm_1.controls.tac.value){
@@ -577,6 +577,7 @@ export class PortalregistrationComponent implements OnInit {
               errorCodes.Ecode = data.result.error_code;
               errorCodes.Emessage = data.result.error_reason;
               this._router.navigate(['errorscreen']);
+              clearInterval(this.id);
             }
           }
         });
@@ -609,7 +610,6 @@ export class PortalregistrationComponent implements OnInit {
       }
     });
     if (x > 0){
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       this.tempsecure = this.PForm_2.controls.securep.value;
@@ -645,6 +645,7 @@ export class PortalregistrationComponent implements OnInit {
             errorCodes.Ecode = data.result.error_code;
             errorCodes.Emessage = data.result.error_reason;
             this._router.navigate(['errorscreen']);
+            clearInterval(this.id);
           }
         }
       });
@@ -676,7 +677,6 @@ export class PortalregistrationComponent implements OnInit {
       }
     });
     if (x > 0){
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       if (this.PForm_3.controls.newpass.value == this.PForm_3.controls.newpassR.value){
@@ -685,7 +685,6 @@ export class PortalregistrationComponent implements OnInit {
       }
       else{
         this.newpassR1_warning = true;
-        console.log("Error");
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `Passwords not match`);
       }
     }
@@ -711,7 +710,6 @@ export class PortalregistrationComponent implements OnInit {
 
   DetectMyKad() {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
-      console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
@@ -781,7 +779,6 @@ export class PortalregistrationComponent implements OnInit {
       }
     });
     if (x > 0){
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       const body = {
@@ -796,6 +793,7 @@ export class PortalregistrationComponent implements OnInit {
           errorCodes.Ecode = data.result.error_code;
           errorCodes.Emessage = data.result.error_reason;
           this._router.navigate(['errorscreen']);
+          clearInterval(this.id);
         }
       });
     }
@@ -820,6 +818,7 @@ export class PortalregistrationComponent implements OnInit {
         errorCodes.Ecode = res.result.error_code;
         errorCodes.Emessage = res.result.error_reason;
         this._router.navigate(['errorscreen']);
+        clearInterval(this.id);
       }
     });
   }
@@ -889,6 +888,7 @@ export class PortalregistrationComponent implements OnInit {
           errorCodes.Ecode = data.result.error_code;
           errorCodes.Emessage = data.result.error_reason;
           this._router.navigate(['errorscreen']);
+          clearInterval(this.id);
         }
       }
     });
@@ -906,20 +906,30 @@ export class PortalregistrationComponent implements OnInit {
         this.PR_Success = false;
         this.PR_NewPassword = false;
         this.PR_Print1Visible = true;
+
+        let accountType = "";
+        let transaction = "";
+        if(selectLang.selectedLang == 'en'){
+          transaction = "myASNB Portal Registration";
+          accountType = "Self";
+        }else{
+          transaction = "Pendaftaran Portal myASNB";
+          accountType = "Sendiri";
+        }
     
         const body = {
-          "Transaksi": "Pendaftaran Portal myASNB/myASNB Portal Registration",
+          "Transaksi": transaction,
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
           "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
           "Lokasi": "KL MAIN 01",
           "Name": currentHolder.firstname,
           "NoAkaun": currentHolder.unitholderid,
-          "JenisAkaun": "Self/Sendiri"
+          "JenisAkaun": accountType
         }
     
         //GetNonFinancialTransactionPrintout
     
-        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetPortalRegistrationPrintout", signalrConnection.trxno, "0").then((data: any) => {
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetPortalRegistrationPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
           setTimeout(()=>{   
             if (data == true){
               this.PR_Print1Visible = false;
@@ -931,6 +941,7 @@ export class PortalregistrationComponent implements OnInit {
               errorCodes.Ecode = "0068";
               errorCodes.Emessage = "Printing Failed";
               this._router.navigate(['errorscreen']);
+              clearInterval(this.id);
             }
           }, 3000);
         });
@@ -938,6 +949,7 @@ export class PortalregistrationComponent implements OnInit {
         errorCodes.Ecode = "6688";
         errorCodes.Emessage = "Printer Error";
         this._router.navigate(['errorscreen']);
+        clearInterval(this.id);
       }
     });
   }
@@ -947,14 +959,24 @@ export class PortalregistrationComponent implements OnInit {
     this.PR_NewPassword = false;
     this.PR_EmailVisible = true;
 
+    let accountType = "";
+    let transaction = "";
+    if(selectLang.selectedLang == 'en'){
+      transaction = "myASNB Portal Registration";
+      accountType = "Self";
+    }else{
+      transaction = "Pendaftaran Portal myASNB";
+      accountType = "Sendiri";
+    }
+
     const body = {
-      "Transaksi": "Pendaftaran Portal myASNB/myASNB Portal Registration",
+      "Transaksi": transaction,
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
       "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
       "Lokasi": "KL MAIN 01",
       "Name": currentHolder.firstname,
       "NoAkaun": currentHolder.unitholderid,
-      "JenisAkaun": "Self/Sendiri"
+      "JenisAkaun": accountType
     }
 
     const emailObj = {
@@ -977,6 +999,7 @@ export class PortalregistrationComponent implements OnInit {
           errorCodes.Ecode = "0069";
           errorCodes.Emessage = "Email Failed";
           this._router.navigate(['errorscreen']);
+          clearInterval(this.id);
         }
       }, 3000);
     });

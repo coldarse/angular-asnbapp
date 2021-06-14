@@ -110,7 +110,7 @@ export class FeedbackscreenComponent implements OnInit {
 
   DetectMyKad() {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
-      console.log(data);
+
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         let kActivit = new kActivity();

@@ -46,6 +46,7 @@ import { FinancialtransactionmenuComponent } from './financialtransactionmenu/fi
 import { SubscriptioninvestmentComponent } from './subscriptioninvestment/subscriptioninvestment.component';
 import { ScreensaverComponent } from './screensaver/screensaver.component';
 import { TransferswitchingComponent } from './transferswitching/transferswitching.component';
+import { RedemptionComponent } from './redemption/redemption.component';
 
 
 export function createConfig(): SignalRConfiguration {
@@ -87,7 +88,9 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
     FinancialtransactionmenuComponent,
     SubscriptioninvestmentComponent,
     ScreensaverComponent,
-    TransferswitchingComponent
+    TransferswitchingComponent,
+    RedemptionComponent,
+    
   ],
   imports: [
     BrowserModule,

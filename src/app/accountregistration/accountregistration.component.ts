@@ -93,6 +93,7 @@ export class AccountregistrationComponent implements OnInit {
   companyName_Warning : boolean = false;
 
   MI_Warning : boolean = false;
+  MI_Warning2 : boolean = false;
   JS_Warning : boolean = false;
   NOJ_Warning : boolean = false;
   JN_Warning : boolean = false;
@@ -257,6 +258,18 @@ export class AccountregistrationComponent implements OnInit {
     if(signalrConnection.kioskType == 'Mobile'){
       ismobile = true;
     }
+
+    let tempadd1 = "";
+    let tempadd2 = "";
+    if(currentMyKadDetails.Address3 == ""){
+      tempadd1 = currentMyKadDetails.Address1;
+      tempadd2 = currentMyKadDetails.Address2;
+    }else{
+      tempadd1 = currentMyKadDetails.Address1 + ", " + currentMyKadDetails.Address2;
+      tempadd2 = currentMyKadDetails.Address3;
+    }
+
+
     this.AR_Form = this.fb.group(
       {
         salutation: ['EN'],
@@ -266,8 +279,8 @@ export class AccountregistrationComponent implements OnInit {
         race: [{value: this.race, disabled: true}],
         religion: [{value: this.religion, disabled: true}],
 
-        address1 : [{value: currentMyKadDetails.Address1 + ", " + currentMyKadDetails.Address2, disabled: true}, Validators.required],
-        address2 : [{value: currentMyKadDetails.Address3, disabled: true}, Validators.required],
+        address1 : [{value: tempadd1, disabled: true}, Validators.required],
+        address2 : [{value: tempadd2, disabled: true}, Validators.required],
         postcode : [{value: currentMyKadDetails.PostCode, disabled: true}, Validators.required],
         city : [{value: currentMyKadDetails.City, disabled: true}],
         state : [{value: this.state, disabled: true}],
@@ -292,11 +305,11 @@ export class AccountregistrationComponent implements OnInit {
           Validators.pattern('^[0-9]*$')
         ]],
 
-        jobcategory: [''],
-        jobname: [''],
-        natureofjob: [''],
-        jobsector: [''],
-        monthlyincome: ['7'],
+        jobcategory: ['NA'],
+        jobname: ['NA'],
+        natureofjob: ['NA'],
+        jobsector: ['NA'],
+        monthlyincome: [''],
         companyname: ['', Validators.required],
 
         fatca: ['N'],
@@ -347,7 +360,6 @@ export class AccountregistrationComponent implements OnInit {
 
   DetectMyKad() {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
-      console.log(data);
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
@@ -394,8 +406,19 @@ export class AccountregistrationComponent implements OnInit {
       if (this.address2_Warning == true) this.address2_Warning = false;
       if (this.postcode_Warning == true) this.postcode_Warning = false;
 
-      this.AR_Form.controls.address1.setValue(currentMyKadDetails.Address1 + currentMyKadDetails.Address2);
-      this.AR_Form.controls.address2.setValue(currentMyKadDetails.Address3);
+      let tempadd1 = "";
+      let tempadd2 = "";
+      if(currentMyKadDetails.Address3 == ""){
+        tempadd1 = currentMyKadDetails.Address1;
+        tempadd2 = currentMyKadDetails.Address2;
+      }else{
+        tempadd1 = currentMyKadDetails.Address1 + ", " + currentMyKadDetails.Address2;
+        tempadd2 = currentMyKadDetails.Address3;
+      }
+
+
+      this.AR_Form.controls.address1.setValue(tempadd1);
+      this.AR_Form.controls.address2.setValue(tempadd2);
       this.AR_Form.controls.postcode.setValue(currentMyKadDetails.PostCode);
       this.AR_Form.controls.city.setValue(this.city);
       this.AR_Form.controls.state.setValue(this.state);
@@ -442,7 +465,6 @@ export class AccountregistrationComponent implements OnInit {
     this.AR_Form.controls.postcode.enable();
     this.AR_Form.controls.city.enable();
     this.AR_Form.controls.state.enable();
-    console.log(this.AR_Form.value);
 
 
     //currentMyKadDetails.ICNo = "521030135180";
@@ -489,48 +511,124 @@ export class AccountregistrationComponent implements OnInit {
       "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value
     }
 
-    this.serviceService.postAccountRegistration(body).subscribe((data: any) => {
-      console.log(data);
-      if(data.result.transactionstatus.toLowerCase().includes('successful')){
-        this.ARSuccess_4 = currentMyKadDetails.Name;
-        this.ARSuccess_6 = data.result.unitholderid;
-        this.ARSuccess_8 = formatDate(new Date(), 'dd/MM/yyyy', 'en');
-        this.ARSuccess_10 = "Sendiri/Self";
-        kActivit.endTime = new Date();
-        kActivit.status = true;
 
-        appFunc.kioskActivity.push(kActivit);
-
-        this.ARTNC_Visible = false;
-
-        if (this.AR_Form.controls.email.value == ""){
-          this.Email_Visible = false;
+    let withMinInvestment = false;
+    for (var val of appFunc.modules){
+      if(val.moduleName.toLowerCase().includes('financial')){
+        if(val.enable == true){
+          if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            withMinInvestment = true;
+          }else{
+            withMinInvestment = false;
+          }
         }
         else{
-          this.Email_Visible = true;
+          withMinInvestment = false;
         }
-
-        if(signalrConnection.kioskType == 'Mobile'){
-          this.Print_Visible = false;
-        }
-        else{
-          this.Print_Visible = true;
-        }
-
-        this.ARSuccess_Visible = true;
-        this.ARPopUp1_Visible = true;
-      }else{
-        errorCodes.Ecode = data.result.rejectcode;
-        errorCodes.Emessage = data.result.rejectreason;
-        this._router.navigate(['errorscreen']);
-        kActivit.endTime = new Date();
-        kActivit.status = false;
-
-        appFunc.kioskActivity.push(kActivit);
       }
-      
+    }
 
-    });
+
+    if (withMinInvestment){
+      this.serviceService.postAccountRegistrationWithInvestment(body).subscribe((data: any) => {
+        if(data.result.transactionstatus.toLowerCase().includes('successful')){
+          this.ARSuccess_4 = currentMyKadDetails.Name;
+          this.ARSuccess_6 = data.result.unitholderid;
+          this.ARSuccess_8 = formatDate(new Date(), 'dd/MM/yyyy', 'en');
+          if(selectLang.selectedLang == 'ms'){
+            this.ARSuccess_10 = "Sendiri";
+          }
+          else{
+            this.ARSuccess_10 = "Self";
+          }
+          kActivit.endTime = new Date();
+          kActivit.status = true;
+  
+          appFunc.kioskActivity.push(kActivit);
+  
+          this.ARTNC_Visible = false;
+  
+          if (this.AR_Form.controls.email.value == ""){
+            this.Email_Visible = false;
+          }
+          else{
+            this.Email_Visible = true;
+          }
+  
+          if(signalrConnection.kioskType == 'Mobile'){
+            this.Print_Visible = false;
+          }
+          else{
+            this.Print_Visible = true;
+          }
+  
+          this.ARSuccess_Visible = true;
+          this.ARPopUp1_Visible = true;
+        }else{
+          errorCodes.Ecode = data.result.rejectcode;
+          errorCodes.Emessage = data.result.rejectreason;
+          this._router.navigate(['errorscreen']);
+          kActivit.endTime = new Date();
+          kActivit.status = false;
+  
+          appFunc.kioskActivity.push(kActivit);
+        }
+        
+  
+      });
+    }
+    else{
+      this.serviceService.postAccountRegistration(body).subscribe((data: any) => {
+        if(data.result.transactionstatus.toLowerCase().includes('successful')){
+          this.ARSuccess_4 = currentMyKadDetails.Name;
+          this.ARSuccess_6 = data.result.unitholderid;
+          this.ARSuccess_8 = formatDate(new Date(), 'dd/MM/yyyy', 'en');
+          if(selectLang.selectedLang == 'ms'){
+            this.ARSuccess_10 = "Sendiri";
+          }
+          else{
+            this.ARSuccess_10 = "Self";
+          }
+          kActivit.endTime = new Date();
+          kActivit.status = true;
+  
+          appFunc.kioskActivity.push(kActivit);
+  
+          this.ARTNC_Visible = false;
+  
+          if (this.AR_Form.controls.email.value == ""){
+            this.Email_Visible = false;
+          }
+          else{
+            this.Email_Visible = true;
+          }
+  
+          if(signalrConnection.kioskType == 'Mobile'){
+            this.Print_Visible = false;
+          }
+          else{
+            this.Print_Visible = true;
+          }
+  
+          this.ARSuccess_Visible = true;
+          this.ARPopUp1_Visible = true;
+        }else{
+          errorCodes.Ecode = data.result.rejectcode;
+          errorCodes.Emessage = data.result.rejectreason;
+          this._router.navigate(['errorscreen']);
+          kActivit.endTime = new Date();
+          kActivit.status = false;
+  
+          appFunc.kioskActivity.push(kActivit);
+        }
+        
+  
+      });
+    }
+
+    
+
+    
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Submitted Account Registration Form.");
   
@@ -540,15 +638,29 @@ export class AccountregistrationComponent implements OnInit {
     this.ARPopUp1_Visible = false;
   }
 
+  isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {
+    if (current.getTime() >= startDateTime.getTime() && current.getTime() <= stopDateTime.getTime()){
+      return true;
+    }
+    return false;
+  }
+
   Print(){
 
     signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
       if (data){
         this.ARSuccess_Visible = false;
         this.ARPrint1_Visible = true;
+
+        let transaction = "";
+        if(selectLang.selectedLang == 'en'){
+          transaction = "Account Registration";
+        }else{
+          transaction = "Pendaftaran Akaun";
+        }
     
         const body = {
-          "Transaksi": "Pendaftaran Akaun/Account Registration",
+          "Transaksi": transaction,
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
           "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
           "Lokasi": "KL MAIN 01",
@@ -556,7 +668,7 @@ export class AccountregistrationComponent implements OnInit {
           "NoAkaun": this.ARSuccess_6,
           "JenisAkaun": this.ARSuccess_10
         }
-        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0").then((data: any) => {
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
           setTimeout(()=>{   
             if (data == true){
               this.ARPrint1_Visible = false;
@@ -581,8 +693,15 @@ export class AccountregistrationComponent implements OnInit {
     this.ARSuccess_Visible = false;
     this.AREmail_Visible = true;
 
+    let transaction = "";
+    if(selectLang.selectedLang == 'en'){
+      transaction = "Account Registration";
+    }else{
+      transaction = "Pendaftaran Akaun";
+    }
+    
     const body = {
-      "Transaksi": "Pendaftaran Akaun/Account Registration",
+      "Transaksi": transaction,
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
       "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
       "Lokasi": "KL MAIN 01",
@@ -592,12 +711,12 @@ export class AccountregistrationComponent implements OnInit {
     }
 
     const emailObj = {
-      "Name" : currentHolder.firstname,
-      "UnitHolderID" : currentHolder.unitholderid,
+      "Name" : currentMyKadDetails.Name,
+      "UnitHolderID" : this.ARSuccess_6,
       "Module" : "1",
       "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
       "language" : selectLang.selectedLang,
-      "IC" : currentHolder.identificationnumber
+      "IC" : currentMyKadDetails.ICNo
     }
 
     signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "1", JSON.stringify(emailObj)).then((data: any) => {
@@ -648,6 +767,7 @@ export class AccountregistrationComponent implements OnInit {
     this.companyName_Warning = false;
 
     this.MI_Warning = false;
+    this.MI_Warning2 = false;
     this.JS_Warning = false;
     this.NOJ_Warning = false;
     this.JN_Warning = false;
@@ -656,7 +776,7 @@ export class AccountregistrationComponent implements OnInit {
     let x = 0
     Object.keys(this.AR_Form.controls).forEach(key => {
       if(this.AR_Form.controls[key].hasError('required')){
-        x += 1
+        x += 1;
         if(key.includes('telephone')){
           this.telephone_Warning = true;
         }
@@ -681,6 +801,7 @@ export class AccountregistrationComponent implements OnInit {
         }
       }
       else if (this.AR_Form.controls[key].hasError('pattern')){
+        x += 1; 
         if(key.includes('email')){
           this.email_Warning1 = true;
         }
@@ -693,28 +814,67 @@ export class AccountregistrationComponent implements OnInit {
       }
       else {
         if(key.includes('bankname') && (this.AR_Form.controls.bankname.value == '')){
+          x += 1;
           this.bank_Warning = true;
         }
-        else if(key.includes('jobcategory') && (this.AR_Form.controls.jobcategory.value == '')){
+        else if(key.includes('jobcategory') && (this.AR_Form.controls.jobcategory.value == 'NA')){
+          x += 1;
           this.JC_Warning = true;
         }
-        else if(key.includes('jobname') && (this.AR_Form.controls.jobname.value == '')){
-          this.JN_Warning = true;
+        else if(key.includes('jobname') && (this.AR_Form.controls.jobname.value == 'NA')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'SE' &&
+            this.AR_Form.controls.jobcategory.value != 'HM' &&
+            this.AR_Form.controls.jobcategory.value != 'RY' &&
+            this.AR_Form.controls.jobcategory.value != 'UM' 
+            ){
+              console.log(this.AR_Form.controls.jobcategory.value);
+              x += 1;
+              this.JN_Warning = true;
+            }
         }
-        else if(key.includes('natureofjob') && (this.AR_Form.controls.natureofjob.value == '')){
-          this.NOJ_Warning = true;
+        else if(key.includes('natureofjob') && (this.AR_Form.controls.natureofjob.value == 'NA')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'EM' &&
+            this.AR_Form.controls.jobcategory.value != 'HM' &&
+            this.AR_Form.controls.jobcategory.value != 'RY' &&
+            this.AR_Form.controls.jobcategory.value != 'UM' 
+            ){
+              console.log(this.AR_Form.controls.jobcategory.value);
+              x += 1;
+              this.NOJ_Warning = true;
+            }
         }
-        else if(key.includes('jobsector') && (this.AR_Form.controls.jobsector.value == '')){
-          this.JS_Warning = true;
+        else if(key.includes('jobsector') && (this.AR_Form.controls.jobsector.value == 'NA')){
+          if(
+            this.AR_Form.controls.jobcategory.value != 'SE' &&
+            this.AR_Form.controls.jobcategory.value != 'HM' &&
+            this.AR_Form.controls.jobcategory.value != 'RY' &&
+            this.AR_Form.controls.jobcategory.value != 'UM' 
+            ){
+              console.log(this.AR_Form.controls.jobcategory.value);
+              x += 1;
+              this.JS_Warning = true;
+            }
         }
         else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '')){
-          this.MI_Warning = true;
+          if(
+            this.AR_Form.controls.jobcategory.value != 'UM'
+          ){
+            x += 1;
+            this.MI_Warning = true;
+          }
+        }
+        else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '7')){
+          if(this.AR_Form.controls.jobcategory.value == "HM"){
+            x += 1;
+            this.MI_Warning2 = true;
+          }
         }
       }
     });
     if (x > 0){
       window.scroll(0,0);
-      console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       this.ARForm_Visible = false;
@@ -728,19 +888,19 @@ export class AccountregistrationComponent implements OnInit {
     let code = category.target.value;
 
     if (code.includes('EM')){
-      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.natureofjob.setValue('NA');
       this.AR_Form.controls.natureofjob.disable();
     }
     else if (code.includes('SE')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
+      this.AR_Form.controls.jobname.setValue('NA');
+      this.AR_Form.controls.jobsector.setValue('NA');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
     }
     else if (code.includes('HM')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.jobname.setValue('NA');
+      this.AR_Form.controls.jobsector.setValue('NA');
+      this.AR_Form.controls.natureofjob.setValue('NA');
       this.AR_Form.controls.companyname.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
@@ -748,9 +908,9 @@ export class AccountregistrationComponent implements OnInit {
       this.AR_Form.controls.companyname.disable();
     }
     else if (code.includes('RY')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.jobname.setValue('NA');
+      this.AR_Form.controls.jobsector.setValue('NA');
+      this.AR_Form.controls.natureofjob.setValue('NA');
       this.AR_Form.controls.companyname.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.jobsector.disable();
@@ -758,11 +918,11 @@ export class AccountregistrationComponent implements OnInit {
       this.AR_Form.controls.companyname.disable();
     }
     else if (code.includes('UM')){
-      this.AR_Form.controls.jobname.setValue('');
-      this.AR_Form.controls.jobsector.setValue('');
-      this.AR_Form.controls.natureofjob.setValue('');
+      this.AR_Form.controls.jobname.setValue('NA');
+      this.AR_Form.controls.jobsector.setValue('NA');
+      this.AR_Form.controls.natureofjob.setValue('NA');
       this.AR_Form.controls.companyname.setValue('');
-      this.AR_Form.controls.monthlyincome.setValue('7');
+      this.AR_Form.controls.monthlyincome.setValue('');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.jobsector.disable();
@@ -816,7 +976,6 @@ export class AccountregistrationComponent implements OnInit {
       .subscribe((result: any) => {
         
 
-        console.log("Subscribing");
         currentHolder.channeltype = result.channeltype;
         currentHolder.requestoridentification = result.requestoridentification;
         currentHolder.deviceowner = result.deviceowner;
@@ -906,7 +1065,6 @@ export class AccountregistrationComponent implements OnInit {
         currentHolder.rejectcode = result.rejectcode;
         currentHolder.rejectreason = result.rejectreason;
 
-        console.log(currentHolder.occupationcategory);
 
 
 
@@ -928,7 +1086,6 @@ export class AccountregistrationComponent implements OnInit {
         }
         else{
           if (currentHolder.rejectreason.includes('not exists')){
-            console.log("Reached Here A");
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
 
             
@@ -943,7 +1100,6 @@ export class AccountregistrationComponent implements OnInit {
       });
     }
     catch (e){
-      console.log(e);
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);

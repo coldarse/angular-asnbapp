@@ -225,6 +225,10 @@ const Keyboard = {
     _limit(element){
 
         var max_chars = 500;
+
+        if(element.tagname == null){
+            element.tagname = "";
+        }
         
 
         if(element.tagname.toLowerCase().includes('phoneno')){
@@ -246,7 +250,7 @@ const Keyboard = {
             max_chars = 60;
         }
         else if(element.tagname.toLowerCase().includes('postc')){
-            max_chars = 5;
+            max_chars = 10;
         }
         else if(element.tagname.toLowerCase().includes('acctno')){
             max_chars = 16;

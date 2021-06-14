@@ -1,2 +1,26 @@
 <router-outlet>
 </router-outlet>
+
+<div class="bg-popup"  *ngIf="timeoutidle">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <h1 style="padding-top:13rem;">{{'TimeOutMessage' | translate }}</h1>
+
+        <h2 class="h2-ic" style="padding-top:1rem;">( {{timer}} )</h2>
+
+        <footer class="site-footer" style="padding-top:13rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-cancel" (click)="No()">
+                        {{'BTN_No' | translate }}
+                    </button>
+                    <button type="button" class="btn btn-next" (click)="Yes()">
+                        {{'BTN_Yes' | translate }}
+                    </button>
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
