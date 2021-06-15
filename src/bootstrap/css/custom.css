@@ -849,6 +849,17 @@ user-select: none;
   max-width: 100%;
 }
 
+.closepng{
+  max-width: 4%;
+}
+
+.hyperlinksent{
+  color: rgb(0, 102, 204);
+  text-decoration: underline;
+}
+
+
+
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
   from {opacity: 0;} 

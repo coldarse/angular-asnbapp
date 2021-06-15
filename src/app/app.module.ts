@@ -48,6 +48,7 @@ import { ScreensaverComponent } from './screensaver/screensaver.component';
 import { TransferswitchingComponent } from './transferswitching/transferswitching.component';
 import { RedemptionComponent } from './redemption/redemption.component';
 
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();
@@ -109,6 +110,7 @@ export function initializerFn(jsonAppConfigService: JsonAppConfigService) {
     SignalRModule.forRoot(createConfig),
     NgIdleKeepaliveModule.forRoot(),
     MomentModule,
+    NgxExtendedPdfViewerModule,
   ],
   providers: [
     selectLang,

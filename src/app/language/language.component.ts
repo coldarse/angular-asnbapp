@@ -20,6 +20,7 @@ import { HttpHeaders } from '@angular/common/http';
 
 
 
+
 @Component({
   selector: 'app-language',
   templateUrl: './language.component.html'
@@ -28,14 +29,8 @@ export class LanguageComponent implements OnInit {
 
   loadingDisable = true;
 
-  // ASNBProspectus = false;
-
-  pdfSrc = "assets/SSDM_split_4.pdf";
 
   id: any;
-
-  name = 'Angular';
-  
 
   constructor(
     private serviceService : ServiceService,
@@ -76,6 +71,7 @@ export class LanguageComponent implements OnInit {
     clearInterval(this.id);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Language Screen]" + ": " + "Cleared Interval.");
   }
+
 
 
   startConnection() : void {
@@ -307,22 +303,6 @@ export class LanguageComponent implements OnInit {
     return false;
   }
 
-  // NextProspectus(){
-  //   this.ASNBProspectus = true;
-  // }
-
-  // ClickProspectus(){
-  //   this.ASNBProspectus = !this.ASNBProspectus;
-  // }
-
-  // showGif(event: {loaded: number, total: number}) {
-  //   let x = event.loaded < event.total;
-  //   if(x == false){
-  //     this.ASNBProspectus = false;
-  //   }
-  // }
-
-  
 }
 
 

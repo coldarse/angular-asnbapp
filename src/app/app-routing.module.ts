@@ -41,7 +41,7 @@ const routes: Routes = [
   {path: 'subscriptioninvestment', component: SubscriptioninvestmentComponent},
   {path: 'screensaver', component: ScreensaverComponent},
   {path: 'transferswitching', component: TransferswitchingComponent},
-  {path: 'redemption', component: RedemptionComponent}
+  {path: 'redemption', component: RedemptionComponent},
 ];
 
 @NgModule({

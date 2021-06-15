@@ -31,6 +31,8 @@ export class BijakregistrationComponent implements OnInit {
 
   ishardcodeic = signalrConnection.isHardcodedIC;
 
+  pdfsrc = "assets/ASNB_MasterProspectus.pdf";
+
   @ViewChild('icnumber') icnumber : ElementRef | undefined;
 
   @ViewChild('address1') add1 : ElementRef | undefined;
