@@ -18,6 +18,8 @@ export class ErrorscreenComponent implements OnInit {
 
   BTN_End = "";
 
+  nonPrintableError = ['0068', '6688', '0069', '7788', '0222', '0168', '0111']
+
   ES_1 = "";
   ES_2 = "";
   ES_3 = "";
@@ -37,11 +39,53 @@ export class ErrorscreenComponent implements OnInit {
     this.ES_3 = "Error Code"
     this.ES_5 = errorCodes.Ecode;
     this.ES_4 = errorCodes.Emessage;
+    if(signalrConnection.kioskType != 'Mobile'){
+      let ct = 0;
+      this.nonPrintableError.forEach(elem => {
+        if(errorCodes.Ecode.toString() == elem.toString()){
+          ct += 1;
+        }
+      });
+      if(ct == 0){
+        this.Print();
+      }
+    }
+
   }
 
   endTransaction(){
-    this._router.navigate(['feedbackscreen']);
-    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Error Screen]" + ": " + "Redirect to Feedback Screen.");
+    if(signalrConnection.isVerifyMyKad == true){
+      this._router.navigate(['feedbackscreen']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Error Screen]" + ": " + "Redirect to Feedback Screen.");
+    }else{
+      this._router.navigate(['transactionmenu']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Error Screen]" + ": " + "Redirect to Transaction Menu Screen.");
+    }
   }
+
+
+  Print(){
+    console.log("Init printing");
+    signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+      if(data){
+        const body = {
+          "Transaksi": errorCodes.transaction,
+          "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+          "Lokasi": signalrConnection.branchName,
+          "Name": errorCodes.accountName,
+          "NoAkaun": errorCodes.accountNo,
+          "JenisAkaun": errorCodes.accountType,
+          "ErrorCode": errorCodes.Ecode
+        }
+    
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), "GetNonFinancialTransactionFailPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
+        });
+      }
+    });
+
+    
+  }
+
 
 }

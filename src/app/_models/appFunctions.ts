@@ -24,6 +24,8 @@ export class appFunc {
   static religion: religions[];
   static relationship: relationship[];
   static securityQuestions: securityQuestions[];
+  static screenSaver: string;
+  static screenSaverList: string[];
 
   static kioskActivity: kioskActivities[];
 

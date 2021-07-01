@@ -48,6 +48,19 @@ export class PortalregistrationComponent implements OnInit {
   form_securityQuestions = appFunc.securityQuestions;
   lang = selectLang.selectedLang;
 
+  ASNBTnC = false;
+  TNCpdfsrc = "assets/Terms_N_Condition.pdf";
+  ASNBPolicy = false;
+  Policypdfsrc = "assets/PrivacyPolicy.pdf";
+
+  ispopup = false;
+
+  isRegister = true;
+  isFirstLogin = false;
+  isPasswordUpdate = false;
+
+  tacEnabled = false;
+
   form_SetA : any;
   form_SetB : any;
   form_SetC : any;
@@ -111,7 +124,7 @@ export class PortalregistrationComponent implements OnInit {
   newpassR_warning = false;
   newpassR1_warning = false;
   
-  yesno = true;
+  yesno = false;
   loginASNB_disabled = true;
   PForm_Error = false;
   PForm_Error2 = false;
@@ -218,6 +231,10 @@ export class PortalregistrationComponent implements OnInit {
   UnitHolderMobile = "";
   UnitHolderEmail = "";
   
+  currenttempID = "";
+  currenttempSecurePhrase = "";
+
+
   id: any;
 
   tempPassword : any;
@@ -227,6 +244,8 @@ export class PortalregistrationComponent implements OnInit {
   PForm_1: any;
   PForm_2: any;
   PForm_3: any;
+
+  transaction = "";
 
   constructor(private _router: Router,
     private translate: TranslateService,
@@ -251,6 +270,12 @@ export class PortalregistrationComponent implements OnInit {
     }
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
+
+    if(selectLang.selectedLang == 'en'){
+      this.transaction = "myASNB Portal Registration";
+    }else{
+      this.transaction = "Pendaftaran Portal myASNB";
+    }
 
     for (var val of appFunc.modules){
       if(val.moduleName.toLowerCase().includes('update')){
@@ -391,6 +416,26 @@ export class PortalregistrationComponent implements OnInit {
    }
   } 
 
+  ClickPolicy(){
+    this.ASNBPolicy = true;
+    this.ispopup = true;
+  }
+
+  NextPolicy(){
+    this.ASNBPolicy = false;
+    this.ispopup = false;
+  }
+
+  ClickTNC(){
+    this.ASNBTnC = true;
+    this.ispopup = true;
+  }
+
+  NextTnc(){
+    this.ASNBTnC = false;
+    this.ispopup = false;
+  }
+
   ngOnDestroy() {
     clearInterval(this.id);
     deleteKeyboard();
@@ -438,9 +483,9 @@ export class PortalregistrationComponent implements OnInit {
 
   initializeForm2(){
     this.PForm_2 = this.fb.group({
-      useridlog: ['', Validators.required],
+      useridlog: [this.currenttempID, Validators.required],
       temppass: [{value: '', disabled: true}, Validators.required],
-      securep: [{value: '', disabled: true}]
+      securep: [this.currenttempSecurePhrase]
     });
   }
 
@@ -526,6 +571,8 @@ export class PortalregistrationComponent implements OnInit {
         kActivit.action = "myASNB Portal Registration.";
         kActivit.startTime = new Date();
         
+        this.currenttempID = this.PForm_1.controls.userid.value;
+        this.currenttempSecurePhrase = this.PForm_1.controls.securephrase.value;
 
         const body = {
           "idno": currentHolder.identificationnumber,
@@ -576,6 +623,14 @@ export class PortalregistrationComponent implements OnInit {
             }else{
               errorCodes.Ecode = data.result.error_code;
               errorCodes.Emessage = data.result.error_reason;
+              errorCodes.accountName = currentHolder.firstname;
+              errorCodes.accountNo = currentHolder.unitholderid;
+              if(selectLang.selectedLang == 'ms'){
+                errorCodes.accountType = "Dewasa";
+              }else{
+                errorCodes.accountType = "Dewasa";
+              }
+              errorCodes.transaction = this.transaction;
               this._router.navigate(['errorscreen']);
               clearInterval(this.id);
             }
@@ -625,11 +680,13 @@ export class PortalregistrationComponent implements OnInit {
           deleteKeyboard();
           this.PR_Login = false;
           this.PR_NewPassword = true;
+          this.isFirstLogin = false;
+          this.isPasswordUpdate = true;
           this.initializeForm3();
 
           setTimeout(() => {
             loadKeyboard();
-          } , 2000);
+          } , 1000);
         }else{
           let ct = 0;
           this.tryAgainErrorCodes.forEach(elem => {
@@ -644,6 +701,14 @@ export class PortalregistrationComponent implements OnInit {
           }else{
             errorCodes.Ecode = data.result.error_code;
             errorCodes.Emessage = data.result.error_reason;
+            errorCodes.accountName = currentHolder.firstname;
+            errorCodes.accountNo = currentHolder.unitholderid;
+            if(selectLang.selectedLang == 'ms'){
+              errorCodes.accountType = "Dewasa";
+            }else{
+              errorCodes.accountType = "Dewasa";
+            }
+            errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
             clearInterval(this.id);
           }
@@ -681,7 +746,7 @@ export class PortalregistrationComponent implements OnInit {
     }else{
       if (this.PForm_3.controls.newpass.value == this.PForm_3.controls.newpassR.value){
         this.PR_Confirm = true;
-        deleteKeyboard();
+        //deleteKeyboard();
       }
       else{
         this.newpassR1_warning = true;
@@ -746,8 +811,9 @@ export class PortalregistrationComponent implements OnInit {
   
   tncDisagree(){
 
-    this.PR_Intro = true;
-    this.PR_TNC = false;
+    // this.PR_Intro = true;
+    // this.PR_TNC = false;
+    this._router.navigate(['/transactionmenu'])
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Disagreed to Portal Registration Terms and Conditions.");
   }
 
@@ -760,7 +826,7 @@ export class PortalregistrationComponent implements OnInit {
 
     setTimeout(() => {
       loadKeyboard();
-    } , 2000);
+    } , 1000);
   }
 
 
@@ -792,6 +858,14 @@ export class PortalregistrationComponent implements OnInit {
         }else{
           errorCodes.Ecode = data.result.error_code;
           errorCodes.Emessage = data.result.error_reason;
+          errorCodes.accountName = currentHolder.firstname;
+          errorCodes.accountNo = currentHolder.unitholderid;
+          if(selectLang.selectedLang == 'ms'){
+            errorCodes.accountType = "Dewasa";
+          }else{
+            errorCodes.accountType = "Dewasa";
+          }
+          errorCodes.transaction = this.transaction;
           this._router.navigate(['errorscreen']);
           clearInterval(this.id);
         }
@@ -800,6 +874,7 @@ export class PortalregistrationComponent implements OnInit {
   }
 
   TACClick(){
+    this.tacEnabled = true;
     const body = {
       "mobileno" : currentHolder.cellphonenumber,
       "moduleid" : "316",
@@ -817,6 +892,14 @@ export class PortalregistrationComponent implements OnInit {
       }else{
         errorCodes.Ecode = res.result.error_code;
         errorCodes.Emessage = res.result.error_reason;
+        errorCodes.accountName = currentHolder.firstname;
+        errorCodes.accountNo = currentHolder.unitholderid;
+        if(selectLang.selectedLang == 'ms'){
+          errorCodes.accountType = "Dewasa";
+        }else{
+          errorCodes.accountType = "Dewasa";
+        }
+        errorCodes.transaction = this.transaction;
         this._router.navigate(['errorscreen']);
         clearInterval(this.id);
       }
@@ -824,12 +907,14 @@ export class PortalregistrationComponent implements OnInit {
   }
 
   loginASNB(){
+    this.isRegister = false;
+    this.isFirstLogin = true;
     this.PR_TempPass = false;
     this.PR_Login = true;
     this.initializeForm2();
     setTimeout(() => {
       loadKeyboard();
-    } , 2000);
+    } , 1000);
   }
 
   EndTransactionBtn(){
@@ -873,6 +958,7 @@ export class PortalregistrationComponent implements OnInit {
 
         this.PR_Confirm = false;
         this.PR_Success = true;
+        deleteKeyboard();
       }else{
         let ct = 0;
         this.tryAgainErrorCodes.forEach(elem => {
@@ -881,18 +967,26 @@ export class PortalregistrationComponent implements OnInit {
           }
         });
         if(ct > 0){
+          this.PR_Confirm = false;
           this.PForm_Error = true;
           this.PFormText_1 = data.result.error_code;
           this.PFormText_2 = data.result.error_reason;
         }else{
           errorCodes.Ecode = data.result.error_code;
           errorCodes.Emessage = data.result.error_reason;
+          errorCodes.accountName = currentHolder.firstname;
+          errorCodes.accountNo = currentHolder.unitholderid;
+          if(selectLang.selectedLang == 'ms'){
+            errorCodes.accountType = "Dewasa";
+          }else{
+            errorCodes.accountType = "Dewasa";
+          }
+          errorCodes.transaction = this.transaction;
           this._router.navigate(['errorscreen']);
           clearInterval(this.id);
         }
       }
     });
-    deleteKeyboard();
   }
 
   confirmNo(){
@@ -911,17 +1005,17 @@ export class PortalregistrationComponent implements OnInit {
         let transaction = "";
         if(selectLang.selectedLang == 'en'){
           transaction = "myASNB Portal Registration";
-          accountType = "Self";
+          accountType = "Dewasa";
         }else{
           transaction = "Pendaftaran Portal myASNB";
-          accountType = "Sendiri";
+          accountType = "Dewasa";
         }
     
         const body = {
           "Transaksi": transaction,
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
           "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
-          "Lokasi": "KL MAIN 01",
+          "Lokasi": signalrConnection.branchName,
           "Name": currentHolder.firstname,
           "NoAkaun": currentHolder.unitholderid,
           "JenisAkaun": accountType
@@ -963,17 +1057,17 @@ export class PortalregistrationComponent implements OnInit {
     let transaction = "";
     if(selectLang.selectedLang == 'en'){
       transaction = "myASNB Portal Registration";
-      accountType = "Self";
+      accountType = "Dewasa";
     }else{
       transaction = "Pendaftaran Portal myASNB";
-      accountType = "Sendiri";
+      accountType = "Dewasa";
     }
 
     const body = {
       "Transaksi": transaction,
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
       "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
-      "Lokasi": "KL MAIN 01",
+      "Lokasi": signalrConnection.branchName,
       "Name": currentHolder.firstname,
       "NoAkaun": currentHolder.unitholderid,
       "JenisAkaun": accountType
@@ -1008,7 +1102,7 @@ export class PortalregistrationComponent implements OnInit {
 
 
   PMForm2_Financial(){
-    this._router.navigate(['/']);
+    this._router.navigate(['/screensaver']);
   }
 
   isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {

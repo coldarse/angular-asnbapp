@@ -35,6 +35,23 @@ export class AccountregistrationComponent implements OnInit {
   @ViewChild('bankaccount') bankno : ElementRef | undefined;
   @ViewChild('companyname') compname : ElementRef | undefined;
   
+  pdfsrc = "assets/ASNB_MasterProspectus.pdf";
+  pdfsrc1 = "assets/ASNB_MasterProspectus.pdf";
+  ASNBProspectus = false;
+  ASNBYuran = false;
+  
+  ASNBTnC = false;
+  TNCpdfsrc = "assets/Terms_N_Condition.pdf";
+  ASNBPolicy = false;
+  Policypdfsrc = "assets/PrivacyPolicy.pdf";
+  ASNBRegDeclaration = false;
+  regpdfsrc = "assets/REGISTRATION_DECLARATION.pdf";
+  ASNBAdditionalProspectus = false;
+  additionalpdfsrc = "assets/Prospectus_ASN_IMBANG_3_GLOBAL.pdf";
+
+  ispopup = false;
+
+
   BTN_Cancel = "";
   BTN_Next = "";
 
@@ -85,6 +102,7 @@ export class AccountregistrationComponent implements OnInit {
 
   telephone_Warning : boolean = false;
   telephone_Warning1 : boolean = false;
+  homephone_Warning : boolean  = false;
   email_Warning : boolean = false;
   email_Warning1 : boolean = false;
   bank_Warning : boolean = false;
@@ -103,6 +121,8 @@ export class AccountregistrationComponent implements OnInit {
   Print_Visible = true;
 
   ARPopUp1_Visible = false;
+
+  TNCAgreed = true;
 
   //Page Elements Fixed Values from API and MyKad
   Header_Title = "";
@@ -209,6 +229,8 @@ export class AccountregistrationComponent implements OnInit {
   religion: any;
   race: any;
 
+  transaction = "";
+
   constructor(private elementRef: ElementRef,
     private _router: Router,
     private translate: TranslateService,
@@ -229,13 +251,13 @@ export class AccountregistrationComponent implements OnInit {
         this.city = currentMyKadDetails.City;
       }
     }
-    this.state = currentMyKadDetails.State;
+    this.state = currentMyKadDetails.State.toString().replace(" ", "");
     for(var y of this.form_states){
       if (y.text.toLowerCase().includes(this.state.toLowerCase())){
         this.state = y.value;
         break;
       }else{
-        this.state = currentMyKadDetails.State;
+        this.state = currentMyKadDetails.State.toString().replace(" ", "");
       }
     }
     this.religion = currentMyKadDetails.Religion;
@@ -286,10 +308,10 @@ export class AccountregistrationComponent implements OnInit {
         state : [{value: this.state, disabled: true}],
         mykadaddress: [true],
 
-        homenumber : [''],
+        homenumber : ['', Validators.minLength(5)],
         telephone: ['', [
           Validators.required,
-          Validators.pattern('^[0-9]*$')
+          Validators.minLength(5)
         ]],
         notelephone: [false],
 
@@ -302,14 +324,15 @@ export class AccountregistrationComponent implements OnInit {
         bankname: [''],
         bankaccount: ['', [
           Validators.required,
-          Validators.pattern('^[0-9]*$')
+          Validators.pattern('^[0-9]*$'),
+          Validators.minLength(5)
         ]],
 
         jobcategory: ['NA'],
         jobname: ['NA'],
         natureofjob: ['NA'],
         jobsector: ['NA'],
-        monthlyincome: [''],
+        monthlyincome: ['7'],
         companyname: ['', Validators.required],
 
         fatca: ['N'],
@@ -321,6 +344,7 @@ export class AccountregistrationComponent implements OnInit {
   }  
 
   ngOnInit(): void {
+    signalrConnection.isVerifyMyKad = true;
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
     }
@@ -334,6 +358,15 @@ export class AccountregistrationComponent implements OnInit {
       }, 1000);
     }
 
+    
+    if(selectLang.selectedLang == 'ms'){
+      this.ARSuccess_10 = "Dewasa";
+      this.transaction = "Pendaftaran Akaun";
+    }
+    else{
+      this.ARSuccess_10 = "Dewasa";
+      this.transaction = "Account Registration";
+    }
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -370,7 +403,7 @@ export class AccountregistrationComponent implements OnInit {
 
   noEmailCheck() {
     if (this.AR_Form.controls.noemail.value == false){
-      this.AR_Form.controls.email.reset();
+      this.AR_Form.controls.email.setValue("NA");
       this.AR_Form.controls.email.disable();
       this.AR_Form.controls.deliverystate.setValue('ST');
       this.AR_Form.controls.deliverystate.disable();
@@ -380,6 +413,7 @@ export class AccountregistrationComponent implements OnInit {
     }
     else{
       this.AR_Form.controls.email.enable();
+      this.AR_Form.controls.email.reset();
       this.AR_Form.controls.deliverystate.enable();
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Unchecked No Email.");
     }
@@ -388,7 +422,7 @@ export class AccountregistrationComponent implements OnInit {
 
   noTelephoneCheck() {
     if (this.AR_Form.controls.notelephone.value == false){
-      this.AR_Form.controls.telephone.reset();
+      this.AR_Form.controls.telephone.setValue("NA");
       this.AR_Form.controls.telephone.disable();
       if (this.telephone_Warning == true) this.telephone_Warning = false;
       if (this.telephone_Warning1 == true) this.telephone_Warning1 = false;
@@ -396,6 +430,7 @@ export class AccountregistrationComponent implements OnInit {
     }
     else{
       this.AR_Form.controls.telephone.enable();
+      this.AR_Form.controls.telephone.reset();
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Unchecked No Telephone.");
     }
   }
@@ -467,17 +502,21 @@ export class AccountregistrationComponent implements OnInit {
     this.AR_Form.controls.state.enable();
 
 
+    if(this.AR_Form.controls.homenumber.value == ""){
+      this.AR_Form.controls.homenumber.value = 'NA';
+    }
+
     //currentMyKadDetails.ICNo = "521030135180";
     const body = {
-      "CHANNELTYPE":"ASNB KIOSK",
-      "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
-      "DEVICEOWNER":"ASNB",
+      "CHANNELTYPE":signalrConnection.channelType,
+      "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
+      "DEVICEOWNER":signalrConnection.deviceOwner,
       "UNITHOLDERID":"",
       "FIRSTNAME": currentMyKadDetails.Name,
-      "IDENTIFICATIONTYPE":"W",
+      "IDENTIFICATIONTYPE":currentHolder.identificationtype,
       "IDENTIFICATIONNUMBER":currentMyKadDetails.ICNo,
-      "AGENTCODE":"ASNB",
-      "BRANCHCODE":"ASNBHQ001",
+      "AGENTCODE":signalrConnection.agentCode,
+      "BRANCHCODE":signalrConnection.branchCode,
       "UHCATEGORY":"",
       "RACE": this.AR_Form.controls.race.value,
       "CELLPHONENUMBER": this.AR_Form.controls.telephone.value,
@@ -490,7 +529,7 @@ export class AccountregistrationComponent implements OnInit {
       "ZIPCODE": this.AR_Form.controls.postcode.value,
       "DATEOFBIRTH": formatDate(currentMyKadDetails.DOB, 'dd/MM/yyyy', 'en'),
       "SEX": currentMyKadDetails.Gender.substring(0, 1),
-      "OCCUPATION":this.AR_Form.controls.jobname.value,             //
+      "OCCUPATION":this.AR_Form.controls.jobname.value,             
       "EMAIL":this.AR_Form.controls.email.value,
       "FATHER_SPOUSENAME":"",
       "OTHERINFO8":this.AR_Form.controls.monthlyincome.value,
@@ -528,19 +567,13 @@ export class AccountregistrationComponent implements OnInit {
       }
     }
 
-
+    
     if (withMinInvestment){
       this.serviceService.postAccountRegistrationWithInvestment(body).subscribe((data: any) => {
         if(data.result.transactionstatus.toLowerCase().includes('successful')){
           this.ARSuccess_4 = currentMyKadDetails.Name;
           this.ARSuccess_6 = data.result.unitholderid;
           this.ARSuccess_8 = formatDate(new Date(), 'dd/MM/yyyy', 'en');
-          if(selectLang.selectedLang == 'ms'){
-            this.ARSuccess_10 = "Sendiri";
-          }
-          else{
-            this.ARSuccess_10 = "Self";
-          }
           kActivit.endTime = new Date();
           kActivit.status = true;
   
@@ -567,6 +600,11 @@ export class AccountregistrationComponent implements OnInit {
         }else{
           errorCodes.Ecode = data.result.rejectcode;
           errorCodes.Emessage = data.result.rejectreason;
+          errorCodes.accountName = currentMyKadDetails.Name;
+          errorCodes.accountNo = "";
+          errorCodes.accountType = this.ARSuccess_10;
+          errorCodes.transaction = this.transaction;
+
           this._router.navigate(['errorscreen']);
           kActivit.endTime = new Date();
           kActivit.status = false;
@@ -584,10 +622,10 @@ export class AccountregistrationComponent implements OnInit {
           this.ARSuccess_6 = data.result.unitholderid;
           this.ARSuccess_8 = formatDate(new Date(), 'dd/MM/yyyy', 'en');
           if(selectLang.selectedLang == 'ms'){
-            this.ARSuccess_10 = "Sendiri";
+            this.ARSuccess_10 = "Dewasa";
           }
           else{
-            this.ARSuccess_10 = "Self";
+            this.ARSuccess_10 = "Dewasa";
           }
           kActivit.endTime = new Date();
           kActivit.status = true;
@@ -615,6 +653,10 @@ export class AccountregistrationComponent implements OnInit {
         }else{
           errorCodes.Ecode = data.result.rejectcode;
           errorCodes.Emessage = data.result.rejectreason;
+          errorCodes.accountName = currentMyKadDetails.Name;
+          errorCodes.accountNo = "";
+          errorCodes.accountType = this.ARSuccess_10;
+          errorCodes.transaction = this.transaction;
           this._router.navigate(['errorscreen']);
           kActivit.endTime = new Date();
           kActivit.status = false;
@@ -633,6 +675,71 @@ export class AccountregistrationComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Submitted Account Registration Form.");
   
   }
+
+  agreeTNC(){
+    this.TNCAgreed = !this.TNCAgreed;
+  }
+
+  NextAdditionalProspectus(){
+    this.ASNBAdditionalProspectus = false;
+    this.ispopup = false;
+  }
+
+  ClickAdditionalProspectus(){
+    this.ASNBAdditionalProspectus = true;
+    this.ispopup = true;
+  }
+
+  NextProspectus(){
+    this.ASNBProspectus = false;
+    this.ispopup = false;
+  }
+
+  ClickNextRegDeclaration(){
+    this.ASNBRegDeclaration = true;
+    this.ispopup = true;
+  }
+
+  NextRegDeclaration(){
+    this.ASNBRegDeclaration = false;
+    this.ispopup = false;
+  }
+
+  ClickProspectus(){
+    this.ASNBProspectus = true;
+    this.ispopup = true;
+  }
+
+  NextYuran(){
+    this.ASNBYuran = false;
+    this.ispopup = false;
+  }
+
+  ClickYuran(){
+    this.ASNBYuran = true;
+    this.ispopup = true;
+  }
+
+  ClickPolicy(){
+    this.ASNBPolicy = true;
+    this.ispopup = true;
+  }
+
+  NextPolicy(){
+    this.ASNBPolicy = false;
+    this.ispopup = false;
+  }
+
+  ClickTNC(){
+    this.ASNBTnC = true;
+    this.ispopup = true;
+  }
+
+  NextTnc(){
+    this.ASNBTnC = false;
+    this.ispopup = false;
+  }
+
 
   Next(){
     this.ARPopUp1_Visible = false;
@@ -663,7 +770,7 @@ export class AccountregistrationComponent implements OnInit {
           "Transaksi": transaction,
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
           "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
-          "Lokasi": "KL MAIN 01",
+          "Lokasi": signalrConnection.branchName,
           "Name": currentMyKadDetails.Name,
           "NoAkaun": this.ARSuccess_6,
           "JenisAkaun": this.ARSuccess_10
@@ -704,7 +811,7 @@ export class AccountregistrationComponent implements OnInit {
       "Transaksi": transaction,
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
       "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
-      "Lokasi": "KL MAIN 01",
+      "Lokasi": signalrConnection.branchName,
       "Name": currentMyKadDetails.Name,
       "NoAkaun": this.ARSuccess_6,
       "JenisAkaun": this.ARSuccess_10
@@ -738,6 +845,11 @@ export class AccountregistrationComponent implements OnInit {
   TNCDisgree(){
     this.ARForm_Visible = true;
     this.ARTNC_Visible = false;
+
+
+    setTimeout(() => {
+      loadKeyboard();
+    }, 1000);
   }
 
   registrationNext() {
@@ -759,6 +871,7 @@ export class AccountregistrationComponent implements OnInit {
 
     this.telephone_Warning = false;
     this.telephone_Warning1 = false;
+    this.homephone_Warning = false;
     this.email_Warning = false;
     this.email_Warning1 = false;
     this.bank_Warning = false;
@@ -805,11 +918,21 @@ export class AccountregistrationComponent implements OnInit {
         if(key.includes('email')){
           this.email_Warning1 = true;
         }
-        else if(key.includes('telephone')){
-          this.telephone_Warning1 = true;
-        }
-        else if(key.includes('bankaccount')){
+      }
+      else if(this.AR_Form.controls[key].hasError('minlength')){
+        x += 1;
+        if(key.includes('bankaccount')){
           this.bankNo_Warning1 = true;
+        }
+        else if(key.includes('telephone')){
+          if(this.AR_Form.controls[key].value != 'NA'){
+            this.telephone_Warning1 = true;
+          }
+        }
+        else if(key.includes('homenumber')){
+          if(this.AR_Form.controls[key].value != 'NA'){
+            this.homephone_Warning = true;
+          }
         }
       }
       else {
@@ -857,7 +980,7 @@ export class AccountregistrationComponent implements OnInit {
               this.JS_Warning = true;
             }
         }
-        else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '')){
+        else if(key.includes('monthlyincome') && (this.AR_Form.controls.monthlyincome.value == '7')){
           if(
             this.AR_Form.controls.jobcategory.value != 'UM'
           ){
@@ -877,8 +1000,19 @@ export class AccountregistrationComponent implements OnInit {
       window.scroll(0,0);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
     }else{
-      this.ARForm_Visible = false;
-      this.ARTNC_Visible = true;
+      if(this.AR_Form.controls.pep.value == 'Y' || this.AR_Form.controls.fatca.value == 'Y' || this.AR_Form.controls.crs.value == 'Y'){
+        errorCodes.Ecode = "0118";
+        errorCodes.Emessage = "FATCA/PEP/CRS selected.";
+        errorCodes.accountName = currentMyKadDetails.Name;
+        errorCodes.accountNo = "";
+        errorCodes.accountType = this.ARSuccess_10;
+        errorCodes.transaction = this.transaction;
+        this._router.navigate(['errorscreen']);
+      }else{
+        this.ARForm_Visible = false;
+        this.ARTNC_Visible = true;
+        deleteKeyboard();
+      }
     }
   }
 
@@ -922,7 +1056,7 @@ export class AccountregistrationComponent implements OnInit {
       this.AR_Form.controls.jobsector.setValue('NA');
       this.AR_Form.controls.natureofjob.setValue('NA');
       this.AR_Form.controls.companyname.setValue('');
-      this.AR_Form.controls.monthlyincome.setValue('');
+      this.AR_Form.controls.monthlyincome.setValue('7');
       this.AR_Form.controls.jobname.disable();
       this.AR_Form.controls.natureofjob.disable();
       this.AR_Form.controls.jobsector.disable();
@@ -951,9 +1085,9 @@ export class AccountregistrationComponent implements OnInit {
 
       const body = { 
 
-        "CHANNELTYPE": "ASNB KIOSK",
-        "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
-        "DEVICEOWNER": "ASNB",
+        "CHANNELTYPE": signalrConnection.channelType,
+        "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
+        "DEVICEOWNER": signalrConnection.deviceOwner,
         "UNITHOLDERID": "",
         "FIRSTNAME": "",
         "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
@@ -1073,6 +1207,10 @@ export class AccountregistrationComponent implements OnInit {
           if (!currentHolder.typeclosed.toLowerCase().includes('n')){
             errorCodes.Ecode = "0168";
             errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
+            errorCodes.accountName = currentMyKadDetails.Name;
+            errorCodes.accountNo = currentHolder.unitholderid;
+            errorCodes.accountType = this.ARSuccess_10;
+            errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
           }
           else{
@@ -1094,6 +1232,10 @@ export class AccountregistrationComponent implements OnInit {
           else{
             errorCodes.Ecode = currentHolder.rejectcode;
             errorCodes.Emessage = currentHolder.rejectreason;
+            errorCodes.accountName = currentMyKadDetails.Name;
+            errorCodes.accountNo = currentHolder.unitholderid;
+            errorCodes.accountType = this.ARSuccess_10;
+            errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
           }
         }

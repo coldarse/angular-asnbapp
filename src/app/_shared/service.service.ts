@@ -131,6 +131,17 @@ export class ServiceService {
     )
   }
 
+  //getScreenSaver
+  getScreenSaver(kioskcode: string){
+    return this.http.get(
+      this.url + `services/app/KioskAgent/GetScreenSaver1?KioskCode=${kioskcode}`,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
   //getKioskModules
   getKioskModules(kioskcode: string){
     return this.http.get(

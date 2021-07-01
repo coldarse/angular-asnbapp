@@ -20,7 +20,6 @@ import { HttpHeaders } from '@angular/common/http';
 
 
 
-
 @Component({
   selector: 'app-language',
   templateUrl: './language.component.html'
@@ -29,6 +28,8 @@ export class LanguageComponent implements OnInit {
 
   loadingDisable = true;
 
+
+  
 
   id: any;
 
@@ -42,7 +43,6 @@ export class LanguageComponent implements OnInit {
     }
 
   ngOnInit(): void {
-
 
 
     if(signalrConnection.logsaves != undefined){
@@ -88,6 +88,24 @@ export class LanguageComponent implements OnInit {
       signalrConnection.connection.invoke('KioskType').then((data: string) => {
         signalrConnection.kioskType = data;
       });
+      signalrConnection.connection.invoke('BranchName').then((data: string) => {
+        signalrConnection.branchName = data;
+      });
+      signalrConnection.connection.invoke('ChannelType').then((data: string) => {
+        signalrConnection.channelType = data;
+      });
+      signalrConnection.connection.invoke('DeviceOwner').then((data: string) => {
+        signalrConnection.deviceOwner = data;
+      });
+      signalrConnection.connection.invoke('RequestorIdentification').then((data: string) => {
+        signalrConnection.requestIdentification = data;
+      });
+      signalrConnection.connection.invoke('AgentCode').then((data: string) => {
+        signalrConnection.agentCode = data;
+      });
+      signalrConnection.connection.invoke('BranchCode').then((data: string) => {
+        signalrConnection.branchCode = data;
+      });
       signalrConnection.connection.invoke('GetLoginToken').then((data: string) => {
         accessToken.token = data;
         accessToken.httpOptions = {
@@ -102,9 +120,12 @@ export class LanguageComponent implements OnInit {
           errorCodes.message = "Something bad happened; please try again later.";
           this.route.navigate(['outofservice']);
         });
+        this.serviceService.getScreenSaver(signalrConnection.kioskCode).subscribe((res : any) => {
+          appFunc.screenSaver = res.result[0].agentDownloadPath;
+          appFunc.screenSaverList = res.result[0].fileList;
+        });
         this.serviceService.getKioskModules(signalrConnection.kioskCode).subscribe((res: any) => {
           var areDisabled = 0
-          
           this.loadingDisable = false;
           appFunc.modules = res.result.map((em: any) => new eModules(em));
           

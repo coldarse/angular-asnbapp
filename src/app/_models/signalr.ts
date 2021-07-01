@@ -12,6 +12,13 @@ export class signalrConnection {
   static trxno : string;
   static isHardcodedIC : boolean;
   static kioskType: string;
+  static branchName: string;
+  static channelType: string = "ASNB KIOSK";
+  static deviceOwner: string = "ASNB";
+  static requestIdentification: string = "TESTFDSSERVER";
+  static agentCode: string = "ASNB";
+  static branchCode: string = "ASNBHQ001";
+  static isVerifyMyKad = false;
 }
 
 

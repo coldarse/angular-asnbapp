@@ -98,6 +98,8 @@ export class CheckbalanceComponent implements OnInit {
 
   id: any;
 
+  transaction = "";
+
   constructor(private _router: Router,
     private translate: TranslateService,
     private serviceService : ServiceService) { }
@@ -112,7 +114,7 @@ export class CheckbalanceComponent implements OnInit {
     this.noAhli = currentHolder.unitholderid;
     this.namaAhli = currentHolder.firstname;
 
-    if(signalrConnection.kioskCode == 'Mobile'){
+    if(signalrConnection.kioskType == 'Mobile'){
       this.Print_Visible = false;
     }
     else{
@@ -139,6 +141,12 @@ export class CheckbalanceComponent implements OnInit {
       }, 1000);
     }
 
+    if(selectLang.selectedLang == 'en'){
+      this.transaction = "Check Balance";
+    }else{
+      this.transaction = "Semak Baki";
+    }
+
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Set 1 second interval to detect MyKad.");
   }
 
@@ -158,7 +166,7 @@ export class CheckbalanceComponent implements OnInit {
   }
   
   CancelCheckBalance() {
-    this._router.navigate(['feedbackscreen']);
+    this._router.navigate(['transactionmenu']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + "Canceled Check Balance.");
   }
 
@@ -193,9 +201,9 @@ export class CheckbalanceComponent implements OnInit {
             "GRANDTOTALUNITS": currentHolder.grandtotalunits.toString(),
             "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings.toString(),	
       
-            "CHANNELTYPE":"ASNB KIOSK",
-            "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
-            "DEVICEOWNER":"ASNB",
+            "CHANNELTYPE":signalrConnection.channelType,
+            "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
+            "DEVICEOWNER":signalrConnection.deviceOwner,
             "NUMBEROFTXNS":"5", 
             "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
             "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
@@ -229,9 +237,9 @@ export class CheckbalanceComponent implements OnInit {
             "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits.toString(),
             "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings.toString(),	
       
-            "CHANNELTYPE":"ASNB KIOSK",
-            "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
-            "DEVICEOWNER":"ASNB",
+            "CHANNELTYPE":signalrConnection.channelType,
+            "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
+            "DEVICEOWNER":signalrConnection.deviceOwner,
             "NUMBEROFTXNS":"5", 
             "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
             "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
@@ -293,6 +301,21 @@ export class CheckbalanceComponent implements OnInit {
           else{
             errorCodes.Ecode = trans.result.rejectcode;
             errorCodes.Emessage = trans.result.rejectreason;
+            if (this.isMain){
+              errorCodes.accountName = currentHolder.firstname;
+              errorCodes.accountNo = currentHolder.unitholderid;
+              if(selectLang.selectedLang == 'ms'){
+                errorCodes.accountType = "Dewasa";
+              }else{
+                errorCodes.accountType = "Dewasa";
+              }
+            }
+            else{
+              errorCodes.accountName = currentBijakHolder.firstname;
+              errorCodes.accountNo = currentBijakHolder.unitholderid;
+              errorCodes.accountType = "Bijak";
+            }
+            errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
           }
 
@@ -328,9 +351,9 @@ export class CheckbalanceComponent implements OnInit {
         "GRANDTOTALUNITS": currentHolder.grandtotalunits.toString(),
         "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings.toString(),
   
-        "CHANNELTYPE":"ASNB KIOSK",
-        "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
-        "DEVICEOWNER":"ASNB",
+        "CHANNELTYPE":signalrConnection.channelType,
+        "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
+        "DEVICEOWNER":signalrConnection.deviceOwner,
         "NUMBEROFTXNS":"5", 
         "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
         "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
@@ -349,7 +372,7 @@ export class CheckbalanceComponent implements OnInit {
         "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
         "POLICYTYPE":"UT"
       };
-    }else{
+}else{
       body = {
         "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
         "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
@@ -363,9 +386,9 @@ export class CheckbalanceComponent implements OnInit {
         "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits.toString(),
         "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings.toString(),
   
-        "CHANNELTYPE":"ASNB KIOSK",
-        "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
-        "DEVICEOWNER":"ASNB",
+        "CHANNELTYPE":signalrConnection.channelType,
+        "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
+        "DEVICEOWNER":signalrConnection.deviceOwner,
         "NUMBEROFTXNS":"5", 
         "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
         "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
@@ -435,6 +458,21 @@ export class CheckbalanceComponent implements OnInit {
       else{
         errorCodes.Ecode = trans.result.rejectcode;
         errorCodes.Emessage = trans.result.rejectreason;
+        if (this.isMain){
+          errorCodes.accountName = currentHolder.firstname;
+          errorCodes.accountNo = currentHolder.unitholderid;
+          if(selectLang.selectedLang == 'ms'){
+            errorCodes.accountType = "Dewasa";
+          }else{
+            errorCodes.accountType = "Dewasa";
+          }
+        }
+        else{
+          errorCodes.accountName = currentBijakHolder.firstname;
+          errorCodes.accountNo = currentBijakHolder.unitholderid;
+          errorCodes.accountType = "Bijak";
+        }
+        errorCodes.transaction = this.transaction;
         this._router.navigate(['errorscreen']);
       }
 
@@ -462,14 +500,14 @@ export class CheckbalanceComponent implements OnInit {
             "date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
             "time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
             "firstname": currentHolder.firstname.toString(),
-            "channeltype": "ASNB KIOSK",
-            "requestoridentification": "TESTFDSSERVER",
-            "deviceowner": "ASNB",
+            "channeltype": signalrConnection.channelType,
+            "requestoridentification": signalrConnection.requestIdentification,
+            "deviceowner": signalrConnection.deviceOwner,
             "typeofstatement": "DIVSTMT",
             "requestdate": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
             "requesttime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
             "unitholderid": this.CB2_7.toString(),
-            "identificationtype": "W",
+            "identificationtype": currentHolder.identificationtype,
             "identificationnumber": this.CB2_5.toString(),
             "guardianidnumber": this.CB_GuardianID.toString(),
             "fundid": selectedFundDetails.FUNDID.toString(),
@@ -480,9 +518,9 @@ export class CheckbalanceComponent implements OnInit {
             "date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
             "time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
             "firstname": currentBijakHolder.firstname.toString(),
-            "channeltype": "ASNB KIOSK",
-            "requestoridentification": "TESTFDSSERVER",
-            "deviceowner": "ASNB",
+            "channeltype":signalrConnection.channelType,
+            "requestoridentification": signalrConnection.requestIdentification,
+            "deviceowner": signalrConnection.deviceOwner,
             "typeofstatement": "DIVSTMT",
             "requestdate": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
             "requesttime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
@@ -542,6 +580,21 @@ export class CheckbalanceComponent implements OnInit {
           else{
             errorCodes.Ecode = trans.result.rejectcode;
             errorCodes.Emessage = trans.result.rejectreason;
+            if (this.isMain){
+              errorCodes.accountName = currentHolder.firstname;
+              errorCodes.accountNo = currentHolder.unitholderid;
+              if(selectLang.selectedLang == 'ms'){
+                errorCodes.accountType = "Dewasa";
+              }else{
+                errorCodes.accountType = "Dewasa";
+              }
+            }
+            else{
+              errorCodes.accountName = currentBijakHolder.firstname;
+              errorCodes.accountNo = currentBijakHolder.unitholderid;
+              errorCodes.accountType = "Bijak";
+            }
+            errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
           }
     
@@ -570,14 +623,14 @@ export class CheckbalanceComponent implements OnInit {
         "date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
         "time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "firstname": currentHolder.firstname.toString(),
-        "channeltype": "ASNB KIOSK",
-        "requestoridentification": "TESTFDSSERVER",
-        "deviceowner": "ASNB",
+        "channeltype":signalrConnection.channelType,
+        "requestoridentification": signalrConnection.requestIdentification,
+        "deviceowner": signalrConnection.deviceOwner,
         "typeofstatement": "DIVSTMT",
         "requestdate": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
         "requesttime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "unitholderid": this.CB2_7.toString(),
-        "identificationtype": "W",
+        "identificationtype": currentHolder.identificationtype,
         "identificationnumber": this.CB2_5.toString(),
         "guardianidnumber": this.CB_GuardianID.toString(),
         "fundid": selectedFundDetails.FUNDID.toString(),
@@ -588,9 +641,9 @@ export class CheckbalanceComponent implements OnInit {
         "date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
         "time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "firstname": currentBijakHolder.firstname.toString(),
-        "channeltype": "ASNB KIOSK",
-        "requestoridentification": "TESTFDSSERVER",
-        "deviceowner": "ASNB",
+        "channeltype": signalrConnection.channelType,
+        "requestoridentification": signalrConnection.requestIdentification,
+        "deviceowner": signalrConnection.deviceOwner,
         "typeofstatement": "DIVSTMT",
         "requestdate": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
         "requesttime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
@@ -651,7 +704,21 @@ export class CheckbalanceComponent implements OnInit {
       }
       else{
         errorCodes.Ecode = trans.result.rejectcode;
-        errorCodes.Emessage = trans.result.rejectreason;
+        errorCodes.Emessage = trans.result.rejectreason;if (this.isMain){
+          errorCodes.accountName = currentHolder.firstname;
+          errorCodes.accountNo = currentHolder.unitholderid;
+          if(selectLang.selectedLang == 'ms'){
+            errorCodes.accountType = "Dewasa";
+          }else{
+            errorCodes.accountType = "Dewasa";
+          }
+        }
+        else{
+          errorCodes.accountName = currentBijakHolder.firstname;
+          errorCodes.accountNo = currentBijakHolder.unitholderid;
+          errorCodes.accountType = "Bijak";
+        }
+        errorCodes.transaction = this.transaction;
         this._router.navigate(['errorscreen']);
       }
       
@@ -842,9 +909,9 @@ export class CheckbalanceComponent implements OnInit {
   MinorCheckBalance(selectedMinorDetails: any) {
     this.isMain = false;
     const body = {
-      "CHANNELTYPE": "ASNB KIOSK",
-      "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
-      "DEVICEOWNER": "ASNB",
+      "CHANNELTYPE": signalrConnection.channelType,
+      "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+      "DEVICEOWNER": signalrConnection.deviceOwner,
       "UNITHOLDERID": "",
       "FIRSTNAME": "",
       "IDENTIFICATIONTYPE": selectedMinorDetails.ICTYPE,

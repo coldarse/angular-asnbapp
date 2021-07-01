@@ -21,6 +21,7 @@ export class OutofserviceComponent implements OnInit {
   constructor(private _router: Router,) { }
 
   ngOnInit(): void {
+    signalrConnection.isVerifyMyKad = false;
     this.XXX1 = errorCodes.code;
     this.XXX2 = errorCodes.code;
 

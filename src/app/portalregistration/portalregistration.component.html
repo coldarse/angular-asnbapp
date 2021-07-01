@@ -4,7 +4,9 @@
         <div class="titleNLogo">
             <!-- Read MyKad NavBar -->
             <img src="assets/images/PendaftaranPortalmyASNB-small-blue.png" alt="PortalImage">
-            <label class="outofserviceStyle" id="SectionTitle">{{'Portal_Registration_Header_Title' | translate }}</label>
+            <label class="outofserviceStyle" id="SectionTitle" *ngIf="isRegister">{{'Portal_Registration_Header_Title' | translate }}</label>
+            <label class="outofserviceStyle" id="SectionTitle" *ngIf="isFirstLogin">{{'Portal_First_Time_Login_Title' | translate }}</label>
+            <label class="outofserviceStyle" id="SectionTitle" *ngIf="isPasswordUpdate">{{'Portal_Password_Update_Title' | translate }}</label>
         </div>
 
         <form class="d-flex">
@@ -49,6 +51,80 @@
     </div>
 </div>
 
+<div class="bg-popup"  *ngIf="ASNBTnC">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <ngx-extended-pdf-viewer 
+            [src]="TNCpdfsrc" 
+            backgroundColor="#ffffff" 
+            [delayFirstView]="1000" 
+            [height]="'530px'"
+            [useBrowserLocale]="true"
+            [showPrintButton]="false"
+            [showBookmarkButton]="false"
+            [showDownloadButton]="false"
+            [showFindButton]="false"
+            [showHandToolButton]="false"
+            [showOpenFileButton]="false"
+            [showPresentationModeButton]="false"
+            [showRotateButton]="false"
+            [showPropertiesButton]="false"
+            [zoom]="'100%'">
+        </ngx-extended-pdf-viewer>
+
+        <footer class="site-footer" style="padding-top:1rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextTnc()">
+                      
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
+<div class="bg-popup"  *ngIf="ASNBPolicy">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <ngx-extended-pdf-viewer 
+            [src]="Policypdfsrc" 
+            backgroundColor="#ffffff" 
+            [delayFirstView]="1000" 
+            [height]="'530px'"
+            [useBrowserLocale]="true"
+            [showPrintButton]="false"
+            [showBookmarkButton]="false"
+            [showDownloadButton]="false"
+            [showFindButton]="false"
+            [showHandToolButton]="false"
+            [showOpenFileButton]="false"
+            [showPresentationModeButton]="false"
+            [showRotateButton]="false"
+            [showPropertiesButton]="false"
+            [zoom]="'100%'">
+        </ngx-extended-pdf-viewer>
+
+        <footer class="site-footer" style="padding-top:1rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextPolicy()">
+                      
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
 <div class="bg-popup" id="BR_ErrorPop" *ngIf="UserError_Visible">
     <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
 
@@ -65,10 +141,10 @@
         <footer class="site-footer" style="padding-top:10rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-cancel" id="BR_Cancel" (click)="EndTransactionBtn()">
-                        <!-- Tamatkan Transaksi -->
+                    <!-- <button type="button" class="btn btn-cancel" id="BR_Cancel" (click)="EndTransactionBtn()">
+           
                         {{'BTN_End' | translate }}
-                    </button>
+                    </button> -->
                     <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="MainMenuBtn()">
                         <!-- Cuba Lagi -->
                         {{'BTN_MainMenu' | translate }}
@@ -94,7 +170,7 @@
         <footer class="site-footer" style="padding-top:15rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-back" id="RM_Cancel" (click)="backToMain()">
+                    <button type="button" class="btn btn-cancel" id="RM_Cancel" (click)="backToMain()">
                         <!-- Tamatkan Transaksi -->
                         {{'BTN_Back' | translate }}
                     </button>
@@ -209,7 +285,7 @@
             <div class="col-md-12">
                 <button type="button" class="btn btn-cancel" id="PR_Cancel" (click)="introCancel()">
                     <!-- Batal -->
-                    {{'BTN_Cancel' | translate }}
+                    {{'BTN_MainMenu' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="PR_Next" (click)="introNext()">
                     <!-- Teruskan -->
@@ -258,10 +334,10 @@
 
         </div>
         <div class="col-md-10">
-            <input type="checkbox" id="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC()">
+            <input type="checkbox" class="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC()">
             <!-- <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">Saya telah membaca dan bersetuju dengan <a href="#" style="text-decoration:none;">Terma & Syarat</a> dan <a href="#" style="text-decoration:none;">Dasar Privasi</a></label><br> -->
             <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">
-                {{'PRTNC_3' | translate }}<a href="#" style="text-decoration:none;"> {{'PRTNC_4' | translate }} </a> {{'PRTNC_5' | translate }} <a href="#" style="text-decoration:none;"> {{'PRTNC_6' | translate }} </a>
+                {{'PRTNC_3' | translate }}<a class="hyperlinksent" (click)="ClickTNC()"> {{'PRTNC_4' | translate }} </a> {{'PRTNC_5' | translate }} <a class="hyperlinksent" (click)="ClickPolicy()"> {{'PRTNC_6' | translate }} </a>
             </label><br>
         </div>
         <div class="col-md-1">
@@ -277,7 +353,7 @@
                     <!-- Tidak Setuju -->
                     {{'BTN_xAgree' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="PR_Agree" (click)="tncAgree()" [disabled]="TNCAgreed">
+                <button type="button" class="btn btn-next" id="PR_Agree" (click)="tncAgree()" [disabled]="TNCAgreed" [hidden]="ispopup">
                     <!-- Setuju -->
                     {{'BTN_Agree' | translate }}
                 </button>
@@ -295,7 +371,7 @@
 
         <h2 id="RM_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{PFormText_2}}</h2>
 
-        <footer class="site-footer" style="padding-top:15rem;">
+        <footer class="site-footer" style="padding-top:10rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-next" (click)="PMForm_tryAgain()">
@@ -337,7 +413,7 @@
 
 
 <!-- [fromGroup]='PForm_1' (ngSubmit)='nextDetails()' autocomplete="off" novalidate> -->
-<form class="row content-container" *ngIf="PR_Details" [formGroup]='PForm_1' (ngSubmit)='nextDetails()' autocomplete="off" novalidate> 
+<form class="row content-container" *ngIf="PR_Details" [formGroup]='PForm_1' autocomplete="off" novalidate> 
     <div class="row" style="padding-left: 4rem; padding-top: 2rem;">
         <div class="col-md-12">
             <!-- <h4><u>Daftar Masuk Portal myASNB</u></h4> -->
@@ -352,7 +428,7 @@
                     <h4 class="h2-ic">{{'PRDetails_2' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input" name="" [formControl]='PForm_1.controls["userid"]' #uid>
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" name="" [formControl]='PForm_1.controls["userid"]' #uid id="uid">
                      <!-- [formControl]='PForm_1.controls["username"]' -->
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="userid_warning">{{'Warning' | translate}}</div> 
 
@@ -366,7 +442,7 @@
                     <h4 class="h2-ic">{{'PRDetails_3' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input" name="" [formControl]='PForm_1.controls["email"]' #eAddress>
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" name="" [formControl]='PForm_1.controls["email"]' #eAddress id="eaddress">
                     <!-- [formControl]='PForm_1.controls["email"]'> -->
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_warning">{{'EAWarning' | translate}}</div> 
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email1_warning">{{'EAWarning1' | translate}}</div> 
@@ -393,7 +469,7 @@
                     <h4 class="h2-ic">{{'PRDetails_5' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["securephrase"]' #securePhrase>
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["securephrase"]' #securePhrase id="securephrase">
                     <!-- [formControl]='PForm_1.controls["securephrase"]'> -->
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="securephrase_warning">{{'Warning' | translate}}</div> 
 
@@ -419,7 +495,7 @@
                     <h4 class="h2-ic">{{'PRDetails_7' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" name="" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a1"]' #answer1>
+                    <input type="text" name="" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a1"]' #answer1 id="ans1">
                     <!-- [formControl]='PForm_1.controls["ans1"]'> -->
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer1_warning">{{'Warning' | translate}}</div> 
 
@@ -444,7 +520,7 @@
                     <h4 class="h2-ic">{{'PRDetails_9' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" name="" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a2"]' #answer2>
+                    <input type="text" name="" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a2"]' #answer2 id="ans2">
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer2_warning">{{'Warning' | translate}}</div> 
                 
                 </div>
@@ -468,7 +544,7 @@
                     <h4 class="h2-ic">{{'PRDetails_11' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" name="" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a3"]' #answer3>
+                    <input type="text" name="" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a3"]' #answer3 id="ans3">
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer3_warning">{{'Warning' | translate}}</div> 
                 
                 </div>
@@ -529,7 +605,7 @@
                     <h4 class="h2-ic">{{'PRDetails_18' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" name="" style="width: 50%;" class="use-keyboard-input" [formControl]='PForm_1.controls["tac"]' #TAC>
+                    <input type="text" name="" style="width: 50%;" class="use-keyboard-input" [formControl]='PForm_1.controls["tac"]' #TAC id="tac">
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="tac_warning">{{'Warning' | translate}}</div> 
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="tac1_warning">{{'WrongTAC' | translate}}</div> 
                     
@@ -549,7 +625,7 @@
             <p>
                 
             </p> -->
-            <p>
+            <p *ngif="tacEnabled">
                 {{'PRDetails_19' | translate }}{{PRDetails_19_1}}{{'PRDetails_20' | translate }} 
             </p>
             <p>
@@ -589,14 +665,8 @@
         </div>
         <div class="col-md-10">
             <!-- <h3 class="h2-ic" style="text-align: center;">
-                Kata laluan sementara anda adalah:
-            </h3>
-            <h3 class="h2-ic" style="text-align: center;">
-                (Kata Laluan Sementara)
-            </h3> -->
-            <h3 class="h2-ic" style="text-align: center;">
                 {{'PRTempPass_2' | translate }}
-            </h3>
+            </h3> -->
             <h3 class="h2-ic" style="text-align: center;">
                 {{PRTempPass_3}}
             </h3>
@@ -674,17 +744,17 @@
             ID Pengguna
         </h4> -->
         <h4 style="padding-left:3.3rem;">
-            {{'PRLogin_3' | translate }}
+            <strong>{{'PRLogin_3' | translate }}</strong>
         </h4>
     </div>
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="text" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_2.controls["useridlog"]' #uidlog >
+            <input type="text" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_2.controls["useridlog"]' #uidlog id="uidlog">
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="useridlog_warning">{{'Warning' | translate}}</div> 
-            <button class="btn btn-primary" (click)='usernameVerify()'>
+            <!-- <button class="btn btn-primary" (click)='usernameVerify()'>
                 {{'BTN_Login' | translate}}
-            </button>
+            </button> -->
         </div>
     </div>
 
@@ -709,18 +779,18 @@
                         Adakah ini frasa keselamatan anda?
                     </h4> -->
                     <h4>
-                        {{'PRLogin_9' | translate }}
+                        <strong>{{'PRLogin_9' | translate }}</strong>
                     </h4>
                 </div>
                 <div class="col-md-4">
                     
                 </div>
                 <div class="col-md-8 text-center">
-                    <button class="btn btn-primary" style="width: 30%; margin-right: 0.5rem;" (click)="secureNo()" [disabled]="yesno">
+                    <button class="btn btn-danger" style="width: 30%; margin-right: 0.5rem;" (click)="secureNo()" [disabled]="yesno">
                         <!-- Tidak -->
                         {{'BTN_No' | translate }}
                     </button>
-                    <button class="btn btn-primary" style="width: 30%; margin-left: 0.5rem;" (click)="secureYes()" [disabled]="yesno">
+                    <button class="btn btn-success" style="width: 30%; margin-left: 0.5rem;" (click)="secureYes()" [disabled]="yesno">
                         <!-- Ya -->
                         {{'BTN_Yes' | translate }}
                     </button>
@@ -736,13 +806,13 @@
             Kata Laluan Sementara
         </h4> -->
         <h4 style="padding-left:3.3rem;">
-            {{'PRLogin_10' | translate }}
+            <strong>{{'PRLogin_10' | translate }}</strong>
         </h4>
     </div>
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_2.controls["temppass"]' #tempPass>
+            <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_2.controls["temppass"]' #tempPass id="temppasss">
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="temppass_warning">{{'Warning' | translate}}</div> 
         
         </div>
@@ -786,7 +856,7 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpass"]' #newPass>
+            <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpass"]' #newPass id="newpass1">
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpass_warning">{{'Warning' | translate}}</div> 
         
         </div>
@@ -804,7 +874,7 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpassR"]' #newPassR>
+            <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpassR"]' #newPassR id="newpass2">
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR_warning">{{'Warning' | translate}}</div> 
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR1_warning">{{'NotMatch' | translate}}</div> 
         
@@ -813,53 +883,10 @@
 
     <div class="row" style="padding-top:1rem;">
         <div class="col-md-12">
-            <!-- <h4 style="padding-left:2.5rem; padding-right:2.5rem;" class="h2-ic">
-                Pengumuman: Dengan menukar kata laluan, anda akan dipaksa untuk log keluar dari Portal ASNB. Anda boleh log masuk semula
-                dengan kata laluan baru anda.
-            </h4> -->
-            <h4 style="padding-left:2.5rem; padding-right:2.5rem;" class="h2-ic">
-                {{'PRNewPassword_4' | translate }}
-            </h4>
-        </div>
-
-        <div class="col-md-12">
-            <!-- <h4 style="padding-left:2.5rem;" class="h2-ic">
-                Kata laluan anda mesti mempunyai 8 hingga 20 aksara dan menggunakan kombinasi seperti berikut:
-            </h4> -->
             <h4 style="padding-left:2.5rem;" class="h2-ic">
                 {{'PRNewPassword_5' | translate }}
             </h4>
         </div>
-        <!-- <div class="col-md-12">
-            <h4 style="padding-left:2.5rem;" class="h2-ic">
-                - Minimum satu Huruf Besar (A-Z)
-            </h4>
-        </div>
-        <div class="col-md-12">
-            <h4 style="padding-left:2.5rem;" class="h2-ic">
-                - Minimum satu Huruf Kecil (a-z)
-            </h4>
-        </div>
-        <div class="col-md-12">
-            <h4 style="padding-left:2.5rem;" class="h2-ic">
-                - Minimum satu Nombor (0-9)
-            </h4>
-        </div>
-        <div class="col-md-12">
-            <h4 style="padding-left:2.5rem;" class="h2-ic">
-                - Simbol (!@$%*) adalah pilihan
-            </h4>
-        </div>
-        <div class="col-md-12">
-            <h4 style="padding-left:2.5rem;" class="h2-ic">
-                - Tidak boleh menyamai sebahagian atau keseluruhan ID pengguna atau frasa keselamatan anda
-            </h4>
-        </div>
-        <div class="col-md-12">
-            <h4 style="padding-left:2.5rem;" class="h2-ic">
-                - Tidak boleh menggunakan aksara yang sama melebihi 3 kali (e.g abc111, aaaa1111)
-            </h4>
-        </div> -->
         <div class="col-md-12">
             <h4 style="padding-left:2.5rem;" class="h2-ic">
                 - {{'PRNewPassword_6' | translate }}
@@ -888,6 +915,11 @@
         <div class="col-md-12">
             <h4 style="padding-left:2.5rem;" class="h2-ic">
                 - {{'PRNewPassword_11' | translate }}
+            </h4>
+        </div>
+        <div class="col-md-12">
+            <h4 style="padding-left:2.5rem;" class="h2-ic">
+                - {{'PRNewPassword_12' | translate }}
             </h4>
         </div>
     </div>
@@ -923,7 +955,7 @@
         <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">{{'PRConfirm_1' | translate }}</h2>
 
         <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{'PRConfirm_2' | translate }}</h2>
-        <h2 id="UD_ErrorMessage" class="h2-ic">{{'PRConfirm_3' | translate }}</h2>
+        <!-- <h2 id="UD_ErrorMessage" class="h2-ic">{{'PRConfirm_3' | translate }}</h2> -->
 
 
         <footer class="site-footer" style="padding-top:11rem;">
@@ -931,11 +963,11 @@
                 <div class="col-md-12">
                     <button type="button" class="btn btn-cancel" id="PR_No" (click)="confirmNo()">
                         <!-- Tidak -->
-                        {{'BTN_No' | translate }}
+                        {{'BTN_Back' | translate }}
                     </button>
                     <button type="button" class="btn btn-next" id="PR_Yes" (click)="confirmYes()">
                         <!-- Ya -->
-                        {{'BTN_Yes' | translate }}
+                        {{'BTN_Next' | translate }}
                     </button>
 
                 </div>
@@ -955,7 +987,7 @@
         <h2 id="UD_ErrorMessage" class="h2-ic">Sila layari www.asnb.come.my menggunakan kata laluan</h2>
         <h2 id="UD_ErrorMessage" class="h2-ic">baru untuk meneruskan transaksi.</h2> -->
 
-        <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">{{'PRSuccess_1' | translate }}</h2>
+        <!-- <h2 style="padding-top:2rem;" id="ConfirmUpdateDetails">{{'PRSuccess_1' | translate }}</h2> -->
 
         <h2 id="UD_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{'PRSuccess_2' | translate }}</h2>
         <h2 id="UD_ErrorMessage" class="h2-ic">{{'PRSuccess_3' | translate }}</h2>

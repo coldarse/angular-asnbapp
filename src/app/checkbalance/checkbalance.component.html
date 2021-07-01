@@ -50,10 +50,9 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="CancelCheckBalance()">
-                    <!-- Batal -->
+                <!-- <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="CancelCheckBalance()">
                     {{'BTN_Cancel' | translate }}
-                </button>
+                </button> -->
                 <button type="button" class="btn btn-next" id="CB1_MainMenu" (click)="MainMenu()">
                     <!-- Menu Utama -->
                     {{'BTN_MainMenu' | translate }}
@@ -114,11 +113,11 @@
             <div class="row">
                 <div class="column leftcol">
                     <!-- <label class="CheckBalanceText1" id="CB2_Name">Nama</label> -->
-                    <label class="CheckBalanceText1" id="CB2_Name">{{'CB2_2' | translate }}</label>
+                    <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_Name">{{'CB2_2' | translate }}</label>
                 </div>
                 <div class="column rightcol">
                     <!-- <label class="CheckBalanceText1" id="CB2_NameValue">SAMI NURUL SOFIAH BINTI YUNUS</label>   -->
-                    <label class="CheckBalanceText1" id="CB2_NameValue">{{CB2_3}}</label>  
+                    <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_NameValue">{{CB2_3}}</label>  
                 </div>
             </div>
             
@@ -126,22 +125,22 @@
             <div class="row">
                 <div class="column leftcol">
                     <!-- <label  class="CheckBalanceText1" id="CB2_IC">No. Kad Pengenalan</label> -->
-                    <label  class="CheckBalanceText1" id="CB2_IC">{{'CB2_4' | translate }}</label>
+                    <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_IC">{{'CB2_4' | translate }}</label>
                 </div>
                 
                 <div class="column rightcol">
                     <!-- <label  class="CheckBalanceText1" id="CB2_ICValue">880419-01-7887</label>   -->
-                    <label  class="CheckBalanceText1" id="CB2_ICValue">{{CB2_5}}</label>  
+                    <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_ICValue">{{CB2_5}}</label>  
                 </div>
             </div>
             
             <!-- Third Row -->
             <div class="row">
                 <div class="column leftcol">
-                    <label  class="CheckBalanceText1" id="CB2_MemberID">{{'CB2_6' | translate }}</label>
+                    <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_MemberID">{{'CB2_6' | translate }}</label>
                 </div>
                 <div class="column rightcol">
-                    <label  class="CheckBalanceText1" id="CB2_MemberIDValue">{{CB2_7}}</label>  
+                    <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_MemberIDValue">{{CB2_7}}</label>  
                 </div>
             </div>
             
@@ -151,19 +150,19 @@
             <!-- First Row -->
             <div class="row">
                 <!-- <label class="CheckBalanceText1" id="CB2_TotalTitle">Baki Keseluruhan</label> -->
-                <label class="CheckBalanceText1" id="CB2_TotalTitle">{{'CB2_8' | translate }}</label>
+                <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_TotalTitle">{{'CB2_8' | translate }}</label>
             </div>
             
             <!-- Second Row -->
             <div class="row">
                 <!-- <label class="CheckBalanceText1" id="CB2_TotalPriceValue">RM 24,701.13</label> -->
-                <label class="CheckBalanceText1" id="CB2_TotalPriceValue">RM {{CB2_9}}</label>
+                <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_TotalPriceValue">RM&nbsp;&nbsp;&nbsp;&nbsp; {{CB2_9}}</label>
             </div>
             
             <!-- Third Row -->
             <div class="row">
                 <!-- <label class="CheckBalanceText1" id="CB2_TotalUnitValue">Unit 24,896.64</label> -->
-                <label class="CheckBalanceText1" id="CB2_TotalUnitValue">Unit {{CB2_10}}</label>
+                <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_TotalUnitValue" >UNIT&nbsp;&nbsp;{{CB2_10}}</label>
             </div>
         </div>
         <div class="col-md-1"></div>
@@ -188,16 +187,16 @@
             <tbody>
                 <tr *ngFor="let y of fDetails">
                     <td>
-                        {{ y.FUNDID }}
-                        <!-- <img src="assets/fundicon/{{y.FUNDID}}.png" class="fundidicon"> -->
+                        <!-- {{ y.FUNDID }} -->
+                        <img src="assets/fundicon/{{y.FUNDID}}.png" class="fundidicon">
                     </td>
-                    <td>{{ y.UNITBALANCE }}</td>
-                    <td>{{ y.EPFUNITS }}</td>
-                    <td>{{ y.LOANUNITS }}</td>
-                    <td>{{ y.CERTUNITS }}</td>
-                    <td>{{ y.BLOCKEDUNITS }}</td>
-                    <td>{{ y.TOTALUNITS }}</td>
-                    <td>{{ y.UHHOLDINGS }}</td>
+                    <td style="padding-top: 3rem;">{{ y.UNITBALANCE | number : '1.2-2' }}</td>
+                    <td style="padding-top: 3rem;">{{ y.EPFUNITS | number : '1.2-2' }}</td>
+                    <td style="padding-top: 3rem;">{{ y.LOANUNITS | number : '1.2-2' }}</td>
+                    <td style="padding-top: 3rem;">{{ y.CERTUNITS | number : '1.2-2' }}</td>
+                    <td style="padding-top: 3rem;">{{ y.BLOCKEDUNITS | number : '1.2-2' }}</td>
+                    <td style="padding-top: 3rem;">{{ y.TOTALUNITS | number : '1.2-2' }}</td>
+                    <td style="padding-top: 3rem;">{{ y.UHHOLDINGS | number : '1.2-2' }}</td>
                 
                     <td *ngIf="Print_Visible">
                         <button (click)="PrintStatement(y)" class="btn btn-printoremail" id="CB2_PrintButton" >

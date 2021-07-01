@@ -49,7 +49,7 @@ export class VerifymykadComponent implements OnInit {
   ReadThumbprint_1 = "";
   ReadThumbprint_2 = "";
 
-
+  VMKADError_Visible = false;
   
   //HTML Elements Visibility
   RMError1_Visible = false;
@@ -61,6 +61,12 @@ export class VerifymykadComponent implements OnInit {
   RMError4_Visible = false;
   RMError5_Visible = false;
 
+  InvalidCardVisible = false;
+  InvalidCardVisibleFinal = false;
+
+  FingerPrintTimeout = false;
+  lostcount = true;
+
   //Initializing SignalR properties
   _conn: any;
   statuses: any;
@@ -69,10 +75,13 @@ export class VerifymykadComponent implements OnInit {
 
   id: any; 
 
+  transaction = "";
 
   //Setting CardType
   private CardType = "MyKad";
   private tryCount = 2;
+  private tryCountCard = 2;
+  private timeout = 2;
   
 
   constructor(
@@ -83,7 +92,8 @@ export class VerifymykadComponent implements OnInit {
   
   ngOnInit(): void {
 
-    
+    signalrConnection.isVerifyMyKad = true;
+    console.log(signalrConnection.isVerifyMyKad);
 
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
@@ -92,6 +102,11 @@ export class VerifymykadComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
     this._conn = signalrConnection.connection;signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Set global variable 'signalrConnection.connection to this._conn.");
 
+    if(selectLang.selectedLang == 'en'){
+      this.transaction = "MyKad Verification";
+    }else{
+      this.transaction = "Pengesahan MyKad";
+    }
 
     if (signalrConnection.isHardcodedIC != true){
       signalrConnection.connection.invoke('CheckReaderStatus').then((data: boolean) => {
@@ -115,13 +130,21 @@ export class VerifymykadComponent implements OnInit {
   }
 
   endTransaction() : void {
+    signalrConnection.isVerifyMyKad = false;
     this._router.navigate(['language']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Redirect to Language Screen.");
   }
   
   registerAccount() : void {
+    signalrConnection.isVerifyMyKad = false;
     this._router.navigate(['accountregistration']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Redirect to Account Registration.");
+  }
+
+  tryAgainCard(){
+    this.tryCountCard -= 1;
+    this.InvalidCardVisible = false;
+    this.InvalidCardVisibleFinal = false;
   }
 
   tryAgain() : void {
@@ -136,6 +159,7 @@ export class VerifymykadComponent implements OnInit {
     //this.DetectMyKad();
     this.RMError1_Visible = false;
     this.RMError2_Visible = false;
+    this.FingerPrintTimeout = false;
 
     this._conn.invoke('myKadRequest', "ScanThumb").then((data: any) => {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Invoked myKadRequest to Scan Thumb.");
@@ -157,16 +181,24 @@ export class VerifymykadComponent implements OnInit {
         this.DetectMyKad(data.toString());
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Thumbprint Matched.");
       }
-      else if(data.toUpperCase().includes("ERROR")){
-        kActivit.endTime = new Date();
-        kActivit.status = false;
+      else if(data.toUpperCase().includes("TIMEOUT")){
+        // kActivit.endTime = new Date();
+        // kActivit.status = false;
 
-        appFunc.kioskActivity.push(kActivit);
-        errorCodes.Ecode = "0333";
-        errorCodes.Emessage = data;
-        this._router.navigate(['errorscreen']);
-        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Timeout Error.");
-
+        // appFunc.kioskActivity.push(kActivit);
+        // errorCodes.Ecode = "0333";
+        // errorCodes.Emessage = data;
+        // this._router.navigate(['errorscreen']);
+        // signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Timeout Error.");
+        if(this.timeout == 0){
+          this.FingerPrintTimeout = true;
+          this.lostcount = false;
+        }
+        else{
+          this.FingerPrintTimeout = true;
+          this.lostcount = true;
+          this.timeout -= 1;
+        }
       }
       else{
         kActivit.endTime = new Date();
@@ -175,12 +207,18 @@ export class VerifymykadComponent implements OnInit {
         appFunc.kioskActivity.push(kActivit);
         errorCodes.code = "0222";
         errorCodes.message = `Error: ${data}`;
-        this._router.navigate(['outofservice']);
+        this._router.navigate(['errorscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Redirect to Out Of Service.");
       }
     });
   }
 
+  VMKADErrorTryAgain(){
+    signalrConnection.isVerifyMyKad = false;
+    this._router.navigate(['language']);
+  }
+
+  
   DetectMyKad(match?: string) {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
       signalrConnection.cardDetect = data;
@@ -198,7 +236,7 @@ export class VerifymykadComponent implements OnInit {
         appFunc.kioskActivity.push(kActivit);
         errorCodes.code = "0168";
         errorCodes.message = "No Identification Card Detected.";
-        this._router.navigate(['outofservice']);
+        this._router.navigate(['errorscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "MyKad Not Detected. Redirected to Out Of Service Screen.");
       }
       if (match?.toLowerCase().includes('mismatch')){
@@ -281,7 +319,7 @@ export class VerifymykadComponent implements OnInit {
 
                 errorCodes.code = "0168";
                 errorCodes.message = data;
-                this._router.navigate(['outofservice']);
+                this._router.navigate(['errorscreen']);
                 signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
               }
               kActivit0.endTime = new Date();
@@ -336,15 +374,18 @@ export class VerifymykadComponent implements OnInit {
                       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Thumbprint Matched.");
                       this.DetectMyKad(data.toString());
                     }
-                    else if(data.toUpperCase().includes("ERROR")){
-                      kActivit1.endTime = new Date();
-                      kActivit1.status = false;
+                    else if(data.toUpperCase().includes("TIMEOUT")){
+                      // kActivit.endTime = new Date();
+                      // kActivit.status = false;
 
-                      appFunc.kioskActivity.push(kActivit1);
-                      errorCodes.Ecode = "0333";
-                      errorCodes.Emessage = data.replace("Error : ", "");
-                      this._router.navigate(['errorscreen']);
-                      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Timeout Error.");
+                      // appFunc.kioskActivity.push(kActivit);
+                      // errorCodes.Ecode = "0333";
+                      // errorCodes.Emessage = data;
+                      // this._router.navigate(['errorscreen']);
+                      // signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Timeout Error.");
+                      this.FingerPrintTimeout = true;
+                      this.lostcount = true;
+                      this.timeout -= 1;
                     }
                     else{
                       kActivit1.endTime = new Date();
@@ -353,7 +394,7 @@ export class VerifymykadComponent implements OnInit {
                       appFunc.kioskActivity.push(kActivit1);
                       errorCodes.code = "0222";
                       errorCodes.message = data;
-                      this._router.navigate(['outofservice']);
+                      this._router.navigate(['errorscreen']);
                       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
                     }
                   }); 
@@ -365,13 +406,23 @@ export class VerifymykadComponent implements OnInit {
                   appFunc.kioskActivity.push(kActivit);
 
                   if (data.toLowerCase().includes("invalid")){
-                    errorCodes.Ecode = "0111";
-                    errorCodes.Emessage = data;
-                    this._router.navigate(['errorscreen']);
+                    // errorCodes.Ecode = "0111";
+                    // errorCodes.Emessage = data;
+                    // this._router.navigate(['errorscreen']);
+                    if(this.tryCountCard == 0){
+                      this.loadingVisible = false;
+                      this.insertMykadVisible = true;
+                      this.InvalidCardVisibleFinal = true;
+                    }
+                    else{
+                      this.loadingVisible = false;
+                      this.insertMykadVisible = true;
+                      this.InvalidCardVisible = true;
+                    }
                   }else{
                     errorCodes.code = "0111";
                     errorCodes.message = data;
-                    this._router.navigate(['outofservice']);
+                    this._router.navigate(['errorscreen']);
                   }
                   signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
                 }    
@@ -384,49 +435,65 @@ export class VerifymykadComponent implements OnInit {
     catch (e){
       errorCodes.code = "0168";
       errorCodes.message = e;
-      this._router.navigate(['outofservice']);
+      this._router.navigate(['errorscreen']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }
     
+  }
+  calculateAge(birthdate: Date) {
+    let age = 0;
+    var timeDiff = Math.abs(Date.now() - new Date(birthdate).getTime());
+    age = Math.floor(timeDiff / (1000 * 3600 * 24) / 365.25);
+    return age;
   }
 
   bindMyKadData(): void {
     try {
 
-      currentMyKadDetails.Name = this.myKadData['Name'];
-      currentMyKadDetails.ICNo = this.myKadData['ICNo'];
-      currentMyKadDetails.OldICNo = this.myKadData['OldICNo'];
-      currentMyKadDetails.DOB = this.myKadData['DOB'];
-      currentMyKadDetails.POB =  this.myKadData['POB'];
-      currentMyKadDetails.Gender = this.myKadData['Gender'];
-      currentMyKadDetails.Citizenship = this.myKadData['Citizenship'];
-      currentMyKadDetails.IssueDate = this.myKadData['IssueDate'];
-      currentMyKadDetails.Race = this.myKadData['Race'];
-      currentMyKadDetails.Religion = this.myKadData['Religion'];
-      currentMyKadDetails.Address1 = this.myKadData['Address1'];
-      currentMyKadDetails.Address2 = this.myKadData['Address2'];
-      currentMyKadDetails.Address3 = this.myKadData['Address3'];
-      currentMyKadDetails.PostCode = this.myKadData['PostCode'];
-      currentMyKadDetails.City = this.myKadData['City'];
-      currentMyKadDetails.State = this.myKadData['State'];
-      currentMyKadDetails.Country = this.myKadData['Country'];
-      currentMyKadDetails.Address = this.myKadData['Address'];
-      currentMyKadDetails.RJ = this.myKadData['RJ'];
-      currentMyKadDetails.KT = this.myKadData['KT'];
-      currentMyKadDetails.GreenCardNationality = this.myKadData['GreenCardNationality'];
-      currentMyKadDetails.GreenCardExpiryDate = this.myKadData['GreenCardExpiryDate'];
-      currentMyKadDetails.CardVersion = this.myKadData['CardVersion'];
-      currentMyKadDetails.OtherID = this.myKadData['OtherID'];
-      currentMyKadDetails.CategoryType = this.myKadData['CategoryType'];
+      let age = this.calculateAge(new Date(this.myKadData['DOB']));
 
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
+      if (age > 17){
+        currentMyKadDetails.Name = this.myKadData['Name'];
+        currentMyKadDetails.ICNo = this.myKadData['ICNo'];
+        currentMyKadDetails.OldICNo = this.myKadData['OldICNo'];
+        currentMyKadDetails.DOB = this.myKadData['DOB'];
+        currentMyKadDetails.POB =  this.myKadData['POB'];
+        currentMyKadDetails.Gender = this.myKadData['Gender'];
+        currentMyKadDetails.Citizenship = this.myKadData['Citizenship'];
+        currentMyKadDetails.IssueDate = this.myKadData['IssueDate'];
+        currentMyKadDetails.Race = this.myKadData['Race'];
+        currentMyKadDetails.Religion = this.myKadData['Religion'];
+        currentMyKadDetails.Address1 = this.myKadData['Address1'];
+        currentMyKadDetails.Address2 = this.myKadData['Address2'];
+        currentMyKadDetails.Address3 = this.myKadData['Address3'];
+        currentMyKadDetails.PostCode = this.myKadData['PostCode'];
+        currentMyKadDetails.City = this.myKadData['City'];
+        currentMyKadDetails.State = this.myKadData['State'];
+        currentMyKadDetails.Country = this.myKadData['Country'];
+        currentMyKadDetails.Address = this.myKadData['Address'];
+        currentMyKadDetails.RJ = this.myKadData['RJ'];
+        currentMyKadDetails.KT = this.myKadData['KT'];
+        currentMyKadDetails.GreenCardNationality = this.myKadData['GreenCardNationality'];
+        currentMyKadDetails.GreenCardExpiryDate = this.myKadData['GreenCardExpiryDate'];
+        currentMyKadDetails.CardVersion = this.myKadData['CardVersion'];
+        currentMyKadDetails.OtherID = this.myKadData['OtherID'];
+        currentMyKadDetails.CategoryType = this.myKadData['CategoryType'];
   
-      this.getAccountInquiry();
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
+    
+        this.getAccountInquiry();
+      }
+      else{
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `MyKad Returned Age is between 12 years old and 17 years old`);
+        this.VMKADError_Visible = true;
+        this.loadingVisible = false;
+      }
+      
     }
     catch(e) {
       errorCodes.code = "0168";
       errorCodes.message = e;
-      this._router.navigate(['outofservice']);
+      this._router.navigate(['errorscreen']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }
   }
@@ -434,40 +501,77 @@ export class VerifymykadComponent implements OnInit {
   bindMyKadDataHardcoded(): void {
     try {
 
-      currentMyKadDetails.Name = "John Smith";
-      currentMyKadDetails.ICNo = this.icnumber?.nativeElement.value;
-      currentMyKadDetails.OldICNo = "";
-      currentMyKadDetails.DOB = new Date("1957-08-31");
-      currentMyKadDetails.POB =  "SELANGOR";
-      currentMyKadDetails.Gender = "Male";
-      currentMyKadDetails.Citizenship = "WARGANEGARA";
-      currentMyKadDetails.IssueDate = new Date("2020-01-01");
-      currentMyKadDetails.Race = "CINA";
-      currentMyKadDetails.Religion = "ISLAM";
-      currentMyKadDetails.Address1 = "6 Jln 14/70A";
-      currentMyKadDetails.Address2 = "";
-      currentMyKadDetails.Address3 = "Sri Hartamas";
-      currentMyKadDetails.PostCode = "50480";
-      currentMyKadDetails.City = "Kuala Lumpur";
-      currentMyKadDetails.State = "W. PERSEKUTUAN(KL)";
-      currentMyKadDetails.Country = "Malaysia";
-      currentMyKadDetails.Address = "";
-      currentMyKadDetails.RJ = "";
-      currentMyKadDetails.KT = "";
-      currentMyKadDetails.GreenCardNationality = "";
-      currentMyKadDetails.GreenCardExpiryDate = new Date("0000-00-00");
-      currentMyKadDetails.CardVersion = "";
-      currentMyKadDetails.OtherID = "";
-      currentMyKadDetails.CategoryType = "W";
+      let harcodedic = "";
+      if(this.icnumber?.nativeElement.value.toString() == ""){
+        signalrConnection.connection.invoke('GetMyKadNo').then((data: string) => {
+          harcodedic = data;
+          currentMyKadDetails.Name = "John Smith";
+          currentMyKadDetails.ICNo = harcodedic;
+          currentMyKadDetails.OldICNo = "";
+          currentMyKadDetails.DOB = new Date("1957-08-31");
+          currentMyKadDetails.POB =  "SELANGOR";
+          currentMyKadDetails.Gender = "Male";
+          currentMyKadDetails.Citizenship = "WARGANEGARA";
+          currentMyKadDetails.IssueDate = new Date("2020-01-01");
+          currentMyKadDetails.Race = "CINA";
+          currentMyKadDetails.Religion = "ISLAM";
+          currentMyKadDetails.Address1 = "6 Jln 14/70A";
+          currentMyKadDetails.Address2 = "";
+          currentMyKadDetails.Address3 = "Sri Hartamas";
+          currentMyKadDetails.PostCode = "50480";
+          currentMyKadDetails.City = "Kuala Lumpur";
+          currentMyKadDetails.State = "W. PERSEKUTUAN(KL)";
+          currentMyKadDetails.Country = "Malaysia";
+          currentMyKadDetails.Address = "";
+          currentMyKadDetails.RJ = "";
+          currentMyKadDetails.KT = "";
+          currentMyKadDetails.GreenCardNationality = "";
+          currentMyKadDetails.GreenCardExpiryDate = new Date("0000-00-00");
+          currentMyKadDetails.CardVersion = "";
+          currentMyKadDetails.OtherID = "";
+          currentMyKadDetails.CategoryType = "W";
 
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
-  
-      this.getAccountInquiry();
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
+      
+          this.getAccountInquiry();
+        });
+      }
+      else{
+        currentMyKadDetails.Name = "John Smith";
+        currentMyKadDetails.ICNo = this.icnumber?.nativeElement.value;
+        currentMyKadDetails.OldICNo = "";
+        currentMyKadDetails.DOB = new Date("1957-08-31");
+        currentMyKadDetails.POB =  "SELANGOR";
+        currentMyKadDetails.Gender = "Male";
+        currentMyKadDetails.Citizenship = "WARGANEGARA";
+        currentMyKadDetails.IssueDate = new Date("2020-01-01");
+        currentMyKadDetails.Race = "CINA";
+        currentMyKadDetails.Religion = "ISLAM";
+        currentMyKadDetails.Address1 = "6 Jln 14/70A";
+        currentMyKadDetails.Address2 = "";
+        currentMyKadDetails.Address3 = "Sri Hartamas";
+        currentMyKadDetails.PostCode = "50480";
+        currentMyKadDetails.City = "Kuala Lumpur";
+        currentMyKadDetails.State = "W. PERSEKUTUAN(KL)";
+        currentMyKadDetails.Country = "Malaysia";
+        currentMyKadDetails.Address = "";
+        currentMyKadDetails.RJ = "";
+        currentMyKadDetails.KT = "";
+        currentMyKadDetails.GreenCardNationality = "";
+        currentMyKadDetails.GreenCardExpiryDate = new Date("0000-00-00");
+        currentMyKadDetails.CardVersion = "";
+        currentMyKadDetails.OtherID = "";
+        currentMyKadDetails.CategoryType = "W";
+
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
+    
+        this.getAccountInquiry();
+      }
     }
     catch(e) {
       errorCodes.code = "0168";
       errorCodes.message = e;
-      this._router.navigate(['outofservice']);
+      this._router.navigate(['errorscreen']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }
   }
@@ -478,6 +582,7 @@ export class VerifymykadComponent implements OnInit {
 
   nextToUpdate() {
     appFunc.isUpdateMajor = true;
+    signalrConnection.isVerifyMyKad = false;
     this._router.navigate(['updatedetails']);
   }
 
@@ -487,9 +592,9 @@ export class VerifymykadComponent implements OnInit {
       
       const body = { 
 
-        "CHANNELTYPE": "ASNB KIOSK",
-        "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
-        "DEVICEOWNER": "ASNB",
+        "CHANNELTYPE": signalrConnection.channelType,
+        "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+        "DEVICEOWNER": signalrConnection.deviceOwner,
         "UNITHOLDERID": "",
         "FIRSTNAME": "",
         "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
@@ -611,6 +716,14 @@ export class VerifymykadComponent implements OnInit {
           if (!currentHolder.typeclosed.toLowerCase().includes('n')){
             errorCodes.Ecode = "0168";
             errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
+            errorCodes.accountName = currentHolder.firstname;
+            errorCodes.accountNo = currentHolder.unitholderid;
+            if(selectLang.selectedLang == 'ms'){
+              errorCodes.accountType = "Dewasa";
+            }else{
+              errorCodes.accountType = "Dewasa";
+            }
+            errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
           }
           else{
@@ -633,6 +746,7 @@ export class VerifymykadComponent implements OnInit {
                 this.loadingVisible = false;
                 this.RMError4_Visible = true;
               }else{
+                signalrConnection.isVerifyMyKad = false;
                 this._router.navigate(['transactionmenu']);
               }
             }
@@ -647,9 +761,9 @@ export class VerifymykadComponent implements OnInit {
 
               const body = { 
 
-                "CHANNELTYPE": "ASNB KIOSK",
-                "REQUESTORIDENTIFICATION": "TESTFDSSERVER",
-                "DEVICEOWNER": "ASNB",
+                "CHANNELTYPE": signalrConnection.channelType,
+                "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+                "DEVICEOWNER": signalrConnection.deviceOwner,
                 "UNITHOLDERID": "",
                 "FIRSTNAME": "",
                 "IDENTIFICATIONTYPE": "OL",
@@ -762,6 +876,14 @@ export class VerifymykadComponent implements OnInit {
                   if (!currentHolder.typeclosed.toLowerCase().includes('n')){
                     errorCodes.Ecode = "0168";
                     errorCodes.Emessage = "Your Old IC Account has been closed. Akaun anda telah ditutup.";
+                    errorCodes.accountName = currentHolder.firstname;
+                    errorCodes.accountNo = currentHolder.unitholderid;
+                    if(selectLang.selectedLang == 'ms'){
+                      errorCodes.accountType = "Dewasa";
+                    }else{
+                      errorCodes.accountType = "Dewasa";
+                    }
+                    errorCodes.transaction = this.transaction;
                     this._router.navigate(['errorscreen']);
                   }
                   else{
@@ -784,6 +906,7 @@ export class VerifymykadComponent implements OnInit {
                         this.loadingVisible = false;
                         this.RMError4_Visible = true;
                       }else{
+                        signalrConnection.isVerifyMyKad = false;
                         this._router.navigate(['transactionmenu']);
                       }
                     }
@@ -803,12 +926,28 @@ export class VerifymykadComponent implements OnInit {
                           else{
                             errorCodes.Ecode = currentHolder.rejectcode;
                             errorCodes.Emessage = currentHolder.rejectreason;
+                            errorCodes.accountName = currentHolder.firstname;
+                            errorCodes.accountNo = currentHolder.unitholderid;
+                            if(selectLang.selectedLang == 'ms'){
+                              errorCodes.accountType = "Dewasa";
+                            }else{
+                              errorCodes.accountType = "Dewasa";
+                            }
+                            errorCodes.transaction = this.transaction;
                             this._router.navigate(['errorscreen']);
                           }
                         }
                         else{
                           errorCodes.Ecode = currentHolder.rejectcode;
                           errorCodes.Emessage = currentHolder.rejectreason;
+                          errorCodes.accountName = currentHolder.firstname;
+                          errorCodes.accountNo = currentHolder.unitholderid;
+                          if(selectLang.selectedLang == 'ms'){
+                            errorCodes.accountType = "Dewasa";
+                          }else{
+                            errorCodes.accountType = "Dewasa";
+                          }
+                          errorCodes.transaction = this.transaction;
                           this._router.navigate(['errorscreen']);
                         }
                       }
@@ -817,6 +956,14 @@ export class VerifymykadComponent implements OnInit {
                   else{
                     errorCodes.Ecode = currentHolder.rejectcode;
                     errorCodes.Emessage = currentHolder.rejectreason;
+                    errorCodes.accountName = currentHolder.firstname;
+                    errorCodes.accountNo = currentHolder.unitholderid;
+                    if(selectLang.selectedLang == 'ms'){
+                      errorCodes.accountType = "Dewasa";
+                    }else{
+                      errorCodes.accountType = "Dewasa";
+                    }
+                    errorCodes.transaction = this.transaction;
                     this._router.navigate(['errorscreen']);
                   }
                 }
@@ -833,12 +980,28 @@ export class VerifymykadComponent implements OnInit {
                     else{
                       errorCodes.Ecode = currentHolder.rejectcode;
                       errorCodes.Emessage = currentHolder.rejectreason;
+                      errorCodes.accountName = currentHolder.firstname;
+                      errorCodes.accountNo = currentHolder.unitholderid;
+                      if(selectLang.selectedLang == 'ms'){
+                        errorCodes.accountType = "Dewasa";
+                      }else{
+                        errorCodes.accountType = "Dewasa";
+                      }
+                      errorCodes.transaction = this.transaction;
                       this._router.navigate(['errorscreen']);
                     }
                   }
                   else{
                     errorCodes.Ecode = currentHolder.rejectcode;
                     errorCodes.Emessage = currentHolder.rejectreason;
+                    errorCodes.accountName = currentHolder.firstname;
+                    errorCodes.accountNo = currentHolder.unitholderid;
+                    if(selectLang.selectedLang == 'ms'){
+                      errorCodes.accountType = "Dewasa";
+                    }else{
+                      errorCodes.accountType = "Dewasa";
+                    }
+                    errorCodes.transaction = this.transaction;
                     this._router.navigate(['errorscreen']);
                   }
                 }
@@ -848,6 +1011,14 @@ export class VerifymykadComponent implements OnInit {
           else{
             errorCodes.Ecode = currentHolder.rejectcode;
             errorCodes.Emessage = currentHolder.rejectreason;
+            errorCodes.accountName = currentHolder.firstname;
+            errorCodes.accountNo = currentHolder.unitholderid;
+            if(selectLang.selectedLang == 'ms'){
+              errorCodes.accountType = "Dewasa";
+            }else{
+              errorCodes.accountType = "Dewasa";
+            }
+            errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
           }
         }
@@ -856,7 +1027,7 @@ export class VerifymykadComponent implements OnInit {
     catch (e){
       errorCodes.code = "0168";
       errorCodes.message = e;
-      this._router.navigate(['outofservice']);
+      this._router.navigate(['errorscreen']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     } 
   }

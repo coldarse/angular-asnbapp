@@ -18,7 +18,8 @@ export class FeedbackscreenComponent implements OnInit {
   @ViewChild('starone') star1 : ElementRef | undefined;
   @ViewChild('startwo') star2 : ElementRef | undefined;
   @ViewChild('starthree') star3 : ElementRef | undefined;
-
+  @ViewChild('starfour') star4 : ElementRef | undefined;
+  @ViewChild('starfive') star5 : ElementRef | undefined;
 
   Header_Title = "";
 
@@ -61,6 +62,8 @@ export class FeedbackscreenComponent implements OnInit {
     let sone = this.star1?.nativeElement.checked;
     let stwo = this.star2?.nativeElement.checked;
     let sthree = this.star3?.nativeElement.checked;
+    let sfour = this.star4?.nativeElement.checked;
+    let sfive = this.star5?.nativeElement.checked;
 
     let body: any;
 
@@ -68,7 +71,7 @@ export class FeedbackscreenComponent implements OnInit {
       //three star
       body = { 
         "trxNo": signalrConnection.trxno,
-        "feedbackScore": 3,
+        "feedbackScore": 5,
         "kioskCode": signalrConnection.kioskCode,
        };
 
@@ -78,13 +81,33 @@ export class FeedbackscreenComponent implements OnInit {
       //two star
       body = { 
         "trxNo": signalrConnection.trxno,
-        "feedbackScore": 2,
+        "feedbackScore": 4,
         "kioskCode": signalrConnection.kioskCode,
        };
 
       this.serviceService.postFeedbackSubmit(body).subscribe();
     }
     else if(sthree == true){
+      //one star
+      body = {    
+        "trxNo": signalrConnection.trxno,
+        "feedbackScore": 3,
+        "kioskCode": signalrConnection.kioskCode,
+       };
+
+      this.serviceService.postFeedbackSubmit(body).subscribe();
+    }
+    else if(sfour == true){
+      //one star
+      body = {    
+        "trxNo": signalrConnection.trxno,
+        "feedbackScore": 2,
+        "kioskCode": signalrConnection.kioskCode,
+       };
+
+      this.serviceService.postFeedbackSubmit(body).subscribe();
+    }
+    else if(sfive == true){
       //one star
       body = {    
         "trxNo": signalrConnection.trxno,

@@ -54,7 +54,8 @@
             [showOpenFileButton]="false"
             [showPresentationModeButton]="false"
             [showRotateButton]="false"
-            [showPropertiesButton]="false">
+            [showPropertiesButton]="false"
+            [zoom]="'100%'">
         </ngx-extended-pdf-viewer>
 
         <footer class="site-footer" style="padding-top:1rem;">
@@ -73,10 +74,195 @@
     </div>
 </div> 
 
+<div class="bg-popup"  *ngIf="ASNBAdditionalProspectus">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <ngx-extended-pdf-viewer 
+            [src]="additionalpdfsrc" 
+            backgroundColor="#ffffff" 
+            [delayFirstView]="1000" 
+            [height]="'530px'"
+            [useBrowserLocale]="true"
+            [showPrintButton]="false"
+            [showBookmarkButton]="false"
+            [showDownloadButton]="false"
+            [showFindButton]="false"
+            [showHandToolButton]="false"
+            [showOpenFileButton]="false"
+            [showPresentationModeButton]="false"
+            [showRotateButton]="false"
+            [showPropertiesButton]="false"
+            [zoom]="'100%'">
+        </ngx-extended-pdf-viewer>
+
+        <footer class="site-footer" style="padding-top:1rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextAdditionalProspectus()">
+                      
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
+<div class="bg-popup"  *ngIf="ASNBRegDeclaration">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <ngx-extended-pdf-viewer 
+            [src]="regpdfsrc" 
+            backgroundColor="#ffffff" 
+            [delayFirstView]="1000" 
+            [height]="'530px'"
+            [useBrowserLocale]="true"
+            [showPrintButton]="false"
+            [showBookmarkButton]="false"
+            [showDownloadButton]="false"
+            [showFindButton]="false"
+            [showHandToolButton]="false"
+            [showOpenFileButton]="false"
+            [showPresentationModeButton]="false"
+            [showRotateButton]="false"
+            [showPropertiesButton]="false"
+            [zoom]="'100%'">
+        </ngx-extended-pdf-viewer>
+
+        <footer class="site-footer" style="padding-top:1rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextRegDeclaration()">
+                      
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
+<div class="bg-popup"  *ngIf="ASNBYuran">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <ngx-extended-pdf-viewer 
+            [src]="pdfsrc1" 
+            backgroundColor="#ffffff" 
+            [delayFirstView]="1000" 
+            [height]="'530px'"
+            [useBrowserLocale]="true"
+            [showPrintButton]="false"
+            [showBookmarkButton]="false"
+            [showDownloadButton]="false"
+            [showFindButton]="false"
+            [showHandToolButton]="false"
+            [showOpenFileButton]="false"
+            [showPresentationModeButton]="false"
+            [showRotateButton]="false"
+            [showPropertiesButton]="false"
+            [zoom]="'100%'">
+        </ngx-extended-pdf-viewer>
+
+        <footer class="site-footer" style="padding-top:1rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextYuran()">
+                      
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
+<div class="bg-popup"  *ngIf="ASNBTnC">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <ngx-extended-pdf-viewer 
+            [src]="TNCpdfsrc" 
+            backgroundColor="#ffffff" 
+            [delayFirstView]="1000" 
+            [height]="'530px'"
+            [useBrowserLocale]="true"
+            [showPrintButton]="false"
+            [showBookmarkButton]="false"
+            [showDownloadButton]="false"
+            [showFindButton]="false"
+            [showHandToolButton]="false"
+            [showOpenFileButton]="false"
+            [showPresentationModeButton]="false"
+            [showRotateButton]="false"
+            [showPropertiesButton]="false"
+            [zoom]="'100%'">
+        </ngx-extended-pdf-viewer>
+
+        <footer class="site-footer" style="padding-top:1rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextTnc()">
+                      
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
+<div class="bg-popup"  *ngIf="ASNBPolicy">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <ngx-extended-pdf-viewer 
+            [src]="Policypdfsrc" 
+            backgroundColor="#ffffff" 
+            [delayFirstView]="1000" 
+            [height]="'530px'"
+            [useBrowserLocale]="true"
+            [showPrintButton]="false"
+            [showBookmarkButton]="false"
+            [showDownloadButton]="false"
+            [showFindButton]="false"
+            [showHandToolButton]="false"
+            [showOpenFileButton]="false"
+            [showPresentationModeButton]="false"
+            [showRotateButton]="false"
+            [showPropertiesButton]="false"
+            [zoom]="'100%'">
+        </ngx-extended-pdf-viewer>
+
+        <footer class="site-footer" style="padding-top:1rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextPolicy()">
+                      
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
 <div id="BR_Reminder" *ngIf="BRReminder_Visible" class="content-container">
     <div class="col-md-12 text-center" style="margin-top:4rem;">
         <!-- <h2>Peringatan</h2> -->
-        <h2>{{'BRReminder_1' | translate }}</h2>
+        <!-- <h2>{{'BRReminder_1' | translate }}</h2> -->
     </div>
 
     <div class="row" style="padding-top:8rem;">
@@ -122,14 +308,13 @@
         &nbsp;
         <h3 class="h2-ic" id="BR2_Title1">Sila masukkan MyKid dan</h3>
         <h3 class="h2-ic" id="BR2_Title2">klik butang dibawah</h3> -->
-
-        <h3 id="BR_Welcome">{{'BRInsertMyKid_1' | translate }}</h3>
-        <h3 id="BR_Welcome">{{'BRInsertMyKid_2' | translate }}</h3>
+        <h3 id="BR2_Title1">{{'BRInsertMyKid_3' | translate }}</h3>
+        <h3 id="BR2_Title2">{{'BRInsertMyKid_4' | translate }}</h3>
         &nbsp;
-        <h3 class="h2-ic" id="BR2_Title1">{{'BRInsertMyKid_3' | translate }}</h3>
-        <h3 class="h2-ic" id="BR2_Title2">{{'BRInsertMyKid_4' | translate }}</h3>
+        <h3 class="h2-ic" id="BR_Welcome">{{'BRInsertMyKid_1' | translate }}</h3>
+        <h3 class="h2-ic" id="BR_Welcome">{{'BRInsertMyKid_2' | translate }}</h3>
         &nbsp;
-        <button type="button" class="btn btn-checkIC" id="CheckICButton" (click)="verify()">{{'BTN_VerifyMyKid' | translate}}</button>
+        <button type="button" class="btn btn-checkIC" id="CheckICButton" (click)="verify()">{{'BTN_Next' | translate}}</button>
     </div>
     <div class="col-md-6 text-center" >
         <img src="assets/images/InsertMyKID.gif" class="ICReader__centered img-addon padding-top-5rem" alt="ICReaderImage">
@@ -430,6 +615,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <input name="homeno" #homenumber type="text" class="input-normal use-keyboard-input "  id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="homephone_Warning">{{'HPNWarning1' | translate}}</div> 
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Telefon Bimbit</h4> -->
@@ -437,7 +623,7 @@
                             </div>
                             <div class="col-md-4">
                                 <input [class.is-invalid]="telephone_Warning" name="phoneno" #telephone class="input-normal use-keyboard-input " [formControl]='AR_Form.controls["telephone"]'  formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning1">{{'EAWarning1' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning1">{{'MPNWarning1' | translate}}</div> 
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning">{{'MNWarning' | translate}}</div>
                                 <input type="checkbox" id="noPhone" name="noPhone" [formControl]='AR_Form.controls["notelephone"]' (click)="noTelephoneCheck()" style="margin-top: 0.8rem;" >
                                 <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
@@ -459,7 +645,7 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email type="text" ng-model="emailAddress" class="input-normal use-keyboard-input "  [disabled]="checkedXEmail" [formControl]='AR_Form.controls["email"]'>
+                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email id="AREmail" type="text" ng-model="emailAddress" class="input-normal use-keyboard-input "  [disabled]="checkedXEmail" [formControl]='AR_Form.controls["email"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning">{{'EAWarning' | translate}}</div> 
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning1">{{'EAWarning1' | translate}}</div> 
                                 <input type="checkbox" id="noEmail" name="noEmail" [formControl]='AR_Form.controls["noemail"]' (click)="noEmailCheck()" style="margin-top: 0.8rem;">
@@ -501,7 +687,7 @@
                                         {{bankname.name}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bank_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bank_Warning">{{'BNWarning' | translate}}</div> 
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Akaun Bank</h4> -->
@@ -509,7 +695,7 @@
                             </div>
                             <div class="col-md-4">
                                 <input [class.is-invalid]="bankNo_Warning" type="text" #bankaccount name="acctno" class="input-normal use-keyboard-input "  id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning1">{{'EAWarning1' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning1">{{'BANWarning1' | translate}}</div> 
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning">{{'BANWarning' | translate}}.</div> 
                             </div>
                         </div>
@@ -536,7 +722,7 @@
                                         {{occupationCatergory.desc}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JC_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JC_Warning">{{'OCWarning' | translate}}</div> 
                                 
                             </div>
                             <div class="col-md-4">
@@ -550,7 +736,7 @@
                                         {{occupationName.desc}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JN_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JN_Warning">{{'ONWarning' | translate}}</div> 
                             
                             </div>
                         </div>
@@ -570,7 +756,7 @@
                                         {{businessnature.text}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="NOJ_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="NOJ_Warning">{{'BSNWarning' | translate}}</div> 
                             
                             </div>
                             <div class="col-md-4">
@@ -584,7 +770,7 @@
                                         {{occupationSector.sectorDesc}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JS_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JS_Warning">{{'OSWarning' | translate}}</div> 
                             
                             </div>
                         </div>
@@ -604,7 +790,7 @@
                                         {{income.valueDesc}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning">{{'MIWarning1' | translate}}</div> 
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning2">{{'MIWarning' | translate}}</div> 
                             
                             </div>
@@ -714,7 +900,7 @@
         </div>
     </div>
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top:5rem;">
+        <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="bijakregistrationCancel()">
                     <!-- Batal -->
@@ -757,7 +943,7 @@
                         <!-- Tamatkan Transaksi -->
                         {{'BTN_End' | translate }}
                     </button>
-                    <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="BRErrorTryAgain()">
+                    <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="BRErrorTryAgain()" *ngIf="lostcount">
                         <!-- Cuba Lagi -->
                         {{'BTN_TryAgain' | translate }}
                     </button>
@@ -895,7 +1081,21 @@
         </div>
         <div class="col-md-10">
             <!-- <p>Klik sini untuk baca <a href="#">Prospektus induk ASNB</a></p>  (click)="ClickProspectus()"-->
-            <p>{{'TNC_5' | translate }}<a class="hyperlinksent" (click)="ClickProspectus()"> {{'TNC_6' | translate }}</a></p>
+            <p>{{'TNC_5' | translate }}<a class="hyperlinksent" (click)="ClickProspectus()"> {{'TNC_6' | translate }}</a> & <a class="hyperlinksent" (click)="ClickAdditionalProspectus()"> {{'TNC_6half' | translate }}</a></p>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1">
+
+        </div>
+        <div class="col-md-10">
+            <!-- <p>Klik sini untuk baca <a href="#">Prospektus induk ASNB</a></p> -->
+            <p>{{'RegistrationDeclaration1' | translate }}<a class="hyperlinksent" (click)="ClickNextRegDeclaration()">{{'RegistrationDeclaration2' | translate }}</a></p>
+            
         </div>
         <div class="col-md-1">
 
@@ -925,51 +1125,26 @@
         </div>
         <div class="col-md-10">
             <!-- <p class="p-underlined">Yuran dan Caj</p> -->
-            <p class="p-underlined">{{'TNC_8' | translate }}</p>
+            <a class="hyperlinksent" (click)="ClickYuran()"> {{'TNC_12' | translate }}</a>
         </div>
         <div class="col-md-1">
 
         </div>
     </div>
-    <div class="row">
+
+    <div class="row text-center" style="padding-top: 4rem;">
         <div class="col-md-1">
 
         </div>
         <div class="col-md-10">
-            <!-- <p>
-                Saya memehami bahawa terdapat yuran dan caj yang akan dikenakan secara langsung atau tidak langsung apabila saya membuat
-                pelaburan dalam tabung unit amanah tersebut.
-            </p> -->
-            <p>
-                {{'TNC_9' | translate }}
-            </p>
+            <input type="checkbox" class="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC()">
+            <!-- <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">Saya telah membaca dan bersetuju dengan <a href="#" style="text-decoration:none;">Terma & Syarat</a> dan <a href="#" style="text-decoration:none;">Dasar Privasi</a></label><br> -->
+            <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">
+                {{'PRTNC_3' | translate }}&nbsp;{{'PRTNC_4' | translate }}&nbsp;{{'PRTNC_5' | translate }}&nbsp;{{'PRTNC_6' | translate }}
+            </label><br>
         </div>
         <div class="col-md-1">
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-
-        </div>
-        <div class="col-md-10">
-            <!-- <p class="p-underlined">Kebankrapan</p> -->
-            <p class="p-underlined">{{'TNC_10' | translate }}</p>
-        </div>
-        <div class="col-md-1">
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1">
-
-        </div>
-        <div class="col-md-10">
-            <!-- <p>Saya mengesahkan bahawa saya bukan seorang yang bankrap.</p> -->
-            <p>{{'TNC_11' | translate }}</p>
-        </div>
-        <div class="col-md-1">
-
+            
         </div>
     </div>
 
@@ -978,11 +1153,11 @@
             <div class="col-md-12">
                 <button type="button" class="btn btn-cancel" id="BR_XAgree" (click)="TNCDisagree()">
                     <!-- Tidak Setuju -->
-                    {{'BTN_xAgree' | translate }}
+                    {{'BTN_Back' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="BR_Agree" (click)="TNCAgree()">
+                <button type="button" class="btn btn-next" id="BR_Agree" (click)="TNCAgree()" [disabled]="TNCAgreed" [hidden]="ispopup">
                     <!-- Setuju -->
-                    {{'BTN_Agree' | translate }}
+                    {{'BTN_Next' | translate }}
                 </button>
             </div>
 

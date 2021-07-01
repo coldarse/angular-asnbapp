@@ -56,7 +56,7 @@ export class AppComponent {
         }
       }else{
         appFunc.timedOut = true;
-        this.router.navigate(['/']);
+        this.router.navigate(['/screensaver']);
         this.reset();
       }
     });
@@ -66,7 +66,13 @@ export class AppComponent {
         this.timeoutidle = false;
         this.idleState = 'You\'ve gone idle!'
         console.log(this.idleState);
-      }else{
+      }
+      else if(this.router.url === '/outofservice'){
+        this.timeoutidle = false;
+        this.idleState = 'You\'ve gone idle!'
+        console.log(this.idleState);
+      }
+      else{
         this.timeoutidle = true;
         this.idleState = 'You\'ve gone idle!'
         console.log(this.idleState);
@@ -108,7 +114,7 @@ export class AppComponent {
   No(){
     console.log("clicked no");
     appFunc.timedOut = true;
-    this.router.navigate(['/']);
+    this.router.navigate(['/screensaver']);
     this.reset();
   }
 
@@ -175,7 +181,7 @@ export class AppComponent {
         }
   
         if(count > 0){
-          this.router.navigate(['/']);
+          this.router.navigate(['/screensaver']);
           clearInterval(this.id);
         }
       }, 1000);

@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="titleNLogo">
             <!-- Transaction Menu -->
-            <img src="assets/images/SemakBaki-small-blue.png" alt="UpdateDetailsImage">
+            <img src="assets/images/KemasKiniMaklumat-small-blue.png" alt="UpdateDetailsImage">
             <label class="outofserviceStyle" id="SectionTitle">{{'Update_Details_Header_Title' | translate }}</label>
         </div>
         
@@ -52,10 +52,9 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="UD1_Cancel" (click)="updateDetails1Cancel()">
-                    <!-- Batal -->
+                <!-- <button type="button" class="btn btn-cancel" id="UD1_Cancel" (click)="updateDetails1Cancel()">
                     {{'BTN_Cancel' | translate }}
-                </button>
+                </button> -->
                 <button type="button" class="btn btn-next" id="UD1_MainMenu" (click)="updateDetails1MainMenu()">
                     <!-- Menu Utama -->
                     {{'BTN_MainMenu' | translate }}
@@ -78,7 +77,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <!-- <h4 class="blue-title-bar">Maklumat Peribadi Pemegang Unit</h4> -->
-                        <h4 class="blue-title-bar">{{'FL_1' | translate }}</h4>
+                        <h4 class="blue-title-bar">{{'FL_1_1_1' | translate }}</h4>
                     </div>
                 </div>
                 <div class="row">
@@ -252,6 +251,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <input name="homeno" #homenumber type="text" class="input-normal use-keyboard-input "  id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="homephone_Warning">{{'HPNWarning1' | translate}}</div> 
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Telefon Bimbit</h4> -->
@@ -260,8 +260,7 @@
                             <div class="col-md-4">
                                 <input [class.is-invalid]="telephone_Warning" name="phoneno" #telephone class="input-normal use-keyboard-input " [formControl]='AR_Form.controls["telephone"]'  formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning">{{'MNWarning' | translate}}</div>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning1">{{'EAWarning1' | translate}}</div> 
-
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning1">{{'MPNWarning1' | translate}}</div> 
                                 <input type="checkbox" id="noPhone" name="noPhone" [formControl]='AR_Form.controls["notelephone"]' (click)="noTelephoneCheck()" style="margin-top: 0.8rem;" >
                                 <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
                                 <label for="noPhone">{{'FL_17' | translate }}</label><br>
@@ -282,7 +281,7 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email type="text" ng-model="emailAddress" class="input-normal use-keyboard-input "  [disabled]="checkedXEmail" [formControl]='AR_Form.controls["email"]'>
+                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email type="text" id="AREmail" ng-model="emailAddress" class="input-normal use-keyboard-input "  [disabled]="checkedXEmail" [formControl]='AR_Form.controls["email"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning">{{'EAWarning' | translate}}</div> 
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning1">{{'EAWarning1' | translate}}</div> 
                                 <input type="checkbox" id="noEmail" name="noEmail" [formControl]='AR_Form.controls["noemail"]' (click)="noEmailCheck()" style="margin-top: 0.8rem;">
@@ -324,7 +323,7 @@
                                         {{bankname.name}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bank_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bank_Warning">{{'BNWarning' | translate}}</div> 
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Akaun Bank</h4> -->
@@ -333,7 +332,7 @@
                             <div class="col-md-4">
                                 <input [class.is-invalid]="bankNo_Warning" type="text" #bankaccount name="acctno" class="input-normal use-keyboard-input "  id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning">{{'BANWarning' | translate}}.</div> 
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning1">{{'EAWarning1' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning1">{{'BANWarning1' | translate}}</div> 
 
                             </div>
                         </div>
@@ -360,7 +359,7 @@
                                         {{occupationCatergory.desc}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JC_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JC_Warning">{{'OCWarning' | translate}}</div> 
                                 
                             </div>
                             <div class="col-md-4">
@@ -374,7 +373,7 @@
                                         {{occupationName.desc}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JN_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JN_Warning">{{'ONWarning' | translate}}</div> 
                             
                             </div>
                         </div>
@@ -394,7 +393,7 @@
                                         {{businessnature.text}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="NOJ_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="NOJ_Warning">{{'BSNWarning' | translate}}</div> 
                             
                             </div>
                             <div class="col-md-4">
@@ -408,7 +407,7 @@
                                         {{occupationSector.sectorDesc}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JS_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JS_Warning">{{'OSWarning' | translate}}</div> 
                             
                             </div>
                         </div>
@@ -428,7 +427,7 @@
                                         {{income.valueDesc}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning">{{'MIWarning1' | translate}}</div> 
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning2">{{'MIWarning' | translate}}</div> 
                             
                             </div>
@@ -538,7 +537,7 @@
         </div>
     </div>
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top:5rem;">
+        <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="majorUpdateBack()">
                     {{'BTN_Back' | translate }} 
@@ -548,7 +547,7 @@
                     {{'BTN_Cancel' | translate }} 
                     <!-- Batal -->
                 </button>
-                <button type="button" class="btn btn-next" id="CB1_MainMenu" (click)="majorUpdateNext()">
+                <button type="button" class="btn btn-green" id="CB1_MainMenu" (click)="majorUpdateNext()">
                     <!-- Seterusnya -->
                     {{'BTN_Next' | translate }}
                 </button>
@@ -565,7 +564,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <!-- <h4 class="blue-title-bar">Maklumat Peribadi Pemegang Unit</h4> -->
-                        <h4 class="blue-title-bar">{{'FL_1_1' | translate }}</h4>
+                        <h4 class="blue-title-bar">{{'FL_1_1_1_1' | translate }}</h4>
                     </div>
                 </div>
                 <div class="row">
@@ -848,6 +847,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <input name="homeno" type="text" class="input-normal use-keyboard-input "  id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="homephone_Warning">{{'HPNWarning1' | translate}}</div> 
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Telefon Bimbit</h4> -->
@@ -856,8 +856,7 @@
                             <div class="col-md-4">
                                 <input [class.is-invalid]="telephone_Warning" name="phoneno" #telephone class="input-normal use-keyboard-input " [formControl]='AR_Form.controls["telephone"]'  formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning">{{'MNWarning' | translate}}</div>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning1">{{'EAWarning1' | translate}}</div> 
-
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning1">{{'MPNWarning1' | translate}}</div> 
                                 <input type="checkbox" id="noPhone" name="noPhone" [formControl]='AR_Form.controls["notelephone"]' (click)="noTelephoneCheck()" style="margin-top: 0.8rem;" >
                                 <!-- <label for="noPhone">Tiada No. Tel. Bimbit</label><br> -->
                                 <label for="noPhone">{{'FL_17' | translate }}</label><br>
@@ -878,7 +877,7 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email type="text" ng-model="emailAddress" class="input-normal use-keyboard-input "  [disabled]="checkedXEmail" [formControl]='AR_Form.controls["email"]'>
+                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email type="text" id="AREmail" ng-model="emailAddress" class="input-normal use-keyboard-input "  [disabled]="checkedXEmail" [formControl]='AR_Form.controls["email"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning">{{'EAWarning' | translate}}</div> 
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning1">{{'EAWarning1' | translate}}</div> 
                                 <input type="checkbox" id="noEmail" name="noEmail" [formControl]='AR_Form.controls["noemail"]' (click)="noEmailCheck()" style="margin-top: 0.8rem;">
@@ -920,7 +919,7 @@
                                         {{bankname.name}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bank_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bank_Warning">{{'BNWarning' | translate}}</div> 
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>No. Akaun Bank</h4> -->
@@ -929,7 +928,7 @@
                             <div class="col-md-4">
                                 <input [class.is-invalid]="bankNo_Warning" type="text" #bankaccount name="acctno" class="input-normal use-keyboard-input "  id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning">{{'BANWarning' | translate}}.</div> 
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning1">{{'EAWarning1' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning1">{{'BANWarning1' | translate}}</div> 
                             
                             </div>
                         </div>
@@ -956,7 +955,7 @@
                                         {{occupationCatergory.desc}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JC_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JC_Warning">{{'OCWarning' | translate}}</div> 
                                 
                             </div>
                             <div class="col-md-4">
@@ -970,7 +969,7 @@
                                         {{occupationName.desc}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JN_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JN_Warning">{{'ONWarning' | translate}}</div> 
                             
                             </div>
                         </div>
@@ -990,7 +989,7 @@
                                         {{businessnature.text}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="NOJ_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="NOJ_Warning">{{'BSNWarning' | translate}}</div> 
                             
                             </div>
                             <div class="col-md-4">
@@ -1004,7 +1003,7 @@
                                         {{occupationSector.sectorDesc}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JS_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="JS_Warning">{{'OSWarning' | translate}}</div> 
                             
                             </div>
                         </div>
@@ -1024,7 +1023,7 @@
                                         {{income.valueDesc}}
                                     </option>
                                 </select>
-                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning">{{'Warning' | translate}}</div> 
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning">{{'MIWarning1' | translate}}</div> 
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="MI_Warning2">{{'MIWarning' | translate}}</div> 
                             
                             </div>
@@ -1134,7 +1133,7 @@
         </div>
     </div>
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top:5rem;">
+        <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="bijakUpdateBack()">
                     <!-- Batal -->
@@ -1144,7 +1143,7 @@
                     <!-- Batal -->
                     {{'BTN_Cancel' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB1_MainMenu" (click)="bijakUpdateNext()">
+                <button type="button" class="btn btn-green" id="CB1_MainMenu" (click)="bijakUpdateNext()">
                     <!-- Seterusnya -->
                     {{'BTN_Next' | translate }}
                 </button>
@@ -1175,11 +1174,11 @@
                 <div class="col-md-12">
                     <button type="button" class="btn btn-cancel" id="UD_No" (click)="ConfirmNo()">
                         <!-- Tidak -->
-                        {{'BTN_No' | translate }}
+                        {{'BTN_Back' | translate }}
                     </button>
                     <button type="button" class="btn btn-next" id="UD_Yes" (click)="ConfirmYes()">
                         <!-- Ya -->
-                        {{'BTN_Yes' | translate }}
+                        {{'BTN_Next' | translate }}
                     </button>
 
                 </div>

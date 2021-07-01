@@ -15,17 +15,20 @@
 </nav>
 
 
+<div class="col-lg-12 text-center" style="padding-top:5rem">
+    <label class="lang__label" id="LS_BahasaMelayu">Sila pilih pilihan bahasa anda.</label>
+</div>
 <!-- Language Screen -->
 <div class="row content-container" id="LanguageScreen" >
-    <div class="col-sm-3 text-center" style="padding-top:20rem"></div>
+    <div class="col-sm-3 text-center" style="padding-top:5rem"></div>
 
-    <div class="col-sm-3 text-center" style="padding-top:15rem; padding-left: 5rem;">
-        <button type="button" class="btn btn-lang" id="BahasaMelayuButton" (click)="selectMalay()" routerLinkActive='active' [disabled]="loadingDisable">BM</button>
+    <div class="col-sm-3 text-center" style="padding-top:5rem; padding-left: 5rem;">
+        <button type="button" class="btn-lang" id="BahasaMelayuButton" (click)="selectMalay()" routerLinkActive='active' [disabled]="loadingDisable">BM</button>
         <label class="lang__label" id="LS_BahasaMelayu">Bahasa Melayu</label>
     </div>
 
-    <div class="col-sm-3 text-center" style="padding-top:15rem; padding-right: 5rem;">
-        <button type="button" class="btn btn-lang" id="EnglishButton" (click)="selectEnglish()" [disabled]="loadingDisable">EN</button>
+    <div class="col-sm-3 text-center" style="padding-top:5rem; padding-right: 5rem;">
+        <button type="button" class="btn-lang" id="EnglishButton" (click)="selectEnglish()" [disabled]="loadingDisable">EN</button>
         <label class="lang__label" id="LS_English">English</label>
     </div>
 

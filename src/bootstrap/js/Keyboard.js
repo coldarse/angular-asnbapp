@@ -4,7 +4,9 @@ const Keyboard = {
         keysContainer: null,
         keys: [],
         activeElem: null,
-        keyboardspace : null
+        keyboardspace : null,
+        startpos: null,
+        endpos: null
     },
 
     eventHandlers: {
@@ -53,17 +55,29 @@ const Keyboard = {
     },
 
     _setActive() {
-        this.elements.activeElem = document.activeElement.id;
+        try{
+            this.elements.activeElem = document.activeElement.id;
+            if(this.elements.activeElem != ""){
+                var currElem = document.getElementById(this.elements.activeElem);
+                this.elements.startpos = currElem.selectionStart;
+                this.elements.endpos = currElem.selectionEnd;
+            }
+        }
+        catch(ex){
+            console.log(ex.message);
+            this.elements.startpos = null;
+            this.elements.endpos = null;
+        }
     },
 
     _createKeys() {
         const fragment = document.createDocumentFragment();
         const keyLayout = [
-            "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
-            "q", "w", "e", "r", "t", "y", "u", "i", "o", "p",
+            "&", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace",
+            "%","q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "*",
             "caps", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
-            "_", "z", "x", "c", "v", "b", "n", "m", ",", ".", "@", "?",
-            "done", "clear", "space", "tab", ".com"
+            "!","_", "z", "x", "c", "v", "b", "n", "m", ",", ".", "@", 
+            "done", "clear", "space", "tab", ".com", "$"
         ];
 
         // Creates HTML for an icon
@@ -73,7 +87,7 @@ const Keyboard = {
 
         keyLayout.forEach(key => {
             const keyElement = document.createElement("button");
-            const insertLineBreak = ["backspace", "p", "enter", "?"].indexOf(key) !== -1;
+            const insertLineBreak = ["backspace", "*", "enter", "@"].indexOf(key) !== -1;
 
             // Add attributes/classes
             keyElement.setAttribute("type", "button");
@@ -85,7 +99,12 @@ const Keyboard = {
                     keyElement.innerHTML = createIconHTML("backspace");
 
                     keyElement.addEventListener("click", () => {
-                        this.properties.value = this.properties.value.substring(0, this.properties.value.length - 1);
+                        if(this.elements.startpos.toString() == "0"){
+                            this.properties.value = this.properties.value.substring(0, this.properties.value.length - 1);
+                        }else{
+                            this.properties.value = this.properties.value.substring(0, this.elements.startpos - 1) + this.properties.value.substring(this.elements.startpos, this.properties.value.length);
+                            this.elements.startpos -= 1;
+                        }
                         this._triggerEvent("oninput");
                     });
 
@@ -127,7 +146,13 @@ const Keyboard = {
                     keyElement.innerHTML = createIconHTML("space_bar");
 
                     keyElement.addEventListener("click", () => {
-                        this.properties.value += " ";
+                        if(this.elements.startpos.toString() == "0"){
+                            this.properties.value += " ";
+                        }
+                        else{
+                            this.properties.value = this.properties.capsLock ? this.properties.value.substring(0, this.elements.startpos) + " " + this.properties.value.substring(this.elements.startpos, this.properties.value.length) : this.properties.value.substring(0, this.elements.startpos) + " " + this.properties.value.substring(this.elements.startpos, this.properties.value.length);
+                            this.elements.startpos += 1;
+                        }
                         this._triggerEvent("oninput");
                     });
 
@@ -182,14 +207,18 @@ const Keyboard = {
 
                 default:
                     keyElement.textContent = key.toLowerCase();
-
                     keyElement.addEventListener("click", () => {
-                        this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
+                        if(this.elements.startpos.toString() == "0"){
+                            this.properties.value += this.properties.capsLock ? key.toUpperCase() : key.toLowerCase();
+                        }
+                        else{
+                            this.properties.value = this.properties.capsLock ? this.properties.value.substring(0, this.elements.startpos) + key.toUpperCase() + this.properties.value.substring(this.elements.startpos, this.properties.value.length) : this.properties.value.substring(0, this.elements.startpos) + key.toLowerCase() + this.properties.value.substring(this.elements.startpos, this.properties.value.length);
+                            this.elements.startpos += 1;
+                        }
                         this._limit(this.properties);
                         this._isNumeric(this.properties);
                         this._triggerEvent("oninput");
                     });
-
 
                     break;
             }
