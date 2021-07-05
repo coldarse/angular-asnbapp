@@ -117,7 +117,7 @@ export class BijakregistrationComponent implements OnInit {
   Email_Visible = true;
   Print_Visible = true;
 
-  pep = true;
+  pep = false;
 
   ASNBProspectus = false;
   ASNBYuran = false;
@@ -332,7 +332,7 @@ export class BijakregistrationComponent implements OnInit {
   initializeForm()  {
     
     if(currentHolder.pep == 'Y'){
-      this.pep = false
+      this.pep = true;
     }
 
     let isMobile = false;
@@ -981,7 +981,7 @@ export class BijakregistrationComponent implements OnInit {
       this.AR_Form.controls.address1.reset();
       this.AR_Form.controls.address2.reset();
       this.AR_Form.controls.postcode.reset();
-
+      this.AR_Form.controls.city.reset()
       this.AR_Form.controls.address1.enable();
       this.AR_Form.controls.address2.enable();
       this.AR_Form.controls.postcode.enable();
@@ -1148,21 +1148,21 @@ export class BijakregistrationComponent implements OnInit {
       window.scroll(0,0);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
     }else{
-      // if(this.AR_Form.controls.pep.value == 'Y' || this.AR_Form.controls.fatca.value == 'Y' || this.AR_Form.controls.crs.value == 'Y'){
-      //   errorCodes.Ecode = "0118";
-      //   errorCodes.Emessage = "FATCA/PEP/CRS selected.";
-      //   errorCodes.accountName = currentMyKidDetails.Name;
-      //   errorCodes.accountNo = "";
-      //   errorCodes.accountType = this.BRSuccess_10;
-      //   errorCodes.transaction = this.transaction;
-      //   this._router.navigate(['errorscreen']);
-      // }else{
-      //   this.BRForm_Visible = false;
-      //   this.BRTNC_Visible = true;
-      // }
+      if(this.AR_Form.controls.pep.value == 'Y' || this.AR_Form.controls.fatca.value == 'Y' || this.AR_Form.controls.crs.value == 'Y'){
+        errorCodes.Ecode = "0118";
+        errorCodes.Emessage = "FATCA/PEP/CRS selected.";
+        errorCodes.accountName = currentMyKidDetails.Name;
+        errorCodes.accountNo = "";
+        errorCodes.accountType = this.BRSuccess_10;
+        errorCodes.transaction = this.transaction;
+        this._router.navigate(['errorscreen']);
+      }else{
+        this.BRForm_Visible = false;
+        this.BRTNC_Visible = true;
+      }
 
-      this.BRForm_Visible = false;
-      this.BRTNC_Visible = true;
+      // this.BRForm_Visible = false;
+      // this.BRTNC_Visible = true;
     }
   }
 
@@ -1373,7 +1373,7 @@ export class BijakregistrationComponent implements OnInit {
         const body = {
           "Transaksi": transaction,
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+          "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
           "Lokasi": signalrConnection.branchName,
           "Name": currentMyKidDetails.Name,
           "NoAkaun": this.BRSuccess_6,
@@ -1417,7 +1417,7 @@ export class BijakregistrationComponent implements OnInit {
     const body = {
       "Transaksi": transaction,
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
       "Lokasi": signalrConnection.branchName,
       "Name": currentMyKidDetails.Name,
       "NoAkaun": this.BRSuccess_6,

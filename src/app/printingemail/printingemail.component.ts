@@ -45,7 +45,7 @@ export class PrintingemailComponent implements OnInit {
         const body = {
           "Transaksi": "Pendaftaran Portal myASNB/myASNB Portal Registration",
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+          "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
           "Lokasi": "KL MAIN 01",
           "Name": currentHolder.firstname,
           "NoAkaun": currentHolder.unitholderid,
@@ -80,7 +80,7 @@ export class PrintingemailComponent implements OnInit {
     const body = {
       "Transaksi": "Pendaftaran Portal myASNB/myASNB Portal Registration",
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
       "Lokasi": "KL MAIN 01",
       "Name": currentHolder.firstname,
       "NoAkaun": currentHolder.unitholderid,

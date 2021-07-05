@@ -13,6 +13,8 @@ import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
 import { errorCodes } from '../_models/errorCode';
 import { accessToken } from '../_models/apiToken';
+import { currentMyKidDetails } from '../_models/currentMyKidDetails';
+import { WindowInterruptSource } from '@ng-idle/core';
 
 
 declare const loadKeyboard: any;
@@ -595,10 +597,67 @@ export class UpdatedetailsComponent implements OnInit {
       if (this.address2_Warning == true) this.address2_Warning = false;
       if (this.postcode_Warning == true) this.postcode_Warning = false;
 
+      let tempadd1 = "";
+      let tempadd2 = "";
 
+      if(this.isMain){
+        if(currentMyKadDetails.Address3 == ""){
+          tempadd1 = currentMyKadDetails.Address1;
+          tempadd2 = currentMyKadDetails.Address2;
+        }else{
+          tempadd1 = currentMyKadDetails.Address1 + ", " + currentMyKadDetails.Address2;
+          tempadd2 = currentMyKadDetails.Address3;
+        }
+        this.city = currentMyKadDetails.City;
+        for(var x of this.form_cities){
+          if (x.name.toLowerCase().includes(this.city.toLowerCase())){
+            this.city = x.name;
+            break;
+          }else{
+            this.city = currentMyKadDetails.City;
+          }
+        }
+        this.state = currentMyKadDetails.State.toString().replace(" ", "");
+        for(var y of this.form_states){
+          if (y.text.toLowerCase().includes(this.state.toLowerCase())){
+            this.state = y.value;
+            break;
+          }else{
+            this.state = currentMyKadDetails.State.toString().replace(" ", "");
+          }
+        }
+      }else{
+        if(currentMyKidDetails.Address3 == ""){
+          tempadd1 = currentMyKidDetails.Address1;
+          tempadd2 = currentMyKidDetails.Address2;
+        }else{
+          tempadd1 = currentMyKidDetails.Address1 + ", " + currentMyKidDetails.Address2;
+          tempadd2 = currentMyKidDetails.Address3;
+        }
+        this.city = currentMyKidDetails.City;
+        for(var x of this.form_cities){
+          if (x.name.toLowerCase().includes(this.city.toLowerCase())){
+            this.city = x.name;
+            break;
+          }else{
+            this.city = currentMyKidDetails.City;
+          }
+        }
+        this.state = currentMyKidDetails.State.toString().replace(" ", "");
+        for(var y of this.form_states){
+          if (y.text.toLowerCase().includes(this.state.toLowerCase())){
+            this.state = y.value;
+            break;
+          }else{
+            this.state = currentMyKidDetails.State.toString().replace(" ", "");
+          }
+        }
+      }
+      
+      
 
-      this.AR_Form.controls.address1.setValue(currentMyKadDetails.Address1 + currentMyKadDetails.Address2);
-      this.AR_Form.controls.address2.setValue(currentMyKadDetails.Address3);
+      this.AR_Form.controls.address1.setValue(tempadd1);
+      this.AR_Form.controls.address2.setValue(tempadd2);
       this.AR_Form.controls.postcode.setValue(currentMyKadDetails.PostCode);
       this.AR_Form.controls.city.setValue(this.city);
       this.AR_Form.controls.state.setValue(this.state);
@@ -615,7 +674,7 @@ export class UpdatedetailsComponent implements OnInit {
       this.AR_Form.controls.address1.reset();
       this.AR_Form.controls.address2.reset();
       this.AR_Form.controls.postcode.reset();
-
+      this.AR_Form.controls.city.reset()
       this.AR_Form.controls.address1.enable();
       this.AR_Form.controls.address2.enable();
       this.AR_Form.controls.postcode.enable();
@@ -705,6 +764,10 @@ export class UpdatedetailsComponent implements OnInit {
           "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
           "CELLPHONENUMBER" :this.AR_Form.controls.telephone.value,
           "TELEPHONE1": this.AR_Form.controls.homenumber.value,
+          "ADDRESSLINE1": this.AR_Form.controls.address1.value,
+          "ADDRESSLINE2":this.AR_Form.controls.address2.value,
+          "ADDRESSLINE3":this.AR_Form.controls.city.value,
+          "ADDRESSLINE4":this.AR_Form.controls.state.value,
           "COMPANYNAME": this.AR_Form.controls.companyname.value,
           "TITLE":this.AR_Form.controls.salutation.value,
           "BANKCODE":this.AR_Form.controls.bankname.value,
@@ -743,7 +806,7 @@ export class UpdatedetailsComponent implements OnInit {
             kActivit.status = true;
 
             appFunc.kioskActivity.push(kActivit);
-            if (this.AR_Form.controls.email.value == ""){
+            if (this.AR_Form.controls.email.value == "NA"){
               this.Email_Visible = false;
             }
             else{
@@ -806,6 +869,10 @@ export class UpdatedetailsComponent implements OnInit {
           "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
           "CELLPHONENUMBER" :this.AR_Form.controls.telephone.value,
           "TELEPHONE1": this.AR_Form.controls.homenumber.value,
+          "ADDRESSLINE1": this.AR_Form.controls.address1.value,
+          "ADDRESSLINE2":this.AR_Form.controls.address2.value,
+          "ADDRESSLINE3":this.AR_Form.controls.city.value,
+          "ADDRESSLINE4":this.AR_Form.controls.state.value,
           "COMPANYNAME": this.AR_Form.controls.companyname.value,
           "TITLE":this.AR_Form.controls.salutation.value,
           "BANKCODE":this.AR_Form.controls.bankname.value,
@@ -828,7 +895,7 @@ export class UpdatedetailsComponent implements OnInit {
             kActivit.status = true;
 
             appFunc.kioskActivity.push(kActivit);
-            if (this.AR_Form.controls.email.value == ""){
+            if (this.AR_Form.controls.email.value == "NA"){
               this.Email_Visible = false;
             }
             else{
@@ -867,12 +934,11 @@ export class UpdatedetailsComponent implements OnInit {
 
   majorUpdateNext(){
     closeKeyboard();
-    window.scroll(0,0);
-    let a1 = this.AR_Form.get('address1').value;
-    let a2 = this.AR_Form.get('address2').value;
-    let postcode = this.AR_Form.get('postcode').value;
-    let city = this.AR_Form.get('city').value;
-    let state = this.AR_Form.get('state').value;
+    // let a1 = this.AR_Form.get('address1').value;
+    // let a2 = this.AR_Form.get('address2').value;
+    // let postcode = this.AR_Form.get('postcode').value;
+    // let city = this.AR_Form.get('city').value;
+    // let state = this.AR_Form.get('state').value;
 
     this.AR_Form.controls.address1.setValue(this.add1?.nativeElement.value);
     this.AR_Form.controls.address2.setValue(this.add2?.nativeElement.value);
@@ -904,11 +970,11 @@ export class UpdatedetailsComponent implements OnInit {
     this.JN_Warning = false;
     this.JC_Warning = false;
 
-    this.AR_Form.controls.address1.setValue(a1);
-    this.AR_Form.controls.address2.setValue(a2);
-    this.AR_Form.controls.postcode.setValue(postcode);
-    this.AR_Form.controls.city.setValue(city);
-    this.AR_Form.controls.state.setValue(state);
+    // this.AR_Form.controls.address1.setValue(a1);
+    // this.AR_Form.controls.address2.setValue(a2);
+    // this.AR_Form.controls.postcode.setValue(postcode);
+    // this.AR_Form.controls.city.setValue(city);
+    // this.AR_Form.controls.state.setValue(state);
 
 
     let x = 0
@@ -1201,6 +1267,7 @@ export class UpdatedetailsComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Bijak Form: ${x} field(s) empty.`);
     }
     else{
+      window.scroll(0,0);
       this.UDConfirm_Visible = true;
       this.AR_Form.controls.fullname.enable();
       this.AR_Form.controls.identificationcardno.enable();
@@ -1335,7 +1402,7 @@ export class UpdatedetailsComponent implements OnInit {
           postcode : [{value: currentHolder.zipcode, disabled: true}, Validators.required],
           city : [{value: currentHolder.addresslinE3, disabled: true}],
           state : [{value: currentHolder.addresslinE4, disabled: true}],
-          mykadaddress: [{value: true, disabled: true}],
+          mykadaddress: [true],
 
           homenumber : [isNaHome, Validators.minLength(5)],
           telephone: [isNaMobile , [Validators.required, Validators.minLength(5)]],
@@ -1460,7 +1527,7 @@ export class UpdatedetailsComponent implements OnInit {
         const body = {
           "Transaksi": transaction,
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+          "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
           "Lokasi": signalrConnection.branchName,
           "Name": name,
           "NoAkaun": accountNo,
@@ -1531,7 +1598,7 @@ export class UpdatedetailsComponent implements OnInit {
     const body = {
       "Transaksi": transaction,
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
       "Lokasi": signalrConnection.branchName,
       "Name": name,
       "NoAkaun": accountNo,

@@ -66,6 +66,7 @@ export class VerifymykadComponent implements OnInit {
 
   FingerPrintTimeout = false;
   lostcount = true;
+  lostcount1 = false;
 
   //Initializing SignalR properties
   _conn: any;
@@ -193,10 +194,12 @@ export class VerifymykadComponent implements OnInit {
         if(this.timeout == 0){
           this.FingerPrintTimeout = true;
           this.lostcount = false;
+          this.lostcount1 = true;
         }
         else{
           this.FingerPrintTimeout = true;
           this.lostcount = true;
+          this.lostcount1 = false;
           this.timeout -= 1;
         }
       }
@@ -375,16 +378,9 @@ export class VerifymykadComponent implements OnInit {
                       this.DetectMyKad(data.toString());
                     }
                     else if(data.toUpperCase().includes("TIMEOUT")){
-                      // kActivit.endTime = new Date();
-                      // kActivit.status = false;
-
-                      // appFunc.kioskActivity.push(kActivit);
-                      // errorCodes.Ecode = "0333";
-                      // errorCodes.Emessage = data;
-                      // this._router.navigate(['errorscreen']);
-                      // signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Timeout Error.");
                       this.FingerPrintTimeout = true;
                       this.lostcount = true;
+                      this.lostcount1 = false;
                       this.timeout -= 1;
                     }
                     else{
@@ -726,29 +722,44 @@ export class VerifymykadComponent implements OnInit {
             errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
           }
+          
           else{
-            if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
-              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found.");
-
-              if (
-                (currentHolder.occupationcategory == "" || currentHolder.occupationcategory == undefined) ||
-                // (currentHolder.occupation == "" || currentHolder.occupation == undefined) ||
-                // (currentHolder.natureofbusiness == "" || currentHolder.natureofbusiness == undefined) ||
-                // (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
-                // (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
-                // (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
-                (currentHolder.email == "" || currentHolder.email == undefined) ||
-                (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined) ||
-                (currentHolder.preferredmailmode == "" || currentHolder.preferredmailmode == undefined) ||
-                (currentHolder.bankcode == "" || currentHolder.bankcode == undefined) ||
-                (currentHolder.accountnumber == "" || currentHolder.accountnumber == undefined) 
-              ){
-                this.loadingVisible = false;
-                this.RMError4_Visible = true;
+            if(currentHolder.rejectcode.toString() != ""){
+              errorCodes.Ecode = currentHolder.rejectcode;
+              errorCodes.Emessage = currentHolder.rejectreason;
+              errorCodes.accountName = currentHolder.firstname;
+              errorCodes.accountNo = currentHolder.unitholderid;
+              if(selectLang.selectedLang == 'ms'){
+                errorCodes.accountType = "Dewasa";
               }else{
-                signalrConnection.isVerifyMyKad = false;
-                this._router.navigate(['transactionmenu']);
+                errorCodes.accountType = "Dewasa";
               }
+              errorCodes.transaction = this.transaction;
+              this._router.navigate(['errorscreen']);
+            }else{
+              if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
+                signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Account Found.");
+  
+                if (
+                  (currentHolder.occupationcategory == "" || currentHolder.occupationcategory == undefined) ||
+                  // (currentHolder.occupation == "" || currentHolder.occupation == undefined) ||
+                  // (currentHolder.natureofbusiness == "" || currentHolder.natureofbusiness == undefined) ||
+                  // (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
+                  // (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
+                  // (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
+                  (currentHolder.email == "" || currentHolder.email == undefined) ||
+                  (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined) ||
+                  (currentHolder.preferredmailmode == "" || currentHolder.preferredmailmode == undefined) ||
+                  (currentHolder.bankcode == "" || currentHolder.bankcode == undefined) ||
+                  (currentHolder.accountnumber == "" || currentHolder.accountnumber == undefined) 
+                ){
+                  this.loadingVisible = false;
+                  this.RMError4_Visible = true;
+                }else{
+                  signalrConnection.isVerifyMyKad = false;
+                  this._router.navigate(['transactionmenu']);
+                }
+            }
             }
           }
         }
@@ -887,28 +898,43 @@ export class VerifymykadComponent implements OnInit {
                     this._router.navigate(['errorscreen']);
                   }
                   else{
-                    if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
-                      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Old IC Account Found, But no Fund.");
-
-                      if (
-                        (currentHolder.occupationcategory == "" || currentHolder.occupationcategory == undefined) ||
-                        // (currentHolder.occupation == "" || currentHolder.occupation == undefined) ||
-                        // (currentHolder.natureofbusiness == "" || currentHolder.natureofbusiness == undefined) ||
-                        // (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
-                        // (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
-                        // (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
-                        (currentHolder.email == "" || currentHolder.email == undefined) ||
-                        (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined) ||
-                        (currentHolder.preferredmailmode == "" || currentHolder.preferredmailmode == undefined) ||
-                        (currentHolder.bankcode == "" || currentHolder.bankcode == undefined) ||
-                        (currentHolder.accountnumber == "" || currentHolder.accountnumber == undefined) 
-                      ){
-                        this.loadingVisible = false;
-                        this.RMError4_Visible = true;
+                    if(currentHolder.rejectcode.toString() != ""){
+                      errorCodes.Ecode = currentHolder.rejectcode;
+                      errorCodes.Emessage = currentHolder.rejectreason;
+                      errorCodes.accountName = currentHolder.firstname;
+                      errorCodes.accountNo = currentHolder.unitholderid;
+                      if(selectLang.selectedLang == 'ms'){
+                        errorCodes.accountType = "Dewasa";
                       }else{
-                        signalrConnection.isVerifyMyKad = false;
-                        this._router.navigate(['transactionmenu']);
+                        errorCodes.accountType = "Dewasa";
                       }
+                      errorCodes.transaction = this.transaction;
+                      this._router.navigate(['errorscreen']);
+                    }else{
+                      if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
+                        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Old IC Account Found, But no Fund.");
+  
+                        if (
+                          (currentHolder.occupationcategory == "" || currentHolder.occupationcategory == undefined) ||
+                          // (currentHolder.occupation == "" || currentHolder.occupation == undefined) ||
+                          // (currentHolder.natureofbusiness == "" || currentHolder.natureofbusiness == undefined) ||
+                          // (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
+                          // (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
+                          // (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
+                          (currentHolder.email == "" || currentHolder.email == undefined) ||
+                          (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined) ||
+                          (currentHolder.preferredmailmode == "" || currentHolder.preferredmailmode == undefined) ||
+                          (currentHolder.bankcode == "" || currentHolder.bankcode == undefined) ||
+                          (currentHolder.accountnumber == "" || currentHolder.accountnumber == undefined) 
+                        ){
+                          this.loadingVisible = false;
+                          this.RMError4_Visible = true;
+                        }else{
+                          signalrConnection.isVerifyMyKad = false;
+                          this._router.navigate(['transactionmenu']);
+                        }
+                    }
+                    
                     }
                   }
                 }

@@ -874,7 +874,6 @@ export class PortalregistrationComponent implements OnInit {
   }
 
   TACClick(){
-    this.tacEnabled = true;
     const body = {
       "mobileno" : currentHolder.cellphonenumber,
       "moduleid" : "316",
@@ -884,6 +883,7 @@ export class PortalregistrationComponent implements OnInit {
     this.serviceService.tacVerification(body).subscribe((res: any) => {
       if (res.result.error_reason == ""){
         this.nextDetails_disabled = false;
+        this.tacEnabled = true;
         this.generatedTAC = res.result.tac;
         let expiry = parseInt(res.result.tac_expiry_duration) * 1000; 
         setTimeout(() => {
@@ -1014,7 +1014,7 @@ export class PortalregistrationComponent implements OnInit {
         const body = {
           "Transaksi": transaction,
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+          "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
           "Lokasi": signalrConnection.branchName,
           "Name": currentHolder.firstname,
           "NoAkaun": currentHolder.unitholderid,
@@ -1066,7 +1066,7 @@ export class PortalregistrationComponent implements OnInit {
     const body = {
       "Transaksi": transaction,
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
       "Lokasi": signalrConnection.branchName,
       "Name": currentHolder.firstname,
       "NoAkaun": currentHolder.unitholderid,

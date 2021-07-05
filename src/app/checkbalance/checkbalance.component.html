@@ -48,7 +48,7 @@
 
   
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top:5rem;">
+        <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
             <div class="col-md-12">
                 <!-- <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="CancelCheckBalance()">
                     {{'BTN_Cancel' | translate }}
@@ -155,14 +155,22 @@
             
             <!-- Second Row -->
             <div class="row">
-                <!-- <label class="CheckBalanceText1" id="CB2_TotalPriceValue">RM 24,701.13</label> -->
-                <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_TotalPriceValue">RM&nbsp;&nbsp;&nbsp;&nbsp; {{CB2_9}}</label>
+                <div class="column leftcol">
+                    <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_Name">RM</label>
+                </div>
+                <div class="column rightcol">
+                    <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_NameValue">{{CB2_9}}</label>  
+                </div>
             </div>
             
             <!-- Third Row -->
             <div class="row">
-                <!-- <label class="CheckBalanceText1" id="CB2_TotalUnitValue">Unit 24,896.64</label> -->
-                <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_TotalUnitValue" >UNIT&nbsp;&nbsp;{{CB2_10}}</label>
+                <div class="column leftcol">
+                    <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_Name">UNIT</label>
+                </div>
+                <div class="column rightcol">
+                    <label style="font-size: 1.25rem" class="CheckBalanceText1" id="CB2_NameValue">{{CB2_10}}</label>  
+                </div>
             </div>
         </div>
         <div class="col-md-1"></div>
@@ -170,24 +178,22 @@
     <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
         <table class="table checkbalancetable" id="CB2_BalanceTable">
             <thead class="thead-dark">
-              <tr>
-                
-                <th scope="col">{{'CBTH_1' | translate }}</th>
-                <th scope="col">{{'CBTH_2' | translate }}</th>
-                <th scope="col">{{'CBTH_3' | translate }}</th>
-                <th scope="col">{{'CBTH_4' | translate }}</th>
-                <th scope="col">{{'CBTH_5' | translate }}</th>
-                <th scope="col">{{'CBTH_6' | translate }}</th>
-                <th scope="col">{{'CBTH_7' | translate }}</th>
-                <th scope="col">{{'CBTH_8' | translate }}</th>
-                <th scope="col" *ngIf="Print_Visible">{{'CBTH_9' | translate }}</th>
-                <th scope="col" *ngIf="Email_Visible">{{'CBTH_10' | translate }}</th>
-            </tr>
+                <tr>
+                    <th scope="col">{{'CBTH_1' | translate }}</th>
+                    <th scope="col">{{'CBTH_2' | translate }}</th>
+                    <th scope="col">{{'CBTH_3' | translate }}</th>
+                    <th scope="col">{{'CBTH_4' | translate }}</th>
+                    <th scope="col">{{'CBTH_5' | translate }}</th>
+                    <th scope="col">{{'CBTH_6' | translate }}</th>
+                    <th scope="col">{{'CBTH_7' | translate }}</th>
+                    <th scope="col">{{'CBTH_8' | translate }}</th>
+                    <th scope="col" *ngIf="Print_Visible">{{'CBTH_9' | translate }}</th>
+                    <th scope="col" *ngIf="Email_Visible">{{'CBTH_10' | translate }}</th>
+                </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let y of fDetails">
                     <td>
-                        <!-- {{ y.FUNDID }} -->
                         <img src="assets/fundicon/{{y.FUNDID}}.png" class="fundidicon">
                     </td>
                     <td style="padding-top: 3rem;">{{ y.UNITBALANCE | number : '1.2-2' }}</td>
@@ -216,11 +222,11 @@
                     </td>
                 </tr>
             </tbody>
-          </table>
+        </table>
     </div>
 
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top:5rem;">
+        <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
             <div class="col-md-12 text-center">
                 <button type="button" class="btn btn-cancel" id="CB2_Cancel" (click)="CancelCheckBalance()">
                     <!-- Batal -->
@@ -243,8 +249,6 @@
 <div id="CheckBalance3" *ngIf="CB3_Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
-            <!-- <h2 class="h2-ic" id="CB3_Title1">Resit anda sedang dicetak.</h2>
-            <h2 class="h2-ic" id="CB3_Title2">Sila Tunggu.</h2> -->
             <h2 class="h2-ic" id="CB3_Title1">{{'Print1_1' | translate }}</h2>
             <h2 class="h2-ic" id="CB3_Title2">{{'Print1_2' | translate }}</h2>
             
@@ -258,7 +262,6 @@
 <div id="CheckBalance4" *ngIf="CB4_Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
-            <!-- <h2 class="h2-ic" id="CB4_Title1">Sila ambil resit anda</h2> -->
             <h2 class="h2-ic" id="CB4_Title1">{{'Print2_1' | translate }}</h2>
             
             
@@ -272,8 +275,6 @@
 <div id="CheckBalance5" *ngIf="CB5_Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
-            <!-- <h2 class="h2-ic" id="CB5_Title1">Salinan resit akan hantar ke</h2>
-            <h2 class="h2-ic" id="CB5_Title2">alamat e-mel anda.</h2> -->
             <h2 class="h2-ic" id="CB5_Title1">{{'Email_1' | translate }}</h2>
             <h2 class="h2-ic" id="CB5_Title2">{{'Email_2' | translate }}</h2>
             

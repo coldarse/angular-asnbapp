@@ -71,7 +71,7 @@ export class ErrorscreenComponent implements OnInit {
         const body = {
           "Transaksi": errorCodes.transaction,
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+          "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
           "Lokasi": signalrConnection.branchName,
           "Name": errorCodes.accountName,
           "NoAkaun": errorCodes.accountNo,

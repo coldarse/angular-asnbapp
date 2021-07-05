@@ -470,7 +470,7 @@ export class AccountregistrationComponent implements OnInit {
       this.AR_Form.controls.address1.reset();
       this.AR_Form.controls.address2.reset();
       this.AR_Form.controls.postcode.reset();
-
+      this.AR_Form.controls.city.reset()
       this.AR_Form.controls.address1.enable();
       this.AR_Form.controls.address2.enable();
       this.AR_Form.controls.postcode.enable();
@@ -769,7 +769,7 @@ export class AccountregistrationComponent implements OnInit {
         const body = {
           "Transaksi": transaction,
           "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+          "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
           "Lokasi": signalrConnection.branchName,
           "Name": currentMyKadDetails.Name,
           "NoAkaun": this.ARSuccess_6,
@@ -810,7 +810,7 @@ export class AccountregistrationComponent implements OnInit {
     const body = {
       "Transaksi": transaction,
       "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "Masa": formatDate(new Date(), 'h:MM:ss a', 'en'),
+      "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
       "Lokasi": signalrConnection.branchName,
       "Name": currentMyKadDetails.Name,
       "NoAkaun": this.ARSuccess_6,
