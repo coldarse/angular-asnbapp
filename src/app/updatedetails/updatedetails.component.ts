@@ -890,7 +890,20 @@ export class UpdatedetailsComponent implements OnInit {
         }
 
         this.serviceService.updateDetails(body).subscribe((data: any) => {
-          if(data.result.transactionstatus.toLowerCase().includes('successful')){
+          if(data.result.transactionstatus.toLowerCase().includes('reject')){
+            kActivit.endTime = new Date();
+            kActivit.status = false;
+
+            appFunc.kioskActivity.push(kActivit);
+            errorCodes.Ecode = data.result.rejectcode;
+            errorCodes.Emessage = data.result.rejectreason;
+            errorCodes.accountName = currentBijakHolder.firstname;
+            errorCodes.accountNo = currentBijakHolder.unitholderid;
+            errorCodes.accountType = "Bijak";
+            errorCodes.transaction = this.transaction;
+            this._router.navigate(['errorscreen']);
+            
+          }else{
             kActivit.endTime = new Date();
             kActivit.status = true;
 
@@ -909,20 +922,9 @@ export class UpdatedetailsComponent implements OnInit {
               this.Print_Visible = true;
             }
     
-            this.UDForm_Visible = false;
+            this.UDBForm_Visible = false;
             this.UDSuccess_Visible = true;
-          }else{
-            kActivit.endTime = new Date();
-            kActivit.status = false;
-
-            appFunc.kioskActivity.push(kActivit);
-            errorCodes.Ecode = data.result.rejectcode;
-            errorCodes.Emessage = data.result.rejectreason;
-            errorCodes.accountName = currentBijakHolder.firstname;
-            errorCodes.accountNo = currentBijakHolder.unitholderid;
-            errorCodes.accountType = "Bijak";
-            errorCodes.transaction = this.transaction;
-            this._router.navigate(['errorscreen']);
+            this.UDConfirm_Visible = false;
           }
         });
 

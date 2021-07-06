@@ -57,6 +57,7 @@ const Keyboard = {
     _setActive() {
         try{
             this.elements.activeElem = document.activeElement.id;
+            console.log(this.elements.activeElem);
             if(this.elements.activeElem != ""){
                 var currElem = document.getElementById(this.elements.activeElem);
                 this.elements.startpos = currElem.selectionStart;

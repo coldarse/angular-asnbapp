@@ -2,7 +2,11 @@
     <div class="container-fluid">
         <div class="titleNLogo">
             <!-- Language Screen NavBar -->
-            <img src="assets/images/OutOfService-icon.png" alt="OutOfServiceImage" class="icon_margin">
+            <img src="assets/images/OutOfService-icon.png" alt="HeaderImage" class="icon_margin" *ngIf="isSubscriptionMajor">
+            <img src="assets/images/OutOfService-icon.png" alt="HeaderImage" class="icon_margin" *ngIf="isSubscriptionMinor">
+            <img src="assets/images/OutOfService-icon.png" alt="HeaderImage" class="icon_margin" *ngIf="isSubscriptionThird">
+            <img src="assets/images/OutOfService-icon.png" alt="HeaderImage" class="icon_margin" *ngIf="isInvestmentMajor">
+            <img src="assets/images/OutOfService-icon.png" alt="HeaderImage" class="icon_margin" *ngIf="isInvestmentMinor">
             <div>
                 <label class="upStyle col-sm-12" *ngIf="isSubscription">{{ 'Subscription' | translate }}</label>
                 <label class="upStyle col-sm-12" *ngIf="isInvestment">{{ 'Investment' | translate }}</label>
@@ -63,8 +67,12 @@
         </h2>
     </div>
 
-    <div class="pop-up-variable">
-
+    <div class="pop-up-variable text-center">
+        <div class="horizontal" *ngIf="isloadedfunds">
+            <div *ngFor="let fund1 of variableFunds"  class="center">
+                <img src="assets/fundicon/{{fund1}}.png" class="fundidicon" style="padding-top: 0.25rem;" (click)="selectedFund(fund1)">
+            </div>
+        </div>
     </div>
 
     <div class="text-center">
@@ -73,8 +81,12 @@
         </h2>
     </div>
 
-    <div class="pop-up-fixed">
-
+    <div class="pop-up-fixed text-center">
+        <div class="horizontal" *ngIf="isloadedfunds">
+            <div *ngFor="let fund2 of fixedFunds"  class="center">
+                <img src="assets/fundicon/{{fund2}}.png" class="fundidicon" style="padding-top: 0.25rem;" (click)="selectedFund(fund2)"> 
+            </div>
+        </div>
     </div>
   
     <footer class="site-footer">
@@ -136,7 +148,7 @@
                 </h3>
             </div>
             <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #amount>
+                <input type="text" style="width: 85%;" name="amount" id="amt" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #amount>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning">{{'AWarning' | translate}}</div>
             </div>
         </div>
@@ -221,7 +233,7 @@
                 </h3>
             </div>
             <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="" class="use-keyboard-input" [formControl]='Form_2.controls["fundername"]' #fundername>
+                <input type="text" style="width: 85%;" name="source" id="source" class="use-keyboard-input" [formControl]='Form_2.controls["fundername"]' #fundername>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="funderWarning">{{'FWarning' | translate}}</div>
             </div>
         </div>

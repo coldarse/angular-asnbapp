@@ -166,6 +166,45 @@ export class ServiceService {
     )
   }
 
+  //Post get eligible funds
+  postEligibleFunds(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/OpenAPI/EligibleFunds",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Post Provision Subscription
+  postProvisionSubscription(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/OpenAPI/ProvisionalSubscription",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Post Settlement
+  postSettlement(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/OpenAPI/Settlement",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
   //Get Dividend Statement
   dividendStatement(body: any){
     return this.http.post(

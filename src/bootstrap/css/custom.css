@@ -27,7 +27,12 @@ background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_019807af606
 user-select: none;
 }
 
-
+.horizontal {
+  display: flex;
+  flex-direction: row;
+  max-width: 1000px;
+  flex-wrap: wrap;
+}
 
 .center {
     margin-left: auto;
@@ -77,7 +82,14 @@ user-select: none;
     width: 230px;
     padding-top: 1rem;
     color: rgba(0, 87, 185, 0.9);
-  }
+}
+
+.lang_label{
+  font-family: PNB;
+    font-size: 1.3rem;
+    padding-top: 1rem;
+    color: rgba(0, 87, 185, 0.9);
+}
   
   
   .menu__label{
@@ -173,7 +185,7 @@ user-select: none;
   color:rgb(255, 255, 255);
   border-radius: 1rem;
   border-color: rgb(255, 255, 255);
-  background-color:rgb(56, 198, 244);
+  background-color:#0075B7;
   text-align: center;
 }
 
@@ -479,7 +491,8 @@ user-select: none;
   border: 1px solid;
   border-color: lightgray;
   width: 1000px;
-  height: 220px;
+  min-height: 110px;
+  height: auto;
   background-color: white;
   margin: auto;
   margin-top: 0.5rem;
@@ -490,7 +503,8 @@ user-select: none;
   border: 1px solid;
   border-color: lightgray;
   width: 1000px;
-  height: 110px;
+  min-height: 110px;
+  height: auto;
   background-color: white;
   margin: auto;
   margin-top: 0.5rem;

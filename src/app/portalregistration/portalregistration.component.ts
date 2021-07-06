@@ -322,6 +322,7 @@ export class PortalregistrationComponent implements OnInit {
               "uhid": currentHolder.unitholderid,
               "language": selectLang.selectedLang
             }
+            console.log('B ' + body.idno + ' ' + body.idtype + ' ' + body.uhid + ' ' + body.language);
             this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
               if (res.result.member_status == "non_member"){
                 if (signalrConnection.isHardcodedIC != true){
@@ -370,13 +371,14 @@ export class PortalregistrationComponent implements OnInit {
             "uhid": currentHolder.unitholderid,
             "language": selectLang.selectedLang
           }
+          console.log('A ' + body.idno + ' ' + body.idtype + ' ' + body.uhid + ' ' + body.language);
           this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
             if (res.result.member_status == "non_member"){
               if (signalrConnection.isHardcodedIC != true){
                 this.id = setInterval(() => {
                   this.DetectMyKad();
                 }, 1000);
-              }
+              } 
   
               if(appFunc.isRedirectFromPortalRegistration == true){
                 this.Notice_Visible = false;

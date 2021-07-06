@@ -87,7 +87,7 @@ export class RedemptionComponent implements OnInit {
 
       setTimeout(() => {
         loadKeyboard();
-      } , 2000);
+      } , 1000);
     }
     else{
       this.redemption1 = true;
@@ -111,7 +111,7 @@ export class RedemptionComponent implements OnInit {
 
     setTimeout(() => {
       loadKeyboard();
-    } , 2000);
+    } , 1000);
   }
 
   redemptionBack(){
@@ -166,7 +166,7 @@ export class RedemptionComponent implements OnInit {
 
     setTimeout(() => {
       loadKeyboard();
-    } , 2000);
+    } , 1000);
   }
 
   redemption3Next(){

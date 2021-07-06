@@ -3,10 +3,15 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { AppConfiguration } from '../config/app-configuration';
 import { appFunc } from '../_models/appFunctions';
+import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 import { currentHolder } from '../_models/currentUnitHolder';
+import { errorCodes } from '../_models/errorCode';
+import { kActivity } from '../_models/kActivity';
 import { selectLang } from '../_models/language';
 import { signalrConnection } from '../_models/signalr';
+import { ServiceService } from '../_shared/service.service';
 
 declare const loadKeyboard: any;
 declare const deleteKeyboard: any;
@@ -32,6 +37,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
   @ViewChild('thirdfundname') thirdfundname : ElementRef | undefined;
   @ViewChild('thirdamount') thirdamount : ElementRef | undefined;
   @ViewChild('thirdsource') thirdsource : ElementRef | undefined;
+
+  isSubscriptionMajor = false;
+  isSubscriptionMinor = false;
+  isSubscriptionThird = false;
+  isInvestmentMajor = false;
+  isInvestmentMinor = false;
 
   isSubscription = false;
   isInvestment = false;
@@ -69,7 +80,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   status = "Successful";
   approvalcode = "";
   accounttype = "";
-  amountKeyed = "";
+  amountKeyed = 0;
   fundid = "ASN";
   nav = "";
   sst = "";
@@ -85,10 +96,41 @@ export class SubscriptioninvestmentComponent implements OnInit {
   thirdfundnamekeyed = "";
   thirdamountkeyed = "";
 
+  transaction = "";
+  currentBijakUHID = "";
+  currentBijakIDNO = "";
+  currentBijakIDType = "";
+
   Form_1: any;
   Form_2: any;
   Form_3: any;
   Form_4: any;
+
+  variableFunds: any = [];
+  fixedFunds: any = [];
+
+  testing = [];
+
+  variableFundsFilter = [
+    'ASNI03',
+    'ASNE05',
+    'AASSGD',
+    'ASN3',
+    'ASN',
+    'AASSGK',
+    'AASSGS',
+    'ASNS02',
+    'ASN2',
+  ];
+  fixedFundsFilter = [
+    'ASW',
+    'AS1M',
+    'ASB2',
+    'ASM',
+    'ASB',
+    'ASD',
+  ];
+  isloadedfunds = false;
 
   mDetails = currentHolder.minordetail;
 
@@ -97,22 +139,71 @@ export class SubscriptioninvestmentComponent implements OnInit {
     private _router: Router,
     private translate: TranslateService,
     private fb: FormBuilder,
+    private serviceService : ServiceService,
+    private appConfig: AppConfiguration
   ) { }
 
   ngOnInit(): void {
     this.translate.use(selectLang.selectedLang);
     this.initializeForm1();
 
-
+    if(selectLang.selectedLang == 'en'){
+      if(appFunc.isInvesment){
+        this.transaction = "Initial Investment";
+      }else{
+        this.transaction = "Pelaburan Permulaan";
+      }
+    }else{
+      if(appFunc.isInvesment){
+        this.transaction = "Subscription";
+      }else{
+        this.transaction = "Pelaburan Tambahan";
+      }
+    }
 
     if(appFunc.isInvesment){
       this.isInvestment = true;
       if(appFunc.isOwn == "major"){
         this.isOwn = true;
         this.SIStep1 = true;
-        setTimeout(() => {
-          loadKeyboard();
-        } , 2000);
+
+        const body =
+        {
+          "CHANNELTYPE": signalrConnection.channelType,
+          "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+          "DEVICEOWNER": signalrConnection.deviceOwner,
+          "REQUESTDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "REQUESTTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+          "UNITHOLDERID": currentHolder.unitholderid,
+          "IDENTIFICATIONTYPE": currentHolder.identificationtype,
+          "IDENTIFICATIONNUMBER": currentHolder.identificationnumber,
+          "FUNDLISTTYPE":"N"
+        }
+
+        this.variableFunds = [];
+        this.fixedFunds = [];
+
+        this.serviceService.postEligibleFunds(body)
+        .subscribe((result: any) => {
+          result.result.fundid.forEach((elem1: string) => {
+            this.variableFundsFilter.forEach((elem2: string) =>{
+              if(elem1.toString() == elem2.toString()){
+                this.variableFunds.push(elem1);
+              }
+            })
+          });
+          result.result.fundid.forEach((elem1: string) => {
+            this.fixedFundsFilter.forEach((elem2: string) =>{
+              if(elem1.toString() == elem2.toString()){
+                this.fixedFunds.push(elem1);
+              }
+            })
+          });
+          console.log(this.variableFunds);
+          console.log(this.fixedFunds);
+          this.isloadedfunds = true;
+        });
+        
       }else if(appFunc.isOwn == "bijak"){
         this.isBijak = true;
         this.BijakVisible = true;
@@ -124,7 +215,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.SIStep1 = true;
         setTimeout(() => {
           loadKeyboard();
-        } , 2000);
+        } , 1000);
       }else if(appFunc.isOwn == "bijak"){
         this.isBijak = true;
         this.BijakVisible = true;
@@ -134,12 +225,31 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.initializeForm3();
         setTimeout(() => {
           loadKeyboard();
-        } , 2000);
+        } , 1000);
 
         
         this.SIStep6 = true;
       }
     }
+  }
+
+  selectedFund(fund: any){
+    console.log(fund);
+    this.SIStep1 = false;
+    this.SIStep2 = true;
+
+    if(appFunc.isOwn == "major"){
+      this.unitholderid = currentHolder.unitholderid;
+      this.fundid = fund;
+    }else{
+      this.unitholderid = this.currentBijakUHID;
+      this.fundid = fund;
+    }
+    
+
+    setTimeout(() => {
+      loadKeyboard();
+    } , 1000);
   }
 
 
@@ -176,10 +286,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   SIStep1Back(){
-    if(appFunc.isOwn == "major"){
-      this.Back();
-    }else{
+    if(appFunc.isOwn == "bijak"){
       this.BijakVisible = true;
+      this.SIStep1 = false;
+    }else{
+      this.Back();
     }
   }
 
@@ -188,6 +299,47 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   Minor(minor: any){
+    const body =
+    {
+      "CHANNELTYPE": signalrConnection.channelType,
+      "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+      "DEVICEOWNER": signalrConnection.deviceOwner,
+      "REQUESTDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "REQUESTTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+      "UNITHOLDERID": minor.UHID,
+      "IDENTIFICATIONTYPE": minor.ICTYPE,
+      "IDENTIFICATIONNUMBER": minor.ICNO,
+      "FUNDLISTTYPE":"N"
+    }
+
+    this.currentBijakUHID = minor.UHID;
+    this.currentBijakIDNO = minor.ICNO;
+    this.currentBijakIDType = minor.ICTYPE;
+
+    this.variableFunds = [];
+    this.fixedFunds = [];
+
+    this.serviceService.postEligibleFunds(body)
+    .subscribe((result: any) => {
+      result.result.fundid.forEach((elem1: string) => {
+        this.variableFundsFilter.forEach((elem2: string) =>{
+          if(elem1.toString() == elem2.toString()){
+            this.variableFunds.push(elem1);
+          }
+        })
+      });
+      result.result.fundid.forEach((elem1: string) => {
+        this.fixedFundsFilter.forEach((elem2: string) =>{
+          if(elem1.toString() == elem2.toString()){
+            this.fixedFunds.push(elem1);
+          }
+        })
+      });
+      console.log(this.variableFunds);
+      console.log(this.fixedFunds);
+      this.isloadedfunds = true;
+    });
+
     this.BijakVisible = false;
     this.SIStep1 = true;
   }
@@ -215,20 +367,31 @@ export class SubscriptioninvestmentComponent implements OnInit {
       this.amountKeyed = this.Form_1.controls.amount.value;
 
       deleteKeyboard();
-      this.SIStep2 = false;
-      this.SIStep3 = true;
 
-      this.initializeForm2();
-
-      setTimeout(() => {
-        loadKeyboard();
-      } , 2000);
+      if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo)){
+        this.SIStep2 = false;
+        this.SIStep3 = true;
+  
+        this.initializeForm2();
+  
+        setTimeout(() => {
+          loadKeyboard();
+        } , 1000);
+      }
+      else{
+        this.SIStep2 = false;
+        this.SIStep4 = true;
+      }
     }
   }
 
   SIStep3Back(){
     this.SIStep3 = false;
     this.SIStep2 = true;
+
+    setTimeout(() => {  
+      loadKeyboard();
+    } , 1000);
   }
 
   SIStep3Next(){
@@ -255,13 +418,119 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   SIStep4Back(){
-    this.SIStep4 = false;
-    this.SIStep3 = true;
+    if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo)){
+      this.SIStep4 = false;
+      this.SIStep3 = true;
+
+      // this.initializeForm2();
+
+      setTimeout(() => {
+        loadKeyboard();
+      } , 1000);
+    }
+    else{
+      this.SIStep4 = false;
+      this.SIStep2 = true;
+
+      setTimeout(() => {  
+        loadKeyboard();
+      } , 1000);
+    }
+    
   }
 
   SIStep4Next(){
     this.SIStep4 = false;
     this.SIStep5 = true;
+
+    setTimeout(() => {
+
+      let ictype = "";
+      let icno = "";
+      let uhid = "";
+
+
+      if(appFunc.isOwn == "major"){
+        ictype = currentHolder.identificationtype;
+        icno = currentHolder.identificationnumber;
+        uhid = currentHolder.unitholderid;
+      }
+      else if(appFunc.isOwn == "bijak"){
+        uhid = this.currentBijakUHID;
+        icno = this.currentBijakIDNO;
+        ictype = this.currentBijakIDType;
+      }
+      else{
+
+      }
+
+      const body = {
+        "CHANNELTYPE": signalrConnection.channelType,
+        "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+        "DEVICEOWNER": signalrConnection.deviceOwner,
+        "UNITHOLDERID":uhid,
+        "FIRSTNAME": "",
+        "IDENTIFICATIONTYPE":ictype,
+        "IDENTIFICATIONNUMBER":icno,
+        "FUNDID":this.fundid,
+        "AMOUNTAPPLIED":this.amountKeyed,
+        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "CUSTOMERICNUMBER":"",
+        "CUSTOMERNAME":"",
+        "AGENTCODE":signalrConnection.agentCode,
+        "BRANCHCODE":signalrConnection.branchCode,
+        "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+        "BANKCUSTPHONENUMBER":"",
+        "PAYMENTTYPE":"T",
+        "BANKACCOUNTNUMBER":"",
+        "BANKBRANCHCODE":"",
+        "CHEQUENUMBER":"",
+        "CHEQUEDATE":"",
+        "GUARDIANID":"",
+        "GUARDIANICTYPE":"",
+        "GUARDIANICNUMBER":"",
+        "POLICYNUMBER":"",
+        "EPFNUMBER":"",
+        "SUBPAYMENTTYPE":"",
+        "EWGATEWAY":"",
+        "THIRDPARTYINVESTMENT":"",
+        "THIRDPARTYNAME":"",
+        "THIRDPARTYICTYPE":"",
+        "THIRDPARTYICNUMBER":"",
+        "THIRDPARTYRELATIONSHIP":"",
+        "REASONFORTRANSFER":"",
+        "SOURCEOFFUND":"",
+        "OTHERSOURCEOFFUND":"",
+        "FUNDERNAME":""
+        }
+
+        
+      this.serviceService.postProvisionSubscription(body)
+      .subscribe((result: any) => {
+        console.log(result.transactionstatus);
+        console.log(result.transactionnumber);
+        if(result.transactionstatus.toString().toLower() == 'successful' && result.transactionnumber.toString() != ""){
+          const body1 = 
+          {
+            "CHANNELTYPE":signalrConnection.channelType,
+            "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
+            "DEVICEOWNER":signalrConnection.deviceOwner,
+            "UNITHOLDERID":result.unitholderid,
+            "TRANSACTIONNUMBER":result.transactionnumber,
+            "OPERATION":"C",
+            "REMARKS":"Payment Cleared",
+            "PAYMENTREFERENCENUMBER":formatDate(new Date(), 'dd/MM/yyyy HH:mm:ss', 'en'),
+          }
+
+          this.serviceService.postSettlement(body1)
+          .subscribe((result: any) => {
+            console.log(result.transactionstatus);
+            console.log(result.transactionnumber);
+          });
+        }
+      });
+    }, 3000)
   }
 
   SIStep5Cancel(){

@@ -135,7 +135,7 @@ export class TransferswitchingComponent implements OnInit {
 
     setTimeout(() => {
       loadKeyboard();
-    } , 2000);
+    } , 1000);
   }
 
   transfer1Back(){
@@ -194,7 +194,7 @@ export class TransferswitchingComponent implements OnInit {
 
     setTimeout(() => {
       loadKeyboard();
-    } , 2000);
+    } , 1000);
   }
 
   transfer2Next(){
@@ -223,7 +223,7 @@ export class TransferswitchingComponent implements OnInit {
 
     setTimeout(() => {
       loadKeyboard();
-    } , 2000);
+    } , 1000);
   }
 
   switching1Back(){
@@ -264,7 +264,7 @@ export class TransferswitchingComponent implements OnInit {
 
     setTimeout(() => {
       loadKeyboard();
-    } , 2000);
+    } , 1000);
   }
 
   switching2Next(){

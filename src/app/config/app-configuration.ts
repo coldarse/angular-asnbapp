@@ -4,4 +4,5 @@ export class AppConfiguration {
   AldanReceiptURL!: string;
   AESCrpytKey!: string;
   idletime! : number;
+  thresholdForAdditionalInfo!: number;
 }

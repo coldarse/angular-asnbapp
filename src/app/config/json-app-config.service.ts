@@ -21,6 +21,7 @@ export class JsonAppConfigService extends AppConfiguration {
         this.AldanReceiptURL = data.AldanReceiptURL;
         this.AESCrpytKey = data.AESCrpytKey;
         this.idletime = Number(data.idletime);
+        this.thresholdForAdditionalInfo = Number(data.thresholdForAdditionalInfo)
       })
       .catch(() => {
         console.error('Could not load configuration');
