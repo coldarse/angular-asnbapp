@@ -77,6 +77,7 @@ export class ServiceService {
     const response12 = this.http.get(this.url + "services/app/OccupationName/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions);
     const response13 = this.http.get(this.url + "services/app/FamilyRelationship/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); //
     const response14 = this.http.get(this.url + "services/app/SecurityQuestions/GetAll?MaxResultCount=100&Sorting=id", accessToken.httpOptions);
+    const response15 = this.http.get(this.url + "services/app/FundSource/GetAll?MaxResultCount=100&Sorting=id", accessToken.httpOptions);
     return forkJoin([
       response1.pipe(retry(1), catchError(this.handleError)), 
       response2.pipe(delay(3000), retry(1), catchError(this.handleError)),
@@ -92,6 +93,7 @@ export class ServiceService {
       response12.pipe(delay(3000), retry(1), catchError(this.handleError)),
       response13.pipe(delay(3000), retry(1), catchError(this.handleError)),
       response14.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response15.pipe(delay(3000), retry(1), catchError(this.handleError)),
     ]);
   }
 

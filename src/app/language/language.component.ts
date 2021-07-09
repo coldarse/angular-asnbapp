@@ -11,7 +11,7 @@ import { formatDate } from '@angular/common';
 import { appFunc } from '../_models/appFunctions';
 import { eModules } from '../_models/enabledModules';
 import { errorCodes } from '../_models/errorCode';
-import { bankName, businessNature, cities, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, relationship, religions, securityQuestions, states, TitleDetails } from '../_models/dropDownLists';
+import { bankName, businessNature, cities, fundSource, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, relationship, religions, securityQuestions, states, TitleDetails } from '../_models/dropDownLists';
 import { kActivity } from '../_models/kActivity';
 import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
@@ -297,6 +297,12 @@ export class LanguageComponent implements OnInit {
             questionEN: sq.questionBM,
             questionBM: sq.questionBM
           }));
+        appFunc.fundSource = res[14].result.items.map((fs: any) => 
+        new fundSource({
+          code: fs.code,
+          desc: fs.descBM,
+          descBM: fs.descBM
+        }));
 
       }else{
         appFunc.businessNature = res[4].result.items.map((bn: any) => new businessNature(bn));
@@ -308,6 +314,7 @@ export class LanguageComponent implements OnInit {
         appFunc.occupationName = res[11].result.items.map((on: any) => new occupationName(on));
         appFunc.relationship = res[12].result.items.map((rs: any) => new relationship(rs));
         appFunc.securityQuestions = res[13].result.items.map((sq: any) => new securityQuestions(sq));
+        appFunc.fundSource = res[14].result.items.map((fs: any) => new fundSource(fs));
       }
 
     }, error => {

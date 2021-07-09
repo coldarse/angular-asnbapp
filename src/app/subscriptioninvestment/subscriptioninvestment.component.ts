@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+
 import { AppConfiguration } from '../config/app-configuration';
 import { appFunc } from '../_models/appFunctions';
 import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
@@ -74,7 +75,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
   thirdnameWarning = false;
   thirdamountWarning = false;
 
-  unitholderid = "Chen Jiunn Haw";  
+  unitholderid = "";  
+  unitholdername = "";
+  unitholderic = "";
+
+  fundSource = appFunc.fundSource;
 
   refno = "";
   status = "Successful";
@@ -82,10 +87,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
   accounttype = "";
   amountKeyed = 0;
   fundid = "ASN";
-  nav = "";
-  sst = "";
-  unitsalloted = "";
-  initialcharges = "";
+  nav = 0;
+  sst = 0;
+  unitsalloted = 0;
+  initialcharges = 0;
+
+  sourceOfFund = "";
+  otherSourceOfFund = "";
+  feepercentage = "";
 
   thirdictypekeyed = "";
   thirdicnokeyed = "";
@@ -100,6 +109,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   currentBijakUHID = "";
   currentBijakIDNO = "";
   currentBijakIDType = "";
+  currentBijakName = "";
 
   Form_1: any;
   Form_2: any;
@@ -164,6 +174,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     if(appFunc.isInvesment){
       this.isInvestment = true;
       if(appFunc.isOwn == "major"){
+        this.isInvestmentMajor = true;
         this.isOwn = true;
         this.SIStep1 = true;
 
@@ -205,22 +216,40 @@ export class SubscriptioninvestmentComponent implements OnInit {
         });
         
       }else if(appFunc.isOwn == "bijak"){
+        this.isInvestmentMinor = true;
         this.isBijak = true;
         this.BijakVisible = true;
       }
     }else{
       this.isSubscription = true;
       if(appFunc.isOwn == "major"){
+        currentHolder.funddetail.forEach((elem1: any) => {
+          this.variableFundsFilter.forEach((elem2: string) =>{
+            if(elem1.FUNDID.toString() == elem2.toString()){
+              this.variableFunds.push(elem1.FUNDID.toString());
+            }
+          })
+        });
+        currentHolder.funddetail.forEach((elem1: any) => {
+          this.fixedFundsFilter.forEach((elem2: string) =>{
+            if(elem1.FUNDID.toString() == elem2.toString()){
+              this.fixedFunds.push(elem1.FUNDID.toString());
+            }
+          })
+        });
+        console.log(this.variableFunds);
+        console.log(this.fixedFunds);
+        this.isloadedfunds = true;
+        this.isSubscriptionMajor = true;
         this.isOwn = true;
         this.SIStep1 = true;
-        setTimeout(() => {
-          loadKeyboard();
-        } , 1000);
       }else if(appFunc.isOwn == "bijak"){
+        this.isSubscriptionMinor = true;
         this.isBijak = true;
         this.BijakVisible = true;
       }
       else{
+        this.isSubscriptionThird = true;
         this.isThird = true;
         this.initializeForm3();
         setTimeout(() => {
@@ -299,36 +328,17 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   Minor(minor: any){
-    const body =
-    {
-      "CHANNELTYPE": signalrConnection.channelType,
-      "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-      "DEVICEOWNER": signalrConnection.deviceOwner,
-      "REQUESTDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "REQUESTTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-      "UNITHOLDERID": minor.UHID,
-      "IDENTIFICATIONTYPE": minor.ICTYPE,
-      "IDENTIFICATIONNUMBER": minor.ICNO,
-      "FUNDLISTTYPE":"N"
-    }
-
-    this.currentBijakUHID = minor.UHID;
-    this.currentBijakIDNO = minor.ICNO;
-    this.currentBijakIDType = minor.ICTYPE;
-
-    this.variableFunds = [];
-    this.fixedFunds = [];
-
-    this.serviceService.postEligibleFunds(body)
-    .subscribe((result: any) => {
-      result.result.fundid.forEach((elem1: string) => {
+    if(this.isSubscriptionMinor){
+      this.variableFunds = [];
+      this.fixedFunds = [];
+      minor.FUNDID.forEach((elem1: string) => {
         this.variableFundsFilter.forEach((elem2: string) =>{
           if(elem1.toString() == elem2.toString()){
             this.variableFunds.push(elem1);
           }
         })
       });
-      result.result.fundid.forEach((elem1: string) => {
+      minor.FUNDID.forEach((elem1: string) => {
         this.fixedFundsFilter.forEach((elem2: string) =>{
           if(elem1.toString() == elem2.toString()){
             this.fixedFunds.push(elem1);
@@ -337,11 +347,61 @@ export class SubscriptioninvestmentComponent implements OnInit {
       });
       console.log(this.variableFunds);
       console.log(this.fixedFunds);
-      this.isloadedfunds = true;
-    });
 
-    this.BijakVisible = false;
-    this.SIStep1 = true;
+      this.currentBijakUHID = minor.UHID;
+      this.currentBijakIDNO = minor.ICNO;
+      this.currentBijakIDType = minor.ICTYPE;
+      this.currentBijakName = minor.NAME;
+      
+      this.isloadedfunds = true;
+      this.BijakVisible = false;
+      this.SIStep1 = true;
+    }else{
+      const body =
+      {
+        "CHANNELTYPE": signalrConnection.channelType,
+        "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+        "DEVICEOWNER": signalrConnection.deviceOwner,
+        "REQUESTDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "REQUESTTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "UNITHOLDERID": minor.UHID,
+        "IDENTIFICATIONTYPE": minor.ICTYPE,
+        "IDENTIFICATIONNUMBER": minor.ICNO,
+        "FUNDLISTTYPE":"N"
+      }
+
+      this.currentBijakUHID = minor.UHID;
+      this.currentBijakIDNO = minor.ICNO;
+      this.currentBijakIDType = minor.ICTYPE;
+      this.currentBijakName = minor.NAME;
+
+      this.variableFunds = [];
+      this.fixedFunds = [];
+
+      this.serviceService.postEligibleFunds(body)
+      .subscribe((result: any) => {
+        result.result.fundid.forEach((elem1: string) => {
+          this.variableFundsFilter.forEach((elem2: string) =>{
+            if(elem1.toString() == elem2.toString()){
+              this.variableFunds.push(elem1);
+            }
+          })
+        });
+        result.result.fundid.forEach((elem1: string) => {
+          this.fixedFundsFilter.forEach((elem2: string) =>{
+            if(elem1.toString() == elem2.toString()){
+              this.fixedFunds.push(elem1);
+            }
+          })
+        });
+        console.log(this.variableFunds);
+        console.log(this.fixedFunds);
+        this.isloadedfunds = true;
+      });
+
+      this.BijakVisible = false;
+      this.SIStep1 = true;
+    }
   }
 
   SIStep2Back(){
@@ -405,11 +465,17 @@ export class SubscriptioninvestmentComponent implements OnInit {
         if(key.includes('fundername')){
           this.funderWarning = true;
         }
+        else if(key.includes('sourceoffund')){
+
+        }
       }
     });
     if (x > 0){
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
+
+      this.sourceOfFund = this.Form_2.controls.sourceoffund.value;
+      this.otherSourceOfFund = this.Form_2.controls.fundername.value;
       this.SIStep3 = false;
       this.SIStep4 = true;
       deleteKeyboard();
@@ -440,31 +506,30 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   SIStep4Next(){
-    this.SIStep4 = false;
-    this.SIStep5 = true;
 
-    setTimeout(() => {
-
-      let ictype = "";
+    let ictype = "";
       let icno = "";
       let uhid = "";
-
+    let name = ""
 
       if(appFunc.isOwn == "major"){
         ictype = currentHolder.identificationtype;
         icno = currentHolder.identificationnumber;
         uhid = currentHolder.unitholderid;
+        name = currentHolder.firstname;
       }
       else if(appFunc.isOwn == "bijak"){
         uhid = this.currentBijakUHID;
         icno = this.currentBijakIDNO;
         ictype = this.currentBijakIDType;
+        name = this.currentBijakName;
       }
       else{
 
       }
 
-      const body = {
+      const body = 
+      {
         "CHANNELTYPE": signalrConnection.channelType,
         "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
         "DEVICEOWNER": signalrConnection.deviceOwner,
@@ -500,37 +565,125 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "THIRDPARTYICNUMBER":"",
         "THIRDPARTYRELATIONSHIP":"",
         "REASONFORTRANSFER":"",
-        "SOURCEOFFUND":"",
+        "SOURCEOFFUND":this.sourceOfFund,
         "OTHERSOURCEOFFUND":"",
-        "FUNDERNAME":""
+        "FUNDERNAME":this.otherSourceOfFund
         }
 
-        
       this.serviceService.postProvisionSubscription(body)
       .subscribe((result: any) => {
-        console.log(result.transactionstatus);
-        console.log(result.transactionnumber);
-        if(result.transactionstatus.toString().toLower() == 'successful' && result.transactionnumber.toString() != ""){
+        console.log(result.result.transactionstatus);
+        console.log(result.result.transactionnumber);
+        if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
+
+          this.SIStep4 = false;
+          this.SIStep5 = true;
           const body1 = 
           {
             "CHANNELTYPE":signalrConnection.channelType,
             "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
             "DEVICEOWNER":signalrConnection.deviceOwner,
-            "UNITHOLDERID":result.unitholderid,
-            "TRANSACTIONNUMBER":result.transactionnumber,
+            "UNITHOLDERID":result.result.unitholderid,
+            "TRANSACTIONNUMBER":result.result.transactionnumber,
             "OPERATION":"C",
             "REMARKS":"Payment Cleared",
             "PAYMENTREFERENCENUMBER":formatDate(new Date(), 'dd/MM/yyyy HH:mm:ss', 'en'),
           }
 
           this.serviceService.postSettlement(body1)
-          .subscribe((result: any) => {
-            console.log(result.transactionstatus);
-            console.log(result.transactionnumber);
+          .subscribe((result1: any) => {
+            console.log(result1.result.transactionstatus);
+            console.log(result1.result.transactionnumber);
+            if(result1.result.transactionstatus.toString().toLowerCase().includes('successful') && result1.result.transactionnumber.toString() != ""){
+              this.unitholdername = name;
+              this.unitholderid = uhid;
+              this.unitholderic = icno;
+              this.refno = result.result.transactionnumber;
+              this.status = result1.result.transactionstatus;
+              this.approvalcode = result1.result.paymentreferencenumber;
+              if(appFunc.isOwn = "major"){
+                this.accounttype = "Dewasa"
+              }else if(appFunc.isOwn = "bijak"){
+                this.accounttype = "Bijak/Remaja"
+              }else{
+
+              }
+              this.feepercentage = result1.result.feepercentage == "" ? 0 : result1.result.feepercentage;
+              this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
+              this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
+              this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
+              this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
+              this.SIStep5 = false;
+              this.SIStep6 = true;
+            }
+            else{
+              errorCodes.Ecode = result1.result.rejectcode;
+              errorCodes.Emessage = result1.result.rejectreason;
+              if(selectLang.selectedLang == 'ms'){
+                if(appFunc.isOwn == "major"){
+                  errorCodes.accountType = "Dewasa";
+                  errorCodes.accountName = currentHolder.firstname;
+                  errorCodes.accountNo = currentHolder.unitholderid;
+                }else if(appFunc.isOwn == "bijak"){
+                  errorCodes.accountType = "Bijak/Remaja";
+                  errorCodes.accountName = name;
+                  errorCodes.accountNo = uhid;
+                }else{
+                  errorCodes.accountType = "Pihak Ketiga";
+                }
+              }else{
+                if(appFunc.isOwn == "major"){
+                  errorCodes.accountType = "Dewasa";
+                  errorCodes.accountName = currentHolder.firstname;
+                  errorCodes.accountNo = currentHolder.unitholderid;
+                }else if(appFunc.isOwn == "bijak"){
+                  errorCodes.accountType = "Bijak/Remaja";
+                  errorCodes.accountName = name;
+                  errorCodes.accountNo = uhid;
+                }else{
+                  errorCodes.accountType = "Pihak Ketiga";
+                }
+              }
+              errorCodes.transaction = this.transaction;
+              this._router.navigate(['errorscreen']);
+            }
           });
         }
+        else{
+          errorCodes.Ecode = result.result.rejectcode;
+          errorCodes.Emessage = result.result.rejectreason;
+          if(selectLang.selectedLang == 'ms'){
+            if(appFunc.isOwn == "major"){
+              errorCodes.accountType = "Dewasa";
+              errorCodes.accountName = currentHolder.firstname;
+              errorCodes.accountNo = currentHolder.unitholderid;
+            }else if(appFunc.isOwn == "bijak"){
+              errorCodes.accountType = "Bijak/Remaja";
+              errorCodes.accountName = name;
+              errorCodes.accountNo = uhid;
+            }else{
+              errorCodes.accountType = "Pihak Ketiga";
+            }
+          }else{
+            if(appFunc.isOwn == "major"){
+              errorCodes.accountType = "Dewasa";
+              errorCodes.accountName = currentHolder.firstname;
+              errorCodes.accountNo = currentHolder.unitholderid;
+            }else if(appFunc.isOwn == "bijak"){
+              errorCodes.accountType = "Bijak/Remaja";
+              errorCodes.accountName = name;
+              errorCodes.accountNo = uhid;
+            }else{
+              errorCodes.accountType = "Pihak Ketiga";
+            }
+          }
+          errorCodes.transaction = this.transaction;
+          this._router.navigate(['errorscreen']);
+        }
       });
-    }, 3000)
+    
+
+    
   }
 
   SIStep5Cancel(){
@@ -613,11 +766,143 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   Print(){
+    const objCardInfo = 
+    {
+      "DateTime" : "",
+      "BatchNum" : "",
+      "Invoice" : "",
+      "MID" : "",
+      "TID" : "",
+      "Type" : "",
+      "CardName" : "",
+      "CardNumber" : "",
+      "ExpDate" : "",
+      "ApprovalCode" : "",
+      "ReferenceNumber" : "",
+      "TotalAmount" : "",
+    }
+
+    let accountType = "";
+    if(selectLang.selectedLang == 'ms'){
+      if(appFunc.isOwn == "major"){
+        accountType = "Dewasa";
+      }else if(appFunc.isOwn == "bijak"){
+        accountType = "Bijak/Remaja";
+      }else{
+        accountType = "Pihak Ketiga";
+      }
+    }else{
+      if(appFunc.isOwn == "major"){
+        accountType = "Dewasa";
+      }else if(appFunc.isOwn == "bijak"){
+        accountType = "Bijak/Remaja";
+      }else{
+        accountType = "Third Party";
+      }
+    }
+    
+
+    appFunc.body = 
+    {
+      "Transaction" : this.transaction,
+      "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+      "Location" : signalrConnection.branchName,
+      "Name" : this.unitholdername,
+      "UHID" : this.unitholderid,
+      "NRIC" : this.unitholderic,
+      "AccountType" : accountType,
+      "TransactionNumber" : this.refno,
+      "FUNDID" : this.fundid,
+      "FUNDPRICE" : this.nav,
+      "UNITSALLOTED" : this.unitsalloted,
+      "FEEPERCENTAGE" : this.feepercentage,
+      "SALESCHARGE" : this.initialcharges,
+      "GSTAMOUNT" : this.sst,
+      "CARDINFO" : null,
+      "Language" : selectLang.selectedLang,
+      "Signature" : ""
+    }
+
+    appFunc.receiptFunction = "GetFinancialTrxPrintout"
+
+
     appFunc.printing = true;
     this._router.navigate(['printingemail']);
   }
 
   Email(){
+    const objCardInfo = 
+    {
+      "DateTime" : "",
+      "BatchNum" : "",
+      "Invoice" : "",
+      "MID" : "",
+      "TID" : "",
+      "Type" : "",
+      "CardName" : "",
+      "CardNumber" : "",
+      "ExpDate" : "",
+      "ApprovalCode" : "",
+      "ReferenceNumber" : "",
+      "TotalAmount" : "",
+    }
+
+    let accountType = "";
+    if(selectLang.selectedLang == 'ms'){
+      if(appFunc.isOwn == "major"){
+        accountType = "Dewasa";
+      }else if(appFunc.isOwn == "bijak"){
+        accountType = "Bijak/Remaja";
+      }else{
+        accountType = "Pihak Ketiga";
+      }
+    }else{
+      if(appFunc.isOwn == "major"){
+        accountType = "Dewasa";
+      }else if(appFunc.isOwn == "bijak"){
+        accountType = "Bijak/Remaja";
+      }else{
+        accountType = "Third Party";
+      }
+    }
+    
+
+    appFunc.body = 
+    {
+      "Transaction" : this.transaction,
+      "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+      "Location" : signalrConnection.branchName,
+      "Name" : this.unitholdername,
+      "UHID" : this.unitholderid,
+      "NRIC" : this.unitholderic,
+      "AccountType" : accountType,
+      "TransactionNumber" : this.refno,
+      "FUNDID" : this.fundid,
+      "FUNDPRICE" : this.nav,
+      "UNITSALLOTED" : this.unitsalloted,
+      "FEEPERCENTAGE" : this.feepercentage,
+      "SALESCHARGE" : this.initialcharges,
+      "GSTAMOUNT" : this.sst,
+      "CARDINFO" : null,
+      "Language" : selectLang.selectedLang,
+      "Signature" : ""
+    }
+
+    appFunc.emailObj =
+    {
+      "Name" : this.unitholdername,
+      "UnitHolderID" : this.unitholderid,
+      "Module" : "0",
+      "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+      "language" : selectLang.selectedLang,
+      "IC" : this.unitholderic
+    }
+
+    appFunc.receiptFunction = "GetFinancialTrxPrintout"
+
+    
     appFunc.printing = false;
     this._router.navigate(['printingemail']);
   }

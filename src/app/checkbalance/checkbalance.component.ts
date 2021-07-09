@@ -372,7 +372,7 @@ export class CheckbalanceComponent implements OnInit {
         "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
         "POLICYTYPE":"UT"
       };
-}else{
+    }else{
       body = {
         "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
         "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),

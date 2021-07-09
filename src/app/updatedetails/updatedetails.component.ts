@@ -1372,22 +1372,24 @@ export class UpdatedetailsComponent implements OnInit {
       isMobile = true;
     }
 
-    let isNaMobile = currentHolder.cellphonenumber;
-    if(isNaMobile == 'NA'){
-      isNaMobile = "";
-    }
-
-    let isNaHome = currentHolder.telephonE1;
-    if(isNaHome == 'NA'){
-      isNaHome = "";
-    }
-
-    let isNaEmail = currentHolder.email;
-    if(isNaEmail == 'NA'){
-      isNaEmail = "";
-    }
+    
 
     if (acctType == 'major'){
+
+      let isNaMobile = currentHolder.cellphonenumber;
+      if(isNaMobile == 'NA'){
+        isNaMobile = "";
+      }
+
+      let isNaHome = currentHolder.telephonE1;
+      if(isNaHome == 'NA'){
+        isNaHome = "";
+      }
+
+      let isNaEmail = currentHolder.email;
+      if(isNaEmail == 'NA'){
+        isNaEmail = "";
+      }
 
       this.AR_Form = this.fb.group(
         {
@@ -1436,6 +1438,21 @@ export class UpdatedetailsComponent implements OnInit {
     }
     else if (acctType == 'minor'){
 
+      let isNaMobile = currentBijakHolder.cellphonenumber;
+      if(isNaMobile == 'NA'){
+        isNaMobile = "";
+      }
+
+      let isNaHome = currentBijakHolder.telephonE1;
+      if(isNaHome == 'NA'){
+        isNaHome = "";
+      }
+
+      let isNaEmail = currentBijakHolder.email;
+      if(isNaEmail == 'NA'){
+        isNaEmail = "";
+      }
+
       this.AR_Form = this.fb.group(
         {
           uhid: [{value: currentBijakHolder.unitholderid, disabled: true}],
@@ -1471,7 +1488,7 @@ export class UpdatedetailsComponent implements OnInit {
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
           noemail: [{value: false, disabled: isMobile}],
-          deliverystate: [currentHolder.preferredmailmode],
+          deliverystate: [currentBijakHolder.preferredmailmode],
 
           bankname: [{value: currentHolder.bankcode, disabled: true}],
           bankaccount: [{value: currentHolder.accountnumber, disabled: true}],

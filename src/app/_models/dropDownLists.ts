@@ -177,5 +177,17 @@ export class securityQuestions {
     }
 }
 
+export class fundSource {
+    code: string;
+    desc: string;
+    descBM: string;
+	
+	constructor(delivery: any){
+        this.code = delivery.code;
+        this.desc = delivery.desc;
+        this.descBM = delivery.descBM;
+	}
+}
+
 
 

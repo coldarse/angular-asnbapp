@@ -2,11 +2,11 @@
     <div class="container-fluid">
         <div class="titleNLogo">
             <!-- Language Screen NavBar -->
-            <img src="assets/images/OutOfService-icon.png" alt="HeaderImage" class="icon_margin" *ngIf="isSubscriptionMajor">
-            <img src="assets/images/OutOfService-icon.png" alt="HeaderImage" class="icon_margin" *ngIf="isSubscriptionMinor">
-            <img src="assets/images/OutOfService-icon.png" alt="HeaderImage" class="icon_margin" *ngIf="isSubscriptionThird">
-            <img src="assets/images/OutOfService-icon.png" alt="HeaderImage" class="icon_margin" *ngIf="isInvestmentMajor">
-            <img src="assets/images/OutOfService-icon.png" alt="HeaderImage" class="icon_margin" *ngIf="isInvestmentMinor">
+            <img src="assets/images/PelaburanTambahanAkaunSendiri-small-colour.png" alt="HeaderImage" class="icon_margin" *ngIf="isSubscriptionMajor">
+            <img src="assets/images/PelaburanTambahanAkaunBijak-small-colour.png" alt="HeaderImage" class="icon_margin" *ngIf="isSubscriptionMinor">
+            <img src="assets/images/PelaburanTambahanKeAkaunPihakKetiga-small-colour.png" alt="HeaderImage" class="icon_margin" *ngIf="isSubscriptionThird">
+            <img src="assets/images/PelaburanPermulaanAkaunSendiri-small-colour.png" alt="HeaderImage" class="icon_margin" *ngIf="isInvestmentMajor">
+            <img src="assets/images/PelaburanPermulaanAkaunBijak-small-colour.png" alt="HeaderImage" class="icon_margin" *ngIf="isInvestmentMinor">
             <div>
                 <label class="upStyle col-sm-12" *ngIf="isSubscription">{{ 'Subscription' | translate }}</label>
                 <label class="upStyle col-sm-12" *ngIf="isInvestment">{{ 'Investment' | translate }}</label>
@@ -61,13 +61,13 @@
         </h2>
     </div>
 
-    <div class="text-center" style="padding-top:1rem">
+    <div class="text-center" style="padding-top:1rem"  *ngIf="variableFunds.length > 0">
         <h2 class="h2-ic">
             {{'VariablePrice' | translate}}
         </h2>
     </div>
 
-    <div class="pop-up-variable text-center">
+    <div class="pop-up-variable text-center" *ngIf="variableFunds.length > 0">
         <div class="horizontal" *ngIf="isloadedfunds">
             <div *ngFor="let fund1 of variableFunds"  class="center">
                 <img src="assets/fundicon/{{fund1}}.png" class="fundidicon" style="padding-top: 0.25rem;" (click)="selectedFund(fund1)">
@@ -75,13 +75,13 @@
         </div>
     </div>
 
-    <div class="text-center">
+    <div class="text-center" *ngIf="fixedFunds.length > 0">
         <h2 class="h2-ic">
             {{'FixedPrice' | translate}}
         </h2>
     </div>
 
-    <div class="pop-up-fixed text-center">
+    <div class="pop-up-fixed text-center" *ngIf="fixedFunds.length > 0">
         <div class="horizontal" *ngIf="isloadedfunds">
             <div *ngFor="let fund2 of fixedFunds"  class="center">
                 <img src="assets/fundicon/{{fund2}}.png" class="fundidicon" style="padding-top: 0.25rem;" (click)="selectedFund(fund2)"> 
@@ -216,12 +216,12 @@
             </div>
             <div class="col-md-6">
                 <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["sourceoffund"]' #source>
-                        <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
-                            {{seq.questionEN}}
-                        </option> -->
-                    <option value="122">112</option>
+                    <option *ngFor="let fs of fundSource" value={{fs.code}}>
+                        {{fs.desc}}
+                    </option>
+                    <!-- <option value="122">112</option>
                     <option value="233">223</option>
-                    <option value="134">134</option>
+                    <option value="134">134</option> -->
                 </select>
             </div>
         </div>
@@ -726,7 +726,7 @@
             </div>
             <div class="col-md-6">
                 <h5>
-                    : {{unitholderid}}
+                    : {{unitholdername}}
                 </h5>
             </div>
         </div>
@@ -858,7 +858,7 @@
             </div>
             <div class="col-md-6">
                 <h5>
-                    : {{amountKeyed}}
+                    : {{amountKeyed | number : '1.2-2'}}
                 </h5>
             </div>
         </div>
@@ -884,7 +884,7 @@
             </div>
             <div class="col-md-6">
                 <h5>
-                    : {{nav}}
+                    : {{nav | number : '1.2-2'}}
                 </h5>
             </div>
         </div>
@@ -897,7 +897,7 @@
             </div>
             <div class="col-md-6">
                 <h5>
-                    : {{sst}}
+                    : {{sst | number : '1.2-2'}}
                 </h5>
             </div>
         </div>
@@ -910,7 +910,7 @@
             </div>
             <div class="col-md-6">
                 <h5>
-                    : {{unitsalloted}}
+                    : {{unitsalloted | number : '1.2-2' }}
                 </h5>
             </div>
         </div>
@@ -923,7 +923,7 @@
             </div>
             <div class="col-md-6">
                 <h5>
-                    : {{initialcharges}}
+                    : {{initialcharges | number : '1.2-2'}}
                 </h5>
             </div>
         </div>
