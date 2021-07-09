@@ -501,7 +501,7 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["bankname"]'  >
-                                    <option value="">{{ 'optionSelect' | translate }}</option>
+                                <option value="">{{ 'optionSelect' | translate }}</option>
                                     <option *ngFor="let bankname of form_bankname" value={{bankname.code}}>
                                         {{bankname.name}}
                                     </option>

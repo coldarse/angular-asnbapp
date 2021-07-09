@@ -357,17 +357,17 @@ export class BijakregistrationComponent implements OnInit {
       tempadd2 = currentMyKidDetails.Address3;
     }
 
-    let isNaMobile = currentHolder.cellphonenumber;
+    let isNaMobile = currentBijakHolder.cellphonenumber;
     if(isNaMobile == 'NA'){
       isNaMobile = "";
     }
 
-    let isNaHome = currentHolder.telephonE1;
+    let isNaHome = currentBijakHolder.telephonE1;
     if(isNaHome == 'NA'){
       isNaHome = "";
     }
 
-    let isNaEmail = currentHolder.email;
+    let isNaEmail = currentBijakHolder.email;
     if(isNaEmail == 'NA'){
       isNaEmail = "";
     }
@@ -398,17 +398,17 @@ export class BijakregistrationComponent implements OnInit {
         mykadaddress: [{value: true, disabled: true}],
 
         homenumber : [{value: isNaHome, disabled: true}, Validators.minLength(5)],
-        telephone: [{value: isNaMobile, disabled: true}, [
+        telephone: [isNaMobile, [
           Validators.required,
           Validators.minLength(5)
         ]],
-        notelephone: [{value: false, disabled: true}],
+        notelephone: [false],
 
-        email: [{value: isNaEmail, disabled: disableEmail}, [
+        email: [isNaEmail, [
           Validators.required,
           Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
         noemail: [{value: false, disabled: isMobile}],
-        deliverystate: [{value: currentHolder.preferredmailmode, disabled: true}],
+        deliverystate: [currentBijakHolder.preferredmailmode],
 
         bankname: [{value: currentHolder.bankcode, disabled: true}],
         bankaccount: [{value: currentHolder.accountnumber, disabled: true}, [
@@ -870,11 +870,31 @@ export class BijakregistrationComponent implements OnInit {
               tempadd2 = currentMyKidDetails.Address3;
             }
 
+            let isNaMobile = currentBijakHolder.cellphonenumber;
+            if(isNaMobile == 'NA'){
+              isNaMobile = "";
+            }
+
+            let isNaHome = currentBijakHolder.telephonE1;
+            if(isNaHome == 'NA'){
+              isNaHome = "";
+            }
+
+            let isNaEmail = currentBijakHolder.email;
+            if(isNaEmail == 'NA'){
+              isNaEmail = "";
+            }
+
             this.AR_Form.controls.fullname.setValue(currentMyKidDetails.Name);
             this.AR_Form.controls.identificationcardno.setValue(currentMyKidDetails.ICNo);
             this.AR_Form.controls.dob.setValue(formatDate(currentMyKidDetails.DOB, 'dd MMM yyyy', 'en'));
             this.AR_Form.controls.race.setValue(this.race);
             this.AR_Form.controls.religion.setValue(this.religion);
+
+            this.AR_Form.controls.homenumber.setValue(isNaHome);
+            this.AR_Form.controls.telephone.setValue(isNaMobile);
+            this.AR_Form.controls.email.setValue(isNaEmail);
+            this.AR_Form.controls.deliverystate.setValue(currentBijakHolder.preferredmailmode);
 
             this.AR_Form.controls.address1.setValue(tempadd1);
             this.AR_Form.controls.address2.setValue(tempadd2);

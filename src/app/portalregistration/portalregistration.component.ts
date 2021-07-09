@@ -61,6 +61,8 @@ export class PortalregistrationComponent implements OnInit {
 
   tacEnabled = false;
 
+  clickedTac = false;
+
   form_SetA : any;
   form_SetB : any;
   form_SetC : any;
@@ -593,10 +595,43 @@ export class PortalregistrationComponent implements OnInit {
           "fundid": currentHolder.funddetail[0].FUNDID,
           "language": selectLang.selectedLang,
           "dateofbirth": currentHolder.dateofbirth,
-          "mobileno": currentHolder.cellphonenumber
+          "mobileno": currentHolder.cellphonenumber,
+          "tac": this.PForm_1.controls.tac.value,
+          "signature": ""
         }
 
-        this.serviceService.unitHolderRegistration(body).subscribe((data: any) => {
+        let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
+        let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
+          keySize: 128,
+          blockSize: 128,
+          mode: CryptoJS.mode.ECB,
+          padding: CryptoJS.pad.Pkcs7
+        });
+
+        const newBody = {
+          "idno": currentHolder.identificationnumber,
+          "idtype": currentHolder.identificationtype,
+          "uhid": currentHolder.unitholderid,
+          "username": this.PForm_1.controls.userid.value,
+          "secureph": this.PForm_1.controls.securephrase.value,
+          "ans1": this.PForm_1.controls.a1.value,
+          "ans2": this.PForm_1.controls.a2.value,
+          "ans3": this.PForm_1.controls.a3.value,
+          "secq1": this.PForm_1.controls.q1.value,
+          "secq2": this.PForm_1.controls.q2.value,
+          "secq3": this.PForm_1.controls.q3.value,
+          "email": this.PForm_1.controls.email.value,
+          "typeclosed": currentHolder.typeclosed,
+          "fundid": currentHolder.funddetail[0].FUNDID,
+          "language": selectLang.selectedLang,
+          "dateofbirth": currentHolder.dateofbirth,
+          "mobileno": currentHolder.cellphonenumber,
+          "tac": this.PForm_1.controls.tac.value,
+          "signature": encryptedBody
+        }
+
+
+        this.serviceService.unitHolderRegistration(newBody).subscribe((data: any) => {
           if (data.result.registration_status == true){
             kActivit.endTime = new Date();
             kActivit.status = true;
@@ -886,10 +921,12 @@ export class PortalregistrationComponent implements OnInit {
       if (res.result.error_reason == ""){
         this.nextDetails_disabled = false;
         this.tacEnabled = true;
+        this.clickedTac = true;
         this.generatedTAC = res.result.tac;
         let expiry = parseInt(res.result.tac_expiry_duration) * 1000; 
         setTimeout(() => {
           this.nextDetails_disabled = true;
+          this.clickedTac = false;
         }, expiry);
       }else{
         errorCodes.Ecode = res.result.error_code;

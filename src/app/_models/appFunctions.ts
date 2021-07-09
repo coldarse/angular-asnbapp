@@ -1,6 +1,6 @@
 import { flatten } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { bankName, businessNature, cities, fundSource, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, relationship, religions, securityQuestions, states, TitleDetails } from './dropDownLists';
+import { ASNBFundID, bankName, businessNature, cities, fundSource, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, reasonTransfer, relationship, religions, securityQuestions, states, thirdpartyRelationship, TitleDetails } from './dropDownLists';
 import { eModules } from './enabledModules';
 import { kioskActivities } from './kioskActivities';
 
@@ -25,6 +25,9 @@ export class appFunc {
   static relationship: relationship[];
   static securityQuestions: securityQuestions[];
   static fundSource: fundSource[];
+  static ASNBFundID: ASNBFundID[];
+  static thirdPartyRelationship: thirdpartyRelationship[];
+  static reasonTransfer: reasonTransfer[];
   static screenSaver: string;
   static screenSaverList: string[];
 

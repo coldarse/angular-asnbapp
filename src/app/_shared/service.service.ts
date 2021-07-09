@@ -78,6 +78,9 @@ export class ServiceService {
     const response13 = this.http.get(this.url + "services/app/FamilyRelationship/GetAll?MaxResultCount=100&Sorting=id",accessToken.httpOptions); //
     const response14 = this.http.get(this.url + "services/app/SecurityQuestions/GetAll?MaxResultCount=100&Sorting=id", accessToken.httpOptions);
     const response15 = this.http.get(this.url + "services/app/FundSource/GetAll?MaxResultCount=100&Sorting=id", accessToken.httpOptions);
+    const response16 = this.http.get(this.url + "services/app/ASNBFundID/GetAll?MaxResultCount=100&Sorting=id", accessToken.httpOptions);
+    const response17 = this.http.get(this.url + "services/app/ThirdPartyRelationship/GetAll?MaxResultCount=100&Sorting=id", accessToken.httpOptions);
+    const response18 = this.http.get(this.url + "services/app/ReasonTransfer/GetAll?MaxResultCount=100&Sorting=id", accessToken.httpOptions);
     return forkJoin([
       response1.pipe(retry(1), catchError(this.handleError)), 
       response2.pipe(delay(3000), retry(1), catchError(this.handleError)),
@@ -86,7 +89,7 @@ export class ServiceService {
       response5.pipe(delay(3000), retry(1), catchError(this.handleError)),
       response6.pipe(delay(3000), retry(1), catchError(this.handleError)),
       response7.pipe(delay(3000), retry(1), catchError(this.handleError)),
-      response8.pipe(delay(3000), retry(1), catchError(this.handleError)), //
+      response8.pipe(delay(3000), retry(1), catchError(this.handleError)), 
       response9.pipe(delay(3000), retry(1), catchError(this.handleError)),
       response10.pipe(delay(3000), retry(1), catchError(this.handleError)),
       response11.pipe(delay(3000), retry(1), catchError(this.handleError)),
@@ -94,6 +97,9 @@ export class ServiceService {
       response13.pipe(delay(3000), retry(1), catchError(this.handleError)),
       response14.pipe(delay(3000), retry(1), catchError(this.handleError)),
       response15.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response16.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response17.pipe(delay(3000), retry(1), catchError(this.handleError)),
+      response18.pipe(delay(3000), retry(1), catchError(this.handleError)),
     ]);
   }
 

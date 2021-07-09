@@ -595,7 +595,7 @@
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="tac_warning">{{'Warning' | translate}}</div> 
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="tac1_warning">{{'WrongTAC' | translate}}</div> 
                     
-                    <button id="TACreq" class="btn btn-primary" style="margin-left: 1rem;" (click)="TACClick()">
+                    <button id="TACreq" class="btn btn-primary" style="margin-left: 1rem;" (click)="TACClick()" [disabled]="clickedTac">
                         <!-- Permintaan TAC -->
                         {{'BTN_TAC' | translate }}
                     </button>

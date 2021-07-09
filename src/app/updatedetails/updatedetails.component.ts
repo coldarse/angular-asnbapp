@@ -1367,6 +1367,7 @@ export class UpdatedetailsComponent implements OnInit {
       this.pep = false;
     }
 
+    
     let isMobile = false;
     if(signalrConnection.kioskType == 'Mobile'){
       isMobile = true;
@@ -1375,6 +1376,24 @@ export class UpdatedetailsComponent implements OnInit {
     
 
     if (acctType == 'major'){
+
+    
+
+      let fatca = false;
+      if(currentHolder.fatca == 'Y'){
+        fatca = true
+      }
+      else{
+        fatca = false;
+      }
+
+      let crs = false;
+      if(currentHolder.crs == 'Y'){
+        crs = true
+      }
+      else{
+        crs = false;
+      }
 
       let isNaMobile = currentHolder.cellphonenumber;
       if(isNaMobile == 'NA'){
@@ -1428,10 +1447,10 @@ export class UpdatedetailsComponent implements OnInit {
           monthlyincome: [currentHolder.otherinfO8],
           companyname: [currentHolder.companyname, Validators.required],
 
-          fatca: [{value: currentHolder.fatca, disabled: true}],
+          fatca: [{value: currentHolder.fatca, disabled: fatca}],
           pep: [{value: currentHolder.pep, disabled: this.pep}],
           news: [{value: currentHolder.participateinasnbmkt, disabled: true}],
-          crs: [{value: currentHolder.crs, disabled: true}],
+          crs: [{value: currentHolder.crs, disabled: crs}],
         });
         this.formHandling(currentHolder.occupationcategory);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Major Form")
@@ -1452,6 +1471,7 @@ export class UpdatedetailsComponent implements OnInit {
       if(isNaEmail == 'NA'){
         isNaEmail = "";
       }
+
 
       this.AR_Form = this.fb.group(
         {

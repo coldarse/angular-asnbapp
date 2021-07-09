@@ -136,7 +136,7 @@
             </div>
             <div class="col-md-6">
                 <h3>
-                    : {{fundid}}
+                    : {{fundname}}
                 </h3>
             </div>
         </div>
@@ -216,12 +216,10 @@
             </div>
             <div class="col-md-6">
                 <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["sourceoffund"]' #source>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
                     <option *ngFor="let fs of fundSource" value={{fs.code}}>
                         {{fs.desc}}
                     </option>
-                    <!-- <option value="122">112</option>
-                    <option value="233">223</option>
-                    <option value="134">134</option> -->
                 </select>
             </div>
         </div>
@@ -292,7 +290,7 @@
             </div>
             <div class="col-md-6">
                 <h3>
-                    : {{fundid}}
+                    : {{fundname}}
                 </h3>
             </div>
         </div>
@@ -352,9 +350,9 @@
                         <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
                             {{seq.questionEN}}
                         </option> -->
-                    <option value="122">112</option>
-                    <option value="233">223</option>
-                    <option value="134">134</option>
+                    <option value="W">W</option>
+                    <option value="W">W</option>
+                    <option value="W">W</option>
                 </select>
             </div>
         </div>
@@ -403,12 +401,10 @@
             </div>
             <div class="col-md-6">
                 <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["reason"]' #thirdreason>
-                    <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
-                        {{seq.questionEN}}
-                    </option> -->
-                    <option value="122">112</option>
-                    <option value="233">223</option>
-                    <option value="134">134</option>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
+                    <option *ngFor="let rea of reason" value={{rea.code}}>
+                        {{rea.desc}}
+                    </option>
                 </select>
             </div>
         </div>
@@ -421,12 +417,10 @@
             </div>
             <div class="col-md-6">
                 <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["relationship"]' #thirdrelationship>
-                    <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
-                        {{seq.questionEN}}
-                    </option> -->
-                    <option value="122">112</option>
-                    <option value="233">223</option>
-                    <option value="134">134</option>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
+                    <option *ngFor="let re of relationship" value={{re.code}}>
+                        {{re.desc}}
+                    </option>
                 </select>
             </div>
         </div>
@@ -439,12 +433,10 @@
             </div>
             <div class="col-md-6">
                 <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["fundname"]' #thirdfundname>
-                    <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
-                        {{seq.questionEN}}
-                    </option> -->
-                    <option value="122">112</option>
-                    <option value="233">223</option>
-                    <option value="134">134</option>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
+                    <option *ngFor="let fund of fundnamelist" value={{fund.code}}>
+                        {{fund.value}}
+                    </option>
                 </select>
             </div>
         </div>
@@ -524,12 +516,10 @@
             </div>
             <div class="col-md-6">
                 <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_4.controls["sourceoffund"]' #thirdsource>
-                        <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
-                            {{seq.questionEN}}
-                        </option> -->
-                    <option value="122">112</option>
-                    <option value="233">223</option>
-                    <option value="134">134</option>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
+                    <option *ngFor="let fs of fundSource" value={{fs.code}}>
+                        {{fs.desc}}
+                    </option>
                 </select>
             </div>
         </div>
@@ -871,7 +861,7 @@
             </div>
             <div class="col-md-6">
                 <h5>
-                    : {{fundid}}
+                    : {{fundname}}
                 </h5>
             </div>
         </div>
