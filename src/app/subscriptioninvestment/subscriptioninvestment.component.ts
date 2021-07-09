@@ -176,11 +176,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
       if(appFunc.isInvesment){
         this.transaction = "Initial Investment";
       }else{
-        this.transaction = "Pelaburan Permulaan";
+        this.transaction = "Subscription";
       }
     }else{
       if(appFunc.isInvesment){
-        this.transaction = "Subscription";
+        this.transaction = "Pelaburan Permulaan";
       }else{
         this.transaction = "Pelaburan Tambahan";
       }
