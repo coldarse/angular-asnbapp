@@ -582,7 +582,7 @@ export class VerifymykadComponent implements OnInit {
     this._router.navigate(['updatedetails']);
   }
 
-  getAccountInquiry(): void {
+    getAccountInquiry(): void {
     try{
 
       
@@ -756,6 +756,8 @@ export class VerifymykadComponent implements OnInit {
                   this.loadingVisible = false;
                   this.RMError4_Visible = true;
                 }else{
+                  //let timeDiff = new Date(currentHolder.lastupdatedate) - new Date();
+
                   signalrConnection.isVerifyMyKad = false;
                   this._router.navigate(['transactionmenu']);
                 }

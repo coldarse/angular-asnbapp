@@ -1367,27 +1367,48 @@ export class UpdatedetailsComponent implements OnInit {
       this.pep = false;
     }
 
+    
     let isMobile = false;
     if(signalrConnection.kioskType == 'Mobile'){
       isMobile = true;
     }
 
-    let isNaMobile = currentHolder.cellphonenumber;
-    if(isNaMobile == 'NA'){
-      isNaMobile = "";
-    }
-
-    let isNaHome = currentHolder.telephonE1;
-    if(isNaHome == 'NA'){
-      isNaHome = "";
-    }
-
-    let isNaEmail = currentHolder.email;
-    if(isNaEmail == 'NA'){
-      isNaEmail = "";
-    }
+    
 
     if (acctType == 'major'){
+
+    
+
+      let fatca = false;
+      if(currentHolder.fatca == 'Y'){
+        fatca = true
+      }
+      else{
+        fatca = false;
+      }
+
+      let crs = false;
+      if(currentHolder.crs == 'Y'){
+        crs = true
+      }
+      else{
+        crs = false;
+      }
+
+      let isNaMobile = currentHolder.cellphonenumber;
+      if(isNaMobile == 'NA'){
+        isNaMobile = "";
+      }
+
+      let isNaHome = currentHolder.telephonE1;
+      if(isNaHome == 'NA'){
+        isNaHome = "";
+      }
+
+      let isNaEmail = currentHolder.email;
+      if(isNaEmail == 'NA'){
+        isNaEmail = "";
+      }
 
       this.AR_Form = this.fb.group(
         {
@@ -1426,15 +1447,31 @@ export class UpdatedetailsComponent implements OnInit {
           monthlyincome: [currentHolder.otherinfO8],
           companyname: [currentHolder.companyname, Validators.required],
 
-          fatca: [{value: currentHolder.fatca, disabled: true}],
+          fatca: [{value: currentHolder.fatca, disabled: fatca}],
           pep: [{value: currentHolder.pep, disabled: this.pep}],
           news: [{value: currentHolder.participateinasnbmkt, disabled: true}],
-          crs: [{value: currentHolder.crs, disabled: true}],
+          crs: [{value: currentHolder.crs, disabled: crs}],
         });
         this.formHandling(currentHolder.occupationcategory);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Major Form")
     }
     else if (acctType == 'minor'){
+
+      let isNaMobile = currentBijakHolder.cellphonenumber;
+      if(isNaMobile == 'NA'){
+        isNaMobile = "";
+      }
+
+      let isNaHome = currentBijakHolder.telephonE1;
+      if(isNaHome == 'NA'){
+        isNaHome = "";
+      }
+
+      let isNaEmail = currentBijakHolder.email;
+      if(isNaEmail == 'NA'){
+        isNaEmail = "";
+      }
+
 
       this.AR_Form = this.fb.group(
         {
@@ -1471,7 +1508,7 @@ export class UpdatedetailsComponent implements OnInit {
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
           noemail: [{value: false, disabled: isMobile}],
-          deliverystate: [currentHolder.preferredmailmode],
+          deliverystate: [currentBijakHolder.preferredmailmode],
 
           bankname: [{value: currentHolder.bankcode, disabled: true}],
           bankaccount: [{value: currentHolder.accountnumber, disabled: true}],

@@ -177,5 +177,53 @@ export class securityQuestions {
     }
 }
 
+export class fundSource {
+    code: string;
+    desc: string;
+    descBM: string;
+	
+	constructor(delivery: any){
+        this.code = delivery.code;
+        this.desc = delivery.desc;
+        this.descBM = delivery.descBM;
+	}
+}
+
+export class ASNBFundID {
+    code: string;
+    value: string;
+    desc: string;
+
+    constructor(fundid: any){
+        this.code = fundid.code;
+        this.value = fundid.value;
+        this.desc = fundid.desc;
+    }
+} 
+
+export class thirdpartyRelationship {
+    code: string;
+    desc: string;
+    descBM: string;
+	
+	constructor(thirdparty: any){
+        this.code = thirdparty.code;
+        this.desc = thirdparty.desc;
+        this.descBM = thirdparty.descBM;
+	}
+}
+
+export class reasonTransfer {
+    code: string;
+    desc: string;
+    descBM: string;
+	
+	constructor(reasonTransfer: any){
+        this.code = reasonTransfer.code;
+        this.desc = reasonTransfer.desc;
+        this.descBM = reasonTransfer.descBM;
+	}
+}
+
 
 

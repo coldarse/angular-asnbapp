@@ -11,7 +11,7 @@ import { formatDate } from '@angular/common';
 import { appFunc } from '../_models/appFunctions';
 import { eModules } from '../_models/enabledModules';
 import { errorCodes } from '../_models/errorCode';
-import { bankName, businessNature, cities, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, relationship, religions, securityQuestions, states, TitleDetails } from '../_models/dropDownLists';
+import { ASNBFundID, bankName, businessNature, cities, fundSource, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, reasonTransfer, relationship, religions, securityQuestions, states, thirdpartyRelationship, TitleDetails } from '../_models/dropDownLists';
 import { kActivity } from '../_models/kActivity';
 import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
@@ -234,7 +234,7 @@ export class LanguageComponent implements OnInit {
       appFunc.monthlyIncome = res[2].result.items.map((mi: any) => new monthlyIncome(mi));
       appFunc.states = res[3].result.items.map((st: any) => new states(st));
       appFunc.bankName = res[10].result.items.map((bn: any) => new bankName(bn));
-
+      appFunc.ASNBFundID = res[15].result.items.map((fi: any) => new ASNBFundID(fi));
 
       if (selectLang.selectedLang == 'ms'){
         appFunc.businessNature = res[4].result.items.map((bn: any) => 
@@ -297,6 +297,24 @@ export class LanguageComponent implements OnInit {
             questionEN: sq.questionBM,
             questionBM: sq.questionBM
           }));
+        appFunc.fundSource = res[14].result.items.map((fs: any) => 
+        new fundSource({
+          code: fs.code,
+          desc: fs.descBM,
+          descBM: fs.descBM
+        }));
+        appFunc.thirdPartyRelationship = res[16].result.items.map((tpr: any) => 
+        new thirdpartyRelationship({
+          code: tpr.code,
+          desc: tpr.descBM,
+          descBM: tpr.descBM
+        }));
+        appFunc.reasonTransfer = res[17].result.items.map((rt: any) => 
+        new reasonTransfer({
+          code: rt.code,
+          desc: rt.descBM,
+          descBM: rt.descBM
+        }));
 
       }else{
         appFunc.businessNature = res[4].result.items.map((bn: any) => new businessNature(bn));
@@ -308,6 +326,9 @@ export class LanguageComponent implements OnInit {
         appFunc.occupationName = res[11].result.items.map((on: any) => new occupationName(on));
         appFunc.relationship = res[12].result.items.map((rs: any) => new relationship(rs));
         appFunc.securityQuestions = res[13].result.items.map((sq: any) => new securityQuestions(sq));
+        appFunc.fundSource = res[14].result.items.map((fs: any) => new fundSource(fs));
+        appFunc.thirdPartyRelationship = res[16].result.items.map((tpr: any) => new thirdpartyRelationship(tpr));
+        appFunc.reasonTransfer = res[17].result.items.map((rt: any) => new reasonTransfer(rt));
       }
 
     }, error => {

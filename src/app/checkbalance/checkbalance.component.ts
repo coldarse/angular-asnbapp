@@ -372,7 +372,7 @@ export class CheckbalanceComponent implements OnInit {
         "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
         "POLICYTYPE":"UT"
       };
-}else{
+    }else{
       body = {
         "Date": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
         "Time": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
@@ -730,7 +730,23 @@ export class CheckbalanceComponent implements OnInit {
   }
 
   PrintAllStatement(selectedFundDetails: any) {
+    let currentFundDetail: any[] = [];
+    if(this.isMain){
+      currentFundDetail = currentHolder.funddetail;
+    }else{
+      currentFundDetail = currentBijakHolder.funddetail;
+    }
+    
 
+    currentFundDetail.forEach((element: any) => {
+      appFunc.ASNBFundID.forEach((fund: any) => {
+        if(element.FUNDID != undefined){
+          if(element.FUNDID.toString().toLowerCase() == fund.code.toString().toLowerCase()){
+            element.FUNDID = fund.value;
+          }
+        }
+      })
+    });
 
     signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
       if(data){
@@ -754,7 +770,7 @@ export class CheckbalanceComponent implements OnInit {
             "GRANDTOTALUNITS": currentHolder.grandtotalunits,
             "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings,
             "NRIC": currentHolder.identificationnumber,
-            "FUNDS": currentHolder.funddetail
+            "FUNDS": currentFundDetail
           };
         }
         else{
@@ -772,7 +788,7 @@ export class CheckbalanceComponent implements OnInit {
             "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits,
             "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings,
             "NRIC": currentBijakHolder.identificationnumber,
-            "FUNDS": currentBijakHolder.funddetail
+            "FUNDS": currentFundDetail
           };
         }
     
@@ -821,6 +837,25 @@ export class CheckbalanceComponent implements OnInit {
   }
 
   EmailAllStatement(selectedFundDetails: any) {
+
+    let currentFundDetail: any[] = [];
+    if(this.isMain){
+      currentFundDetail = currentHolder.funddetail;
+    }else{
+      currentFundDetail = currentBijakHolder.funddetail;
+    }
+    
+    currentFundDetail.forEach((element: any) => {
+      appFunc.ASNBFundID.forEach((fund: any) => {
+        if(element.FUNDID != undefined){
+          if(element.FUNDID.toString().toLowerCase() == fund.code.toString().toLowerCase()){
+            element.FUNDID = fund.value;
+          }
+        }
+      })
+    });
+
+
     this.CB2_Visible = false;
     this.CB5_Visible = true;
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
@@ -841,7 +876,7 @@ export class CheckbalanceComponent implements OnInit {
         "GRANDTOTALUNITS": currentHolder.grandtotalunits,
         "GRANDTOTALUHHOLDINGS": currentHolder.grandtotaluhholdings,
         "NRIC": currentHolder.identificationnumber,
-        "FUNDS": currentHolder.funddetail
+        "FUNDS": currentFundDetail
       };
     }
     else{
@@ -859,7 +894,7 @@ export class CheckbalanceComponent implements OnInit {
         "GRANDTOTALUNITS": currentBijakHolder.grandtotalunits,
         "GRANDTOTALUHHOLDINGS": currentBijakHolder.grandtotaluhholdings,
         "NRIC": currentBijakHolder.identificationnumber,
-        "FUNDS": currentBijakHolder.funddetail
+        "FUNDS": currentFundDetail
       };
     }
 

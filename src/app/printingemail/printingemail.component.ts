@@ -42,18 +42,7 @@ export class PrintingemailComponent implements OnInit {
     signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
       if(data){
     
-        const body = {
-          "Transaksi": "Pendaftaran Portal myASNB/myASNB Portal Registration",
-          "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-          "Lokasi": "KL MAIN 01",
-          "Name": currentHolder.firstname,
-          "NoAkaun": currentHolder.unitholderid,
-          "JenisAkaun": "Self/Sendiri"
-        }
-    
-    
-        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(body), appFunc.receiptFunction, signalrConnection.trxno, "0").then((data: any) => {
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
           setTimeout(()=>{   
             if (data == true){
               this.Print1Visible = false;
@@ -77,26 +66,8 @@ export class PrintingemailComponent implements OnInit {
   }
 
   Email(){
-    const body = {
-      "Transaksi": "Pendaftaran Portal myASNB/myASNB Portal Registration",
-      "Tarikh": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "Masa": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-      "Lokasi": "KL MAIN 01",
-      "Name": currentHolder.firstname,
-      "NoAkaun": currentHolder.unitholderid,
-      "JenisAkaun": "Self/Sendiri"
-    }
-
-    const emailObj = {
-      "Name" : currentHolder.firstname,
-      "UnitHolderID" : currentHolder.unitholderid,
-      "Module" : "4",
-      "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
-      "language" : selectLang.selectedLang,
-      "IC" : currentHolder.identificationnumber
-    }
-
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(emailObj)).then((data: any) => {
+    
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj)).then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   
