@@ -627,7 +627,7 @@ export class PortalregistrationComponent implements OnInit {
           "dateofbirth": currentHolder.dateofbirth,
           "mobileno": currentHolder.cellphonenumber,
           "tac": this.PForm_1.controls.tac.value,
-          "signature": encryptedBody
+          "signature": encryptedBody.toString()
         }
 
 
