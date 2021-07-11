@@ -231,7 +231,7 @@ export class LanguageComponent implements OnInit {
 
       appFunc.titleSalutation = res[0].result.items.map((ts: any) => new TitleDetails(ts));
       appFunc.cities = res[1].result.items.map((ct: any) => new cities(ct));
-      appFunc.monthlyIncome = res[2].result.items.map((mi: any) => new monthlyIncome(mi));
+      
       appFunc.states = res[3].result.items.map((st: any) => new states(st));
       appFunc.bankName = res[10].result.items.map((bn: any) => new bankName(bn));
       appFunc.ASNBFundID = res[15].result.items.map((fi: any) => new ASNBFundID(fi));
@@ -243,7 +243,6 @@ export class LanguageComponent implements OnInit {
             text: bn.textBM,
             textBM: bn.textBM
           }));
-
         appFunc.occupationSector = res[5].result.items.map((os: any) => 
           new occupationSector({
             label: os.label,
@@ -251,6 +250,14 @@ export class LanguageComponent implements OnInit {
             sector: os.sector,
             sectorDesc: os.sectorDescBM,
             sectorDescBM: os.sectorDescBM
+          }));
+        appFunc.monthlyIncome = res[2].result.items.map((mi: any) => 
+          new monthlyIncome({
+            label: mi.label,
+            labelDesc: mi.labelDesc,
+            validValue: mi.validValue,
+            valueDesc: mi.valueDescBM,
+            valueDescBM: mi.valueDescBM
           }));
         appFunc.occupationCategory = res[6].result.items.map((oc: any) => 
           new occupationCategory({
@@ -264,14 +271,12 @@ export class LanguageComponent implements OnInit {
             text: rg.textBM,
             textBM: rg.textBM
           }));
-
         appFunc.races = res[8].result.items.map((rc: any) => 
           new races({
             value: rc.value,
             text: rc.textBM,
             textBM: rc.textBM
           }));
-
         appFunc.preferredDelivery = res[9].result.items.map((pd: any) => 
           new preferredDelivery({
             value: pd.value,
@@ -317,6 +322,7 @@ export class LanguageComponent implements OnInit {
         }));
 
       }else{
+        appFunc.monthlyIncome = res[2].result.items.map((mi: any) => new monthlyIncome(mi));
         appFunc.businessNature = res[4].result.items.map((bn: any) => new businessNature(bn));
         appFunc.occupationSector = res[5].result.items.map((os: any) => new occupationSector(os));
         appFunc.occupationCategory = res[6].result.items.map((oc: any) => new occupationCategory(oc));
