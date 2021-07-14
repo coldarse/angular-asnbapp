@@ -1288,6 +1288,8 @@ export class UpdatedetailsComponent implements OnInit {
   formHandling(code: any){
     this.enableJob();
 
+
+
     if(currentHolder.telephonE1 == "null"){
       this.AR_Form.controls.homenumber.setValue("");
     }
@@ -1307,6 +1309,8 @@ export class UpdatedetailsComponent implements OnInit {
     }
 
     if(currentHolder.pep == 'Y'){
+      this.AR_Form.controls.pep.disable();
+    }else{
       this.AR_Form.controls.pep.enable();
     }
 
@@ -1366,6 +1370,7 @@ export class UpdatedetailsComponent implements OnInit {
     else{
       this.pep = false;
     }
+
 
     
     let isMobile = false;
@@ -1448,7 +1453,7 @@ export class UpdatedetailsComponent implements OnInit {
           companyname: [currentHolder.companyname, Validators.required],
 
           fatca: [{value: currentHolder.fatca, disabled: fatca}],
-          pep: [{value: currentHolder.pep, disabled: this.pep}],
+          pep: [currentHolder.pep],
           news: [{value: currentHolder.participateinasnbmkt, disabled: true}],
           crs: [{value: currentHolder.crs, disabled: crs}],
         });
@@ -1521,7 +1526,7 @@ export class UpdatedetailsComponent implements OnInit {
           companyname: [{value: currentHolder.companyname, disabled: true}],
 
           fatca: [{value: currentHolder.fatca, disabled: true}],
-          pep: [{value: currentHolder.pep, disabled: this.pep}],
+          pep: [currentHolder.pep],
           news: [{value: currentHolder.participateinasnbmkt, disabled: true}],
           crs: [{value: currentHolder.crs, disabled: true}],
         });
@@ -1653,7 +1658,15 @@ export class UpdatedetailsComponent implements OnInit {
       "IC" : currentHolder.identificationnumber
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "3", JSON.stringify(emailObj)).then((data: any) => {
+    let tempEmail = "";
+    if(this.isMain){
+      tempEmail = this.AR_Form.controls.email.value;
+    }
+    else{
+      tempEmail = currentHolder.email;
+    }
+
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, tempEmail, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "3", JSON.stringify(emailObj)).then((data: any) => {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   

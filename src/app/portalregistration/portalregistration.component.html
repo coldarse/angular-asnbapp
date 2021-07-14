@@ -33,18 +33,20 @@
 
         <footer class="site-footer" style="padding-top:4rem;">
             <div class="row text-center" >
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-next" id="BR_Cancel" (click)="nextToUpdate()">
-                        <!-- Tamatkan Transaksi -->
-                        {{'TMS_1' | translate }}
-                    </button>
-                    <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="NoticeClose()">
-                        <!-- Cuba Lagi -->
-                        {{'BTN_Next' | translate }}
-                    </button>
-
+                <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-cancel-white" id="BR_Cancel" (click)="nextToUpdate()">
+                                {{'TMS_1' | translate }}
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="NoticeClose()">
+                                {{'BTN_Next' | translate }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </footer>
 
@@ -76,15 +78,11 @@
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextTnc()">
-                      
                         {{'BTN_Next' | translate }}
                     </button>
-
                 </div>
-                
             </div>
         </footer>
-        
     </div>
 </div> 
 
@@ -113,15 +111,11 @@
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextPolicy()">
-                      
                         {{'BTN_Next' | translate }}
                     </button>
-
                 </div>
-                
             </div>
         </footer>
-        
     </div>
 </div> 
 
@@ -141,20 +135,12 @@
         <footer class="site-footer" style="padding-top:10rem;">
             <div class="row text-center" >
                 <div class="col-md-12">
-                    <!-- <button type="button" class="btn btn-cancel" id="BR_Cancel" (click)="EndTransactionBtn()">
-           
-                        {{'BTN_End' | translate }}
-                    </button> -->
-                    <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="MainMenuBtn()">
-                        <!-- Cuba Lagi -->
+                    <button type="button" class="btn btn-cancel-white" id="BR_MainMenu" (click)="MainMenuBtn()">
                         {{'BTN_MainMenu' | translate }}
                     </button>
-
                 </div>
-
             </div>
         </footer>
-
     </div>
 </div>
 
@@ -169,15 +155,19 @@
 
         <footer class="site-footer" style="padding-top:15rem;">
             <div class="row text-center" >
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-cancel" id="RM_Cancel" (click)="backToMain()">
-                        <!-- Tamatkan Transaksi -->
-                        {{'BTN_Back' | translate }}
-                    </button>
-                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="nextToUpdate()" [disabled]="updateDisabled">
-                        <!-- Cuba Lagi -->
-                        {{'BTN_Next' | translate }}
-                    </button>
+                <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-cancel-white" id="RM_Cancel" (click)="backToMain()">
+                                {{'BTN_Back' | translate }}
+                            </button>
+                        </div>
+                            <div class="col-md-6">
+                            <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="nextToUpdate()" [disabled]="updateDisabled">
+                                {{'BTN_Next' | translate }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </footer>
@@ -282,17 +272,20 @@
 
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="PR_Cancel" (click)="introCancel()">
-                    <!-- Batal -->
-                    {{'BTN_MainMenu' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="PR_Next" (click)="introNext()">
-                    <!-- Teruskan -->
-                    {{'BTN_Next' | translate }}
-                </button>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel-white" id="PR_Cancel" (click)="introCancel()">
+                            {{'BTN_MainMenu' | translate }}
+                        </button>
+                    </div>
+                        <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="PR_Next" (click)="introNext()">
+                            {{'BTN_Next' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
-            
         </div>
     </footer>
     
@@ -348,17 +341,20 @@
 
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="PR_xAgree" (click)="tncDisagree()">
-                    <!-- Tidak Setuju -->
-                    {{'BTN_xAgree' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="PR_Agree" (click)="tncAgree()" [disabled]="TNCAgreed" [hidden]="ispopup">
-                    <!-- Setuju -->
-                    {{'BTN_Agree' | translate }}
-                </button>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel-white" id="PR_xAgree" (click)="tncDisagree()">
+                            {{'BTN_xAgree' | translate }}
+                        </button>
+                    </div>
+                        <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="PR_Agree" (click)="tncAgree()" [disabled]="TNCAgreed" [hidden]="ispopup">
+                            {{'BTN_Agree' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
-            
         </div>
     </footer>
 </div>
@@ -377,12 +373,9 @@
                     <button type="button" class="btn btn-next" (click)="PMForm_tryAgain()">
                         {{'BTN_TryAgain' | translate }}
                     </button>
-
                 </div>
-                
             </div>
         </footer>
-        
     </div>
 </div> 
 
@@ -396,15 +389,20 @@
 
         <footer class="site-footer" style="padding-top:8rem;">
             <div class="row text-center" >
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-next" (click)="backToMain()">
-                        {{'BTN_MainMenu' | translate }}
-                    </button>
-                    <button type="button" class="btn btn-next" (click)="PMForm2_Financial()" [disabled]="financialDisabled">
-                        {{'TMS_3' | translate }}
-                    </button>
+                <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-cancel-white" (click)="backToMain()">
+                                {{'BTN_MainMenu' | translate }}
+                            </button>
+                        </div>
+                            <div class="col-md-6">
+                            <button type="button" class="btn btn-next" (click)="PMForm2_Financial()" [disabled]="financialDisabled">
+                                {{'TMS_3' | translate }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                
             </div>
         </footer>
         
@@ -622,17 +620,20 @@
 
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:1rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="PR_Cancel" (click)="MainMenuBtn()">
-                    <!-- Batal  -->
-                    {{'BTN_MainMenu' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="PR_Continue" (click)="nextDetails()" [disabled]="nextDetails_disabled">
-                    <!-- Teruskan -->
-                    {{'BTN_Next' | translate }}
-                </button>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel-white" id="PR_Cancel" (click)="MainMenuBtn()">
+                            {{'BTN_MainMenu' | translate }}
+                        </button>
+                    </div>
+                        <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="PR_Continue" (click)="nextDetails()" [disabled]="nextDetails_disabled">
+                            {{'BTN_Next' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
-            
         </div>
     </footer>
 </form>
@@ -682,17 +683,20 @@
 
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:8rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="PR_xAgree" (click)="MainMenuBtn()">
-                    <!-- Menu Utama   -->
-                    {{'BTN_MainMenu' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="PR_Agree" (click)="loginASNB()">
-                    <!-- Log Masuk myASNB -->
-                    {{'BTN_LoginASNB' | translate }}
-                </button>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel-white" id="PR_xAgree" (click)="MainMenuBtn()">
+                            {{'BTN_MainMenu' | translate }}
+                        </button>
+                    </div>
+                        <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="PR_Agree" (click)="loginASNB()">
+                            {{'BTN_LoginASNB' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
-            
         </div>
     </footer>
 </div>
@@ -807,17 +811,20 @@
 
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:4rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="PR_xAgree" (click)="backToMain()">
-                    <!-- Menu Utama   -->
-                    {{'BTN_MainMenu' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="PR_Agree" (click)="nextLogin()" [disabled]="loginASNB_disabled">
-                    <!-- Log Masuk myASNB -->
-                    {{'BTN_LoginASNB' | translate }}
-                </button>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel-white" id="PR_xAgree" (click)="backToMain()">
+                            {{'BTN_MainMenu' | translate }}
+                        </button>
+                    </div>
+                        <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="PR_Agree" (click)="nextLogin()" [disabled]="loginASNB_disabled">
+                            {{'BTN_LoginASNB' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
-            
         </div>
     </footer>
 </form>
@@ -914,17 +921,20 @@
 
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:2rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="PR_Back">
-                    <!-- Kembali -->
-                    {{'BTN_Back' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="PR_Next" (click)="newPassNext()">
-                    <!-- Teruskan -->
-                    {{'BTN_Next' | translate }}
-                </button>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel-white" id="PR_Back">
+                            {{'BTN_Back' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="PR_Next" (click)="newPassNext()">
+                            {{'BTN_Next' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
-            
         </div>
     </footer>
 </form>
@@ -946,18 +956,20 @@
 
         <footer class="site-footer" style="padding-top:11rem;">
             <div class="row text-center" >
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-cancel" id="PR_No" (click)="confirmNo()">
-                        <!-- Tidak -->
-                        {{'BTN_Back' | translate }}
-                    </button>
-                    <button type="button" class="btn btn-next" id="PR_Yes" (click)="confirmYes()">
-                        <!-- Ya -->
-                        {{'BTN_Next' | translate }}
-                    </button>
-
+                <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-cancel-white" id="PR_No" (click)="confirmNo()">
+                                {{'BTN_Back' | translate }}
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-next" id="PR_Yes" (click)="confirmYes()">
+                                {{'BTN_Next' | translate }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                
             </div>
         </footer>
         
@@ -979,20 +991,39 @@
         <h2 id="UD_ErrorMessage" class="h2-ic">{{'PRSuccess_3' | translate }}</h2>
         <h2 id="UD_ErrorMessage" class="h2-ic">{{'PRSuccess_4' | translate }}</h2>
 
-        <footer class="site-footer" style="padding-top:7rem;">
-            <div class="row text-center" >
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-next" id="PR_No" (click)="successPrint()" *ngIf="Print_Visible">
-                        <!-- Cetak Resit -->
-                        {{'BTN_Print' | translate }}
-                    </button>
-                    <button type="button" class="btn btn-next" id="PR_Yes" (click)="successEmail()" *ngIf="Email_Visible">
-                        <!-- Emel Resit -->
-                        {{'BTN_Email' | translate }}
-                    </button>
-
+        <footer class="site-footer">
+            <div class="row text-center" style="padding-top:5rem;">
+                <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                    <div class="row" *ngIf="Print_Visible && Email_Visible">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="successPrint()">
+                                {{'BTN_Print' | translate }}
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="successEmail()">
+                                {{'BTN_Email' | translate }}
+                            </button>
+                        </div>
+                    </div>
+    
+                    <div class="row" *ngIf="Print_Visible && !Email_Visible">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="successPrint()">
+                                {{'BTN_Print' | translate }}
+                            </button>
+                        </div>
+                    </div>
+    
+                    <div class="row" *ngIf="!Print_Visible && Email_Visible">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="successEmail()">
+                                {{'BTN_Email' | translate }}
+                            </button>
+                        </div>
+                    </div>
+    
                 </div>
-                
             </div>
         </footer>
         

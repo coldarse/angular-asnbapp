@@ -25,15 +25,11 @@
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="Next()">
-                        <!-- Cuba Lagi -->
                         {{'BTN_Next' | translate }}
                     </button>
-
                 </div>
-                
             </div>
         </footer>
-        
     </div>
 </div> 
 
@@ -62,12 +58,9 @@
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextProspectus()">
-                      
                         {{'BTN_Next' | translate }}
                     </button>
-
-                </div>
-                
+                </div>         
             </div>
         </footer>
         
@@ -99,15 +92,11 @@
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextAdditionalProspectus()">
-                      
                         {{'BTN_Next' | translate }}
                     </button>
-
                 </div>
-                
             </div>
         </footer>
-        
     </div>
 </div> 
 
@@ -136,15 +125,11 @@
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextRegDeclaration()">
-                      
                         {{'BTN_Next' | translate }}
                     </button>
-
                 </div>
-                
             </div>
         </footer>
-        
     </div>
 </div> 
 
@@ -173,15 +158,11 @@
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextYuran()">
-                      
                         {{'BTN_Next' | translate }}
                     </button>
-
                 </div>
-                
             </div>
         </footer>
-        
     </div>
 </div> 
 
@@ -210,15 +191,11 @@
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextTnc()">
-                      
                         {{'BTN_Next' | translate }}
                     </button>
-
                 </div>
-                
             </div>
         </footer>
-        
     </div>
 </div> 
 
@@ -247,15 +224,11 @@
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextPolicy()">
-                      
                         {{'BTN_Next' | translate }}
                     </button>
-
                 </div>
-                
             </div>
         </footer>
-        
     </div>
 </div> 
 
@@ -281,17 +254,20 @@
 
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:15rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="AR_XAgree" (click)="bijakDisagree()">
-                    <!-- Tidak Setuju -->
-                    {{'BTN_xAgree' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="AR_Agree" (click)="bijakAgree()">
-                    <!-- Setuju -->
-                    {{'BTN_Agree' | translate }}
-                </button>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel-white" id="AR_XAgree" (click)="bijakDisagree()">
+                            {{'BTN_xAgree' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="AR_Agree" (click)="bijakAgree()">
+                            {{'BTN_Agree' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
-
         </div>
     </footer>
 
@@ -908,17 +884,20 @@
     </div>
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="bijakregistrationCancel()">
-                    <!-- Batal -->
-                    {{'BTN_Cancel' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="CB1_MainMenu" (click)="bijakregistrationNext()">
-                    <!-- Seterusnya -->
-                    {{'BTN_Next' | translate }}
-                </button>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="bijakregistrationCancel()">
+                            {{'BTN_Cancel' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="CB1_MainMenu" (click)="bijakregistrationNext()">
+                            {{'BTN_Next' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
-
         </div>
     </footer>
 
@@ -945,18 +924,20 @@
 
         <footer class="site-footer" style="padding-top:10rem;">
             <div class="row text-center" >
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-cancel" id="BR_Cancel" (click)="BRErrorEnd()">
-                        <!-- Tamatkan Transaksi -->
-                        {{'BTN_End' | translate }}
-                    </button>
-                    <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="BRErrorTryAgain()" *ngIf="lostcount">
-                        <!-- Cuba Lagi -->
-                        {{'BTN_TryAgain' | translate }}
-                    </button>
-
+                <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-cancel-white" id="BR_Cancel" (click)="BRErrorEnd()">
+                                {{'BTN_End' | translate }}
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="BRErrorTryAgain()" *ngIf="lostcount">
+                                {{'BTN_TryAgain' | translate }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </footer>
 
@@ -987,7 +968,6 @@
             <div class="row text-center" >
                 <div class="col-md-12">
                     <button type="button" class="btn btn-cancel" id="BR_Cancel" (click)="BRErrorEnd()">
-                        <!-- Tamatkan Transaksi -->
                         {{'BTN_End' | translate }}
                     </button>
                 </div>
@@ -1007,19 +987,21 @@
 
 
         <footer class="site-footer" style="padding-top:11rem;">
-            <div class="row text-center" >
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-cancel" id="BR_No">
-                        <!-- Tidak -->
-                        {{'BTN_No' | translate }}
-                    </button>
-                    <button type="button" class="btn btn-next" id="BR_Yes" >
-                        <!-- Ya -->
-                        {{'BTN_Yes' | translate }}
-                    </button>
-
+            <div class="row text-center">
+                <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-cancel-white" id="BR_No">
+                                {{'BTN_No' | translate }}
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-next" id="BR_Yes" >
+                                {{'BTN_Yes' | translate }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </footer>
 
@@ -1156,17 +1138,22 @@
 
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:3rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="BR_XAgree" (click)="TNCDisagree()">
-                    <!-- Tidak Setuju -->
-                    {{'BTN_Back' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="BR_Agree" (click)="TNCAgree()" [disabled]="TNCAgreed" [hidden]="ispopup">
-                    <!-- Setuju -->
-                    {{'BTN_Next' | translate }}
-                </button>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel-white" id="BR_XAgree" (click)="TNCDisagree()">
+                            <!-- Tidak Setuju -->
+                            {{'BTN_Back' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="BR_Agree" (click)="TNCAgree()" [disabled]="TNCAgreed" [hidden]="ispopup">
+                            <!-- Setuju -->
+                            {{'BTN_Next' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
-
         </div>
     </footer>
 
@@ -1243,18 +1230,38 @@
 
 
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top:10rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="BR_Print" (click)="Print()" *ngIf="Print_Visible">
-                    <!-- Cetak Resit -->
-                    {{'BTN_Print' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="BR_Email" (click)="Email()" *ngIf="Email_Visible">
-                    <!-- Emel Resit -->
-                    {{'BTN_Email' | translate }}
-                </button>
-            </div>
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row" *ngIf="Print_Visible && Email_Visible">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="Print()">
+                            {{'BTN_Print' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="Email()">
+                            {{'BTN_Email' | translate }}
+                        </button>
+                    </div>
+                </div>
 
+                <div class="row" *ngIf="Print_Visible && !Email_Visible">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="Print()">
+                            {{'BTN_Print' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="!Print_Visible && Email_Visible">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="Email()">
+                            {{'BTN_Email' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </footer>
 </div>

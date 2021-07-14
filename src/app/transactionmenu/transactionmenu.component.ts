@@ -25,6 +25,12 @@ export class TransactionmenuComponent implements OnInit {
   TMS_4 = "";
   TMS_5 = "";
 
+  updateNotClicked = true;
+  checkNotClicked = true;
+  financialNotClicked = true;
+  bijakNotClicked = true;
+  portalNotClicked = true;
+
   updatedDetailsEnabled : boolean = true;
   checkBalanceEnabled : boolean = true;
   financialTransactionEnabled : boolean = true;
@@ -141,6 +147,38 @@ export class TransactionmenuComponent implements OnInit {
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
     });
+  }
+
+
+  clickUpdate(){
+    this.updateNotClicked = !this.updateNotClicked
+    setTimeout(() => {
+      this._router.navigate(['/updatedetails']);
+    }, 150)
+  }
+  clickCheck(){
+    this.checkNotClicked = !this.checkNotClicked
+    setTimeout(() => {
+      this._router.navigate(['/checkbalance']);
+    }, 150)
+  }
+  clickFinancial(){
+    this.financialNotClicked = !this.financialNotClicked
+    setTimeout(() => {
+      this._router.navigate(['/financialtransactionmenu']);
+    }, 150)
+  }
+  clickBijak(){
+    this.bijakNotClicked = !this.bijakNotClicked
+    setTimeout(() => {
+      this._router.navigate(['/bijakregistration']);
+    }, 150)
+  }
+  clickPortal(){
+    this.portalNotClicked = !this.portalNotClicked
+    setTimeout(() => {
+      this._router.navigate(['/portalregistration']);
+    }, 150)
   }
 
 

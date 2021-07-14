@@ -52,11 +52,7 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
             <div class="col-md-12">
-                <!-- <button type="button" class="btn btn-cancel" id="UD1_Cancel" (click)="updateDetails1Cancel()">
-                    {{'BTN_Cancel' | translate }}
-                </button> -->
                 <button type="button" class="btn btn-next" id="UD1_MainMenu" (click)="updateDetails1MainMenu()">
-                    <!-- Menu Utama -->
                     {{'BTN_MainMenu' | translate }}
                 </button>
             </div>
@@ -496,7 +492,7 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="PEP" id="PEP" [formControl]='AR_Form.controls["pep"]' >
+                                <select name="PEP" id="PEP" [formControl]='AR_Form.controls["pep"]'>
                                     <option value="N">{{'OPTION_No' | translate}}</option>
                                     <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
@@ -544,20 +540,28 @@
         </div>
     </div>
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="majorUpdateBack()">
-                    {{'BTN_Back' | translate }} 
-                    <!-- Batal -->
-                </button>
-                <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="majorUpdateCancel()">
-                    {{'BTN_Cancel' | translate }} 
-                    <!-- Batal -->
-                </button>
-                <button type="button" class="btn btn-green" id="CB1_MainMenu" (click)="majorUpdateNext()">
-                    <!-- Seterusnya -->
-                    {{'BTN_Next' | translate }}
-                </button>
+        <div class="row" style="padding-top:5rem; padding-bottom:5rem;">
+            <div class="cont" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-cancel-white " id="CB1_Cancel" (click)="majorUpdateBack()">
+                            {{'BTN_Back' | translate }} 
+                        </button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-cancel-white " id="CB1_Cancel" (click)="majorUpdateCancel()">
+                            {{'BTN_Cancel' | translate }} 
+                        </button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-next " id="CB1_MainMenu" (click)="majorUpdateNext()" >
+                            {{'BTN_Next' | translate }}
+                        </button>
+                    </div>
+                </div>
+                
+                
+                
             </div>
         </div>
     </footer>
@@ -1099,7 +1103,7 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <select name="PEP" id="PEP" [formControl]='AR_Form.controls["pep"]' >
+                                <select name="PEP" id="PEP" [formControl]='AR_Form.controls["pep"]'>
                                     <option value="N">{{'OPTION_No' | translate}}</option>
                                     <option value="Y">{{'OPTION_Yes' | translate}}</option>
                                 </select>
@@ -1148,21 +1152,25 @@
     </div>
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="bijakUpdateBack()">
-                    <!-- Batal -->
-                    {{'BTN_Back' | translate }}
-                </button>
-                <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="bijakUpdateCancel()">
-                    <!-- Batal -->
-                    {{'BTN_Cancel' | translate }}
-                </button>
-                <button type="button" class="btn btn-green" id="CB1_MainMenu" (click)="bijakUpdateNext()">
-                    <!-- Seterusnya -->
-                    {{'BTN_Next' | translate }}
-                </button>
+            <div class="cont" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="bijakUpdateBack()">
+                        {{'BTN_Back' | translate }}
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="bijakUpdateCancel()">
+                        {{'BTN_Cancel' | translate }}
+                    </button>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-next" id="CB1_MainMenu" (click)="bijakUpdateNext()">
+                        {{'BTN_Next' | translate }}
+                    </button>
+                </div>
+                </div>
             </div>
-
         </div>
     </footer>
 
@@ -1185,18 +1193,20 @@
 
         <footer class="site-footer" style="padding-top:11rem;">
             <div class="row text-center" >
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-cancel" id="UD_No" (click)="ConfirmNo()">
-                        <!-- Tidak -->
-                        {{'BTN_Back' | translate }}
-                    </button>
-                    <button type="button" class="btn btn-next" id="UD_Yes" (click)="ConfirmYes()">
-                        <!-- Ya -->
-                        {{'BTN_Next' | translate }}
-                    </button>
-
+                <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-cancel-white" id="UD_No" (click)="ConfirmNo()">
+                                {{'BTN_Back' | translate }}
+                            </button>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-next" id="UD_Yes" (click)="ConfirmYes()">
+                                {{'BTN_Next' | translate }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                
             </div>
         </footer>
         
@@ -1218,17 +1228,37 @@
     
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="UD_MainMenu" *ngIf="Print_Visible" (click)="Print()">
-                    <!-- Cetak Resit -->
-                    {{'BTN_Print' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="UD_MainMenu" *ngIf="Email_Visible" (click)="Email()">
-                    <!-- Emel Resit -->
-                    {{'BTN_Email' | translate }}
-                </button>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row" *ngIf="Print_Visible && Email_Visible">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="Print()">
+                            {{'BTN_Print' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="Email()">
+                            {{'BTN_Email' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="Print_Visible && !Email_Visible">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="Print()">
+                            {{'BTN_Print' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="!Print_Visible && Email_Visible">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="Email()">
+                            {{'BTN_Email' | translate }}
+                        </button>
+                    </div>
+                </div>
+
             </div>
-            
         </div>
     </footer>
 </div>

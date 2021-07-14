@@ -50,11 +50,7 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
             <div class="col-md-12">
-                <!-- <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="CancelCheckBalance()">
-                    {{'BTN_Cancel' | translate }}
-                </button> -->
-                <button type="button" class="btn btn-next" id="CB1_MainMenu" (click)="MainMenu()">
-                    <!-- Menu Utama -->
+                <button type="button" class="btn btn-cancel-white" id="CB1_MainMenu" (click)="MainMenu()">
                     {{'BTN_MainMenu' | translate }}
                 </button>
             </div>
@@ -79,18 +75,20 @@
 
         <footer class="site-footer" style="padding-top:12rem;">
             <div class="row text-center" >
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-cancel" id="SB_Cancel" (click)="CancelCheckBalance()">
-                        <!-- Tamatkan Transaksi -->
-                        {{'BTN_End' | translate }}
-                    </button>
-                    <button type="button" class="btn btn-next" id="SB_ChangeAccount" (click)="ChooseOtherAccount()">
-                        <!-- Pilih Akaun Lain -->
-                        {{'BTN_ChooseOtherAccount' | translate }}
-                    </button>
-
+                <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-cancel-white" id="SB_Cancel" (click)="CancelCheckBalance()">
+                                {{'BTN_End' | translate }}
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn btn-next" id="SB_ChangeAccount" (click)="ChooseOtherAccount()">
+                                {{'BTN_ChooseOtherAccount' | translate }}
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                
             </div>
         </footer>
         
@@ -227,19 +225,52 @@
 
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
-            <div class="col-md-12 text-center">
-                <button type="button" class="btn btn-cancel" id="CB2_Cancel" (click)="CancelCheckBalance()">
-                    <!-- Batal -->
-                    {{'BTN_Cancel' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="CB2_Print" (click)="PrintAllStatement(fDetails)" *ngIf="Print_Visible">
-                    <!-- Cetak -->
-                    {{'BTN_Print1' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="CB2_Email" (click)="EmailAllStatement(fDetails)" *ngIf="Email_Visible">
-                    <!-- Emel -->
-                    {{'BTN_Email1' | translate }}
-                </button>
+            <div class="cont" style="margin-left: auto; margin-right: auto;" *ngIf="Print_Visible && Email_Visible">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-cancel-white" id="CB2_Cancel" (click)="CancelCheckBalance()">
+                            {{'BTN_Cancel' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-next" id="CB2_Print" (click)="PrintAllStatement(fDetails)" *ngIf="Print_Visible">
+                            {{'BTN_Print1' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-next" id="CB2_Email" (click)="EmailAllStatement(fDetails)" *ngIf="Email_Visible">
+                            {{'BTN_Email1' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;" *ngIf="Print_Visible && !Email_Visible">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-cancel-white" id="CB2_Cancel" (click)="CancelCheckBalance()">
+                            {{'BTN_Cancel' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-next" id="CB2_Print" (click)="PrintAllStatement(fDetails)" *ngIf="Print_Visible">
+                            {{'BTN_Print1' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;" *ngIf="!Print_Visible && Email_Visible">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-cancel-white" id="CB2_Cancel" (click)="CancelCheckBalance()">
+                            {{'BTN_Cancel' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-next" id="CB2_Email" (click)="EmailAllStatement(fDetails)" *ngIf="Email_Visible">
+                            {{'BTN_Email1' | translate }}
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>

@@ -33,6 +33,8 @@ export class LanguageComponent implements OnInit {
 
   id: any;
 
+  card: any;
+
   constructor(
     private serviceService : ServiceService,
     private route: Router,
@@ -53,6 +55,7 @@ export class LanguageComponent implements OnInit {
       });
     }
 
+    
 
     currentMyKidDetails.resetCurrentMyKid();
     currentMyKadDetails.resetCurrentMyKid();

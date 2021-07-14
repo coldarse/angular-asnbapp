@@ -682,14 +682,24 @@
 
 
 <div *ngIf="SIStep5" class="row content-container">
-    <div class="col-md-6 text-center" style="padding-top:15rem">
+    <div class="col-md-6 text-center" style="padding-top:15rem" *ngIf="paymentStep1">
         <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin1' | translate }}</h3>
         <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin2' | translate }}</h3>
         &nbsp;
-        <button type="button" class="btn btn-checkIC" (click)="SIStep5Cancel()">
+        <button type="button" class="btn btn-cancel-white" (click)="SIStep5Cancel()">
             <!-- Sahkan MyKad -->
             {{'BTN_Cancel' | translate }}
         </button>
+    </div>
+    <!-- <div class="col-md-6 text-center" style="padding-top:15rem" *ngIf="paymentStep2">
+        <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin1' | translate }}</h3>
+        <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin2' | translate }}</h3>
+    </div> -->
+    <div class="col-md-6 text-center" style="padding-top:15rem" *ngIf="paymentStep3">
+        <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin1' | translate }}</h3>
+        <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin2' | translate }}</h3>
+        &nbsp;
+        <div class="spinner-border text-primary spinning-addon" role="status"> </div>
     </div>
     <div class="col-md-6 text-center" style="padding-top:3rem">
         <img src="assets/images/InsertDebitCard.gif" class="ICReader__centered img-addon padding-top-5rem" alt="ICReaderImage">

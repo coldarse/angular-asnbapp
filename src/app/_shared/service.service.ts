@@ -253,6 +253,32 @@ export class ServiceService {
     )
   }
 
+  //Create CustCreditCardInfo
+  createCustCreditCardInfo(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/CustCreditCardInfo/Create",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Create FundTransaction
+  createFundTransaction(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/FundTransaction/Create",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
 
   //TAC Verification
   tacVerification(body: any)

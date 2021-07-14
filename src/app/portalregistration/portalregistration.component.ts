@@ -915,9 +915,28 @@ export class PortalregistrationComponent implements OnInit {
       "mobileno" : currentHolder.cellphonenumber,
       "moduleid" : "316",
       "message" : "ASNB KIOSK: myASNB Portal Registration",
-      "language" : selectLang.selectedLang
+      "language" : selectLang.selectedLang,
+      "signature": ""
     }
-    this.serviceService.tacVerification(body).subscribe((res: any) => {
+
+    let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
+    let encryptedbody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
+      keySize: 128,
+      blockSize: 128,
+      mode: CryptoJS.mode.ECB,
+      padding: CryptoJS.pad.Pkcs7
+    });
+
+    const newbody = {
+      "mobileno" : currentHolder.cellphonenumber,
+      "moduleid" : "316",
+      "message" : "ASNB KIOSK: myASNB Portal Registration",
+      "language" : selectLang.selectedLang,
+      "signature": encryptedbody.toString()
+    }
+
+
+    this.serviceService.tacVerification(newbody).subscribe((res: any) => {
       if (res.result.error_reason == ""){
         this.nextDetails_disabled = false;
         this.tacEnabled = true;
