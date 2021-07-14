@@ -120,7 +120,7 @@ export class LanguageComponent implements OnInit {
           signalrConnection.trxno = res.result.toString();
         }, error => {
           errorCodes.code = error.status;
-          errorCodes.message = "Something bad happened; please try again later.";
+          errorCodes.message = "Harap Maaf, Kiosk tidak berfungsi buat sementara waktu" + '\n' + "Sorry, Kiosk is temporarily out of service";
           this.route.navigate(['outofservice']);
         });
         this.serviceService.getScreenSaver(signalrConnection.kioskCode).subscribe((res : any) => {
@@ -195,7 +195,7 @@ export class LanguageComponent implements OnInit {
           } , 60000);
         }, error => {
           errorCodes.code = error.status;
-          errorCodes.message = "Something bad happened; please try again later.";
+          errorCodes.message = "Harap Maaf, Kiosk tidak berfungsi buat sementara waktu" + '\n' + "Sorry, Kiosk is temporarily out of service";
           this.route.navigate(['outofservice']);
         });
       });
@@ -342,7 +342,7 @@ export class LanguageComponent implements OnInit {
 
     }, error => {
       errorCodes.code = error.status;
-      errorCodes.message = "Something bad happened; please try again later.";
+      errorCodes.message = "Harap Maaf, Kiosk tidak berfungsi buat sementara waktu" + '\n' + "Sorry, Kiosk is temporarily out of service";
       this.route.navigate(['outofservice']);
     });
   }
