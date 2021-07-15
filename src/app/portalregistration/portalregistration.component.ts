@@ -600,6 +600,8 @@ export class PortalregistrationComponent implements OnInit {
           "signature": ""
         }
 
+    
+
         let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
         let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
           keySize: 128,
@@ -627,8 +629,9 @@ export class PortalregistrationComponent implements OnInit {
           "dateofbirth": currentHolder.dateofbirth,
           "mobileno": currentHolder.cellphonenumber,
           "tac": this.PForm_1.controls.tac.value,
-          "signature": encryptedBody.toString()
+          "signature": encryptedBody.toString().replace(" ", "+")
         }
+
 
 
         this.serviceService.unitHolderRegistration(newBody).subscribe((data: any) => {
@@ -932,7 +935,7 @@ export class PortalregistrationComponent implements OnInit {
       "moduleid" : "316",
       "message" : "ASNB KIOSK: myASNB Portal Registration",
       "language" : selectLang.selectedLang,
-      "signature": encryptedbody.toString()
+      "signature": encryptedbody.toString().replace(" ", "+")
     }
 
 
@@ -1000,7 +1003,7 @@ export class PortalregistrationComponent implements OnInit {
       "currentpwd": this.tempPassword,
       "secureph": this.tempsecure,
       "language": selectLang.selectedLang,
-      "newPassword": encryptedpass.toString()
+      "newPassword": encryptedpass.toString().replace(" ", "+")
     }
     this.serviceService.unitHolderChangePassword(body).subscribe((data: any) => {
       if (data.result.error_code == "000"){
