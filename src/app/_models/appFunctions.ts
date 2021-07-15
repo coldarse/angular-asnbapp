@@ -38,16 +38,14 @@ export class appFunc {
   static isRedirectFromRedemption = false;
   static isUpdateMajor = false;
 
-
   static printing = false;
   static receiptFunction  = "";
-
 
   static isInvesment = false;
   static isOwn = "third";
 
-
   static body: any;
   static emailObj: any;
+
 }
 

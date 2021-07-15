@@ -564,27 +564,27 @@ export class SubscriptioninvestmentComponent implements OnInit {
       let statusCode = "";
       let theLoop: (code: string) => void = (code: string) => {
         setTimeout(() => {
-          signalrConnection.connection.invoke('getCardInfo').then((data: any) => {
-            statusCode = data.StatusCode;
+          signalrConnection.connection.invoke('getCardInfo').then((cardInfo: any) => {
+            statusCode = cardInfo.StatusCode;
             if (statusCode == "00") {
               const CCInfo =
               {
                 "trxNo": "string",
-                "cardNo": data.CardNo,
-                "expiryDate": data.ExpiryDate,
-                "statusCode": data.StatusCode,
-                "approvalCode": data.ApprovalCode,
-                "rrn": data.RRN,
-                "transactionTrace": data.TransactionTrace, 
-                "batchNumber": data.BatchNumber,
-                "hostNo": data.HostNo,
-                "tid": data.TID,
-                "mid": data.MID,
-                "aid": data.AID,
-                "tc": data.TC,
-                "cardHolderName": data.CardholderName,
-                "cardType": data.CardType,
-                "applicationLabel": data.ApplicationLabel,
+                "cardNo": cardInfo.CardNo,
+                "expiryDate": cardInfo.ExpiryDate,
+                "statusCode": cardInfo.StatusCode,
+                "approvalCode": cardInfo.ApprovalCode,
+                "rrn": cardInfo.RRN,
+                "transactionTrace": cardInfo.TransactionTrace, 
+                "batchNumber": cardInfo.BatchNumber,
+                "hostNo": cardInfo.HostNo,
+                "tid": cardInfo.TID,
+                "mid": cardInfo.MID,
+                "aid": cardInfo.AID,
+                "tc": cardInfo.TC,
+                "cardHolderName": cardInfo.CardholderName,
+                "cardType": cardInfo.CardType,
+                "applicationLabel": cardInfo.ApplicationLabel,
                 "createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en')
               }
 
@@ -768,6 +768,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           }
                         }
                         errorCodes.transaction = this.transaction;
+                        signalrConnection.connection.invoke('DoVoid', PaymentAmt, cardInfo.HostNo, cardInfo.TransactionTrace).then(() => {
+                
+                        });
                         this._router.navigate(['errorscreen']);
                       }
                     });
@@ -801,19 +804,22 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       }
                     }
                     errorCodes.transaction = this.transaction;
+                    signalrConnection.connection.invoke('DoVoid', PaymentAmt, cardInfo.HostNo, cardInfo.TransactionTrace).then(() => {
+                
+                    });
                     this._router.navigate(['errorscreen']);
                   }
                 });
               });
             }
             else if(statusCode == "CE"){
-              signalrConnection.connection.invoke('deleteCreditCardInfo').then((data: string) => {
-                console.log("Payment Failed");
+              signalrConnection.connection.invoke('deleteCreditCardInfo').then(() => {
+                
               });
             }
             else if(statusCode == "TA"){
-              signalrConnection.connection.invoke('deleteCreditCardInfo').then((data: string) => {
-                console.log("Payment Error");
+              signalrConnection.connection.invoke('deleteCreditCardInfo').then(() => {
+                
               });
             }
             else{
