@@ -705,13 +705,24 @@ export class VerifymykadComponent implements OnInit {
         currentHolder.rejectreason = result.rejectreason;
 
 
-
-
         if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
 
           if (!currentHolder.typeclosed.toLowerCase().includes('n')){
-            errorCodes.Ecode = "0168";
-            errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
+             //Insolvent Status = "Y", reject code = 106
+             if (currentHolder.typeclosed.toLowerCase().includes('y'))
+             {
+               errorCodes.Ecode = "0106";
+             }
+              //Pending Status = "P", reject code = 102
+             else if (currentHolder.typeclosed.toLowerCase().includes('p'))
+             {
+               errorCodes.Ecode = "0102";
+             }
+             else
+             {
+               errorCodes.Ecode = "0168";
+             }
+            // errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
             errorCodes.accountName = currentHolder.firstname;
             errorCodes.accountNo = currentHolder.unitholderid;
             if(selectLang.selectedLang == 'ms'){
@@ -887,8 +898,21 @@ export class VerifymykadComponent implements OnInit {
                 if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
         
                   if (!currentHolder.typeclosed.toLowerCase().includes('n')){
-                    errorCodes.Ecode = "0168";
-                    errorCodes.Emessage = "Your Old IC Account has been closed. Akaun anda telah ditutup.";
+                    //Insolvent Status = "Y", reject code = 106
+                    if (currentHolder.typeclosed.toLowerCase().includes('y'))
+                    {
+                      errorCodes.Ecode = "0106";
+                    }
+                     //Pending Status = "P", reject code = 102
+                    else if (currentHolder.typeclosed.toLowerCase().includes('p'))
+                    {
+                      errorCodes.Ecode = "0102";
+                    }
+                    else
+                    {
+                      errorCodes.Ecode = "0168";
+                    }
+                    // errorCodes.Emessage = "Your Old IC Account has been closed. Akaun anda telah ditutup.";
                     errorCodes.accountName = currentHolder.firstname;
                     errorCodes.accountNo = currentHolder.unitholderid;
                     if(selectLang.selectedLang == 'ms'){
