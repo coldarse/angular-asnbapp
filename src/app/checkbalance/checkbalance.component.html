@@ -15,12 +15,12 @@
 <!-- Check Balance -->
 <div id="CheckBalance1" *ngIf="CB1_Visible" class="content-container">
    
-    <div class="col-md-12 text-center" style="padding-top:4rem; font-family: helvetica ;">
+    <div class="col-md-12 text-center" style="padding-top:4rem; font-family: HelveticaNeue;">
         <!-- <h2 id="CB1_Title1">Sila pilah Akaun untuk semakan baki</h2> -->
         <h2 id="CB1_Title1">{{'CB1_1' | translate }}</h2>
     </div>
 
-    <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
+    <div class="col-md-12 text-center" style="padding-top:2rem; font-family: HelveticaNeue;">
         <!-- <h2 id="CB1_Title2">Akaun Sendiri</h2> -->
         <h2 id="CB1_Title2">{{'CB1_2' | translate }}</h2>
     </div>
@@ -33,7 +33,7 @@
 
 
     <div>
-        <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;" *ngIf="CBBijak_Visible">
+        <div class="col-md-12 text-center" style="padding-top:2rem; font-family: HelveticaNeue;" *ngIf="CBBijak_Visible">
             <h2 id="CB1_Title3">{{'CB1_3' | translate }}</h2>
         </div>
 
@@ -97,7 +97,7 @@
 
 <div id="CheckBalance2" *ngIf="CB2_Visible" class="content-container">
    
-    <div class="col-md-12 text-center" style="padding-top:4rem; font-family: helvetica ;">
+    <div class="col-md-12 text-center" style="padding-top:4rem; font-family: HelveticaNeue;">
         <!-- <h2 id="CB2_Title1">Baki Akaun</h2> -->
         <h2 id="CB2_Title1">{{'CB2_1' | translate }}</h2>
     </div>
@@ -173,7 +173,7 @@
         </div>
         <div class="col-md-1"></div>
     </div>
-    <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
+    <div class="col-md-12 text-center" style="padding-top:2rem; font-family: HelveticaNeue;">
         <table class="table checkbalancetable" id="CB2_BalanceTable">
             <thead class="thead-dark">
                 <tr>
@@ -314,4 +314,36 @@
             <img src="assets/images/asnb-mobile-emel.png" class="ICReader__centered img-addon padding-top-10rem" alt="ThumbPrintImage">
         </div>
     </div>
+</div>
+
+
+<div class="content-container" *ngIf="transaction_Successful">
+    <div class="row text-center">
+        <div class="col-md-12 padding-top-2rem">
+            <img src="assets/images/ASNB-tick.png" class="ticklogo " alt="ASNB">
+        </div>
+    </div>
+    
+    <div class="row text-center padding-top-5rem" >
+        <h2 class="h2-ic" id="ST_Title1">{{'TS_1' | translate }}</h2>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel" id="ST_EndTransaction" (click)="endTransaction()">
+                            {{'BTN_End' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="ST_MainMenu" (click)="mainMenu()">
+                            {{'BTN_MainMenu' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>

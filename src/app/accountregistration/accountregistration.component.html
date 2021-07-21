@@ -855,7 +855,7 @@
         <div class="col-md-10">
             <input type="checkbox" class="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC()">
             <!-- <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">Saya telah membaca dan bersetuju dengan <a href="#" style="text-decoration:none;">Terma & Syarat</a> dan <a href="#" style="text-decoration:none;">Dasar Privasi</a></label><br> -->
-            <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">
+            <label for="tncCheck" style="padding-left:0.5rem; font-size: 1rem;">
                 {{'TNC_13' | translate }}
             </label><br>
         </div>
@@ -995,9 +995,7 @@
 <div id="AR_Print1" *ngIf="ARPrint1_Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
-            <!-- <h2 class="h2-ic" id="ARP1_Title1">Resit anda sedang dicetak.</h2> -->
             <h2 class="h2-ic" id="ARP1_Title1">{{'Print1_1' | translate }}</h2>
-            <!-- <h2 class="h2-ic" id="ARP1_Title1">Resit anda sedang dicetak.</h2> -->
             <h2 class="h2-ic" id="ARP1_Title2">{{'Print1_2' | translate }}</h2>
             
         </div>
@@ -1010,7 +1008,6 @@
 <div id="AR_Print2" *ngIf="ARPrint2_Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
-            <!-- <h2 class="h2-ic" id="ARP2_Title1">Sila ambil resit anda</h2> -->
             <h2 class="h2-ic" id="ARP2_Title1">{{'Print2_1' | translate }}</h2>
         </div>
         <div class="col-md-6 text-center">
@@ -1022,8 +1019,6 @@
 <div id="AR_Email" *ngIf="AREmail_Visible" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
-            <!-- <h2 class="h2-ic" id="ARE_Title1">Salinan resit akan hantar ke</h2>
-            <h2 class="h2-ic" id="ARE_Title2">alamat e-mel anda.</h2> -->
             <h2 class="h2-ic" id="ARE_Title1">{{'Email_1' | translate }}</h2>
             <h2 class="h2-ic" id="ARE_Title2">{{'Email_2' | translate }}</h2>
             
@@ -1032,4 +1027,36 @@
             <img src="assets/images/asnb-mobile-emel.png" class="ICReader__centered img-addon padding-top-10rem" alt="ThumbPrintImage">
         </div>
     </div>
+</div>
+
+
+<div class="content-container" *ngIf="transaction_Successful">
+    <div class="row text-center">
+        <div class="col-md-12 padding-top-2rem">
+            <img src="assets/images/ASNB-tick.png" class="ticklogo " alt="ASNB">
+        </div>
+    </div>
+    
+    <div class="row text-center padding-top-5rem" >
+        <h2 class="h2-ic" id="ST_Title1">{{'TS_1' | translate }}</h2>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel" id="ST_EndTransaction" (click)="endTransaction()">
+                            {{'BTN_End' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="ST_MainMenu" (click)="mainMenu()">
+                            {{'BTN_MainMenu' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>

@@ -81,6 +81,7 @@ export class BijakregistrationComponent implements OnInit {
   BRPrint1_Visible = false;
   BRPrint2_Visible = false;
   BREmail_Visible = false;
+  transaction_Successful = false;
 
   checkedXEmail : boolean = false;
   checkedXTelephone : boolean = false;
@@ -1549,7 +1550,12 @@ export class BijakregistrationComponent implements OnInit {
           else{
             if(currentBijakHolder.unitholderid != "" || currentBijakHolder.unitholderid != undefined){
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "Account Found.");
-              this._router.navigate(['transactionsuccessful']);
+              this.BRPrint1_Visible = false;
+              this.BRPrint2_Visible = false;
+              this.BREmail_Visible = false;
+
+              this.transaction_Successful = true;
+              //this._router.navigate(['transactionsuccessful']);
             }
           }
         }
@@ -1581,6 +1587,16 @@ export class BijakregistrationComponent implements OnInit {
 
 
     
+  }
+
+  endTransaction(){
+    this._router.navigate(['feedbackscreen'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Feedback Screen.");
+  }
+
+  mainMenu(){
+    this._router.navigate(['transactionmenu'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Transaction Menu.");
   }
 
 }

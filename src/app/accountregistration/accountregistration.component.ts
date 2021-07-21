@@ -50,6 +50,7 @@ export class AccountregistrationComponent implements OnInit {
   additionalpdfsrc = "assets/Prospectus_ASN_IMBANG_3_GLOBAL.pdf";
 
   ispopup = false;
+  transaction_Successful = false;
 
 
   BTN_Cancel = "";
@@ -547,7 +548,7 @@ export class AccountregistrationComponent implements OnInit {
       "BANKCODE":this.AR_Form.controls.bankname.value,
       "BANKACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
       "RELATIONSHIP":"",
-      "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value
+      "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
     }
 
 
@@ -1082,7 +1083,7 @@ export class AccountregistrationComponent implements OnInit {
 
   getAccountInquiry(): void {
     try{
-
+      
       const body = { 
 
         "CHANNELTYPE": signalrConnection.channelType,
@@ -1217,8 +1218,13 @@ export class AccountregistrationComponent implements OnInit {
             if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Account Found.");
 
-              
-              this._router.navigate(['transactionsuccessful']);
+
+              this.ARPrint1_Visible = false;
+              this.ARPrint2_Visible = false;
+              this.AREmail_Visible = false;
+
+              this.transaction_Successful = true;
+              //this._router.navigate(['transactionsuccessful']);
             }
           }
         }
@@ -1247,9 +1253,16 @@ export class AccountregistrationComponent implements OnInit {
       this._router.navigate(['outofservice']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }
+  }
 
+  endTransaction(){
+    this._router.navigate(['feedbackscreen'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Feedback Screen.");
+  }
 
-    
+  mainMenu(){
+    this._router.navigate(['transactionmenu'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Transaction Menu.");
   }
 
   

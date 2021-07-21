@@ -389,5 +389,14 @@
 	"OSWarning": "Please select an Occupation Sector.",
 	"MIWarning1": "Please select a Monthly Income.",
 	"RegistrationDeclaration1": "Click here for ",
-	"RegistrationDeclaration2": "Registration Declaration"
+	"RegistrationDeclaration2": "Registration Declaration",
+	"UsernameWarning": "Please enter Username",
+	"SecurePhraseWarning": "Please enter Secure Phrase",
+	"Answer1Warning": "Please enter Asnwer 1",
+	"Answer2Warning": "Please enter Answer 2",
+	"Answer3Warning": "Please enter Answer 3",
+	"TACWarning": "Please enter TAC",
+	"TempPassWarning": "Please enter Temporary Password",
+	"NewPass1Warning": "Please enter New Password",
+	"NewPass2Warning": "Please re-enter New Password"
 }

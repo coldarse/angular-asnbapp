@@ -226,4 +226,17 @@ export class reasonTransfer {
 }
 
 
+export class icType {
+    code: string;
+    desc: string;
+    descBM: string;
+	
+	constructor(ictype: any){
+        this.code = ictype.code;
+        this.desc = ictype.desc;
+        this.descBM = ictype.descBM;
+	}
+}
+
+
 

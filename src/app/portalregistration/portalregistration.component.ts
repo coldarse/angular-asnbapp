@@ -99,7 +99,7 @@ export class PortalregistrationComponent implements OnInit {
   PR_Print1Visible = false;
   PR_Print2Visible = false;
   PR_EmailVisible = false;
-
+  transaction_Successful = false;
   TNCAgreed = true;
 
   RMError4_Visible = false;
@@ -139,6 +139,8 @@ export class PortalregistrationComponent implements OnInit {
 
   Notice_Visible = false;
   emailexist = false;
+
+  hideTac = false;
 
   PFormText_1 = "";
   PFormText_2 = "";
@@ -579,28 +581,26 @@ export class PortalregistrationComponent implements OnInit {
         this.currenttempSecurePhrase = this.PForm_1.controls.securephrase.value;
 
         const body = {
-          "idno": currentHolder.identificationnumber,
-          "idtype": currentHolder.identificationtype,
-          "uhid": currentHolder.unitholderid,
-          "username": this.PForm_1.controls.userid.value,
-          "secureph": this.PForm_1.controls.securephrase.value,
-          "ans1": this.PForm_1.controls.a1.value,
-          "ans2": this.PForm_1.controls.a2.value,
-          "ans3": this.PForm_1.controls.a3.value,
-          "secq1": this.PForm_1.controls.q1.value,
-          "secq2": this.PForm_1.controls.q2.value,
-          "secq3": this.PForm_1.controls.q3.value,
-          "email": this.PForm_1.controls.email.value,
-          "typeclosed": currentHolder.typeclosed,
+          "idno": currentHolder.identificationnumber.toString(),
+          "idtype": currentHolder.identificationtype.toString(),
+          "uhid": currentHolder.unitholderid.toString(),
+          "username": this.PForm_1.controls.userid.value.toString(),
+          "secureph": this.PForm_1.controls.securephrase.value.toString(),
+          "ans1": this.PForm_1.controls.a1.value.toString(),
+          "ans2": this.PForm_1.controls.a2.value.toString(),
+          "ans3": this.PForm_1.controls.a3.value.toString(),
+          "secq1": this.PForm_1.controls.q1.value.toString(),
+          "secq2": this.PForm_1.controls.q2.value.toString(),
+          "secq3": this.PForm_1.controls.q3.value.toString(),
+          "email": this.PForm_1.controls.email.value.toString(),
+          "typeclosed": currentHolder.typeclosed.toString(),
           "fundid": currentHolder.funddetail[0].FUNDID,
-          "language": selectLang.selectedLang,
-          "dateofbirth": currentHolder.dateofbirth,
-          "mobileno": currentHolder.cellphonenumber,
-          "tac": this.PForm_1.controls.tac.value,
+          "language": selectLang.selectedLang.toString(),
+          "mobileno": currentHolder.cellphonenumber.toString(),
+          "tac": this.PForm_1.controls.tac.value.toString(),
+          "dateofbirth": currentHolder.dateofbirth.toString(),
           "signature": ""
         }
-
-    
 
         let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
         let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
@@ -611,28 +611,28 @@ export class PortalregistrationComponent implements OnInit {
         });
 
         const newBody = {
-          "idno": currentHolder.identificationnumber,
-          "idtype": currentHolder.identificationtype,
-          "uhid": currentHolder.unitholderid,
-          "username": this.PForm_1.controls.userid.value,
-          "secureph": this.PForm_1.controls.securephrase.value,
-          "ans1": this.PForm_1.controls.a1.value,
-          "ans2": this.PForm_1.controls.a2.value,
-          "ans3": this.PForm_1.controls.a3.value,
-          "secq1": this.PForm_1.controls.q1.value,
-          "secq2": this.PForm_1.controls.q2.value,
-          "secq3": this.PForm_1.controls.q3.value,
-          "email": this.PForm_1.controls.email.value,
-          "typeclosed": currentHolder.typeclosed,
+          "idno": currentHolder.identificationnumber.toString(),
+          "idtype": currentHolder.identificationtype.toString(),
+          "uhid": currentHolder.unitholderid.toString(),
+          "username": this.PForm_1.controls.userid.value.toString(),
+          "secureph": this.PForm_1.controls.securephrase.value.toString(),
+          "ans1": this.PForm_1.controls.a1.value.toString(),
+          "ans2": this.PForm_1.controls.a2.value.toString(),
+          "ans3": this.PForm_1.controls.a3.value.toString(),
+          "secq1": this.PForm_1.controls.q1.value.toString(),
+          "secq2": this.PForm_1.controls.q2.value.toString(),
+          "secq3": this.PForm_1.controls.q3.value.toString(),
+          "email": this.PForm_1.controls.email.value.toString(),
+          "typeclosed": currentHolder.typeclosed.toString(),
           "fundid": currentHolder.funddetail[0].FUNDID,
-          "language": selectLang.selectedLang,
-          "dateofbirth": currentHolder.dateofbirth,
-          "mobileno": currentHolder.cellphonenumber,
-          "tac": this.PForm_1.controls.tac.value,
-          "signature": encryptedBody.toString().replace(" ", "+")
+          "language": selectLang.selectedLang.toString(),
+          "mobileno": currentHolder.cellphonenumber.toString(),
+          "tac": this.PForm_1.controls.tac.value.toString(),
+          "dateofbirth": currentHolder.dateofbirth.toString(),
+          "signature": encryptedBody.toString()
         }
 
-
+        console.log(JSON.stringify(newBody));
 
         this.serviceService.unitHolderRegistration(newBody).subscribe((data: any) => {
           if (data.result.registration_status == true){
@@ -658,6 +658,7 @@ export class PortalregistrationComponent implements OnInit {
             });
             if(ct > 0){
               this.PForm_Error = true;
+              this.hideTac = true;
               this.PFormText_1 = data.result.error_code;
               this.PFormText_2 = data.result.error_reason;
             }else{
@@ -825,6 +826,7 @@ export class PortalregistrationComponent implements OnInit {
 
   PMForm_tryAgain(){
     this.PForm_Error = false;
+    this.hideTac = false;
   }
 
   nextToUpdate(){
@@ -935,7 +937,7 @@ export class PortalregistrationComponent implements OnInit {
       "moduleid" : "316",
       "message" : "ASNB KIOSK: myASNB Portal Registration",
       "language" : selectLang.selectedLang,
-      "signature": encryptedbody.toString().replace(" ", "+")
+      "signature": encryptedbody.toString()
     }
 
 
@@ -1003,7 +1005,7 @@ export class PortalregistrationComponent implements OnInit {
       "currentpwd": this.tempPassword,
       "secureph": this.tempsecure,
       "language": selectLang.selectedLang,
-      "newPassword": encryptedpass.toString().replace(" ", "+")
+      "newPassword": encryptedpass.toString()
     }
     this.serviceService.unitHolderChangePassword(body).subscribe((data: any) => {
       if (data.result.error_code == "000"){
@@ -1090,7 +1092,11 @@ export class PortalregistrationComponent implements OnInit {
               this.PR_Print1Visible = false;
               this.PR_Print2Visible = true;
               setTimeout(()=>{   
-                this._router.navigate(['transactionsuccessful']);
+                this.PR_Print1Visible = false;
+                this.PR_Print2Visible = false;
+                this.PR_EmailVisible = false;
+
+                this.transaction_Successful = true;
               }, 3000);
             }else{
               errorCodes.Ecode = "0068";
@@ -1147,8 +1153,11 @@ export class PortalregistrationComponent implements OnInit {
       setTimeout(()=>{   
         if (data == true){
           setTimeout(()=>{   
+            this.PR_Print1Visible = false;
+            this.PR_Print2Visible = false;
             this.PR_EmailVisible = false;
-            this._router.navigate(['transactionsuccessful']);
+
+            this.transaction_Successful = true;
           }, 3000);
         }else{
           errorCodes.Ecode = "0069";
@@ -1171,6 +1180,17 @@ export class PortalregistrationComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+
+  endTransaction(){
+    this._router.navigate(['feedbackscreen'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Feedback Screen.");
+  }
+
+  mainMenu(){
+    this._router.navigate(['transactionmenu'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Transaction Menu.");
   }
 
 }

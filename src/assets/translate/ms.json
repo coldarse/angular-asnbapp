@@ -173,7 +173,7 @@
 	"PRIntro_8":" akan diberikan. Sila simpan kata laluan sementara berkenaan untuk log masuk kali pertama.",
 	"PRIntro_9":"Anda diingatkan supaya menyimpan maklumat penting nama pengguna, kata laluan, frasa keselamatan dan jawapan untuk soalan keselamatan di tempat selamat untuk rujukan masa hadapan.",
 	"PRTNC_1":"Terma dan Syarat",
-	"PRTNC_2":"Apabila menggunakan myASNB, ada telah bersetuju untuk terikat disisi undang-undang dengan terma yang dinyatakan, yang berkuat kuasa serta merta apabila anda menggunakan laman web ini untuk kali pertama. Sekiranya anda tidak bersetuju untuk terikat disisi undang-undang dengan Terma dan Syarat yang dinyatakan, anda dinasihatkan untuk tidak mengakses atau menggunakan laman web ini.",
+	"PRTNC_2":"Apabila menggunakan myASNB, anda telah bersetuju untuk terikat disisi undang-undang dengan terma yang dinyatakan, yang berkuat kuasa serta merta apabila anda menggunakan laman web ini untuk kali pertama. Sekiranya anda tidak bersetuju untuk terikat disisi undang-undang dengan Terma dan Syarat yang dinyatakan, anda dinasihatkan untuk tidak mengakses atau menggunakan laman web ini.",
 	"PRTNC_3":"Saya telah membaca dan bersetuju dengan",
 	"PRTNC_4":"Terma dan Syarat",
 	"PRTNC_5":"dan",
@@ -389,5 +389,14 @@
 	"OSWarning": "Sila pilih Sektor Pekerjaan.",
 	"MIWarning1": "Sila pilih Pendapatan Bulanan.",
 	"RegistrationDeclaration1": "Klik disini untuk ",
-	"RegistrationDeclaration2": "Akuan Pengesahan Pendaftaran"
+	"RegistrationDeclaration2": "Akuan Pengesahan Pendaftaran",
+	"UsernameWarning": "Sila isikan ID Pengguna",
+	"SecurePhraseWarning": "Sila isikan Frasa Keselamatan",
+	"Answer1Warning": "Sila isikan Jawapan 1",
+	"Answer2Warning": "Sila isikan Jawapan 2",
+	"Answer3Warning": "Sila isikan Jawapan 3",
+	"TACWarning": "Sila isikan nombor TAC",
+	"TempPassWarning": "Sila isikan Kata Laluan Sementara",
+	"NewPass1Warning": "Sila isikan Kata Laluan Baru",
+	"NewPass2Warning": "Sila isikan Kata Laluan Baru sekali lagi"
 }

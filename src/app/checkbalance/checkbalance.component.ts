@@ -45,6 +45,7 @@ export class CheckbalanceComponent implements OnInit {
   CB3_Visible = false;
   CB4_Visible = false;
   CB5_Visible = false;
+  transaction_Successful = false;
 
   CBBijak_Visible = false;
 
@@ -185,6 +186,10 @@ export class CheckbalanceComponent implements OnInit {
     
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Print ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
       
+        
+        
+
+
         let body : any;
         if (this.isMain){
           body = {
@@ -271,6 +276,14 @@ export class CheckbalanceComponent implements OnInit {
         
         this.serviceService.postFiveTransactions(body)
         .subscribe((trans: any) => {
+
+          appFunc.ASNBFundID.forEach((fund: any) => {
+            if(trans.result.funds[0].fundid != undefined){
+              if(trans.result.funds[0].fundid.toString().toLowerCase() == fund.code.toString().toLowerCase()){
+                trans.result.funds[0].fundid = fund.desc;
+              }
+            }
+          });
     
           if (trans.result.requeststatus.toLowerCase().includes('successful')){
             signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(trans.result), "GetStatementPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
@@ -283,8 +296,12 @@ export class CheckbalanceComponent implements OnInit {
                   this.CB3_Visible = false;
                   this.CB4_Visible = true;
                   setTimeout(()=>{   
+                    this.CB3_Visible = false;
                     this.CB4_Visible = false;
-                    this._router.navigate(['transactionsuccessful']);
+                    this.CB5_Visible = false;
+
+                    this.transaction_Successful = true;
+                    //this._router.navigate(['transactionsuccessful']);
                   }, 3000);
                 }else{
                   kActivit1.endTime = new Date();
@@ -335,6 +352,7 @@ export class CheckbalanceComponent implements OnInit {
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Check Balance]" + ": " + `Selected to Email ${selectedFundDetails.FUNDID} fund with ${selectedFundDetails.UNITBALANCE} units.`);
 
+    
 
     let body: any;
     if (this.isMain){
@@ -430,6 +448,13 @@ export class CheckbalanceComponent implements OnInit {
       kActivit1.action = "Get Latest Five Transactions";
       kActivit1.startTime = new Date();
 
+      appFunc.ASNBFundID.forEach((fund: any) => {
+        if(trans.result.funds[0].fundid != undefined){
+          if(trans.result.funds[0].fundid.toString().toLowerCase() == fund.code.toString().toLowerCase()){
+            trans.result.funds[0].fundid = fund.desc;
+          }
+        }
+      });
 
       if (trans.result.requeststatus.toLowerCase().includes('successful')){
         signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
@@ -440,8 +465,12 @@ export class CheckbalanceComponent implements OnInit {
   
               appFunc.kioskActivity.push(kActivit1);
               setTimeout(()=>{   
+                this.CB3_Visible = false;
+                this.CB4_Visible = false;
                 this.CB5_Visible = false;
-                this._router.navigate(['transactionsuccessful']);
+
+                this.transaction_Successful = true;
+                //this._router.navigate(['transactionsuccessful']);
               }, 3000);
             }else{
               kActivit1.endTime = new Date();
@@ -537,6 +566,13 @@ export class CheckbalanceComponent implements OnInit {
         this.serviceService.dividendStatement(body)
         .subscribe((trans: any) => {
     
+          appFunc.ASNBFundID.forEach((fund: any) => {
+            if(trans.result.funds[0].fundid != undefined){
+              if(trans.result.funds[0].fundid.toString().toLowerCase() == fund.code.toString().toLowerCase()){
+                trans.result.funds[0].fundid = fund.desc;
+              }
+            }
+          });
     
           let kActivit1 = new kActivity();
           kActivit1.trxno = signalrConnection.trxno;
@@ -562,8 +598,12 @@ export class CheckbalanceComponent implements OnInit {
                   this.CB3_Visible = false;
                   this.CB4_Visible = true;
                   setTimeout(()=>{   
+                    this.CB3_Visible = false;
                     this.CB4_Visible = false;
-                    this._router.navigate(['transactionsuccessful']);
+                    this.CB5_Visible = false;
+
+                    this.transaction_Successful = true;
+                    //this._router.navigate(['transactionsuccessful']);
                   }, 3000);
                 }else{
                   kActivit1.endTime = new Date();
@@ -616,6 +656,8 @@ export class CheckbalanceComponent implements OnInit {
     let thisYear = new Date().getFullYear();
     let divYear: number = +thisYear;
     divYear = divYear - 1;
+
+    
 
     let body: any;
     if (this.isMain){
@@ -677,6 +719,13 @@ export class CheckbalanceComponent implements OnInit {
       kActivit1.action = "Get Dividend Statements";
       kActivit1.startTime = new Date();
 
+      appFunc.ASNBFundID.forEach((fund: any) => {
+        if(trans.result.funds[0].fundid != undefined){
+          if(trans.result.funds[0].fundid.toString().toLowerCase() == fund.code.toString().toLowerCase()){
+            trans.result.funds[0].fundid = fund.desc;
+          }
+        }
+      });
 
       if (trans.result.requeststatus.toLowerCase().includes('successful')){
         signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetDivStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
@@ -687,8 +736,12 @@ export class CheckbalanceComponent implements OnInit {
   
               appFunc.kioskActivity.push(kActivit1);
               setTimeout(()=>{   
+                this.CB3_Visible = false;
+                this.CB4_Visible = false;
                 this.CB5_Visible = false;
-                this._router.navigate(['transactionsuccessful']);
+
+                this.transaction_Successful = true;
+                //this._router.navigate(['transactionsuccessful']);
               }, 3000);
             }else{
               kActivit1.endTime = new Date();
@@ -742,7 +795,7 @@ export class CheckbalanceComponent implements OnInit {
       appFunc.ASNBFundID.forEach((fund: any) => {
         if(element.FUNDID != undefined){
           if(element.FUNDID.toString().toLowerCase() == fund.code.toString().toLowerCase()){
-            element.FUNDID = fund.value;
+            element.FUNDID = fund.desc;
           }
         }
       })
@@ -812,8 +865,12 @@ export class CheckbalanceComponent implements OnInit {
               this.CB3_Visible = false;
               this.CB4_Visible = true;
               setTimeout(()=>{   
+                this.CB3_Visible = false;
                 this.CB4_Visible = false;
-                this._router.navigate(['transactionsuccessful']);
+                this.CB5_Visible = false;
+
+                this.transaction_Successful = true;
+                //this._router.navigate(['transactionsuccessful']);
               }, 3000);
             }else{
               kActivit1.endTime = new Date();
@@ -849,7 +906,7 @@ export class CheckbalanceComponent implements OnInit {
       appFunc.ASNBFundID.forEach((fund: any) => {
         if(element.FUNDID != undefined){
           if(element.FUNDID.toString().toLowerCase() == fund.code.toString().toLowerCase()){
-            element.FUNDID = fund.value;
+            element.FUNDID = fund.desc;
           }
         }
       })
@@ -923,8 +980,12 @@ export class CheckbalanceComponent implements OnInit {
 
           appFunc.kioskActivity.push(kActivit1);
           setTimeout(()=>{   
+            this.CB3_Visible = false;
+            this.CB4_Visible = false;
             this.CB5_Visible = false;
-            this._router.navigate(['transactionsuccessful']);
+
+            this.transaction_Successful = true;
+            //this._router.navigate(['transactionsuccessful']);
           }, 3000);
         }else{
           kActivit1.endTime = new Date();
@@ -1090,5 +1151,15 @@ export class CheckbalanceComponent implements OnInit {
     this.CB2_ErrorVisible = false;
   }
   
+
+  endTransaction(){
+    this._router.navigate(['feedbackscreen'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Feedback Screen.");
+  }
+
+  mainMenu(){
+    this._router.navigate(['transactionmenu'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Transaction Menu.");
+  }
 
 }

@@ -11,7 +11,7 @@ import { formatDate } from '@angular/common';
 import { appFunc } from '../_models/appFunctions';
 import { eModules } from '../_models/enabledModules';
 import { errorCodes } from '../_models/errorCode';
-import { ASNBFundID, bankName, businessNature, cities, fundSource, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, reasonTransfer, relationship, religions, securityQuestions, states, thirdpartyRelationship, TitleDetails } from '../_models/dropDownLists';
+import { ASNBFundID, bankName, businessNature, cities, fundSource, icType, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, reasonTransfer, relationship, religions, securityQuestions, states, thirdpartyRelationship, TitleDetails } from '../_models/dropDownLists';
 import { kActivity } from '../_models/kActivity';
 import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
@@ -143,7 +143,8 @@ export class LanguageComponent implements OnInit {
             }
           }
 
-      
+          console.log(signalrConnection.kioskCode);
+
           if(areDisabled == appFunc.modules.length){
             errorCodes.code = "0168";
             errorCodes.message = "Under Maintenance";
@@ -239,7 +240,6 @@ export class LanguageComponent implements OnInit {
 
       appFunc.titleSalutation = res[0].result.items.map((ts: any) => new TitleDetails(ts));
       appFunc.cities = res[1].result.items.map((ct: any) => new cities(ct));
-      
       appFunc.states = res[3].result.items.map((st: any) => new states(st));
       appFunc.bankName = res[10].result.items.map((bn: any) => new bankName(bn));
       appFunc.ASNBFundID = res[15].result.items.map((fi: any) => new ASNBFundID(fi));
@@ -328,6 +328,12 @@ export class LanguageComponent implements OnInit {
           desc: rt.descBM,
           descBM: rt.descBM
         }));
+        appFunc.ictype = res[18].result.items.map((it: any) => 
+        new icType({
+          code: it.code,
+          desc: it.descBM,
+          descBM: it.descBM
+        }));
 
       }else{
         appFunc.monthlyIncome = res[2].result.items.map((mi: any) => new monthlyIncome(mi));
@@ -343,6 +349,7 @@ export class LanguageComponent implements OnInit {
         appFunc.fundSource = res[14].result.items.map((fs: any) => new fundSource(fs));
         appFunc.thirdPartyRelationship = res[16].result.items.map((tpr: any) => new thirdpartyRelationship(tpr));
         appFunc.reasonTransfer = res[17].result.items.map((rt: any) => new reasonTransfer(rt));
+        appFunc.ictype = res[18].result.items.map((it: any) => new reasonTransfer(it));
       }
 
     }, error => {

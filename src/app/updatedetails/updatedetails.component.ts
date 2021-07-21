@@ -79,6 +79,8 @@ export class UpdatedetailsComponent implements OnInit {
   UD_Print1Visible = false;
   UD_Print2Visible = false;
   UD_EmailVisible = false;
+  transaction_Successful = false;
+
 
   checkedXEmail : boolean = false;
   checkedXTelephone : boolean = false;
@@ -1832,7 +1834,12 @@ export class UpdatedetailsComponent implements OnInit {
                 this._router.navigate(['redemption']);
               }
               else{
-                this._router.navigate(['transactionsuccessful']);
+                this.UD_Print1Visible = false;
+                this.UD_Print2Visible = false;
+                this.UD_EmailVisible = false;
+
+                this.transaction_Successful = true;
+                //this._router.navigate(['transactionsuccessful']);
               }
               
             }
@@ -1954,7 +1961,12 @@ export class UpdatedetailsComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "Account Found.");
 
               
-              this._router.navigate(['transactionsuccessful']);
+              this.UD_Print1Visible = false;
+              this.UD_Print2Visible = false;
+              this.UD_EmailVisible = false;
+
+              this.transaction_Successful = true;
+              //this._router.navigate(['transactionsuccessful']);
             }
           }
         }
@@ -1986,6 +1998,17 @@ export class UpdatedetailsComponent implements OnInit {
 
 
     
+  }
+
+
+  endTransaction(){
+    this._router.navigate(['feedbackscreen'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Feedback Screen.");
+  }
+
+  mainMenu(){
+    this._router.navigate(['transactionmenu'])
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Transaction Menu.");
   }
 
   

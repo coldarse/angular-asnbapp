@@ -25,7 +25,7 @@
 <div *ngIf="BijakVisible" class="content-container">
    
     <div>
-        <div class="col-md-12 text-center" style="padding-top:2rem; font-family: helvetica ;">
+        <div class="col-md-12 text-center" style="padding-top:2rem; font-family: HelveticaNeue;">
             <h2 id="CB1_Title3">{{'CB1_3' | translate }}</h2>
         </div>
 
@@ -347,12 +347,10 @@
             </div>
             <div class="col-md-6">
                 <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["ictype"]' #thirdictype>
-                        <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
-                            {{seq.questionEN}}
-                        </option> -->
-                    <option value="W">W</option>
-                    <option value="W">W</option>
-                    <option value="W">W</option>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
+                    <option *ngFor="let type of ictype" value={{type.code}}>
+                        {{type.desc}}
+                    </option>
                 </select>
             </div>
         </div>
@@ -526,8 +524,7 @@
     </div>
 
 
-    
-  
+
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:21.27rem;">
             <div class="col-md-12">
@@ -546,14 +543,13 @@
 </div>
 
 <div *ngIf="STPStep3" class="content-container">
-   
+
     <div class="text-center" style="padding-top:3rem">
         <h2>
             {{'ThirdPartyDetails' | translate}}
         </h2>
     </div>
 
-   
 
     <div class="pop-up-third">
         <div class="row" style="padding-top:2rem;">
@@ -707,14 +703,13 @@
 </div>
 
 <div *ngIf="SIStep6" class="content-container">
-   
+
     <div class="text-center" style="padding-top:3rem">
         <h2>
             {{'AcknowledgementStatus' | translate}}
         </h2>
     </div>
 
-   
 
     <div class="pop-up-status">
         <div class="row" style="padding-top:1rem;">
@@ -935,7 +930,7 @@
 
         </div>
         <div class="col-md-10">
-           <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">
+            <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">
                 {{'SIStep6_1' | translate }}
             </label><br>
         </div>
@@ -945,20 +940,111 @@
     </div>
 
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top:2rem; padding-bottom: 2rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="Print()">
-                    {{'BTN_Print1' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="Email()">
-                    {{'BTN_Email1' | translate }}
-                </button>
+        <div class="row text-center" style="padding-top:2rem;">
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row" *ngIf="Print_Visible && Email_Visible">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="Print()">
+                            {{'BTN_Print' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="Email()">
+                            {{'BTN_Email' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="Print_Visible && !Email_Visible">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="Print()">
+                            {{'BTN_Print' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="!Print_Visible && Email_Visible">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="Email()">
+                            {{'BTN_Email' | translate }}
+                        </button>
+                    </div>
+                </div>
+
             </div>
-            
         </div>
     </footer>
     
 
+</div>
+
+<div *ngIf="Print1_Visible" class="content-container">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem;">
+            <h2 class="h2-ic" id="ARP1_Title1">{{'Print1_1' | translate }}</h2>
+            <h2 class="h2-ic" id="ARP1_Title2">{{'Print1_2' | translate }}</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-a.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+<div *ngIf="Print2_Visible" class="content-container">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="ARP2_Title1">{{'Print2_1' | translate }}</h2>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-b.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+<div *ngIf="EmailPage_Visible" class="content-container">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="ARE_Title1">{{'Email_1' | translate }}</h2>
+            <h2 class="h2-ic" id="ARE_Title2">{{'Email_2' | translate }}</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnb-mobile-emel.png" class="ICReader__centered img-addon padding-top-10rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+
+<div class="content-container" *ngIf="transaction_Successful">
+    <div class="row text-center">
+        <div class="col-md-12 padding-top-2rem">
+            <img src="assets/images/ASNB-tick.png" class="ticklogo " alt="ASNB">
+        </div>
+    </div>
+    
+    <div class="row text-center padding-top-5rem" >
+        <h2 class="h2-ic" id="ST_Title1">{{'TS_1' | translate }}</h2>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel" id="ST_EndTransaction" (click)="endTransaction()">
+                            {{'BTN_End' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="ST_MainMenu" (click)="mainMenu()">
+                            {{'BTN_MainMenu' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
 
 

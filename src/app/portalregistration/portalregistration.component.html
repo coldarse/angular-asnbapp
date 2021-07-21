@@ -428,7 +428,7 @@
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input" name="" [formControl]='PForm_1.controls["userid"]' #uid id="uid">
                      <!-- [formControl]='PForm_1.controls["username"]' -->
-                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="userid_warning">{{'Warning' | translate}}</div> 
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="userid_warning">{{'UsernameWarning' | translate}}</div> 
 
                 </div>
             </div>
@@ -467,7 +467,7 @@
                     <h4 class="h2-ic">{{'PRDetails_5' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["securephrase"]' #securePhrase id="securephrase">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["SecurePhraseWarning"]' #securePhrase id="securephrase">
                     <!-- [formControl]='PForm_1.controls["securephrase"]'> -->
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="securephrase_warning">{{'Warning' | translate}}</div> 
 
@@ -495,7 +495,7 @@
                 <div class="col-md-7">
                     <input type="text" name="" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a1"]' #answer1 id="ans1">
                     <!-- [formControl]='PForm_1.controls["ans1"]'> -->
-                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer1_warning">{{'Warning' | translate}}</div> 
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer1_warning">{{'Answer1Warning' | translate}}</div> 
 
                 </div>
             </div>
@@ -519,7 +519,7 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" name="" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a2"]' #answer2 id="ans2">
-                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer2_warning">{{'Warning' | translate}}</div> 
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer2_warning">{{'Answer2Warning' | translate}}</div> 
                 
                 </div>
             </div>
@@ -543,7 +543,7 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" name="" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["a3"]' #answer3 id="ans3">
-                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer3_warning">{{'Warning' | translate}}</div> 
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="answer3_warning">{{'Answer3Warning' | translate}}</div> 
                 
                 </div>
             </div>
@@ -588,10 +588,10 @@
                 </div>
                 <div class="col-md-7">
                     <input type="text" name="" style="width: 50%;" class="use-keyboard-input" [formControl]='PForm_1.controls["tac"]' #TAC id="tac">
-                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="tac_warning">{{'Warning' | translate}}</div> 
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="tac_warning">{{'TACWarning' | translate}}</div> 
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="tac1_warning">{{'WrongTAC' | translate}}</div> 
                     
-                    <button id="TACreq" class="btn btn-primary" style="margin-left: 1rem;" (click)="TACClick()" [disabled]="clickedTac">
+                    <button id="TACreq" class="btn btn-primary" style="margin-left: 1rem;" (click)="TACClick()" [disabled]="clickedTac" [hidden]="hideTac">
                         <!-- Permintaan TAC -->
                         {{'BTN_TAC' | translate }}
                     </button>
@@ -739,7 +739,7 @@
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
             <input type="text" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_2.controls["useridlog"]' #uidlog id="uidlog">
-            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="useridlog_warning">{{'Warning' | translate}}</div> 
+            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="useridlog_warning">{{'UsernameWarning' | translate}}</div> 
             <!-- <button class="btn btn-primary" (click)='usernameVerify()'>
                 {{'BTN_Login' | translate}}
             </button> -->
@@ -801,7 +801,7 @@
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
             <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_2.controls["temppass"]' #tempPass id="temppasss">
-            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="temppass_warning">{{'Warning' | translate}}</div> 
+            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="temppass_warning">{{'TempPassWarning' | translate}}</div> 
         
         </div>
     </div>
@@ -848,7 +848,7 @@
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
             <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpass"]' #newPass id="newpass1">
-            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpass_warning">{{'Warning' | translate}}</div> 
+            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpass_warning">{{'NewPass1Warning' | translate}}</div> 
         
         </div>
     </div>
@@ -866,7 +866,7 @@
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
             <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpassR"]' #newPassR id="newpass2">
-            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR_warning">{{'Warning' | translate}}</div> 
+            <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR_warning">{{'NewPass2Warning' | translate}}</div> 
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR1_warning">{{'NotMatch' | translate}}</div> 
         
         </div>
@@ -1070,5 +1070,36 @@
             <img src="assets/images/asnb-mobile-emel.png" class="ICReader__centered img-addon padding-top-10rem" alt="ThumbPrintImage">
         </div>
     </div>
+</div>
+
+<div class="content-container" *ngIf="transaction_Successful">
+    <div class="row text-center">
+        <div class="col-md-12 padding-top-2rem">
+            <img src="assets/images/ASNB-tick.png" class="ticklogo " alt="ASNB">
+        </div>
+    </div>
+    
+    <div class="row text-center padding-top-5rem" >
+        <h2 class="h2-ic" id="ST_Title1">{{'TS_1' | translate }}</h2>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel" id="ST_EndTransaction" (click)="endTransaction()">
+                            {{'BTN_End' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="ST_MainMenu" (click)="mainMenu()">
+                            {{'BTN_MainMenu' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
 
