@@ -271,7 +271,7 @@
 	"UEError_1" : "Your myASNB account is already registred. Please visit www.myasnb.com.my to continue your transaction. Please refer to an ASNB officer on-duty for further information.",
 	"BTN_Summ5" : "Summary & 5 Latest transactions",
 	"BTN_LatestDiv" : "Latest dividend statement",
-	"NotMatch" : "Both passwords must match.",
+	"NotMatch" : "Please ensure your password matches with new password.",
 	"BTN_TAC" : "Request TAC",
 	"WrongTAC" : "Invalid TAC",
 	"BTN_Login" : "Login",
@@ -395,7 +395,7 @@
 	"Answer1Warning": "Please enter Asnwer 1",
 	"Answer2Warning": "Please enter Answer 2",
 	"Answer3Warning": "Please enter Answer 3",
-	"TACWarning": "Please enter TAC",
+	"TACWarning": "Please key in Verification Code",
 	"TempPassWarning": "Please enter Temporary Password",
 	"NewPass1Warning": "Please enter New Password",
 	"NewPass2Warning": "Please re-enter New Password"

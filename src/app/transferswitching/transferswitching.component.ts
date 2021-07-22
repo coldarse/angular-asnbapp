@@ -57,6 +57,9 @@ export class TransferswitchingComponent implements OnInit {
   Form_1: any;
   Form_2: any;
 
+  reason = appFunc.reasonTransfer;
+  relationship = appFunc.thirdPartyRelationship;
+
   transferuhid = "";
   transferuhname = "";
   transferuhic = "";

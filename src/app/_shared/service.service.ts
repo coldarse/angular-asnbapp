@@ -215,6 +215,32 @@ export class ServiceService {
     )
   }
 
+  //Post Switching
+  postSwitching(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/OpenAPI/Switch",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
+  //Post Transfer
+  postTransfer(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/OpenAPI/Transfer",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
   //Get Dividend Statement
   dividendStatement(body: any){
     return this.http.post(

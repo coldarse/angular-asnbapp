@@ -52,7 +52,7 @@
 
 
 <div *ngIf="transferswitching" class="content-container">
-   
+
     <div class="row text-center" style="padding-top:1rem">
         <div class="col-md-1" >
 
@@ -241,12 +241,10 @@
             </div>
             <div class="col-md-6">
                 <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["reason"]' #treason>
-                    <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
-                        {{seq.questionEN}}
-                    </option> -->
-                    <option value="122">112</option>
-                    <option value="233">223</option>
-                    <option value="134">134</option>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
+                    <option *ngFor="let rea of reason" value={{rea.code}}>
+                        {{rea.desc}}
+                    </option>
                 </select>
             </div>
         </div>
@@ -259,12 +257,10 @@
             </div>
             <div class="col-md-6">
                 <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["relationship"]' #trelationship>
-                    <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
-                        {{seq.questionEN}}
-                    </option> -->
-                    <option value="122">112</option>
-                    <option value="233">223</option>
-                    <option value="134">134</option>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
+                    <option *ngFor="let re of relationship" value={{re.code}}>
+                        {{re.desc}}
+                    </option>
                 </select> 
             </div>
         </div>

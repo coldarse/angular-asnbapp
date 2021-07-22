@@ -795,7 +795,7 @@ export class CheckbalanceComponent implements OnInit {
       appFunc.ASNBFundID.forEach((fund: any) => {
         if(element.FUNDID != undefined){
           if(element.FUNDID.toString().toLowerCase() == fund.code.toString().toLowerCase()){
-            element.FUNDID = fund.desc;
+            element.FUNDID = fund.value;
           }
         }
       })
@@ -906,7 +906,7 @@ export class CheckbalanceComponent implements OnInit {
       appFunc.ASNBFundID.forEach((fund: any) => {
         if(element.FUNDID != undefined){
           if(element.FUNDID.toString().toLowerCase() == fund.code.toString().toLowerCase()){
-            element.FUNDID = fund.desc;
+            element.FUNDID = fund.value;
           }
         }
       })
