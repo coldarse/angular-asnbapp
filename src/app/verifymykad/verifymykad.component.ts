@@ -582,7 +582,7 @@ export class VerifymykadComponent implements OnInit {
     this._router.navigate(['updatedetails']);
   }
 
-    getAccountInquiry(): void {
+  getAccountInquiry(): void {
     try{
 
       
@@ -709,19 +709,19 @@ export class VerifymykadComponent implements OnInit {
 
           if (!currentHolder.typeclosed.toLowerCase().includes('n')){
              //Insolvent Status = "Y", reject code = 106
-             if (currentHolder.typeclosed.toLowerCase().includes('y'))
-             {
-               errorCodes.Ecode = "0106";
-             }
+            if (currentHolder.typeclosed.toLowerCase().includes('y'))
+            {
+              errorCodes.Ecode = "0106";
+            }
               //Pending Status = "P", reject code = 102
-             else if (currentHolder.typeclosed.toLowerCase().includes('p'))
-             {
-               errorCodes.Ecode = "0102";
-             }
-             else
-             {
-               errorCodes.Ecode = "0168";
-             }
+            else if (currentHolder.typeclosed.toLowerCase().includes('p'))
+            {
+              errorCodes.Ecode = "0102";
+            }
+            else
+            {
+              errorCodes.Ecode = "0168";
+            }
             // errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
             errorCodes.accountName = currentHolder.firstname;
             errorCodes.accountNo = currentHolder.unitholderid;

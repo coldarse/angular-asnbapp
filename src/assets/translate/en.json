@@ -268,6 +268,7 @@
 	"CNWarning" : "Please enter a Company Name.",
 	"EAWarning1" : "Invalid Format.",
 	"RMError4_1" : "Please update your account to continue with the transaction.",
+	"RMError4_2" : "*Disclaimer: Please ensure that the information including Akaun Bijak/Remaka will be sent through the personal information of the Unit Holder/Registered Guardian, namely the address, telephone number, and email that has been updated in ASNB's records.",
 	"UEError_1" : "Your myASNB account is already registred. Please visit www.myasnb.com.my to continue your transaction. Please refer to an ASNB officer on-duty for further information.",
 	"BTN_Summ5" : "Summary & 5 Latest transactions",
 	"BTN_LatestDiv" : "Latest dividend statement",
