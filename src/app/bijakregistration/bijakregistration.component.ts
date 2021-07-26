@@ -1260,6 +1260,8 @@ export class BijakregistrationComponent implements OnInit {
       "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value
     }
 
+    console.log(body)
+
     this.serviceService.postAccountRegistration(body).subscribe((data: any) => {
 
       if(data.result.transactionstatus.toLowerCase().includes('successful')){
@@ -1455,19 +1457,13 @@ export class BijakregistrationComponent implements OnInit {
     }
 
     signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "2", JSON.stringify(emailObj)).then((data: any) => {
-      setTimeout(()=>{   
-        if (data == true){
-          setTimeout(()=>{   
-            this.BREmail_Visible = false;
-            this.getAccountInquiryRetry();
-          }, 3000);
-        }else{
-          errorCodes.Ecode = "0069";
-          errorCodes.Emessage = "Email Failed";
-          this._router.navigate(['errorscreen']);
-        }
-      }, 3000);
+      
     });
+
+    setTimeout(()=>{   
+      this.BREmail_Visible = false;
+      this.getAccountInquiry();
+    }, 5000);
   }
 
   getAccountInquiryRetry(): void {

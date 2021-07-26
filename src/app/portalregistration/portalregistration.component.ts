@@ -1150,23 +1150,31 @@ export class PortalregistrationComponent implements OnInit {
     }
 
     signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetPortalRegistrationPrintout", signalrConnection.trxno, "4", JSON.stringify(emailObj)).then((data: any) => {
-      setTimeout(()=>{   
-        if (data == true){
-          setTimeout(()=>{   
-            this.PR_Print1Visible = false;
-            this.PR_Print2Visible = false;
-            this.PR_EmailVisible = false;
+      // setTimeout(()=>{   
+      //   if (data == true){
+      //     setTimeout(()=>{   
+      //       this.PR_Print1Visible = false;
+      //       this.PR_Print2Visible = false;
+      //       this.PR_EmailVisible = false;
 
-            this.transaction_Successful = true;
-          }, 3000);
-        }else{
-          errorCodes.Ecode = "0069";
-          errorCodes.Emessage = "Email Failed";
-          this._router.navigate(['errorscreen']);
-          clearInterval(this.id);
-        }
-      }, 3000);
+      //       this.transaction_Successful = true;
+      //     }, 3000);
+      //   }else{
+      //     errorCodes.Ecode = "0069";
+      //     errorCodes.Emessage = "Email Failed";
+      //     this._router.navigate(['errorscreen']);
+      //     clearInterval(this.id);
+      //   }
+      // }, 3000);
     });
+
+    setTimeout(()=>{   
+      this.PR_Print1Visible = false;
+      this.PR_Print2Visible = false;
+      this.PR_EmailVisible = false;
+
+      this.transaction_Successful = true;
+    }, 5000);
   }
 
 

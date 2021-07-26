@@ -458,31 +458,40 @@ export class CheckbalanceComponent implements OnInit {
 
       if (trans.result.requeststatus.toLowerCase().includes('successful')){
         signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
-          setTimeout(()=>{   
-            if (data == true){
+          // setTimeout(()=>{   
+          //   if (data == true){
               kActivit1.endTime = new Date();
               kActivit1.status = true; 
   
               appFunc.kioskActivity.push(kActivit1);
-              setTimeout(()=>{   
-                this.CB3_Visible = false;
-                this.CB4_Visible = false;
-                this.CB5_Visible = false;
+          //     setTimeout(()=>{   
+          //       this.CB3_Visible = false;
+          //       this.CB4_Visible = false;
+          //       this.CB5_Visible = false;
 
-                this.transaction_Successful = true;
-                //this._router.navigate(['transactionsuccessful']);
-              }, 3000);
-            }else{
-              kActivit1.endTime = new Date();
-              kActivit1.status = false; 
+          //       this.transaction_Successful = true;
+          //       //this._router.navigate(['transactionsuccessful']);
+          //     }, 3000);
+          //   }else{
+          //     kActivit1.endTime = new Date();
+          //     kActivit1.status = false; 
   
-              appFunc.kioskActivity.push(kActivit1);
-              errorCodes.Ecode = "0069";
-              errorCodes.Emessage = "Email Failed";
-              this._router.navigate(['errorscreen']);
-            }
-          }, 3000);
+          //     appFunc.kioskActivity.push(kActivit1);
+          //     errorCodes.Ecode = "0069";
+          //     errorCodes.Emessage = "Email Failed";
+          //     this._router.navigate(['errorscreen']);
+          //   }
+          // }, 3000);
         });
+
+        setTimeout(()=>{   
+          this.CB3_Visible = false;
+          this.CB4_Visible = false;
+          this.CB5_Visible = false;
+
+          this.transaction_Successful = true;
+          //this._router.navigate(['transactionsuccessful']);
+        }, 5000);
       }
       else{
         errorCodes.Ecode = trans.result.rejectcode;
@@ -729,31 +738,40 @@ export class CheckbalanceComponent implements OnInit {
 
       if (trans.result.requeststatus.toLowerCase().includes('successful')){
         signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetDivStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
-          setTimeout(()=>{   
-            if (data == true){
+          // setTimeout(()=>{   
+          //   if (data == true){
               kActivit1.endTime = new Date();
               kActivit1.status = true; 
   
               appFunc.kioskActivity.push(kActivit1);
-              setTimeout(()=>{   
-                this.CB3_Visible = false;
-                this.CB4_Visible = false;
-                this.CB5_Visible = false;
+          //     setTimeout(()=>{   
+          //       this.CB3_Visible = false;
+          //       this.CB4_Visible = false;
+          //       this.CB5_Visible = false;
 
-                this.transaction_Successful = true;
-                //this._router.navigate(['transactionsuccessful']);
-              }, 3000);
-            }else{
-              kActivit1.endTime = new Date();
-              kActivit1.status = false; 
+          //       this.transaction_Successful = true;
+          //       //this._router.navigate(['transactionsuccessful']);
+          //     }, 3000);
+          //   }else{
+          //     kActivit1.endTime = new Date();
+          //     kActivit1.status = false; 
   
-              appFunc.kioskActivity.push(kActivit1);
-              errorCodes.Ecode = "0069";
-              errorCodes.Emessage = "Email Failed";
-              this._router.navigate(['errorscreen']);
-            }
-          }, 3000);
+          //     appFunc.kioskActivity.push(kActivit1);
+          //     errorCodes.Ecode = "0069";
+          //     errorCodes.Emessage = "Email Failed";
+          //     this._router.navigate(['errorscreen']);
+          //   }
+          // }, 3000);
         });
+
+        setTimeout(()=>{   
+          this.CB3_Visible = false;
+          this.CB4_Visible = false;
+          this.CB5_Visible = false;
+
+          this.transaction_Successful = true;
+          //this._router.navigate(['transactionsuccessful']);
+        }, 5000);
       }
       else{
         errorCodes.Ecode = trans.result.rejectcode;
@@ -973,31 +991,40 @@ export class CheckbalanceComponent implements OnInit {
     kActivit1.startTime = new Date();
     
     signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetSummaryStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
-      setTimeout(()=>{   
-        if (data == true){
-          kActivit1.endTime = new Date();
-          kActivit1.status = true; 
+      // setTimeout(()=>{   
+      //   if (data == true){
+      //     kActivit1.endTime = new Date();
+      //     kActivit1.status = true; 
 
-          appFunc.kioskActivity.push(kActivit1);
-          setTimeout(()=>{   
-            this.CB3_Visible = false;
-            this.CB4_Visible = false;
-            this.CB5_Visible = false;
+      //     appFunc.kioskActivity.push(kActivit1);
+      //     setTimeout(()=>{   
+      //       this.CB3_Visible = false;
+      //       this.CB4_Visible = false;
+      //       this.CB5_Visible = false;
 
-            this.transaction_Successful = true;
-            //this._router.navigate(['transactionsuccessful']);
-          }, 3000);
-        }else{
-          kActivit1.endTime = new Date();
-          kActivit1.status = false; 
+      //       this.transaction_Successful = true;
+      //       //this._router.navigate(['transactionsuccessful']);
+      //     }, 3000);
+      //   }else{
+      //     kActivit1.endTime = new Date();
+      //     kActivit1.status = false; 
 
-          appFunc.kioskActivity.push(kActivit1);
-          errorCodes.Ecode = "0069";
-          errorCodes.Emessage = "Email Failed";
-          this._router.navigate(['errorscreen']);
-        }
-      }, 3000);
+      //     appFunc.kioskActivity.push(kActivit1);
+      //     errorCodes.Ecode = "0069";
+      //     errorCodes.Emessage = "Email Failed";
+      //     this._router.navigate(['errorscreen']);
+      //   }
+      // }, 3000);
     });
+
+    setTimeout(()=>{   
+      this.CB3_Visible = false;
+      this.CB4_Visible = false;
+      this.CB5_Visible = false;
+
+      this.transaction_Successful = true;
+      //this._router.navigate(['transactionsuccessful']);
+    }, 5000);
 
   }
 

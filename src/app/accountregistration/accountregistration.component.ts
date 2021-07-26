@@ -828,19 +828,13 @@ export class AccountregistrationComponent implements OnInit {
     }
 
     signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "1", JSON.stringify(emailObj)).then((data: any) => {
-      setTimeout(()=>{   
-        if (data == true){
-          setTimeout(()=>{   
-            this.AREmail_Visible = false;
-            this.getAccountInquiry();
-          }, 3000);
-        }else{
-          errorCodes.Ecode = "0069";
-          errorCodes.Emessage = "Email Failed";
-          this._router.navigate(['errorscreen']);
-        }
-      }, 3000);
+      
     });
+
+    setTimeout(()=>{   
+      this.AREmail_Visible = false;
+      this.getAccountInquiry();
+    }, 5000);
   }
 
   TNCDisgree(){

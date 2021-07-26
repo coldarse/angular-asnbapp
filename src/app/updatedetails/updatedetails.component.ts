@@ -1444,7 +1444,7 @@ export class UpdatedetailsComponent implements OnInit {
           noemail: [{value: false, disabled: isMobile}],
           deliverystate: [currentHolder.preferredmailmode],
 
-          bankname: [currentHolder.bankcode],
+          bankname: [currentHolder.bankcode == undefined ? "" : currentHolder.bankcode],
           bankaccount: [currentHolder.accountnumber, (Validators.required, Validators.minLength(5))],
 
           jobcategory: [currentHolder.occupationcategory],
@@ -1497,7 +1497,7 @@ export class UpdatedetailsComponent implements OnInit {
           g_dob: [{value: currentHolder.dateofbirth, disabled: true}],
           g_race: [{value: currentHolder.race, disabled: true}],
           g_religion: [{value: currentHolder.religion, disabled: true}],
-          g_relation: [{value: currentBijakHolder.relationship, disabled: false}],
+          g_relation: [{value: currentBijakHolder.relationship == undefined || currentBijakHolder.relationship == "" ? 'F' : currentBijakHolder.relationship, disabled: false}],
 
           address1 : [{value: currentHolder.addresslinE1, disabled: true}],
           address2 : [{value: currentHolder.addresslinE2, disabled: true}],
@@ -1517,7 +1517,7 @@ export class UpdatedetailsComponent implements OnInit {
           noemail: [{value: false, disabled: isMobile}],
           deliverystate: [currentBijakHolder.preferredmailmode],
 
-          bankname: [{value: currentHolder.bankcode, disabled: true}],
+          bankname: [{value: currentHolder.bankcode == undefined ? "" : currentHolder.bankcode, disabled: true}],
           bankaccount: [{value: currentHolder.accountnumber, disabled: true}],
 
           jobcategory: [{value: currentHolder.occupationcategory, disabled: true}],
@@ -1669,24 +1669,34 @@ export class UpdatedetailsComponent implements OnInit {
     }
 
     signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, tempEmail, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "3", JSON.stringify(emailObj)).then((data: any) => {
-      setTimeout(()=>{   
-        if (data == true){
-          setTimeout(()=>{   
-            this.UD_EmailVisible = false;
-            if(this.isMain){
-              this.getAccountInquiryMajor();
-            }
-            else{
-              this.getAccountInquiryMinor();
-            }
-          }, 3000);
-        }else{
-          errorCodes.Ecode = "0069";
-          errorCodes.Emessage = "Email Failed";
-          this._router.navigate(['errorscreen']);
-        }
-      }, 3000);
+      // setTimeout(()=>{   
+      //   if (data == true){
+      //     setTimeout(()=>{   
+      //       this.UD_EmailVisible = false;
+      //       if(this.isMain){
+      //         this.getAccountInquiryMajor();
+      //       }
+      //       else{
+      //         this.getAccountInquiryMinor();
+      //       }
+      //     }, 3000);
+      //   }else{
+      //     errorCodes.Ecode = "0069";
+      //     errorCodes.Emessage = "Email Failed";
+      //     this._router.navigate(['errorscreen']);
+      //   }
+      // }, 3000);
     });
+
+    setTimeout(()=>{   
+      this.UD_EmailVisible = false;
+      if(this.isMain){
+        this.getAccountInquiryMajor();
+      }
+      else{
+        this.getAccountInquiryMinor();
+      }
+    }, 5000);
   }
 
   getAccountInquiryMajor(): void{
