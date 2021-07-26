@@ -277,7 +277,8 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email type="text" id="AREmail" ng-model="emailAddress" class="input-normal use-keyboard-input "  [disabled]="checkedXEmail" [formControl]='AR_Form.controls["email"]'>
+                                <!-- [disabled]="checkedXEmail" -->
+                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email type="text" id="AREmail" ng-model="emailAddress" class="input-normal use-keyboard-input "   [formControl]='AR_Form.controls["email"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning">{{'EAWarning' | translate}}</div> 
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning1">{{'EAWarning1' | translate}}</div> 
                                 <input type="checkbox" id="noEmail" name="noEmail" [formControl]='AR_Form.controls["noemail"]' (click)="noEmailCheck()" style="margin-top: 0.8rem;">
@@ -888,7 +889,8 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email type="text" id="AREmail" ng-model="emailAddress" class="input-normal use-keyboard-input "  [disabled]="checkedXEmail" [formControl]='AR_Form.controls["email"]'>
+                                <!-- [disabled]="checkedXEmail" -->
+                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email type="text" id="AREmail" ng-model="emailAddress" class="input-normal use-keyboard-input "   [formControl]='AR_Form.controls["email"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning">{{'EAWarning' | translate}}</div> 
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning1">{{'EAWarning1' | translate}}</div> 
                                 <input type="checkbox" id="noEmail" name="noEmail" [formControl]='AR_Form.controls["noemail"]' (click)="noEmailCheck()" style="margin-top: 0.8rem;">

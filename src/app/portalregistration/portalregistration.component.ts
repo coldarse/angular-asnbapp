@@ -87,7 +87,7 @@ export class PortalregistrationComponent implements OnInit {
   BTN_Print = "";
   BTN_Email = "";
 
-  PR_Intro = true;
+  PR_Intro = false;
   PR_TNC = false;
   PR_Details = false;
   PR_TempPass = false;
@@ -361,7 +361,7 @@ export class PortalregistrationComponent implements OnInit {
                       this.form_SetC.push(appFunc.securityQuestions[i]);
                   }
                 } 
-              
+                this.PR_Intro = true;
                 
               }else{
                 this.UserError_Visible = true;

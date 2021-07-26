@@ -840,7 +840,12 @@ export class BijakregistrationComponent implements OnInit {
               if (y.text.toLowerCase().includes(this.state.toLowerCase())){
                 this.state = y.value;
                 break;
-              }else{
+              }
+              else if(this.state.toLowerCase().includes('wilayah')){
+                this.state = 'WI';
+                break;
+              }
+              else{
                 this.state = currentMyKidDetails.State.toString().replace(" ", "");
               }
             }

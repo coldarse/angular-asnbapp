@@ -786,24 +786,7 @@ export class UpdatedetailsComponent implements OnInit {
         }
 
         this.serviceService.updateDetails(body).subscribe((data: any) => {
-          if(data.result.transactionstatus.toLowerCase().includes('reject')){
-            kActivit.endTime = new Date();
-            kActivit.status = false;
-
-            appFunc.kioskActivity.push(kActivit);
-            errorCodes.Ecode = data.result.rejectcode;
-            errorCodes.Emessage = data.result.rejectreason;
-            errorCodes.accountName = currentHolder.firstname;
-            errorCodes.accountNo = currentHolder.unitholderid;
-            if(selectLang.selectedLang == 'ms'){
-              errorCodes.accountType = "Dewasa";
-            }else{
-              errorCodes.accountType = "Dewasa";
-            }
-            errorCodes.transaction = this.transaction;
-            this._router.navigate(['errorscreen']);
-          }else{
-
+          if(data.result.transactionstatus.toLowerCase().includes('successful')){
             kActivit.endTime = new Date();
             kActivit.status = true;
 
@@ -825,6 +808,22 @@ export class UpdatedetailsComponent implements OnInit {
             this.UDForm_Visible = false;
             this.UDSuccess_Visible = true;
             this.UDConfirm_Visible = false;
+          }else{
+            kActivit.endTime = new Date();
+            kActivit.status = false;
+
+            appFunc.kioskActivity.push(kActivit);
+            errorCodes.Ecode = data.result.rejectcode;
+            errorCodes.Emessage = data.result.rejectreason;
+            errorCodes.accountName = currentHolder.firstname;
+            errorCodes.accountNo = currentHolder.unitholderid;
+            if(selectLang.selectedLang == 'ms'){
+              errorCodes.accountType = "Dewasa";
+            }else{
+              errorCodes.accountType = "Dewasa";
+            }
+            errorCodes.transaction = this.transaction;
+            this._router.navigate(['errorscreen']);
           }
         });
 
@@ -892,20 +891,7 @@ export class UpdatedetailsComponent implements OnInit {
         }
 
         this.serviceService.updateDetails(body).subscribe((data: any) => {
-          if(data.result.transactionstatus.toLowerCase().includes('reject')){
-            kActivit.endTime = new Date();
-            kActivit.status = false;
-
-            appFunc.kioskActivity.push(kActivit);
-            errorCodes.Ecode = data.result.rejectcode;
-            errorCodes.Emessage = data.result.rejectreason;
-            errorCodes.accountName = currentBijakHolder.firstname;
-            errorCodes.accountNo = currentBijakHolder.unitholderid;
-            errorCodes.accountType = "Bijak";
-            errorCodes.transaction = this.transaction;
-            this._router.navigate(['errorscreen']);
-            
-          }else{
+          if(data.result.transactionstatus.toLowerCase().includes('successful')){
             kActivit.endTime = new Date();
             kActivit.status = true;
 
@@ -927,6 +913,18 @@ export class UpdatedetailsComponent implements OnInit {
             this.UDBForm_Visible = false;
             this.UDSuccess_Visible = true;
             this.UDConfirm_Visible = false;
+          }else{
+            kActivit.endTime = new Date();
+            kActivit.status = false;
+
+            appFunc.kioskActivity.push(kActivit);
+            errorCodes.Ecode = data.result.rejectcode;
+            errorCodes.Emessage = data.result.rejectreason;
+            errorCodes.accountName = currentBijakHolder.firstname;
+            errorCodes.accountNo = currentBijakHolder.unitholderid;
+            errorCodes.accountType = "Bijak";
+            errorCodes.transaction = this.transaction;
+            this._router.navigate(['errorscreen']);
           }
         });
 
@@ -1303,11 +1301,16 @@ export class UpdatedetailsComponent implements OnInit {
     }
 
     if(currentHolder.email == ""){
-      this.AR_Form.controls.email.setValue("");
-      this.AR_Form.controls.email.disable();
-      this.AR_Form.controls.noemail.setValue(true);
-      this.AR_Form.controls.deliverystate.setValue('ST');
-      this.AR_Form.controls.deliverystate.disable();
+      if(signalrConnection.kioskType == 'Mobile'){
+        this.AR_Form.controls.email.setValue("");
+        this.AR_Form.controls.email.enable();
+      }else{
+        this.AR_Form.controls.email.setValue("");
+        this.AR_Form.controls.email.disable();
+        this.AR_Form.controls.noemail.setValue(true);
+        this.AR_Form.controls.deliverystate.setValue('ST');
+        this.AR_Form.controls.deliverystate.disable();
+      }
     }
 
     if(currentHolder.pep == 'Y'){
@@ -1438,7 +1441,7 @@ export class UpdatedetailsComponent implements OnInit {
           telephone: [isNaMobile , [Validators.required, Validators.minLength(5)]],
           notelephone: [false],
 
-          email: [isNaEmail, [
+          email: [{value: isNaEmail, disabled: false}, [
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
           noemail: [{value: false, disabled: isMobile}],
@@ -1511,7 +1514,7 @@ export class UpdatedetailsComponent implements OnInit {
 
           notelephone: [false],
 
-          email: [isNaEmail, [
+          email: [{value: isNaEmail, disabled: false}, [
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
           noemail: [{value: false, disabled: isMobile}],
