@@ -398,10 +398,10 @@ export class BijakregistrationComponent implements OnInit {
         state : [{value: currentMyKadDetails.State, disabled: true}],
         mykadaddress: [{value: true, disabled: true}],
 
-        homenumber : [{value: isNaHome, disabled: true}, Validators.minLength(5)],
+        homenumber : [{value: isNaHome, disabled: true}, Validators.minLength(6)],
         telephone: [isNaMobile, [
           Validators.required,
-          Validators.minLength(5)
+          Validators.minLength(6)
         ]],
         notelephone: [false],
 
@@ -414,7 +414,7 @@ export class BijakregistrationComponent implements OnInit {
         bankname: [{value: currentHolder.bankcode, disabled: true}],
         bankaccount: [{value: currentHolder.accountnumber, disabled: true}, [
           Validators.required,
-          Validators.minLength(5),
+          Validators.minLength(6),
           Validators.pattern('^[0-9]*$')
         ]],
 

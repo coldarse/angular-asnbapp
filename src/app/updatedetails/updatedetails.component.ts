@@ -1454,15 +1454,15 @@ export class UpdatedetailsComponent implements OnInit {
           race: [{value: currentHolder.race, disabled: true}],
           religion: [{value: currentHolder.religion, disabled: true}],
 
-          address1 : [{value: currentHolder.addresslinE1, disabled: true}, Validators.required],
-          address2 : [{value: currentHolder.addresslinE2, disabled: true}, Validators.required],
-          postcode : [{value: currentHolder.zipcode, disabled: true}, Validators.required],
-          city : [{value: isNACity, disabled: true}],
-          state : [{value: currentHolder.addresslinE4, disabled: true}],
-          mykadaddress: [true],
+          address1 : [{value: currentHolder.addresslinE1, disabled: false}, Validators.required],
+          address2 : [{value: currentHolder.addresslinE2, disabled: false}, Validators.required],
+          postcode : [{value: currentHolder.zipcode, disabled: false}, Validators.required],
+          city : [{value: isNACity, disabled: false}],
+          state : [{value: currentHolder.addresslinE4, disabled: false}],
+          mykadaddress: [false],
 
-          homenumber : [isNaHome, Validators.minLength(5)],
-          telephone: [isNaMobile , [Validators.required, Validators.minLength(5)]],
+          homenumber : [isNaHome, Validators.minLength(6)],
+          telephone: [isNaMobile , [Validators.required, Validators.minLength(6)]],
           notelephone: [false],
 
           email: [{value: isNaEmail, disabled: false}, [
@@ -1472,7 +1472,7 @@ export class UpdatedetailsComponent implements OnInit {
           deliverystate: [currentHolder.preferredmailmode],
 
           bankname: [currentHolder.bankcode == undefined ? "" : currentHolder.bankcode],
-          bankaccount: [currentHolder.accountnumber, (Validators.required, Validators.minLength(5))],
+          bankaccount: [currentHolder.accountnumber, (Validators.required, Validators.minLength(6))],
 
           jobcategory: [currentHolder.occupationcategory],
           jobname: [currentHolder.occupation],
@@ -1483,7 +1483,7 @@ export class UpdatedetailsComponent implements OnInit {
 
           fatca: [{value: currentHolder.fatca, disabled: fatca}],
           pep: [currentHolder.pep],
-          news: [{value: currentHolder.participateinasnbmkt, disabled: true}],
+          news: [{value: currentHolder.participateinasnbmkt, disabled: false}],
           crs: [{value: currentHolder.crs, disabled: crs}],
         });
         this.formHandling(currentHolder.occupationcategory);
@@ -1560,7 +1560,7 @@ export class UpdatedetailsComponent implements OnInit {
 
           fatca: [{value: currentHolder.fatca, disabled: true}],
           pep: [currentHolder.pep],
-          news: [{value: currentHolder.participateinasnbmkt, disabled: true}],
+          news: [{value: currentHolder.participateinasnbmkt, disabled: false}],
           crs: [{value: currentHolder.crs, disabled: true}],
         });
         //this.formHandling(currentHolder.occupationcategory);

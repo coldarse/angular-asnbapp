@@ -315,10 +315,10 @@ export class AccountregistrationComponent implements OnInit {
         state : [{value: this.state, disabled: true}],
         mykadaddress: [true],
 
-        homenumber : ['', Validators.minLength(5)],
+        homenumber : ['', Validators.minLength(6)],
         telephone: ['', [
           Validators.required,
-          Validators.minLength(5)
+          Validators.minLength(6)
         ]],
         notelephone: [false],
 
@@ -332,7 +332,7 @@ export class AccountregistrationComponent implements OnInit {
         bankaccount: ['', [
           Validators.required,
           Validators.pattern('^[0-9]*$'),
-          Validators.minLength(5)
+          Validators.minLength(6)
         ]],
 
         jobcategory: ['NA'],

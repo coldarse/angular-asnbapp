@@ -462,6 +462,7 @@ export class PortalregistrationComponent implements OnInit {
 
   NoticeClose(){
     this.Notice_Visible = false;
+    this.PR_Intro = true;
   }
 
   agreeTNC(){
