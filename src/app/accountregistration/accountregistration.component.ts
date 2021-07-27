@@ -248,7 +248,8 @@ export class AccountregistrationComponent implements OnInit {
       if (x.name.toLowerCase().includes(this.city.toLowerCase())){
         this.city = x.name;
         break;
-      }else{
+      }
+      else{
         this.city = currentMyKadDetails.City;
       }
     }
@@ -257,7 +258,12 @@ export class AccountregistrationComponent implements OnInit {
       if (y.text.toLowerCase().includes(this.state.toLowerCase())){
         this.state = y.value;
         break;
-      }else{
+      }
+      else if(this.state.toLowerCase().includes('wilayah')){
+        this.state = 'WI';
+        break;
+      }
+      else{
         this.state = currentMyKadDetails.State.toString().replace(" ", "");
       }
     }
