@@ -330,7 +330,7 @@ export class CheckbalanceComponent implements OnInit {
             else{
               errorCodes.accountName = currentBijakHolder.firstname;
               errorCodes.accountNo = currentBijakHolder.unitholderid;
-              errorCodes.accountType = "Bijak";
+              errorCodes.accountType = "Bijak/Remaja";
             }
             errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
@@ -508,7 +508,7 @@ export class CheckbalanceComponent implements OnInit {
         else{
           errorCodes.accountName = currentBijakHolder.firstname;
           errorCodes.accountNo = currentBijakHolder.unitholderid;
-          errorCodes.accountType = "Bijak";
+          errorCodes.accountType = "Bijak/Remaja";
         }
         errorCodes.transaction = this.transaction;
         this._router.navigate(['errorscreen']);
@@ -641,7 +641,7 @@ export class CheckbalanceComponent implements OnInit {
             else{
               errorCodes.accountName = currentBijakHolder.firstname;
               errorCodes.accountNo = currentBijakHolder.unitholderid;
-              errorCodes.accountType = "Bijak";
+              errorCodes.accountType = "Bijak/Remaja";
             }
             errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
@@ -787,7 +787,7 @@ export class CheckbalanceComponent implements OnInit {
         else{
           errorCodes.accountName = currentBijakHolder.firstname;
           errorCodes.accountNo = currentBijakHolder.unitholderid;
-          errorCodes.accountType = "Bijak";
+          errorCodes.accountType = "Bijak/Remaja";
         }
         errorCodes.transaction = this.transaction;
         this._router.navigate(['errorscreen']);

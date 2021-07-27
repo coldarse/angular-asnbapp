@@ -259,7 +259,7 @@ export class AccountregistrationComponent implements OnInit {
         this.state = y.value;
         break;
       }
-      else if(this.state.toLowerCase().includes('wilayah')){
+      else if(this.state.toLowerCase().includes('persekutuan')){
         this.state = 'WI';
         break;
       }
@@ -511,6 +511,10 @@ export class AccountregistrationComponent implements OnInit {
 
     if(this.AR_Form.controls.homenumber.value == ""){
       this.AR_Form.controls.homenumber.value = 'NA';
+    }
+
+    if(this.AR_Form.controls.city.value == ""){
+      this.AR_Form.controls.city.value = 'NA';
     }
 
     //currentMyKadDetails.ICNo = "521030135180";

@@ -509,7 +509,7 @@ export class UpdatedetailsComponent implements OnInit {
           errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
           errorCodes.accountName = currentBijakHolder.firstname;
           errorCodes.accountNo = currentBijakHolder.unitholderid;
-          errorCodes.accountType = "Bijak";
+          errorCodes.accountType = "Bijak/Remaja";
           errorCodes.transaction = this.transaction;
           this._router.navigate(['errorscreen']);
         }
@@ -538,7 +538,7 @@ export class UpdatedetailsComponent implements OnInit {
           errorCodes.Emessage = currentBijakHolder.rejectreason;
           errorCodes.accountName = currentBijakHolder.firstname;
           errorCodes.accountNo = currentBijakHolder.unitholderid;
-          errorCodes.accountType = "Bijak";
+          errorCodes.accountType = "Bijak/Remaja";
           errorCodes.transaction = this.transaction;
           this._router.navigate(['errorscreen']);
         }
@@ -547,7 +547,7 @@ export class UpdatedetailsComponent implements OnInit {
           errorCodes.Emessage = currentBijakHolder.rejectreason;
           errorCodes.accountName = currentBijakHolder.firstname;
           errorCodes.accountNo = currentBijakHolder.unitholderid;
-          errorCodes.accountType = "Bijak";
+          errorCodes.accountType = "Bijak/Remaja";
           errorCodes.transaction = this.transaction;
           this._router.navigate(['errorscreen']);
         }
@@ -624,6 +624,9 @@ export class UpdatedetailsComponent implements OnInit {
           if (y.text.toLowerCase().includes(this.state.toLowerCase())){
             this.state = y.value;
             break;
+          }else if(this.state.toLowerCase().includes('persekutuan')){
+            this.state = 'WI';
+            break;
           }else{
             this.state = currentMyKadDetails.State.toString().replace(" ", "");
           }
@@ -649,6 +652,10 @@ export class UpdatedetailsComponent implements OnInit {
         for(var y of this.form_states){
           if (y.text.toLowerCase().includes(this.state.toLowerCase())){
             this.state = y.value;
+            break;
+          }
+          else if(this.state.toLowerCase().includes('persekutuan')){
+            this.state = 'WI';
             break;
           }else{
             this.state = currentMyKidDetails.State.toString().replace(" ", "");
@@ -721,7 +728,7 @@ export class UpdatedetailsComponent implements OnInit {
       }else{
         errorCodes.accountName = currentBijakHolder.firstname;
         errorCodes.accountNo = currentBijakHolder.unitholderid;
-        errorCodes.accountType = "Bijak";
+        errorCodes.accountType = "Bijak/Remaja";
         errorCodes.transaction = this.transaction;
         this._router.navigate(['errorscreen']);
       }
@@ -750,6 +757,11 @@ export class UpdatedetailsComponent implements OnInit {
         if(this.AR_Form.controls.homenumber.value == ""){
           this.AR_Form.controls.homenumber.value = 'NA';
         }
+
+        if(this.AR_Form.controls.city.value == ""){
+          this.AR_Form.controls.city.value = 'NA';
+        }
+
         const body = {
           "CHANNELTYPE":signalrConnection.channelType,
           "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
@@ -855,6 +867,10 @@ export class UpdatedetailsComponent implements OnInit {
           this.AR_Form.controls.homenumber.value = 'NA';
         }
 
+        if(this.AR_Form.controls.city.value == ""){
+          this.AR_Form.controls.city.value = 'NA';
+        }
+
         const body = {
           "CHANNELTYPE":signalrConnection.channelType,
           "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
@@ -924,7 +940,7 @@ export class UpdatedetailsComponent implements OnInit {
             errorCodes.Emessage = data.result.rejectreason;
             errorCodes.accountName = currentBijakHolder.firstname;
             errorCodes.accountNo = currentBijakHolder.unitholderid;
-            errorCodes.accountType = "Bijak";
+            errorCodes.accountType = "Bijak/Remaja";
             errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
           }
@@ -1422,6 +1438,12 @@ export class UpdatedetailsComponent implements OnInit {
         isNaEmail = "";
       }
 
+      let isNACity = currentHolder.addresslinE3;
+      if(isNACity == 'NA'){
+        isNACity = "";
+      }
+
+
       this.AR_Form = this.fb.group(
         {
           uhid: [{value: currentHolder.unitholderid, disabled: true}],
@@ -1435,7 +1457,7 @@ export class UpdatedetailsComponent implements OnInit {
           address1 : [{value: currentHolder.addresslinE1, disabled: true}, Validators.required],
           address2 : [{value: currentHolder.addresslinE2, disabled: true}, Validators.required],
           postcode : [{value: currentHolder.zipcode, disabled: true}, Validators.required],
-          city : [{value: currentHolder.addresslinE3, disabled: true}],
+          city : [{value: isNACity, disabled: true}],
           state : [{value: currentHolder.addresslinE4, disabled: true}],
           mykadaddress: [true],
 
@@ -1484,6 +1506,10 @@ export class UpdatedetailsComponent implements OnInit {
         isNaEmail = "";
       }
 
+      let isNACity = currentHolder.addresslinE3;
+      if(isNACity == 'NA'){
+        isNACity = "";
+      }
 
       this.AR_Form = this.fb.group(
         {
@@ -1507,7 +1533,7 @@ export class UpdatedetailsComponent implements OnInit {
           address1 : [{value: currentHolder.addresslinE1, disabled: true}],
           address2 : [{value: currentHolder.addresslinE2, disabled: true}],
           postcode : [{value: currentHolder.zipcode, disabled: true}],
-          city : [{value: currentHolder.addresslinE3, disabled: true}],
+          city : [{value: isNACity, disabled: true}],
           state : [{value: currentHolder.addresslinE4, disabled: true}],
           mykadaddress: [{value: true, disabled: true}],
 
@@ -1565,7 +1591,7 @@ export class UpdatedetailsComponent implements OnInit {
         }else{
           name = currentBijakHolder.name;
           accountNo = currentBijakHolder.unitholderid;
-          accountType = "Bijak";
+          accountType = "Bijak/Remaja";
         }
 
         let transaction = "";
@@ -1636,7 +1662,7 @@ export class UpdatedetailsComponent implements OnInit {
     }else{
       name = currentBijakHolder.name;
       accountNo = currentBijakHolder.unitholderid;
-      accountType = "Bijak";
+      accountType = "Bijak/Remaja";
     }
 
     let transaction = "";
@@ -1967,7 +1993,7 @@ export class UpdatedetailsComponent implements OnInit {
             errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
             errorCodes.accountName = currentBijakHolder.firstname;
             errorCodes.accountNo = currentBijakHolder.unitholderid;
-            errorCodes.accountType = "Bijak";
+            errorCodes.accountType = "Bijak/Remaja";
             errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
           }
@@ -1997,7 +2023,7 @@ export class UpdatedetailsComponent implements OnInit {
             errorCodes.Emessage = currentBijakHolder.rejectreason;
             errorCodes.accountName = currentBijakHolder.firstname;
             errorCodes.accountNo = currentBijakHolder.unitholderid;
-            errorCodes.accountType = "Bijak";
+            errorCodes.accountType = "Bijak/Remaja";
             errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
           }
