@@ -295,11 +295,11 @@ export class BijakregistrationComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
 
     if(selectLang.selectedLang == 'ms'){
-      this.BRSuccess_10 = "Bijak";
+      this.BRSuccess_10 = "Bijak/Remaja";
       this.transaction = "Pendaftaran Akaun Bijak";
     }
     else{
-      this.BRSuccess_10 = "Bijak";
+      this.BRSuccess_10 = "Bijak/Remaja";
       this.transaction = "Bijak Account Registration";
     }
     
@@ -841,7 +841,7 @@ export class BijakregistrationComponent implements OnInit {
                 this.state = y.value;
                 break;
               }
-              else if(this.state.toLowerCase().includes('wilayah')){
+              else if(this.state.toLowerCase().includes('persekutuan')){
                 this.state = 'WI';
                 break;
               }
@@ -1222,6 +1222,10 @@ export class BijakregistrationComponent implements OnInit {
       this.AR_Form.controls.homenumber.value = 'NA';
     }
 
+    if(this.AR_Form.controls.city.value == ""){
+      this.AR_Form.controls.city.value = 'NA';
+    }
+
     const body = {
       "CHANNELTYPE":signalrConnection.channelType,
       "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
@@ -1274,7 +1278,7 @@ export class BijakregistrationComponent implements OnInit {
         this.BRSuccess_4 = currentMyKidDetails.Name;
         this.BRSuccess_6 = data.result.unitholderid;
         this.BRSuccess_8 = formatDate(new Date(), 'dd/MM/yyyy', 'en');
-        this.BRSuccess_10 = "Bijak";
+        this.BRSuccess_10 = "Bijak/Remaja";
         kActivit.endTime = new Date();
         kActivit.status = true;
 
