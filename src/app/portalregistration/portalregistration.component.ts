@@ -410,6 +410,8 @@ export class PortalregistrationComponent implements OnInit {
                 }
               } 
             
+              this.PR_Intro = true;
+
               
             }else{
               this.UserError_Visible = true;
