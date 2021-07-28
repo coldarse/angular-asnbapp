@@ -27,7 +27,7 @@
 	"RMError3_2":"Click 'Register' to register for unit trust account.",
 	"RMError3_3":"Click 'End' and refer to the counter if you already have an ASNB Unit Trust account.",
 	"RMError5_1":"Fingerprint cannot be detected. Please place your thumb properly on the fingerprint reader.",
-	"RMError5_2":"MyKad cannot be read/detected. Maximum tries reached. Please seek assistance from Officer on duty.",
+	"RMError5_2":"Fingerprint cannot be detected. Maximum tries reached. Please seek assistance from Officer on duty.",
 	"InsertMyKad_1":"Welcome",
 	"InsertMyKad_2":"Please insert your MyKad",
 	"InsertMyKad_3":"and click the button below.",

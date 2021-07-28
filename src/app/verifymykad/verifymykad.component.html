@@ -121,7 +121,7 @@
 
         <h1 id="RM_ResponseCode" class="padding-top-2rem">{{'RMError1_1' | translate }}</h1>
 
-        <h2 id="RM_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{'RMError5_1' | translate }}</h2>
+        <h2 id="RM_ErrorMessage" class="h2-ic" style="padding-top:10rem;" *ngIf="!lostcount1">{{'RMError5_1' | translate }}</h2>
         <h2 class="h2-ic" *ngIf="lostcount1">{{'RMError5_2' | translate }}</h2>
 
         <footer class="site-footer" style="padding-top:10rem;">
