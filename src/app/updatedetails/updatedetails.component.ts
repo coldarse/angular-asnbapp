@@ -352,6 +352,14 @@ export class UpdatedetailsComponent implements OnInit {
     this.AR_Form.controls.companyname.enable();
   }
 
+  disableJob() {
+    this.AR_Form.controls.jobname.disable();
+    this.AR_Form.controls.natureofjob.disable();
+    this.AR_Form.controls.jobsector.disable();
+    this.AR_Form.controls.monthlyincome.disable();
+    this.AR_Form.controls.companyname.disable();
+  }
+
   updateDetails1Cancel(){
     this._router.navigate(['feedbackscreen']);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Redirect to Feedback Screen.");
@@ -1380,6 +1388,8 @@ export class UpdatedetailsComponent implements OnInit {
         this.AR_Form.controls.monthlyincome.disable();
         this.AR_Form.controls.companyname.disable();
       }
+    }else{
+      this.disableJob();
     }
     
 
@@ -1491,6 +1501,22 @@ export class UpdatedetailsComponent implements OnInit {
     }
     else if (acctType == 'minor'){
 
+      let fatca = false;
+      if(currentBijakHolder.fatca == 'Y'){
+        fatca = true
+      }
+      else{
+        fatca = false;
+      }
+
+      let crs = false;
+      if(currentBijakHolder.crs == 'Y'){
+        crs = true
+      }
+      else{
+        crs = false;
+      }
+
       let isNaMobile = currentBijakHolder.cellphonenumber;
       if(isNaMobile == 'NA'){
         isNaMobile = "";
@@ -1558,12 +1584,12 @@ export class UpdatedetailsComponent implements OnInit {
           monthlyincome: [{value: currentHolder.otherinfO8, disabled: true}],
           companyname: [{value: currentHolder.companyname, disabled: true}],
 
-          fatca: [{value: currentHolder.fatca, disabled: true}],
+          fatca: [{value: currentBijakHolder.fatca, disabled: fatca}],
           pep: [currentHolder.pep],
           news: [{value: currentHolder.participateinasnbmkt, disabled: false}],
-          crs: [{value: currentHolder.crs, disabled: true}],
+          crs: [{value: currentBijakHolder.crs, disabled: crs}],
         });
-        //this.formHandling(currentHolder.occupationcategory);
+        this.formHandling(currentHolder.occupationcategory);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Initialized Bijak Form")
     }
     
@@ -1589,7 +1615,7 @@ export class UpdatedetailsComponent implements OnInit {
             accountType = "Dewasa";
           }
         }else{
-          name = currentBijakHolder.name;
+          name = currentBijakHolder.firstname;
           accountNo = currentBijakHolder.unitholderid;
           accountType = "Bijak/Remaja";
         }
@@ -1660,7 +1686,7 @@ export class UpdatedetailsComponent implements OnInit {
         accountType = "Dewasa";
       }
     }else{
-      name = currentBijakHolder.name;
+      name = currentBijakHolder.firstname;
       accountNo = currentBijakHolder.unitholderid;
       accountType = "Bijak/Remaja";
     }

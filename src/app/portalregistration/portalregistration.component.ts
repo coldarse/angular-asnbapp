@@ -251,6 +251,9 @@ export class PortalregistrationComponent implements OnInit {
 
   transaction = "";
 
+  introCount = 0;
+  noticeCount = 0;
+
   constructor(private _router: Router,
     private translate: TranslateService,
     private serviceService : ServiceService,
@@ -258,6 +261,7 @@ export class PortalregistrationComponent implements OnInit {
     private appConfig: AppConfiguration) { }
 
   ngOnInit(): void {
+
 
     this.UnitHolderMobile = currentHolder.cellphonenumber;
 
@@ -340,7 +344,10 @@ export class PortalregistrationComponent implements OnInit {
                   appFunc.isRedirectFromPortalRegistration = false;
                 }
                 else{
-                  this.Notice_Visible = true;
+                  if(this.noticeCount == 0){
+                    this.Notice_Visible = true;
+                    this.noticeCount += 1;
+                  }
                 }
                 
     
@@ -389,7 +396,10 @@ export class PortalregistrationComponent implements OnInit {
                 appFunc.isRedirectFromPortalRegistration = false;
               }
               else{
-                this.Notice_Visible = true;
+                if(this.noticeCount == 0){
+                  this.Notice_Visible = true;
+                  this.noticeCount += 1;
+                }
               }
 
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
@@ -462,7 +472,11 @@ export class PortalregistrationComponent implements OnInit {
 
   NoticeClose(){
     this.Notice_Visible = false;
-    this.PR_Intro = true;
+    if(this.introCount == 0){
+      this.PR_Intro = true;
+      this.introCount += 1;
+    }
+    
   }
 
   agreeTNC(){

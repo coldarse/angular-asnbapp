@@ -284,11 +284,11 @@
         &nbsp;
         <h3 class="h2-ic" id="BR2_Title1">Sila masukkan MyKid dan</h3>
         <h3 class="h2-ic" id="BR2_Title2">klik butang dibawah</h3> -->
-        <h3 id="BR2_Title1">{{'BRInsertMyKid_3' | translate }}</h3>
-        <h3 id="BR2_Title2">{{'BRInsertMyKid_4' | translate }}</h3>
+        <h4 id="BR2_Title1">{{'BRInsertMyKid_3' | translate }}</h4>
+        <h4 id="BR2_Title2">{{'BRInsertMyKid_4' | translate }}</h4>
         &nbsp;
-        <h3 class="h2-ic" id="BR_Welcome">{{'BRInsertMyKid_1' | translate }}</h3>
-        <h3 class="h2-ic" id="BR_Welcome">{{'BRInsertMyKid_2' | translate }}</h3>
+        <h4 class="h2-ic" id="BR_Welcome">{{'BRInsertMyKid_1' | translate }}</h4>
+        <h4 class="h2-ic" id="BR_Welcome">{{'BRInsertMyKid_2' | translate }}</h4>
         &nbsp;
         <button type="button" class="btn btn-next" id="CheckICButton" (click)="verify()" style="margin-top: 2rem;">{{'BTN_Next' | translate}}</button>
     </div>
@@ -798,7 +798,17 @@
                         <div class="blockerfatca" onclick="hidePopupfatca()" id="myPopup1"></div>
                         <!-- <span class="fatcapopuptext" id="myPopup">Foreign Account Tax Compliance Act (FATCA).  -->
                             <!-- Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span> -->
-                        <span class="fatcapopuptext" id="myPopup">{{'FL_33' | translate }}</span>
+                            <span class="fatcapopuptext" id="myPopup">
+                                <p>{{'FL_33' | translate }}</p>
+                                <p>{{'FL_33_1' | translate }}</p>
+                                <ul>
+                                    <li>{{'FL_33_2' | translate }}</li>
+                                    <li>{{'FL_33_3' | translate }}</li>
+                                    <li>{{'FL_33_4' | translate }}</li>
+                                    <li>{{'FL_33_5' | translate }}</li>
+                                    <li>{{'FL_33_6' | translate }}</li>
+                                </ul>
+                            </span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -860,7 +870,14 @@
                         <div class="blockercrs" onclick="hidePopupcrs()" id="myPopup4"></div>
                         <!-- <span class="peppopuptext" id="myPopup3">Foreign Account Tax Compliance Act (FATCA). 
                             Adakah anda mempunyai kewarganegaraan Amerika Syarikat (AS), kad hijau atau pasport?</span> -->
-                            <span class="crspopuptext" id="myPopup5">{{'FL_38' | translate }}</span>
+                            <span class="crspopuptext" id="myPopup5">
+                                <p>{{'FL_38' | translate }}</p>
+                                <p>{{'FL_38_1' | translate }}</p>
+                                <ul>
+                                    <li>{{'FL_38_2' | translate }}</li>
+                                    <li>{{'FL_38_3' | translate }}</li>
+                                </ul>
+                            </span>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
@@ -925,15 +942,22 @@
         <footer class="site-footer" style="padding-top:10rem;">
             <div class="row text-center" >
                 <div class="cont1" style="margin-left: auto; margin-right: auto;">
-                    <div class="row">
+                    <div class="row" *ngIf="lostcount">
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-cancel-white" id="BR_Cancel" (click)="BRErrorEnd()">
+                            <button type="button" class="btn btn-cancel" id="BR_Cancel" (click)="BRErrorEnd()">
                                 {{'BTN_End' | translate }}
                             </button>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="BRErrorTryAgain()" *ngIf="lostcount">
+                            <button type="button" class="btn btn-next" id="BR_MainMenu" (click)="BRErrorTryAgain()">
                                 {{'BTN_TryAgain' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="lostcount == false">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-cancel" id="BR_Cancel" (click)="BRErrorEnd()">
+                                {{'BTN_End' | translate }}
                             </button>
                         </div>
                     </div>
@@ -1127,7 +1151,7 @@
         <div class="col-md-10">
             <input type="checkbox" class="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC()">
             <!-- <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">Saya telah membaca dan bersetuju dengan <a href="#" style="text-decoration:none;">Terma & Syarat</a> dan <a href="#" style="text-decoration:none;">Dasar Privasi</a></label><br> -->
-            <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">
+            <label for="tncCheck" style="padding-left:0.5rem; font-size: 1rem;">
                 {{'TNC_13' | translate }}
             </label><br>
         </div>
