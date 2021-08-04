@@ -25,6 +25,7 @@ export class VerifymykadComponent implements OnInit {
   ishardcodeic = signalrConnection.isHardcodedIC;
 
   @ViewChild('icnumber') icnumber : ElementRef | undefined;
+  @ViewChild('ictype') ictype : ElementRef | undefined;
 
   BTN_End = "";
   BTN_TryAgain = "";
@@ -237,7 +238,7 @@ export class VerifymykadComponent implements OnInit {
         kActivit.status = false;
 
         appFunc.kioskActivity.push(kActivit);
-        errorCodes.code = "0168";
+        errorCodes.code = "0167";
         errorCodes.message = "No Identification Card Detected.";
         this._router.navigate(['errorscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "MyKad Not Detected. Redirected to Out Of Service Screen.");
@@ -320,7 +321,7 @@ export class VerifymykadComponent implements OnInit {
 
                 appFunc.kioskActivity.push(kActivit0);
 
-                errorCodes.code = "0168";
+                errorCodes.code = "0222";
                 errorCodes.message = data;
                 this._router.navigate(['errorscreen']);
                 signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${data}.`);
@@ -429,7 +430,7 @@ export class VerifymykadComponent implements OnInit {
       }
     }
     catch (e){
-      errorCodes.code = "0168";
+      errorCodes.code = "7788";
       errorCodes.message = e;
       this._router.navigate(['errorscreen']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
@@ -487,7 +488,7 @@ export class VerifymykadComponent implements OnInit {
       
     }
     catch(e) {
-      errorCodes.code = "0168";
+      errorCodes.code = "0166";
       errorCodes.message = e;
       this._router.navigate(['errorscreen']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
@@ -557,7 +558,7 @@ export class VerifymykadComponent implements OnInit {
         currentMyKadDetails.GreenCardExpiryDate = new Date("0000-00-00");
         currentMyKadDetails.CardVersion = "";
         currentMyKadDetails.OtherID = "";
-        currentMyKadDetails.CategoryType = "W";
+        currentMyKadDetails.CategoryType = this.ictype?.nativeElement.value == "" ? "W" : this.ictype?.nativeElement.value.toUpperCase();
 
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
     
@@ -565,7 +566,7 @@ export class VerifymykadComponent implements OnInit {
       }
     }
     catch(e) {
-      errorCodes.code = "0168";
+      errorCodes.code = "0166";
       errorCodes.message = e;
       this._router.navigate(['errorscreen']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
@@ -1077,7 +1078,7 @@ export class VerifymykadComponent implements OnInit {
       });
     }
     catch (e){
-      errorCodes.code = "0168";
+      errorCodes.code = "0169";
       errorCodes.message = e;
       this._router.navigate(['errorscreen']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);

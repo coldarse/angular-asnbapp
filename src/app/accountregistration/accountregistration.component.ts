@@ -1252,7 +1252,7 @@ export class AccountregistrationComponent implements OnInit {
       });
     }
     catch (e){
-      errorCodes.code = "0168";
+      errorCodes.code = "0169";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);

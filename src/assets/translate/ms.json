@@ -389,6 +389,7 @@
 	"MIWarning": "Kategori Pekerjaan yang anda dipilih tidak boleh mempunyai Pendapatan Bulanan 'Tanpa Pendapatan'",
 	"TimeOutMessage" : "Adakah anda ingin meneruskan transaksi anda?",
 	"InvalidCardMessage": "MyKad tidak dapat dibaca. Sila pastikan MyKad dimasukkan/diletakkan dengan betul.",
+	"InvalidCardMessage_1": "MyKad tidak dapat dibaca. Cubaan maksimum telah dicapai. Sila dapatkan bantuan daripada pegawai yang bertugas.",
 	"BANWarning1": "No. akaun bank mestilah melebihi 5 digit.",
 	"HPNWarning1": "No. Telefon Rumah mestilah melebihi 5 digit.",
 	"MPNWarning1": "No. Telefon Bimbit mestilah melebihi 5 digit.",

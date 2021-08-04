@@ -427,7 +427,7 @@
                     <h4 class="h2-ic">{{'PRDetails_2' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input" name="" [formControl]='PForm_1.controls["userid"]' #uid id="uid">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" name="uid" [formControl]='PForm_1.controls["userid"]' #uid id="uid">
                      <!-- [formControl]='PForm_1.controls["username"]' -->
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="userid_warning">{{'UsernameWarning' | translate}}</div> 
 
@@ -468,7 +468,7 @@
                     <h4 class="h2-ic">{{'PRDetails_5' | translate }}</h4>
                 </div>
                 <div class="col-md-7">
-                    <input type="text" style="width: 85%;" class="use-keyboard-input" [formControl]='PForm_1.controls["SecurePhraseWarning"]' #securePhrase id="securephrase">
+                    <input type="text" style="width: 85%;" class="use-keyboard-input" name="securephrase" [formControl]='PForm_1.controls["SecurePhraseWarning"]' #securePhrase id="securephrase">
                     <!-- [formControl]='PForm_1.controls["securephrase"]'> -->
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="securephrase_warning">{{'Warning' | translate}}</div> 
 
@@ -848,7 +848,7 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpass"]' #newPass id="newpass1">
+            <input type="password" name="newpass1" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpass"]' #newPass id="newpass1">
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpass_warning">{{'NewPass1Warning' | translate}}</div> 
         
         </div>
@@ -866,7 +866,7 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="password" name="" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpassR"]' #newPassR id="newpass2">
+            <input type="password" name="newpass2" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpassR"]' #newPassR id="newpass2">
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR_warning">{{'NewPass2Warning' | translate}}</div> 
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR1_warning">{{'NotMatch' | translate}}</div> 
         

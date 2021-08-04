@@ -122,7 +122,7 @@
         <h1 id="RM_ResponseCode" class="padding-top-2rem">{{'RMError1_1' | translate }}</h1>
 
         <h2 id="RM_ErrorMessage" class="h2-ic" style="padding-top:10rem;" *ngIf="!lostcount1">{{'RMError5_1' | translate }}</h2>
-        <h2 class="h2-ic" *ngIf="lostcount1">{{'RMError5_2' | translate }}</h2>
+        <h2 class="h2-ic" *ngIf="lostcount1" style="padding-top:10rem;">{{'RMError5_2' | translate }}</h2>
 
         <footer class="site-footer" style="padding-top:10rem;">
             <div class="row text-center" >
@@ -189,7 +189,7 @@
 
         <h1 id="RM_ResponseCode" class="padding-top-2rem">{{'RMError1_1' | translate }}</h1>
 
-        <h2 id="RM_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{'InvalidCardMessage' | translate }}</h2>
+        <h2 id="RM_ErrorMessage" class="h2-ic" style="padding-top:10rem;">{{'InvalidCardMessage_1' | translate }}</h2>
 
         <footer class="site-footer" style="padding-top:12rem;">
             <div class="row text-center" >
@@ -296,7 +296,8 @@
 <!-- IC Reader Screen 1 -->
 <div *ngIf="insertMykadVisible" class="row content-container" id="ICReaderScreen1">
     <div class="col-md-12 text-center" *ngIf="ishardcodeic">
-        <input type="text" #icnumber>
+        IC Number: <input type="text" #icnumber>
+        IC Type: <input type="text" #ictype>
     </div>
     <div class="col-md-6 text-center" style="padding-top:13rem">
 

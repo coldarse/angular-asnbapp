@@ -131,9 +131,9 @@ export class ServiceService {
   }
 
   //getTrxNo
-  genTrxNo(kioskcode: string){
+  genTrxNo(kioskcode: string, trxtype: string){
     return this.http.get(
-      this.url + `services/app/Sequence/generateTrxNo?KioskCode=${kioskcode}`,
+      this.url + `services/app/Sequence/generateTrxNo?KioskCode=${kioskcode}&TrxType=${trxtype}`,
       accessToken.httpOptions
     ).pipe(
       retry(1),
