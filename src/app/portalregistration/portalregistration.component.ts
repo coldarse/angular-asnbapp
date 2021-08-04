@@ -13,6 +13,7 @@ import { errorCodes } from '../_models/errorCode';
 import { FormBuilder, Validators } from '@angular/forms';
 import { accessToken } from '../_models/apiToken';
 import * as CryptoJS from 'crypto-js'; 
+import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 
 
 declare const loadKeyboard: any;
@@ -690,7 +691,7 @@ export class PortalregistrationComponent implements OnInit {
               }
               errorCodes.transaction = this.transaction;
               this._router.navigate(['errorscreen']);
-              clearInterval(this.id);
+              // clearInterval(this.id);
             }
           }
         });
@@ -768,7 +769,7 @@ export class PortalregistrationComponent implements OnInit {
             }
             errorCodes.transaction = this.transaction;
             this._router.navigate(['errorscreen']);
-            clearInterval(this.id);
+            // clearInterval(this.id);
           }
         }
       });
@@ -836,6 +837,7 @@ export class PortalregistrationComponent implements OnInit {
       signalrConnection.cardDetect = data;
       if(signalrConnection.cardDetect != true){
         this._router.navigate(['feedbackscreen']);
+        // clearInterval(this.id);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
     });
@@ -926,7 +928,7 @@ export class PortalregistrationComponent implements OnInit {
           }
           errorCodes.transaction = this.transaction;
           this._router.navigate(['errorscreen']);
-          clearInterval(this.id);
+          // clearInterval(this.id);
         }
       });
     }
@@ -981,7 +983,7 @@ export class PortalregistrationComponent implements OnInit {
         }
         errorCodes.transaction = this.transaction;
         this._router.navigate(['errorscreen']);
-        clearInterval(this.id);
+        // clearInterval(this.id);
       }
     });
   }
@@ -999,6 +1001,7 @@ export class PortalregistrationComponent implements OnInit {
 
   EndTransactionBtn(){
     this._router.navigate(['feedbackscreen']);
+    // clearInterval(this.id);
   }
 
   MainMenuBtn(){
@@ -1063,7 +1066,7 @@ export class PortalregistrationComponent implements OnInit {
           }
           errorCodes.transaction = this.transaction;
           this._router.navigate(['errorscreen']);
-          clearInterval(this.id);
+          // clearInterval(this.id);
         }
       }
     });
@@ -1109,17 +1112,13 @@ export class PortalregistrationComponent implements OnInit {
               this.PR_Print1Visible = false;
               this.PR_Print2Visible = true;
               setTimeout(()=>{   
-                this.PR_Print1Visible = false;
-                this.PR_Print2Visible = false;
-                this.PR_EmailVisible = false;
-
-                this.transaction_Successful = true;
+                this.getAccountInquiry();
               }, 3000);
             }else{
               errorCodes.Ecode = "0068";
               errorCodes.Emessage = "Printing Failed";
               this._router.navigate(['errorscreen']);
-              clearInterval(this.id);
+              // clearInterval(this.id);
             }
           }, 3000);
         });
@@ -1127,7 +1126,7 @@ export class PortalregistrationComponent implements OnInit {
         errorCodes.Ecode = "6688";
         errorCodes.Emessage = "Printer Error";
         this._router.navigate(['errorscreen']);
-        clearInterval(this.id);
+        // clearInterval(this.id);
       }
     });
   }
@@ -1186,15 +1185,183 @@ export class PortalregistrationComponent implements OnInit {
     });
 
     setTimeout(()=>{   
-      this.PR_Print1Visible = false;
-      this.PR_Print2Visible = false;
-      this.PR_EmailVisible = false;
-
-      this.transaction_Successful = true;
+      this.getAccountInquiry();
     }, 5000);
   }
 
+  getAccountInquiry(): void {
+    try{
+      
+      const body = { 
 
+        "CHANNELTYPE": signalrConnection.channelType,
+        "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
+        "DEVICEOWNER": signalrConnection.deviceOwner,
+        "UNITHOLDERID": "",
+        "FIRSTNAME": "",
+        "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
+        "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
+        "FUNDID": "",
+        "INQUIRYCODE": "5",
+        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        "BANKTXNREFERENCENUMBER": signalrConnection.trxno ,
+        "BANKCUSTPHONENUMBER": "",
+        "FILTRATIONFLAG": "1",
+        "GUARDIANID": "",
+        "GUARDIANICTYPE": "",
+        "GUARDIANICNUMBER": ""
+
+       };
+
+  
+      this.serviceService.getAccountInquiry(body)
+      .subscribe((result: any) => {
+        
+
+        currentHolder.channeltype = result.channeltype;
+        currentHolder.requestoridentification = result.requestoridentification;
+        currentHolder.deviceowner = result.deviceowner;
+        currentHolder.unitholderid = result.unitholderid;
+        currentHolder.firstname = result.firstname;
+        currentHolder.identificationtype = result.identificationtype;
+        currentHolder.identificationnumber = result.identificationnumber;
+        currentHolder.fundid = result.fundid;
+        currentHolder.inquirycode = result.inquirycode;
+        currentHolder.transactiondate = result.transactiondate;
+        currentHolder.transactiontime = result.transactiontime;
+        currentHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+        currentHolder.bankcustphonenumber = result.bankcustphonenumber;
+        currentHolder.filtrationflag = result.filtrationflag;      		
+        currentHolder.cifstopaccountstatus = result.cifstopaccountstatus
+        currentHolder.typeclosed = result.typeclosed;
+        currentHolder.participateinasnbmkt = result.participateinasnbmkt;
+        currentHolder.unitbalance = result.unitbalance;
+        currentHolder.funddetail = result.funddetail;
+        currentHolder.cifnumber = result.cifnumber;
+        currentHolder.race = result.race;
+        currentHolder.religion = result.religion;
+        currentHolder.uhcategory = result.uhcategory;
+        currentHolder.title = result.title;
+        currentHolder.accountopeningdate = result.accountopeningdate;
+        currentHolder.investortype = result.investortype;
+        currentHolder.maritalstatus = result.maritalstatus;
+        currentHolder.addresslinE1 = result.addresslinE1;
+        currentHolder.addresslinE2 = result.addresslinE2;
+        currentHolder.addresslinE3 = result.addresslinE3;
+        currentHolder.addresslinE4 = result.addresslinE4;
+        currentHolder.country = result.country;
+        currentHolder.email = result.email;
+        currentHolder.zipcode = result.zipcode;
+        currentHolder.contactperson = result.contactperson;
+        currentHolder.telephonE1 = result.telephonE1;
+        currentHolder.telephonE2 = result.telephonE2;
+        currentHolder.cellphonenumber = result.cellphonenumber;
+        currentHolder.fax = result.fax;
+        currentHolder.dateofbirth = result.dateofbirth;
+        currentHolder.bankcode = result.bankcode;
+        currentHolder.bankbranchcode = result.bankbranchcode;
+        currentHolder.accounttype = result.accounttype;
+        currentHolder.accountnumber = result.accountnumber;
+        currentHolder.accountcurrency = result.accountcurrency;
+        currentHolder.fundcode = result.fundcode;
+        currentHolder.transactiontype = result.transactiontype;
+        currentHolder.directdebit = result.directdebit;
+        currentHolder.mothername = result.mothername;
+        currentHolder.portalenabled = result.portalenabled;				
+        currentHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+        currentHolder.grandtotalepfunits = result.grandtotalepfunits;
+        currentHolder.grandtotalloanunits = result.grandtotalloanunits;
+        currentHolder.grandtotalcertunits = result.grandtotalcertunits;
+        currentHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+        currentHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+        currentHolder.grandtotalunits = result.grandtotalunits;
+        currentHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+        currentHolder.totalminoraccount = result.totalminoraccount;
+        currentHolder.minordetail = result.minordetail;
+        currentHolder.guardianid = result.guardianid;
+        currentHolder.guardianictype = result.guardianictype;
+        currentHolder.guardianicnumber = result.guardianicnumber;
+        currentHolder.epfnumber = result.epfnumber;
+        currentHolder.epfapplicable = result.epfapplicable;
+        currentHolder.epfaccounttype = result.epfaccounttype;
+        currentHolder.epfaccounttypeeffdate = result.epfaccounttypeeffdate;
+        currentHolder.agentcode  = result.agentcode;
+        currentHolder.branchcode  = result.branchcode;
+        currentHolder.occupation = result.occupation;
+        currentHolder.otherinfO8 = result.otherinfO8;
+        currentHolder.occupationsector = result.occupationsector;
+        currentHolder.occupationcategory = result.occupationcategory;
+        currentHolder.natureofbusiness = result.natureofbusiness;
+        currentHolder.companyname = result.companyname;
+        currentHolder.preferredmailmode = result.preferredmailmode;
+        currentHolder.fatca = result.fatca;
+        currentHolder.crs = result.crs;
+        currentHolder.pep = result.pep;
+        currentHolder.riskprofile = result.riskprofile;
+        currentHolder.relationship = result.relationship;
+        currentHolder.agentcode = result.agentcode;
+        currentHolder.branchcode = result.branchcode;
+        currentHolder.lastupdatedate = result.lastupdatedate;
+        currentHolder.transactionchannel = result.transactionchannel;
+        currentHolder.transactionstatus = result.transactionstatus;
+        currentHolder.rejectcode = result.rejectcode;
+        currentHolder.rejectreason = result.rejectreason;
+
+
+
+
+        if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
+
+          if (!currentHolder.typeclosed.toLowerCase().includes('n')){
+            errorCodes.Ecode = "0168";
+            errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
+            errorCodes.accountName = currentMyKadDetails.Name;
+            errorCodes.accountNo = currentHolder.unitholderid;
+            errorCodes.accountType = "Dewasa";
+            errorCodes.transaction = this.transaction;
+            this._router.navigate(['errorscreen']);
+          }
+          else{
+            if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Account Found.");
+
+
+              this.PR_Print1Visible = false;
+              this.PR_Print2Visible = false;
+              this.PR_EmailVisible = false;
+
+              this.transaction_Successful = true;
+              //this._router.navigate(['transactionsuccessful']);
+            }
+          }
+        }
+        else{
+          if (currentHolder.rejectreason.includes('not exists')){
+            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
+
+            
+            this._router.navigate(['feedbackscreen']);
+          }
+          else{
+            errorCodes.Ecode = currentHolder.rejectcode;
+            errorCodes.Emessage = currentHolder.rejectreason;
+            errorCodes.accountName = currentMyKadDetails.Name;
+            errorCodes.accountNo = currentHolder.unitholderid;
+            errorCodes.accountType = "Dewasa";
+            errorCodes.transaction = this.transaction;
+            this._router.navigate(['errorscreen']);
+          }
+        }
+      });
+    }
+    catch (e){
+      errorCodes.code = "0169";
+      errorCodes.message = e;
+      this._router.navigate(['outofservice']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
+    }
+  }
 
   PMForm2_Financial(){
     this._router.navigate(['/screensaver']);
@@ -1210,6 +1377,7 @@ export class PortalregistrationComponent implements OnInit {
 
   endTransaction(){
     this._router.navigate(['feedbackscreen'])
+    // clearInterval(this.id);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Feedback Screen.");
   }
 

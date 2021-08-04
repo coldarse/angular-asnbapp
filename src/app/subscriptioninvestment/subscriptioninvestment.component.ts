@@ -97,21 +97,22 @@ export class SubscriptioninvestmentComponent implements OnInit {
   ictype = appFunc.ictype;
   fundnamelist: any;
 
-  refno = "";
+  
   status = "Successful";
   approvalcode = "";
   accounttype = "";
   amountKeyed = 0;
   fundid = "ASN";
   fundname = "";
+  refno = "";
   nav = 0;
   sst = 0;
   unitsalloted = 0;
   initialcharges = 0;
-
+  feepercentage = "";
   sourceOfFund = "";
   otherSourceOfFund = "";
-  feepercentage = "";
+  
 
   paymentStep1 = true;
   paymentStep2 = false;

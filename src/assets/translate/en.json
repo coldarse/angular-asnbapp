@@ -389,6 +389,7 @@
 	"MIWarning": "The Occupation Category you selected cannot have the Monthly Income of 'No Income'",
 	"TimeOutMessage" : "Would you like to continue your transaction?",
 	"InvalidCardMessage": "The card cannot be detected or the card used is invalid. Please make sure that you are using a valid MyKad before continuing with the transaction.",
+	"InvalidCardMessage_1": "The card cannot be detected or the card used is invalid. Maximum tries reached. Please seek assistance from Officer on duty.",
 	"BANWarning1": "The bank account number must be more than 5 digits.",
 	"HPNWarning1": "The home phone number must be more than 5 digits.",
 	"MPNWarning1": "The mobile phone number must be more than 5 digits.",

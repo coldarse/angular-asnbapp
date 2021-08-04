@@ -121,7 +121,7 @@ export class LanguageComponent implements OnInit {
             Authorization: 'Bearer ' + accessToken.token
           })
         };
-        this.serviceService.genTrxNo(signalrConnection.kioskCode).subscribe((res: any) => {
+        this.serviceService.genTrxNo(signalrConnection.kioskCode, "AK").subscribe((res: any) => {
           signalrConnection.trxno = res.result.toString();
         }, error => {
           errorCodes.code = error.status;

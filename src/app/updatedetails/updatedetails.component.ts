@@ -720,6 +720,8 @@ export class UpdatedetailsComponent implements OnInit {
   }
 
   ConfirmYes(){
+
+    console.log(this.AR_Form.controls.city.value);
     if(this.AR_Form.controls.fatca.value == 'Y' || this.AR_Form.controls.crs.value == 'Y'){
       errorCodes.Ecode = "0118";
       errorCodes.Emessage = "FATCA/PEP/CRS selected.";
@@ -1481,7 +1483,7 @@ export class UpdatedetailsComponent implements OnInit {
           noemail: [{value: false, disabled: isMobile}],
           deliverystate: [currentHolder.preferredmailmode],
 
-          bankname: [currentHolder.bankcode == undefined ? "" : currentHolder.bankcode],
+          bankname: [currentHolder.bankcode == "00" ? "" : currentHolder.bankcode],
           bankaccount: [currentHolder.accountnumber, (Validators.required, Validators.minLength(6))],
 
           jobcategory: [currentHolder.occupationcategory],
@@ -1574,7 +1576,7 @@ export class UpdatedetailsComponent implements OnInit {
           noemail: [{value: false, disabled: isMobile}],
           deliverystate: [currentBijakHolder.preferredmailmode],
 
-          bankname: [{value: currentHolder.bankcode == undefined ? "" : currentHolder.bankcode, disabled: true}],
+          bankname: [{value: currentHolder.bankcode == "00" ? "" : currentHolder.bankcode, disabled: true}],
           bankaccount: [{value: currentHolder.accountnumber, disabled: true}],
 
           jobcategory: [{value: currentHolder.occupationcategory, disabled: true}],

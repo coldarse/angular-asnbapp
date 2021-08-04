@@ -222,6 +222,7 @@ const Keyboard = {
                         }
                         
                         this._limit(this.properties);
+                        this._isSymbol(this.properties);
                         this._isNumeric(this.properties);
                         this._triggerEvent("oninput");
                     });
@@ -257,6 +258,16 @@ const Keyboard = {
         }
     },
 
+    
+    _isSymbol(element){
+        if(element.tagname.toLowerCase().includes('uid')){
+            element.value = element.value.replace(/[$-/:-?{-~!"^_`\[\]@]/, '');
+        }
+        else if(element.tagname.toLowerCase().includes('securephrase')){
+            element.value = element.value.replace(/[$-/:-?{-~!"^_`\[\]@]/, '');
+        }
+    },
+
     _limit(element){
 
         var max_chars = 500;
@@ -289,6 +300,18 @@ const Keyboard = {
         }
         else if(element.tagname.toLowerCase().includes('acctno')){
             max_chars = 16;
+        }
+        else if(element.tagname.toLowerCase().includes('uid')){
+            max_chars = 16;
+        }
+        else if(element.tagname.toLowerCase().includes('securephrase')){
+            max_chars = 16;
+        }
+        else if(element.tagname.toLowerCase().includes('newpass1')){
+            max_chars = 20;
+        }
+        else if(element.tagname.toLowerCase().includes('newpass2')){
+            max_chars = 20;
         }
         
         if(element.value.length >= max_chars) {

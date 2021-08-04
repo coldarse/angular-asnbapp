@@ -1,4 +1,5 @@
 
+
 <nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
     <div class="container-fluid">
         <div class="titleNLogo">
@@ -93,19 +94,19 @@
 
         </div>
         <div class="col-md-10 text-center blue-bar-border" style="margin-left: 4.8rem;">
-            <div class="row ">
+            <div class="row" *ngFor="let fund of fundDetails">
                 <div class="col-sm-4 displayflex">
                     <img src="assets/fundicon/ASB.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
-                    <h5 class="h2-ic" style="padding-top: 1.2rem;">{{ actualfundname }}</h5> <!-- Fund.fundid -->
+                    <h5 class="h2-ic" style="padding-top: 1.2rem;">{{ fund.FUNDID }}</h5> <!-- Fund.fundid -->
                 </div>
                 <div class="col-sm-4">
-                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ actualfundvalue }}</h5> <!-- Fund.fundvalue -->
+                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ fund.UNITBALANCE }}</h5> <!-- Fund.fundvalue -->
                 </div>
                 <div class="col-sm-4" style="padding-top: 1rem;">
-                    <button type="button" class="btn btn-transferswitching" (click)="Transfer()">
+                    <button type="button" class="btn btn-transferswitching" (click)="Transfer(fund)">
                         {{'Transfer' | translate }}
                     </button>
-                    <button type="button" class="btn btn-transferswitching" (click)="Switching()">
+                    <button type="button" class="btn btn-transferswitching" (click)="Switching(fund)">
                         {{'Switching' | translate }}
                     </button>
                 </div>
@@ -218,6 +219,23 @@
             <div class="col-md-6">
                 <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["uhname"]' #tuhname>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhnameWarning">{{'Warning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ICType' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["ictype"]' #thirdictype>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
+                    <option *ngFor="let type of ictype" value={{type.code}}>
+                        {{type.desc}}
+                    </option>
+                </select>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhictypeWarning">{{'Warning' | translate}}</div>
             </div>
         </div>
         <div class="row">
@@ -1039,5 +1057,75 @@
     
 
 </div>
+
+<div *ngIf="Print1_Visible" class="content-container">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem;">
+            <h2 class="h2-ic" id="ARP1_Title1">{{'Print1_1' | translate }}</h2>
+            <h2 class="h2-ic" id="ARP1_Title2">{{'Print1_2' | translate }}</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-a.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+<div *ngIf="Print2_Visible" class="content-container">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="ARP2_Title1">{{'Print2_1' | translate }}</h2>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-b.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+<div *ngIf="EmailPage_Visible" class="content-container">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="ARE_Title1">{{'Email_1' | translate }}</h2>
+            <h2 class="h2-ic" id="ARE_Title2">{{'Email_2' | translate }}</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnb-mobile-emel.png" class="ICReader__centered img-addon padding-top-10rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+
+<div class="content-container" *ngIf="transaction_Successful">
+    <div class="row text-center">
+        <div class="col-md-12 padding-top-2rem">
+            <img src="assets/images/ASNB-tick.png" class="ticklogo " alt="ASNB">
+        </div>
+    </div>
+    
+    <div class="row text-center padding-top-5rem" >
+        <h2 class="h2-ic" id="ST_Title1">{{'TS_1' | translate }}</h2>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel" id="ST_EndTransaction" (click)="endTransaction()">
+                            {{'BTN_End' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="ST_MainMenu" (click)="mainMenu()">
+                            {{'BTN_MainMenu' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+
 
 

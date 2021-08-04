@@ -4,6 +4,7 @@
     "AldanReceiptURL": "https://kioskdev.asnb.com.my/GetPDF/api/",
     "AESCrpytKey": "gsKxGZ012HLL3MI5",
     "idletime": "100",
+    "popuptime": "30",
     "thresholdForAdditionalInfo" : "10000"
 }
 

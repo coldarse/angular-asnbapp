@@ -213,7 +213,7 @@ export class CheckbalanceComponent implements OnInit {
             "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
             "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
             "UNITHOLDERID": this.CB2_7.toString(),
-            "IDENTIFICATIONTYPE":"W",
+            "IDENTIFICATIONTYPE":currentHolder.identificationtype,
             "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
             "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
             "FUNDID":selectedFundDetails.FUNDID.toString(),
@@ -249,7 +249,7 @@ export class CheckbalanceComponent implements OnInit {
             "REQUESTDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
             "REQUESTTIME":formatDate(new Date(), 'HH:MM:ss', 'en').toString(),
             "UNITHOLDERID": this.CB2_7.toString(),
-            "IDENTIFICATIONTYPE":"W",
+            "IDENTIFICATIONTYPE":currentHolder.identificationtype,
             "IDENTIFICATIONNUMBER":this.CB2_5.toString(),
             "GUARDIANIDNUMBER":this.CB_GuardianID.toString(),
             "FUNDID":selectedFundDetails.FUNDID.toString(),
@@ -563,7 +563,7 @@ export class CheckbalanceComponent implements OnInit {
             "requestdate": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
             "requesttime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
             "unitholderid": this.CB2_7.toString(),
-            "identificationtype": "W",
+            "identificationtype": currentBijakHolder.identificationtype,
             "identificationnumber": this.CB2_5.toString(),
             "guardianidnumber": this.CB_GuardianID.toString(),
             "fundid": selectedFundDetails.FUNDID.toString(),
@@ -699,7 +699,7 @@ export class CheckbalanceComponent implements OnInit {
         "requestdate": formatDate(new Date(), 'dd/MM/yyyy', 'en').toString(),
         "requesttime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "unitholderid": this.CB2_7.toString(),
-        "identificationtype": "W",
+        "identificationtype": currentBijakHolder.identificationtype,
         "identificationnumber": this.CB2_5.toString(),
         "guardianidnumber": this.CB_GuardianID.toString(),
         "fundid": selectedFundDetails.FUNDID.toString(),
@@ -1102,7 +1102,7 @@ export class CheckbalanceComponent implements OnInit {
     this.isMain = true;
 
     this.fDetails = currentHolder.funddetail;
-
+    console.log(this.fDetails);
 
     //if (this.fDetails.length == 1 || this.fDetails.length == 0){
     if(this.fDetails[0].FUNDID.length < 1){
