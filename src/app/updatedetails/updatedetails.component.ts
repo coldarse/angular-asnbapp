@@ -106,6 +106,7 @@ export class UpdatedetailsComponent implements OnInit {
   bankNo_Warning : boolean = false;
   bankNo_Warning1 : boolean = false;
   companyName_Warning : boolean = false;
+  city_Warning : boolean  = false;
 
   MI_Warning : boolean = false;
   MI_Warning2 : boolean = false;
@@ -992,7 +993,7 @@ export class UpdatedetailsComponent implements OnInit {
     this.bankNo_Warning = false;
     this.bankNo_Warning1 = false;
     this.companyName_Warning = false;
-
+    this.city_Warning = false;
     this.MI_Warning = false;
     this.MI_Warning2 = false;
     this.JS_Warning = false;
@@ -1032,6 +1033,9 @@ export class UpdatedetailsComponent implements OnInit {
         }
         else if(key.includes('postcode')){
           if (this.AR_Form.controls.mykadaddress.value == false) this.postcode_Warning = true;
+        }
+        else if(key.includes('city')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.city_Warning = true;
         }
       }
       else if (this.AR_Form.controls[key].hasError('pattern')){
@@ -1173,7 +1177,7 @@ export class UpdatedetailsComponent implements OnInit {
     this.bankNo_Warning = false;
     this.bankNo_Warning1 = false;
     this.companyName_Warning = false;
-
+    this.city_Warning = false;
     this.MI_Warning = false;
     this.MI_Warning2 = false;
     this.JS_Warning = false;
@@ -1208,6 +1212,9 @@ export class UpdatedetailsComponent implements OnInit {
         }
         else if(key.includes('postcode')){
           if (this.AR_Form.controls.mykadaddress.value == false) this.postcode_Warning = true;
+        }
+        else if(key.includes('city')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.city_Warning = true;
         }
       }
       else if (this.AR_Form.controls[key].hasError('pattern')){
@@ -1469,7 +1476,7 @@ export class UpdatedetailsComponent implements OnInit {
           address1 : [{value: currentHolder.addresslinE1, disabled: false}, Validators.required],
           address2 : [{value: currentHolder.addresslinE2, disabled: false}, Validators.required],
           postcode : [{value: currentHolder.zipcode, disabled: false}, Validators.required],
-          city : [{value: isNACity, disabled: false}],
+          city : [{value: isNACity, disabled: false}, Validators.required],
           state : [{value: currentHolder.addresslinE4, disabled: false}],
           mykadaddress: [false],
 
@@ -1550,7 +1557,7 @@ export class UpdatedetailsComponent implements OnInit {
           religion: [{value: currentBijakHolder.religion, disabled: true}],
 
           g_memberid: [{value: currentHolder.unitholderid, disabled: true}],
-          g_salution: [currentHolder.title],
+          g_salution: [{value: currentHolder.title, disabled: true}],
           g_fullname: [{value: currentHolder.firstname, disabled: true}],
           g_identificationnumber: [{value: currentHolder.identificationnumber, disabled: true}],
           g_dob: [{value: currentHolder.dateofbirth, disabled: true}],

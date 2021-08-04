@@ -107,7 +107,7 @@ export class BijakregistrationComponent implements OnInit {
   bankNo_Warning : boolean = false;
   bankNo_Warning1 : boolean = false;
   companyName_Warning : boolean = false;
-
+  city_Warning : boolean = false;
   MI_Warning : boolean = false;
   MI_Warning2 : boolean = false;
   JS_Warning : boolean = false;
@@ -383,7 +383,7 @@ export class BijakregistrationComponent implements OnInit {
         religion: [{value: this.religion, disabled: true}],
 
         g_memberid: [{value: currentHolder.unitholderid, disabled: true}],
-        g_salution: [currentHolder.title],
+        g_salution: [{value: currentHolder.title, disabled: true}],
         g_fullname: [{value: currentHolder.firstname, disabled: true}],
         g_identificationnumber: [{value: currentMyKadDetails.ICNo, disabled: true}],
         g_dob: [{value: formatDate(currentMyKadDetails.DOB, 'dd MMM yyyy', 'en'), disabled: true}],
@@ -837,7 +837,7 @@ export class BijakregistrationComponent implements OnInit {
             }
             this.state = currentMyKidDetails.State.toString().replace(" ", "");
             for(var y of this.form_states){
-              if (y.text.toLowerCase().includes(this.state.toLowerCase())){
+              if (y.text.toLowerCase().replace(" ", "").includes(this.state.toLowerCase())){
                 this.state = y.value;
                 break;
               }
@@ -846,7 +846,7 @@ export class BijakregistrationComponent implements OnInit {
                 break;
               }
               else{
-                this.state = currentMyKidDetails.State.toString().replace(" ", "");
+                this.state = currentMyKidDetails.State.toString();
               }
             }
             this.religion = currentMyKadDetails.Religion;
@@ -1020,8 +1020,9 @@ export class BijakregistrationComponent implements OnInit {
   bijakregistrationCancel() {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + "Canceled Bijak Account Registration.");
     
-    this.BRForm_Visible = false;
-    this.BRReminder_Visible = true;
+    // this.BRForm_Visible = false;
+    // this.BRReminder_Visible = true;
+    this._router.navigate(['transactionmenu']);
   }
 
   bijakregistrationNext() {
@@ -1085,6 +1086,9 @@ export class BijakregistrationComponent implements OnInit {
         }
         else if(key.includes('postcode')){
           if (this.AR_Form.controls.mykadaddress.value == false) this.postcode_Warning = true;
+        }
+        else if(key.includes('city')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.city_Warning = true;
         }
       }
       else if (this.AR_Form.controls[key].hasError('pattern')){
@@ -1397,9 +1401,9 @@ export class BijakregistrationComponent implements OnInit {
 
         let transaction = "";
         if(selectLang.selectedLang == 'en'){
-          transaction = "Bijak Account Registration";
+          transaction = "Bijak/Remaja Account Registration";
         }else{
-          transaction = "Pendaftaran Akaun Bijak";
+          transaction = "Pendaftaran Akaun Bijak/Remaja";
         }
     
         const body = {
@@ -1441,9 +1445,9 @@ export class BijakregistrationComponent implements OnInit {
 
     let transaction = "";
     if(selectLang.selectedLang == 'en'){
-      transaction = "Bijak Account Registration";
+      transaction = "Bijak/Remaja Account Registration";
     }else{
-      transaction = "Pendaftaran Akaun Bijak";
+      transaction = "Pendaftaran Akaun Bijak/Remaja";
     }
     
     const body = {

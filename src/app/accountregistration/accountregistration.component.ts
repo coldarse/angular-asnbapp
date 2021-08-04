@@ -110,7 +110,7 @@ export class AccountregistrationComponent implements OnInit {
   bankNo_Warning : boolean = false;
   bankNo_Warning1 : boolean = false;
   companyName_Warning : boolean = false;
-
+  city_Warning : boolean = false;
   MI_Warning : boolean = false;
   MI_Warning2 : boolean = false;
   JS_Warning : boolean = false;
@@ -255,7 +255,7 @@ export class AccountregistrationComponent implements OnInit {
     }
     this.state = currentMyKadDetails.State.toString().replace(" ", "");
     for(var y of this.form_states){
-      if (y.text.toLowerCase().includes(this.state.toLowerCase())){
+      if (y.text.toLowerCase().replace(" ", "").includes(this.state.toLowerCase())){
         this.state = y.value;
         break;
       }
@@ -264,7 +264,7 @@ export class AccountregistrationComponent implements OnInit {
         break;
       }
       else{
-        this.state = currentMyKadDetails.State.toString().replace(" ", "");
+        this.state = currentMyKadDetails.State.toString();
       }
     }
     this.religion = currentMyKadDetails.Religion;
@@ -311,7 +311,7 @@ export class AccountregistrationComponent implements OnInit {
         address1 : [{value: tempadd1, disabled: true}, Validators.required],
         address2 : [{value: tempadd2, disabled: true}, Validators.required],
         postcode : [{value: currentMyKadDetails.PostCode, disabled: true}, Validators.required],
-        city : [{value: currentMyKadDetails.City, disabled: true}],
+        city : [{value: currentMyKadDetails.City, disabled: true}, Validators.required],
         state : [{value: this.state, disabled: true}],
         mykadaddress: [true],
 
@@ -916,6 +916,9 @@ export class AccountregistrationComponent implements OnInit {
         }
         else if(key.includes('postcode')){
           if (this.AR_Form.controls.mykadaddress.value == false) this.postcode_Warning = true;
+        }
+        else if(key.includes('city')){
+          if (this.AR_Form.controls.mykadaddress.value == false) this.city_Warning = true;
         }
       }
       else if (this.AR_Form.controls[key].hasError('pattern')){

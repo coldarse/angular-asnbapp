@@ -611,6 +611,9 @@
             <p *ngIf="tacEnabled">
                 {{'PRDetails_19' | translate }}{{PRDetails_19_1}}{{'PRDetails_20' | translate }} 
             </p>
+            <p *ngIf="tacEnabled">
+                {{'PRDetails_21' | translate }} 
+            </p>
             <p>
                 
             </p>
@@ -622,8 +625,8 @@
             <div class="cont1" style="margin-left: auto; margin-right: auto;">
                 <div class="row">
                     <div class="col-md-6">
-                        <button type="button" class="btn btn-cancel-white" id="PR_Cancel" (click)="MainMenuBtn()">
-                            {{'BTN_MainMenu' | translate }}
+                        <button type="button" class="btn btn-cancel-white" id="PR_Cancel" (click)="prdetails_back()">
+                            {{'BTN_Back' | translate }}
                         </button>
                     </div>
                         <div class="col-md-6">
@@ -753,7 +756,7 @@
             portal myASNB di 03-77308899.
         </h4> -->
         <h4 style="padding-left:3.3rem;" class="h2-ic">
-            {{'PRLogin_4' | translate }}<strong> {{'PRLogin_5' | translate }} </strong>{{'PRLogin_6' | translate }}<strong> {{'PRLogin_7' | translate }} </strong>{{'PRLogin_8' | translate }}
+            {{'PRLogin_4' | translate }}<strong style="font-weight: 25;"> {{'PRLogin_5' | translate }} </strong>{{'PRLogin_6' | translate }}<strong style="font-weight: 25;"> {{'PRLogin_7' | translate }} </strong>{{'PRLogin_8' | translate }}
         </h4>
     </div>
 
@@ -779,7 +782,7 @@
                         <!-- Tidak -->
                         {{'BTN_No' | translate }}
                     </button>
-                    <button class="btn" style="width: 30%; margin-left: 0.5rem; background-color: #27AE60;" (click)="secureYes()" [disabled]="yesno">
+                    <button class="btn" style="width: 30%; margin-left: 0.5rem; background-color: #27AE60; color: white;" (click)="secureYes()" [disabled]="yesno">
                         <!-- Ya -->
                         {{'BTN_Yes' | translate }}
                     </button>

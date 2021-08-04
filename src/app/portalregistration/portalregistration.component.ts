@@ -488,7 +488,7 @@ export class PortalregistrationComponent implements OnInit {
   initializeForm1(){
     this.PForm_1 = this.fb.group({
       userid: ['', Validators.required],
-      email: ['', [
+      email: [currentHolder.email, [
         Validators.required,
         Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       securephrase: ['', Validators.required],
@@ -1006,6 +1006,11 @@ export class PortalregistrationComponent implements OnInit {
 
   MainMenuBtn(){
     this._router.navigate(['transactionmenu']);
+  }
+
+  prdetails_back(){
+    this.PR_TNC = true;
+    this.PR_Details = false;
   }
 
 

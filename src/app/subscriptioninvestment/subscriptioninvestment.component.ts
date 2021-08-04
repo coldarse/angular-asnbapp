@@ -243,8 +243,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
               }
             })
           });
-          console.log(this.variableFunds);
-          console.log(this.fixedFunds);
           this.isloadedfunds = true;
         });
         

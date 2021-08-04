@@ -258,12 +258,12 @@
                 <div class="row">
                     <div class="col-md-6">
                         <button type="button" class="btn btn-cancel-white" id="AR_XAgree" (click)="bijakDisagree()">
-                            {{'BTN_xAgree' | translate }}
+                            {{'BTN_MainMenu' | translate }}
                         </button>
                     </div>
                     <div class="col-md-6">
                         <button type="button" class="btn btn-next" id="AR_Agree" (click)="bijakAgree()">
-                            {{'BTN_Agree' | translate }}
+                            {{'BTN_Next' | translate }}
                         </button>
                     </div>
                 </div>
@@ -553,6 +553,7 @@
                                     </option>
                                 </select> -->
                                 <input type="text" class="input-normal use-keyboard-input"  [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City">
+                                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="city_Warning">{{'CTYWarning' | translate}}</div>
                             </div>
                         </div>
                     </div>
@@ -934,8 +935,12 @@
             sebelum meneruskan transaksi.
         </h2> -->
 
-        <h2 id="BR_ErrorMessage" class="h2-ic" style="padding-top:8rem; padding-left: 8rem; padding-right: 8rem">
+        <h2 id="BR_ErrorMessage" *ngIf="lostcount" class="h2-ic" style="padding-top:8rem; padding-left: 8rem; padding-right: 8rem">
             {{'BRError_2' | translate }}
+        </h2>
+
+        <h2 id="BR_ErrorMessage" *ngIf="lostcount == false" class="h2-ic" style="padding-top:8rem; padding-left: 8rem; padding-right: 8rem">
+            {{'BRError_2_1' | translate }}
         </h2>
 
 
