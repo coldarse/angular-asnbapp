@@ -271,7 +271,7 @@
 	"AD2Warning" : "Please enter Address 2.",
 	"PCWarning" : "Please enter a Postcode.",
 	"MNWarning" : "Please enter Mobile Phone Number.",
-	"EAWarning" : "Please enter the correct Email Address.",
+	"EAWarning" : "Please enter a valid Email Address.",
 	"Warning" : "Required.",
 	"BANWarning" : "Please enter your Bank Account Number",
 	"optionSelect" : "Please Select One.",
@@ -410,7 +410,11 @@
 	"Answer3Warning": "Please enter Answer 3",
 	"TACWarning": "Please key in Verification Code",
 	"TempPassWarning": "Please enter Temporary Password",
-	"NewPass1Warning": "Please enter New Password",
-	"NewPass2Warning": "Please re-enter New Password",
-	"CTYWarning": "Please enter City"
+	"NewPass1Warning": "Please enter a New Password",
+	"NewPass2Warning": "Please confirm your password",
+	"CTYWarning": "Please enter City",
+	"Question1Warning": "Please select Security Question 1",
+	"Question2Warning": "Please select Security Question 2",
+	"Question3Warning": "Please select Security Question 3",
+	"SecureWarning": "Please key in secure phrase"
 }

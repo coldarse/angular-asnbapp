@@ -470,7 +470,7 @@
                 <div class="col-md-7">
                     <input type="text" style="width: 85%;" class="use-keyboard-input" name="securephrase" [formControl]='PForm_1.controls["SecurePhraseWarning"]' #securePhrase id="securephrase">
                     <!-- [formControl]='PForm_1.controls["securephrase"]'> -->
-                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="securephrase_warning">{{'Warning' | translate}}</div> 
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="securephrase_warning">{{'SecureWarning' | translate}}</div> 
 
                 </div>
             </div>
@@ -482,10 +482,12 @@
                 <div class="col-md-7">
                     <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;" [formControl]='PForm_1.controls["q1"]' #question1>
                     <!-- [formControl]='PForm_1.controls["seq1"]'> -->
+                        <option value="">{{ 'optionSelect' | translate }}</option>
                         <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
                             {{seq.questionEN}}
                         </option>
                     </select>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="seq1_warning">{{'Question1Warning' | translate}}</div>
                 </div>
             </div>
             <div class="row" style="padding-left: 3.3rem;">
@@ -507,10 +509,12 @@
                 </div>
                 <div class="col-md-7">
                     <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;" [formControl]='PForm_1.controls["q2"]' #question2>
+                        <option value="">{{ 'optionSelect' | translate }}</option>
                         <option *ngFor="let seq of filteritemsoftype('B')" value={{seq.sqCode}}>
                             {{seq.questionEN}}
                         </option>
                     </select>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="seq2_warning">{{'Question2Warning' | translate}}</div>
                 </div>
             </div>
             <div class="row" style="padding-left: 3.3rem;">
@@ -531,10 +535,12 @@
                 </div>
                 <div class="col-md-7">
                     <select name="question1" id="Q1" style="width: 85%; height: 1.75rem;" [formControl]='PForm_1.controls["q3"]' #question3>
+                        <option value="">{{ 'optionSelect' | translate }}</option>
                         <option *ngFor="let seq of filteritemsoftype('C')" value={{seq.sqCode}}>
                             {{seq.questionEN}}
                         </option>
                     </select>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="seq3_warning">{{'Question3Warning' | translate}}</div>
                 </div>
             </div>
             <div class="row" style="padding-left: 3.3rem;" >
@@ -926,7 +932,7 @@
             <div class="cont1" style="margin-left: auto; margin-right: auto;">
                 <div class="row">
                     <div class="col-md-6">
-                        <button type="button" class="btn btn-cancel-white" id="PR_Back">
+                        <button type="button" class="btn btn-cancel-white" id="PR_Back" (click)="newPassBack()">
                             {{'BTN_Back' | translate }}
                         </button>
                     </div>

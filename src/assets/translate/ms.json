@@ -271,7 +271,7 @@
 	"AD2Warning" : "Sila masukkan Surat-Menyurat 2.",
 	"PCWarning" : "Sila masukkan Poskod.",
 	"MNWarning" : "Sila masukkan Nombor Telefon Bimbit.",
-	"EAWarning" : "Sila masukkan Alamat Emel yang betul.",
+	"EAWarning" : "Sila isi alamat emel yang sah.",
 	"Warning" : "Wajib.",
 	"BANWarning" : "Sila masukkan Nombor Akaun anda",
 	"optionSelect" : "Sila Pilih Satu.",
@@ -410,7 +410,11 @@
 	"Answer3Warning": "Sila isikan Jawapan 3",
 	"TACWarning": "Sila masukkan TAC yang telah dihantar ke telefon bimbit anda",
 	"TempPassWarning": "Sila isikan Kata Laluan Sementara",
-	"NewPass1Warning": "Sila isikan Kata Laluan Baru",
-	"NewPass2Warning": "Sila isikan Kata Laluan Baru sekali lagi",
-	"CTYWarning": "Sila isikan Bandar"
+	"NewPass1Warning": "Sila isikan Kata Laluan",
+	"NewPass2Warning": "Sila isikan Kata Laluan Baru",
+	"CTYWarning": "Sila isikan Bandar",
+	"Question1Warning": "Sila pilih Soalan Keselamatan 1",
+	"Question2Warning": "Sila pilih Soalan Keselamatan 2",
+	"Question3Warning": "Sila pilih Soalan Keselamatan 3",
+	"SecureWarning": "Sila isikan frasa keselamatan"
 }

@@ -64,6 +64,10 @@ export class PortalregistrationComponent implements OnInit {
 
   clickedTac = false;
 
+  seq1_warning = false;
+  seq2_warning = false;
+  seq3_warning = false;
+
   form_SetA : any;
   form_SetB : any;
   form_SetC : any;
@@ -314,7 +318,7 @@ export class PortalregistrationComponent implements OnInit {
 
     this.PRDetails_19_1 = this.formatMobile(currentHolder.cellphonenumber);
 
-    if (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined){
+    if (currentHolder.cellphonenumber == "NA" || currentHolder.cellphonenumber == undefined || currentHolder.cellphonenumber == ""){
       this.RMError4_Visible = true;
     }else{
       if(currentHolder.funddetail[0].FUNDID == "" || currentHolder.funddetail.length == 0){
@@ -322,7 +326,7 @@ export class PortalregistrationComponent implements OnInit {
       }
       else{
         if(signalrConnection.kioskType == 'Mobile'){
-          if(currentHolder.email == ''){
+          if(currentHolder.email == 'NA' || currentHolder.email == ''){
             this.RMError4_Visible = true;
           }else{
             const body = {
@@ -369,6 +373,7 @@ export class PortalregistrationComponent implements OnInit {
                       this.form_SetC.push(appFunc.securityQuestions[i]);
                   }
                 } 
+                
                 this.PR_Intro = true;
                 
               }else{
@@ -477,7 +482,7 @@ export class PortalregistrationComponent implements OnInit {
       this.PR_Intro = true;
       this.introCount += 1;
     }
-    
+
   }
 
   agreeTNC(){
@@ -493,11 +498,11 @@ export class PortalregistrationComponent implements OnInit {
         Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       securephrase: ['', Validators.required],
       
-      q1: ['1000'],
+      q1: ['', Validators.required],
       a1: ['', Validators.required],
-      q2: ['1005'],
+      q2: ['', Validators.required],
       a2: ['', Validators.required],
-      q3: ['1010'],
+      q3: ['', Validators.required],
       a3: ['', Validators.required],
 
       tac: ['', Validators.required]
@@ -515,7 +520,7 @@ export class PortalregistrationComponent implements OnInit {
 
   initializeForm3(){
     this.PForm_3 = this.fb.group({
-      newpass: ['', Validators.required],
+      newPass: ['', Validators.required],
       newpassR: ['', Validators.required]
     });
   }
@@ -546,6 +551,9 @@ export class PortalregistrationComponent implements OnInit {
     this.tac_warning = false;
     this.tac1_warning = false;
     this.email1_warning = false;
+    this.seq1_warning = false;
+    this.seq2_warning = false;
+    this.seq3_warning = false;
 
     let x = 0;
     Object.keys(this.PForm_1.controls).forEach(key => {
@@ -571,6 +579,15 @@ export class PortalregistrationComponent implements OnInit {
         }
         else if (key.includes('tac')){
           this.tac_warning = true;
+        }
+        else if (key.includes('q1')){
+          this.seq1_warning = true;
+        }
+        else if (key.includes('q2')){
+          this.seq2_warning = true;
+        }
+        else if (key.includes('q3')){
+          this.seq3_warning = true;
         }
       }
       else if (this.PForm_1.controls[key].hasError('pattern')){
@@ -712,8 +729,8 @@ export class PortalregistrationComponent implements OnInit {
 
     this.useridlog_warning = false;
     let x = 0;
-    Object.keys(this.PForm_1.controls).forEach(key => {
-      if (this.PForm_1.controls[key].hasError('required')){
+    Object.keys(this.PForm_2.controls).forEach(key => {
+      if (this.PForm_2.controls[key].hasError('required')){
         x += 1;
         if(key.includes('useridlog')){
           this.useridlog_warning = true;
@@ -777,26 +794,36 @@ export class PortalregistrationComponent implements OnInit {
     }
   }
 
+  newPassBack(){
+    this.PR_Login = true;
+    this.PR_NewPassword = false;
+    this.isFirstLogin = false;
+    this.isPasswordUpdate = true;
+  }
+
   newPassNext(){
 
     closeKeyboard();
 
-    this.PForm_3.controls.newpass.setValue(this.newPass?.nativeElement.value);
+    this.PForm_3.controls.newPass.setValue(this.newPass?.nativeElement.value);
     this.PForm_3.controls.newpassR.setValue(this.newPassR?.nativeElement.value);
+
 
     this.newpass_warning = false;
     this.newpassR_warning = false;
     this.newpassR1_warning = false;
 
     let x = 0;
-    Object.keys(this.PForm_1.controls).forEach(key => {
-      if (this.PForm_1.controls[key].hasError('required')){
+    Object.keys(this.PForm_3.controls).forEach(key => {
+      if (this.PForm_3.controls[key].hasError('required')){
         x += 1;
-        if(key.includes('newpass')){
+        if(key.includes('newPass')){
           this.newpass_warning = true;
+          console.log('newpass: ' + this.newpass_warning);
         }
         else if (key.includes('newpassR')){
           this.newpassR_warning = true;
+          console.log('newpassR: ' + this.newpassR_warning);
         }
       }
     });
@@ -822,10 +849,11 @@ export class PortalregistrationComponent implements OnInit {
   }
 
   secureNo(){
-    this.yesno = false;
-    this.PForm_2.controls.useridlog.setValue('');
-    this.PForm_2.controls.temppass.setValue('');
-    this.PForm_2.controls.temppass.disable();
+    // this.yesno = false;
+    // this.PForm_2.controls.useridlog.setValue('');
+    // this.PForm_2.controls.temppass.setValue('');
+    // this.PForm_2.controls.temppass.disable();
+    this._router.navigate(['transactionmenu']);
   }
 
   filteritemsoftype(type: string){
@@ -935,57 +963,129 @@ export class PortalregistrationComponent implements OnInit {
   }
 
   TACClick(){
-    const body = {
-      "mobileno" : currentHolder.cellphonenumber,
-      "moduleid" : "316",
-      "message" : "ASNB KIOSK: myASNB Portal Registration",
-      "language" : selectLang.selectedLang,
-      "signature": ""
-    }
-
-    let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
-    let encryptedbody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
-      keySize: 128,
-      blockSize: 128,
-      mode: CryptoJS.mode.ECB,
-      padding: CryptoJS.pad.Pkcs7
-    });
-
-    const newbody = {
-      "mobileno" : currentHolder.cellphonenumber,
-      "moduleid" : "316",
-      "message" : "ASNB KIOSK: myASNB Portal Registration",
-      "language" : selectLang.selectedLang,
-      "signature": encryptedbody.toString()
-    }
+    closeKeyboard();
 
 
-    this.serviceService.tacVerification(newbody).subscribe((res: any) => {
-      if (res.result.error_reason == ""){
-        this.nextDetails_disabled = false;
-        this.tacEnabled = true;
-        this.clickedTac = true;
-        this.generatedTAC = res.result.tac;
-        let expiry = parseInt(res.result.tac_expiry_duration) * 1000; 
-        setTimeout(() => {
-          this.nextDetails_disabled = true;
-          this.clickedTac = false;
-        }, expiry);
-      }else{
-        errorCodes.Ecode = res.result.error_code;
-        errorCodes.Emessage = res.result.error_reason;
-        errorCodes.accountName = currentHolder.firstname;
-        errorCodes.accountNo = currentHolder.unitholderid;
-        if(selectLang.selectedLang == 'ms'){
-          errorCodes.accountType = "Dewasa";
-        }else{
-          errorCodes.accountType = "Dewasa";
+    this.PForm_1.controls.userid.setValue(this.uid?.nativeElement.value);
+    this.PForm_1.controls.email.setValue(this.eAddress?.nativeElement.value);
+    this.PForm_1.controls.securephrase.setValue(this.securePh?.nativeElement.value);
+    this.PForm_1.controls.a1.setValue(this.answer1?.nativeElement.value);
+    this.PForm_1.controls.a2.setValue(this.answer2?.nativeElement.value);
+    this.PForm_1.controls.a3.setValue(this.answer3?.nativeElement.value);
+    this.PForm_1.controls.tac.setValue(this.TAC?.nativeElement.value);
+
+    this.userid_warning = false;
+    this.email_warning = false;
+    this.securephrase_warning = false;
+    this.answer1_warning = false;
+    this.answer2_warning = false;
+    this.answer3_warning = false;
+    this.tac_warning = false;
+    this.tac1_warning = false;
+    this.email1_warning = false;
+    this.seq1_warning = false;
+    this.seq2_warning = false;
+    this.seq3_warning = false;
+
+    let x = 0;
+    Object.keys(this.PForm_1.controls).forEach(key => {
+      if (this.PForm_1.controls[key].hasError('required')){
+        x += 1;
+        if(key.includes('userid')){
+          this.userid_warning = true;
         }
-        errorCodes.transaction = this.transaction;
-        this._router.navigate(['errorscreen']);
-        // clearInterval(this.id);
+        else if (key.includes('email')){
+          this.email_warning = true;
+        }
+        else if (key.includes('securephrase')){
+          this.securephrase_warning = true;
+        }
+        else if (key.includes('a1')){
+          this.answer1_warning = true;
+        }
+        else if (key.includes('a2')){
+          this.answer2_warning = true;
+        }
+        else if (key.includes('a3')){
+          this.answer3_warning = true;
+        }
+        else if (key.includes('tac')){
+          x -= 1;
+        }
+        else if (key.includes('q1')){
+          this.seq1_warning = true;
+        }
+        else if (key.includes('q2')){
+          this.seq2_warning = true;
+        }
+        else if (key.includes('q3')){
+          this.seq3_warning = true;
+        }
+      }
+      else if (this.PForm_1.controls[key].hasError('pattern')){
+        if (key.includes('email')){
+          this.email1_warning = true;
+        }
       }
     });
+    if (x > 0){
+      window.scroll(0,0);
+      console.log("Error");
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
+    }else{
+      console.log("No Error");
+      const body = {
+        "mobileno" : currentHolder.cellphonenumber,
+        "moduleid" : "316",
+        "message" : "ASNB KIOSK: myASNB Portal Registration",
+        "language" : selectLang.selectedLang,
+        "signature": ""
+      }
+
+      let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
+      let encryptedbody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
+        keySize: 128,
+        blockSize: 128,
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+      });
+
+      const newbody = {
+        "mobileno" : currentHolder.cellphonenumber,
+        "moduleid" : "316",
+        "message" : "ASNB KIOSK: myASNB Portal Registration",
+        "language" : selectLang.selectedLang,
+        "signature": encryptedbody.toString()
+      }
+
+
+      this.serviceService.tacVerification(newbody).subscribe((res: any) => {
+        if (res.result.error_reason == ""){
+          this.nextDetails_disabled = false;
+          this.tacEnabled = true;
+          this.clickedTac = true;
+          this.generatedTAC = res.result.tac;
+          let expiry = parseInt(res.result.tac_expiry_duration) * 1000; 
+          setTimeout(() => {
+            this.nextDetails_disabled = true;
+            this.clickedTac = false;
+          }, expiry);
+        }else{
+          errorCodes.Ecode = res.result.error_code;
+          errorCodes.Emessage = res.result.error_reason;
+          errorCodes.accountName = currentHolder.firstname;
+          errorCodes.accountNo = currentHolder.unitholderid;
+          if(selectLang.selectedLang == 'ms'){
+            errorCodes.accountType = "Dewasa";
+          }else{
+            errorCodes.accountType = "Dewasa";
+          }
+          errorCodes.transaction = this.transaction;
+          this._router.navigate(['errorscreen']);
+          // clearInterval(this.id);
+        }
+      });
+    }
   }
 
   loginASNB(){
@@ -1011,6 +1111,7 @@ export class PortalregistrationComponent implements OnInit {
   prdetails_back(){
     this.PR_TNC = true;
     this.PR_Details = false;
+    this.TNCAgreed = true;
   }
 
 
