@@ -76,6 +76,8 @@ export class UpdatedetailsComponent implements OnInit {
 
   UDBijak_Visible = false;
 
+  isPepTrue = false;
+
   UD_Print1Visible = false;
   UD_Print2Visible = false;
   UD_EmailVisible = false;
@@ -124,6 +126,8 @@ export class UpdatedetailsComponent implements OnInit {
   namaAhliBijak = "";
 
   Header_Title = "";
+
+  selectedAcctType = "";
 
   UD1_1 = "";
   UD1_2 = "";
@@ -781,6 +785,9 @@ export class UpdatedetailsComponent implements OnInit {
           "IDENTIFICATIONTYPE":currentMyKadDetails.CategoryType,
           "IDENTIFICATIONNUMBER":currentMyKadDetails.ICNo,
           "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+          "AGENTCODE":signalrConnection.agentCode,
+          "BRANCHCODE":signalrConnection.branchCode,
+          "PEP":this.AR_Form.controls.pep.value,
           "OCCUPATION":this.AR_Form.controls.jobname.value,
           "EMAIL":this.AR_Form.controls.email.value,
           "OTHERINFO8":this.AR_Form.controls.monthlyincome.value,
@@ -801,13 +808,14 @@ export class UpdatedetailsComponent implements OnInit {
           "GUARDIANID":"",
           "FATCA":this.AR_Form.controls.fatca.value,
           "CRS":this.AR_Form.controls.crs.value,
-          "PEP":this.AR_Form.controls.pep.value,
           "PARTICIPATEINASNBMKT":this.AR_Form.controls.news.value,
           "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
-          "AGENTCODE":signalrConnection.agentCode,
-          "BRANCHCODE":signalrConnection.branchCode,
           "BANKBRANCHCODE": this.AR_Form.controls.bankname.value + "14001"
         }
+
+      
+
+        console.log(JSON.stringify(body));
 
         this.serviceService.updateDetails(body).subscribe((data: any) => {
           if(data.result.transactionstatus.toLowerCase().includes('successful')){
@@ -919,29 +927,91 @@ export class UpdatedetailsComponent implements OnInit {
           "RELATIONSHIP":this.AR_Form.controls.g_relation.value,
         }
 
+        
+        if(this.AR_Form.controls.pep.value == 'Y'){
+          this.isPepTrue = true;
+        }
+
         this.serviceService.updateDetails(body).subscribe((data: any) => {
           if(data.result.transactionstatus.toLowerCase().includes('successful')){
-            kActivit.endTime = new Date();
-            kActivit.status = true;
 
-            appFunc.kioskActivity.push(kActivit);
-            if (this.AR_Form.controls.email.value == "NA"){
-              this.Email_Visible = false;
+            if(this.isPepTrue == false){
+              kActivit.endTime = new Date();
+              kActivit.status = true;
+  
+              appFunc.kioskActivity.push(kActivit);
+              if (this.AR_Form.controls.email.value == "NA"){
+                this.Email_Visible = false;
+              }
+              else{
+                this.Email_Visible = true;
+              }
+  
+              if(signalrConnection.kioskType == 'Mobile'){
+                this.Print_Visible = false;
+              }
+              else{
+                this.Print_Visible = true;
+              }
+      
+              this.UDBForm_Visible = false;
+              this.UDSuccess_Visible = true;
+              this.UDConfirm_Visible = false;
             }
             else{
-              this.Email_Visible = true;
-            }
+              const majorBody = {
+                "CHANNELTYPE":signalrConnection.channelType,
+                "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
+                "DEVICEOWNER":signalrConnection.deviceOwner,
+                "UNITHOLDERID": currentHolder.unitholderid,
+                "IDENTIFICATIONTYPE":currentMyKadDetails.CategoryType,
+                "IDENTIFICATIONNUMBER":currentMyKadDetails.ICNo,
+                "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+                "AGENTCODE":signalrConnection.agentCode,
+                "BRANCHCODE":signalrConnection.branchCode,
+                "PEP":this.AR_Form.controls.pep.value
+              }
 
-            if(signalrConnection.kioskType == 'Mobile'){
-              this.Print_Visible = false;
+              this.serviceService.updateDetails(majorBody).subscribe((data: any) => {
+                if(data.result.transactionstatus.toLowerCase().includes('successful')){
+                  kActivit.endTime = new Date();
+                  kActivit.status = true;
+      
+                  appFunc.kioskActivity.push(kActivit);
+                  if (this.AR_Form.controls.email.value == "NA"){
+                    this.Email_Visible = false;
+                  }
+                  else{
+                    this.Email_Visible = true;
+                  }
+      
+                  if(signalrConnection.kioskType == 'Mobile'){
+                    this.Print_Visible = false;
+                  }
+                  else{
+                    this.Print_Visible = true;
+                  }
+          
+                  this.UDBForm_Visible = false;
+                  this.UDSuccess_Visible = true;
+                  this.UDConfirm_Visible = false;
+                }
+                else{
+                  kActivit.endTime = new Date();
+                  kActivit.status = false;
+      
+                  appFunc.kioskActivity.push(kActivit);
+                  errorCodes.Ecode = data.result.rejectcode;
+                  errorCodes.Emessage = data.result.rejectreason;
+                  errorCodes.accountName = currentBijakHolder.firstname;
+                  errorCodes.accountNo = currentBijakHolder.unitholderid;
+                  errorCodes.accountType = "Major";
+                  errorCodes.transaction = this.transaction;
+                  this._router.navigate(['errorscreen']);
+                }
+              });
             }
-            else{
-              this.Print_Visible = true;
-            }
-    
-            this.UDBForm_Visible = false;
-            this.UDSuccess_Visible = true;
-            this.UDConfirm_Visible = false;
+            
           }else{
             kActivit.endTime = new Date();
             kActivit.status = false;
@@ -1348,11 +1418,11 @@ export class UpdatedetailsComponent implements OnInit {
       }
     }
 
-    if(currentHolder.pep == 'Y'){
-      this.AR_Form.controls.pep.disable();
-    }else{
-      this.AR_Form.controls.pep.enable();
-    }
+    // if(currentHolder.pep == 'Y'){
+    //   this.AR_Form.controls.pep.disable();
+    // }else{
+    //   this.AR_Form.controls.pep.enable();
+    // }
 
     if(this.isMain){
       if (code.includes('EM')){
@@ -1420,7 +1490,7 @@ export class UpdatedetailsComponent implements OnInit {
       isMobile = true;
     }
 
-    
+    this.selectedAcctType = acctType;
 
     if (acctType == 'major'){
 
@@ -1442,9 +1512,19 @@ export class UpdatedetailsComponent implements OnInit {
         crs = false;
       }
 
+      let pep = false;
+      if(currentHolder.pep == 'Y'){
+        pep = true;
+      }
+      else{
+        pep = false;
+      }
+
       let isNaMobile = currentHolder.cellphonenumber;
+      let checkIsNaMobile = false;
       if(isNaMobile == 'NA'){
         isNaMobile = "";
+        checkIsNaMobile = true;
       }
 
       let isNaHome = currentHolder.telephonE1;
@@ -1481,8 +1561,8 @@ export class UpdatedetailsComponent implements OnInit {
           mykadaddress: [false],
 
           homenumber : [isNaHome, Validators.minLength(6)],
-          telephone: [isNaMobile , [Validators.required, Validators.minLength(6)]],
-          notelephone: [false],
+          telephone: [{value: isNaMobile, disabled: checkIsNaMobile} , [Validators.required, Validators.minLength(6)]],
+          notelephone: [checkIsNaMobile],
 
           email: [{value: isNaEmail, disabled: false}, [
             Validators.required,
@@ -1501,7 +1581,7 @@ export class UpdatedetailsComponent implements OnInit {
           companyname: [currentHolder.companyname, Validators.required],
 
           fatca: [{value: currentHolder.fatca, disabled: fatca}],
-          pep: [currentHolder.pep],
+          pep: [{value: currentHolder.pep, disabled: pep}],
           news: [{value: currentHolder.participateinasnbmkt, disabled: false}],
           crs: [{value: currentHolder.crs, disabled: crs}],
         });
@@ -1526,9 +1606,19 @@ export class UpdatedetailsComponent implements OnInit {
         crs = false;
       }
 
+      let pep = false;
+      if(currentHolder.pep == 'Y'){
+        pep = true;
+      }
+      else{
+        pep = false;
+      }
+
       let isNaMobile = currentBijakHolder.cellphonenumber;
+      let checkIsNaMobile = false;
       if(isNaMobile == 'NA'){
         isNaMobile = "";
+        checkIsNaMobile = true;
       }
 
       let isNaHome = currentBijakHolder.telephonE1;
@@ -1573,9 +1663,9 @@ export class UpdatedetailsComponent implements OnInit {
           mykadaddress: [{value: true, disabled: true}],
 
           homenumber : [{value: isNaHome, disabled: true}],
-          telephone: [isNaMobile, Validators.required],
+          telephone: [{value: isNaMobile, disabled: checkIsNaMobile} , Validators.required],
 
-          notelephone: [false],
+          notelephone: [checkIsNaMobile],
 
           email: [{value: isNaEmail, disabled: false}, [
             Validators.required,
@@ -1594,7 +1684,7 @@ export class UpdatedetailsComponent implements OnInit {
           companyname: [{value: currentHolder.companyname, disabled: true}],
 
           fatca: [{value: currentBijakHolder.fatca, disabled: fatca}],
-          pep: [currentHolder.pep],
+          pep: [{value: currentHolder.pep, disabled: pep}],
           news: [{value: currentHolder.participateinasnbmkt, disabled: false}],
           crs: [{value: currentBijakHolder.crs, disabled: crs}],
         });
@@ -1659,6 +1749,9 @@ export class UpdatedetailsComponent implements OnInit {
                 }
                 else{
                   this.getAccountInquiryMinor();
+                  if(this.isPepTrue){
+                    this.getAccountInquiryMajor();
+                  }
                 }
               }, 3000);
             }else{
@@ -1761,6 +1854,9 @@ export class UpdatedetailsComponent implements OnInit {
       }
       else{
         this.getAccountInquiryMinor();
+        if(this.isPepTrue){
+          this.getAccountInquiryMajor();
+        }
       }
     }, 5000);
   }
@@ -1983,6 +2079,9 @@ export class UpdatedetailsComponent implements OnInit {
   
       this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
+
+      
+
         currentBijakHolder.channeltype = result.channeltype;
         currentBijakHolder.requestoridentification = result.requestoridentification;
         currentBijakHolder.deviceowner = result.deviceowner;

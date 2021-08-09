@@ -7,8 +7,8 @@
             <img src="assets/images/OutOfService-icon.png" alt="OutOfServiceImage" class="icon_margin">
             <div>
                 <label class="upStyle col-sm-12" *ngIf="transferswitching">{{ 'TransferSwitching' | translate }}</label>
-                <label class="upStyle col-sm-12" *ngIf="istransfer">{{ 'Transfer' | translate }}</label>
-                <label class="upStyle col-sm-12" *ngIf="isswitching">{{ 'Switching' | translate }}</label>
+                <label class="upStyle col-sm-12" *ngIf="istransfer">{{ 'Transfer1' | translate }}</label>
+                <label class="upStyle col-sm-12" *ngIf="isswitching">{{ 'Switching1' | translate }}</label>
                 <label class="downStyle col-sm-12" *ngIf="isOwn">{{ 'Own' | translate }}</label>
                 <label class="downStyle col-sm-12" *ngIf="isBijak">{{ 'Bijak' | translate }}</label>
             </div>
@@ -89,20 +89,20 @@
     </div>
 
     <!-- NgFor how many funds -->
-    <div class="row text-center" style="padding-top:1rem">
+    <div class="row text-center" style="padding-top:1rem" *ngFor="let fund of newFundDetails">
         <div class="col-md-1" >
 
         </div>
         <div class="col-md-10 text-center blue-bar-border" style="margin-left: 4.8rem;">
-            <div class="row" *ngFor="let fund of fundDetails">
+            <div class="row">
                 <div class="col-sm-4 displayflex">
-                    <img src="assets/fundicon/ASB.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
-                    <h5 class="h2-ic" style="padding-top: 1.2rem;">{{ fund.FUNDID }}</h5> <!-- Fund.fundid -->
+                    <img src="assets/fundicon/{{fund.FUNDID}}.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
+                    <h5 class="h2-ic" style="margin-top: auto; margin-bottom: auto">{{ fund.FUNDNAME }}</h5> <!-- Fund.fundid -->
                 </div>
                 <div class="col-sm-4">
-                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ fund.UNITBALANCE }}</h5> <!-- Fund.fundvalue -->
+                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ fund.UNITBALANCE | number : '1.2-2'  }}</h5> <!-- Fund.fundvalue -->
                 </div>
-                <div class="col-sm-4" style="padding-top: 1rem;">
+                <div class="col-sm-4" style="padding-top: 1.4rem;">
                     <button type="button" class="btn btn-transferswitching" (click)="Transfer(fund)">
                         {{'Transfer' | translate }}
                     </button>
@@ -120,7 +120,7 @@
 
   
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top:5rem;">
+        <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transferswitchingBack()">
                     {{'BTN_Back' | translate }}
@@ -177,7 +177,7 @@
             <div class="row ">
                 <div class="col-sm-4 displayflex">
                     <img src="assets/fundicon/ASB.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
-                    <h5 class="h2-ic" style="padding-top: 1.2rem;">{{ actualfundname }}</h5> <!-- Fund.fundid -->
+                    <h5 class="h2-ic" style="margin-top: auto; margin-bottom: auto;">{{ actualfundname }}</h5> <!-- Fund.fundid -->
                 </div>
                 <div class="col-sm-4">
                     <h5 class="h2-ic" style="padding-top: 2rem;">{{ actualfundvalue }}</h5> <!-- Fund.fundvalue -->
@@ -725,7 +725,7 @@
             <div class="row ">
                 <div class="col-sm-4 displayflex">
                     <img src="assets/fundicon/ASB.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
-                    <h5 class="h2-ic" style="padding-top: 1.2rem;">{{ actualfundname }}</h5> <!-- Fund.fundid -->
+                    <h5 class="h2-ic" style="margin-top: auto; margin-bottom: auto;">{{ actualfundname }}</h5> <!-- Fund.fundid -->
                 </div>
                 <div class="col-sm-4">
                     <h5 class="h2-ic" style="padding-top: 2rem;">{{ actualfundvalue }}</h5> <!-- Fund.fundvalue -->
@@ -754,12 +754,9 @@
             </div>
             <div class="col-md-6">
                 <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["fundname"]' #sfundid>
-                    <!-- <option *ngFor="let seq of filteritemsoftype('A')" value={{seq.sqCode}}>
-                        {{seq.questionEN}}
-                    </option> -->
-                    <option value="122">112</option>
-                    <option value="233">223</option>
-                    <option value="134">134</option>
+                    <option *ngFor="let fa of fundAvailable" value={{fa.code}}>
+                        {{fa.value}}
+                    </option>
                 </select>
             </div>
         </div>
