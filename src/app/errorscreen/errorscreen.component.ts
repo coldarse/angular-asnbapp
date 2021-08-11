@@ -36,7 +36,7 @@ export class ErrorscreenComponent implements OnInit {
     signalrConnection.logsaves = [];
     this.translate.use(selectLang.selectedLang);
 
-    this.ES_3 = "Error Code"
+    // this.ES_3 = "RESPONSE CODE";
     this.ES_5 = errorCodes.Ecode;
     this.ES_4 = errorCodes.Emessage;
     if(signalrConnection.kioskType != 'Mobile'){
