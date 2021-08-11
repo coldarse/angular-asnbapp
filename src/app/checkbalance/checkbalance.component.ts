@@ -1094,7 +1094,7 @@ export class CheckbalanceComponent implements OnInit {
 
 
         this.CheckBijakAccount();
-     })
+     });
   }
   
 

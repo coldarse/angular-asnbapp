@@ -7,6 +7,9 @@ import { appFunc } from '../_models/appFunctions';
 import { formatDate } from '@angular/common';
 import { kActivity } from '../_models/kActivity';
 import { errorCodes } from '../_models/errorCode';
+import { currentHolder } from '../_models/currentUnitHolder';
+import { fundDetails } from '../_models/fundDetails';
+import { ASNBFundID } from '../_models/dropDownLists';
 
 @Component({
   selector: 'app-transactionmenu',
@@ -132,6 +135,8 @@ export class TransactionmenuComponent implements OnInit {
       }, 1000);
     }
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Set 1 second interval to detect MyKad.");
+    
+
   }
 
   ngOnDestroy() {

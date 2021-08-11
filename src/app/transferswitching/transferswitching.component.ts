@@ -82,7 +82,7 @@ export class TransferswitchingComponent implements OnInit {
   relationship = appFunc.thirdPartyRelationship;
   ictype = appFunc.ictype;
 
-  fundAvailable = [];
+  fundAvailable: any = [];
 
   transferuhid = "";
   transferuhname = "";
@@ -117,6 +117,7 @@ export class TransferswitchingComponent implements OnInit {
 
   mDetails = currentHolder.minordetail;
   fundDetails = currentHolder.funddetail;
+  newFundDetails: any = [];
 
   transaction = "";
 
@@ -135,16 +136,36 @@ export class TransferswitchingComponent implements OnInit {
     this.fundDetails.forEach((element: any) => {
       appFunc.ASNBFundID.forEach((elem: any) => {
         if(elem.code.toLowerCase() == element.FUNDID.toLowerCase()){
-          element.FUNDID = elem.value;
+          //element.FUNDID = elem.value;
+          this.newFundDetails.push({
+            "FUNDID": element.FUNDID,
+            "UNITBALANCE": element.UNITBALANCE,
+            "EPFUNITS": element.EPFUNITS,
+            "LOANUNITS": element.LOANUNITS,
+            "CERTUNITS": element.CERTUNITS,
+            "BLOCKEDUNITS": element.BLOCKEDUNITS,
+            "PROVISIONALUNITS": element.PROVISIONALUNITS,
+            "TOTALUNITS": element.TOTALUNITS,
+            "NAV": element.NAV,
+            "UHHOLDINGS": element.UHHOLDINGS,
+            "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
+            "UBBUNITS": element.UBBUNITS,
+            "UBCUNITS": element.UBCUNITS,
+            "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
+            "FUNDNAME": elem.desc
+          });
         }
       });
     });
 
-    appFunc.isOwn = "major";
+    //appFunc.isOwn = "major";
 
     if(appFunc.isOwn == "major"){
       this.isOwn = true;
       this.transferswitching = true;
+
+      this.unitholderid = currentHolder.unitholderid;
+      this.unitholdername = currentHolder.firstname;
     }else{
       this.isBijak = true;
       this.BijakVisible = true;
@@ -156,6 +177,7 @@ export class TransferswitchingComponent implements OnInit {
       this.Back();
     }else{
       this.BijakVisible = true;
+      this.transferswitching = false;
     }
   }
 
@@ -164,6 +186,100 @@ export class TransferswitchingComponent implements OnInit {
   }
 
   Minor(minor: any){
+    const body = {
+      "CHANNELTYPE": signalrConnection.channelType,
+      "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+      "DEVICEOWNER": signalrConnection.deviceOwner,
+      "UNITHOLDERID": "",
+      "FIRSTNAME": "",
+      "IDENTIFICATIONTYPE": minor.ICTYPE,
+      "IDENTIFICATIONNUMBER": minor.ICNO,
+      "FUNDID": "",
+      "INQUIRYCODE": "5",
+      "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+      "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
+      "BANKCUSTPHONENUMBER": "",
+      "FILTRATIONFLAG": "1",
+      "GUARDIANID": currentHolder.unitholderid,
+      "GUARDIANICTYPE": currentHolder.identificationtype,
+      "GUARDIANICNUMBER": currentHolder.identificationnumber
+      };
+
+     this.serviceService.getAccountInquiry(body)
+     .subscribe((result: any) => {
+        
+        currentBijakHolder.channeltype = result.channeltype;
+        currentBijakHolder.requestoridentification = result.requestoridentification;
+        currentBijakHolder.deviceowner = result.deviceowner;
+        currentBijakHolder.unitholderid = result.unitholderid;
+        currentBijakHolder.firstname = result.firstname;
+        currentBijakHolder.identificationtype = result.identificationtype;
+        currentBijakHolder.identificationnumber = result.identificationnumber;
+        currentBijakHolder.fundid = result.fundid;
+        currentBijakHolder.inquirycode = result.inquirycode;
+        currentBijakHolder.transactiondate = result.transactiondate;
+        currentBijakHolder.transactiontime = result.transactiontime;
+        currentBijakHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+        currentBijakHolder.bankcustphonenumber = result.bankcustphonenumber;
+        currentBijakHolder.filtrationflag = result.filtrationflag;
+        currentBijakHolder.typeclosed = result.typeclosed;
+        currentBijakHolder.participateinasnbmkt = result.participateinasnbmkt;
+        currentBijakHolder.funddetail = result.funddetail;
+        currentBijakHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+        currentBijakHolder.grandtotalepfunits = result.grandtotalepfunits;
+        currentBijakHolder.grandtotalloanunits = result.grandtotalloanunits;
+        currentBijakHolder.grandtotalcertunits = result.grandtotalcertunits;
+        currentBijakHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+        currentBijakHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+        currentBijakHolder.grandtotalunits = result.grandtotalunits;
+        currentBijakHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+        currentBijakHolder.totalminoraccount = result.totalminoraccount;
+        currentBijakHolder.minordetail = result.minordetail;
+        currentBijakHolder.guardianid = result.guardianid;
+        currentBijakHolder.guardianictype = result.guardianictype;
+        currentBijakHolder.guardianicnumber = result.guardianicnumber;
+        currentBijakHolder.agentcode = result.agentcode;
+        currentBijakHolder.branchcode = result.branchcode;
+        currentBijakHolder.lastupdatedate = result.lastupdatedate;
+        currentBijakHolder.transactionchannel = result.transactionchannel;
+        currentBijakHolder.transactionstatus = result.transactionstatus;
+        currentBijakHolder.rejectcode = result.rejectcode;
+        currentBijakHolder.rejectreason = result.rejectreason;
+
+
+        this.TransferSwitchBijakAccount();
+     });
+  }
+
+  TransferSwitchBijakAccount(){
+    this.fundDetails = currentBijakHolder.funddetail;
+    this.fundDetails.forEach((element: any) => {
+      appFunc.ASNBFundID.forEach((elem: any) => {
+        if(elem.code.toLowerCase() == element.FUNDID.toLowerCase()){
+          //element.FUNDID = elem.value;
+          this.newFundDetails.push({
+            "FUNDID": element.FUNDID,
+            "UNITBALANCE": element.UNITBALANCE,
+            "EPFUNITS": element.EPFUNITS,
+            "LOANUNITS": element.LOANUNITS,
+            "CERTUNITS": element.CERTUNITS,
+            "BLOCKEDUNITS": element.BLOCKEDUNITS,
+            "PROVISIONALUNITS": element.PROVISIONALUNITS,
+            "TOTALUNITS": element.TOTALUNITS,
+            "NAV": element.NAV,
+            "UHHOLDINGS": element.UHHOLDINGS,
+            "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
+            "UBBUNITS": element.UBBUNITS,
+            "UBCUNITS": element.UBCUNITS,
+            "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
+            "FUNDNAME": elem.desc
+          });
+        }
+      });
+    });
+    this.unitholderid = currentBijakHolder.unitholderid;
+    this.unitholdername = currentBijakHolder.firstname;
     this.BijakVisible = false;
     this.transferswitching = true;
   }
@@ -182,7 +298,7 @@ export class TransferswitchingComponent implements OnInit {
 
     this.initializeForm1();
 
-    this.actualfundname = fund.FUNDID;
+    this.actualfundname = fund.FUNDNAME;
     this.actualfundvalue = fund.UNITBALANCE;
 
     setTimeout(() => {
@@ -621,16 +737,23 @@ export class TransferswitchingComponent implements OnInit {
     });
   }
 
+  containsObject(obj: ASNBFundID, list: fundDetails[]) {
+    var x;
+    for (x in list) {
+        if (list.hasOwnProperty(x) && list[x].FUNDID === obj.code) {
+            return true;
+        }
+    }
 
+    return false;
+  }
 
   Switching(fund: any){
 
-    this.fundAvailable.forEach((elemt: ASNBFundID) => {
-      currentHolder.funddetail.forEach((elem1: fundDetails) => {
-        if(elem1.FUNDID == elemt.code){
-
-        }
-      });
+    appFunc.ASNBFundID.forEach((elem1: ASNBFundID) => {
+      if(!this.containsObject(elem1, currentHolder.funddetail)){
+        this.fundAvailable.push(elem1);
+      }
     });
 
 
@@ -724,12 +847,12 @@ export class TransferswitchingComponent implements OnInit {
     }
 
     this.switchinguhid = this.Form_2.controls.fffff.value;
-      this.switchingfrom = this.Form_2.controls.fffff.value;
-      this.switchingNAVFrom = this.Form_2.controls.fffff.value;
-      this.switchingNAVTo = this.Form_2.controls.fffff.value;
-      this.switchingUnitsFrom = this.Form_2.controls.fffff.value;
-      this.switchingUnitsTo = this.Form_2.controls.fffff.value;
-      this.switchingSST = this.Form_2.controls.fffff.value;
+    this.switchingfrom = this.Form_2.controls.fffff.value;
+    this.switchingNAVFrom = this.Form_2.controls.fffff.value;
+    this.switchingNAVTo = this.Form_2.controls.fffff.value;
+    this.switchingUnitsFrom = this.Form_2.controls.fffff.value;
+    this.switchingUnitsTo = this.Form_2.controls.fffff.value;
+    this.switchingSST = this.Form_2.controls.fffff.value;
 
     appFunc.ASNBFundID.forEach((elem: any) => {
       if(elem.value.toLowerCase() == this.switchingto){
