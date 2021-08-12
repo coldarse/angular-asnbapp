@@ -1590,7 +1590,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   Print(){
     const objCardInfo = 
-    {
+    [{
       "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
       "BatchNum" : this.tempCardInfo.BatchNumber,
       "Invoice" : this.tempCardInfo.TransactionTrace,
@@ -1603,7 +1603,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       "ApprovalCode" : this.tempCardInfo.ApprovalCode,
       "ReferenceNumber" : this.tempCardInfo.RRN,
       "TotalAmount" : this.amountKeyed,
-    }
+    }]
 
     let accountType = "";
     if(selectLang.selectedLang == 'ms'){
@@ -1680,7 +1680,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   Email(){
     const objCardInfo = 
-    {
+    [{
       "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
       "BatchNum" : this.tempCardInfo.BatchNumber,
       "Invoice" : this.tempCardInfo.TransactionTrace,
@@ -1693,7 +1693,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       "ApprovalCode" : this.tempCardInfo.ApprovalCode,
       "ReferenceNumber" : this.tempCardInfo.RRN,
       "TotalAmount" : this.amountKeyed,
-    }
+    }]
 
     let accountType = "";
     if(selectLang.selectedLang == 'ms'){
@@ -1857,7 +1857,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           if (currentBijakHolder.transactionstatus.toLowerCase().includes('successful')){
   
             if (!currentBijakHolder.typeclosed.toLowerCase().includes('n')){
-              errorCodes.Ecode = "0168";
+              errorCodes.Ecode = "0109";
               errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
               errorCodes.accountName = currentMyKidDetails.Name;
               errorCodes.accountNo = currentBijakHolder.unitholderid;
@@ -2018,7 +2018,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
 
           if (!currentHolder.typeclosed.toLowerCase().includes('n')){
-            errorCodes.Ecode = "0168";
+            errorCodes.Ecode = "0109";
             errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
             errorCodes.accountName = currentMyKadDetails.Name;
             errorCodes.accountNo = currentHolder.unitholderid;

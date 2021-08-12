@@ -722,7 +722,7 @@ export class VerifymykadComponent implements OnInit {
             }
             else
             {
-              errorCodes.Ecode = "0168";
+              errorCodes.Ecode = "0109";
             }
             // errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
             errorCodes.accountName = currentHolder.firstname;
@@ -912,7 +912,7 @@ export class VerifymykadComponent implements OnInit {
                     }
                     else
                     {
-                      errorCodes.Ecode = "0168";
+                      errorCodes.Ecode = "0109";
                     }
                     // errorCodes.Emessage = "Your Old IC Account has been closed. Akaun anda telah ditutup.";
                     errorCodes.accountName = currentHolder.firstname;

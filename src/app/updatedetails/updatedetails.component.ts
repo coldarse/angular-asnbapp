@@ -518,7 +518,7 @@ export class UpdatedetailsComponent implements OnInit {
       if (currentBijakHolder.transactionstatus.toLowerCase().includes('successful')){
       
         if (!currentBijakHolder.typeclosed.toLowerCase().includes('n')){
-          errorCodes.Ecode = "0168";
+          errorCodes.Ecode = "0109";
           errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
           errorCodes.accountName = currentBijakHolder.firstname;
           errorCodes.accountNo = currentBijakHolder.unitholderid;
@@ -1983,7 +1983,7 @@ export class UpdatedetailsComponent implements OnInit {
         if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
 
           if (!currentHolder.typeclosed.toLowerCase().includes('n')){
-            errorCodes.Ecode = "0168";
+            errorCodes.Ecode = "0109";
             errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
             errorCodes.accountName = currentHolder.firstname;
             errorCodes.accountNo = currentHolder.unitholderid;
@@ -2123,7 +2123,7 @@ export class UpdatedetailsComponent implements OnInit {
         if (currentBijakHolder.transactionstatus.toLowerCase().includes('successful')){
 
           if (!currentBijakHolder.typeclosed.toLowerCase().includes('n')){
-            errorCodes.Ecode = "0168";
+            errorCodes.Ecode = "0109";
             errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
             errorCodes.accountName = currentBijakHolder.firstname;
             errorCodes.accountNo = currentBijakHolder.unitholderid;

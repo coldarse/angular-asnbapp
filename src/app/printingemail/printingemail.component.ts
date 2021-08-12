@@ -159,7 +159,7 @@ export class PrintingemailComponent implements OnInit {
           if (currentBijakHolder.transactionstatus.toLowerCase().includes('successful')){
   
             if (!currentBijakHolder.typeclosed.toLowerCase().includes('n')){
-              errorCodes.Ecode = "0168";
+              errorCodes.Ecode = "0109";
               errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
               errorCodes.accountName = currentMyKidDetails.Name;
               errorCodes.accountNo = currentBijakHolder.unitholderid;
@@ -315,7 +315,7 @@ export class PrintingemailComponent implements OnInit {
         if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
 
           if (!currentHolder.typeclosed.toLowerCase().includes('n')){
-            errorCodes.Ecode = "0168";
+            errorCodes.Ecode = "0109";
             errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
             errorCodes.accountName = currentMyKadDetails.Name;
             errorCodes.accountNo = currentHolder.unitholderid;

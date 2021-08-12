@@ -176,11 +176,11 @@
         <div class="col-md-10 text-center blue-bar-border" style="margin-left: 4.8rem;">
             <div class="row ">
                 <div class="col-sm-4 displayflex">
-                    <img src="assets/fundicon/ASB.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
+                    <img src="assets/fundicon/{{actualfundid}}.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
                     <h5 class="h2-ic" style="margin-top: auto; margin-bottom: auto;">{{ actualfundname }}</h5> <!-- Fund.fundid -->
                 </div>
                 <div class="col-sm-4">
-                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ actualfundvalue }}</h5> <!-- Fund.fundvalue -->
+                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ actualfundvalue | number : '1.2-2'  }}</h5> <!-- Fund.fundvalue -->
                 </div>
                 <div class="col-sm-4" style="padding-top: 1rem;">
                     <h5 class="h2-ic" style="padding-top: 1rem;">{{ 'Transfer' | translate }}</h5> <!-- Fund.fundvalue -->
@@ -205,7 +205,7 @@
                 </h4>
             </div>
             <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["uhid"]' #tuhid>
+                <input type="text" style="width: 85%;" name="touhid" id="touhid" class="use-keyboard-input" [formControl]='Form_1.controls["uhid"]' #tuhid>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhidWarning">{{'Warning' | translate}}</div>
             </div>
         </div>
@@ -217,7 +217,7 @@
                 </h4>
             </div>
             <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["uhname"]' #tuhname>
+                <input type="text" style="width: 85%;" name="touhname" id="touhname" class="use-keyboard-input" [formControl]='Form_1.controls["uhname"]' #tuhname>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhnameWarning">{{'Warning' | translate}}</div>
             </div>
         </div>
@@ -246,7 +246,7 @@
                 </h4>
             </div>
             <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["uhic"]' #tuhic>
+                <input type="text" style="width: 85%;" name="touhic" id="touhic" class="use-keyboard-input" [formControl]='Form_1.controls["uhic"]' #tuhic>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhicWarning">{{'Warning' | translate}}</div>
             </div>
         </div>
@@ -290,7 +290,7 @@
                 </h4>
             </div>
             <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #tamount>
+                <input type="text" style="width: 85%;" name="amount" id="amount" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #tamount>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferamountWarning">{{'Warning' | translate}}</div>
             </div>
         </div>
@@ -724,11 +724,11 @@
         <div class="col-md-10 text-center blue-bar-border" style="margin-left: 4.8rem;">
             <div class="row ">
                 <div class="col-sm-4 displayflex">
-                    <img src="assets/fundicon/ASB.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
+                    <img src="assets/fundicon/{{actualfundid}}.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
                     <h5 class="h2-ic" style="margin-top: auto; margin-bottom: auto;">{{ actualfundname }}</h5> <!-- Fund.fundid -->
                 </div>
                 <div class="col-sm-4">
-                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ actualfundvalue }}</h5> <!-- Fund.fundvalue -->
+                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ actualfundvalue | number : '1.2-2' }}</h5> <!-- Fund.fundvalue -->
                 </div>
                 <div class="col-sm-4" style="padding-top: 1rem;">
                     <h5 class="h2-ic" style="padding-top: 1rem;">{{ 'Switching' | translate }}</h5> <!-- Fund.fundvalue -->
@@ -768,7 +768,7 @@
                 </h4>
             </div>
             <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_2.controls["amount"]' #samount>
+                <input type="text" style="width: 85%;" name="switchamount" id="switchamount" class="use-keyboard-input" [formControl]='Form_2.controls["amount"]' #samount>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="switchingamountWarning">{{'Warning' | translate}}</div>
             </div>
         </div>

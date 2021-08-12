@@ -256,6 +256,9 @@ const Keyboard = {
         else if(element.tagname.toLowerCase().includes('amount')){
             element.value = element.value.replace(/[^\d.-]/g, '');
         }
+        else if(element.tagname.toLowerCase().includes('switchamount')){
+            element.value = element.value.replace(/[^\d.-]/g, '');
+        }
     },
 
     
