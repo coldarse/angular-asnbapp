@@ -345,7 +345,22 @@ export class BijakregistrationComponent implements OnInit {
       }
     }
 
-    
+    this.religion = currentMyKadDetails.Religion;
+    if(this.religion.toLowerCase().includes('islam')){
+      this.religion = "M"
+    }
+    else{
+      this.religion = "N"
+    }
+    this.race = currentMyKadDetails.Race;
+    for(var y of this.form_races){
+      if (y.textBM.toLowerCase().includes(this.race.toLowerCase())){
+        this.race = y.value;
+        break;
+      }else{
+        this.race = currentMyKadDetails.Race;
+      }
+    }
 
 
     let tempadd1 = "";
@@ -387,8 +402,8 @@ export class BijakregistrationComponent implements OnInit {
         g_fullname: [{value: currentHolder.firstname, disabled: true}],
         g_identificationnumber: [{value: currentMyKadDetails.ICNo, disabled: true}],
         g_dob: [{value: formatDate(currentMyKadDetails.DOB, 'dd MMM yyyy', 'en'), disabled: true}],
-        g_race: [{value: currentMyKadDetails.Race, disabled: true}],
-        g_religion: [{value: currentMyKadDetails.Religion, disabled: true}],
+        g_race: [{value: this.race, disabled: true}],
+        g_religion: [{value: this.religion, disabled: true}],
         g_relation: [{value: 'F', disabled: false}],
 
         address1 : [{value: tempadd1, disabled: true}],
@@ -470,7 +485,6 @@ export class BijakregistrationComponent implements OnInit {
         signalrConnection.connection.invoke('myKidRequest', this.CardType).then((data: any) => {
 
           status = data;
-  
           if (status.toLowerCase().includes('removecard')){
             this.myKidData = Object.assign(new MyKidDetails(), JSON.parse(data));
             this.bindMyKidData();
@@ -557,6 +571,13 @@ export class BijakregistrationComponent implements OnInit {
       else{
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + `MyKid Returned Age is more than 12 years old`);
         this.BRError_Visible = true;
+        this.tryCount -= 1;
+        if(this.tryCount == 0){
+          this.lostcount = false;
+        }
+        else{
+          this.lostcount = true;
+        }
       }
     }
     catch(e) {
@@ -649,6 +670,13 @@ export class BijakregistrationComponent implements OnInit {
       else{
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + `MyKid Returned Age is more than 12 years old`);
         this.BRError_Visible = true;
+        this.tryCount -= 1;
+        if(this.tryCount == 0){
+          this.lostcount = false;
+        }
+        else{
+          this.lostcount = true;
+        }
       }
     }
     catch(e) {

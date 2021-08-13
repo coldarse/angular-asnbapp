@@ -1533,8 +1533,10 @@ export class UpdatedetailsComponent implements OnInit {
       }
 
       let isNaEmail = currentHolder.email;
+      let checkIsNaEmail = false;
       if(isNaEmail == 'NA'){
         isNaEmail = "";
+        checkIsNaEmail = true;
       }
 
       let isNACity = currentHolder.addresslinE3;
@@ -1567,11 +1569,11 @@ export class UpdatedetailsComponent implements OnInit {
           email: [{value: isNaEmail, disabled: false}, [
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-          noemail: [{value: false, disabled: isMobile}],
+          noemail: [{value: checkIsNaEmail, disabled: isMobile}],
           deliverystate: [currentHolder.preferredmailmode],
 
           bankname: [currentHolder.bankcode == "00" ? "" : currentHolder.bankcode],
-          bankaccount: [currentHolder.accountnumber, (Validators.required, Validators.minLength(6))],
+          bankaccount: [currentHolder.accountnumber, [Validators.required, Validators.minLength(6), Validators.pattern('^[0-9]*$')]],
 
           jobcategory: [currentHolder.occupationcategory],
           jobname: [currentHolder.occupation],
@@ -1626,9 +1628,11 @@ export class UpdatedetailsComponent implements OnInit {
         isNaHome = "";
       }
 
-      let isNaEmail = currentBijakHolder.email;
+      let isNaEmail = currentHolder.email;
+      let checkIsNaEmail = false;
       if(isNaEmail == 'NA'){
         isNaEmail = "";
+        checkIsNaEmail = true;
       }
 
       let isNACity = currentHolder.addresslinE3;
@@ -1670,7 +1674,7 @@ export class UpdatedetailsComponent implements OnInit {
           email: [{value: isNaEmail, disabled: false}, [
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
-          noemail: [{value: false, disabled: isMobile}],
+          noemail: [{value: checkIsNaEmail, disabled: isMobile}],
           deliverystate: [currentBijakHolder.preferredmailmode],
 
           bankname: [{value: currentHolder.bankcode == "00" ? "" : currentHolder.bankcode, disabled: true}],

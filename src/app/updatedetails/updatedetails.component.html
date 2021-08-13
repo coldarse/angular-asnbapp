@@ -750,14 +750,22 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input "  [formControl]='AR_Form.controls["g_race"]'  id="AR10">
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["g_race"]' >
+                                    <option *ngFor="let races of form_races" value={{races.value}}>
+                                        {{races.text}}
+                                    </option>
+                                </select>
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Agama</h4> -->
                                 <h4>{{'FLB_8' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input "  [formControl]='AR_Form.controls["g_religion"]'  id="AR11">
+                                <select name="PPP" id="PPP"  [formControl]='AR_Form.controls["g_religion"]' >
+                                    <option *ngFor="let religion of form_religion" value={{religion.value}}>
+                                        {{religion.text}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
