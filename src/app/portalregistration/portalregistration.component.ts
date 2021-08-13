@@ -664,7 +664,7 @@ export class PortalregistrationComponent implements OnInit {
           "email": this.PForm_1.controls.email.value.toString(),
           "typeclosed": currentHolder.typeclosed.toString(),
           "fundid": currentHolder.funddetail[0].FUNDID,
-          "language": this.selectedLanguage.toString(),
+          "language": this.selectedLanguage,
           "mobileno": currentHolder.cellphonenumber.toString(),
           "tac": this.PForm_1.controls.tac.value.toString(),
           "dateofbirth": currentHolder.dateofbirth.toString(),
@@ -705,12 +705,9 @@ export class PortalregistrationComponent implements OnInit {
               errorCodes.Emessage = data.result.error_reason;
               errorCodes.accountName = currentHolder.firstname;
               errorCodes.accountNo = currentHolder.unitholderid;
-              if(selectLang.selectedLang == 'ms'){
-                errorCodes.accountType = "Dewasa";
-              }else{
-                errorCodes.accountType = "Dewasa";
-              }
+              errorCodes.accountType = "Dewasa";            
               errorCodes.transaction = this.transaction;
+
               this._router.navigate(['errorscreen']);
               // clearInterval(this.id);
             }
@@ -783,12 +780,9 @@ export class PortalregistrationComponent implements OnInit {
             errorCodes.Emessage = data.result.error_reason;
             errorCodes.accountName = currentHolder.firstname;
             errorCodes.accountNo = currentHolder.unitholderid;
-            if(selectLang.selectedLang == 'ms'){
-              errorCodes.accountType = "Dewasa";
-            }else{
-              errorCodes.accountType = "Dewasa";
-            }
+            errorCodes.accountType = "Dewasa";         
             errorCodes.transaction = this.transaction;
+
             this._router.navigate(['errorscreen']);
             // clearInterval(this.id);
           }
@@ -942,7 +936,7 @@ export class PortalregistrationComponent implements OnInit {
     }else{
       const body = {
         "username" : this.PForm_2.controls.useridlog.value,
-        "language" : selectLang.selectedLang
+        "language" : this.selectedLanguage
       }
       this.serviceService.unitHolderUsernameVerification(body).subscribe((data: any) => {
         if(data.result.error_code == "000"){
@@ -953,12 +947,9 @@ export class PortalregistrationComponent implements OnInit {
           errorCodes.Emessage = data.result.error_reason;
           errorCodes.accountName = currentHolder.firstname;
           errorCodes.accountNo = currentHolder.unitholderid;
-          if(selectLang.selectedLang == 'ms'){
-            errorCodes.accountType = "Dewasa";
-          }else{
-            errorCodes.accountType = "Dewasa";
-          }
+          errorCodes.accountType = "Dewasa";          
           errorCodes.transaction = this.transaction;
+
           this._router.navigate(['errorscreen']);
           // clearInterval(this.id);
         }
@@ -1042,7 +1033,7 @@ export class PortalregistrationComponent implements OnInit {
         "mobileno" : currentHolder.cellphonenumber,
         "moduleid" : "316",
         "message" : "ASNB KIOSK: myASNB Portal Registration",
-        "language" : selectLang.selectedLang,
+        "language" : this.selectedLanguage,
         "signature": ""
       }
 
@@ -1058,7 +1049,7 @@ export class PortalregistrationComponent implements OnInit {
         "mobileno" : currentHolder.cellphonenumber,
         "moduleid" : "316",
         "message" : "ASNB KIOSK: myASNB Portal Registration",
-        "language" : selectLang.selectedLang,
+        "language" : this.selectedLanguage,
         "signature": encryptedbody.toString()
       }
 
@@ -1079,12 +1070,9 @@ export class PortalregistrationComponent implements OnInit {
           errorCodes.Emessage = res.result.error_reason;
           errorCodes.accountName = currentHolder.firstname;
           errorCodes.accountNo = currentHolder.unitholderid;
-          if(selectLang.selectedLang == 'ms'){
-            errorCodes.accountType = "Dewasa";
-          }else{
-            errorCodes.accountType = "Dewasa";
-          }
+          errorCodes.accountType = "Dewasa";        
           errorCodes.transaction = this.transaction;
+
           this._router.navigate(['errorscreen']);
           // clearInterval(this.id);
         }
@@ -1169,12 +1157,9 @@ export class PortalregistrationComponent implements OnInit {
           errorCodes.Emessage = data.result.error_reason;
           errorCodes.accountName = currentHolder.firstname;
           errorCodes.accountNo = currentHolder.unitholderid;
-          if(selectLang.selectedLang == 'ms'){
-            errorCodes.accountType = "Dewasa";
-          }else{
-            errorCodes.accountType = "Dewasa";
-          }
+          errorCodes.accountType = "Dewasa";         
           errorCodes.transaction = this.transaction;
+          
           this._router.navigate(['errorscreen']);
           // clearInterval(this.id);
         }
