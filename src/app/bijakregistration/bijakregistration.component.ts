@@ -863,20 +863,7 @@ export class BijakregistrationComponent implements OnInit {
                 this.city = currentMyKidDetails.City;
               }
             }
-            this.state = currentMyKidDetails.State.toString().replace(" ", "");
-            for(var y of this.form_states){
-              if (y.text.toLowerCase().replace(" ", "").includes(this.state.toLowerCase())){
-                this.state = y.value;
-                break;
-              }
-              else if(this.state.toLowerCase().includes('persekutuan')){
-                this.state = 'WI';
-                break;
-              }
-              else{
-                this.state = currentMyKidDetails.State.toString();
-              }
-            }
+            
             this.religion = currentMyKadDetails.Religion;
             if(this.religion.toLowerCase().includes('islam')){
               this.religion = "M"
@@ -894,6 +881,20 @@ export class BijakregistrationComponent implements OnInit {
               }
             }
 
+            this.state = currentMyKidDetails.State.toString().replace(" ", "");
+            for(var y of this.form_states){
+              if (y.text.toLowerCase().replace(" ", "").includes(this.state.toLowerCase())){
+                this.state = y.value;
+                break;
+              }
+              else if(this.state.toLowerCase().includes('persekutuan')){
+                this.state = 'WI';
+                break;
+              }
+              else{
+                this.state = currentMyKidDetails.State.toString();
+              }
+            }
             let tempadd1 = "";
             let tempadd2 = "";
             if(currentMyKidDetails.Address3 == ""){

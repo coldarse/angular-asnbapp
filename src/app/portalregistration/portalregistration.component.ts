@@ -42,8 +42,8 @@ export class PortalregistrationComponent implements OnInit {
   @ViewChild('uidlog') uidlog : ElementRef | undefined;
   @ViewChild('tempPass') tempPass : ElementRef | undefined;
 
-  @ViewChild('newPass') newPass : ElementRef | undefined;
-  @ViewChild('newPassR') newPassR : ElementRef | undefined;
+  @ViewChild('newpass1') newpass1 : ElementRef | undefined;
+  @ViewChild('newpass2') newpass2 : ElementRef | undefined;
 
 
   form_securityQuestions = appFunc.securityQuestions;
@@ -805,8 +805,8 @@ export class PortalregistrationComponent implements OnInit {
 
     closeKeyboard();
 
-    this.PForm_3.controls.newPass.setValue(this.newPass?.nativeElement.value);
-    this.PForm_3.controls.newpassR.setValue(this.newPassR?.nativeElement.value);
+    this.PForm_3.controls.newPass.setValue(this.newpass1?.nativeElement.value);
+    this.PForm_3.controls.newpassR.setValue(this.newpass2?.nativeElement.value);
 
 
     this.newpass_warning = false;
@@ -830,7 +830,7 @@ export class PortalregistrationComponent implements OnInit {
     if (x > 0){
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
-      if (this.PForm_3.controls.newpass.value == this.PForm_3.controls.newpassR.value){
+      if (this.PForm_3.controls.newPass.value == this.PForm_3.controls.newpassR.value){
         this.PR_Confirm = true;
         //deleteKeyboard();
       }
@@ -1119,7 +1119,7 @@ export class PortalregistrationComponent implements OnInit {
 
   confirmYes(){
     let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
-    let encryptedpass = CryptoJS.AES.encrypt(this.PForm_3.controls.newpass.value, key, {
+    let encryptedpass = CryptoJS.AES.encrypt(this.PForm_3.controls.newPass.value, key, {
       keySize: 128,
       blockSize: 128,
       mode: CryptoJS.mode.ECB,

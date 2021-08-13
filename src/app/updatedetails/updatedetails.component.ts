@@ -31,6 +31,7 @@ export class UpdatedetailsComponent implements OnInit {
   @ViewChild('address1') add1 : ElementRef | undefined;
   @ViewChild('address2') add2 : ElementRef | undefined;
   @ViewChild('postcode') postcode : ElementRef | undefined;
+  @ViewChild('fcity') fcity : ElementRef | undefined;
   @ViewChild('homenumber') homeno : ElementRef | undefined;
   @ViewChild('telephone') phoneno : ElementRef | undefined;
   @ViewChild('email') email : ElementRef | undefined;
@@ -1044,6 +1045,7 @@ export class UpdatedetailsComponent implements OnInit {
     this.AR_Form.controls.address1.setValue(this.add1?.nativeElement.value);
     this.AR_Form.controls.address2.setValue(this.add2?.nativeElement.value);
     this.AR_Form.controls.postcode.setValue(this.postcode?.nativeElement.value);
+    this.AR_Form.controls.city.setValue(this.fcity?.nativeElement.value);
     this.AR_Form.controls.homenumber.setValue(this.homeno?.nativeElement.value);
     this.AR_Form.controls.telephone.setValue(this.phoneno?.nativeElement.value);
     this.AR_Form.controls.email.setValue(this.email?.nativeElement.value);
@@ -1229,6 +1231,7 @@ export class UpdatedetailsComponent implements OnInit {
     this.AR_Form.controls.address1.setValue(this.add1?.nativeElement.value);
     this.AR_Form.controls.address2.setValue(this.add2?.nativeElement.value);
     this.AR_Form.controls.postcode.setValue(this.postcode?.nativeElement.value);
+    this.AR_Form.controls.city.setValue(this.fcity?.nativeElement.value);
     this.AR_Form.controls.homenumber.setValue(this.homeno?.nativeElement.value);
     this.AR_Form.controls.telephone.setValue(this.phoneno?.nativeElement.value);
     this.AR_Form.controls.email.setValue(this.email?.nativeElement.value);
@@ -1635,10 +1638,34 @@ export class UpdatedetailsComponent implements OnInit {
         checkIsNaEmail = true;
       }
 
-      let isNACity = currentHolder.addresslinE3;
+      let isNACity = currentBijakHolder.addresslinE3;
       if(isNACity == 'NA'){
         isNACity = "";
       }
+
+      // this.state = currentMyKidDetails.State.toString().replace(" ", "");
+      // for(var y of this.form_states){
+      //   if (y.text.toLowerCase().replace(" ", "").includes(this.state.toLowerCase())){
+      //     this.state = y.value;
+      //     break;
+      //   }
+      //   else if(this.state.toLowerCase().includes('persekutuan')){
+      //     this.state = 'WI';
+      //     break;
+      //   }
+      //   else{
+      //     this.state = currentMyKidDetails.State.toString();
+      //   }
+      // }
+      // let tempadd1 = "";
+      // let tempadd2 = "";
+      // if(currentMyKidDetails.Address3 == ""){
+      //   tempadd1 = currentMyKidDetails.Address1;
+      //   tempadd2 = currentMyKidDetails.Address2;
+      // }else{
+      //   tempadd1 = currentMyKidDetails.Address1 + ", " + currentMyKidDetails.Address2;
+      //   tempadd2 = currentMyKidDetails.Address3;
+      // }
 
       this.AR_Form = this.fb.group(
         {
@@ -1659,11 +1686,11 @@ export class UpdatedetailsComponent implements OnInit {
           g_religion: [{value: currentHolder.religion, disabled: true}],
           g_relation: [{value: currentBijakHolder.relationship == undefined || currentBijakHolder.relationship == "" ? 'F' : currentBijakHolder.relationship, disabled: false}],
 
-          address1 : [{value: currentHolder.addresslinE1, disabled: true}],
-          address2 : [{value: currentHolder.addresslinE2, disabled: true}],
-          postcode : [{value: currentHolder.zipcode, disabled: true}],
+          address1 : [{value: currentBijakHolder.addresslinE1, disabled: true}],
+          address2 : [{value: currentBijakHolder.addresslinE2, disabled: true}],
+          postcode : [{value: currentBijakHolder.zipcode, disabled: true}],
           city : [{value: isNACity, disabled: true}],
-          state : [{value: currentHolder.addresslinE4, disabled: true}],
+          state : [{value: currentBijakHolder.addresslinE4, disabled: true}],
           mykadaddress: [{value: true, disabled: true}],
 
           homenumber : [{value: isNaHome, disabled: true}],

@@ -63,6 +63,7 @@ const Keyboard = {
                 this.elements.startpos = currElem.selectionStart;
                 this.elements.endpos = currElem.selectionEnd;
                 this.elements.currElemLength = currElem.value.length;
+                console.log(currElem.value.length);
             }
         }
         catch(ex){
@@ -220,7 +221,7 @@ const Keyboard = {
                             this.elements.startpos += 1;
                             this.elements.currElemLength = this.properties.value.length;
                         }
-                        
+                        console.log(this.properties.value);
                         this._limit(this.properties);
                         this._isSymbol(this.properties);
                         this._isNumeric(this.properties);

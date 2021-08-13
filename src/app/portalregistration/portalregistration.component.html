@@ -857,7 +857,7 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="password" name="newpass1" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpass"]' #newPass id="newpass1">
+            <input type="password" name="newpass1" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newPass"]' #newpass1 id="newpass1">
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpass_warning">{{'NewPass1Warning' | translate}}</div> 
         
         </div>
@@ -875,7 +875,7 @@
 
     <div class="row">
         <div class="col-md-6" style="padding-left:3.3rem;">
-            <input type="password" name="newpass2" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpassR"]' #newPassR id="newpass2">
+            <input type="password" name="newpass2" class="use-keyboard-input" style="width: 100%;" [formControl]='PForm_3.controls["newpassR"]' #newpass2 id="newpass2">
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR_warning">{{'NewPass2Warning' | translate}}</div> 
             <div style="color: rgba(255,0,0); font-style: italic" *ngIf="newpassR1_warning">{{'NotMatch' | translate}}</div> 
         
