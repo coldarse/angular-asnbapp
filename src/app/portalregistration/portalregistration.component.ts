@@ -256,6 +256,8 @@ export class PortalregistrationComponent implements OnInit {
 
   transaction = "";
 
+  selectedLanguage = "";
+
   introCount = 0;
   noticeCount = 0;
 
@@ -286,8 +288,10 @@ export class PortalregistrationComponent implements OnInit {
 
     if(selectLang.selectedLang == 'en'){
       this.transaction = "myASNB Portal Registration";
+      this.selectedLanguage = 'EN';
     }else{
       this.transaction = "Pendaftaran Portal myASNB";
+      this.selectedLanguage = 'BM';
     }
 
     for (var val of appFunc.modules){
@@ -333,7 +337,7 @@ export class PortalregistrationComponent implements OnInit {
               "idno": currentHolder.identificationnumber,
               "idtype": currentHolder.identificationtype,
               "uhid": currentHolder.unitholderid,
-              "language": selectLang.selectedLang
+              "language": this.selectedLanguage
             }
             console.log('B ' + body.idno + ' ' + body.idtype + ' ' + body.uhid + ' ' + body.language);
             this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
@@ -386,7 +390,7 @@ export class PortalregistrationComponent implements OnInit {
             "idno": currentHolder.identificationnumber,
             "idtype": currentHolder.identificationtype,
             "uhid": currentHolder.unitholderid,
-            "language": selectLang.selectedLang
+            "language": this.selectedLanguage
           }
           console.log('A ' + body.idno + ' ' + body.idtype + ' ' + body.uhid + ' ' + body.language);
           this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
@@ -630,7 +634,7 @@ export class PortalregistrationComponent implements OnInit {
           "email": this.PForm_1.controls.email.value.toString(),
           "typeclosed": currentHolder.typeclosed.toString(),
           "fundid": currentHolder.funddetail[0].FUNDID,
-          "language": selectLang.selectedLang.toString(),
+          "language": this.selectedLanguage,
           "mobileno": currentHolder.cellphonenumber.toString(),
           "tac": this.PForm_1.controls.tac.value.toString(),
           "dateofbirth": currentHolder.dateofbirth.toString(),
@@ -660,7 +664,7 @@ export class PortalregistrationComponent implements OnInit {
           "email": this.PForm_1.controls.email.value.toString(),
           "typeclosed": currentHolder.typeclosed.toString(),
           "fundid": currentHolder.funddetail[0].FUNDID,
-          "language": selectLang.selectedLang.toString(),
+          "language": this.selectedLanguage.toString(),
           "mobileno": currentHolder.cellphonenumber.toString(),
           "tac": this.PForm_1.controls.tac.value.toString(),
           "dateofbirth": currentHolder.dateofbirth.toString(),
@@ -748,7 +752,7 @@ export class PortalregistrationComponent implements OnInit {
       const body = {
         "username": this.PForm_2.controls.useridlog.value,
         "password": this.PForm_2.controls.temppass.value,
-        "language": selectLang.selectedLang,
+        "language": this.selectedLanguage,
         "secureph": this.PForm_2.controls.securep.value
       }
       this.serviceService.unitHolderCredentialVerification(body).subscribe((data: any) => {
@@ -1130,7 +1134,7 @@ export class PortalregistrationComponent implements OnInit {
       "username": this.tempusername,
       "currentpwd": this.tempPassword,
       "secureph": this.tempsecure,
-      "language": selectLang.selectedLang,
+      "language": this.selectedLanguage,
       "newPassword": encryptedpass.toString()
     }
     this.serviceService.unitHolderChangePassword(body).subscribe((data: any) => {
