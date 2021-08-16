@@ -270,6 +270,15 @@ const Keyboard = {
         else if(element.tagname.toLowerCase().includes('securephrase')){
             element.value = element.value.replace(/[$-/:-?{-~!"^_`\[\]@]/, '');
         }
+        else if(element.tagname.toLowerCase().includes('city')){
+            element.value = element.value.replace(/[$-/:-?{-~!"^_`\[\]@]/, '');
+        }
+        else if(element.tagname.toLowerCase().includes('phoneno')){
+            element.value = element.value.replace(/[$-/:-?{-~!"^_`\[\]@]/, '');
+        }
+        else if(element.tagname.toLowerCase().includes('homeno')){
+            element.value = element.value.replace(/[$-/:-?{-~!"^_`\[\]@]/, '');
+        }
         else if(element.tagname.toLowerCase().includes('compname')){
             element.value = element.value.replace('&', '');
         }

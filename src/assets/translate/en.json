@@ -418,5 +418,9 @@
 	"Question1Warning": "Please select Security Question 1",
 	"Question2Warning": "Please select Security Question 2",
 	"Question3Warning": "Please select Security Question 3",
-	"SecureWarning": "Please key in secure phrase"
+	"SecureWarning": "Please key in secure phrase",
+	"RegistrationConfirmation": "Confirmation of Registration",
+	"RegistrationConfirmationMessage": "Your mobile number is not updated in our record. Please update your mobile number and latest profile to register myASNB. Please refer to ASNB Officer on-duty for further information.",
+	"RegistrationConfirmationReminder": "Redminder:",
+	"RegistrationConfirmationReminderMessage": "Please make sure no retrictions are placed on the number 62000 on your phone or telecommunications network provider."
 }

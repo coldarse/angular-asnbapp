@@ -418,5 +418,9 @@
 	"Question1Warning": "Sila pilih Soalan Keselamatan 1",
 	"Question2Warning": "Sila pilih Soalan Keselamatan 2",
 	"Question3Warning": "Sila pilih Soalan Keselamatan 3",
-	"SecureWarning": "Sila isikan frasa keselamatan"
+	"SecureWarning": "Sila isikan frasa keselamatan",
+	"RegistrationConfirmation": "Pengesahan Semakan Pendaftaran",
+	"RegistrationConfirmationMessage": "Nombor telefon bimbit anda belum dikemaskini. Sila kemas kini nombor telefon bimbit anda dan profil anda sebelum meneruskan pendaftaran Portal myASNB. Sebaran pertanyaan, sila rujuk pengawai ASNB yang bertugas.",
+	"RegistrationConfirmationReminder": "Peringatan:",
+	"RegistrationConfirmationReminderMessage": "Sila pastikan tiada sekaitan dibuat ke atas no 62000 di telefon bimbit attau oleh pembekal renkaian telekomunikasi telefon bimbit anda."
 }

@@ -108,6 +108,7 @@ export class PortalregistrationComponent implements OnInit {
   TNCAgreed = true;
 
   RMError4_Visible = false;
+  RMError41_Visible = false;
   UserError_Visible = false;
 
   nextDetails_disabled = true;
