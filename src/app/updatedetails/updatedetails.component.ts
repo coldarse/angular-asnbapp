@@ -824,7 +824,7 @@ export class UpdatedetailsComponent implements OnInit {
             kActivit.status = true;
 
             appFunc.kioskActivity.push(kActivit);
-            if (this.AR_Form.controls.email.value == "NA"){
+            if (this.AR_Form.controls.email.value == "NA" || this.AR_Form.controls.email.value.trim().minLength == 0){
               this.Email_Visible = false;
             }
             else{
@@ -941,7 +941,7 @@ export class UpdatedetailsComponent implements OnInit {
               kActivit.status = true;
   
               appFunc.kioskActivity.push(kActivit);
-              if (this.AR_Form.controls.email.value == "NA"){
+              if (this.AR_Form.controls.email.value == "NA" || this.AR_Form.controls.email.value.trim().minLength == 0){
                 this.Email_Visible = false;
               }
               else{
@@ -979,7 +979,7 @@ export class UpdatedetailsComponent implements OnInit {
                   kActivit.status = true;
       
                   appFunc.kioskActivity.push(kActivit);
-                  if (this.AR_Form.controls.email.value == "NA"){
+                  if (this.AR_Form.controls.email.value == "NA" || this.AR_Form.controls.email.value.trim().minLength == 0){
                     this.Email_Visible = false;
                   }
                   else{
@@ -1569,11 +1569,11 @@ export class UpdatedetailsComponent implements OnInit {
           telephone: [{value: isNaMobile, disabled: checkIsNaMobile} , [Validators.required, Validators.minLength(6)]],
           notelephone: [checkIsNaMobile],
 
-          email: [{value: isNaEmail, disabled: false}, [
+          email: [{value: isNaEmail, disabled: checkIsNaEmail}, [
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
           noemail: [{value: checkIsNaEmail, disabled: isMobile}],
-          deliverystate: [currentHolder.preferredmailmode],
+          deliverystate: [{value: currentHolder.preferredmailmode, disabled: checkIsNaEmail}],
 
           bankname: [currentHolder.bankcode == "00" ? "" : currentHolder.bankcode],
           bankaccount: [currentHolder.accountnumber, [Validators.required, Validators.minLength(6), Validators.pattern('^[0-9]*$')]],
@@ -1716,7 +1716,7 @@ export class UpdatedetailsComponent implements OnInit {
 
           fatca: [{value: currentBijakHolder.fatca, disabled: fatca}],
           pep: [{value: currentHolder.pep, disabled: pep}],
-          news: [{value: currentHolder.participateinasnbmkt, disabled: false}],
+          news: [{value: currentBijakHolder.participateinasnbmkt, disabled: false}],
           crs: [{value: currentBijakHolder.crs, disabled: crs}],
         });
         this.formHandling(currentHolder.occupationcategory);
@@ -2110,8 +2110,6 @@ export class UpdatedetailsComponent implements OnInit {
   
       this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
-
-      
 
         currentBijakHolder.channeltype = result.channeltype;
         currentBijakHolder.requestoridentification = result.requestoridentification;
