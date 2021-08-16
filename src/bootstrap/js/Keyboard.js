@@ -318,10 +318,10 @@ const Keyboard = {
             max_chars = 16;
         }
         else if(element.tagname.toLowerCase().includes('uid')){
-            max_chars = 16;
+            max_chars = 17;
         }
         else if(element.tagname.toLowerCase().includes('securephrase')){
-            max_chars = 16;
+            max_chars = 17;
         }
         else if(element.tagname.toLowerCase().includes('newpass1')){
             max_chars = 20;

@@ -3,13 +3,14 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { element } from 'protractor';
 import { accessToken } from '../_models/apiToken';
 import { appFunc } from '../_models/appFunctions';
 import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { currentHolder } from '../_models/currentUnitHolder';
-import { ASNBFundID } from '../_models/dropDownLists';
+import { ASNBFundID, reasonTransfer, thirdpartyRelationship } from '../_models/dropDownLists';
 import { errorCodes } from '../_models/errorCode';
 import { fundDetails } from '../_models/fundDetails';
 import { selectLang } from '../_models/language';
@@ -99,6 +100,9 @@ export class TransferswitchingComponent implements OnInit {
   transferinitialRM = "";
   transferinitialPercentage = "";
 
+  displayReason = "";
+  displayRelationship = "";
+
   switchinguhid = "";
   switchingfrom = "";
   switchingto = "";
@@ -112,6 +116,7 @@ export class TransferswitchingComponent implements OnInit {
   unitholderid = "000011112221";
   unitholdername = "Alia Nur Ali";
   unitholderidtype = "";
+  untiholderidno = "";
 
   actualfundname ="Amanah Saham Bumiputera";
   actualfundvalue = "250000.00";
@@ -142,6 +147,7 @@ export class TransferswitchingComponent implements OnInit {
       this.unitholderid = currentHolder.unitholderid;
       this.unitholdername = currentHolder.firstname;
       this.unitholderidtype = currentHolder.identificationtype;
+      this.untiholderidno = currentHolder.identificationnumber;
 
       this.fundDetails.forEach((element: any) => {
         appFunc.ASNBFundID.forEach((elem: any) => {
@@ -286,6 +292,7 @@ export class TransferswitchingComponent implements OnInit {
     this.unitholderid = currentBijakHolder.unitholderid;
     this.unitholdername = currentBijakHolder.firstname;
     this.unitholderidtype = currentBijakHolder.identificationtype;
+    this.untiholderidno = currentBijakHolder.identificationnumber;
     this.BijakVisible = false;
     this.transferswitching = true;
   }
@@ -362,6 +369,18 @@ export class TransferswitchingComponent implements OnInit {
       this.transferreason = this.Form_1.controls.reason.value;
       this.transferrelationship = this.Form_1.controls.relationship.value;
       this.transferamount = this.Form_1.controls.amount.value;
+
+      this.reason.forEach((element: reasonTransfer) => {
+        if(element.code == this.transferreason){
+          this.displayReason = element.desc;
+        }
+      });
+
+      this.relationship.forEach((elem: thirdpartyRelationship) => {
+        if(elem.code == this.transferrelationship){
+          this.displayRelationship = elem.desc;
+        }
+      });
 
       if(appFunc.isOwn == "major"){
         this.transferfrom = currentHolder.unitholderid;
@@ -542,6 +561,8 @@ export class TransferswitchingComponent implements OnInit {
   }
 
   transferPrint(){
+    this.transfer3 = false;
+    this.Print1_Visible = true;
 
     let uhid = "";
     let firstname = "";
@@ -643,7 +664,9 @@ export class TransferswitchingComponent implements OnInit {
   }
 
   transferEmail(){
-    
+    this.transfer3 = false;
+    this.EmailPage_Visible = true;
+
     let uhid = "";
     let firstname = "";
     let ictype = "";
@@ -735,19 +758,13 @@ export class TransferswitchingComponent implements OnInit {
 
     
     signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj)).then((data: any) => {
-      setTimeout(()=>{   
-        if (data == true){
-          this.EmailPage_Visible = false;
-          setTimeout(()=>{   
-            this.getAccountInquiry();
-          }, 3000);
-        }else{
-          errorCodes.Ecode = "0069";
-          errorCodes.Emessage = "Email Failed";
-          this.router.navigate(['errorscreen']);
-        }
-      }, 3000);
+      
     });
+
+    setTimeout(()=>{   
+      this.EmailPage_Visible = false;
+      this.getAccountInquiry();
+    }, 5000);
   }
 
   containsObject(obj: ASNBFundID, list: fundDetails[]) {
@@ -763,34 +780,53 @@ export class TransferswitchingComponent implements OnInit {
 
   Switching(fund: any){
 
-    appFunc.ASNBFundID.forEach((elem1: ASNBFundID) => {
-      if(!this.containsObject(elem1, this.fundDetails)){
-        this.fundAvailable.push(elem1);
-      }
-    });
-
-    this.switchingNAVFrom = fund.NAV;
-    this.switchingfrom = fund.FUNDNAME;
-
-    if(selectLang.selectedLang == 'en'){
-      this.transaction = "Switching";
-    }else{
-      this.transaction = "Penukaran";
+    
+    const body =
+    {
+      "CHANNELTYPE": signalrConnection.channelType,
+      "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+      "DEVICEOWNER": signalrConnection.deviceOwner,
+      "REQUESTDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      "REQUESTTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+      "UNITHOLDERID": this.unitholderid,
+      "IDENTIFICATIONTYPE": this.unitholderidtype,
+      "IDENTIFICATIONNUMBER": this.untiholderidno,
+      "FUNDLISTTYPE":"N"
     }
 
-    this.transferswitching = false;
-    this.isswitching = true;
-    this.switching1 = true;
+    this.serviceService.postEligibleFunds(body)
+      .subscribe((result: any) => {
+        appFunc.ASNBFundID.forEach((elem1: ASNBFundID) => {
+          if(!this.containsObject(elem1, result.result.fundid)){
+            this.fundAvailable.push(elem1);
+          }
+        });
 
-    this.initializeForm2();
+        this.switchingNAVFrom = fund.NAV;
+        this.switchingfrom = fund.FUNDNAME;
 
-    this.actualfundname = fund.FUNDNAME;
-    this.actualfundvalue = fund.UNITBALANCE;
-    this.actualfundid = fund.FUNDID;
+        if(selectLang.selectedLang == 'en'){
+          this.transaction = "Switching";
+        }else{
+          this.transaction = "Penukaran";
+        }
 
-    setTimeout(() => {
-      loadKeyboard();
-    } , 1000);
+        this.transferswitching = false;
+        this.isswitching = true;
+        this.switching1 = true;
+
+        this.initializeForm2();
+
+        this.actualfundname = fund.FUNDNAME;
+        this.actualfundvalue = fund.UNITBALANCE;
+        this.actualfundid = fund.FUNDID;
+
+        setTimeout(() => {
+          loadKeyboard();
+        } , 1000);
+    });
+
+    
   }
 
   switching1Back(){
@@ -868,11 +904,12 @@ export class TransferswitchingComponent implements OnInit {
     
     this.switchingUnitsFrom = "0";
 
-    appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
-      if(elem.desc.toLowerCase() == this.switchingto.toLowerCase()){
-        fundid = elem.code;
-      }
-    });
+    fundid = this.switchingto;
+    // appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
+    //   if(elem.desc.toLowerCase() == this.switchingto.toLowerCase()){
+    //     fundid = elem.code;
+    //   }
+    // });
 
     const body = 
     {
@@ -884,7 +921,7 @@ export class TransferswitchingComponent implements OnInit {
       "IDENTIFICATIONTYPE":ictype,
       "IDENTIFICATIONNUMBER":icno,
       "FUNDID":fundid,
-      "AMOUNTAPPLIED":this.transferamount,
+      "AMOUNTAPPLIED":this.switchingamount,
       "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
       "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
       "CUSTOMERICNUMBER":"",
@@ -931,7 +968,7 @@ export class TransferswitchingComponent implements OnInit {
             "IDENTIFICATIONTYPE":ictype,
             "IDENTIFICATIONNUMBER":icno,
             "FUNDID":fundid,
-            "AMOUNTAPPLIED":this.transferamount,
+            "AMOUNTAPPLIED":this.switchingamount,
             "TRANSACTIONDATE":formatDate(new Date(), 'dd/MM/yyyy', 'en'),
             "TRANSACTIONTIME":formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
             "AGENTCODE":signalrConnection.agentCode,
@@ -994,6 +1031,8 @@ export class TransferswitchingComponent implements OnInit {
   }
 
   switchingPrint(){
+    this.switching3 = false;
+    this.Print1_Visible = true;
     let uhid = "";
     let firstname = "";
     let ictype = "";
@@ -1094,6 +1133,8 @@ export class TransferswitchingComponent implements OnInit {
   }
 
   switchingEmail(){
+    this.switching3 = false;
+    this.EmailPage_Visible = true;
     let uhid = "";
     let firstname = "";
     let ictype = "";
@@ -1185,19 +1226,13 @@ export class TransferswitchingComponent implements OnInit {
 
     
     signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj)).then((data: any) => {
-      setTimeout(()=>{   
-        if (data == true){
-          this.EmailPage_Visible = false;
-          setTimeout(()=>{
-            this.getAccountInquiry();
-          }, 3000);
-        }else{
-          errorCodes.Ecode = "0069";
-          errorCodes.Emessage = "Email Failed";
-          this.router.navigate(['errorscreen']);
-        }
-      }, 3000);
+      
     });
+
+    setTimeout(()=>{   
+      this.EmailPage_Visible = false;
+      this.getAccountInquiry();
+    }, 5000);
   }
 
   agreeTNC(event: any){

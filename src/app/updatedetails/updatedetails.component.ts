@@ -1631,7 +1631,7 @@ export class UpdatedetailsComponent implements OnInit {
         isNaHome = "";
       }
 
-      let isNaEmail = currentHolder.email;
+      let isNaEmail = currentBijakHolder.email;
       let checkIsNaEmail = false;
       if(isNaEmail == 'NA'){
         isNaEmail = "";
