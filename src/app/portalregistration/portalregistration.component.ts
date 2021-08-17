@@ -56,6 +56,8 @@ export class PortalregistrationComponent implements OnInit {
 
   ispopup = false;
 
+  portalEmail = "";
+
   isRegister = true;
   isFirstLogin = false;
   isPasswordUpdate = false;
@@ -331,61 +333,58 @@ export class PortalregistrationComponent implements OnInit {
       }
       else{
         if(signalrConnection.kioskType == 'Mobile'){
-          if(currentHolder.email == 'NA' || currentHolder.email == ''){
-            this.RMError4_Visible = true;
-          }else{
-            const body = {
-              "idno": currentHolder.identificationnumber,
-              "idtype": currentHolder.identificationtype,
-              "uhid": currentHolder.unitholderid,
-              "language": this.selectedLanguage
-            }
-            console.log('B ' + body.idno + ' ' + body.idtype + ' ' + body.uhid + ' ' + body.language);
-            this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
-              if (res.result.member_status == "non_member"){
-                if (signalrConnection.isHardcodedIC != true){
-                  this.id = setInterval(() => {
-                    this.DetectMyKad();
-                  }, 1000);
-                }
-
-                if(appFunc.isRedirectFromPortalRegistration == true){
-                  this.Notice_Visible = false;
-                  appFunc.isRedirectFromPortalRegistration = false;
-                }
-                else{
-                  if(this.noticeCount == 0){
-                    this.Notice_Visible = true;
-                    this.noticeCount += 1;
-                  }
-                }
-                
-    
-                signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
-                
-                for (let i = 0; i < appFunc.securityQuestions.length; i++) {
-                  if (appFunc.securityQuestions[i].set == "A") {
-                      this.form_SetA.push(appFunc.securityQuestions[i]);
-                  }
-                } 
-                for (let i = 0; i < appFunc.securityQuestions.length; i++) {
-                  if (appFunc.securityQuestions[i].set == "B") {
-                      this.form_SetB.push(appFunc.securityQuestions[i]);
-                  }
-                } 
-                for (let i = 0; i < appFunc.securityQuestions.length; i++) {
-                  if (appFunc.securityQuestions[i].set == "C") {
-                      this.form_SetC.push(appFunc.securityQuestions[i]);
-                  }
-                } 
-                
-                this.PR_Intro = true;
-                
-              }else{
-                this.UserError_Visible = true;
-              }
-            });
+          const body = {
+            "idno": currentHolder.identificationnumber,
+            "idtype": currentHolder.identificationtype,
+            "uhid": currentHolder.unitholderid,
+            "language": this.selectedLanguage
           }
+          console.log('B ' + body.idno + ' ' + body.idtype + ' ' + body.uhid + ' ' + body.language);
+          this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
+            if (res.result.member_status == "non_member"){
+              if (signalrConnection.isHardcodedIC != true){
+                this.id = setInterval(() => {
+                  this.DetectMyKad();
+                }, 1000);
+              }
+
+              if(appFunc.isRedirectFromPortalRegistration == true){
+                this.Notice_Visible = false;
+                appFunc.isRedirectFromPortalRegistration = false;
+              }
+              else{
+                if(this.noticeCount == 0){
+                  this.Notice_Visible = true;
+                  this.noticeCount += 1;
+                }
+              }
+              
+  
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Set 1 second interval to detect MyKad.");
+              
+              for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+                if (appFunc.securityQuestions[i].set == "A") {
+                    this.form_SetA.push(appFunc.securityQuestions[i]);
+                }
+              } 
+              for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+                if (appFunc.securityQuestions[i].set == "B") {
+                    this.form_SetB.push(appFunc.securityQuestions[i]);
+                }
+              } 
+              for (let i = 0; i < appFunc.securityQuestions.length; i++) {
+                if (appFunc.securityQuestions[i].set == "C") {
+                    this.form_SetC.push(appFunc.securityQuestions[i]);
+                }
+              } 
+              
+              this.PR_Intro = true;
+              
+            }else{
+              this.UserError_Visible = true;
+            }
+          });
+          
         }else{
           const body = {
             "idno": currentHolder.identificationnumber,
@@ -496,9 +495,15 @@ export class PortalregistrationComponent implements OnInit {
 
 
   initializeForm1(){
+
+    let isNaEmail = currentHolder.email;
+    if(isNaEmail == "NA"){
+      isNaEmail = "";
+    }
+
     this.PForm_1 = this.fb.group({
       userid: ['', Validators.required],
-      email: [currentHolder.email, [
+      email: [isNaEmail, [
         Validators.required,
         Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
       securephrase: ['', Validators.required],
@@ -701,6 +706,7 @@ export class PortalregistrationComponent implements OnInit {
               this.hideTac = true;
               this.PFormText_1 = data.result.error_code;
               this.PFormText_2 = data.result.error_reason;
+              this.portalEmail = this.PForm_1.controls.email.value.toString();
             }else{
               errorCodes.Ecode = data.result.error_code;
               errorCodes.Emessage = data.result.error_reason;
@@ -1261,7 +1267,7 @@ export class PortalregistrationComponent implements OnInit {
       "IC" : currentHolder.identificationnumber
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetPortalRegistrationPrintout", signalrConnection.trxno, "4", JSON.stringify(emailObj)).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.portalEmail, "GetPortalRegistrationPrintout", signalrConnection.trxno, "4", JSON.stringify(emailObj)).then((data: any) => {
       // setTimeout(()=>{   
       //   if (data == true){
       //     setTimeout(()=>{   
