@@ -1702,7 +1702,7 @@ export class UpdatedetailsComponent implements OnInit {
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
           noemail: [{value: checkIsNaEmail, disabled: isMobile}],
-          deliverystate: [currentBijakHolder.preferredmailmode],
+          deliverystate: [{value: currentBijakHolder.preferredmailmode, disabled: checkIsNaEmail}],
 
           bankname: [{value: currentHolder.bankcode == "00" ? "" : currentHolder.bankcode, disabled: true}],
           bankaccount: [{value: currentHolder.accountnumber, disabled: true}],

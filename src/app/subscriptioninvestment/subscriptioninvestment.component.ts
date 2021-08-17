@@ -227,6 +227,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.variableFunds = [];
         this.fixedFunds = [];
 
+        console.log(JSON.stringify(body));
+
         this.serviceService.postEligibleFunds(body)
         .subscribe((result: any) => {
           result.result.fundid.forEach((elem1: string) => {
