@@ -361,7 +361,8 @@ user-select: none;
   border: 1px solid rgba(0, 87, 185, 0.9);
   border-radius: 0.5rem;
   padding-left: 0.5rem;
-  height: 2.1rem;
+  min-height: 2.1rem;
+  height: auto;
 }
 
 .blue-title-bar-2 {

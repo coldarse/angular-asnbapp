@@ -50,6 +50,10 @@
 
 <div *ngIf="redemption1" class="content-container">
    
+    <div class="col-md-12 text-center" style="padding-top:2rem; font-family: HelveticaNeue;">
+        <h2 id="CB1_Title3">{{'FundSelection' | translate }}</h2>
+    </div>
+
     <div class="row text-center" style="padding-top:1rem">
         <div class="col-md-1" >
 
@@ -103,15 +107,45 @@
     </div>
 
     <!-- NgFor how many funds -->
-    <div class="row text-center" style="padding-top:1rem">
+    <div class="row text-center" style="padding-top:1rem" *ngFor="let fund of newFundDetails">
         <div class="col-md-1" >
 
         </div>
         <div class="col-md-10 text-center blue-bar-border-2" style="margin-left: 0.75rem;">
             <div class="row ">
                 <div class="col-sm-3 displayflex">
-                    <img src="assets/fundicon/ASB.png" class="redemptionfundicon" style="padding-top: 0.4rem;">
-                    <h6 class="h2-ic" style="padding-top: 1.2rem;">{{ actualfundname }}</h6> <!-- Fund.fundid -->
+                    <img src="assets/fundicon/{{fund.FUNDID}}.png" class="redemptionfundicon" style="padding-top: 0.4rem;">
+                    <h6 class="h2-ic" style="padding-top: 1.2rem;">{{ fund.FUNDNAME }}</h6> <!-- Fund.fundid -->
+                </div>
+                <div class="col-sm-1 ">
+                    <h6 class="h2-ic" style="padding-top: 1.2rem;">{{ fund.UNITBALANCE | number : '1.2-2' }}</h6>
+                </div>
+                <div class="col-sm-1 ">
+                    <h6 class="h2-ic" style="padding-top: 1.2rem;">{{ fund.EPFUNITS | number : '1.2-2' }}</h6>
+                </div>
+                <div class="col-sm-1 ">
+                    <h6 class="h2-ic" style="padding-top: 1.2rem;">{{ fund.LOANUNITS | number : '1.2-2' }}</h6>
+                </div>
+                <div class="col-sm-1 ">
+                    <h6 class="h2-ic" style="padding-top: 1.2rem;">{{ fund.CERTUNITS | number : '1.2-2' }}</h6>
+                </div>
+                <div class="col-sm-1 ">
+                    <h6 class="h2-ic" style="padding-top: 1.2rem;">{{ fund.BLOCKEDUNITS | number : '1.2-2' }}</h6>
+                </div>
+                <div class="col-sm-1 ">
+                    <h6 class="h2-ic" style="padding-top: 1.2rem;">{{ fund.TOTALUNITS | number : '1.2-2' }}</h6>
+                </div>
+                <div class="col-sm-1 ">
+                    <h6 class="h2-ic" style="padding-top: 1.2rem;">{{ fund.UHHOLDINGS | number : '1.2-2' }}</h6>
+                </div>
+                <div class="col-sm-2 ">
+                    <button type="button" class="btn btn-redemption" (click)="SelectFund(fund)" >
+                        {{'Select' | translate }}
+                    </button>
+                </div>
+                <!-- <div class="col-sm-3 displayflex">
+                    <img src="assets/fundicon/{{fund.FUNDID}}.png" class="redemptionfundicon" style="padding-top: 0.4rem;">
+                    <h6 class="h2-ic" style="padding-top: 1.2rem;">{{ actualfundname }}</h6> 
                 </div>
                 <div class="col-sm-1 ">
                     <h6 class="h2-ic" style="padding-top: 1.2rem;">{{ cashinvestment }}</h6>
@@ -138,7 +172,7 @@
                     <button type="button" class="btn btn-redemption" (click)="SelectFund()" >
                         {{'Select' | translate }}
                     </button>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="col-md-1">
@@ -368,7 +402,7 @@
         <div class="col-md-10 text-center blue-title-bar-border" style="margin-left: 4.8rem;">
             <div class="row ">
                 <div class="col-sm-4">
-                    <h5 class="h2-ic" style="padding-top: 0.2rem;">{{ actualfundname }}</h5> <!-- Fund.fundid -->
+                    <h5 class="h2-ic" style="padding-top: 0.2rem;">{{ redemptionfundname }}</h5> <!-- Fund.fundid -->
                 </div>
                 <div class="col-sm-4">
                     
@@ -417,7 +451,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ actualfundname }}
+                    : {{ redemptionfundname }}
                 </h4>
             </div>
         </div>
@@ -430,7 +464,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ redemptionhistoricalpricing }}
+                    : {{ redemptionhistoricalpricing | number : '1.2-2'  }}
                 </h4>
             </div>
         </div>
@@ -443,7 +477,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ redemptionforwardpricing }}
+                    : {{ redemptionforwardpricing | number : '1.2-2'  }}
                 </h4>
             </div>
         </div>
@@ -511,7 +545,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ actualfundname }}
+                    : {{ redemptionfundname }}
                 </h4>
             </div>
         </div>
@@ -524,7 +558,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ redemptionamountinclusive }}
+                    : {{ redemptionamountinclusive | number : '1.2-2'  }}
                 </h4>
             </div>
         </div>
@@ -563,7 +597,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ redemptionnav }}
+                    : {{ redemptionnav | number : '1.2-2' }}
                 </h4>
             </div>
         </div>
@@ -576,7 +610,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ redemptionunits }}
+                    : {{ redemptionunits | number : '1.2-2' }}
                 </h4>
             </div>
         </div>
@@ -650,4 +684,73 @@
     </footer>
     
 
+</div>
+
+<div *ngIf="Print1_Visible" class="content-container">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem;">
+            <h2 class="h2-ic" id="ARP1_Title1">{{'Print1_1' | translate }}</h2>
+            <h2 class="h2-ic" id="ARP1_Title2">{{'Print1_2' | translate }}</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-a.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+<div *ngIf="Print2_Visible" class="content-container">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="ARP2_Title1">{{'Print2_1' | translate }}</h2>
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnbstandee-receipt-b.png" class="ICReader__centered img-addon-1 padding-top-2rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+<div *ngIf="EmailPage_Visible" class="content-container">
+    <div class="row">
+        <div class="col-md-6 text-center" style="padding-top:20rem ">
+            <h2 class="h2-ic" id="ARE_Title1">{{'Email_1' | translate }}</h2>
+            <h2 class="h2-ic" id="ARE_Title2">{{'Email_2' | translate }}</h2>
+            
+        </div>
+        <div class="col-md-6 text-center">
+            <img src="assets/images/asnb-mobile-emel.png" class="ICReader__centered img-addon padding-top-10rem" alt="ThumbPrintImage">
+        </div>
+    </div>
+</div>
+
+
+<div class="content-container" *ngIf="transaction_Successful">
+    <div class="row text-center">
+        <div class="col-md-12 padding-top-2rem">
+            <img src="assets/images/ASNB-tick.png" class="ticklogo " alt="ASNB">
+        </div>
+    </div>
+    
+    <div class="row text-center padding-top-5rem" >
+        <h2 class="h2-ic" id="ST_Title1">{{'TS_1' | translate }}</h2>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="row text-center" style="padding-top:5rem;">
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-cancel" id="ST_EndTransaction" (click)="endTransaction()">
+                            {{'BTN_End' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="ST_MainMenu" (click)="mainMenu()">
+                            {{'BTN_MainMenu' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>

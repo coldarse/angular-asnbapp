@@ -267,6 +267,16 @@ export class UpdatedetailsComponent implements OnInit {
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Set 1 second interval to detect MyKad.");
 
 
+    if(appFunc.isRedirectFromRedemption == true){
+
+      if(appFunc.isOwn == "major"){
+        this.UpdateMainAccount();
+      }else{
+        this.UpdateMinor(appFunc.redemptionMinor);
+      }
+      
+    }
+
     if(appFunc.isUpdateMajor == true){
       this.UpdateMainAccount();
       appFunc.isUpdateMajor = false;
@@ -2164,7 +2174,9 @@ export class UpdatedetailsComponent implements OnInit {
             if(currentBijakHolder.unitholderid != "" || currentBijakHolder.unitholderid != undefined){
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "Account Found.");
 
-              
+              if(appFunc.isRedirectFromRedemption == true){
+                this._router.navigate(['redemption']);
+              }
               this.UD_Print1Visible = false;
               this.UD_Print2Visible = false;
               this.UD_EmailVisible = false;
@@ -2214,6 +2226,7 @@ export class UpdatedetailsComponent implements OnInit {
     this._router.navigate(['transactionmenu'])
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Transaction Menu.");
   }
+
 
   
 

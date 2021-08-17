@@ -2,7 +2,9 @@ import { flatten } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { ASNBFundID, bankName, businessNature, cities, fundSource, icType, monthlyIncome, occupationCategory, occupationName, occupationSector, preferredDelivery, races, reasonTransfer, relationship, religions, securityQuestions, states, thirdpartyRelationship, TitleDetails } from './dropDownLists';
 import { eModules } from './enabledModules';
+import { fundDetails } from './fundDetails';
 import { kioskActivities } from './kioskActivities';
+import { minorDetails } from './minorDetails';
 
 @Injectable({
     providedIn: 'root',
@@ -46,8 +48,13 @@ export class appFunc {
   static isInvesment = false;
   static isOwn = "third";
 
+  static redemptionMinor: minorDetails;
+
   static body: any;
   static emailObj: any;
+
+  static redemptionFundname = "";
+  static redemptionFundID = "";
 
 }
 

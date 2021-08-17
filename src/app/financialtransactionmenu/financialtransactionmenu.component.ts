@@ -96,4 +96,14 @@ export class FinancialtransactionmenuComponent implements OnInit {
     this._router.navigate(['transferswitching']);
   }
 
+  RedemptionMajor(){
+    appFunc.isOwn = "major";
+    this._router.navigate(['redemption']);
+  }
+
+  RedemptionMinor(){
+    appFunc.isOwn = "bijak";
+    this._router.navigate(['redemption']);
+  }
+
 }

@@ -241,6 +241,19 @@ export class ServiceService {
     )
   }
 
+  //Post Redemption
+  postRedemption(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/OpenAPI/Redemption",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
   //Get Dividend Statement
   dividendStatement(body: any){
     return this.http.post(
