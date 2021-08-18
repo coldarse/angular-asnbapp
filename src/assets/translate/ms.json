@@ -422,5 +422,6 @@
 	"RegistrationConfirmation": "Pengesahan Semakan Pendaftaran",
 	"RegistrationConfirmationMessage": "Nombor telefon bimbit anda belum dikemas kini. Sila kemas kini nombor telefon bimbit anda dan profil anda sebelum meneruskan pendaftaran Portal myASNB. Sebarang pertanyaan, sila rujuk pegawai ASNB yang bertugas.",
 	"RegistrationConfirmationReminder": "Peringatan:",
-	"RegistrationConfirmationReminderMessage": "Sila pastikan tiada sekatan dibuat ke atas no 62000 di telefon bimbit atau oleh pembekal rangkaian telekomunikasi telefon bimbit anda."
+	"RegistrationConfirmationReminderMessage": "Sila pastikan tiada sekatan dibuat ke atas no 62000 di telefon bimbit atau oleh pembekal rangkaian telekomunikasi telefon bimbit anda.",
+	"PortalGatewayTimeout": "Sistem mengalami masalah teknikal. Sila rujuk pegawai ASNB yang bertugas."
 }

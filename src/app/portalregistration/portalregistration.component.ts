@@ -14,6 +14,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { accessToken } from '../_models/apiToken';
 import * as CryptoJS from 'crypto-js'; 
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
+import { of, pipe } from 'rxjs';
+import { catchError, timeout } from 'rxjs/operators';
 
 
 declare const loadKeyboard: any;
@@ -112,6 +114,7 @@ export class PortalregistrationComponent implements OnInit {
   RMError4_Visible = false;
   RMError41_Visible = false;
   UserError_Visible = false;
+  GatewayTimeout_Visible = false;
 
   nextDetails_disabled = true;
 
@@ -339,9 +342,15 @@ export class PortalregistrationComponent implements OnInit {
             "uhid": currentHolder.unitholderid,
             "language": this.selectedLanguage
           }
-          console.log('B ' + body.idno + ' ' + body.idtype + ' ' + body.uhid + ' ' + body.language);
-          this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
-            if (res.result.member_status == "non_member"){
+          //console.log('B ' + body.idno + ' ' + body.idtype + ' ' + body.uhid + ' ' + body.language);
+          this.serviceService.unitHolderVerification(body).pipe(
+            timeout(10000),
+            catchError(error => of(`504`))
+          ).subscribe((res: any) => {
+            if(res == 504){
+              this.GatewayTimeout_Visible = true;
+            }
+            else if (res.result.member_status == "non_member"){
               if (signalrConnection.isHardcodedIC != true){
                 this.id = setInterval(() => {
                   this.DetectMyKad();
@@ -380,8 +389,12 @@ export class PortalregistrationComponent implements OnInit {
               
               this.PR_Intro = true;
               
-            }else{
+            }
+            else if(res.result.member_status == "member"){
               this.UserError_Visible = true;
+            }
+            else{
+              this.GatewayTimeout_Visible = true;
             }
           });
           
@@ -393,8 +406,14 @@ export class PortalregistrationComponent implements OnInit {
             "language": this.selectedLanguage
           }
           console.log('A ' + body.idno + ' ' + body.idtype + ' ' + body.uhid + ' ' + body.language);
-          this.serviceService.unitHolderVerification(body).subscribe((res: any) => {
-            if (res.result.member_status == "non_member"){
+          this.serviceService.unitHolderVerification(body).pipe(
+            timeout(10000),
+            catchError(error => of(`504`))
+          ).subscribe((res: any) => {
+            if(res == 504){
+              this.GatewayTimeout_Visible = true;
+            }
+            else if (res.result.member_status == "non_member"){
               if (signalrConnection.isHardcodedIC != true){
                 this.id = setInterval(() => {
                   this.DetectMyKad();
@@ -433,8 +452,12 @@ export class PortalregistrationComponent implements OnInit {
               this.PR_Intro = true;
 
               
-            }else{
+            }
+            else if(res.result.member_status == "member"){
               this.UserError_Visible = true;
+            }
+            else{
+              this.GatewayTimeout_Visible = true;
             }
           });
        

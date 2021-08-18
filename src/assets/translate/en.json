@@ -422,5 +422,6 @@
 	"RegistrationConfirmation": "Confirmation of Registration",
 	"RegistrationConfirmationMessage": "Your mobile number is not updated. Please update your mobile number and profile to register myASNB Portal. Please refer to ASNB Officer on-duty for further information.",
 	"RegistrationConfirmationReminder": "Reminder:",
-	"RegistrationConfirmationReminderMessage": "Please make sure no restrictions are placed on the number 62000 on your phone or telecommunications network provider."
+	"RegistrationConfirmationReminderMessage": "Please make sure no restrictions are placed on the number 62000 on your phone or telecommunications network provider.",
+	"PortalGatewayTimeout": "System encountered technical problems. Please refer to ASNB Officer on-duty for further information."
 }

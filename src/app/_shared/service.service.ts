@@ -5,7 +5,7 @@ import { Observable, ReplaySubject, throwError, of as _observableOf, throwError 
 import { accessToken } from 'src/app/_models/apiToken';
 import { UnitHolder }  from '../_models/unitHolder';
 import { User } from '../_models/user';
-import { catchError, map, retry, mergeMap as _observableMergeMap, delay} from 'rxjs/operators';
+import { catchError, map, retry, mergeMap as _observableMergeMap, delay, timeout} from 'rxjs/operators';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
 import {formatDate} from '@angular/common';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';

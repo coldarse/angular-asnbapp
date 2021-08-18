@@ -834,7 +834,7 @@ export class UpdatedetailsComponent implements OnInit {
             kActivit.status = true;
 
             appFunc.kioskActivity.push(kActivit);
-            if (this.AR_Form.controls.email.value == "NA" || this.AR_Form.controls.email.value.trim().minLength == 0){
+            if (this.AR_Form.controls.email.value == "NA" || this.AR_Form.controls.email.value.trim() == ''){
               this.Email_Visible = false;
             }
             else{
@@ -951,7 +951,7 @@ export class UpdatedetailsComponent implements OnInit {
               kActivit.status = true;
   
               appFunc.kioskActivity.push(kActivit);
-              if (this.AR_Form.controls.email.value == "NA" || this.AR_Form.controls.email.value.trim().minLength == 0){
+              if (this.AR_Form.controls.email.value == "NA" || this.AR_Form.controls.email.value.trim() == ''){
                 this.Email_Visible = false;
               }
               else{
@@ -1206,20 +1206,47 @@ export class UpdatedetailsComponent implements OnInit {
     if (x > 0){
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
     }else{
-      window.scroll(0,0);
-      this.UDConfirm_Visible = true;
-      this.AR_Form.controls.fullname.enable();
-      this.AR_Form.controls.identificationcardno.enable();
-      this.AR_Form.controls.dob.enable();
-      this.AR_Form.controls.race.enable();
-      this.AR_Form.controls.religion.enable();
-      this.AR_Form.controls.address1.enable();
-      this.AR_Form.controls.address2.enable();
-      this.AR_Form.controls.postcode.enable();
-      this.AR_Form.controls.city.enable();
-      this.AR_Form.controls.state.enable();
-
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Submit.");
+      if(signalrConnection.kioskType == 'Mobile'){
+        if(this.AR_Form.controls.email.value == 'NA' || this.AR_Form.controls.email.value.trim() == ''){
+          this.email_Warning = true;
+          this.AR_Form.controls.email.enable();
+          this.AR_Form.controls.email.setValue('');
+          this.AR_Form.controls.noemail.enable();
+          this.AR_Form.controls.noemail.setValue(false);
+        }
+        else{
+          window.scroll(0,0);
+          this.UDConfirm_Visible = true;
+          this.AR_Form.controls.fullname.enable();
+          this.AR_Form.controls.identificationcardno.enable();
+          this.AR_Form.controls.dob.enable();
+          this.AR_Form.controls.race.enable();
+          this.AR_Form.controls.religion.enable();
+          this.AR_Form.controls.address1.enable();
+          this.AR_Form.controls.address2.enable();
+          this.AR_Form.controls.postcode.enable();
+          this.AR_Form.controls.city.enable();
+          this.AR_Form.controls.state.enable();
+    
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Submit.");
+        }
+      }
+      else{
+        window.scroll(0,0);
+        this.UDConfirm_Visible = true;
+        this.AR_Form.controls.fullname.enable();
+        this.AR_Form.controls.identificationcardno.enable();
+        this.AR_Form.controls.dob.enable();
+        this.AR_Form.controls.race.enable();
+        this.AR_Form.controls.religion.enable();
+        this.AR_Form.controls.address1.enable();
+        this.AR_Form.controls.address2.enable();
+        this.AR_Form.controls.postcode.enable();
+        this.AR_Form.controls.city.enable();
+        this.AR_Form.controls.state.enable();
+  
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Submit.");
+      }
     }
   }
 
@@ -1387,19 +1414,45 @@ export class UpdatedetailsComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + `Bijak Form: ${x} field(s) empty.`);
     }
     else{
-      window.scroll(0,0);
-      this.UDConfirm_Visible = true;
-      this.AR_Form.controls.fullname.enable();
-      this.AR_Form.controls.identificationcardno.enable();
-      this.AR_Form.controls.dob.enable();
-      this.AR_Form.controls.race.enable();
-      this.AR_Form.controls.religion.enable();
-      this.AR_Form.controls.address1.enable();
-      this.AR_Form.controls.address2.enable();
-      this.AR_Form.controls.postcode.enable();
-      this.AR_Form.controls.city.enable();
-      this.AR_Form.controls.state.enable();
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Submit.");
+      if(signalrConnection.kioskType == 'Mobile'){
+        if(this.AR_Form.controls.email.value == 'NA' || this.AR_Form.controls.email.value.trim() == ''){
+          this.email_Warning = true;
+          this.AR_Form.controls.email.enable();
+          this.AR_Form.controls.email.setValue('');
+          this.AR_Form.controls.noemail.enable();
+          this.AR_Form.controls.noemail.setValue(false);
+        }
+        else{
+          window.scroll(0,0);
+          this.UDConfirm_Visible = true;
+          this.AR_Form.controls.fullname.enable();
+          this.AR_Form.controls.identificationcardno.enable();
+          this.AR_Form.controls.dob.enable();
+          this.AR_Form.controls.race.enable();
+          this.AR_Form.controls.religion.enable();
+          this.AR_Form.controls.address1.enable();
+          this.AR_Form.controls.address2.enable();
+          this.AR_Form.controls.postcode.enable();
+          this.AR_Form.controls.city.enable();
+          this.AR_Form.controls.state.enable();
+          signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Submit.");
+        }
+      }
+      else{
+        window.scroll(0,0);
+        this.UDConfirm_Visible = true;
+        this.AR_Form.controls.fullname.enable();
+        this.AR_Form.controls.identificationcardno.enable();
+        this.AR_Form.controls.dob.enable();
+        this.AR_Form.controls.race.enable();
+        this.AR_Form.controls.religion.enable();
+        this.AR_Form.controls.address1.enable();
+        this.AR_Form.controls.address2.enable();
+        this.AR_Form.controls.postcode.enable();
+        this.AR_Form.controls.city.enable();
+        this.AR_Form.controls.state.enable();
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Submit.");
+      }
     }
   }
 
@@ -1550,6 +1603,9 @@ export class UpdatedetailsComponent implements OnInit {
       if(isNaEmail == 'NA'){
         isNaEmail = "";
         checkIsNaEmail = true;
+        if(isMobile == true){
+          checkIsNaEmail = false;
+        }
       }
 
       let isNACity = currentHolder.addresslinE3;
@@ -1583,6 +1639,8 @@ export class UpdatedetailsComponent implements OnInit {
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
           noemail: [{value: checkIsNaEmail, disabled: false}],
+
+
           deliverystate: [{value: currentHolder.preferredmailmode, disabled: checkIsNaEmail}],
 
           bankname: [currentHolder.bankcode == "00" ? "" : currentHolder.bankcode],
@@ -1646,6 +1704,9 @@ export class UpdatedetailsComponent implements OnInit {
       if(isNaEmail == 'NA'){
         isNaEmail = "";
         checkIsNaEmail = true;
+        if(isMobile == true){
+          checkIsNaEmail = false;
+        }
       }
 
       let isNACity = currentBijakHolder.addresslinE3;

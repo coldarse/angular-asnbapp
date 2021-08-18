@@ -1591,183 +1591,384 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   Print(){
-    const objCardInfo = 
-    [{
-      "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
-      "BatchNum" : this.tempCardInfo.BatchNumber,
-      "Invoice" : this.tempCardInfo.TransactionTrace,
-      "MID" : this.tempCardInfo.MID,
-      "TID" : this.tempCardInfo.TID,
-      "Type" : this.tempCardInfo.CardType,
-      "CardName" : this.tempCardInfo.CardholderName,
-      "CardNumber" : this.tempCardInfo.CardNumber,
-      "ExpDate" : this.tempCardInfo.ExpiryDate,
-      "ApprovalCode" : this.tempCardInfo.ApprovalCode,
-      "ReferenceNumber" : this.tempCardInfo.RRN,
-      "TotalAmount" : this.amountKeyed,
-    }]
+    this.SIStep6 = false;
+    this.Print1_Visible = true;
 
-    let accountType = "";
-    if(selectLang.selectedLang == 'ms'){
-      if(appFunc.isOwn == "major"){
-        accountType = "Dewasa";
-      }else if(appFunc.isOwn == "bijak"){
-        accountType = "Bijak/Remaja";
+    if(signalrConnection.isHardcodedIC){
+      const objCardInfo = 
+      [{
+        "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
+        "BatchNum" : "",
+        "Invoice" : "",
+        "MID" : "",
+        "TID" : "",
+        "Type" : "",
+        "CardName" : "",
+        "CardNumber" : "",
+        "ExpDate" : "",
+        "ApprovalCode" : "",
+        "ReferenceNumber" : "",
+        "TotalAmount" : this.amountKeyed,
+      }]
+
+      let accountType = "";
+      if(selectLang.selectedLang == 'ms'){
+        if(appFunc.isOwn == "major"){
+          accountType = "Dewasa";
+        }else if(appFunc.isOwn == "bijak"){
+          accountType = "Bijak/Remaja";
+        }else{
+          accountType = "Pihak Ketiga";
+        }
       }else{
-        accountType = "Pihak Ketiga";
+        if(appFunc.isOwn == "major"){
+          accountType = "Dewasa";
+        }else if(appFunc.isOwn == "bijak"){
+          accountType = "Bijak/Remaja";
+        }else{
+          accountType = "Third Party";
+        }
       }
-    }else{
-      if(appFunc.isOwn == "major"){
-        accountType = "Dewasa";
-      }else if(appFunc.isOwn == "bijak"){
-        accountType = "Bijak/Remaja";
+      
+  
+      appFunc.body = 
+      {
+        "Transaction" : this.transaction,
+        "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "Location" : signalrConnection.branchName,
+        "Name" : this.unitholdername,
+        "UHID" : this.unitholderid,
+        "NRIC" : this.unitholderic,
+        "AccountType" : accountType,
+        "TransactionNumber" : this.refno,
+        "FUNDID" : this.fundid,
+        "FUNDPRICE" : this.nav,
+        "UNITSALLOTED" : this.unitsalloted,
+        "FEEPERCENTAGE" : this.feepercentage,
+        "SALESCHARGE" : this.initialcharges,
+        "GSTAMOUNT" : this.sst,
+        "CARDINFO" : objCardInfo,
+        "Language" : selectLang.selectedLang,
+        "Signature" : ""
+      }
+  
+      appFunc.receiptFunction = "GetFinancialTrxPrintout"
+  
+  
+      appFunc.printing = true;
+      signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+        if(data){
+      
+          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
+            setTimeout(()=>{   
+              if (data == true){
+                this.Print1_Visible = false;
+                this.Print2_Visible = true;
+                setTimeout(()=>{
+                  this.getAccountInquiry();
+                }, 3000);
+              }else{
+                errorCodes.Ecode = "0068";
+                errorCodes.Emessage = "Printing Failed";
+                this._router.navigate(['errorscreen']);
+              }
+            }, 3000);
+          });
+        }else{
+          errorCodes.Ecode = "6688";
+          errorCodes.Emessage = "Printer Error";
+          this._router.navigate(['errorscreen']);
+        }
+      });
+    }
+    else{
+      const objCardInfo = 
+      [{
+        "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
+        "BatchNum" : this.tempCardInfo.BatchNumber,
+        "Invoice" : this.tempCardInfo.TransactionTrace,
+        "MID" : this.tempCardInfo.MID,
+        "TID" : this.tempCardInfo.TID,
+        "Type" : this.tempCardInfo.CardType,
+        "CardName" : this.tempCardInfo.CardholderName,
+        "CardNumber" : this.tempCardInfo.CardNumber,
+        "ExpDate" : this.tempCardInfo.ExpiryDate,
+        "ApprovalCode" : this.tempCardInfo.ApprovalCode,
+        "ReferenceNumber" : this.tempCardInfo.RRN,
+        "TotalAmount" : this.amountKeyed,
+      }]
+  
+      let accountType = "";
+      if(selectLang.selectedLang == 'ms'){
+        if(appFunc.isOwn == "major"){
+          accountType = "Dewasa";
+        }else if(appFunc.isOwn == "bijak"){
+          accountType = "Bijak/Remaja";
+        }else{
+          accountType = "Pihak Ketiga";
+        }
       }else{
-        accountType = "Third Party";
+        if(appFunc.isOwn == "major"){
+          accountType = "Dewasa";
+        }else if(appFunc.isOwn == "bijak"){
+          accountType = "Bijak/Remaja";
+        }else{
+          accountType = "Third Party";
+        }
       }
+      
+  
+      appFunc.body = 
+      {
+        "Transaction" : this.transaction,
+        "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "Location" : signalrConnection.branchName,
+        "Name" : this.unitholdername,
+        "UHID" : this.unitholderid,
+        "NRIC" : this.unitholderic,
+        "AccountType" : accountType,
+        "TransactionNumber" : this.refno,
+        "FUNDID" : this.fundid,
+        "FUNDPRICE" : this.nav,
+        "UNITSALLOTED" : this.unitsalloted,
+        "FEEPERCENTAGE" : this.feepercentage,
+        "SALESCHARGE" : this.initialcharges,
+        "GSTAMOUNT" : this.sst,
+        "CARDINFO" : objCardInfo,
+        "Language" : selectLang.selectedLang,
+        "Signature" : ""
+      }
+  
+      appFunc.receiptFunction = "GetFinancialTrxPrintout"
+  
+  
+      appFunc.printing = true;
+      signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+        if(data){
+      
+          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
+            setTimeout(()=>{   
+              if (data == true){
+                this.Print1_Visible = false;
+                this.Print2_Visible = true;
+                setTimeout(()=>{
+                  this.getAccountInquiry();
+                }, 3000);
+              }else{
+                errorCodes.Ecode = "0068";
+                errorCodes.Emessage = "Printing Failed";
+                this._router.navigate(['errorscreen']);
+              }
+            }, 3000);
+          });
+        }else{
+          errorCodes.Ecode = "6688";
+          errorCodes.Emessage = "Printer Error";
+          this._router.navigate(['errorscreen']);
+        }
+      });
     }
     
-
-    appFunc.body = 
-    {
-      "Transaction" : this.transaction,
-      "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-      "Location" : signalrConnection.branchName,
-      "Name" : this.unitholdername,
-      "UHID" : this.unitholderid,
-      "NRIC" : this.unitholderic,
-      "AccountType" : accountType,
-      "TransactionNumber" : this.refno,
-      "FUNDID" : this.fundid,
-      "FUNDPRICE" : this.nav,
-      "UNITSALLOTED" : this.unitsalloted,
-      "FEEPERCENTAGE" : this.feepercentage,
-      "SALESCHARGE" : this.initialcharges,
-      "GSTAMOUNT" : this.sst,
-      "CARDINFO" : objCardInfo,
-      "Language" : selectLang.selectedLang,
-      "Signature" : ""
-    }
-
-    appFunc.receiptFunction = "GetFinancialTrxPrintout"
-
-
-    appFunc.printing = true;
-    signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
-      if(data){
-    
-        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
-          setTimeout(()=>{   
-            if (data == true){
-              this.Print1_Visible = false;
-              this.Print2_Visible = true;
-              setTimeout(()=>{
-                this.getAccountInquiry();
-              }, 3000);
-            }else{
-              errorCodes.Ecode = "0068";
-              errorCodes.Emessage = "Printing Failed";
-              this._router.navigate(['errorscreen']);
-            }
-          }, 3000);
-        });
-      }else{
-        errorCodes.Ecode = "6688";
-        errorCodes.Emessage = "Printer Error";
-        this._router.navigate(['errorscreen']);
-      }
-    });
-    // this._router.navigate(['printingemail']);
   }
 
   Email(){
-    const objCardInfo = 
-    [{
-      "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
-      "BatchNum" : this.tempCardInfo.BatchNumber,
-      "Invoice" : this.tempCardInfo.TransactionTrace,
-      "MID" : this.tempCardInfo.MID,
-      "TID" : this.tempCardInfo.TID,
-      "Type" : this.tempCardInfo.CardType,
-      "CardName" : this.tempCardInfo.CardholderName,
-      "CardNumber" : this.tempCardInfo.CardNumber,
-      "ExpDate" : this.tempCardInfo.ExpiryDate,
-      "ApprovalCode" : this.tempCardInfo.ApprovalCode,
-      "ReferenceNumber" : this.tempCardInfo.RRN,
-      "TotalAmount" : this.amountKeyed,
-    }]
+    this.SIStep6 = false;
+    this.EmailPage_Visible = true;
 
-    let accountType = "";
-    if(selectLang.selectedLang == 'ms'){
+    if(signalrConnection.isHardcodedIC){
+      const objCardInfo = 
+      [{
+        "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
+        "BatchNum" : "",
+        "Invoice" : "",
+        "MID" : "",
+        "TID" : "",
+        "Type" : "",
+        "CardName" : "",
+        "CardNumber" : "",
+        "ExpDate" : "",
+        "ApprovalCode" : "",
+        "ReferenceNumber" : "",
+        "TotalAmount" : this.amountKeyed,
+      }]
+
+      let accountType = "";
+      let module = "";
       if(appFunc.isOwn == "major"){
         accountType = "Dewasa";
+        if(appFunc.isInvesment){
+          module = "9";
+        }else{
+          module = "11";
+        }
       }else if(appFunc.isOwn == "bijak"){
         accountType = "Bijak/Remaja";
+        if(appFunc.isInvesment){
+          module = "10";
+        }else{
+          module = "12";
+        }
       }else{
         accountType = "Pihak Ketiga";
+        module = "19";
       }
+      
+
+      appFunc.body = 
+      {
+        "Transaction" : this.transaction,
+        "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "Location" : signalrConnection.branchName,
+        "Name" : this.unitholdername,
+        "UHID" : this.unitholderid,
+        "NRIC" : this.unitholderic,
+        "AccountType" : accountType,
+        "TransactionNumber" : this.refno,
+        "FUNDID" : this.fundid,
+        "FUNDPRICE" : this.nav,
+        "UNITSALLOTED" : this.unitsalloted,
+        "FEEPERCENTAGE" : this.feepercentage,
+        "SALESCHARGE" : this.initialcharges,
+        "GSTAMOUNT" : this.sst,
+        "CARDINFO" : objCardInfo,
+        "Language" : selectLang.selectedLang,
+        "Signature" : ""
+      }
+
+      appFunc.emailObj =
+      {
+        "Name" : this.unitholdername,
+        "UnitHolderID" : this.unitholderid,
+        "Module" : module,
+        "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+        "language" : selectLang.selectedLang,
+        "IC" : this.unitholderic
+      }
+
+      appFunc.receiptFunction = "GetFinancialTrxPrintout"
+
+      
+      appFunc.printing = false;
+      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj)).then((data: any) => {
+        // setTimeout(()=>{   
+        //   if (data == true){
+        //     this.getAccountInquiry();
+        //     setTimeout(()=>{   
+        //       this.EmailPage_Visible = false;
+        //     }, 3000);
+        //   }else{
+        //     errorCodes.Ecode = "0069";
+        //     errorCodes.Emessage = "Email Failed";
+        //     this._router.navigate(['errorscreen']);
+        //   }
+        // }, 3000);
+      });
+
+      setTimeout(()=>{   
+        this.EmailPage_Visible = false;
+        this.getAccountInquiry();
+      }, 5000);
     }else{
+      const objCardInfo = 
+      [{
+        "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
+        "BatchNum" : this.tempCardInfo.BatchNumber,
+        "Invoice" : this.tempCardInfo.TransactionTrace,
+        "MID" : this.tempCardInfo.MID,
+        "TID" : this.tempCardInfo.TID,
+        "Type" : this.tempCardInfo.CardType,
+        "CardName" : this.tempCardInfo.CardholderName,
+        "CardNumber" : this.tempCardInfo.CardNumber,
+        "ExpDate" : this.tempCardInfo.ExpiryDate,
+        "ApprovalCode" : this.tempCardInfo.ApprovalCode,
+        "ReferenceNumber" : this.tempCardInfo.RRN,
+        "TotalAmount" : this.amountKeyed,
+      }]
+
+      let accountType = "";
+      let module = "";
       if(appFunc.isOwn == "major"){
         accountType = "Dewasa";
+        if(appFunc.isInvesment){
+          module = "9";
+        }else{
+          module = "11";
+        }
       }else if(appFunc.isOwn == "bijak"){
         accountType = "Bijak/Remaja";
-      }else{
-        accountType = "Third Party";
-      }
-    }
-    
-
-    appFunc.body = 
-    {
-      "Transaction" : this.transaction,
-      "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-      "Location" : signalrConnection.branchName,
-      "Name" : this.unitholdername,
-      "UHID" : this.unitholderid,
-      "NRIC" : this.unitholderic,
-      "AccountType" : accountType,
-      "TransactionNumber" : this.refno,
-      "FUNDID" : this.fundid,
-      "FUNDPRICE" : this.nav,
-      "UNITSALLOTED" : this.unitsalloted,
-      "FEEPERCENTAGE" : this.feepercentage,
-      "SALESCHARGE" : this.initialcharges,
-      "GSTAMOUNT" : this.sst,
-      "CARDINFO" : objCardInfo,
-      "Language" : selectLang.selectedLang,
-      "Signature" : ""
-    }
-
-    appFunc.emailObj =
-    {
-      "Name" : this.unitholdername,
-      "UnitHolderID" : this.unitholderid,
-      "Module" : "0",
-      "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
-      "language" : selectLang.selectedLang,
-      "IC" : this.unitholderic
-    }
-
-    appFunc.receiptFunction = "GetFinancialTrxPrintout"
-
-    
-    appFunc.printing = false;
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj)).then((data: any) => {
-      setTimeout(()=>{   
-        if (data == true){
-          this.getAccountInquiry();
-          setTimeout(()=>{   
-            this.EmailPage_Visible = false;
-          }, 3000);
+        if(appFunc.isInvesment){
+          module = "10";
         }else{
-          errorCodes.Ecode = "0069";
-          errorCodes.Emessage = "Email Failed";
-          this._router.navigate(['errorscreen']);
+          module = "12";
         }
-      }, 3000);
-    });
-    // this._router.navigate(['printingemail']);
+      }else{
+        accountType = "Pihak Ketiga";
+        module = "19";
+      }
+      
+      
+
+      appFunc.body = 
+      {
+        "Transaction" : this.transaction,
+        "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "Location" : signalrConnection.branchName,
+        "Name" : this.unitholdername,
+        "UHID" : this.unitholderid,
+        "NRIC" : this.unitholderic,
+        "AccountType" : accountType,
+        "TransactionNumber" : this.refno,
+        "FUNDID" : this.fundid,
+        "FUNDPRICE" : this.nav,
+        "UNITSALLOTED" : this.unitsalloted,
+        "FEEPERCENTAGE" : this.feepercentage,
+        "SALESCHARGE" : this.initialcharges,
+        "GSTAMOUNT" : this.sst,
+        "CARDINFO" : objCardInfo,
+        "Language" : selectLang.selectedLang,
+        "Signature" : ""
+      }
+
+      appFunc.emailObj =
+      {
+        "Name" : this.unitholdername,
+        "UnitHolderID" : this.unitholderid,
+        "Module" : module,
+        "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+        "language" : selectLang.selectedLang,
+        "IC" : this.unitholderic
+      }
+
+      appFunc.receiptFunction = "GetFinancialTrxPrintout"
+
+      
+      appFunc.printing = false;
+      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj)).then((data: any) => {
+        // setTimeout(()=>{   
+        //   if (data == true){
+        //     this.getAccountInquiry();
+        //     setTimeout(()=>{   
+        //       this.EmailPage_Visible = false;
+        //     }, 3000);
+        //   }else{
+        //     errorCodes.Ecode = "0069";
+        //     errorCodes.Emessage = "Email Failed";
+        //     this._router.navigate(['errorscreen']);
+        //   }
+        // }, 3000);
+      });
+
+      setTimeout(()=>{   
+        this.EmailPage_Visible = false;
+        this.getAccountInquiry();
+      }, 5000);
+    }
+    
+
   }
 
   agreeTNC(event: any){
@@ -1864,7 +2065,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
               errorCodes.accountName = currentMyKidDetails.Name;
               errorCodes.accountNo = currentBijakHolder.unitholderid;
               errorCodes.accountType = 'Bijak';
-            errorCodes.transaction = 'PrintingEmail';
+              errorCodes.transaction = 'PrintingEmail';
               this._router.navigate(['errorscreen']);
             }
             else{
@@ -1898,168 +2099,168 @@ export class SubscriptioninvestmentComponent implements OnInit {
           }
         });
       }else{
+        const body = { 
 
-      }
-      const body = { 
-
-        "CHANNELTYPE": signalrConnection.channelType,
-        "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
-        "DEVICEOWNER": signalrConnection.deviceOwner,
-        "UNITHOLDERID": "",
-        "FIRSTNAME": "",
-        "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
-        "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
-        "FUNDID": "",
-        "INQUIRYCODE": "5",
-        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-        "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-        "BANKTXNREFERENCENUMBER": signalrConnection.trxno ,
-        "BANKCUSTPHONENUMBER": "",
-        "FILTRATIONFLAG": "1",
-        "GUARDIANID": "",
-        "GUARDIANICTYPE": "",
-        "GUARDIANICNUMBER": ""
-
-       };
-      this.serviceService.getAccountInquiry(body)
-      .subscribe((result: any) => {
-        
-
-        currentHolder.channeltype = result.channeltype;
-        currentHolder.requestoridentification = result.requestoridentification;
-        currentHolder.deviceowner = result.deviceowner;
-        currentHolder.unitholderid = result.unitholderid;
-        currentHolder.firstname = result.firstname;
-        currentHolder.identificationtype = result.identificationtype;
-        currentHolder.identificationnumber = result.identificationnumber;
-        currentHolder.fundid = result.fundid;
-        currentHolder.inquirycode = result.inquirycode;
-        currentHolder.transactiondate = result.transactiondate;
-        currentHolder.transactiontime = result.transactiontime;
-        currentHolder.banktxnreferencenumber = result.banktxnreferencenumber;
-        currentHolder.bankcustphonenumber = result.bankcustphonenumber;
-        currentHolder.filtrationflag = result.filtrationflag;      		
-        currentHolder.cifstopaccountstatus = result.cifstopaccountstatus
-        currentHolder.typeclosed = result.typeclosed;
-        currentHolder.participateinasnbmkt = result.participateinasnbmkt;
-        currentHolder.unitbalance = result.unitbalance;
-        currentHolder.funddetail = result.funddetail;
-        currentHolder.cifnumber = result.cifnumber;
-        currentHolder.race = result.race;
-        currentHolder.religion = result.religion;
-        currentHolder.uhcategory = result.uhcategory;
-        currentHolder.title = result.title;
-        currentHolder.accountopeningdate = result.accountopeningdate;
-        currentHolder.investortype = result.investortype;
-        currentHolder.maritalstatus = result.maritalstatus;
-        currentHolder.addresslinE1 = result.addresslinE1;
-        currentHolder.addresslinE2 = result.addresslinE2;
-        currentHolder.addresslinE3 = result.addresslinE3;
-        currentHolder.addresslinE4 = result.addresslinE4;
-        currentHolder.country = result.country;
-        currentHolder.email = result.email;
-        currentHolder.zipcode = result.zipcode;
-        currentHolder.contactperson = result.contactperson;
-        currentHolder.telephonE1 = result.telephonE1;
-        currentHolder.telephonE2 = result.telephonE2;
-        currentHolder.cellphonenumber = result.cellphonenumber;
-        currentHolder.fax = result.fax;
-        currentHolder.dateofbirth = result.dateofbirth;
-        currentHolder.bankcode = result.bankcode;
-        currentHolder.bankbranchcode = result.bankbranchcode;
-        currentHolder.accounttype = result.accounttype;
-        currentHolder.accountnumber = result.accountnumber;
-        currentHolder.accountcurrency = result.accountcurrency;
-        currentHolder.fundcode = result.fundcode;
-        currentHolder.transactiontype = result.transactiontype;
-        currentHolder.directdebit = result.directdebit;
-        currentHolder.mothername = result.mothername;
-        currentHolder.portalenabled = result.portalenabled;				
-        currentHolder.grandtotalunitbalance = result.grandtotalunitbalance;
-        currentHolder.grandtotalepfunits = result.grandtotalepfunits;
-        currentHolder.grandtotalloanunits = result.grandtotalloanunits;
-        currentHolder.grandtotalcertunits = result.grandtotalcertunits;
-        currentHolder.grandtotalblockedunits = result.grandtotalblockedunits;
-        currentHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
-        currentHolder.grandtotalunits = result.grandtotalunits;
-        currentHolder.grandtotaluhholdings = result.grandtotaluhholdings;
-        currentHolder.totalminoraccount = result.totalminoraccount;
-        currentHolder.minordetail = result.minordetail;
-        currentHolder.guardianid = result.guardianid;
-        currentHolder.guardianictype = result.guardianictype;
-        currentHolder.guardianicnumber = result.guardianicnumber;
-        currentHolder.epfnumber = result.epfnumber;
-        currentHolder.epfapplicable = result.epfapplicable;
-        currentHolder.epfaccounttype = result.epfaccounttype;
-        currentHolder.epfaccounttypeeffdate = result.epfaccounttypeeffdate;
-        currentHolder.agentcode  = result.agentcode;
-        currentHolder.branchcode  = result.branchcode;
-        currentHolder.occupation = result.occupation;
-        currentHolder.otherinfO8 = result.otherinfO8;
-        currentHolder.occupationsector = result.occupationsector;
-        currentHolder.occupationcategory = result.occupationcategory;
-        currentHolder.natureofbusiness = result.natureofbusiness;
-        currentHolder.companyname = result.companyname;
-        currentHolder.preferredmailmode = result.preferredmailmode;
-        currentHolder.fatca = result.fatca;
-        currentHolder.crs = result.crs;
-        currentHolder.pep = result.pep;
-        currentHolder.riskprofile = result.riskprofile;
-        currentHolder.relationship = result.relationship;
-        currentHolder.agentcode = result.agentcode;
-        currentHolder.branchcode = result.branchcode;
-        currentHolder.lastupdatedate = result.lastupdatedate;
-        currentHolder.transactionchannel = result.transactionchannel;
-        currentHolder.transactionstatus = result.transactionstatus;
-        currentHolder.rejectcode = result.rejectcode;
-        currentHolder.rejectreason = result.rejectreason;
-
-
-
-
-        if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
-
-          if (!currentHolder.typeclosed.toLowerCase().includes('n')){
-            errorCodes.Ecode = "0109";
-            errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
-            errorCodes.accountName = currentMyKadDetails.Name;
-            errorCodes.accountNo = currentHolder.unitholderid;
-            errorCodes.accountType = 'Dewasa';
-            errorCodes.transaction = 'PrintingEmail';
-            this._router.navigate(['errorscreen']);
-          }
-          else{
-            if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
-              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Account Found.");
-
-              
-              this.Print1_Visible = false;
-              this.Print2_Visible = false;
-              this.EmailPage_Visible = false;
-
-              this.transaction_Successful = true;
-              //this._router.navigate(['transactionsuccessful']);
+          "CHANNELTYPE": signalrConnection.channelType,
+          "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
+          "DEVICEOWNER": signalrConnection.deviceOwner,
+          "UNITHOLDERID": "",
+          "FIRSTNAME": "",
+          "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
+          "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
+          "FUNDID": "",
+          "INQUIRYCODE": "5",
+          "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+          "BANKTXNREFERENCENUMBER": signalrConnection.trxno ,
+          "BANKCUSTPHONENUMBER": "",
+          "FILTRATIONFLAG": "1",
+          "GUARDIANID": "",
+          "GUARDIANICTYPE": "",
+          "GUARDIANICNUMBER": ""
+  
+         };
+        this.serviceService.getAccountInquiry(body)
+        .subscribe((result: any) => {
+          
+  
+          currentHolder.channeltype = result.channeltype;
+          currentHolder.requestoridentification = result.requestoridentification;
+          currentHolder.deviceowner = result.deviceowner;
+          currentHolder.unitholderid = result.unitholderid;
+          currentHolder.firstname = result.firstname;
+          currentHolder.identificationtype = result.identificationtype;
+          currentHolder.identificationnumber = result.identificationnumber;
+          currentHolder.fundid = result.fundid;
+          currentHolder.inquirycode = result.inquirycode;
+          currentHolder.transactiondate = result.transactiondate;
+          currentHolder.transactiontime = result.transactiontime;
+          currentHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+          currentHolder.bankcustphonenumber = result.bankcustphonenumber;
+          currentHolder.filtrationflag = result.filtrationflag;      		
+          currentHolder.cifstopaccountstatus = result.cifstopaccountstatus
+          currentHolder.typeclosed = result.typeclosed;
+          currentHolder.participateinasnbmkt = result.participateinasnbmkt;
+          currentHolder.unitbalance = result.unitbalance;
+          currentHolder.funddetail = result.funddetail;
+          currentHolder.cifnumber = result.cifnumber;
+          currentHolder.race = result.race;
+          currentHolder.religion = result.religion;
+          currentHolder.uhcategory = result.uhcategory;
+          currentHolder.title = result.title;
+          currentHolder.accountopeningdate = result.accountopeningdate;
+          currentHolder.investortype = result.investortype;
+          currentHolder.maritalstatus = result.maritalstatus;
+          currentHolder.addresslinE1 = result.addresslinE1;
+          currentHolder.addresslinE2 = result.addresslinE2;
+          currentHolder.addresslinE3 = result.addresslinE3;
+          currentHolder.addresslinE4 = result.addresslinE4;
+          currentHolder.country = result.country;
+          currentHolder.email = result.email;
+          currentHolder.zipcode = result.zipcode;
+          currentHolder.contactperson = result.contactperson;
+          currentHolder.telephonE1 = result.telephonE1;
+          currentHolder.telephonE2 = result.telephonE2;
+          currentHolder.cellphonenumber = result.cellphonenumber;
+          currentHolder.fax = result.fax;
+          currentHolder.dateofbirth = result.dateofbirth;
+          currentHolder.bankcode = result.bankcode;
+          currentHolder.bankbranchcode = result.bankbranchcode;
+          currentHolder.accounttype = result.accounttype;
+          currentHolder.accountnumber = result.accountnumber;
+          currentHolder.accountcurrency = result.accountcurrency;
+          currentHolder.fundcode = result.fundcode;
+          currentHolder.transactiontype = result.transactiontype;
+          currentHolder.directdebit = result.directdebit;
+          currentHolder.mothername = result.mothername;
+          currentHolder.portalenabled = result.portalenabled;				
+          currentHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+          currentHolder.grandtotalepfunits = result.grandtotalepfunits;
+          currentHolder.grandtotalloanunits = result.grandtotalloanunits;
+          currentHolder.grandtotalcertunits = result.grandtotalcertunits;
+          currentHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+          currentHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+          currentHolder.grandtotalunits = result.grandtotalunits;
+          currentHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+          currentHolder.totalminoraccount = result.totalminoraccount;
+          currentHolder.minordetail = result.minordetail;
+          currentHolder.guardianid = result.guardianid;
+          currentHolder.guardianictype = result.guardianictype;
+          currentHolder.guardianicnumber = result.guardianicnumber;
+          currentHolder.epfnumber = result.epfnumber;
+          currentHolder.epfapplicable = result.epfapplicable;
+          currentHolder.epfaccounttype = result.epfaccounttype;
+          currentHolder.epfaccounttypeeffdate = result.epfaccounttypeeffdate;
+          currentHolder.agentcode  = result.agentcode;
+          currentHolder.branchcode  = result.branchcode;
+          currentHolder.occupation = result.occupation;
+          currentHolder.otherinfO8 = result.otherinfO8;
+          currentHolder.occupationsector = result.occupationsector;
+          currentHolder.occupationcategory = result.occupationcategory;
+          currentHolder.natureofbusiness = result.natureofbusiness;
+          currentHolder.companyname = result.companyname;
+          currentHolder.preferredmailmode = result.preferredmailmode;
+          currentHolder.fatca = result.fatca;
+          currentHolder.crs = result.crs;
+          currentHolder.pep = result.pep;
+          currentHolder.riskprofile = result.riskprofile;
+          currentHolder.relationship = result.relationship;
+          currentHolder.agentcode = result.agentcode;
+          currentHolder.branchcode = result.branchcode;
+          currentHolder.lastupdatedate = result.lastupdatedate;
+          currentHolder.transactionchannel = result.transactionchannel;
+          currentHolder.transactionstatus = result.transactionstatus;
+          currentHolder.rejectcode = result.rejectcode;
+          currentHolder.rejectreason = result.rejectreason;
+  
+  
+  
+  
+          if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
+  
+            if (!currentHolder.typeclosed.toLowerCase().includes('n')){
+              errorCodes.Ecode = "0109";
+              errorCodes.Emessage = "Your Account has been closed. Akaun anda telah ditutup.";
+              errorCodes.accountName = currentMyKadDetails.Name;
+              errorCodes.accountNo = currentHolder.unitholderid;
+              errorCodes.accountType = 'Dewasa';
+              errorCodes.transaction = 'PrintingEmail';
+              this._router.navigate(['errorscreen']);
+            }
+            else{
+              if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
+                signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Account Found.");
+  
+                
+                this.Print1_Visible = false;
+                this.Print2_Visible = false;
+                this.EmailPage_Visible = false;
+  
+                this.transaction_Successful = true;
+                //this._router.navigate(['transactionsuccessful']);
+              }
             }
           }
-        }
-        else{
-          if (currentHolder.rejectreason.includes('not exists')){
-            signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
-
-            
-            this._router.navigate(['feedbackscreen']);
-          }
           else{
-            errorCodes.Ecode = currentHolder.rejectcode;
-            errorCodes.Emessage = currentHolder.rejectreason;
-            errorCodes.accountName = currentMyKadDetails.Name;
-            errorCodes.accountNo = currentHolder.unitholderid;
-            errorCodes.accountType = 'Dewasa';
-            errorCodes.transaction = 'PrintingEmail';
-            this._router.navigate(['errorscreen']);
+            if (currentHolder.rejectreason.includes('not exists')){
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
+  
+              
+              this._router.navigate(['feedbackscreen']);
+            }
+            else{
+              errorCodes.Ecode = currentHolder.rejectcode;
+              errorCodes.Emessage = currentHolder.rejectreason;
+              errorCodes.accountName = currentMyKadDetails.Name;
+              errorCodes.accountNo = currentHolder.unitholderid;
+              errorCodes.accountType = 'Dewasa';
+              errorCodes.transaction = 'PrintingEmail';
+              this._router.navigate(['errorscreen']);
+            }
           }
-        }
-      });
+        });
+      }
+      
     }
     catch (e){
       errorCodes.code = "0168";
