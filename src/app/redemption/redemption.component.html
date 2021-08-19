@@ -2,7 +2,8 @@
     <div class="container-fluid">
         <div class="titleNLogo">
             <!-- Language Screen NavBar -->
-            <img src="assets/images/OutOfService-icon.png" alt="OutOfServiceImage" class="icon_margin">
+            <img src="assets/images/PengeluaranAkaunSendiri-small-colour.png" alt="HeaderImage" class="icon_margin" *ngIf="isRedemptionMajor">
+            <img src="assets/images/PengeluaranAkaunBijak-small-colour.png" alt="HeaderImage" class="icon_margin" *ngIf="isRedemptionMinor">
             <div>
                 <label class="upStyle col-sm-12">{{ 'Redemption' | translate }}</label>
                 <label class="downStyle col-sm-12" *ngIf="isOwn">{{ 'Own' | translate }}</label>
@@ -35,7 +36,7 @@
 
   
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top:5rem;">
+        <div class="row text-center" style="padding-top:5rem;padding-bottom:5rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="Back()">
                     {{'BTN_Back' | translate }}
@@ -183,7 +184,7 @@
 
   
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top:5rem;">
+        <div class="row text-center" style="padding-top:5rem;padding-bottom:5rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="redemptionBack()">
                     {{'BTN_Back' | translate }}
@@ -291,7 +292,7 @@
             </div>
             <div class="col-md-6">
                 <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #ramount1>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="redemptionamountWarning">{{'Warning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="redemptionamountWarning">{{'AWarning' | translate}}</div>
             </div>
         </div>
         <!-- <div class="row" style="padding-bottom: 2rem;">
@@ -670,16 +671,38 @@
     </div>
 
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top: 3rem; padding-bottom: 3rem;">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="redemptionPrint()">
-                    {{'BTN_Print1' | translate }}
-                </button>
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="redemptionEmail()">
-                    {{'BTN_Email1' | translate }}
-                </button>
+        <div class="row text-center" style="padding-top:2rem;padding-bottom:2rem;">
+            <div class="cont1" style="margin-left: auto; margin-right: auto;">
+                <div class="row" *ngIf="Print_Visible && Email_Visible">
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="redemptionPrint()">
+                            {{'BTN_Print' | translate }}
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="redemptionEmail()">
+                            {{'BTN_Email' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="Print_Visible && !Email_Visible">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="redemptionPrint()">
+                            {{'BTN_Print' | translate }}
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="!Print_Visible && Email_Visible">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-next" id="UD_MainMenu"  (click)="redemptionEmail()">
+                            {{'BTN_Email' | translate }}
+                        </button>
+                    </div>
+                </div>
+
             </div>
-            
         </div>
     </footer>
     

@@ -40,7 +40,7 @@
 
   
     <footer class="site-footer">
-        <div class="row text-center" style="padding-top:5rem;">
+        <div class="row text-center" style="padding-top:5rem;padding-bottom:5rem;">
             <div class="col-md-12">
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="Back()">
                     {{'BTN_Back' | translate }}
@@ -221,6 +221,7 @@
                         {{fs.desc}}
                     </option>
                 </select>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sourceFundWarning">{{'SourceOfFundWarning' | translate}}</div>
             </div>
         </div>
         <div class="row">
@@ -352,6 +353,7 @@
                         {{type.desc}}
                     </option>
                 </select>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdictypeWarning">{{'ThirdICTypeWarning' | translate}}</div>
             </div>
         </div>
         <div class="row">
@@ -363,7 +365,7 @@
             </div>
             <div class="col-md-6">
                 <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_3.controls["icno"]' #thirdicno>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdicnoWarning">{{'Warning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdicnoWarning">{{'ThirdICWarning' | translate}}</div>
             </div>
         </div>
         <div class="row">
@@ -375,7 +377,7 @@
             </div>
             <div class="col-md-6">
                 <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_3.controls["uhid"]' #thirduhid>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirduhidWarning">{{'Warning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirduhidWarning">{{'ThirdUHIDWarning' | translate}}</div>
             </div>
         </div>
         <div class="row">
@@ -387,7 +389,7 @@
             </div>
             <div class="col-md-6">
                 <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_3.controls["name"]' #thirdname>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdnameWarning">{{'Warning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdnameWarning">{{'ThirdNameWarning' | translate}}</div>
             </div>
         </div>
         <div class="row">
@@ -404,6 +406,7 @@
                         {{rea.desc}}
                     </option>
                 </select>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdreasonWarning">{{'ThirdReasonWarning' | translate}}</div>
             </div>
         </div>
         <div class="row">
@@ -420,6 +423,7 @@
                         {{re.desc}}
                     </option>
                 </select>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdrelationshipWarning">{{'ThirdRelationshipWarning' | translate}}</div>
             </div>
         </div>
         <div class="row">
@@ -430,12 +434,13 @@
                 </h4>
             </div>
             <div class="col-md-6">
-                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["fundname"]' #thirdfundname>
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["fund"]' #thirdfundname>
                     <option value="">{{ 'optionSelect' | translate }}</option>
                     <option *ngFor="let fund of fundnamelist" value={{fund.code}}>
                         {{fund.value}}
                     </option>
                 </select>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdfundWarning">{{'ThirdFundWarning' | translate}}</div>
             </div>
         </div>
         <div class="row" style="padding-bottom: 1.75rem;">
@@ -447,7 +452,7 @@
             </div>
             <div class="col-md-6" >
                 <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_3.controls["amount"]' #thirdamount>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdamountWarning">{{'Warning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdamountWarning">{{'AWarning' | translate}}</div>
             </div>
         </div>
     </div>

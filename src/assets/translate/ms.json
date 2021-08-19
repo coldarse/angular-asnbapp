@@ -339,8 +339,8 @@
 	"UnitsAlloted": "Unit Depertentukan",
 	"InitialSalesCharge": "Caj Jualan Permulaan (RM)",
 	"SIStep6_1": "Transaksi diterima dan akan diproses. Maklumat pelaburan anda akan dikemas kini dalam 2 hari bekerja.",
-	"AWarning": "Jumlah adalah wajib.",
-	"FWarning": "Nama Pemberi Dana adalah wajib.",
+	"AWarning": "Sila isikan jumlah.",
+	"FWarning": "Sila isikan Nama Pemberi Dana.",
 	"Third": "AKAUN PIHAK KETIGA",
 	"ICType": "Jenis ID",
 	"ReasonForTransfer": "Tujuan Pemindahan",
@@ -423,5 +423,13 @@
 	"RegistrationConfirmationMessage": "Nombor telefon bimbit anda belum dikemas kini. Sila kemas kini nombor telefon bimbit anda dan profil anda sebelum meneruskan pendaftaran Portal myASNB. Sebarang pertanyaan, sila rujuk pegawai ASNB yang bertugas.",
 	"RegistrationConfirmationReminder": "Peringatan:",
 	"RegistrationConfirmationReminderMessage": "Sila pastikan tiada sekatan dibuat ke atas no 62000 di telefon bimbit atau oleh pembekal rangkaian telekomunikasi telefon bimbit anda.",
-	"PortalGatewayTimeout": "Sistem mengalami masalah teknikal. Sila rujuk pegawai ASNB yang bertugas."
+	"PortalGatewayTimeout": "Sistem mengalami masalah teknikal. Sila rujuk pegawai ASNB yang bertugas.",
+	"ThirdICWarning": "Sila isikan Nombor MyKad.",
+	"ThirdUHIDWarning": "Sila isikan Nombor Pemegang Unit.",
+	"ThirdNameWarning": "Sila isikan Nama.",
+	"ThirdReasonWarning": "Sila pilih tujuan.",
+	"ThirdRelationshipWarning": "Sila pilih hubungan.",
+	"ThirdFundWarning": "Sila pilih dana.",
+	"SourceOfFundWarning": "Sila pilih sumber dana.",
+	"ThirdICTypeWarning": "Sila pilih jenis ID."
 }

@@ -339,8 +339,8 @@
 	"UnitsAlloted": "Units Alloted",
 	"InitialSalesCharge": "Initial Sales Charge (RM)",
 	"SIStep6_1": "Transaction accepted. Perform balance enquiry to view your latest investment balance. Thank you.",
-	"AWarning": "Amount is required.",
-	"FWarning": "Funder Name is required.",
+	"AWarning": "Please key in amount.",
+	"FWarning": "Please insert Funder Name.",
 	"Third": "3rd PARTY ACCOUNT",
 	"ICType": "IC Type",
 	"ReasonForTransfer": "Reason for Transfer",
@@ -423,5 +423,13 @@
 	"RegistrationConfirmationMessage": "Your mobile number is not updated. Please update your mobile number and profile to register myASNB Portal. Please refer to ASNB Officer on-duty for further information.",
 	"RegistrationConfirmationReminder": "Reminder:",
 	"RegistrationConfirmationReminderMessage": "Please make sure no restrictions are placed on the number 62000 on your phone or telecommunications network provider.",
-	"PortalGatewayTimeout": "System encountered technical problems. Please refer to ASNB Officer on-duty for further information."
+	"PortalGatewayTimeout": "System encountered technical problems. Please refer to ASNB Officer on-duty for further information.",
+	"ThirdICWarning": "Please insert MyKad Number.",
+	"ThirdUHIDWarning": "Please insert UHID.",
+	"ThirdNameWarning": "Please insert Name.",
+	"ThirdReasonWarning": "Please select a reason.",
+	"ThirdRelationshipWarning": "Please select a relationship.",
+	"ThirdFundWarning": "Please select a fund.",
+	"SourceOfFundWarning": "Please select a source.",
+	"ThirdICTypeWarning": "Please select an IC Type."
 }

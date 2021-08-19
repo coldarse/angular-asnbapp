@@ -38,11 +38,15 @@ export class TransferswitchingComponent implements OnInit {
   @ViewChild('sfundid') sfundid : ElementRef | undefined;
   @ViewChild('samount') samount : ElementRef | undefined;
 
+  transferswitching1 = false;
   transferswitching = false;
   istransfer = false;
   isswitching = false;
   isOwn = false;
   isBijak = false;
+
+  Print_Visible = true;
+  Email_Visible = true;
 
   refno = "";
   nav = 0;
@@ -60,6 +64,13 @@ export class TransferswitchingComponent implements OnInit {
   transferamountWarning = false;
 
   switchingamountWarning = false;
+
+  transferreasonWarning = false;
+  transferrelationshipWarning = false;
+  switchingFundWarning = false;
+
+  isTransferSwitchingMajor = false;
+  isTransferSwitchingMinor = false;
 
   BijakVisible = false;
 
@@ -141,7 +152,9 @@ export class TransferswitchingComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
 
     if(appFunc.isOwn == "major"){
+      this.isTransferSwitchingMajor = true;
       this.isOwn = true;
+      this.transferswitching1 = true;
       this.transferswitching = true;
       this.fundDetails = currentHolder.funddetail;
       this.unitholderid = currentHolder.unitholderid;
@@ -174,6 +187,8 @@ export class TransferswitchingComponent implements OnInit {
         });
       });
     }else{
+      this.transferswitching1 = true;
+      this.isTransferSwitchingMinor = true;
       this.isBijak = true;
       this.BijakVisible = true;
     }
@@ -334,6 +349,13 @@ export class TransferswitchingComponent implements OnInit {
     this.Form_1.controls.uhic.setValue(this.tuhic?.nativeElement.value);
     this.Form_1.controls.amount.setValue(this.tamount?.nativeElement.value);
 
+    this.uhidWarning = false;
+    this.uhnameWarning = false;
+    this.uhictypeWarning = false;
+    this.uhicWarning = false;
+    this.transferamountWarning = false;
+    this.transferreasonWarning = false;
+    this.transferrelationshipWarning = false;
 
     let x = 0;
     Object.keys(this.Form_1.controls).forEach(key => {
@@ -353,6 +375,12 @@ export class TransferswitchingComponent implements OnInit {
         }
         else if(key.includes('amount')){
           this.transferamountWarning = true;
+        }
+        else if(key.includes('reason')){
+          this.transferreasonWarning = true;
+        }
+        else if(key.includes('relationship')){
+          this.transferrelationshipWarning = true;
         }
       }
     });
@@ -527,6 +555,20 @@ export class TransferswitchingComponent implements OnInit {
                 this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
                 this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
                 this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
+              
+                if (currentHolder.email == ""){
+                  this.Email_Visible = false;
+                }
+                else{
+                  this.Email_Visible = true;
+                }
+        
+                if(signalrConnection.kioskType == 'Mobile'){
+                  this.Print_Visible = false;
+                }
+                else{
+                  this.Print_Visible = true;
+                }
               }
               else{
                 errorCodes.Ecode = result1.result.rejectcode;
@@ -839,6 +881,9 @@ export class TransferswitchingComponent implements OnInit {
 
   switching1Next(){
     this.Form_2.controls.amount.setValue(this.samount?.nativeElement.value);
+
+    this.switchingamountWarning = false;
+    this.switchingFundWarning = false;
    
     let x = 0;
     Object.keys(this.Form_2.controls).forEach(key => {
@@ -846,6 +891,9 @@ export class TransferswitchingComponent implements OnInit {
         x += 1;
         if(key.includes('amount')){
           this.switchingamountWarning = true;
+        }
+        else if(key.includes('fundname')){
+          this.switchingFundWarning = true;
         }
       }
     });
@@ -997,6 +1045,20 @@ export class TransferswitchingComponent implements OnInit {
                 this.switchingSST = result.result.gstamount == "" ? 0 : result.result.gstamount;
                 this.switchingUnitsTo = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
                 this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
+
+                if (currentHolder.email == ""){
+                  this.Email_Visible = false;
+                }
+                else{
+                  this.Email_Visible = true;
+                }
+        
+                if(signalrConnection.kioskType == 'Mobile'){
+                  this.Print_Visible = false;
+                }
+                else{
+                  this.Print_Visible = true;
+                }
               }
               else{
                 errorCodes.Ecode = result1.result.rejectcode;
@@ -1249,15 +1311,15 @@ export class TransferswitchingComponent implements OnInit {
       uhname: ['', Validators.required],
       ictype:['', Validators.required],
       uhic: ['', Validators.required],
-      reason: [''],
-      relationship: [''],
+      reason: ['', Validators.required],
+      relationship: ['', Validators.required],
       amount: ['', Validators.required],
     });
   }
 
   initializeForm2(){
     this.Form_2 = this.fb.group({
-      fundname: [''],
+      fundname: ['', Validators.required],
       amount: ['', Validators.required],
     });
   }

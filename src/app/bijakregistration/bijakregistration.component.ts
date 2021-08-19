@@ -864,7 +864,8 @@ export class BijakregistrationComponent implements OnInit {
               }
             }
             
-            this.religion = currentMyKadDetails.Religion;
+            this.religion = currentMyKidDetails.FathersReligion;
+            if(this.religion == ""){ this.religion = currentMyKidDetails.MothersReligion; }
             if(this.religion.toLowerCase().includes('islam')){
               this.religion = "M"
             }

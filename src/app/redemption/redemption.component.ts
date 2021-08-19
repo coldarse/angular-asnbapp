@@ -29,7 +29,7 @@ export class RedemptionComponent implements OnInit {
   @ViewChild('ramount1') amount1 : ElementRef | undefined;
   @ViewChild('ramount2') amount2 : ElementRef | undefined;
 
-  isOwn = true;
+  isOwn = false;
   isBijak = false;
   BijakVisible = false;
   redemption1 = false;
@@ -42,6 +42,9 @@ export class RedemptionComponent implements OnInit {
   Print2_Visible = false;
   EmailPage_Visible = false;
   transaction_Successful = false;
+
+  isRedemptionMajor = false;
+  isRedemptionMinor = false;
 
   fundDetails: any = [];
   newFundDetails: any = [];
@@ -63,6 +66,9 @@ export class RedemptionComponent implements OnInit {
   sst = 0;
   initialcharges = "";
   feepercentage = "";
+
+  Print_Visible = true;
+  Email_Visible = true;
 
   actualfundname = "Amanah Saham Bumiputera";
   cashinvestment =  "6103.00";
@@ -111,7 +117,7 @@ export class RedemptionComponent implements OnInit {
 
     if(appFunc.isOwn == "major"){
       this.isOwn = true;
-
+      this.isRedemptionMajor = true;
       this.fundDetails = currentHolder.funddetail;
       this.unitholderid = currentHolder.unitholderid;
       this.unitholdername = currentHolder.firstname;
@@ -166,11 +172,12 @@ export class RedemptionComponent implements OnInit {
       }
       
     }else{
-
+      this.isRedemptionMinor = true;
+      this.isBijak = true;
       if(appFunc.isRedirectFromRedemption == true){
         this.RedemptionBijakAccount();
       }else{
-        this.isBijak = true;
+        
         this.BijakVisible = true;
       }
       
@@ -494,6 +501,20 @@ export class RedemptionComponent implements OnInit {
             this.initialcharges = "0";
           }
           this.sst = 0;
+
+          if (currentHolder.email == ""){
+            this.Email_Visible = false;
+          }
+          else{
+            this.Email_Visible = true;
+          }
+  
+          if(signalrConnection.kioskType == 'Mobile'){
+            this.Print_Visible = false;
+          }
+          else{
+            this.Print_Visible = true;
+          }
 
           this.redemption3 = false;
           this.redemption4 = true;

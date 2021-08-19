@@ -86,6 +86,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
   thirduhidWarning = false;
   thirdnameWarning = false;
   thirdamountWarning = false;
+  thirdreasonWarning = false;
+  thirdrelationshipWarning = false;
+  thirdfundWarning = false;
+  sourceFundWarning = false;
+  thirdictypeWarning = false;
 
   unitholderid = "";  
   unitholdername = "";
@@ -337,13 +342,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   initializeForm3(){
     this.Form_3 = this.fb.group({
-      ictype: [''],
+      ictype: ['', Validators.required],
       icno: ['', Validators.required],
       uhid: ['', Validators.required],
       name: ['', Validators.required],
-      reason: [''],
-      relationship: [''],
-      fundname: [''],
+      reason: ['', Validators.required],
+      relationship: ['', Validators.required],
+      fund: ['', Validators.required],
       amount: ['', Validators.required]
     });
   }
@@ -452,6 +457,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
   SIStep2Next(){
     this.Form_1.controls.amount.setValue(this.amount?.nativeElement.value);
 
+    this.amountWarning = false;
+
     let x = 0;
     Object.keys(this.Form_1.controls).forEach(key => {
       if (this.Form_1.controls[key].hasError('required')){
@@ -498,6 +505,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.Form_2.controls.sourceoffund.setValue(this.source?.nativeElement.value);
     this.Form_2.controls.fundername.setValue(this.fundername?.nativeElement.value);
 
+    this.funderWarning = false;
+    this.sourceFundWarning = false;
+    
     let x = 0;
     Object.keys(this.Form_2.controls).forEach(key => {
       if (this.Form_2.controls[key].hasError('required')){
@@ -506,7 +516,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.funderWarning = true;
         }
         else if(key.includes('sourceoffund')){
-
+          this.sourceFundWarning = true;
         }
       }
     });
@@ -1101,6 +1111,15 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.Form_3.controls.name.setValue(this.thirdname?.nativeElement.value);
     this.Form_3.controls.amount.setValue(this.thirdamount?.nativeElement.value);
 
+    this.thirdicnoWarning = false;
+    this.thirduhidWarning = false;
+    this.thirdnameWarning = false;
+    this.thirdamountWarning = false;
+    this.thirdictypeWarning = false;
+    this.thirdreasonWarning = false;
+    this.thirdrelationshipWarning = false;
+    this.thirdfundWarning = false;
+
     let x = 0;
     Object.keys(this.Form_3.controls).forEach(key => {
       if (this.Form_3.controls[key].hasError('required')){
@@ -1117,6 +1136,18 @@ export class SubscriptioninvestmentComponent implements OnInit {
         else if(key.includes('amount')){
           this.thirdamountWarning = true;
         }
+        else if(key.includes('ictype')){
+          this.thirdictypeWarning = true;
+        }
+        else if(key.includes('reason')){
+          this.thirdreasonWarning = true;
+        }
+        else if(key.includes('relationship')){
+          this.thirdrelationshipWarning = true;
+        }
+        else if(key.includes('fund')){
+          this.thirdfundWarning = true;
+        }
       }
     });
     if (x > 0){
@@ -1128,7 +1159,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       this.thirdnamekeyed = this.Form_3.controls.name.value;
       this.thirdreasonkeyed = this.Form_3.controls.reason.value;
       this.thirdrelationshipkeyed = this.Form_3.controls.relationship.value;
-      this.thirdfundnamekeyed = this.Form_3.controls.fundname.value;
+      this.thirdfundnamekeyed = this.Form_3.controls.fund.value;
       this.thirdamountkeyed = this.Form_3.controls.amount.value;
 
       if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo)){
