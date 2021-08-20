@@ -272,6 +272,15 @@
                     </div>
                 </div>
             </div>
+            <div class="cont1" style="margin-left: auto; margin-right: auto;" *ngIf="!Print_Visible && !Email_Visible">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-cancel-white" id="CB2_Cancel" (click)="CancelCheckBalance()">
+                            {{'BTN_Cancel' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
 

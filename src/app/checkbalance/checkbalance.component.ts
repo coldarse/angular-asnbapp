@@ -122,7 +122,7 @@ export class CheckbalanceComponent implements OnInit {
       this.Print_Visible = true;
     }
 
-    if(currentHolder.email == ''){
+    if(currentHolder.email == 'NA' || currentHolder.email.trim() == ''){
       this.Email_Visible = false;
     }
     else{
@@ -1040,7 +1040,7 @@ export class CheckbalanceComponent implements OnInit {
       "IDENTIFICATIONTYPE": selectedMinorDetails.ICTYPE,
       "IDENTIFICATIONNUMBER": selectedMinorDetails.ICNO,
       "FUNDID": "",
-      "INQUIRYCODE": "5",
+      "INQUIRYCODE": "9",
       "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
       "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
       "BANKTXNREFERENCENUMBER": signalrConnection.trxno,

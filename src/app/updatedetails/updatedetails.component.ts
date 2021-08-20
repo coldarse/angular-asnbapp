@@ -411,7 +411,7 @@ export class UpdatedetailsComponent implements OnInit {
       "IDENTIFICATIONTYPE": selectedMinorDetails.ICTYPE,
       "IDENTIFICATIONNUMBER": selectedMinorDetails.ICNO,
       "FUNDID": "",
-      "INQUIRYCODE": "5",
+      "INQUIRYCODE": "9",
       "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
       "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
       "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
@@ -1769,7 +1769,7 @@ export class UpdatedetailsComponent implements OnInit {
 
           notelephone: [checkIsNaMobile],
 
-          email: [{value: isNaEmail, disabled: false}, [
+          email: [{value: isNaEmail, disabled: checkIsNaEmail}, [
             Validators.required,
             Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
           noemail: [{value: checkIsNaEmail, disabled: false}],
@@ -1976,7 +1976,7 @@ export class UpdatedetailsComponent implements OnInit {
         "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
         "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
         "FUNDID": "",
-        "INQUIRYCODE": "5",
+        "INQUIRYCODE": "9",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
         "BANKTXNREFERENCENUMBER": signalrConnection.trxno ,
@@ -2164,7 +2164,7 @@ export class UpdatedetailsComponent implements OnInit {
         "IDENTIFICATIONTYPE": "W",
         "IDENTIFICATIONNUMBER": currentBijakHolder.identificationnumber,
         "FUNDID": "",
-        "INQUIRYCODE": "5",
+        "INQUIRYCODE": "9",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
         "BANKTXNREFERENCENUMBER": signalrConnection.trxno,

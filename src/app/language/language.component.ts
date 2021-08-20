@@ -109,11 +109,11 @@ export class LanguageComponent implements OnInit {
       signalrConnection.connection.invoke('BranchCode').then((data: string) => {
         signalrConnection.branchCode = data;
       });
-      signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
-        if(data == false){
-          signalrConnection.kioskType = 'Mobile';
-        }
-      });
+      // signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+      //   if(data == false){
+      //     signalrConnection.kioskType = 'Mobile';
+      //   }
+      // });
       signalrConnection.connection.invoke('GetLoginToken').then((data: string) => {
         accessToken.token = data;
         accessToken.httpOptions = {

@@ -340,7 +340,7 @@ export class BijakregistrationComponent implements OnInit {
     let disableEmail = true;
     if (signalrConnection.kioskType == 'Mobile'){
       isMobile = true;
-      if(currentHolder.email == ''){
+      if(currentHolder.email.trim() == '' || currentHolder.email == 'NA'){
         disableEmail = false;
       }
     }
@@ -761,7 +761,7 @@ export class BijakregistrationComponent implements OnInit {
         "IDENTIFICATIONTYPE": "W",
         "IDENTIFICATIONNUMBER": currentMyKidDetails.ICNo,
         "FUNDID": "",
-        "INQUIRYCODE": "5",
+        "INQUIRYCODE": "9",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
         "BANKTXNREFERENCENUMBER": formatDate(new Date(), 'ddMMyyyy', 'en'),
@@ -1523,7 +1523,7 @@ export class BijakregistrationComponent implements OnInit {
         "IDENTIFICATIONTYPE": "W",
         "IDENTIFICATIONNUMBER": currentMyKidDetails.ICNo,
         "FUNDID": "",
-        "INQUIRYCODE": "5",
+        "INQUIRYCODE": "9",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
         "BANKTXNREFERENCENUMBER": signalrConnection.trxno,

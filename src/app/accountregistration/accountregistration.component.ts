@@ -1101,7 +1101,7 @@ export class AccountregistrationComponent implements OnInit {
         "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
         "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
         "FUNDID": "",
-        "INQUIRYCODE": "5",
+        "INQUIRYCODE": "9",
         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
         "BANKTXNREFERENCENUMBER": signalrConnection.trxno ,
