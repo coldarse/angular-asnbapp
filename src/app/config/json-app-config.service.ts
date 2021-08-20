@@ -22,7 +22,9 @@ export class JsonAppConfigService extends AppConfiguration {
         this.AESCrpytKey = data.AESCrpytKey;
         this.idletime = Number(data.idletime);
         this.popuptime = Number(data.popuptime);
-        this.thresholdForAdditionalInfo = Number(data.thresholdForAdditionalInfo)
+        this.thresholdForAdditionalInfo3 = Number(data.thresholdForAdditionalInfo3)
+        this.thresholdForAdditionalInfo2 = Number(data.thresholdForAdditionalInfo2)
+        this.thresholdForAdditionalInfo1 = Number(data.thresholdForAdditionalInfo1)
       })
       .catch(() => {
         console.error('Could not load configuration');

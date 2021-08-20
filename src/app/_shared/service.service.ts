@@ -254,6 +254,19 @@ export class ServiceService {
     )
   }
 
+  //Post AMLA
+  postAMLA(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/AMLA/OnlineScan",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
   //Get Dividend Statement
   dividendStatement(body: any){
     return this.http.post(

@@ -5,5 +5,7 @@ export class AppConfiguration {
   AESCrpytKey!: string;
   idletime! : number;
   popuptime! : number;
-  thresholdForAdditionalInfo!: number;
+  thresholdForAdditionalInfo3!: number;
+  thresholdForAdditionalInfo2!: number;
+  thresholdForAdditionalInfo1!: number;
 }

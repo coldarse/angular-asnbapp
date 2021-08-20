@@ -475,7 +475,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
       deleteKeyboard();
 
-      if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo)){
+      if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 20K
+
         this.SIStep2 = false;
         this.SIStep3 = true;
   
@@ -484,6 +485,223 @@ export class SubscriptioninvestmentComponent implements OnInit {
         setTimeout(() => {
           loadKeyboard();
         } , 1000);
+      }
+      else if(Number(this.amountKeyed) < Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){//Between 20k and 10k
+        if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.amountKeyed) <= Number(this.appConfig.thresholdForAdditionalInfo2)){//Between 10k and 15k
+
+          if(appFunc.isOwn == "bijak"){
+            if(currentBijakHolder.riskprofile == ""){
+              const AMLABody = 
+              {
+                "AuthUser": "AMLSVC",
+                "AuthPswd": "AMLSVC",
+                "Username": "Kiosk",
+                "BrCode": signalrConnection.branchCode,
+                "SysName": "Kiosk",
+                "ScanOption": "5",
+                "UniqueNo": currentBijakHolder.unitholderid,
+                "SearchName": currentBijakHolder.firstname,
+                "SearchCountry": "MY",
+                "SearchDOB": currentBijakHolder.dateofbirth,
+                "SearchID": currentBijakHolder.identificationnumber,
+                "PassportVerify": "0",
+                "SecurityNo1": "0",
+                "PassExpiryDtVerify": "0",
+                "PassExpiryDate": "0",
+                "SecurityNo2": "0",
+                "RiskFactors": `1#${currentBijakHolder.occupation}|${currentBijakHolder.occupationsector}|${currentBijakHolder.occupationcategory}|${currentBijakHolder.natureofbusiness}|${currentBijakHolder.otherinfO8}|${currentBijakHolder.pep}|${this.fundid}|${currentBijakHolder.branchcode}||`, 
+                "Content": "",
+                "RtnHit": "",
+                "RtnScanID": 0,
+                "RtnEnCryptScanID": ""
+              }
+    
+              this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+                if(data.result.rtnHit == "HC"){
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+            
+                  this.initializeForm2();
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }else{
+                  this.SIStep2 = false;
+                  this.SIStep4 = true;
+                }
+              });
+            }
+            else if(currentBijakHolder.riskprofile == "HC"){
+              this.SIStep2 = false;
+              this.SIStep3 = true;
+        
+              this.initializeForm2();
+        
+              setTimeout(() => {
+                loadKeyboard();
+              } , 1000);
+            }
+            else{
+              this.SIStep2 = false;
+              this.SIStep4 = true;
+            }
+          }
+          else{
+            if(currentHolder.riskprofile == ""){
+              const AMLABody = 
+              {
+                "AuthUser": "AMLSVC",
+                "AuthPswd": "AMLSVC",
+                "Username": "Kiosk",
+                "BrCode": signalrConnection.branchCode,
+                "SysName": "Kiosk",
+                "ScanOption": "5",
+                "UniqueNo": currentHolder.unitholderid,
+                "SearchName": currentHolder.firstname,
+                "SearchCountry": "MY",
+                "SearchDOB": currentHolder.dateofbirth,
+                "SearchID": currentHolder.identificationnumber,
+                "PassportVerify": "0",
+                "SecurityNo1": "0",
+                "PassExpiryDtVerify": "0",
+                "PassExpiryDate": "0",
+                "SecurityNo2": "0",
+                "RiskFactors": `1#${currentHolder.occupation}|${currentHolder.occupationsector}|${currentHolder.occupationcategory}|${currentHolder.natureofbusiness}|${currentHolder.otherinfO8}|${currentHolder.pep}|${this.fundid}|${currentHolder.branchcode}||`, 
+                "Content": "",
+                "RtnHit": "",
+                "RtnScanID": 0,
+                "RtnEnCryptScanID": ""
+              }
+    
+              this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+                if(data.result.rtnHit == "HC"){
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+            
+                  this.initializeForm2();
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }else{
+                  this.SIStep2 = false;
+                  this.SIStep4 = true;
+                }
+              });
+            }
+          }
+          
+        }
+        else{//Between 15k and 20k
+          if(appFunc.isOwn == "bijak"){
+            if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+              this.SIStep2 = false;
+              this.SIStep3 = true;
+        
+              this.initializeForm2();
+        
+              setTimeout(() => {
+                loadKeyboard();
+              } , 1000);
+            }
+            else{
+              const AMLABody = 
+              {
+                "AuthUser": "AMLSVC",
+                "AuthPswd": "AMLSVC",
+                "Username": "Kiosk",
+                "BrCode": signalrConnection.branchCode,
+                "SysName": "Kiosk",
+                "ScanOption": "5",
+                "UniqueNo": currentBijakHolder.unitholderid,
+                "SearchName": currentBijakHolder.firstname,
+                "SearchCountry": "MY",
+                "SearchDOB": currentBijakHolder.dateofbirth,
+                "SearchID": currentBijakHolder.identificationnumber,
+                "PassportVerify": "0",
+                "SecurityNo1": "0",
+                "PassExpiryDtVerify": "0",
+                "PassExpiryDate": "0",
+                "SecurityNo2": "0",
+                "RiskFactors": `1#${currentBijakHolder.occupation}|${currentBijakHolder.occupationsector}|${currentBijakHolder.occupationcategory}|${currentBijakHolder.natureofbusiness}|${currentBijakHolder.otherinfO8}|${currentBijakHolder.pep}|${this.fundid}|${currentBijakHolder.branchcode}||`, 
+                "Content": "",
+                "RtnHit": "",
+                "RtnScanID": 0,
+                "RtnEnCryptScanID": ""
+              }
+    
+              this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+                if(data.result.rtnHit == "HC"){
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+            
+                  this.initializeForm2();
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }else{
+                  this.SIStep2 = false;
+                  this.SIStep4 = true;
+                }
+              });
+            }
+          }else{
+            if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+              this.SIStep2 = false;
+              this.SIStep3 = true;
+        
+              this.initializeForm2();
+        
+              setTimeout(() => {
+                loadKeyboard();
+              } , 1000);
+            }
+            else{
+              const AMLABody = 
+              {
+                "AuthUser": "AMLSVC",
+                "AuthPswd": "AMLSVC",
+                "Username": "Kiosk",
+                "BrCode": signalrConnection.branchCode,
+                "SysName": "Kiosk",
+                "ScanOption": "5",
+                "UniqueNo": currentHolder.unitholderid,
+                "SearchName": currentHolder.firstname,
+                "SearchCountry": "MY",
+                "SearchDOB": currentHolder.dateofbirth,
+                "SearchID": currentHolder.identificationnumber,
+                "PassportVerify": "0",
+                "SecurityNo1": "0",
+                "PassExpiryDtVerify": "0",
+                "PassExpiryDate": "0",
+                "SecurityNo2": "0",
+                "RiskFactors": `1#${currentHolder.occupation}|${currentHolder.occupationsector}|${currentHolder.occupationcategory}|${currentHolder.natureofbusiness}|${currentHolder.otherinfO8}|${currentHolder.pep}|${this.fundid}|${currentHolder.branchcode}||`, 
+                "Content": "",
+                "RtnHit": "",
+                "RtnScanID": 0,
+                "RtnEnCryptScanID": ""
+              }
+    
+              this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+                if(data.result.rtnHit == "HC"){
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+            
+                  this.initializeForm2();
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }else{
+                  this.SIStep2 = false;
+                  this.SIStep4 = true;
+                }
+              });
+            }
+          }
+        }
       }
       else{
         this.SIStep2 = false;
@@ -534,23 +752,263 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   SIStep4Back(){
-    if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo)){
+    if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 20K
+
       this.SIStep4 = false;
       this.SIStep3 = true;
-
 
       setTimeout(() => {
         loadKeyboard();
       } , 1000);
     }
+    else if(Number(this.amountKeyed) < Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){//Between 20k and 10k
+      if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.amountKeyed) <= Number(this.appConfig.thresholdForAdditionalInfo2)){//Between 10k and 15k
+
+        if(appFunc.isOwn == "bijak"){
+          if(currentBijakHolder.riskprofile == ""){
+            const AMLABody = 
+            {
+              "AuthUser": "AMLSVC",
+              "AuthPswd": "AMLSVC",
+              "Username": "Kiosk",
+              "BrCode": signalrConnection.branchCode,
+              "SysName": "Kiosk",
+              "ScanOption": "5",
+              "UniqueNo": currentBijakHolder.unitholderid,
+              "SearchName": currentBijakHolder.firstname,
+              "SearchCountry": "MY",
+              "SearchDOB": currentBijakHolder.dateofbirth,
+              "SearchID": currentBijakHolder.identificationnumber,
+              "PassportVerify": "0",
+              "SecurityNo1": "0",
+              "PassExpiryDtVerify": "0",
+              "PassExpiryDate": "0",
+              "SecurityNo2": "0",
+              "RiskFactors": `1#${currentBijakHolder.occupation}|${currentBijakHolder.occupationsector}|${currentBijakHolder.occupationcategory}|${currentBijakHolder.natureofbusiness}|${currentBijakHolder.otherinfO8}|${currentBijakHolder.pep}|${this.fundid}|${currentBijakHolder.branchcode}||`, 
+              "Content": "",
+              "RtnHit": "",
+              "RtnScanID": 0,
+              "RtnEnCryptScanID": ""
+            }
+  
+            this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+              if(data.result.rtnHit == "HC"){
+                this.SIStep4 = false;
+                this.SIStep3 = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }else{
+                this.SIStep4 = false;
+                this.SIStep2 = true;
+
+                setTimeout(() => {  
+                  loadKeyboard();
+                } , 1000);
+              }
+            });
+          }
+          else if(currentBijakHolder.riskprofile == "HC"){
+            this.SIStep4 = false;
+            this.SIStep3 = true;
+      
+            setTimeout(() => {
+              loadKeyboard();
+            } , 1000);
+          }
+          else{
+            this.SIStep4 = false;
+            this.SIStep2 = true;
+
+            setTimeout(() => {  
+              loadKeyboard();
+            } , 1000);
+          }
+        }
+        else{
+          if(currentHolder.riskprofile == ""){
+            const AMLABody = 
+            {
+              "AuthUser": "AMLSVC",
+              "AuthPswd": "AMLSVC",
+              "Username": "Kiosk",
+              "BrCode": signalrConnection.branchCode,
+              "SysName": "Kiosk",
+              "ScanOption": "5",
+              "UniqueNo": currentHolder.unitholderid,
+              "SearchName": currentHolder.firstname,
+              "SearchCountry": "MY",
+              "SearchDOB": currentHolder.dateofbirth,
+              "SearchID": currentHolder.identificationnumber,
+              "PassportVerify": "0",
+              "SecurityNo1": "0",
+              "PassExpiryDtVerify": "0",
+              "PassExpiryDate": "0",
+              "SecurityNo2": "0",
+              "RiskFactors": `1#${currentHolder.occupation}|${currentHolder.occupationsector}|${currentHolder.occupationcategory}|${currentHolder.natureofbusiness}|${currentHolder.otherinfO8}|${currentHolder.pep}|${this.fundid}|${currentHolder.branchcode}||`, 
+              "Content": "",
+              "RtnHit": "",
+              "RtnScanID": 0,
+              "RtnEnCryptScanID": ""
+            }
+  
+            this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+              if(data.result.rtnHit == "HC"){
+                this.SIStep4 = false;
+                this.SIStep3 = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }else{
+                this.SIStep4 = false;
+                this.SIStep2 = true;
+
+                setTimeout(() => {  
+                  loadKeyboard();
+                } , 1000);
+              }
+            });
+          }
+        }
+        
+      }
+      else{//Between 15k and 20k
+        if(appFunc.isOwn == "bijak"){
+          if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+            this.SIStep4 = false;
+            this.SIStep3 = true;
+      
+            setTimeout(() => {
+              loadKeyboard();
+            } , 1000);
+          }
+          else{
+            const AMLABody = 
+            {
+              "AuthUser": "AMLSVC",
+              "AuthPswd": "AMLSVC",
+              "Username": "Kiosk",
+              "BrCode": signalrConnection.branchCode,
+              "SysName": "Kiosk",
+              "ScanOption": "5",
+              "UniqueNo": currentBijakHolder.unitholderid,
+              "SearchName": currentBijakHolder.firstname,
+              "SearchCountry": "MY",
+              "SearchDOB": currentBijakHolder.dateofbirth,
+              "SearchID": currentBijakHolder.identificationnumber,
+              "PassportVerify": "0",
+              "SecurityNo1": "0",
+              "PassExpiryDtVerify": "0",
+              "PassExpiryDate": "0",
+              "SecurityNo2": "0",
+              "RiskFactors": `1#${currentBijakHolder.occupation}|${currentBijakHolder.occupationsector}|${currentBijakHolder.occupationcategory}|${currentBijakHolder.natureofbusiness}|${currentBijakHolder.otherinfO8}|${currentBijakHolder.pep}|${this.fundid}|${currentBijakHolder.branchcode}||`, 
+              "Content": "",
+              "RtnHit": "",
+              "RtnScanID": 0,
+              "RtnEnCryptScanID": ""
+            }
+  
+            this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+              if(data.result.rtnHit == "HC"){
+                this.SIStep4 = false;
+                this.SIStep3 = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }else{
+                this.SIStep4 = false;
+                this.SIStep2 = true;
+
+                setTimeout(() => {  
+                  loadKeyboard();
+                } , 1000);
+              }
+            });
+          }
+        }else{
+          if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+            this.SIStep4 = false;
+            this.SIStep3 = true;
+      
+            setTimeout(() => {
+              loadKeyboard();
+            } , 1000);
+          }
+          else{
+            const AMLABody = 
+            {
+              "AuthUser": "AMLSVC",
+              "AuthPswd": "AMLSVC",
+              "Username": "Kiosk",
+              "BrCode": signalrConnection.branchCode,
+              "SysName": "Kiosk",
+              "ScanOption": "5",
+              "UniqueNo": currentHolder.unitholderid,
+              "SearchName": currentHolder.firstname,
+              "SearchCountry": "MY",
+              "SearchDOB": currentHolder.dateofbirth,
+              "SearchID": currentHolder.identificationnumber,
+              "PassportVerify": "0",
+              "SecurityNo1": "0",
+              "PassExpiryDtVerify": "0",
+              "PassExpiryDate": "0",
+              "SecurityNo2": "0",
+              "RiskFactors": `1#${currentHolder.occupation}|${currentHolder.occupationsector}|${currentHolder.occupationcategory}|${currentHolder.natureofbusiness}|${currentHolder.otherinfO8}|${currentHolder.pep}|${this.fundid}|${currentHolder.branchcode}||`, 
+              "Content": "",
+              "RtnHit": "",
+              "RtnScanID": 0,
+              "RtnEnCryptScanID": ""
+            }
+  
+            this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+              if(data.result.rtnHit == "HC"){
+                this.SIStep4 = false;
+                this.SIStep3 = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }else{
+                this.SIStep4 = false;
+                this.SIStep2 = true;
+
+                setTimeout(() => {  
+                  loadKeyboard();
+                } , 1000);
+              }
+            });
+          }
+        }
+      }
+    }
     else{
       this.SIStep4 = false;
       this.SIStep2 = true;
 
-      setTimeout(() => {  
+      setTimeout(() => {
         loadKeyboard();
       } , 1000);
     }
+    // if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){
+    //   this.SIStep4 = false;
+    //   this.SIStep3 = true;
+
+
+    //   setTimeout(() => {
+    //     loadKeyboard();
+    //   } , 1000);
+    // }
+    // else{
+    //   this.SIStep4 = false;
+    //   this.SIStep2 = true;
+
+    //   setTimeout(() => {  
+    //     loadKeyboard();
+    //   } , 1000);
+    // }
     
   }
 
@@ -1162,21 +1620,251 @@ export class SubscriptioninvestmentComponent implements OnInit {
       this.thirdfundnamekeyed = this.Form_3.controls.fund.value;
       this.thirdamountkeyed = this.Form_3.controls.amount.value;
 
-      if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo)){
+      deleteKeyboard();
+
+      if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 20K
+
         this.STPStep1 = false;
         this.STPStep2 = true;
-        deleteKeyboard();
 
         this.initializeForm4();
+  
+        setTimeout(() => {
+          loadKeyboard();
+        } , 1000);
+      }
+      else if(Number(this.thirdamountkeyed) < Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){//Between 20k and 10k
+        if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.thirdamountkeyed) <= Number(this.appConfig.thresholdForAdditionalInfo2)){//Between 10k and 15k
+
+          if(appFunc.isOwn == "bijak"){
+            if(currentBijakHolder.riskprofile == ""){
+              const AMLABody = 
+              {
+                "AuthUser": "AMLSVC",
+                "AuthPswd": "AMLSVC",
+                "Username": "Kiosk",
+                "BrCode": signalrConnection.branchCode,
+                "SysName": "Kiosk",
+                "ScanOption": "5",
+                "UniqueNo": currentBijakHolder.unitholderid,
+                "SearchName": currentBijakHolder.firstname,
+                "SearchCountry": "MY",
+                "SearchDOB": currentBijakHolder.dateofbirth,
+                "SearchID": currentBijakHolder.identificationnumber,
+                "PassportVerify": "0",
+                "SecurityNo1": "0",
+                "PassExpiryDtVerify": "0",
+                "PassExpiryDate": "0",
+                "SecurityNo2": "0",
+                "RiskFactors": `1#${currentBijakHolder.occupation}|${currentBijakHolder.occupationsector}|${currentBijakHolder.occupationcategory}|${currentBijakHolder.natureofbusiness}|${currentBijakHolder.otherinfO8}|${currentBijakHolder.pep}|${this.fundid}|${currentBijakHolder.branchcode}||`, 
+                "Content": "",
+                "RtnHit": "",
+                "RtnScanID": 0,
+                "RtnEnCryptScanID": ""
+              }
+    
+              this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+                if(data.result.rtnHit == "HC"){
+                  this.STPStep1 = false;
+                  this.STPStep2 = true;
+
+                  this.initializeForm4();
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }else{
+                  this.STPStep1 = false;
+                  this.STPStep3 = true; 
+                }
+              });
+            }
+            else if(currentBijakHolder.riskprofile == "HC"){
+              this.STPStep1 = false;
+              this.STPStep2 = true;
+
+              this.initializeForm4();
+        
+              setTimeout(() => {
+                loadKeyboard();
+              } , 1000);
+            }
+            else{
+              this.STPStep1 = false;
+              this.STPStep3 = true; 
+            }
+          }
+          else{
+            if(currentHolder.riskprofile == ""){
+              const AMLABody = 
+              {
+                "AuthUser": "AMLSVC",
+                "AuthPswd": "AMLSVC",
+                "Username": "Kiosk",
+                "BrCode": signalrConnection.branchCode,
+                "SysName": "Kiosk",
+                "ScanOption": "5",
+                "UniqueNo": currentHolder.unitholderid,
+                "SearchName": currentHolder.firstname,
+                "SearchCountry": "MY",
+                "SearchDOB": currentHolder.dateofbirth,
+                "SearchID": currentHolder.identificationnumber,
+                "PassportVerify": "0",
+                "SecurityNo1": "0",
+                "PassExpiryDtVerify": "0",
+                "PassExpiryDate": "0",
+                "SecurityNo2": "0",
+                "RiskFactors": `1#${currentHolder.occupation}|${currentHolder.occupationsector}|${currentHolder.occupationcategory}|${currentHolder.natureofbusiness}|${currentHolder.otherinfO8}|${currentHolder.pep}|${this.fundid}|${currentHolder.branchcode}||`, 
+                "Content": "",
+                "RtnHit": "",
+                "RtnScanID": 0,
+                "RtnEnCryptScanID": ""
+              }
+    
+              this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+                if(data.result.rtnHit == "HC"){
+                  this.STPStep1 = false;
+                  this.STPStep2 = true;
+
+                  this.initializeForm4();
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }else{
+                  this.STPStep1 = false;
+                  this.STPStep3 = true; 
+                }
+              });
+            }
+          }
+          
+        }
+        else{//Between 15k and 20k
+          if(appFunc.isOwn == "bijak"){
+            if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+              this.STPStep1 = false;
+              this.STPStep2 = true;
+
+              this.initializeForm4();
+        
+              setTimeout(() => {
+                loadKeyboard();
+              } , 1000);
+            }
+            else{
+              const AMLABody = 
+              {
+                "AuthUser": "AMLSVC",
+                "AuthPswd": "AMLSVC",
+                "Username": "Kiosk",
+                "BrCode": signalrConnection.branchCode,
+                "SysName": "Kiosk",
+                "ScanOption": "5",
+                "UniqueNo": currentBijakHolder.unitholderid,
+                "SearchName": currentBijakHolder.firstname,
+                "SearchCountry": "MY",
+                "SearchDOB": currentBijakHolder.dateofbirth,
+                "SearchID": currentBijakHolder.identificationnumber,
+                "PassportVerify": "0",
+                "SecurityNo1": "0",
+                "PassExpiryDtVerify": "0",
+                "PassExpiryDate": "0",
+                "SecurityNo2": "0",
+                "RiskFactors": `1#${currentBijakHolder.occupation}|${currentBijakHolder.occupationsector}|${currentBijakHolder.occupationcategory}|${currentBijakHolder.natureofbusiness}|${currentBijakHolder.otherinfO8}|${currentBijakHolder.pep}|${this.fundid}|${currentBijakHolder.branchcode}||`, 
+                "Content": "",
+                "RtnHit": "",
+                "RtnScanID": 0,
+                "RtnEnCryptScanID": ""
+              }
+    
+              this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+                if(data.result.rtnHit == "HC"){
+                  this.STPStep1 = false;
+                  this.STPStep2 = true;
+
+                  this.initializeForm4();
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }else{
+                  this.STPStep1 = false;
+                  this.STPStep3 = true; 
+                }
+              });
+            }
+          }else{
+            if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+              this.STPStep1 = false;
+              this.STPStep2 = true;
+
+              this.initializeForm4();
+        
+              setTimeout(() => {
+                loadKeyboard();
+              } , 1000);
+            }
+            else{
+              const AMLABody = 
+              {
+                "AuthUser": "AMLSVC",
+                "AuthPswd": "AMLSVC",
+                "Username": "Kiosk",
+                "BrCode": signalrConnection.branchCode,
+                "SysName": "Kiosk",
+                "ScanOption": "5",
+                "UniqueNo": currentHolder.unitholderid,
+                "SearchName": currentHolder.firstname,
+                "SearchCountry": "MY",
+                "SearchDOB": currentHolder.dateofbirth,
+                "SearchID": currentHolder.identificationnumber,
+                "PassportVerify": "0",
+                "SecurityNo1": "0",
+                "PassExpiryDtVerify": "0",
+                "PassExpiryDate": "0",
+                "SecurityNo2": "0",
+                "RiskFactors": `1#${currentHolder.occupation}|${currentHolder.occupationsector}|${currentHolder.occupationcategory}|${currentHolder.natureofbusiness}|${currentHolder.otherinfO8}|${currentHolder.pep}|${this.fundid}|${currentHolder.branchcode}||`, 
+                "Content": "",
+                "RtnHit": "",
+                "RtnScanID": 0,
+                "RtnEnCryptScanID": ""
+              }
+    
+              this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+                if(data.result.rtnHit == "HC"){
+                  this.STPStep1 = false;
+                  this.STPStep2 = true;
+
+                  this.initializeForm4();
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }else{
+                  this.STPStep1 = false;
+                  this.STPStep3 = true; 
+                }
+              });
+            }
+          }
+        }
       }
       else{
         this.STPStep1 = false;
         this.STPStep3 = true; 
-  
-        deleteKeyboard();
-
-        this.initializeForm4();
       }
+
+      // if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){
+      //   this.STPStep1 = false;
+      //   this.STPStep2 = true;
+
+      //   this.initializeForm4();
+      // }
+      // else{
+      //   this.STPStep1 = false;
+      //   this.STPStep3 = true; 
+      // }
 
       
     }
@@ -1211,9 +1899,237 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   STPStep3Back(){
-    if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo)){
+    if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 20K
+
       this.STPStep3 = false;
       this.STPStep2 = true;
+
+      setTimeout(() => {
+        loadKeyboard();
+      } , 1000);
+    }
+    else if(Number(this.thirdamountkeyed) < Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){//Between 20k and 10k
+      if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.thirdamountkeyed) <= Number(this.appConfig.thresholdForAdditionalInfo2)){//Between 10k and 15k
+
+        if(appFunc.isOwn == "bijak"){
+          if(currentBijakHolder.riskprofile == ""){
+            const AMLABody = 
+            {
+              "AuthUser": "AMLSVC",
+              "AuthPswd": "AMLSVC",
+              "Username": "Kiosk",
+              "BrCode": signalrConnection.branchCode,
+              "SysName": "Kiosk",
+              "ScanOption": "5",
+              "UniqueNo": currentBijakHolder.unitholderid,
+              "SearchName": currentBijakHolder.firstname,
+              "SearchCountry": "MY",
+              "SearchDOB": currentBijakHolder.dateofbirth,
+              "SearchID": currentBijakHolder.identificationnumber,
+              "PassportVerify": "0",
+              "SecurityNo1": "0",
+              "PassExpiryDtVerify": "0",
+              "PassExpiryDate": "0",
+              "SecurityNo2": "0",
+              "RiskFactors": `1#${currentBijakHolder.occupation}|${currentBijakHolder.occupationsector}|${currentBijakHolder.occupationcategory}|${currentBijakHolder.natureofbusiness}|${currentBijakHolder.otherinfO8}|${currentBijakHolder.pep}|${this.fundid}|${currentBijakHolder.branchcode}||`, 
+              "Content": "",
+              "RtnHit": "",
+              "RtnScanID": 0,
+              "RtnEnCryptScanID": ""
+            }
+  
+            this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+              if(data.result.rtnHit == "HC"){
+                this.STPStep3 = false;
+                this.STPStep2 = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }else{
+                this.STPStep3 = false;
+                this.STPStep1 = true;
+
+                setTimeout(() => {  
+                  loadKeyboard();
+                } , 1000);
+              }
+            });
+          }
+          else if(currentBijakHolder.riskprofile == "HC"){
+            this.STPStep3 = false;
+            this.STPStep2 = true;
+      
+            setTimeout(() => {
+              loadKeyboard();
+            } , 1000);
+          }
+          else{
+            this.STPStep3 = false;
+            this.STPStep1 = true;
+
+            setTimeout(() => {  
+              loadKeyboard();
+            } , 1000);
+          }
+        }
+        else{
+          if(currentHolder.riskprofile == ""){
+            const AMLABody = 
+            {
+              "AuthUser": "AMLSVC",
+              "AuthPswd": "AMLSVC",
+              "Username": "Kiosk",
+              "BrCode": signalrConnection.branchCode,
+              "SysName": "Kiosk",
+              "ScanOption": "5",
+              "UniqueNo": currentHolder.unitholderid,
+              "SearchName": currentHolder.firstname,
+              "SearchCountry": "MY",
+              "SearchDOB": currentHolder.dateofbirth,
+              "SearchID": currentHolder.identificationnumber,
+              "PassportVerify": "0",
+              "SecurityNo1": "0",
+              "PassExpiryDtVerify": "0",
+              "PassExpiryDate": "0",
+              "SecurityNo2": "0",
+              "RiskFactors": `1#${currentHolder.occupation}|${currentHolder.occupationsector}|${currentHolder.occupationcategory}|${currentHolder.natureofbusiness}|${currentHolder.otherinfO8}|${currentHolder.pep}|${this.fundid}|${currentHolder.branchcode}||`, 
+              "Content": "",
+              "RtnHit": "",
+              "RtnScanID": 0,
+              "RtnEnCryptScanID": ""
+            }
+  
+            this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+              if(data.result.rtnHit == "HC"){
+                this.STPStep3 = false;
+                this.STPStep2 = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }else{
+                this.STPStep3 = false;
+                this.STPStep1 = true;
+
+                setTimeout(() => {  
+                  loadKeyboard();
+                } , 1000);
+              }
+            });
+          }
+        }
+        
+      }
+      else{//Between 15k and 20k
+        if(appFunc.isOwn == "bijak"){
+          if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+            this.STPStep3 = false;
+            this.STPStep2 = true;
+      
+            setTimeout(() => {
+              loadKeyboard();
+            } , 1000);
+          }
+          else{
+            const AMLABody = 
+            {
+              "AuthUser": "AMLSVC",
+              "AuthPswd": "AMLSVC",
+              "Username": "Kiosk",
+              "BrCode": signalrConnection.branchCode,
+              "SysName": "Kiosk",
+              "ScanOption": "5",
+              "UniqueNo": currentBijakHolder.unitholderid,
+              "SearchName": currentBijakHolder.firstname,
+              "SearchCountry": "MY",
+              "SearchDOB": currentBijakHolder.dateofbirth,
+              "SearchID": currentBijakHolder.identificationnumber,
+              "PassportVerify": "0",
+              "SecurityNo1": "0",
+              "PassExpiryDtVerify": "0",
+              "PassExpiryDate": "0",
+              "SecurityNo2": "0",
+              "RiskFactors": `1#${currentBijakHolder.occupation}|${currentBijakHolder.occupationsector}|${currentBijakHolder.occupationcategory}|${currentBijakHolder.natureofbusiness}|${currentBijakHolder.otherinfO8}|${currentBijakHolder.pep}|${this.fundid}|${currentBijakHolder.branchcode}||`, 
+              "Content": "",
+              "RtnHit": "",
+              "RtnScanID": 0,
+              "RtnEnCryptScanID": ""
+            }
+  
+            this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+              if(data.result.rtnHit == "HC"){
+                this.STPStep3 = false;
+                this.STPStep2 = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }else{
+                this.STPStep3 = false;
+                this.STPStep1 = true;
+
+                setTimeout(() => {  
+                  loadKeyboard();
+                } , 1000); 
+              }
+            });
+          }
+        }else{
+          if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+            this.STPStep3 = false;
+            this.STPStep2 = true;
+      
+            setTimeout(() => {
+              loadKeyboard();
+            } , 1000);
+          }
+          else{
+            const AMLABody = 
+            {
+              "AuthUser": "AMLSVC",
+              "AuthPswd": "AMLSVC",
+              "Username": "Kiosk",
+              "BrCode": signalrConnection.branchCode,
+              "SysName": "Kiosk",
+              "ScanOption": "5",
+              "UniqueNo": currentHolder.unitholderid,
+              "SearchName": currentHolder.firstname,
+              "SearchCountry": "MY",
+              "SearchDOB": currentHolder.dateofbirth,
+              "SearchID": currentHolder.identificationnumber,
+              "PassportVerify": "0",
+              "SecurityNo1": "0",
+              "PassExpiryDtVerify": "0",
+              "PassExpiryDate": "0",
+              "SecurityNo2": "0",
+              "RiskFactors": `1#${currentHolder.occupation}|${currentHolder.occupationsector}|${currentHolder.occupationcategory}|${currentHolder.natureofbusiness}|${currentHolder.otherinfO8}|${currentHolder.pep}|${this.fundid}|${currentHolder.branchcode}||`, 
+              "Content": "",
+              "RtnHit": "",
+              "RtnScanID": 0,
+              "RtnEnCryptScanID": ""
+            }
+  
+            this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+              if(data.result.rtnHit == "HC"){
+                this.STPStep3 = false;
+                this.STPStep2 = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }else{
+                this.STPStep3 = false;
+                this.STPStep1 = true;
+
+                setTimeout(() => {  
+                  loadKeyboard();
+                } , 1000);
+              }
+            });
+          }
+        }
+      }
     }
     else{
       this.STPStep3 = false;
@@ -1223,6 +2139,22 @@ export class SubscriptioninvestmentComponent implements OnInit {
         loadKeyboard();
       } , 1000);
     }
+    // if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){
+    //   this.STPStep3 = false;
+    //   this.STPStep2 = true;
+
+    //   setTimeout(() => {  
+    //     loadKeyboard();
+    //   } , 1000);
+    // }
+    // else{
+    //   this.STPStep3 = false;
+    //   this.STPStep1 = true;
+
+    //   setTimeout(() => {  
+    //     loadKeyboard();
+    //   } , 1000);
+    // }
     
   }
 

@@ -5,7 +5,9 @@
     "AESCrpytKey": "gsKxGZ012HLL3MI5",
     "idletime": "100",
     "popuptime": "30",
-    "thresholdForAdditionalInfo" : "10000"
+    "thresholdForAdditionalInfo3" : "10000",
+    "thresholdForAdditionalInfo2" : "15000",
+    "thresholdForAdditionalInfo1" : "20000"
 }
 
 
