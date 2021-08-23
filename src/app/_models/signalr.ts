@@ -9,6 +9,7 @@ export class signalrConnection {
   static cardDetect: boolean;
   static logsaves: string[];
   static kioskCode: string;
+  static kioskID: string;
   static trxno : string;
   static isHardcodedIC : boolean;
   static kioskType: string;

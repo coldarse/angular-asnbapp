@@ -324,7 +324,7 @@ export class ServiceService {
   createFundTransaction(body: any)
   {
     return this.http.post(
-      this.url + "services/app/FundTransaction/Create",
+      this.url + "services/app/FundTransaction/Insert",
       body,
       accessToken.httpOptions
     ).pipe(

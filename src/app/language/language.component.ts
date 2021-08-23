@@ -85,6 +85,9 @@ export class LanguageComponent implements OnInit {
       signalrConnection.connection.invoke('GetKioskCode').then((data: string) => {
         signalrConnection.kioskCode = data;
       });
+      signalrConnection.connection.invoke('GetKioskID').then((data: string) => {
+        signalrConnection.kioskID = data;
+      });
       signalrConnection.connection.invoke('isHardcodedIC').then((data: boolean) => {
         signalrConnection.isHardcodedIC = data;
       });

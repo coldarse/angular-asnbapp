@@ -1150,8 +1150,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
                 const FTBody =
                 {
-                  "trxNo": "string",
-                  "kioskID": 0,
+                  "trxNo": signalrConnection.trxno,
+                  //"kioskID": signalrConnection.kioskID,
                   "kioskCode": signalrConnection.kioskCode,
                   "unitHolderID": result.result.unitholderid,
                   "firstName": result.result.firstname,
@@ -1197,9 +1197,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   "remark": result1.result.remarks,
                   "creditNoteNumber": result1.result.creditnotenumber,
                   "rejectCode": result1.result.rejectcode,
-                  "rejectReason": result1.result.rejectreason,
-                  "createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en')
+                  "rejectReason": result1.result.rejectreason
+                  //"createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en')
                 }
+
+                console.log(JSON.stringify(FTBody));
 
                 this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
               }
@@ -1306,7 +1308,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 this.paymentStep1 = false;
                 this.paymentStep3 = true;
   
-                signalrConnection.connection.invoke('deleteCreditCardInfo').then((data: string) => {
+                signalrConnection.connection.invoke('deleteCreditCardInfo', true).then((data: string) => {
                   const body = 
                   {
                     "CHANNELTYPE": signalrConnection.channelType,
@@ -1399,8 +1401,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
   
                           const FTBody =
                           {
-                            "trxNo": "string",
-                            "kioskID": 0,
+                            "trxNo": signalrConnection.trxno,
+                            //"kioskID": signalrConnection.kioskID,
                             "kioskCode": signalrConnection.kioskCode,
                             "unitHolderID": result.result.unitholderid,
                             "firstName": result.result.firstname,
@@ -1446,9 +1448,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
                             "remark": result1.result.remarks,
                             "creditNoteNumber": result1.result.creditnotenumber,
                             "rejectCode": result1.result.rejectcode,
-                            "rejectReason": result1.result.rejectreason,
-                            "createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en')
+                            "rejectReason": result1.result.rejectreason
+                            //"createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en')
                           }
+
+                          console.log(JSON.stringify(FTBody));
   
                           this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
                         }
@@ -1481,7 +1485,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                             }
                           }
                           errorCodes.transaction = this.transaction;
-                          signalrConnection.connection.invoke('DoVoid', PaymentAmt, cardInfo.HostNo, cardInfo.TransactionTrace).then(() => {
+                          signalrConnection.connection.invoke('DoVoid', PaymentAmt, cardInfo.HostNo, cardInfo.TransactionTrace, signalrConnection.trxno).then(() => {
                   
                           });
                           this._router.navigate(['errorscreen']);
@@ -1517,7 +1521,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         }
                       }
                       errorCodes.transaction = this.transaction;
-                      signalrConnection.connection.invoke('DoVoid', PaymentAmt, cardInfo.HostNo, cardInfo.TransactionTrace).then(() => {
+                      signalrConnection.connection.invoke('DoVoid', PaymentAmt, cardInfo.HostNo, cardInfo.TransactionTrace, signalrConnection.trxno).then(() => {
                   
                       });
                       this._router.navigate(['errorscreen']);
@@ -1526,12 +1530,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 });
               }
               else if(statusCode == "CE"){
-                signalrConnection.connection.invoke('deleteCreditCardInfo').then(() => {
+                signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
                   
                 });
               }
               else if(statusCode == "TA"){
-                signalrConnection.connection.invoke('deleteCreditCardInfo').then(() => {
+                signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
                   
                 });
               }
@@ -2371,7 +2375,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 this.paymentStep1 = false;
                 this.paymentStep3 = true;
   
-                signalrConnection.connection.invoke('deleteCreditCardInfo').then((data: string) => {
+                signalrConnection.connection.invoke('deleteCreditCardInfo', true).then((data: string) => {
                   const body = 
                   {
                     "CHANNELTYPE": signalrConnection.channelType,
@@ -2532,12 +2536,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 });
               }
               else if(statusCode == "CE"){
-                signalrConnection.connection.invoke('deleteCreditCardInfo').then(() => {
+                signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
                   
                 });
               }
               else if(statusCode == "TA"){
-                signalrConnection.connection.invoke('deleteCreditCardInfo').then(() => {
+                signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
                   
                 });
               }
@@ -2655,7 +2659,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "TID" : this.tempCardInfo.TID,
         "Type" : this.tempCardInfo.CardType,
         "CardName" : this.tempCardInfo.CardholderName,
-        "CardNumber" : this.tempCardInfo.CardNumber,
+        "CardNumber" : this.tempCardInfo.CardNo,
         "ExpDate" : this.tempCardInfo.ExpiryDate,
         "ApprovalCode" : this.tempCardInfo.ApprovalCode,
         "ReferenceNumber" : this.tempCardInfo.RRN,
@@ -2844,7 +2848,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "TID" : this.tempCardInfo.TID,
         "Type" : this.tempCardInfo.CardType,
         "CardName" : this.tempCardInfo.CardholderName,
-        "CardNumber" : this.tempCardInfo.CardNumber,
+        "CardNumber" : this.tempCardInfo.CardNo,
         "ExpDate" : this.tempCardInfo.ExpiryDate,
         "ApprovalCode" : this.tempCardInfo.ApprovalCode,
         "ReferenceNumber" : this.tempCardInfo.RRN,
