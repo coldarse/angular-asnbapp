@@ -291,8 +291,9 @@
                 </h4>
             </div>
             <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #ramount1>
+                <input type="text" style="width: 85%;" name="amount" id="amount" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #ramount1>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="redemptionamountWarning">{{'AWarning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning1">{{'A1Warning' | translate}}</div>
             </div>
         </div>
         <!-- <div class="row" style="padding-bottom: 2rem;">

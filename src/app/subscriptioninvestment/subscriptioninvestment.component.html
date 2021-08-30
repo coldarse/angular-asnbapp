@@ -150,6 +150,7 @@
             <div class="col-md-6">
                 <input type="text" style="width: 85%;" name="amount" id="amt" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #amount>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning">{{'AWarning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning1">{{'A1Warning' | translate}}</div>
             </div>
         </div>
     </div>
@@ -304,7 +305,7 @@
             </div>
             <div class="col-md-6">
                 <h3>
-                    : {{amountKeyed}}
+                    : {{amountKeyed | number : '1.2-2' }}
                 </h3>
             </div>
         </div>
@@ -364,7 +365,7 @@
                 </h4>
             </div>
             <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_3.controls["icno"]' #thirdicno>
+                <input type="text" style="width: 85%;" name="thirdicno" id="thirdicno" class="use-keyboard-input" [formControl]='Form_3.controls["icno"]' #thirdicno>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdicnoWarning">{{'ThirdICWarning' | translate}}</div>
             </div>
         </div>
@@ -376,7 +377,7 @@
                 </h4>
             </div>
             <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_3.controls["uhid"]' #thirduhid>
+                <input type="text" style="width: 85%;" name="thirduhid" id="thirduhid" class="use-keyboard-input" [formControl]='Form_3.controls["uhid"]' #thirduhid>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirduhidWarning">{{'ThirdUHIDWarning' | translate}}</div>
             </div>
         </div>
@@ -388,7 +389,7 @@
                 </h4>
             </div>
             <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_3.controls["name"]' #thirdname>
+                <input type="text" style="width: 85%;" name="thirdname" id="thirdname" class="use-keyboard-input" [formControl]='Form_3.controls["name"]' #thirdname>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdnameWarning">{{'ThirdNameWarning' | translate}}</div>
             </div>
         </div>
@@ -451,8 +452,9 @@
                 </h4>
             </div>
             <div class="col-md-6" >
-                <input type="text" style="width: 85%;" name="amount" class="use-keyboard-input" [formControl]='Form_3.controls["amount"]' #thirdamount>
+                <input type="text" style="width: 85%;" name="amount" id="amount" class="use-keyboard-input" [formControl]='Form_3.controls["amount"]' #thirdamount>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdamountWarning">{{'AWarning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning2">{{'A1Warning' | translate}}</div>
             </div>
         </div>
     </div>
@@ -657,7 +659,7 @@
             </div>
             <div class="col-md-6" >
                 <h4>
-                    {{thirdamountkeyed}}
+                    {{thirdamountkeyed | number : '1.2-2' }}
                 </h4>
             </div>
         </div>

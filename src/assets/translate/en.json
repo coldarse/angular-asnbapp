@@ -340,6 +340,7 @@
 	"InitialSalesCharge": "Initial Sales Charge (RM)",
 	"SIStep6_1": "Transaction accepted. Perform balance enquiry to view your latest investment balance. Thank you.",
 	"AWarning": "Please key in amount.",
+	"A1Warning": "Please key in a valid amount.",
 	"FWarning": "Please insert Funder Name.",
 	"Third": "3rd PARTY ACCOUNT",
 	"ICType": "IC Type",

@@ -295,6 +295,7 @@
             <div class="col-md-6">
                 <input type="text" style="width: 85%;" name="amount" id="amount" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #tamount>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferamountWarning">{{'AWarning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning1">{{'A1Warning' | translate}}</div>
             </div>
         </div>
     </div>
@@ -431,7 +432,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ transferamount }}
+                    : {{ transferamount | number : '1.2-2' }}
                 </h4>
             </div>
         </div>
@@ -570,7 +571,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ transferamount }}
+                    : {{ transferamount | number : '1.2-2' }}
                 </h4>
             </div>
         </div>
@@ -609,7 +610,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ transferNAV }}
+                    : {{ transferNAV | number : '1.2-2' }}
                 </h4>
             </div>
         </div>
@@ -622,7 +623,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ transferunits }}
+                    : {{ transferunits | number : '1.2-2' }}
                 </h4>
             </div>
         </div>
@@ -635,7 +636,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ transferSST }}
+                    : {{ transferSST | number : '1.2-2' }}
                 </h4>
             </div>
         </div>
@@ -648,7 +649,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ transferinitialRM }}
+                    : {{ transferinitialRM | number : '1.2-2' }}
                 </h4>
             </div>
         </div>
@@ -779,6 +780,7 @@
             </div>
             <div class="col-md-6">
                 <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["fundname"]' #sfundid>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
                     <option *ngFor="let fa of fundAvailable" value={{fa.code}}>
                         {{fa.value}}
                     </option>
@@ -796,6 +798,7 @@
             <div class="col-md-6">
                 <input type="text" style="width: 85%;" name="switchamount" id="switchamount" class="use-keyboard-input" [formControl]='Form_2.controls["amount"]' #samount>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="switchingamountWarning">{{'AWarning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning2">{{'A1Warning' | translate}}</div>
             </div>
         </div>
     </div>
@@ -906,7 +909,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ switchingamount }}
+                    : {{ switchingamount | number : '1.2-2'  }}
                 </h4>
             </div>
         </div>
@@ -993,7 +996,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ switchingamount }}
+                    : {{ switchingamount | number : '1.2-2'  }}
                 </h4>
             </div>
         </div>
@@ -1006,7 +1009,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ switchingNAVFrom }}
+                    : {{ switchingNAVFrom | number : '1.2-2'  }}
                 </h4>
             </div>
         </div>
@@ -1019,7 +1022,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ switchingNAVTo }}
+                    : {{ switchingNAVTo | number : '1.2-2'  }}
                 </h4>
             </div>
         </div>
@@ -1032,7 +1035,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ switchingUnitsFrom }}
+                    : {{ switchingUnitsFrom | number : '1.2-2'  }}
                 </h4>
             </div>
         </div>
@@ -1045,7 +1048,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ switchingUnitsTo }}
+                    : {{ switchingUnitsTo | number : '1.2-2'  }}
                 </h4>
             </div>
         </div>
@@ -1058,7 +1061,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ switchingSST }}
+                    : {{ switchingSST | number : '1.2-2'  }}
                 </h4>
             </div>
         </div>

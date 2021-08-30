@@ -9,7 +9,7 @@ import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { currentHolder } from '../_models/currentUnitHolder';
-import { bankName } from '../_models/dropDownLists';
+import { ASNBFundID, bankName } from '../_models/dropDownLists';
 import { errorCodes } from '../_models/errorCode';
 import { selectLang } from '../_models/language';
 import { signalrConnection } from '../_models/signalr';
@@ -50,6 +50,7 @@ export class RedemptionComponent implements OnInit {
   newFundDetails: any = [];
 
   redemptionamountWarning  = false;
+  amountWarning1 = false;
 
   mDetails = currentHolder.minordetail;
   Form_1: any;
@@ -96,6 +97,9 @@ export class RedemptionComponent implements OnInit {
   redemptionunits  = "";
 
   transaction = "";
+
+  RedemptionMinValue = 0.00;
+  RedemptionMaxValue = 0.00;
 
   constructor(
     private router: Router,
@@ -184,8 +188,10 @@ export class RedemptionComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(): void{
+  ngOnDestroy() {
+    //clearInterval(this.id);
     deleteKeyboard();
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Redemption]" + ": " + "Cleared Interval.");
   }
 
   Minor(minor: any){
@@ -372,6 +378,18 @@ export class RedemptionComponent implements OnInit {
     this.redemptionfundname = fund.FUNDNAME;
     this.redemptionfundid = fund.FUNDID;
 
+    appFunc.ASNBFundID.forEach((elements: ASNBFundID) => {
+      if(elements.code.toString().toLowerCase() == fund.FUNDID.toLowerCase()){
+        if(appFunc.isOwn == "major"){
+          this.RedemptionMinValue = elements.majorRedemptionLimit_min;
+          this.RedemptionMaxValue = elements.majorRedemptionLimit_max;
+        }else{
+          this.RedemptionMinValue = elements.minorRedemptionLimit_min;
+          this.RedemptionMaxValue = elements.minorRedemptionLimit_max;
+        }
+      }
+    });
+
     this.initializeForm1();
 
     appFunc.isRedirectFromRedemption = false;
@@ -419,6 +437,9 @@ export class RedemptionComponent implements OnInit {
   redemption2Next(){
     this.Form_1.controls.amount.setValue(this.amount1?.nativeElement.value);
 
+    this.redemptionamountWarning = false;
+    this.amountWarning1 = false;
+
     let x = 0;
     Object.keys(this.Form_1.controls).forEach(key => {
       if (this.Form_1.controls[key].hasError('required')){
@@ -431,14 +452,31 @@ export class RedemptionComponent implements OnInit {
     if (x > 0){
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
-      this.redemption2 = false;
-      this.redemption3 = true;
 
-      this.redemptionhistoricalpricing = this.Form_1.controls.amount.value;
-      this.redemptionforwardpricing = this.Form_1.controls.amount.value;
+      if(this.RedemptionMinValue == 0.00 && this.RedemptionMaxValue == 0.00){
+        this.amountWarning1 = false;
+      }
+      else{
+        if(Number(this.Form_1.controls.amount.value) < this.RedemptionMinValue || Number(this.Form_1.controls.amount.value) > this.RedemptionMaxValue){
+          this.amountWarning1 = true;
+        }
+        else{
+          this.amountWarning1 = false;
+        }
+      }
 
 
-      deleteKeyboard();
+      if(this.amountWarning1 == false){
+        this.redemption2 = false;
+        this.redemption3 = true;
+  
+        this.redemptionhistoricalpricing = this.Form_1.controls.amount.value;
+        this.redemptionforwardpricing = this.Form_1.controls.amount.value;
+  
+  
+        deleteKeyboard();
+      }
+      
     }
   }
 

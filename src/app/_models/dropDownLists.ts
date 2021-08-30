@@ -193,11 +193,51 @@ export class ASNBFundID {
     code: string;
     value: string;
     desc: string;
+    minorInvestmentLimit_min: number;
+    minorInvestmentLimit_max: number;
+    minorSubscriptionLimit_min: number;
+    minorSubscriptionLimit_max: number;
+    minorRedemptionLimit_min: number;
+    minorRedemptionLimit_max: number;
+    minorTransferLimit_min: number;
+    minorTransferLimit_max: number;
+    minorSwitchingLimit_min: number;
+    minorSwitchingLimit_max: number;
+    majorInvestmentLimit_min: number;
+    majorInvestmentLimit_max: number;
+    majorSubscriptionLimit_min: number;
+    majorSubscriptionLimit_max: number;
+    majorRedemptionLimit_min: number;
+    majorRedemptionLimit_max: number;
+    majorTransferLimit_min: number;
+    majorTransferLimit_max: number;
+    majorSwitchingLimit_min: number;
+    majorSwitchingLimit_max: number;
 
     constructor(fundid: any){
         this.code = fundid.code;
         this.value = fundid.value;
         this.desc = fundid.desc;
+        this.minorInvestmentLimit_min = fundid.minorInvestmentLimit_min;
+        this.minorInvestmentLimit_max = fundid.minorInvestmentLimit_max;
+        this.minorSubscriptionLimit_min = fundid.minorSubscriptionLimit_min;
+        this.minorSubscriptionLimit_max = fundid.minorSubscriptionLimit_max;
+        this.minorRedemptionLimit_min = fundid.minorRedemptionLimit_min;
+        this.minorRedemptionLimit_max = fundid.minorRedemptionLimit_max;
+        this.minorTransferLimit_min = fundid.minorTransferLimit_min;
+        this.minorTransferLimit_max = fundid.minorTransferLimit_max;
+        this.minorSwitchingLimit_min = fundid.minorSwitchingLimit_min;
+        this.minorSwitchingLimit_max = fundid.minorSwitchingLimit_max;
+        this.majorInvestmentLimit_min = fundid.majorInvestmentLimit_min;
+        this.majorInvestmentLimit_max = fundid.majorInvestmentLimit_max;
+        this.majorSubscriptionLimit_min = fundid.majorSubscriptionLimit_min;
+        this.majorSubscriptionLimit_max = fundid.majorSubscriptionLimit_max;
+        this.majorRedemptionLimit_min = fundid.majorRedemptionLimit_min;
+        this.majorRedemptionLimit_max = fundid.majorRedemptionLimit_max;
+        this.majorTransferLimit_min = fundid.majorTransferLimit_min;
+        this.majorTransferLimit_max = fundid.majorTransferLimit_max;
+        this.majorSwitchingLimit_min = fundid.majorSwitchingLimit_min;
+        this.majorSwitchingLimit_max = fundid.majorSwitchingLimit_max;
     }
 } 
 

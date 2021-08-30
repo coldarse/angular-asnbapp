@@ -62,8 +62,12 @@ export class TransferswitchingComponent implements OnInit {
   uhictypeWarning = false;
   uhicWarning = false;
   transferamountWarning = false;
+  amountWarning1 = false;
+
 
   switchingamountWarning = false;
+  amountWarning2 = false;
+
 
   transferreasonWarning = false;
   transferrelationshipWarning = false;
@@ -139,6 +143,10 @@ export class TransferswitchingComponent implements OnInit {
 
   transaction = "";
 
+  TransferMinValue = 0.00;
+  TransferMaxValue = 0.00;
+  SwitchingMinValue = 0.00;
+  SwitchingMaxValue = 0.00;
 
 
   constructor(
@@ -208,6 +216,12 @@ export class TransferswitchingComponent implements OnInit {
 
   Back(){
     this.router.navigate(['financialtransactionmenu']);
+  }
+
+  ngOnDestroy() {
+    //clearInterval(this.id);
+    deleteKeyboard();
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transfer/Switching]" + ": " + "Cleared Interval.");
   }
 
   Minor(minor: any){
@@ -320,6 +334,18 @@ export class TransferswitchingComponent implements OnInit {
       this.transaction = "Pemindahan";
     }
 
+    appFunc.ASNBFundID.forEach((elements: ASNBFundID) => {
+      if(elements.code.toString().toLowerCase() == fund.FUNDID.toLowerCase()){
+        if(appFunc.isOwn == "major"){
+          this.TransferMinValue = elements.majorTransferLimit_min;
+          this.TransferMaxValue = elements.majorTransferLimit_max;
+        }else{
+          this.TransferMinValue = elements.minorTransferLimit_min;
+          this.TransferMaxValue = elements.minorTransferLimit_max;
+        }
+      }
+    });
+
     this.transferswitching = false;
     this.istransfer = true;
     this.transfer1 = true;
@@ -356,7 +382,9 @@ export class TransferswitchingComponent implements OnInit {
     this.transferamountWarning = false;
     this.transferreasonWarning = false;
     this.transferrelationshipWarning = false;
+    this.amountWarning1 = false;
 
+    
     let x = 0;
     Object.keys(this.Form_1.controls).forEach(key => {
       if (this.Form_1.controls[key].hasError('required')){
@@ -387,39 +415,56 @@ export class TransferswitchingComponent implements OnInit {
     if (x > 0){
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
-      this.transfer1 = false;
-      this.transfer2 = true;
 
-      this.transferuhid = this.Form_1.controls.uhid.value;
-      this.transferuhname = this.Form_1.controls.uhname.value;
-      this.transferuhictype = this.Form_1.controls.ictype.value;
-      this.transferuhic = this.Form_1.controls.uhic.value;
-      this.transferreason = this.Form_1.controls.reason.value;
-      this.transferrelationship = this.Form_1.controls.relationship.value;
-      this.transferamount = this.Form_1.controls.amount.value;
-
-      this.reason.forEach((element: reasonTransfer) => {
-        if(element.code == this.transferreason){
-          this.displayReason = element.desc;
+      
+      if(this.TransferMinValue == 0.00 && this.TransferMaxValue == 0.00){
+        this.amountWarning1 = false;
+      }
+      else{
+        if(Number(this.Form_1.controls.amount.value) < this.TransferMinValue || Number(this.Form_1.controls.amount.value) > this.TransferMaxValue){
+          this.amountWarning1 = true;
         }
-      });
-
-      this.relationship.forEach((elem: thirdpartyRelationship) => {
-        if(elem.code == this.transferrelationship){
-          this.displayRelationship = elem.desc;
+        else{
+          this.amountWarning1 = false;
         }
-      });
-
-      if(appFunc.isOwn == "major"){
-        this.transferfrom = currentHolder.unitholderid;
-      }else{
-        this.transferfrom = currentBijakHolder.unitholderid;
       }
 
-      this.transferfunname = this.actualfundname;
-      
+      if(this.amountWarning1 == false){
+        this.transfer1 = false;
+        this.transfer2 = true;
+  
+        this.transferuhid = this.Form_1.controls.uhid.value;
+        this.transferuhname = this.Form_1.controls.uhname.value;
+        this.transferuhictype = this.Form_1.controls.ictype.value;
+        this.transferuhic = this.Form_1.controls.uhic.value;
+        this.transferreason = this.Form_1.controls.reason.value;
+        this.transferrelationship = this.Form_1.controls.relationship.value;
+        this.transferamount = this.Form_1.controls.amount.value;
+  
+        this.reason.forEach((element: reasonTransfer) => {
+          if(element.code == this.transferreason){
+            this.displayReason = element.desc;
+          }
+        });
+  
+        this.relationship.forEach((elem: thirdpartyRelationship) => {
+          if(elem.code == this.transferrelationship){
+            this.displayRelationship = elem.desc;
+          }
+        });
+  
+        if(appFunc.isOwn == "major"){
+          this.transferfrom = currentHolder.unitholderid;
+        }else{
+          this.transferfrom = currentBijakHolder.unitholderid;
+        }
+  
+        this.transferfunname = this.actualfundname;
+        
+  
+        deleteKeyboard();
+      }
 
-      deleteKeyboard();
     }
   }
 
@@ -836,6 +881,18 @@ export class TransferswitchingComponent implements OnInit {
       "FUNDLISTTYPE":"N"
     }
 
+    appFunc.ASNBFundID.forEach((elements: ASNBFundID) => {
+      if(elements.code.toString().toLowerCase() == fund.FUNDID.toLowerCase()){
+        if(appFunc.isOwn == "major"){
+          this.SwitchingMinValue = elements.majorSwitchingLimit_min;
+          this.SwitchingMaxValue = elements.majorSwitchingLimit_max;
+        }else{
+          this.SwitchingMinValue = elements.minorSwitchingLimit_min;
+          this.SwitchingMaxValue = elements.minorSwitchingLimit_max;
+        }
+      }
+    });
+
     this.serviceService.postEligibleFunds(body)
       .subscribe((result: any) => {
         appFunc.ASNBFundID.forEach((elem1: ASNBFundID) => {
@@ -884,6 +941,8 @@ export class TransferswitchingComponent implements OnInit {
 
     this.switchingamountWarning = false;
     this.switchingFundWarning = false;
+    this.amountWarning2 = false;
+
    
     let x = 0;
     Object.keys(this.Form_2.controls).forEach(key => {
@@ -900,16 +959,32 @@ export class TransferswitchingComponent implements OnInit {
     if (x > 0){
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
-      this.switching1 = false;
-      this.switching2 = true;
+
+      if(this.SwitchingMinValue == 0.00 && this.SwitchingMaxValue == 0.00){
+        this.amountWarning2 = false;
+      }
+      else{
+        if(Number(this.Form_2.controls.amount.value) < this.SwitchingMinValue || Number(this.Form_2.controls.amount.value) > this.SwitchingMaxValue){
+          this.amountWarning2 = true;
+        }
+        else{
+          this.amountWarning2 = false;
+        }
+      }
+
+      if(this.amountWarning2 == false){
+        this.switching1 = false;
+        this.switching2 = true;
 
 
-      this.switchinguhid = this.unitholderid;
-      this.switchingto = this.Form_2.controls.fundname.value;
-      this.switchingamount = this.Form_2.controls.amount.value;
+        this.switchinguhid = this.unitholderid;
+        this.switchingto = this.Form_2.controls.fundname.value;
+        this.switchingamount = this.Form_2.controls.amount.value;
 
+        
+        deleteKeyboard();
+      }
       
-      deleteKeyboard();
     }
   }
 
