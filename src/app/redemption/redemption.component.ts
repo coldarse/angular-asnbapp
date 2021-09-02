@@ -29,6 +29,15 @@ export class RedemptionComponent implements OnInit {
   @ViewChild('ramount1') amount1 : ElementRef | undefined;
   @ViewChild('ramount2') amount2 : ElementRef | undefined;
 
+  pdfsrc1 = "assets/Terms_N_Condition.pdf";
+  pdfsrc2 = "assets/ASNB_MasterProspectus.pdf";
+  pdfsrc3 = "assets/ASNB_MasterProspectus.pdf";
+  TermsAndConditions = false;
+  InvestmentDisclaimer = false;
+  MinimumCriteria = false;
+
+  ispopup = false;
+
   isOwn = false;
   isBijak = false;
   BijakVisible = false;
@@ -186,6 +195,31 @@ export class RedemptionComponent implements OnInit {
       }
       
     }
+  }
+
+  NextTNC(){
+    this.TermsAndConditions = false;
+    this.ispopup = false;
+  }
+  NextID(){
+    this.InvestmentDisclaimer = false;
+    this.ispopup = false;
+  }
+  NextMC(){
+    this.MinimumCriteria = false;
+    this.ispopup = false;
+  }
+  ClickTNC(){
+    this.TermsAndConditions = true;
+    this.ispopup = true;
+  }
+  ClickInvesmtentDisclaimer(){
+    this.InvestmentDisclaimer = true;
+    this.ispopup = true;
+  }
+  ClickMinimumCriteria(){
+    this.MinimumCriteria = true;
+    this.ispopup = true;
   }
 
   ngOnDestroy() {
