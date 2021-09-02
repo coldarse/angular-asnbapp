@@ -43,6 +43,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
   @ViewChild('thirdamount') thirdamount : ElementRef | undefined;
   @ViewChild('thirdsource') thirdsource : ElementRef | undefined;
 
+  pdfsrc1 = "assets/Terms_N_Condition.pdf";
+  pdfsrc2 = "assets/ASNB_MasterProspectus.pdf";
+  pdfsrc3 = "assets/ASNB_MasterProspectus.pdf";
+  TermsAndConditions = false;
+  InvestmentDisclaimer = false;
+  MinimumCriteria = false;
+
   isSubscriptionMajor = false;
   isSubscriptionMinor = false;
   isSubscriptionThird = false;
@@ -120,6 +127,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
   feepercentage = "";
   sourceOfFund = "";
   otherSourceOfFund = "";
+
+  ispopup = false;
   
 
   paymentStep1 = true;
@@ -314,9 +323,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.SIStep2 = true;
 
     if(appFunc.isOwn == "major"){
+      this.unitholdername = currentHolder.firstname;
       this.unitholderid = currentHolder.unitholderid;
       this.fundid = fund;
     }else{
+      this.unitholdername = this.currentBijakName;
       this.unitholderid = this.currentBijakUHID;
       this.fundid = fund;
     }
@@ -2087,6 +2098,35 @@ export class SubscriptioninvestmentComponent implements OnInit {
       this.STPStep3 = true;
     }
     
+  }
+
+  NextTNC(){
+    this.TermsAndConditions = false;
+    this.ispopup = false;
+  }
+  NextID(){
+    this.InvestmentDisclaimer = false;
+    this.ispopup = false;
+  }
+  NextMC(){
+    this.MinimumCriteria = false;
+    this.ispopup = false;
+  }
+  ClickTNC(){
+    this.TermsAndConditions = true;
+    this.ispopup = true;
+  }
+  ClickInvesmtentDisclaimer(){
+    this.InvestmentDisclaimer = true;
+    this.ispopup = true;
+  }
+  ClickMinimumCriteria(){
+    this.MinimumCriteria = true;
+    this.ispopup = true;
+  }
+
+  SIStep5End(){
+    this._router.navigate(['feedbackscreen']);
   }
 
   STPStep3Back(){

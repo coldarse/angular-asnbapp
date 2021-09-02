@@ -86,6 +86,8 @@ export class AccountregistrationComponent implements OnInit {
   ARPrint2_Visible = false;
   AREmail_Visible = false;
 
+  withMinInvestment = false;
+
   //Diabled Elements
   checkedXEmail : boolean = false;
   checkedXTelephone : boolean = false;
@@ -442,6 +444,12 @@ export class AccountregistrationComponent implements OnInit {
     }
   }
 
+  goToInitialInvestment(){
+    appFunc.isOwn = "major";
+    appFunc.isInvesment = true;
+    this._router.navigate(['subscriptioninvestment']);
+  }
+
   myKadAddress() {
     if (this.AR_Form.controls.mykadaddress.value == false){
       if (this.address1_Warning == true) this.address1_Warning = false;
@@ -562,25 +570,25 @@ export class AccountregistrationComponent implements OnInit {
     }
 
 
-    let withMinInvestment = false;
+    
     for (var val of appFunc.modules){
       if(val.moduleName.toLowerCase().includes('financial')){
         if(val.enable == true){
           if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
-            withMinInvestment = true;
+            this.withMinInvestment = true;
           }else{
-            withMinInvestment = false;
+            this.withMinInvestment = false;
           }
         }
         else{
-          withMinInvestment = false;
+          this.withMinInvestment = false;
         }
       }
     }
 
     
-    if (withMinInvestment){
-      this.serviceService.postAccountRegistrationWithInvestment(body).subscribe((data: any) => {
+    if (this.withMinInvestment){
+      this.serviceService.postAccountRegistration(body).subscribe((data: any) => {
         if(data.result.transactionstatus.toLowerCase().includes('successful')){
           this.ARSuccess_4 = currentMyKadDetails.Name;
           this.ARSuccess_6 = data.result.unitholderid;

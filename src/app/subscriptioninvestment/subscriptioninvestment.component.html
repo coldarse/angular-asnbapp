@@ -22,11 +22,121 @@
     </div>
 </nav>
 
+<div class="bg-popup"  *ngIf="TermsAndConditions">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <ngx-extended-pdf-viewer 
+            [src]="pdfsrc1" 
+            backgroundColor="#ffffff" 
+            [delayFirstView]="1000" 
+            [height]="'530px'"
+            [useBrowserLocale]="true"
+            [showPrintButton]="false"
+            [showBookmarkButton]="false"
+            [showDownloadButton]="false"
+            [showFindButton]="false"
+            [showHandToolButton]="false"
+            [showOpenFileButton]="false"
+            [showPresentationModeButton]="false"
+            [showRotateButton]="false"
+            [showPropertiesButton]="false"
+            [zoom]="'100%'">
+        </ngx-extended-pdf-viewer>
+
+        <footer class="site-footer" style="padding-top:1rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextTNC()">
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
+<div class="bg-popup"  *ngIf="InvestmentDisclaimer">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <ngx-extended-pdf-viewer 
+            [src]="pdfsrc2" 
+            backgroundColor="#ffffff" 
+            [delayFirstView]="1000" 
+            [height]="'530px'"
+            [useBrowserLocale]="true"
+            [showPrintButton]="false"
+            [showBookmarkButton]="false"
+            [showDownloadButton]="false"
+            [showFindButton]="false"
+            [showHandToolButton]="false"
+            [showOpenFileButton]="false"
+            [showPresentationModeButton]="false"
+            [showRotateButton]="false"
+            [showPropertiesButton]="false"
+            [zoom]="'100%'">
+        </ngx-extended-pdf-viewer>
+
+        <footer class="site-footer" style="padding-top:1rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextID()">
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
+<div class="bg-popup"  *ngIf="MinimumCriteria">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <ngx-extended-pdf-viewer 
+            [src]="pdfsrc3" 
+            backgroundColor="#ffffff" 
+            [delayFirstView]="1000" 
+            [height]="'530px'"
+            [useBrowserLocale]="true"
+            [showPrintButton]="false"
+            [showBookmarkButton]="false"
+            [showDownloadButton]="false"
+            [showFindButton]="false"
+            [showHandToolButton]="false"
+            [showOpenFileButton]="false"
+            [showPresentationModeButton]="false"
+            [showRotateButton]="false"
+            [showPropertiesButton]="false"
+            [zoom]="'100%'">
+        </ngx-extended-pdf-viewer>
+
+        <footer class="site-footer" style="padding-top:1rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextMC()">
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
+
+
 <div *ngIf="BijakVisible" class="content-container">
    
     <div>
         <div class="col-md-12 text-center" style="padding-top:2rem; font-family: HelveticaNeue;">
-            <h2 id="CB1_Title3">{{'CB1_3' | translate }}</h2>
+            <h2 id="CB1_Title3">{{'1' | translate }}</h2>
         </div>
 
         <div class="col-md-12 text-center" style="padding-top:0.15rem;" *ngFor="let minor of mDetails">
@@ -118,6 +228,19 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h3>
+                    {{'ARSuccess_3' | translate}}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <h3>
+                    : {{unitholdername}}
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3>
                     {{'ARSuccess_5' | translate}}
                 </h3>
             </div>
@@ -140,7 +263,7 @@
                 </h3>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="padding-bottom:2rem;">
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h3 style="font-size: 1.45rem;">
@@ -171,8 +294,12 @@
         </div>
         <div class="col-md-10">
             <input type="checkbox" class="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC($event)">
-            <label for="tncCheck" style="padding-left:1rem; font-size: 1rem;">
+            <label for="tncCheck" style="padding-left:1rem; font-size: 0.75rem;">
                 {{'SIStep2_5' | translate }}
+                <a class="hyperlinksent" (click)="ClickTNC()"> {{'PRTNC_1' | translate }}</a>, 
+                <a class="hyperlinksent" (click)="ClickInvesmtentDisclaimer()"> {{'InvestmentDisclaimer' | translate }}</a>,
+                <a class="hyperlinksent" (click)="ClickMinimumCriteria()"> {{'MinimumCriteria' | translate }}</a>
+                {{'SIStep2_6' | translate }}
             </label><br>
         </div>
         <div class="col-md-1">
@@ -183,10 +310,10 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:3rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep2Back()">
+                <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="SIStep2Back()">
                     {{'BTN_Back' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep2Next()" [disabled]="disagreedTNC">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep2Next()" [disabled]="disagreedTNC" [hidden]="ispopup">
                     {{'BTN_Next' | translate }}
                 </button>
             </div>
@@ -239,13 +366,15 @@
         </div>
     </div>
 
-
+    <h4 class="h2-ic">
+        {{'AdditionalInformationSOF' | translate}}
+    </h4>
     
   
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:21.27rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep3Back()">
+                <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="SIStep3Back()">
                     {{'BTN_Back' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep3Next()" [disabled]="disagreedTNC">
@@ -274,6 +403,19 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h3>
+                    {{'ARSuccess_3' | translate}}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <h3>
+                    : {{unitholdername}}
+                </h3>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3>
                     {{'ARSuccess_5' | translate}}
                 </h3>
             </div>
@@ -296,7 +438,7 @@
                 </h3>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="padding-bottom:2rem;">
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h3 style="font-size: 1.45rem;">
@@ -315,7 +457,7 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:17.47rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep4Back()">
+                <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="SIStep4Back()">
                     {{'BTN_Back' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep4Next()" [disabled]="disagreedTNC">
@@ -475,8 +617,12 @@
         </div>
         <div class="col-md-10">
             <input type="checkbox" class="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC($event)">
-            <label for="tncCheck" style="padding-left:1rem; font-size: 1rem;">
+            <label for="tncCheck" style="padding-left:1rem; font-size: 0.75rem;">
                 {{'SIStep2_5' | translate }}
+                <a class="hyperlinksent" (click)="ClickTNC()"> {{'PRTNC_1' | translate }}</a>, 
+                <a class="hyperlinksent" (click)="ClickInvesmtentDisclaimer()"> {{'InvestmentDisclaimer' | translate }}</a>,
+                <a class="hyperlinksent" (click)="ClickMinimumCriteria()"> {{'MinimumCriteria' | translate }}</a>
+                {{'SIStep2_6' | translate }}
             </label><br>
         </div>
         <div class="col-md-1">
@@ -487,7 +633,7 @@
     <footer class="site-footer"> 
         <div class="row text-center" style="padding-top:3rem; padding-bottom: 3rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep1Back()">
+                <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="STPStep1Back()">
                     {{'BTN_Back' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep1Next()" [disabled]="disagreedTNC">
@@ -530,12 +676,14 @@
         </div>
     </div>
 
-
+    <h4 class="h2-ic">
+        {{'AdditionalInformationSOF' | translate}}
+    </h4>
 
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:21.27rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep2Back()">
+                <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="STPStep2Back()">
                     {{'BTN_Back' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep2Next()" [disabled]="disagreedTNC">
@@ -689,10 +837,15 @@
         <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin1' | translate }}</h3>
         <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin2' | translate }}</h3>
         &nbsp;
-        <button type="button" class="btn btn-cancel-white" (click)="SIStep5Cancel()">
-            <!-- Sahkan MyKad -->
-            {{'BTN_Cancel' | translate }}
-        </button>
+        <div class="text-center">
+            <button type="button" class="btn btn-next" style="width: 225px;" (click)="SIStep5Cancel()">
+                {{'BTN_Cancel' | translate }}
+            </button>
+            <button type="button" class="btn btn-cancel" style="width: 225px;" (click)="SIStep5End()">
+                {{'BTN_End' | translate }}
+            </button>
+        </div>
+        
     </div>
     <!-- <div class="col-md-6 text-center" style="padding-top:15rem" *ngIf="paymentStep2">
         <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin1' | translate }}</h3>

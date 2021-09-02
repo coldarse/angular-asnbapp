@@ -3,7 +3,14 @@
 
         <div class="titleNLogo">
             <img src="assets/images/TransaksiKewangan-small-blue.png" alt="FinancialMenuImage">
-            <label class="outofserviceStyle" id="SectionTitle">{{ 'Financial_Transaction_Menu_Header_Title' | translate }}</label>
+            <label class="outofserviceStyle" id="SectionTitle" *ngIf="FinancialMenu == true">{{ 'Financial_Transaction_Menu_Header_Title' | translate }}</label>
+            <div *ngIf="FinancialMenu == false">
+                <label class="upStyle col-sm-12">{{ 'Financial_Transaction_Menu_Header_Title' | translate }}</label>
+                <label class="downStyle col-sm-12" *ngIf="Subscription">{{ 'Subscription' | translate }}</label>
+                <label class="downStyle col-sm-12" *ngIf="InitialInvestment">{{ 'Investment' | translate }}</label>
+                <label class="downStyle col-sm-12" *ngIf="Redemption">{{ 'Redemption' | translate }}</label>
+                <label class="downStyle col-sm-12" *ngIf="TransferSwitch">{{ 'TransferSwitching' | translate }}</label>
+            </div>
         </div>
         
         <form class="d-flex">
@@ -46,9 +53,9 @@
     
     <footer class="site-footer-1">
         <div class="row content-container">
-            <div class="col-md-8"></div>
-            <div class="col-md-4" style="padding-left: 5rem;">
-                <button type="button" class="btn btn-cancel" id="CB1_Cancel" routerLink='/transactionmenu'>
+            <!-- <div class="col-md-8"></div> -->
+            <div class="col-md-12 text-center" style="padding-left: 5rem;">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" routerLink='/transactionmenu'>
                     <!-- Tamatkan Transaksi -->
                     {{ 'BTN_Back' | translate }}
                 </button>
@@ -62,6 +69,9 @@
     <div class="fgb-container">
         <div class="overall-container">
             <div class="button-container">
+                <div class="col-md-3">
+
+                </div>
                 <div class="col-md-3 text-center">
                     <button type="button" class="btn btn-menu-transaction" (click)="InitialInvestmentMajor()">
                         <img src="assets/images/PelaburanPermulaanAkaunSendiri-colour.png">
@@ -75,9 +85,6 @@
                     <label class="menu__label">{{ 'FMI_2' | translate }}</label>
                 </div>
                 <div class="col-md-3">
-
-                </div>
-                <div class="col-md-3">
                     
                 </div>
             </div>
@@ -86,10 +93,9 @@
     
     <footer class="site-footer-1">
         <div class="row content-container">
-            <div class="col-md-8"></div>
-            <div class="col-md-4" style="padding-left: 5rem;">
-                <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="FinancialMenuEvent()">
-                    <!-- Tamatkan Transaksi -->
+            <!-- <div class="col-md-8"></div> -->
+            <div class="col-md-12 text-center" style="padding-left: 5rem;">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="FinancialMenuEvent()">
                     {{ 'BTN_Back' | translate }}
                 </button>
             </div>
@@ -102,26 +108,23 @@
     <div class="fgb-container">
         <div class="overall-container">
             <div class="button-container">
-                <div class="col-md-3 text-center">
+                <div class="col-md-4 text-center">
                     <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionMajor()">
                         <img src="assets/images/PelaburanTambahanAkaunSendiri-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMS_1' | translate }}</label>
                 </div>
-                <div class="col-md-3 text-center">
+                <div class="col-md-4 text-center">
                     <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionMinor()">
                         <img src="assets/images/PelaburanTambahanAkaunBijak-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMS_2' | translate }}</label>
                 </div>
-                <div class="col-md-3 text-center">
+                <div class="col-md-4 text-center">
                     <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionThird()">
                         <img src="assets/images/PelaburanTambahanKeAkaunPihakKetiga-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMS_3' | translate }}</label>
-                </div>
-                <div class="col-md-3">
-                    
                 </div>
             </div>
         </div>
@@ -129,9 +132,9 @@
     
     <footer class="site-footer-1">
         <div class="row content-container">
-            <div class="col-md-8"></div>
-            <div class="col-md-4" style="padding-left: 5rem;">
-                <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="FinancialMenuEvent()">
+            <!-- <div class="col-md-8"></div> -->
+            <div class="col-md-12 text-center" style="padding-left: 5rem;">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="FinancialMenuEvent()">
                     <!-- Tamatkan Transaksi -->
                     {{ 'BTN_Back' | translate }}
                 </button>
@@ -145,6 +148,9 @@
     <div class="fgb-container">
         <div class="overall-container">
             <div class="button-container">
+                <div class="col-md-3">
+
+                </div>
                 <div class="col-md-3 text-center">
                     <button type="button" class="btn btn-menu-transaction" (click)="TransferAndSwitchingMajor()">
                         <img src="assets/images/PemindahanPenukaranAkaunSendiri-colour.png">
@@ -158,9 +164,6 @@
                     <label class="menu__label">{{ 'FMTS_2' | translate }}</label>
                 </div>
                 <div class="col-md-3">
-
-                </div>
-                <div class="col-md-3">
                     
                 </div>
             </div>
@@ -169,9 +172,9 @@
     
     <footer class="site-footer-1">
         <div class="row content-container">
-            <div class="col-md-8"></div>
-            <div class="col-md-4" style="padding-left: 5rem;">
-                <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="FinancialMenuEvent()">
+            <!-- <div class="col-md-8"></div> -->
+            <div class="col-md-12 text-center" style="padding-left: 5rem;">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="FinancialMenuEvent()">
                     <!-- Tamatkan Transaksi -->
                     {{ 'BTN_Back' | translate }}
                 </button>
@@ -185,6 +188,9 @@
     <div class="fgb-container">
         <div class="overall-container">
             <div class="button-container">
+                <div class="col-md-3">
+
+                </div>
                 <div class="col-md-3 text-center">
                     <button type="button" class="btn btn-menu-transaction" (click)="RedemptionMajor()">
                         <img src="assets/images/PengeluaranAkaunSendiri-colour.png">
@@ -198,9 +204,6 @@
                     <label class="menu__label">{{ 'FMR_2' | translate }}</label>
                 </div>
                 <div class="col-md-3">
-
-                </div>
-                <div class="col-md-3">
                     
                 </div>
             </div>
@@ -209,9 +212,9 @@
     
     <footer class="site-footer-1">
         <div class="row content-container">
-            <div class="col-md-8"></div>
-            <div class="col-md-4" style="padding-left: 5rem;">
-                <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="FinancialMenuEvent()">
+            <!-- <div class="col-md-8"></div> -->
+            <div class="col-md-12 text-center" style="padding-left: 5rem;">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="FinancialMenuEvent()">
                     <!-- Tamatkan Transaksi -->
                     {{ 'BTN_Back' | translate }}
                 </button>

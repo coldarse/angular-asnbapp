@@ -38,6 +38,14 @@ export class TransferswitchingComponent implements OnInit {
   @ViewChild('sfundid') sfundid : ElementRef | undefined;
   @ViewChild('samount') samount : ElementRef | undefined;
 
+  pdfsrc1 = "assets/Terms_N_Condition.pdf";
+  pdfsrc2 = "assets/ASNB_MasterProspectus.pdf";
+  pdfsrc3 = "assets/ASNB_MasterProspectus.pdf";
+  TermsAndConditions = false;
+  InvestmentDisclaimer = false;
+  MinimumCriteria = false;
+  ispopup = false;
+
   transferswitching1 = false;
   transferswitching = false;
   istransfer = false;
@@ -108,6 +116,7 @@ export class TransferswitchingComponent implements OnInit {
   transferrelationship = "";
   transferamount = "";
   transferfrom = "";
+  transferfromName = "";
   transferfunname = "";
   transferNAV = "";
   transferunits = "";
@@ -119,6 +128,7 @@ export class TransferswitchingComponent implements OnInit {
   displayRelationship = "";
 
   switchinguhid = "";
+  switchingFromName = "";
   switchingfrom = "";
   switchingto = "";
   switchingamount = "";
@@ -155,6 +165,31 @@ export class TransferswitchingComponent implements OnInit {
     private serviceService : ServiceService,
     private fb: FormBuilder,
   ) { }
+
+  NextTNC(){
+    this.TermsAndConditions = false;
+    this.ispopup = false;
+  }
+  NextID(){
+    this.InvestmentDisclaimer = false;
+    this.ispopup = false;
+  }
+  NextMC(){
+    this.MinimumCriteria = false;
+    this.ispopup = false;
+  }
+  ClickTNC(){
+    this.TermsAndConditions = true;
+    this.ispopup = true;
+  }
+  ClickInvesmtentDisclaimer(){
+    this.InvestmentDisclaimer = true;
+    this.ispopup = true;
+  }
+  ClickMinimumCriteria(){
+    this.MinimumCriteria = true;
+    this.ispopup = true;
+  }
 
   ngOnInit(): void {
     this.translate.use(selectLang.selectedLang);
@@ -455,8 +490,10 @@ export class TransferswitchingComponent implements OnInit {
   
         if(appFunc.isOwn == "major"){
           this.transferfrom = currentHolder.unitholderid;
+          this.transferfromName = currentHolder.firstname;
         }else{
           this.transferfrom = currentBijakHolder.unitholderid;
+          this.transferfromName = currentBijakHolder.firstname;
         }
   
         this.transferfunname = this.actualfundname;
@@ -978,6 +1015,7 @@ export class TransferswitchingComponent implements OnInit {
 
 
         this.switchinguhid = this.unitholderid;
+        this.switchingFromName = this.unitholdername;
         this.switchingto = this.Form_2.controls.fundname.value;
         this.switchingamount = this.Form_2.controls.amount.value;
 

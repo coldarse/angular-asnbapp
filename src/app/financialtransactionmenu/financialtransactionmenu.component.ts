@@ -17,6 +17,8 @@ export class FinancialtransactionmenuComponent implements OnInit {
   TransferSwitch = false;
   Redemption = false;
 
+  
+
 
   constructor(
     private translate: TranslateService,

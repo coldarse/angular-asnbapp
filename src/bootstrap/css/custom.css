@@ -543,7 +543,7 @@ user-select: none;
   border: 1px solid;
   border-color: lightgray;
   width: 800px;
-  height: 200px;
+  height: auto;
   background-color: white;
   margin: auto;
   margin-top: 1.5rem;
@@ -883,7 +883,7 @@ user-select: none;
 }
 
 .overall-container{
-  width: 1200px;
+  width: 1368px;
   height: 625px;
   display: grid;
   place-items: top;
@@ -891,7 +891,6 @@ user-select: none;
 }
 
 .button-container{
-  margin-left: 3rem;
   display: flex;
 }
 

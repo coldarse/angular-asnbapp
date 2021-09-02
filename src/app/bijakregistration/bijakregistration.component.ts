@@ -93,6 +93,7 @@ export class BijakregistrationComponent implements OnInit {
   ARCity_disabled : boolean = true;
   ARState_disabled : boolean = true;
 
+  withMinInvestment = false;
 
   address1_Warning : boolean = false;
   address2_Warning : boolean = false;
@@ -1231,6 +1232,13 @@ export class BijakregistrationComponent implements OnInit {
     this.BRTNC_Visible = false;
   }
 
+  isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {
+    if (current.getTime() >= startDateTime.getTime() && current.getTime() <= stopDateTime.getTime()){
+      return true;
+    }
+    return false;
+  }
+
   TNCAgree(){
     let kActivit = new kActivity();
     kActivit.trxno = signalrConnection.trxno;
@@ -1303,7 +1311,20 @@ export class BijakregistrationComponent implements OnInit {
       "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value
     }
 
-    console.log(body)
+    for (var val of appFunc.modules){
+      if(val.moduleName.toLowerCase().includes('financial')){
+        if(val.enable == true){
+          if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            this.withMinInvestment = true;
+          }else{
+            this.withMinInvestment = false;
+          }
+        }
+        else{
+          this.withMinInvestment = false;
+        }
+      }
+    }
 
     this.serviceService.postAccountRegistration(body).subscribe((data: any) => {
 
@@ -1507,6 +1528,13 @@ export class BijakregistrationComponent implements OnInit {
       this.BREmail_Visible = false;
       this.getAccountInquiry();
     }, 5000);
+  }
+
+
+  goToInitialInvestment(){
+    appFunc.isOwn = "bijak";
+    appFunc.isInvesment = true;
+    this._router.navigate(['subscriptioninvestment']);
   }
 
   getAccountInquiryRetry(): void {
