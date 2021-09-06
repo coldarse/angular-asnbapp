@@ -49,6 +49,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   TermsAndConditions = false;
   InvestmentDisclaimer = false;
   MinimumCriteria = false;
+  isHistorical = true;
 
   isSubscriptionMajor = false;
   isSubscriptionMinor = false;
@@ -1218,6 +1219,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 this.SIStep5 = false;
                 this.SIStep6 = true;
 
+                this.isHistorical = this.isBefore4pm();
+
                 if (currentHolder.email == ""){
                   this.Email_Visible = false;
                 }
@@ -1492,6 +1495,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                               this.accounttype = "Third Party"
                             }
                           }
+
+                          this.isHistorical = this.isBefore4pm();
+
                           this.feepercentage = result1.result.feepercentage == "" ? 0 : result1.result.feepercentage;
                           this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
                           this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
@@ -2491,6 +2497,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   this.accounttype = "Third Party"
                 }
               }
+
+              this.isHistorical = this.isBefore4pm();
+
               this.feepercentage = result1.result.feepercentage == "" ? 0 : result1.result.feepercentage;
               this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
               this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
@@ -2687,6 +2696,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                             this.accounttype = "Third Party"
                           }
                         }
+
+                        this.isHistorical = this.isBefore4pm();
+
                         this.feepercentage = result1.result.feepercentage == "" ? 0 : result1.result.feepercentage;
                         this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
                         this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
@@ -3229,6 +3241,16 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   }
 
+
+  isBefore4pm(){
+    let today = new Date().getHours();
+    if (today < 16) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   agreeTNC(event: any){
     if (event.target.checked){
       this.disagreedTNC = false;
@@ -3522,7 +3544,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     }
     catch (e){
       errorCodes.code = "0168";
-      errorCodes.message = e;
+      errorCodes.message = "Account Inquiry Issue";
       this._router.navigate(['outofservice']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + `WebApp Component [PrintingEmail]` + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }

@@ -1090,8 +1090,11 @@
 
         </div>
         <div class="col-md-10">
-            <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;">
+            <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;" *ngIf="isHistorical">
                 {{'SIStep6_1' | translate }}
+            </label><br>
+            <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;" *ngIf="!isHistorical">
+                {{'SIStep6_2' | translate }}
             </label><br>
         </div>
         <div class="col-md-1">

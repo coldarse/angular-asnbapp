@@ -45,6 +45,7 @@ export class TransferswitchingComponent implements OnInit {
   InvestmentDisclaimer = false;
   MinimumCriteria = false;
   ispopup = false;
+  isHistorical = false;
 
   transferswitching1 = false;
   transferswitching = false;
@@ -363,6 +364,8 @@ export class TransferswitchingComponent implements OnInit {
 
   Transfer(fund: any){
 
+    this.isHistorical = this.isBefore4pm();
+
     if(selectLang.selectedLang == 'en'){
       this.transaction = "Transfer";
     }else{
@@ -588,11 +591,19 @@ export class TransferswitchingComponent implements OnInit {
       "OTHERSOURCEOFFUND":"",
       "FUNDERNAME":""
     }
-
+    
     this.serviceService.postProvisionSubscription(body)
       .subscribe((result: any) => {
         console.log(result.result.transactionstatus);
         console.log(result.result.transactionnumber);
+
+        let txnmode = "";
+        if(this.isHistorical){
+          txnmode = "A";
+        }else{
+          txnmode = "U";
+        }
+
         if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
           const body1 = 
           {
@@ -617,7 +628,7 @@ export class TransferswitchingComponent implements OnInit {
             "TOUHFIRSTNAME": this.transferuhname,
             "TOUHIDENTIFICATIONTYPE": this.transferuhictype,
             "TOUHIDENTIFICATIONNUMBER": this.transferuhic,
-            "TXNMODE": "A",
+            "TXNMODE": txnmode,
             "GUARDIANID":guardianID,
             "GUARDIANICTYPE":guardianICtype,
             "GUARDIANICNUMBER":guardianIC,
@@ -904,6 +915,7 @@ export class TransferswitchingComponent implements OnInit {
 
   Switching(fund: any){
 
+    this.isHistorical = this.isBefore4pm();
     
     const body =
     {
@@ -1035,6 +1047,15 @@ export class TransferswitchingComponent implements OnInit {
     } , 1000);
   }
 
+  isBefore4pm(){
+    let today = new Date().getHours();
+    if (today < 16) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   switching2Next(){
     let uhid = "";
     let firstname = "";
@@ -1118,6 +1139,14 @@ export class TransferswitchingComponent implements OnInit {
       .subscribe((result: any) => {
         console.log(result.result.transactionstatus);
         console.log(result.result.transactionnumber);
+
+        let txnmode = "";
+        if(this.isHistorical){
+          txnmode = "A";
+        }else{
+          txnmode = "U";
+        }
+
         if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
           const body1 = 
           {
@@ -1139,7 +1168,7 @@ export class TransferswitchingComponent implements OnInit {
             "PAYMENTTYPE":"",
             "BANKACCOUNTNUMBER":"",
             "TOFUNDID":fundid,
-            "TXNMODE":"A",
+            "TXNMODE":txnmode,
             "POLICYNUMBER":"",
             "EPFNUMBER":"",
             "GUARDIANID":guardianID,
@@ -1710,7 +1739,7 @@ export class TransferswitchingComponent implements OnInit {
     }
     catch (e){
       errorCodes.code = "0168";
-      errorCodes.message = e;
+      errorCodes.message = "Account Inquiry Error";
       this.router.navigate(['outofservice']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + `WebApp Component [PrintingEmail]` + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }

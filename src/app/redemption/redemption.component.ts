@@ -37,6 +37,7 @@ export class RedemptionComponent implements OnInit {
   MinimumCriteria = false;
 
   ispopup = false;
+  isHistorical = true;
 
   isOwn = false;
   isBijak = false;
@@ -398,7 +399,19 @@ export class RedemptionComponent implements OnInit {
     
   }
 
+  isBefore4pm(){
+    let today = new Date().getHours();
+    if (today < 16) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   SelectFund(fund: any){
+
+    this.isHistorical = this.isBefore4pm();
+
     this.redemption1 = false;
     this.redemption2 = true;
     appFunc.bankName.forEach((element: bankName) => {
@@ -505,7 +518,7 @@ export class RedemptionComponent implements OnInit {
         this.redemption3 = true;
   
         this.redemptionhistoricalpricing = this.Form_1.controls.amount.value;
-        this.redemptionforwardpricing = this.Form_1.controls.amount.value;
+        //this.redemptionforwardpricing = this.Form_1.controls.amount.value;
   
   
         deleteKeyboard();
@@ -525,6 +538,12 @@ export class RedemptionComponent implements OnInit {
 
   redemption3Next(){
 
+    let txnmode = "";
+    if(this.isHistorical){
+      txnmode = "A";
+    }else{
+      txnmode = "U";
+    }
 
     const body = {
       "CHANNELTYPE": signalrConnection.channelType,
@@ -546,7 +565,7 @@ export class RedemptionComponent implements OnInit {
       "BANKCUSTPHONENUMBER":"",
       "PAYMENTTYPE":"T",
       "BANKACCOUNTNUMBER":this.redemptionbankaccountno,
-      "TXNMODE":"A",
+      "TXNMODE":txnmode,
       "BANKCODE":this.redemptionbankcode,
       "POLICYNUMBER":"UT",
       "EPFNUMBER":"",
@@ -1106,7 +1125,7 @@ export class RedemptionComponent implements OnInit {
     }
     catch (e){
       errorCodes.code = "0168";
-      errorCodes.message = e;
+      errorCodes.message = "Account Inquiry Error";
       this.router.navigate(['outofservice']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + `WebApp Component [PrintingEmail]` + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }

@@ -394,8 +394,11 @@
         <div class="row" style="padding-bottom: 2rem;">
             <div class="col-md-1"></div>
             <div class="col-md-5">
-                <h4  style="font-size: 1.25rem;">
+                <h4  style="font-size: 1.25rem;" *ngIf="isHistorical">
                     {{'RedemptionAmountHistorical' | translate}}
+                </h4>
+                <h4  style="font-size: 1.25rem;" *ngIf="!isHistorical">
+                    {{'RedemptionAmountForwarding' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -573,8 +576,11 @@
         <div class="row" >
             <div class="col-md-1"></div>
             <div class="col-md-5">
-                <h4  style="font-size: 1.25rem;">
+                <h4  style="font-size: 1.25rem;" *ngIf="isHistorical">
                     {{'RedemptionAmountHistorical' | translate}}
+                </h4>
+                <h4  style="font-size: 1.25rem;" *ngIf="!isHistorical">
+                    {{'RedemptionAmountForwarding' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -583,7 +589,7 @@
                 </h4>
             </div>
         </div>
-        <div class="row" style="padding-bottom: 2rem;">
+        <!-- <div class="row" style="padding-bottom: 2rem;">
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4  style="font-size: 1.25rem;">
@@ -595,7 +601,7 @@
                     : {{ redemptionforwardpricing | number : '1.2-2'  }}
                 </h4>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div style="display:grid; place-items: center; padding-top: 2rem;">
@@ -756,7 +762,7 @@
                 </h4>
             </div>
         </div>
-        <div class="row" >
+        <div class="row" *ngIf="isHistorical">
             <div class="col-md-1"></div>
             <div class="col-md-10">
                 <h4>
@@ -765,7 +771,7 @@
             </div>
             <div class="col-md-1"></div>
         </div>
-        <div class="row" >
+        <div class="row" *ngIf="!isHistorical">
             <div class="col-md-1"></div>
             <div class="col-md-10">
                 <h4>
