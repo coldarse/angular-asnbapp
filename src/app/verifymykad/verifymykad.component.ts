@@ -429,7 +429,7 @@ export class VerifymykadComponent implements OnInit {
         });
       }
     }
-    catch (e){
+    catch (e: any){
       errorCodes.code = "7788";
       errorCodes.message = e;
       this._router.navigate(['errorscreen']);
@@ -487,7 +487,7 @@ export class VerifymykadComponent implements OnInit {
       }
       
     }
-    catch(e) {
+    catch(e: any) {
       errorCodes.code = "0166";
       errorCodes.message = e;
       this._router.navigate(['errorscreen']);
@@ -565,7 +565,7 @@ export class VerifymykadComponent implements OnInit {
         this.getAccountInquiry();
       }
     }
-    catch(e) {
+    catch(e: any) {
       errorCodes.code = "0166";
       errorCodes.message = e;
       this._router.navigate(['errorscreen']);
@@ -1078,7 +1078,7 @@ export class VerifymykadComponent implements OnInit {
         }
       });
     }
-    catch (e){
+    catch (e: any){
       errorCodes.code = "0169";
       errorCodes.message = e;
       this._router.navigate(['errorscreen']);
