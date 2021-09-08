@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { appFunc } from '../_models/appFunctions';
+import { currentHolder } from '../_models/currentUnitHolder';
 import { selectLang } from '../_models/language';
 
 @Component({
@@ -17,7 +18,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
   TransferSwitch = false;
   Redemption = false;
 
-  
+  isBijakDisabled = false;
 
 
   constructor(
@@ -27,6 +28,12 @@ export class FinancialtransactionmenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.translate.use(selectLang.selectedLang);
+    if(currentHolder.totalminoraccount != "0"){
+      this.isBijakDisabled = false;
+    }
+    else{
+      this.isBijakDisabled = true;
+    }
   }
 
   FinancialMenuEvent(){

@@ -57,6 +57,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
   isInvestmentMajor = false;
   isInvestmentMinor = false;
 
+  
+
   isSubscription = false;
   isInvestment = false;
   isOwn = false;

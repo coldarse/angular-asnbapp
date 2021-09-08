@@ -2140,7 +2140,7 @@ export class UpdatedetailsComponent implements OnInit {
         }
       });
     }
-    catch (e){
+    catch (e: any){
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
@@ -2266,7 +2266,7 @@ export class UpdatedetailsComponent implements OnInit {
         }
       });
     }
-    catch (e){
+    catch (e: any){
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);

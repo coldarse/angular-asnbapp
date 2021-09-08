@@ -79,7 +79,7 @@
                     <label class="menu__label">{{ 'FMI_1' | translate }}</label>
                 </div>
                 <div class="col-md-3 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="InitialInvestmentMinor()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="InitialInvestmentMinor()" [disabled]="isBijakDisabled">
                         <img src="assets/images/PelaburanPermulaanAkaunBijak-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMI_2' | translate }}</label>
@@ -115,7 +115,7 @@
                     <label class="menu__label">{{ 'FMS_1' | translate }}</label>
                 </div>
                 <div class="col-md-4 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionMinor()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionMinor()" [disabled]="isBijakDisabled">
                         <img src="assets/images/PelaburanTambahanAkaunBijak-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMS_2' | translate }}</label>
@@ -158,7 +158,7 @@
                     <label class="menu__label">{{ 'FMTS_1' | translate }}</label>
                 </div>
                 <div class="col-md-3 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="TransferAndSwitchingBijak()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="TransferAndSwitchingBijak()" [disabled]="isBijakDisabled">
                         <img src="assets/images/PemindahanPenukaranAkaunBijak-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMTS_2' | translate }}</label>
@@ -198,7 +198,7 @@
                     <label class="menu__label">{{ 'FMR_1' | translate }}</label>
                 </div>
                 <div class="col-md-3 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="RedemptionMinor()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="RedemptionMinor()" [disabled]="isBijakDisabled">
                         <img src="assets/images/PengeluaranAkaunBijak-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMR_2' | translate }}</label>
