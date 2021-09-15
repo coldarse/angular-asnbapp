@@ -601,7 +601,7 @@ export class AccountregistrationComponent implements OnInit {
   
           this.ARTNC_Visible = false;
   
-          if (this.AR_Form.controls.email.value == ""){
+          if (this.AR_Form.controls.email.value == "NA" || this.AR_Form.controls.email.value.trim() == ''){
             this.Email_Visible = false;
           }
           else{
@@ -613,7 +613,7 @@ export class AccountregistrationComponent implements OnInit {
           }
           else{
             this.Print_Visible = true;
-          }
+          }s
   
           this.ARSuccess_Visible = true;
           this.ARPopUp1_Visible = true;

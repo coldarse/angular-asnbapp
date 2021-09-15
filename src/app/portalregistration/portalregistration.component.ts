@@ -1480,7 +1480,7 @@ export class PortalregistrationComponent implements OnInit {
         }
       });
     }
-    catch (e){
+    catch (e: any){
       errorCodes.code = "0169";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
