@@ -388,7 +388,7 @@
                                         {{cities.name}}
                                     </option>
                                 </select> -->
-                                <input type="text" name="city" class="input-normal use-keyboard-input"  [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City">
+                                <input type="text" name="city" class="input-normal use-keyboard-input" #fcity [disabled]="ARCity_disabled" [formControl]='AR_Form.controls["city"]' id="AR_City">
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="city_Warning">{{'CTYWarning' | translate}}</div>
                             </div>
                         </div>

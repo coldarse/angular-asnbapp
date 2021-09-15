@@ -29,6 +29,7 @@ export class AccountregistrationComponent implements OnInit {
   @ViewChild('address1') add1 : ElementRef | undefined;
   @ViewChild('address2') add2 : ElementRef | undefined;
   @ViewChild('postcode') postcode : ElementRef | undefined;
+  @ViewChild('fcity') fcity : ElementRef | undefined;
   @ViewChild('homenumber') homeno : ElementRef | undefined;
   @ViewChild('telephone') phoneno : ElementRef | undefined;
   @ViewChild('email') email : ElementRef | undefined;
@@ -872,6 +873,7 @@ export class AccountregistrationComponent implements OnInit {
     this.AR_Form.controls.address1.setValue(this.add1?.nativeElement.value);
     this.AR_Form.controls.address2.setValue(this.add2?.nativeElement.value);
     this.AR_Form.controls.postcode.setValue(this.postcode?.nativeElement.value);
+    this.AR_Form.controls.city.setValue(this.fcity?.nativeElement.value);
     this.AR_Form.controls.homenumber.setValue(this.homeno?.nativeElement.value);
     this.AR_Form.controls.telephone.setValue(this.phoneno?.nativeElement.value);
     this.AR_Form.controls.email.setValue(this.email?.nativeElement.value);
