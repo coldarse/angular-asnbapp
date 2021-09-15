@@ -768,7 +768,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    {{thirdreasonkeyed}}
+                    {{displayReason}}
                 </h4>
             </div>
         </div>
@@ -781,7 +781,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    {{thirdrelationshipkeyed}}
+                    {{displayRelationship}}
                 </h4>
             </div>
         </div>
@@ -794,7 +794,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    {{thirdfundnamekeyed}}
+                    {{displayFundname}}
                 </h4>
             </div>
         </div>
@@ -934,7 +934,7 @@
             </div>
             <div class="col-md-6">
                 <h5>
-                    : {{thirdreasonkeyed}}
+                    : {{displayReason}}
                 </h5>
             </div>
         </div>
@@ -947,7 +947,7 @@
             </div>
             <div class="col-md-6">
                 <h5>
-                    : {{thirdrelationshipkeyed}}
+                    : {{displayRelationship}}
                 </h5>
             </div>
         </div>
@@ -1038,8 +1038,8 @@
                 </h5>
             </div>
             <div class="col-md-6">
-                <h5>
-                    : {{nav | number : '1.2-2'}}
+                <h5 *ngIf="isHistorical">
+                    : {{nav | number : '1.4-4'}}
                 </h5>
             </div>
         </div>
@@ -1051,7 +1051,7 @@
                 </h5>
             </div>
             <div class="col-md-6">
-                <h5>
+                <h5 *ngIf="isHistorical">
                     : {{sst | number : '1.2-2'}}
                 </h5>
             </div>
@@ -1064,7 +1064,7 @@
                 </h5>
             </div>
             <div class="col-md-6">
-                <h5>
+                <h5 *ngIf="isHistorical">
                     : {{unitsalloted | number : '1.2-2' }}
                 </h5>
             </div>
@@ -1077,7 +1077,7 @@
                 </h5>
             </div>
             <div class="col-md-6">
-                <h5>
+                <h5 *ngIf="isHistorical">
                     : {{initialcharges | number : '1.2-2'}}
                 </h5>
             </div>
@@ -1089,13 +1089,13 @@
         <div class="col-md-1">
 
         </div>
-        <div class="col-md-10">
+        <div class="col-md-10 text-center">
             <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;" *ngIf="isHistorical">
                 {{'SIStep6_1' | translate }}
-            </label><br>
+            </label>
             <label for="tncCheck" style="padding-left:1rem; font-size: 1.5rem;" *ngIf="!isHistorical">
                 {{'SIStep6_2' | translate }}
-            </label><br>
+            </label>
         </div>
         <div class="col-md-1">
             

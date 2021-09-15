@@ -454,10 +454,10 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top: 3rem; padding-bottom: 3rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-cancel" id="CB1_Cancel" (click)="redemption2Back()">
+                <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="redemption2Back()">
                     {{'BTN_Back' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="redemption2Update()">
+                <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="redemption2Update()">
                     {{'TMS_1' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="redemption2Next()" [disabled]="disagreedTNC" [hidden]="ispopup">
@@ -719,7 +719,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ redemptionnav | number : '1.2-2' }}
+                    : {{ redemptionnav | number : '1.4-4' }}
                 </h4>
             </div>
         </div>

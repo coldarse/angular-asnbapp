@@ -11,7 +11,7 @@ import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { currentHolder } from '../_models/currentUnitHolder';
-import { ASNBFundID } from '../_models/dropDownLists';
+import { ASNBFundID, reasonTransfer, thirdpartyRelationship } from '../_models/dropDownLists';
 import { errorCodes } from '../_models/errorCode';
 import { kActivity } from '../_models/kActivity';
 import { selectLang } from '../_models/language';
@@ -57,7 +57,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
   isInvestmentMajor = false;
   isInvestmentMinor = false;
 
-  
+  displayReason = "";
+  displayRelationship = "";
+  displayFundname = "";
 
   isSubscription = false;
   isInvestment = false;
@@ -1633,6 +1635,24 @@ export class SubscriptioninvestmentComponent implements OnInit {
       this.thirdrelationshipkeyed = this.Form_3.controls.relationship.value;
       this.thirdfundnamekeyed = this.Form_3.controls.fund.value;
       this.thirdamountkeyed = this.Form_3.controls.amount.value;
+
+      this.reason.forEach((element: reasonTransfer) => {
+        if(element.code == this.thirdreasonkeyed){
+          this.displayReason = element.desc;
+        }
+      });
+
+      this.relationship.forEach((elem: thirdpartyRelationship) => {
+        if(elem.code == this.thirdrelationshipkeyed){
+          this.displayRelationship = elem.desc;
+        }
+      });
+
+      appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
+        if(elem.code.toLowerCase() == this.thirdfundnamekeyed.toLowerCase()){
+          this.fundname = elem.value;
+        }
+      });
 
       if(appFunc.isInvesment){ //Investment Major
         if(this.InvestmentMaxValue == 0.00 && this.InvestmentMinValue == 0.00 ){

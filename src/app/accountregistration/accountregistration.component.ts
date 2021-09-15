@@ -383,7 +383,7 @@ export class AccountregistrationComponent implements OnInit {
     try{
       loadKeyboard();
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "After form is loaded, initialized keyboard");
-    }catch(e){
+    }catch(e: any){
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Error initializing keyboard." + e.toString());
     }
   }
@@ -394,7 +394,7 @@ export class AccountregistrationComponent implements OnInit {
       clearInterval(this.id);
       deleteKeyboard();
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Cleared Interval and removed keyboard.");
-    }catch(e){
+    }catch(e:any){
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Error clearing interval and/or removing keyboard." + e.toString());
     }
     
@@ -1262,7 +1262,7 @@ export class AccountregistrationComponent implements OnInit {
         }
       });
     }
-    catch (e){
+    catch (e:any){
       errorCodes.code = "0169";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);

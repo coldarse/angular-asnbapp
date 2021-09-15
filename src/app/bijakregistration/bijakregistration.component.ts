@@ -310,7 +310,7 @@ export class BijakregistrationComponent implements OnInit {
   ngAfterViewInit(){
     try{
       
-    }catch(e){
+    }catch(e: any){
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Error initializing keyboard." + e.toString());
     }
   }
@@ -581,7 +581,7 @@ export class BijakregistrationComponent implements OnInit {
         }
       }
     }
-    catch(e) {
+    catch(e: any) {
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
@@ -680,7 +680,7 @@ export class BijakregistrationComponent implements OnInit {
         }
       }
     }
-    catch(e) {
+    catch(e: any) {
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
@@ -962,7 +962,7 @@ export class BijakregistrationComponent implements OnInit {
 
       });
     }
-    catch (e){
+    catch (e: any){
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);
@@ -1209,7 +1209,8 @@ export class BijakregistrationComponent implements OnInit {
       window.scroll(0,0);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `${x} field(s) empty.`);
     }else{
-      if(this.AR_Form.controls.pep.value == 'Y' || this.AR_Form.controls.fatca.value == 'Y' || this.AR_Form.controls.crs.value == 'Y'){
+      //this.AR_Form.controls.pep.value == 'Y' ||
+      if( this.AR_Form.controls.fatca.value == 'Y' || this.AR_Form.controls.crs.value == 'Y'){
         errorCodes.Ecode = "0118";
         errorCodes.Emessage = "FATCA/PEP/CRS selected.";
         errorCodes.accountName = currentMyKidDetails.Name;
@@ -1526,7 +1527,7 @@ export class BijakregistrationComponent implements OnInit {
 
     setTimeout(()=>{   
       this.BREmail_Visible = false;
-      this.getAccountInquiry();
+      this.getAccountInquiryRetry();
     }, 5000);
   }
 
@@ -1645,7 +1646,7 @@ export class BijakregistrationComponent implements OnInit {
         }
       });
     }
-    catch (e){
+    catch (e: any){
       errorCodes.code = "0168";
       errorCodes.message = e;
       this._router.navigate(['outofservice']);

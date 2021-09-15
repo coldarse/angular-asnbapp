@@ -292,7 +292,7 @@
             <div class="row ">
                 <div class="col-sm-4 displayflex">
                     <img src="assets/fundicon/{{actualfundid}}.png" class="switchingtransferfundicon" style="padding-top: 0.4rem;">
-                    <h5 class="h2-ic" style="margin-top: auto; margin-bottom: auto;">{{ actualfundname }}</h5> <!-- Fund.fundid -->
+                    <h5 class="h2-ic" style="margin-top: auto; margin-bottom: auto; margin-right: auto; margin-left: 5px;">&nbsp;{{ actualfundname }}</h5> <!-- Fund.fundid -->
                 </div>
                 <div class="col-sm-4">
                     <h5 class="h2-ic" style="padding-top: 2rem;">{{ actualfundvalue | number : '1.2-2'  }}</h5> <!-- Fund.fundvalue -->
@@ -403,7 +403,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
-                    {{'AmountInclusiveSST2' | translate}}
+                    {{'AmountInclusiveSST5' | translate}}
                 </h4>
                 <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
                     {{'AmountInclusiveSST4' | translate}}
@@ -450,7 +450,7 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top: 3rem; padding-bottom: 3rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transfer1Back()">
+                <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="transfer1Back()">
                     {{'BTN_Back' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transfer1Next()" [disabled]="disagreedTNC" [hidden]="ispopup">
@@ -549,7 +549,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
-                    {{'AmountInclusiveSST2' | translate}}
+                    {{'AmountInclusiveSST5' | translate}}
                 </h4>
                 <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
                     {{'AmountInclusiveSST4' | translate}}
@@ -605,7 +605,7 @@
     <footer class="site-footer">
         <div class="row text-center" style="padding-top: 3rem; padding-bottom: 3rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transfer2Back()">
+                <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="transfer2Back()">
                     {{'BTN_Back' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transfer2Next()">
@@ -639,7 +639,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
-                    {{'TransferTo' | translate}} - {{'ARSuccess_5' | translate}}
+                    {{'ARSuccess_5' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -652,7 +652,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
-                    {{'TransferTo' | translate}} - {{'UHName' | translate}}
+                    {{'UHName' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -665,7 +665,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
-                    {{'TransferTo' | translate}} - {{'UHICNo' | translate}}
+                    {{'UHICNo' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -683,7 +683,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ transferreason }}
+                    : {{ displayReason }}
                 </h4>
             </div>
         </div>
@@ -696,7 +696,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ transferrelationship }}
+                    : {{ displayRelationship }}
                 </h4>
             </div>
         </div>
@@ -704,7 +704,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
-                    {{'AmountInclusiveSST2' | translate}}
+                    {{'AmountInclusiveSST5' | translate}}
                 </h4>
                 <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
                     {{'AmountInclusiveSST4' | translate}}
@@ -764,7 +764,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ transferNAV | number : '1.2-2' }}
+                    : {{ transferNAV | number : '1.4-4' }}
                 </h4>
             </div>
         </div>
@@ -949,7 +949,7 @@
                     {{'AmountInclusiveSST2' | translate}}
                 </h4>
                 <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
-                    {{'AmountInclusiveSST4' | translate}}
+                    {{'AmountInclusiveSST6' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -1082,7 +1082,7 @@
                     {{'AmountInclusiveSST2' | translate}}
                 </h4>
                 <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
-                    {{'AmountInclusiveSST4' | translate}}
+                    {{'AmountInclusiveSST6' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -1185,7 +1185,7 @@
                     {{'AmountInclusiveSST2' | translate}}
                 </h4>
                 <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
-                    {{'AmountInclusiveSST4' | translate}}
+                    {{'AmountInclusiveSST6' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -1203,7 +1203,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ switchingNAVFrom | number : '1.2-2'  }}
+                    : {{ switchingNAVFrom | number : '1.4-4'  }}
                 </h4>
             </div>
         </div>
@@ -1216,7 +1216,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ switchingNAVTo | number : '1.2-2'  }}
+                    : {{ switchingNAVTo | number : '1.4-4'  }}
                 </h4>
             </div>
         </div>
