@@ -902,10 +902,10 @@ export class TransferswitchingComponent implements OnInit {
     }, 5000);
   }
 
-  containsObject(obj: ASNBFundID, list: fundDetails[]) {
+  containsObject(obj: ASNBFundID, list: any[]) {
     var x;
     for (x in list) {
-        if (list.hasOwnProperty(x) && list[x].FUNDID === obj.code) {
+        if (list.hasOwnProperty(x) && list[x].toString() === obj.code.toString()) {
             return true;
         }
     }
@@ -944,11 +944,15 @@ export class TransferswitchingComponent implements OnInit {
 
     this.serviceService.postEligibleFunds(body)
       .subscribe((result: any) => {
+        console.log(result.result.fundid);
         appFunc.ASNBFundID.forEach((elem1: ASNBFundID) => {
-          if(!this.containsObject(elem1, result.result.fundid)){
+          if(this.containsObject(elem1, result.result.fundid)){
             this.fundAvailable.push(elem1);
+            console.log(true);
           }
         });
+
+        console.log(this.fundAvailable);
 
         this.switchingNAVFrom = fund.NAV;
         this.switchingfrom = fund.FUNDNAME;

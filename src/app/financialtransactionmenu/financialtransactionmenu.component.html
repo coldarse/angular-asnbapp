@@ -24,25 +24,25 @@
         <div class="overall-container">
             <div class="button-container">
                 <div class="text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionEvent()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionEvent()" [disabled]="SubscriptionDisabled">
                         <img src="assets/images/PelaburanTambahanAkaunSendiri-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FM_1' | translate }}</label>
                 </div>
                 <div class="text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="InitialInvestmentEvent()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="InitialInvestmentEvent()" [disabled]="InvestmentDisabled">
                         <img src="assets/images/PelaburanPermulaanAkaunSendiri-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FM_2' | translate }}</label>
                 </div>
                 <div class="text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="TransferSwitchEvent()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="TransferSwitchEvent()" [disabled]="TransferSwitchDisabled">
                         <img src="assets/images/PemindahanPenukaranAkaunSendiri-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FM_3' | translate }}</label>
                 </div>
                 <div class="text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="RedemptionEvent()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="RedemptionEvent()" [disabled]="RedemptionDisabled">
                         <img src="assets/images/PengeluaranAkaunSendiri-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FM_4' | translate }}</label>
@@ -73,13 +73,13 @@
 
                 </div>
                 <div class="col-md-3 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="InitialInvestmentMajor()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="InitialInvestmentMajor()" [disabled]="InvestmentMDisabled">
                         <img src="assets/images/PelaburanPermulaanAkaunSendiri-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMI_1' | translate }}</label>
                 </div>
                 <div class="col-md-3 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="InitialInvestmentMinor()" [disabled]="isBijakDisabled">
+                    <button type="button" class="btn btn-menu-transaction" (click)="InitialInvestmentMinor()" [disabled]="isBijakDisabled || InvestmentBDisabled">
                         <img src="assets/images/PelaburanPermulaanAkaunBijak-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMI_2' | translate }}</label>
@@ -109,19 +109,19 @@
         <div class="overall-container">
             <div class="button-container">
                 <div class="col-md-4 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionMajor()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionMajor()"  [disabled]="SubscriptionMDisabled">
                         <img src="assets/images/PelaburanTambahanAkaunSendiri-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMS_1' | translate }}</label>
                 </div>
                 <div class="col-md-4 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionMinor()" [disabled]="isBijakDisabled">
+                    <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionMinor()" [disabled]="isBijakDisabled || SubscriptionBDisabled">
                         <img src="assets/images/PelaburanTambahanAkaunBijak-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMS_2' | translate }}</label>
                 </div>
                 <div class="col-md-4 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionThird()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionThird()"  [disabled]="SubscriptionTDisabled">
                         <img src="assets/images/PelaburanTambahanKeAkaunPihakKetiga-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMS_3' | translate }}</label>
@@ -152,13 +152,13 @@
 
                 </div>
                 <div class="col-md-3 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="TransferAndSwitchingMajor()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="TransferAndSwitchingMajor()" [disabled]="TransferMDisabled || SwitchMDisabled">
                         <img src="assets/images/PemindahanPenukaranAkaunSendiri-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMTS_1' | translate }}</label>
                 </div>
                 <div class="col-md-3 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="TransferAndSwitchingBijak()" [disabled]="isBijakDisabled">
+                    <button type="button" class="btn btn-menu-transaction" (click)="TransferAndSwitchingBijak()" [disabled]="isBijakDisabled || (TransferBDisabled || SwitchBDisabled)">
                         <img src="assets/images/PemindahanPenukaranAkaunBijak-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMTS_2' | translate }}</label>
@@ -192,13 +192,13 @@
 
                 </div>
                 <div class="col-md-3 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="RedemptionMajor()">
+                    <button type="button" class="btn btn-menu-transaction" (click)="RedemptionMajor()" [disabled]="RedemptionMDisabled">
                         <img src="assets/images/PengeluaranAkaunSendiri-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMR_1' | translate }}</label>
                 </div>
                 <div class="col-md-3 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="RedemptionMinor()" [disabled]="isBijakDisabled">
+                    <button type="button" class="btn btn-menu-transaction" (click)="RedemptionMinor()" [disabled]="isBijakDisabled || RedemptionDisabled">
                         <img src="assets/images/PengeluaranAkaunBijak-colour.png">
                     </button>
                     <label class="menu__label">{{ 'FMR_2' | translate }}</label>
