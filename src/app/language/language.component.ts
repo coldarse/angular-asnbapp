@@ -140,6 +140,8 @@ export class LanguageComponent implements OnInit {
           var areDisabled = 0
           this.loadingDisable = false;
           appFunc.modules = res.result.map((em: any) => new eModules(em));
+
+          console.log(appFunc.modules);
           
           for (var val of appFunc.modules){
             if(val.enable == false){

@@ -204,6 +204,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
 
   checkAMLA(){
+    let faultCode = "";
+    let faultString = "";
+
     if(appFunc.isOwn == "bijak"){
       if(currentBijakHolder.riskprofile == ""){
         const AMLABody = 
@@ -232,14 +235,39 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }
 
         this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+          faultCode = data.result.faultCode;
+          faultString = data.result.faultString;
           currentBijakHolder.riskprofile = data.result.rtnHit;
-          if(currentBijakHolder.riskprofile == "HC"){
+          if(currentBijakHolder.riskprofile == "HI"){
             //Error screen?
+            errorCodes.Ecode = currentBijakHolder.riskprofile;
+            errorCodes.Emessage = currentBijakHolder.riskprofile;
+            errorCodes.accountType = "Bijak/Remaja";
+            errorCodes.accountName = currentBijakHolder.firstname;
+            errorCodes.accountNo = currentBijakHolder.unitholderid;
+            errorCodes.transaction = this.transaction;
+            this._router.navigate(['errorscreen']);
+          }
+          else if(!data.result.rtnHit){
+            errorCodes.Ecode = faultCode;
+            errorCodes.Emessage = faultString;
+            errorCodes.accountType = "Dewasa";
+            errorCodes.accountName = currentBijakHolder.firstname;
+            errorCodes.accountNo = currentBijakHolder.unitholderid;
+            errorCodes.transaction = this.transaction;
+            this._router.navigate(['errorscreen']);
           }
         });
       }
-      else if(currentBijakHolder.riskprofile == "HC"){
+      else if(currentBijakHolder.riskprofile == "HI"){
         //Error screen?
+        errorCodes.Ecode = currentBijakHolder.riskprofile;
+        errorCodes.Emessage = currentBijakHolder.riskprofile;
+        errorCodes.accountType = "Bijak/Remaja";
+        errorCodes.accountName = currentBijakHolder.firstname;
+        errorCodes.accountNo = currentBijakHolder.unitholderid;
+        errorCodes.transaction = this.transaction;
+        this._router.navigate(['errorscreen']);
       }
     }
     else{
@@ -270,13 +298,39 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }
 
         this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
-          if(data.result.rtnHit == "HC"){
+          faultCode = data.result.faultCode;
+          faultString = data.result.faultString;
+          currentHolder.riskprofile = data.result.rtnHit;
+          if(data.result.rtnHit == "HI"){
             //Error screen?
+            errorCodes.Ecode = currentHolder.riskprofile;
+            errorCodes.Emessage = currentHolder.riskprofile;
+            errorCodes.accountType = "Dewasa";
+            errorCodes.accountName = currentHolder.firstname;
+            errorCodes.accountNo = currentHolder.unitholderid;
+            errorCodes.transaction = this.transaction;
+            this._router.navigate(['errorscreen']);
+          }
+          else if(!data.result.rtnHit){
+            errorCodes.Ecode = faultCode;
+            errorCodes.Emessage = faultString;
+            errorCodes.accountType = "Dewasa";
+            errorCodes.accountName = currentHolder.firstname;
+            errorCodes.accountNo = currentHolder.unitholderid;
+            errorCodes.transaction = this.transaction;
+            this._router.navigate(['errorscreen']);
           }
         });
       }
-      else if(currentHolder.riskprofile == "HC"){
+      else if(currentHolder.riskprofile == "HI"){
         //Error screen?
+        errorCodes.Ecode = currentHolder.riskprofile;
+        errorCodes.Emessage = currentHolder.riskprofile;
+        errorCodes.accountType = "Dewasa";
+        errorCodes.accountName = currentHolder.firstname;
+        errorCodes.accountNo = currentHolder.unitholderid;
+        errorCodes.transaction = this.transaction;
+        this._router.navigate(['errorscreen']);
       }
     }
   }
