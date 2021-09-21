@@ -737,7 +737,7 @@ export class UpdatedetailsComponent implements OnInit {
 
   ConfirmYes(){
 
-    console.log(this.AR_Form.controls.city.value);
+    // console.log(this.AR_Form.controls.city.value);
     if(this.AR_Form.controls.fatca.value == 'Y' || this.AR_Form.controls.crs.value == 'Y'){
       errorCodes.Ecode = "0118";
       errorCodes.Emessage = "FATCA/PEP/CRS selected.";
@@ -826,7 +826,7 @@ export class UpdatedetailsComponent implements OnInit {
 
       
 
-        console.log(JSON.stringify(body));
+        //console.log(JSON.stringify(body));
 
         this.serviceService.updateDetails(body).subscribe((data: any) => {
           if(data.result.transactionstatus.toLowerCase().includes('successful')){
@@ -924,8 +924,8 @@ export class UpdatedetailsComponent implements OnInit {
           "ZIPCODE":this.AR_Form.controls.postcode.value,
           "COMPANYNAME": this.AR_Form.controls.companyname.value,
           "TITLE":this.AR_Form.controls.salutation.value,
-          "BANKCODE":this.AR_Form.controls.bankname.value,
-          "ACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
+          "BANKCODE":this.AR_Form.controls.bankname.value, 
+          "ACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value, 
           "GUARDIANID":currentBijakHolder.guardianid,
           "FATCA":this.AR_Form.controls.fatca.value,
           "CRS":this.AR_Form.controls.crs.value,
@@ -934,7 +934,7 @@ export class UpdatedetailsComponent implements OnInit {
           "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
           "AGENTCODE":signalrConnection.agentCode,
           "BRANCHCODE":signalrConnection.branchCode,
-          "BANKBRANCHCODE": this.AR_Form.controls.bankname.value + "14001",
+          "BANKBRANCHCODE": this.AR_Form.controls.bankname.value + "14001", 
           "RELATIONSHIP":this.AR_Form.controls.g_relation.value,
         }
 
