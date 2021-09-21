@@ -613,7 +613,7 @@ export class AccountregistrationComponent implements OnInit {
           }
           else{
             this.Print_Visible = true;
-          }s
+          }
   
           this.ARSuccess_Visible = true;
           this.ARPopUp1_Visible = true;
