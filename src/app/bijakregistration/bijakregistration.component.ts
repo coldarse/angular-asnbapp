@@ -1306,8 +1306,8 @@ export class BijakregistrationComponent implements OnInit {
       "CRS":this.AR_Form.controls.crs.value,
       "PEP":this.AR_Form.controls.pep.value,
       "PARTICIPATEINASNBMKT":this.AR_Form.controls.news.value,
-      "BANKCODE":this.AR_Form.controls.bankname.value,
-      "BANKACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
+      "BANKCODE":this.AR_Form.controls.bankname.value, 
+      "BANKACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value, 
       "RELATIONSHIP":this.AR_Form.controls.g_relation.value,
       "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value
     }
