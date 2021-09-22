@@ -340,6 +340,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.initializeForm1();
     this.fundnamelist = [];
 
+
     currentHolder.funddetail.forEach((elem: any) => {
       appFunc.ASNBFundID.forEach((element: any) => {
         if(elem.FUNDID != undefined){
@@ -389,7 +390,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.variableFunds = [];
         this.fixedFunds = [];
 
-        console.log(JSON.stringify(body));
 
         this.serviceService.postEligibleFunds(body)
         .subscribe((result: any) => {
@@ -481,16 +481,16 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.fundname = elements.value;
         if(appFunc.isOwn == "major"){
           if(appFunc.isInvesment){ //Investment Major
-            this.InvestmentMinValue = elements.majorInvestmentLimit_max;
-            this.InvestmentMaxValue = elements.majorInvestmentLimit_min;
+            this.InvestmentMinValue = elements.majorInvestmentLimit_min;
+            this.InvestmentMaxValue = elements.majorInvestmentLimit_max;
           }else{ //Subscription Major
             this.SubscriptionMaxValue = elements.majorSubscriptionLimit_max;
             this.SubscriptionMinValue = elements.majorSubscriptionLimit_min;
           }
         }else if(appFunc.isOwn == "bijak"){
           if(appFunc.isInvesment){ //Investment Minor
-            this.InvestmentMinValue = elements.minorInvestmentLimit_max;
-            this.InvestmentMaxValue = elements.minorInvestmentLimit_min;
+            this.InvestmentMinValue = elements.minorInvestmentLimit_min;
+            this.InvestmentMaxValue = elements.minorInvestmentLimit_max;
           }else{ //Subscription Minor
             this.SubscriptionMaxValue = elements.minorSubscriptionLimit_max;
             this.SubscriptionMinValue = elements.minorSubscriptionLimit_min;
@@ -688,7 +688,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       this.amountKeyed = this.Form_1.controls.amount.value;
-
+      
       if(appFunc.isInvesment){ //Investment Major
         if(this.InvestmentMaxValue == 0.00 && this.InvestmentMinValue == 0.00 ){
           this.amountWarning1 = false;
