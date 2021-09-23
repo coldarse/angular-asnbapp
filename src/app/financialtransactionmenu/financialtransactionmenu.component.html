@@ -23,27 +23,51 @@
     <div class="fgb-container">
         <div class="overall-container">
             <div class="button-container">
-                <div class="text-center">
+                <div class="text-center" *ngIf="subscriptionNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionEvent()" [disabled]="SubscriptionDisabled">
                         <img src="assets/images/PelaburanTambahanAkaunSendiri-blue.png">
                     </button>
                     <label class="menu__label">{{ 'FM_1' | translate }}</label>
                 </div>
-                <div class="text-center">
+                <div class="text-center" *ngIf="!subscriptionNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="SubscriptionEvent()" [disabled]="SubscriptionDisabled">
+                        <img src="assets/images/PelaburanTambahanAkaunSendiri-white.png">
+                    </button>
+                    <label class="menu__label">{{ 'FM_1' | translate }}</label>
+                </div>
+                <div class="text-center" *ngIf="investmentNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="InitialInvestmentEvent()" [disabled]="InvestmentDisabled">
                         <img src="assets/images/PelaburanPermulaanAkaunSendiri-blue.png">
                     </button>
                     <label class="menu__label">{{ 'FM_2' | translate }}</label>
                 </div>
-                <div class="text-center">
+                <div class="text-center" *ngIf="!investmentNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="InitialInvestmentEvent()" [disabled]="InvestmentDisabled">
+                        <img src="assets/images/PelaburanPermulaanAkaunSendiri-white.png">
+                    </button>
+                    <label class="menu__label">{{ 'FM_2' | translate }}</label>
+                </div>
+                <div class="text-center" *ngIf="transferswitchNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="TransferSwitchEvent()" [disabled]="TransferSwitchDisabled">
                         <img src="assets/images/PemindahanPenukaranAkaunSendiri-blue.png">
                     </button>
                     <label class="menu__label">{{ 'FM_3' | translate }}</label>
                 </div>
-                <div class="text-center">
+                <div class="text-center" *ngIf="!transferswitchNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="TransferSwitchEvent()" [disabled]="TransferSwitchDisabled">
+                        <img src="assets/images/PemindahanPenukaranAkaunSendiri-white.png">
+                    </button>
+                    <label class="menu__label">{{ 'FM_3' | translate }}</label>
+                </div>
+                <div class="text-center" *ngIf="redemptionNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="RedemptionEvent()" [disabled]="RedemptionDisabled">
                         <img src="assets/images/PengeluaranAkaunSendiri-blue.png">
+                    </button>
+                    <label class="menu__label">{{ 'FM_4' | translate }}</label>
+                </div>
+                <div class="text-center" *ngIf="!redemptionNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="RedemptionEvent()" [disabled]="RedemptionDisabled">
+                        <img src="assets/images/PengeluaranAkaunSendiri-white.png">
                     </button>
                     <label class="menu__label">{{ 'FM_4' | translate }}</label>
                 </div>
@@ -72,15 +96,27 @@
                 <div class="col-md-3">
 
                 </div>
-                <div class="col-md-3 text-center">
+                <div class="col-md-3 text-center" *ngIf="investmentMajorNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="InitialInvestmentMajor()" [disabled]="InvestmentMDisabled">
                         <img src="assets/images/PelaburanPermulaanAkaunSendiri-blue.png">
                     </button>
                     <label class="menu__label">{{ 'FMI_1' | translate }}</label>
                 </div>
-                <div class="col-md-3 text-center">
+                <div class="col-md-3 text-center" *ngIf="!investmentMajorNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="InitialInvestmentMajor()" [disabled]="InvestmentMDisabled">
+                        <img src="assets/images/PelaburanPermulaanAkaunSendiri-white.png">
+                    </button>
+                    <label class="menu__label">{{ 'FMI_1' | translate }}</label>
+                </div>
+                <div class="col-md-3 text-center" *ngIf="investmentMinorNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="InitialInvestmentMinor()" [disabled]="isBijakDisabled || InvestmentBDisabled">
                         <img src="assets/images/PelaburanPermulaanAkaunBijak-blue.png">
+                    </button>
+                    <label class="menu__label">{{ 'FMI_2' | translate }}</label>
+                </div>
+                <div class="col-md-3 text-center" *ngIf="!investmentMinorNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="InitialInvestmentMinor()" [disabled]="isBijakDisabled || InvestmentBDisabled">
+                        <img src="assets/images/PelaburanPermulaanAkaunBijak-white.png">
                     </button>
                     <label class="menu__label">{{ 'FMI_2' | translate }}</label>
                 </div>
@@ -108,21 +144,39 @@
     <div class="fgb-container">
         <div class="overall-container">
             <div class="button-container">
-                <div class="col-md-4 text-center">
+                <div class="col-md-4 text-center" *ngIf="subscriptionMajorNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionMajor()"  [disabled]="SubscriptionMDisabled">
                         <img src="assets/images/PelaburanTambahanAkaunSendiri-blue.png">
                     </button>
                     <label class="menu__label">{{ 'FMS_1' | translate }}</label>
                 </div>
-                <div class="col-md-4 text-center">
+                <div class="col-md-4 text-center" *ngIf="!subscriptionMajorNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="SubscriptionMajor()"  [disabled]="SubscriptionMDisabled">
+                        <img src="assets/images/PelaburanTambahanAkaunSendiri-white.png">
+                    </button>
+                    <label class="menu__label">{{ 'FMS_1' | translate }}</label>
+                </div>
+                <div class="col-md-4 text-center" *ngIf="subscriptionMinorNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionMinor()" [disabled]="isBijakDisabled || SubscriptionBDisabled">
                         <img src="assets/images/PelaburanTambahanAkaunBijak-blue.png">
                     </button>
                     <label class="menu__label">{{ 'FMS_2' | translate }}</label>
                 </div>
-                <div class="col-md-4 text-center">
+                <div class="col-md-4 text-center" *ngIf="!subscriptionMinorNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="SubscriptionMinor()" [disabled]="isBijakDisabled || SubscriptionBDisabled">
+                        <img src="assets/images/PelaburanTambahanAkaunBijak-white.png">
+                    </button>
+                    <label class="menu__label">{{ 'FMS_2' | translate }}</label>
+                </div>
+                <div class="col-md-4 text-center" *ngIf="subscriptionThirdNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionThird()"  [disabled]="SubscriptionTDisabled">
                         <img src="assets/images/PelaburanTambahanKeAkaunPihakKetiga-blue.png">
+                    </button>
+                    <label class="menu__label">{{ 'FMS_3' | translate }}</label>
+                </div>
+                <div class="col-md-4 text-center" *ngIf="!subscriptionThirdNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="SubscriptionThird()"  [disabled]="SubscriptionTDisabled">
+                        <img src="assets/images/PelaburanTambahanKeAkaunPihakKetiga-white.png">
                     </button>
                     <label class="menu__label">{{ 'FMS_3' | translate }}</label>
                 </div>
@@ -151,15 +205,27 @@
                 <div class="col-md-3">
 
                 </div>
-                <div class="col-md-3 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="TransferAndSwitchingMajor()" [disabled]="TransferMDisabled || SwitchMDisabled">
+                <div class="col-md-3 text-center" *ngIf="transferswitchMajorNotClicked">
+                    <button type="button" class="btn btn-menu-transaction" (click)="TransferAndSwitchingMajor()" [disabled]="TransferMDisabled && SwitchMDisabled">
                         <img src="assets/images/PemindahanPenukaranAkaunSendiri-blue.png">
                     </button>
                     <label class="menu__label">{{ 'FMTS_1' | translate }}</label>
                 </div>
-                <div class="col-md-3 text-center">
-                    <button type="button" class="btn btn-menu-transaction" (click)="TransferAndSwitchingBijak()" [disabled]="isBijakDisabled || (TransferBDisabled || SwitchBDisabled)">
+                <div class="col-md-3 text-center" *ngIf="!transferswitchMajorNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="TransferAndSwitchingMajor()" [disabled]="TransferMDisabled && SwitchMDisabled">
+                        <img src="assets/images/PemindahanPenukaranAkaunSendiri-white.png">
+                    </button>
+                    <label class="menu__label">{{ 'FMTS_1' | translate }}</label>
+                </div>
+                <div class="col-md-3 text-center" *ngIf="transferswitchMinorNotClicked">
+                    <button type="button" class="btn btn-menu-transaction" (click)="TransferAndSwitchingBijak()" [disabled]="isBijakDisabled || (TransferBDisabled && SwitchBDisabled)">
                         <img src="assets/images/PemindahanPenukaranAkaunBijak-blue.png">
+                    </button>
+                    <label class="menu__label">{{ 'FMTS_2' | translate }}</label>
+                </div>
+                <div class="col-md-3 text-center" *ngIf="!transferswitchMinorNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="TransferAndSwitchingBijak()" [disabled]="isBijakDisabled || (TransferBDisabled && SwitchBDisabled)">
+                        <img src="assets/images/PemindahanPenukaranAkaunBijak-white.png">
                     </button>
                     <label class="menu__label">{{ 'FMTS_2' | translate }}</label>
                 </div>
@@ -191,15 +257,27 @@
                 <div class="col-md-3">
 
                 </div>
-                <div class="col-md-3 text-center">
+                <div class="col-md-3 text-center" *ngIf="redemptionMajorNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="RedemptionMajor()" [disabled]="RedemptionMDisabled">
                         <img src="assets/images/PengeluaranAkaunSendiri-blue.png">
                     </button>
                     <label class="menu__label">{{ 'FMR_1' | translate }}</label>
                 </div>
-                <div class="col-md-3 text-center">
+                <div class="col-md-3 text-center" *ngIf="!redemptionMajorNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="RedemptionMajor()" [disabled]="RedemptionMDisabled">
+                        <img src="assets/images/PengeluaranAkaunSendiri-white.png">
+                    </button>
+                    <label class="menu__label">{{ 'FMR_1' | translate }}</label>
+                </div>
+                <div class="col-md-3 text-center" *ngIf="redemptionMinorNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="RedemptionMinor()" [disabled]="isBijakDisabled || RedemptionDisabled">
                         <img src="assets/images/PengeluaranAkaunBijak-blue.png">
+                    </button>
+                    <label class="menu__label">{{ 'FMR_2' | translate }}</label>
+                </div>
+                <div class="col-md-3 text-center" *ngIf="!redemptionMinorNotClicked">
+                    <button type="button" class="btn btn-menu-transaction-active" (click)="RedemptionMinor()" [disabled]="isBijakDisabled || RedemptionDisabled">
+                        <img src="assets/images/PengeluaranAkaunBijak-white.png">
                     </button>
                     <label class="menu__label">{{ 'FMR_2' | translate }}</label>
                 </div>

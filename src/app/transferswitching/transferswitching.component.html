@@ -110,10 +110,10 @@
                     <h5 class="h2-ic" style="padding-top: 2rem;">{{ fund.UNITBALANCE | number : '1.2-2'  }}</h5> <!-- Fund.fundvalue -->
                 </div>
                 <div class="col-sm-4" style="padding-top: 1.4rem;">
-                    <button type="button" class="btn btn-transferswitching" (click)="Transfer(fund)">
+                    <button type="button" class="btn btn-transferswitching" (click)="Transfer(fund)" [disabled]="transferDisabled">
                         {{'Transfer' | translate }}
                     </button>
-                    <button type="button" class="btn btn-transferswitching" (click)="Switching(fund)">
+                    <button type="button" class="btn btn-transferswitching" (click)="Switching(fund)" [disabled]="switchDisabled">
                         {{'Switching' | translate }}
                     </button>
                 </div>
@@ -935,8 +935,8 @@
             <div class="col-md-6">
                 <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["fundname"]' #sfundid>
                     <option value="">{{ 'optionSelect' | translate }}</option>
-                    <option *ngFor="let fa of fundAvailable" value={{fa.code}}>
-                        {{fa.value}}
+                    <option *ngFor="let fa of fundAvailable" value={{fa.FUNDID}}>
+                        {{fa.FUNDNAME}}
                     </option>
                 </select>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="switchingFundWarning">{{'ThirdFundWarning' | translate}}</div>

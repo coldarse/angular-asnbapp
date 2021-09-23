@@ -40,6 +40,21 @@ export class FinancialtransactionmenuComponent implements OnInit {
   TransferSwitchDisabled = true;
   RedemptionDisabled = true;
 
+  subscriptionNotClicked = true;
+  investmentNotClicked = true;
+  transferswitchNotClicked = true;
+  redemptionNotClicked = true;
+
+  subscriptionMajorNotClicked = true;
+  investmentMajorNotClicked = true;
+  transferswitchMajorNotClicked = true;
+  redemptionMajorNotClicked = true;
+  subscriptionMinorNotClicked = true;
+  investmentMinorNotClicked = true;
+  transferswitchMinorNotClicked = true;
+  redemptionMinorNotClicked = true;
+  subscriptionThirdNotClicked = true;
+
   constructor(
     private translate: TranslateService,
     private _router: Router
@@ -347,74 +362,117 @@ export class FinancialtransactionmenuComponent implements OnInit {
   }
 
   InitialInvestmentEvent(){
-    this.FinancialMenu = false;
-    this.InitialInvestment = true;
+    this.investmentNotClicked = !this.investmentNotClicked;
+    setTimeout(() => {
+      this.FinancialMenu = false;
+      this.InitialInvestment = true;
+      this.investmentNotClicked = !this.investmentNotClicked;
+    }, 150)
   }
 
   SubscriptionEvent(){
-    this.FinancialMenu = false;
-    this.Subscription = true;
+    this.subscriptionNotClicked = !this.subscriptionNotClicked;
+    setTimeout(() => {
+      this.FinancialMenu = false;
+      this.Subscription = true;
+      this.subscriptionNotClicked = !this.subscriptionNotClicked;
+    }, 150)
   }
 
   TransferSwitchEvent(){
-    this.FinancialMenu = false;
-    this.TransferSwitch = true;
+    this.transferswitchNotClicked = !this.transferswitchNotClicked;
+    setTimeout(() => {
+      this.FinancialMenu = false;
+      this.TransferSwitch = true;
+      this.transferswitchNotClicked = !this.transferswitchNotClicked;
+    }, 150)
   }
 
   RedemptionEvent(){
-    this.FinancialMenu = false;
-    this.Redemption = true;
+    this.redemptionNotClicked = !this.redemptionNotClicked;
+    setTimeout(() => {
+      this.FinancialMenu = false;
+      this.Redemption = true;
+      this.redemptionNotClicked = !this.redemptionNotClicked;
+    }, 150)
   }
 
 
   InitialInvestmentMajor(){
-    appFunc.isInvesment = true;
-    appFunc.isOwn = "major";
-    this._router.navigate(['subscriptioninvestment']);
+    this.investmentMajorNotClicked = !this.investmentMajorNotClicked;
+    setTimeout(() => {
+      appFunc.isInvesment = true;
+      appFunc.isOwn = "major";
+      this._router.navigate(['subscriptioninvestment']);
+    })
   }
 
   InitialInvestmentMinor(){
-    appFunc.isInvesment = true;
-    appFunc.isOwn = "bijak";
-    this._router.navigate(['subscriptioninvestment']);
+    this.investmentMinorNotClicked = !this.investmentMinorNotClicked;
+    setTimeout(() => {
+      appFunc.isInvesment = true;
+      appFunc.isOwn = "bijak";
+      this._router.navigate(['subscriptioninvestment']);
+    })
   }
 
   SubscriptionMajor(){
-    appFunc.isInvesment = false;
-    appFunc.isOwn = "major";
-    this._router.navigate(['subscriptioninvestment']);
+    this.subscriptionMajorNotClicked = !this.subscriptionMajorNotClicked;
+    setTimeout(() => {
+      appFunc.isInvesment = false;
+      appFunc.isOwn = "major";
+      this._router.navigate(['subscriptioninvestment']);
+    })
   }
 
   SubscriptionMinor(){
-    appFunc.isInvesment = false;
-    appFunc.isOwn = "bijak";
-    this._router.navigate(['subscriptioninvestment']);
+    this.subscriptionMinorNotClicked = !this.subscriptionMinorNotClicked;
+    setTimeout(() => {
+      appFunc.isInvesment = false;
+      appFunc.isOwn = "bijak";
+      this._router.navigate(['subscriptioninvestment']);
+    })
   }
 
   SubscriptionThird(){
-    appFunc.isInvesment = false;
-    appFunc.isOwn = "third";
-    this._router.navigate(['subscriptioninvestment']);
+    this.subscriptionThirdNotClicked = !this.subscriptionThirdNotClicked;
+    setTimeout(() => {
+      appFunc.isInvesment = false;
+      appFunc.isOwn = "third";
+      this._router.navigate(['subscriptioninvestment']);
+    })
   }
 
   TransferAndSwitchingMajor(){
-    appFunc.isOwn = "major";
-    this._router.navigate(['transferswitching']);
+    this.transferswitchMajorNotClicked = !this.transferswitchMajorNotClicked;
+    setTimeout(() => {
+      appFunc.isOwn = "major";
+      this._router.navigate(['transferswitching']);
+    })
   }
 
   TransferAndSwitchingBijak(){
-    appFunc.isOwn = "bijak";
-    this._router.navigate(['transferswitching']);
+    this.transferswitchMinorNotClicked = !this.transferswitchMinorNotClicked;
+    setTimeout(() => {
+      appFunc.isOwn = "bijak";
+      this._router.navigate(['transferswitching']);
+    })
   }
 
   RedemptionMajor(){
-    appFunc.isOwn = "major";
-    this._router.navigate(['redemption']);
+    this.redemptionMajorNotClicked = !this.redemptionMajorNotClicked;
+    setTimeout(() => {
+      appFunc.isOwn = "major";
+      this._router.navigate(['redemption']);
+    })
   }
 
   RedemptionMinor(){
-    appFunc.isOwn = "bijak";
-    this._router.navigate(['redemption']);
+    this.redemptionMinorNotClicked = !this.redemptionMinorNotClicked;
+    setTimeout(() => {
+      appFunc.isOwn = "bijak";
+      this._router.navigate(['redemption']);
+    })
   }
 
 }

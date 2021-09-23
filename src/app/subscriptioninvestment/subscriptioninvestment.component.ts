@@ -1,6 +1,7 @@
 import { formatDate } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { Router } from '@angular/router';
 import { FakeMissingTranslationHandler, TranslateService } from '@ngx-translate/core';
 
@@ -164,6 +165,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
   Form_2: any;
   Form_3: any;
   Form_4: any;
+
+  showSOF = false;
+  showFunderName = false;
 
   variableFunds: any = [];
   fixedFunds: any = [];
@@ -368,8 +372,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
     
     if(appFunc.isInvesment){
       this.isInvestment = true;
-      this.checkAMLA();
+      
       if(appFunc.isOwn == "major"){
+        this.checkAMLA();
         this.isInvestmentMajor = true;
         this.isOwn = true;
         this.SIStep1 = true;
@@ -413,7 +418,20 @@ export class SubscriptioninvestmentComponent implements OnInit {
       }else if(appFunc.isOwn == "bijak"){
         this.isInvestmentMinor = true;
         this.isBijak = true;
-        this.BijakVisible = true;
+        if(appFunc.isFromReg){
+          appFunc.isFromReg = !appFunc.isFromReg;
+          const minorbody = {
+            "ICTYPE": currentBijakHolder.identificationtype,
+            "ICNO": currentBijakHolder.identificationnumber,
+            "UHID": currentBijakHolder.unitholderid,
+            "NAME": currentBijakHolder.firstname,
+          }
+
+          this.Minor(minorbody);
+        }
+        else{
+          this.BijakVisible = true;
+        }
       }
     }else{
       this.isSubscription = true;
@@ -523,8 +541,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   initializeForm2(){
     this.Form_2 = this.fb.group({
-      sourceoffund: ['', Validators.required],
-      fundername: ['', Validators.required]
+      sourceoffund: [''],
+      fundername: ['']
     });
   }
 
@@ -716,59 +734,195 @@ export class SubscriptioninvestmentComponent implements OnInit {
       if(this.amountWarning1 == false){
         deleteKeyboard();
 
-        if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 20K
+        if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 25K
   
+          
           this.SIStep2 = false;
           this.SIStep3 = true;
     
           this.initializeForm2();
+
+          if(appFunc.isOwn == "bijak"){
+            if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+              this.showSOF = true;
+              this.showFunderName = true;
+
+              this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+              this.Form_2.controls.fundername.setValidators([Validators.required]);
+            }
+            else{
+              this.showSOF = true;
+              this.showFunderName = false;
+
+              this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+        
+              setTimeout(() => {
+                loadKeyboard();
+              } , 1000);
+            }
+          }else{
+            if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+              this.showSOF = true;
+              this.showFunderName = true;
+
+              this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+              this.Form_2.controls.fundername.setValidators([Validators.required]);
+            }
+            else{
+              this.showSOF = true;
+              this.showFunderName = false;
+
+              this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+        
+              setTimeout(() => {
+                loadKeyboard();
+              } , 1000);
+            }
+          }
     
           setTimeout(() => {
             loadKeyboard();
           } , 1000);
         }
         else if(Number(this.amountKeyed) < Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){//Between 20k and 10k
-          if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.amountKeyed) <= Number(this.appConfig.thresholdForAdditionalInfo2)){//Between 10k and 15k
-  
+          if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.amountKeyed) <= Number(this.appConfig.thresholdForAdditionalInfo2)){
+            //Between 10K and 15K
             if(appFunc.isOwn == "bijak"){
-              if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-                this.SIStep2 = false;
-                this.SIStep3 = true;
-          
-                this.initializeForm2();
-          
-                setTimeout(() => {
-                  loadKeyboard();
-                } , 1000);
-              }
-              else{
-                this.SIStep2 = false;
-                this.SIStep4 = true;
+              if(currentBijakHolder.riskprofile == "HC"){
+                if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+            
+                  this.initializeForm2();
+  
+                  this.showSOF = true;
+                  this.showFunderName = true;
+  
+                  this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                  this.Form_2.controls.fundername.setValidators([Validators.required]);
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }
+                else{
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+            
+                  this.initializeForm2();
+  
+                  this.showSOF = true;
+                  this.showFunderName = false;
+  
+                  this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }
+                // else{
+                //   this.SIStep2 = false;
+                //   this.SIStep4 = true;
+                // }
+              }else{
+                if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+            
+                  this.initializeForm2();
+  
+                  this.showSOF = false;
+                  this.showFunderName = true;
+  
+                  // this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                  this.Form_2.controls.fundername.setValidators([Validators.required]);
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }
+                else {
+                  this.SIStep2 = false;
+                  this.SIStep4 = true;
+                }
               }
             }
             else{
-              if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-                this.SIStep2 = false;
-                this.SIStep3 = true;
+              if(currentHolder.riskprofile == "HC"){
+                if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+            
+                  this.initializeForm2();
+  
+                  this.showSOF = true;
+                  this.showFunderName = true;
+  
+                  this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                  this.Form_2.controls.fundername.setValidators([Validators.required]);
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }
+                else if(currentBijakHolder.occupationcategory == "EM" || 
+                        currentBijakHolder.occupationcategory == "SE" || 
+                        currentBijakHolder.occupationcategory == "RY"){
+                          this.SIStep2 = false;
+                          this.SIStep3 = true;
+                    
+                          this.initializeForm2();
           
-                this.initializeForm2();
+                          this.showSOF = true;
+                          this.showFunderName = false;
           
-                setTimeout(() => {
-                  loadKeyboard();
-                } , 1000);
+                          this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                    
+                          setTimeout(() => {
+                            loadKeyboard();
+                          } , 1000);
+                }
+                else{
+                  this.SIStep2 = false;
+                  this.SIStep4 = true;
+                }
               }
               else{
-                this.SIStep2 = false;
-                this.SIStep4 = true;
+                if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+            
+                  this.initializeForm2();
+  
+                  this.showSOF = false;
+                  this.showFunderName = true;
+  
+                  // this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                  this.Form_2.controls.fundername.setValidators([Validators.required]);
+            
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }
+                else{
+                  this.SIStep2 = false;
+                  this.SIStep4 = true;
+                }
               }
             }
             
-          }
-          else{//Between 15k and 20k
+          }//Between 10k and 15k
+          else{//Between 15k and 25k
             if(appFunc.isOwn == "bijak"){
               if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
                 this.SIStep2 = false;
                 this.SIStep3 = true;
+
+                this.showSOF = true;
+                this.showFunderName = true;
+
+                this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                this.Form_2.controls.fundername.setValidators([Validators.required]);
           
                 this.initializeForm2();
           
@@ -778,7 +932,18 @@ export class SubscriptioninvestmentComponent implements OnInit {
               }
               else{
                 this.SIStep2 = false;
-                this.SIStep4 = true;
+                this.SIStep3 = true;
+          
+                this.initializeForm2();
+
+                this.showSOF = true;
+                this.showFunderName = false;
+
+                this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
               }
             }else{
               if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
@@ -786,21 +951,70 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 this.SIStep3 = true;
           
                 this.initializeForm2();
+
+                this.showSOF = true;
+                this.showFunderName = true;
+
+                this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                this.Form_2.controls.fundername.setValidators([Validators.required]);
           
                 setTimeout(() => {
                   loadKeyboard();
                 } , 1000);
               }
-              else{
+              else {
                 this.SIStep2 = false;
-                this.SIStep4 = true;
+                this.SIStep3 = true;
+          
+                this.initializeForm2();
+
+                this.showSOF = true;
+                this.showFunderName = false;
+
+                this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
               }
             }
           }
         }
         else{
-          this.SIStep2 = false;
-          this.SIStep4 = true;
+          if(appFunc.isOwn == "bijak"){
+            if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+              this.SIStep2 = false;
+              this.SIStep3 = true;
+        
+              this.initializeForm2();
+
+              this.showSOF = false;
+              this.showFunderName = true;
+
+              this.Form_2.controls.fundername.setValidators([Validators.required]);
+            }
+            else{
+              this.SIStep2 = false;
+              this.SIStep4 = true;
+            }
+          }else{
+            if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+              this.SIStep2 = false;
+              this.SIStep3 = true;
+        
+              this.initializeForm2();
+
+              this.showSOF = false;
+              this.showFunderName = true;
+
+              this.Form_2.controls.fundername.setValidators([Validators.required]);
+            }
+            else{
+              this.SIStep2 = false;
+              this.SIStep4 = true;
+            }
+          }
+          
         }
       }
       
@@ -849,79 +1063,171 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   SIStep4Back(){
+    // if(appFunc.isInvesment){ //Investment Major
+    //   if(this.InvestmentMaxValue == 0.00 && this.InvestmentMinValue == 0.00 ){
+    //     this.amountWarning1 = false;
+    //   }else{
+    //     if(Number(this.amountKeyed) < this.InvestmentMinValue){
+    //       this.amountWarning1 = true;
+    //     }
+    //     else{
+    //       this.amountWarning1 = false;
+    //     }
+    //   }
+    // }else{ //Subscription Major
+    //   if(this.SubscriptionMaxValue == 0.00 && this.SubscriptionMinValue == 0.00 ){
+    //     this.amountWarning1 = false;
+    //   }else{
+    //     if(Number(this.amountKeyed) < this.SubscriptionMinValue){
+    //       this.amountWarning1 = true;
+    //     }
+    //     else{
+    //       this.amountWarning1 = false;
+    //     }
+    //   }
+    // }
 
-    if(appFunc.isInvesment){ //Investment Major
-      if(this.InvestmentMaxValue == 0.00 && this.InvestmentMinValue == 0.00 ){
-        this.amountWarning1 = false;
-      }else{
-        if(Number(this.amountKeyed) < this.InvestmentMinValue){
-          this.amountWarning1 = true;
-        }
-        else{
-          this.amountWarning1 = false;
-        }
-      }
-    }else{ //Subscription Major
-      if(this.SubscriptionMaxValue == 0.00 && this.SubscriptionMinValue == 0.00 ){
-        this.amountWarning1 = false;
-      }else{
-        if(Number(this.amountKeyed) < this.SubscriptionMinValue){
-          this.amountWarning1 = true;
-        }
-        else{
-          this.amountWarning1 = false;
-        }
-      }
-    }
-
-    if(this.amountWarning1 == false){
+    //if(this.amountWarning1 == false){
       if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 20K
 
         this.SIStep4 = false;
         this.SIStep3 = true;
+
+        if(appFunc.isOwn == "bijak"){
+          if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+            this.showSOF = true;
+            this.showFunderName = true;
+
+            setTimeout(() => {
+              loadKeyboard();
+            } , 1000);
+          }
+          else{
+            this.showSOF = true;
+            this.showFunderName = false;
+      
+            setTimeout(() => {
+              loadKeyboard();
+            } , 1000);
+        }
+        }else{
+          if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+            this.showSOF = true;
+            this.showFunderName = true;
+
+            setTimeout(() => {
+              loadKeyboard();
+            } , 1000);
+          }
+          else{
+            this.showSOF = true;
+            this.showFunderName = false;
+      
+            setTimeout(() => {
+              loadKeyboard();
+            } , 1000);
+          }
+        }
   
-        setTimeout(() => {
-          loadKeyboard();
-        } , 1000);
+        
       }
       else if(Number(this.amountKeyed) < Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){//Between 20k and 10k
         if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.amountKeyed) <= Number(this.appConfig.thresholdForAdditionalInfo2)){//Between 10k and 15k
-  
+          //Between 10K and 15K
           if(appFunc.isOwn == "bijak"){
-            if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-              this.SIStep4 = false;
-              this.SIStep3 = true;
-        
-              setTimeout(() => {
-                loadKeyboard();
-              } , 1000);
+            if(currentBijakHolder.riskprofile == "HC"){
+              if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+                this.SIStep4 = false;
+                this.SIStep3 = true;
+  
+                this.showSOF = true;
+                this.showFunderName = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }
+              else{
+                this.SIStep4 = false;
+                this.SIStep3 = true;
+
+                this.showSOF = true;
+                this.showFunderName = false;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }
             }
             else{
-              this.SIStep4 = false;
-              this.SIStep2 = true;
+              if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+                this.SIStep4 = false;
+                this.SIStep3 = true;
   
-              setTimeout(() => {  
-                loadKeyboard();
-              } , 1000);
+                this.showSOF = false;
+                this.showFunderName = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }
+              else {
+                this.SIStep4 = false;
+                this.SIStep2 = true;
+    
+                setTimeout(() => {  
+                  loadKeyboard();
+                } , 1000);
+              }
             }
           }
           else{
-            if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-              this.SIStep4 = false;
-              this.SIStep3 = true;
-        
-              setTimeout(() => {
-                loadKeyboard();
-              } , 1000);
+            if(currentHolder.riskprofile == "HC"){
+              if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+                this.SIStep4 = false;
+                this.SIStep3 = true;
+  
+                this.showSOF = true;
+                this.showFunderName = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }
+              else{
+                this.SIStep4 = false;
+                this.SIStep3 = true;
+
+                this.showSOF = true;
+                this.showFunderName = false;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }
             }
             else{
-              this.SIStep4 = false;
-              this.SIStep2 = true;
+              if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+                this.SIStep4 = false;
+                this.SIStep3 = true;
   
-              setTimeout(() => {  
-                loadKeyboard();
-              } , 1000);
+                this.showSOF = true;
+                this.showFunderName = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }
+              else{
+                this.SIStep4 = false;
+                this.SIStep2 = true;
+    
+                setTimeout(() => {  
+                  loadKeyboard();
+                } , 1000);
+              }
             }
+            
           }
           
         }
@@ -930,6 +1236,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
             if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
               this.SIStep4 = false;
               this.SIStep3 = true;
+
+              this.showSOF = true;
+              this.showFunderName = true;
         
               setTimeout(() => {
                 loadKeyboard();
@@ -937,9 +1246,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
             }
             else{
               this.SIStep4 = false;
-              this.SIStep2 = true;
-  
-              setTimeout(() => {  
+              this.SIStep3 = true;
+
+              this.showSOF = true;
+              this.showFunderName = false;
+        
+              setTimeout(() => {
                 loadKeyboard();
               } , 1000);
             }
@@ -947,6 +1259,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
             if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
               this.SIStep4 = false;
               this.SIStep3 = true;
+
+              this.showSOF = true;
+              this.showFunderName = true;
         
               setTimeout(() => {
                 loadKeyboard();
@@ -954,9 +1269,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
             }
             else{
               this.SIStep4 = false;
-              this.SIStep2 = true;
-  
-              setTimeout(() => {  
+              this.SIStep3 = true;
+
+              this.showSOF = true;
+              this.showFunderName = false;
+        
+              setTimeout(() => {
                 loadKeyboard();
               } , 1000);
             }
@@ -964,14 +1282,38 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }
       }
       else{
-        this.SIStep4 = false;
-        this.SIStep2 = true;
-  
-        setTimeout(() => {
-          loadKeyboard();
-        } , 1000);
+        if(appFunc.isOwn == "bijak"){
+          if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+            this.SIStep4 = false;
+            this.SIStep3 = true;
+      
+            this.showSOF = false;
+            this.showFunderName = true;
+
+            this.Form_2.controls.fundername.setValidators([Validators.required]);
+          }
+          else{
+            this.SIStep4 = false;
+            this.SIStep2 = true;
+          }
+        }else{
+          if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+            this.SIStep4 = false;
+            this.SIStep3 = true;
+      
+            this.showSOF = false;
+            this.showFunderName = true;
+
+            this.Form_2.controls.fundername.setValidators([Validators.required]);
+          }
+          else{
+            this.SIStep4 = false;
+            this.SIStep2 = true;
+          }
+        }
+        
       }
-    }
+    //}
     
     
   }

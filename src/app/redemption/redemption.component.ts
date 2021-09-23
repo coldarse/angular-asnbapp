@@ -81,6 +81,10 @@ export class RedemptionComponent implements OnInit {
   Print_Visible = true;
   Email_Visible = true;
 
+  guardianID = "";
+  guardianICType = "";
+  guardianICNO = "";
+
   actualfundname = "Amanah Saham Bumiputera";
   cashinvestment =  "6103.00";
   epf =  "0.00";
@@ -384,6 +388,11 @@ export class RedemptionComponent implements OnInit {
     this.unitholderbankcode = currentBijakHolder.bankcode;
     this.unitholderbankaccountnumber = currentBijakHolder.accountnumber;
 
+    this.guardianID = currentHolder.unitholderid;
+    this.guardianICType = currentHolder.identificationtype;
+    this.guardianICNO = currentHolder.identificationnumber;
+    
+
     if(appFunc.isRedirectFromRedemption == true){
       const fundbody = {
         "FUNDNAME": appFunc.redemptionFundname,
@@ -473,6 +482,7 @@ export class RedemptionComponent implements OnInit {
     appFunc.redemptionFundID = this.redemptionfundid;
 
     if(appFunc.isOwn == "bijak"){
+      appFunc.redemptionMinor = {};
       appFunc.redemptionMinor.UHID = this.unitholderid;
       appFunc.redemptionMinor.NAME = this.unitholdername;
       appFunc.redemptionMinor.ICTYPE = this.unitholderidtype;
@@ -569,9 +579,9 @@ export class RedemptionComponent implements OnInit {
       "BANKCODE":this.redemptionbankcode,
       "POLICYNUMBER":"UT",
       "EPFNUMBER":"",
-      "GUARDIANID":"",
-      "GUARDIANICTYPE":"",
-      "GUARDIANICNUMBER":""
+      "GUARDIANID":this.guardianID,
+      "GUARDIANICTYPE":this.guardianICType,
+      "GUARDIANICNUMBER":this.guardianICNO
     }
 
     this.serviceService.postRedemption(body)
@@ -623,9 +633,7 @@ export class RedemptionComponent implements OnInit {
           errorCodes.transaction = this.transaction;
           this.router.navigate(['errorscreen']);
         }
-      })
-
-    
+      });
   }
 
   redemptionPrint(){

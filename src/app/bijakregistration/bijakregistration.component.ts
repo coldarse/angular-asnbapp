@@ -1535,6 +1535,7 @@ export class BijakregistrationComponent implements OnInit {
   goToInitialInvestment(){
     appFunc.isOwn = "bijak";
     appFunc.isInvesment = true;
+    appFunc.isFromReg = true;
     this._router.navigate(['subscriptioninvestment']);
   }
 
@@ -1618,11 +1619,9 @@ export class BijakregistrationComponent implements OnInit {
           else{
             if(currentBijakHolder.unitholderid != "" || currentBijakHolder.unitholderid != undefined){
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "Account Found.");
-              this.BRPrint1_Visible = false;
-              this.BRPrint2_Visible = false;
-              this.BREmail_Visible = false;
-
-              this.transaction_Successful = true;
+              
+              
+              this.getAccountInquiryMajor();
               //this._router.navigate(['transactionsuccessful']);
             }
           }
@@ -1665,6 +1664,149 @@ export class BijakregistrationComponent implements OnInit {
   mainMenu(){
     this._router.navigate(['transactionmenu'])
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Successful]" + ": " + "Redirect to Transaction Menu.");
+  }
+
+  getAccountInquiryMajor(): void {
+    try{
+      
+      const body = { 
+
+        "CHANNELTYPE": signalrConnection.channelType,
+        "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
+        "DEVICEOWNER": signalrConnection.deviceOwner,
+        "UNITHOLDERID": "",
+        "FIRSTNAME": "",
+        "IDENTIFICATIONTYPE": currentMyKadDetails.CategoryType,
+        "IDENTIFICATIONNUMBER": currentMyKadDetails.ICNo,
+        "FUNDID": "",
+        "INQUIRYCODE": "9",
+        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+        "BANKTXNREFERENCENUMBER": signalrConnection.trxno ,
+        "BANKCUSTPHONENUMBER": "",
+        "FILTRATIONFLAG": "1",
+        "GUARDIANID": "",
+        "GUARDIANICTYPE": "",
+        "GUARDIANICNUMBER": ""
+
+       };
+
+  
+      this.serviceService.getAccountInquiry(body)
+      .subscribe((result: any) => {
+        
+
+        currentHolder.channeltype = result.channeltype;
+        currentHolder.requestoridentification = result.requestoridentification;
+        currentHolder.deviceowner = result.deviceowner;
+        currentHolder.unitholderid = result.unitholderid;
+        currentHolder.firstname = result.firstname;
+        currentHolder.identificationtype = result.identificationtype;
+        currentHolder.identificationnumber = result.identificationnumber;
+        currentHolder.fundid = result.fundid;
+        currentHolder.inquirycode = result.inquirycode;
+        currentHolder.transactiondate = result.transactiondate;
+        currentHolder.transactiontime = result.transactiontime;
+        currentHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+        currentHolder.bankcustphonenumber = result.bankcustphonenumber;
+        currentHolder.filtrationflag = result.filtrationflag;      		
+        currentHolder.cifstopaccountstatus = result.cifstopaccountstatus
+        currentHolder.typeclosed = result.typeclosed;
+        currentHolder.participateinasnbmkt = result.participateinasnbmkt;
+        currentHolder.unitbalance = result.unitbalance;
+        currentHolder.funddetail = result.funddetail;
+        currentHolder.cifnumber = result.cifnumber;
+        currentHolder.race = result.race;
+        currentHolder.religion = result.religion;
+        currentHolder.uhcategory = result.uhcategory;
+        currentHolder.title = result.title;
+        currentHolder.accountopeningdate = result.accountopeningdate;
+        currentHolder.investortype = result.investortype;
+        currentHolder.maritalstatus = result.maritalstatus;
+        currentHolder.addresslinE1 = result.addresslinE1;
+        currentHolder.addresslinE2 = result.addresslinE2;
+        currentHolder.addresslinE3 = result.addresslinE3;
+        currentHolder.addresslinE4 = result.addresslinE4;
+        currentHolder.country = result.country;
+        currentHolder.email = result.email;
+        currentHolder.zipcode = result.zipcode;
+        currentHolder.contactperson = result.contactperson;
+        currentHolder.telephonE1 = result.telephonE1;
+        currentHolder.telephonE2 = result.telephonE2;
+        currentHolder.cellphonenumber = result.cellphonenumber;
+        currentHolder.fax = result.fax;
+        currentHolder.dateofbirth = result.dateofbirth;
+        currentHolder.bankcode = result.bankcode;
+        currentHolder.bankbranchcode = result.bankbranchcode;
+        currentHolder.accounttype = result.accounttype;
+        currentHolder.accountnumber = result.accountnumber;
+        currentHolder.accountcurrency = result.accountcurrency;
+        currentHolder.fundcode = result.fundcode;
+        currentHolder.transactiontype = result.transactiontype;
+        currentHolder.directdebit = result.directdebit;
+        currentHolder.mothername = result.mothername;
+        currentHolder.portalenabled = result.portalenabled;				
+        currentHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+        currentHolder.grandtotalepfunits = result.grandtotalepfunits;
+        currentHolder.grandtotalloanunits = result.grandtotalloanunits;
+        currentHolder.grandtotalcertunits = result.grandtotalcertunits;
+        currentHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+        currentHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+        currentHolder.grandtotalunits = result.grandtotalunits;
+        currentHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+        currentHolder.totalminoraccount = result.totalminoraccount;
+        currentHolder.minordetail = result.minordetail;
+        currentHolder.guardianid = result.guardianid;
+        currentHolder.guardianictype = result.guardianictype;
+        currentHolder.guardianicnumber = result.guardianicnumber;
+        currentHolder.epfnumber = result.epfnumber;
+        currentHolder.epfapplicable = result.epfapplicable;
+        currentHolder.epfaccounttype = result.epfaccounttype;
+        currentHolder.epfaccounttypeeffdate = result.epfaccounttypeeffdate;
+        currentHolder.agentcode  = result.agentcode;
+        currentHolder.branchcode  = result.branchcode;
+        currentHolder.occupation = result.occupation;
+        currentHolder.otherinfO8 = result.otherinfO8;
+        currentHolder.occupationsector = result.occupationsector;
+        currentHolder.occupationcategory = result.occupationcategory;
+        currentHolder.natureofbusiness = result.natureofbusiness;
+        currentHolder.companyname = result.companyname;
+        currentHolder.preferredmailmode = result.preferredmailmode;
+        currentHolder.fatca = result.fatca;
+        currentHolder.crs = result.crs;
+        currentHolder.pep = result.pep;
+        currentHolder.riskprofile = result.riskprofile;
+        currentHolder.relationship = result.relationship;
+        currentHolder.agentcode = result.agentcode;
+        currentHolder.branchcode = result.branchcode;
+        currentHolder.lastupdatedate = result.lastupdatedate;
+        currentHolder.transactionchannel = result.transactionchannel;
+        currentHolder.transactionstatus = result.transactionstatus;
+        currentHolder.rejectcode = result.rejectcode;
+        currentHolder.rejectreason = result.rejectreason;
+
+        if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
+
+         
+            if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Account Found.");
+
+              this.BRPrint1_Visible = false;
+              this.BRPrint2_Visible = false;
+              this.BREmail_Visible = false;
+
+              this.transaction_Successful = true;
+              //this._router.navigate(['transactionsuccessful']);
+            }
+          }
+      });
+    }
+    catch (e:any){
+      errorCodes.code = "0169";
+      errorCodes.message = e;
+      this._router.navigate(['outofservice']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
+    }
   }
 
 }

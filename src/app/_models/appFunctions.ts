@@ -48,13 +48,15 @@ export class appFunc {
   static isInvesment = false;
   static isOwn = "third";
 
-  static redemptionMinor: minorDetails;
+  static redemptionMinor: any;
 
   static body: any;
   static emailObj: any;
 
   static redemptionFundname = "";
   static redemptionFundID = "";
+
+  static isFromReg = false;
 
 }
 

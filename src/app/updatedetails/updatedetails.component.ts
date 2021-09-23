@@ -722,11 +722,19 @@ export class UpdatedetailsComponent implements OnInit {
     this.UDForm_Visible = false;
     this.UD1_Visible = true;
 
+    if(appFunc.isRedirectFromRedemption == true){
+      appFunc.isRedirectFromRedemption = false;
+    }
+
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Back.");
   }
 
   majorUpdateCancel(){
     this._router.navigate(['transactionmenu']);
+
+    if(appFunc.isRedirectFromRedemption == true){
+      appFunc.isRedirectFromRedemption = false;
+    }
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Major Update Cancel.");
   }
@@ -1254,11 +1262,19 @@ export class UpdatedetailsComponent implements OnInit {
     this.UDBForm_Visible = false;
     this.UD1_Visible = true;
 
+    if(appFunc.isRedirectFromRedemption == true){
+      appFunc.isRedirectFromRedemption = false;
+    }
+
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Cancel.");
   }
 
   bijakUpdateCancel(){
     this._router.navigate(['transactionmenu']);
+
+    if(appFunc.isRedirectFromRedemption == true){
+      appFunc.isRedirectFromRedemption = false;
+    }
 
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Clicked Bijak Update Cancel.");
   }

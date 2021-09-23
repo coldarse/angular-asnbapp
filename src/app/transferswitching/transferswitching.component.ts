@@ -159,6 +159,9 @@ export class TransferswitchingComponent implements OnInit {
   SwitchingMinValue = 0.00;
   SwitchingMaxValue = 0.00;
 
+  transferDisabled = false;
+  switchDisabled = false;
+
 
   constructor(
     private router: Router,
@@ -192,9 +195,117 @@ export class TransferswitchingComponent implements OnInit {
     this.ispopup = true;
   }
 
+  isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {
+    if (current.getTime() >= startDateTime.getTime() && current.getTime() <= stopDateTime.getTime()){
+      return true;
+    }
+    return false;
+  }
+
+  isModuleEnabled(){
+    let transferMDisabled = true;
+    let transferBDisabled = true;
+    let switchMDisabled = true;
+    let switchBDisabled = true;
+
+    if(appFunc.isOwn == "major"){
+      for (var val of appFunc.modules){
+        if(val.moduleName.toLowerCase().includes('transferm')){
+          if(val.enable == true){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+              transferMDisabled = false;
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
+            }
+          }else{
+            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+              transferMDisabled = false;
+            }
+          }
+        }
+        else if(val.moduleName.toLowerCase().includes('switchm')){
+          if(val.enable == true){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+              switchMDisabled = false;
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
+            }
+          }else{
+            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+              switchMDisabled = false;
+            }
+          }
+        }
+      }
+
+      if(transferMDisabled){
+        this.transferDisabled = true;
+      }
+      else{
+        this.transferDisabled = false;
+      }
+  
+      if(switchMDisabled){
+        this.switchDisabled = true;
+      }
+      else{
+        this.switchDisabled = false;
+      }
+    }
+    else{
+      for (var val of appFunc.modules){
+        if(val.moduleName.toLowerCase().includes('transferb')){
+          if(val.enable == true){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+              transferBDisabled = false;
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
+            }
+          }else{
+            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+              transferBDisabled = false;
+            }
+          }
+        }
+        else if(val.moduleName.toLowerCase().includes('switchb')){
+          if(val.enable == true){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+              switchBDisabled = false;
+              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
+            }
+          }else{
+            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+              switchBDisabled = false;
+            }
+          }
+        }
+      }
+
+      if(transferBDisabled){
+        this.transferDisabled = true;
+      }
+      else{
+        this.transferDisabled = false;
+      }
+  
+      if(switchBDisabled){
+        this.switchDisabled = true;
+      }
+      else{
+        this.switchDisabled = false;
+      }
+    }
+
+    
+
+
+    
+
+  }
+
   ngOnInit(): void {
     this.translate.use(selectLang.selectedLang);
 
+    console.log(appFunc.ASNBFundID);
+
+    this.isModuleEnabled();
     if(appFunc.isOwn == "major"){
       this.isTransferSwitchingMajor = true;
       this.isOwn = true;
@@ -913,22 +1024,154 @@ export class TransferswitchingComponent implements OnInit {
     return false;
   }
 
-  Switching(fund: any){
+  checkAMLA(fundid: any){
+    let faultCode = "";
+    let faultString = "";
 
+    if(appFunc.isOwn == "bijak"){
+      if(currentBijakHolder.riskprofile == ""){
+        const AMLABody = 
+        {
+          "AuthUser": "AMLSVC",
+          "AuthPswd": "AMLSVC",
+          "Username": "Kiosk",
+          "BrCode": signalrConnection.branchCode,
+          "SysName": "Kiosk",
+          "ScanOption": "5",
+          "UniqueNo": currentBijakHolder.unitholderid,
+          "SearchName": currentBijakHolder.firstname,
+          "SearchCountry": "MY",
+          "SearchDOB": currentBijakHolder.dateofbirth,
+          "SearchID": currentBijakHolder.identificationnumber,
+          "PassportVerify": "0",
+          "SecurityNo1": "0",
+          "PassExpiryDtVerify": "0",
+          "PassExpiryDate": "0",
+          "SecurityNo2": "0",
+          "RiskFactors": `1#${currentBijakHolder.occupation}|${currentBijakHolder.occupationsector}|${currentBijakHolder.occupationcategory}|${currentBijakHolder.natureofbusiness}|${currentBijakHolder.otherinfO8}|${currentBijakHolder.pep}|${fundid}|${currentBijakHolder.branchcode}||`, 
+          "Content": "",
+          "RtnHit": "",
+          "RtnScanID": 0,
+          "RtnEnCryptScanID": ""
+        }
+
+        this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+          faultCode = data.result.faultCode;
+          faultString = data.result.faultString;
+          currentBijakHolder.riskprofile = data.result.rtnHit;
+          if(currentBijakHolder.riskprofile == "HI"){
+            //Error screen?
+            errorCodes.Ecode = currentBijakHolder.riskprofile;
+            errorCodes.Emessage = currentBijakHolder.riskprofile;
+            errorCodes.accountType = "Bijak/Remaja";
+            errorCodes.accountName = currentBijakHolder.firstname;
+            errorCodes.accountNo = currentBijakHolder.unitholderid;
+            errorCodes.transaction = this.transaction;
+            this.router.navigate(['errorscreen']);
+          }
+          else if(!data.result.rtnHit){
+            errorCodes.Ecode = faultCode;
+            errorCodes.Emessage = faultString;
+            errorCodes.accountType = "Dewasa";
+            errorCodes.accountName = currentBijakHolder.firstname;
+            errorCodes.accountNo = currentBijakHolder.unitholderid;
+            errorCodes.transaction = this.transaction;
+            this.router.navigate(['errorscreen']);
+          }
+        });
+      }
+      else if(currentBijakHolder.riskprofile == "HI"){
+        //Error screen?
+        errorCodes.Ecode = currentBijakHolder.riskprofile;
+        errorCodes.Emessage = currentBijakHolder.riskprofile;
+        errorCodes.accountType = "Bijak/Remaja";
+        errorCodes.accountName = currentBijakHolder.firstname;
+        errorCodes.accountNo = currentBijakHolder.unitholderid;
+        errorCodes.transaction = this.transaction;
+        this.router.navigate(['errorscreen']);
+      }
+    }
+    else{
+      if(currentHolder.riskprofile == ""){
+        const AMLABody = 
+        {
+          "AuthUser": "AMLSVC",
+          "AuthPswd": "AMLSVC",
+          "Username": "Kiosk",
+          "BrCode": signalrConnection.branchCode,
+          "SysName": "Kiosk",
+          "ScanOption": "5",
+          "UniqueNo": currentHolder.unitholderid,
+          "SearchName": currentHolder.firstname,
+          "SearchCountry": "MY",
+          "SearchDOB": currentHolder.dateofbirth,
+          "SearchID": currentHolder.identificationnumber,
+          "PassportVerify": "0",
+          "SecurityNo1": "0",
+          "PassExpiryDtVerify": "0",
+          "PassExpiryDate": "0",
+          "SecurityNo2": "0",
+          "RiskFactors": `1#${currentHolder.occupation}|${currentHolder.occupationsector}|${currentHolder.occupationcategory}|${currentHolder.natureofbusiness}|${currentHolder.otherinfO8}|${currentHolder.pep}|${fundid}|${currentHolder.branchcode}||`, 
+          "Content": "",
+          "RtnHit": "",
+          "RtnScanID": 0,
+          "RtnEnCryptScanID": ""
+        }
+
+        this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+          faultCode = data.result.faultCode;
+          faultString = data.result.faultString;
+          currentHolder.riskprofile = data.result.rtnHit;
+          if(data.result.rtnHit == "HI"){
+            //Error screen?
+            errorCodes.Ecode = currentHolder.riskprofile;
+            errorCodes.Emessage = currentHolder.riskprofile;
+            errorCodes.accountType = "Dewasa";
+            errorCodes.accountName = currentHolder.firstname;
+            errorCodes.accountNo = currentHolder.unitholderid;
+            errorCodes.transaction = this.transaction;
+            this.router.navigate(['errorscreen']);
+          }
+          else if(!data.result.rtnHit){
+            errorCodes.Ecode = faultCode;
+            errorCodes.Emessage = faultString;
+            errorCodes.accountType = "Dewasa";
+            errorCodes.accountName = currentHolder.firstname;
+            errorCodes.accountNo = currentHolder.unitholderid;
+            errorCodes.transaction = this.transaction;
+            this.router.navigate(['errorscreen']);
+          }
+        });
+      }
+      else if(currentHolder.riskprofile == "HI"){
+        //Error screen?
+        errorCodes.Ecode = currentHolder.riskprofile;
+        errorCodes.Emessage = currentHolder.riskprofile;
+        errorCodes.accountType = "Dewasa";
+        errorCodes.accountName = currentHolder.firstname;
+        errorCodes.accountNo = currentHolder.unitholderid;
+        errorCodes.transaction = this.transaction;
+        this.router.navigate(['errorscreen']);
+      }
+    }
+  }
+
+  Switching(fund: any){
+    this.checkAMLA("");
     this.isHistorical = this.isBefore4pm();
     
-    const body =
-    {
-      "CHANNELTYPE": signalrConnection.channelType,
-      "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-      "DEVICEOWNER": signalrConnection.deviceOwner,
-      "REQUESTDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "REQUESTTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-      "UNITHOLDERID": this.unitholderid,
-      "IDENTIFICATIONTYPE": this.unitholderidtype,
-      "IDENTIFICATIONNUMBER": this.untiholderidno,
-      "FUNDLISTTYPE":"N"
-    }
+    // const body =
+    // {
+    //   "CHANNELTYPE": signalrConnection.channelType,
+    //   "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+    //   "DEVICEOWNER": signalrConnection.deviceOwner,
+    //   "REQUESTDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //   "REQUESTTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //   "UNITHOLDERID": this.unitholderid,
+    //   "IDENTIFICATIONTYPE": this.unitholderidtype,
+    //   "IDENTIFICATIONNUMBER": this.untiholderidno,
+    //   "FUNDLISTTYPE":"N"
+    // }
 
     appFunc.ASNBFundID.forEach((elements: ASNBFundID) => {
       if(elements.code.toString().toLowerCase() == fund.FUNDID.toLowerCase()){
@@ -942,41 +1185,46 @@ export class TransferswitchingComponent implements OnInit {
       }
     });
 
-    this.serviceService.postEligibleFunds(body)
-      .subscribe((result: any) => {
-        console.log(result.result.fundid);
-        appFunc.ASNBFundID.forEach((elem1: ASNBFundID) => {
-          if(this.containsObject(elem1, result.result.fundid)){
-            this.fundAvailable.push(elem1);
-            console.log(true);
-          }
-        });
-
-        console.log(this.fundAvailable);
-
-        this.switchingNAVFrom = fund.NAV;
-        this.switchingfrom = fund.FUNDNAME;
-
-        if(selectLang.selectedLang == 'en'){
-          this.transaction = "Switching";
-        }else{
-          this.transaction = "Penukaran";
-        }
-
-        this.transferswitching = false;
-        this.isswitching = true;
-        this.switching1 = true;
-
-        this.initializeForm2();
-
-        this.actualfundname = fund.FUNDNAME;
-        this.actualfundvalue = fund.UNITBALANCE;
-        this.actualfundid = fund.FUNDID;
-
-        setTimeout(() => {
-          loadKeyboard();
-        } , 1000);
+    this.newFundDetails.forEach((element: any) => {
+      if(element.FUNDID.toString().toLowerCase() != fund.FUNDID.toString().toLowerCase()){
+        this.fundAvailable.push(element);
+      }
     });
+
+    // this.serviceService.postEligibleFunds(body)
+    //   .subscribe((result: any) => {
+        // appFunc.ASNBFundID.forEach((elem1: ASNBFundID) => {
+        //   if(this.containsObject(elem1, result.result.fundid)){
+        //     this.fundAvailable.push(elem1);
+        //     console.log(true);
+        //   }
+        // });
+
+      //console.log(this.fundAvailable);
+
+      this.switchingNAVFrom = fund.NAV;
+      this.switchingfrom = fund.FUNDNAME;
+
+      if(selectLang.selectedLang == 'en'){
+        this.transaction = "Switching";
+      }else{
+        this.transaction = "Penukaran";
+      }
+
+      this.transferswitching = false;
+      this.isswitching = true;
+      this.switching1 = true;
+
+      this.initializeForm2();
+
+      this.actualfundname = fund.FUNDNAME;
+      this.actualfundvalue = fund.UNITBALANCE;
+      this.actualfundid = fund.FUNDID;
+
+      setTimeout(() => {
+        loadKeyboard();
+      } , 1000);
+    // });
 
     
   }

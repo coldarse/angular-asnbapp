@@ -335,33 +335,35 @@
    
 
     <div class="pop-up-addinformation">
-        <div class="row" style="padding-top:2rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h3>
-                    {{'SourceOfFund' | translate}}
-                </h3>
+        <div class="containSOF" style="padding-top:2rem; padding-bottom: 2rem;">
+            <div class="row" *ngIf="showSOF">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h3>
+                        {{'SourceOfFund' | translate}}
+                    </h3>
+                </div>
+                <div class="col-md-6">
+                    <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["sourceoffund"]'  #source>
+                        <option value="">{{ 'optionSelect' | translate }}</option>
+                        <option *ngFor="let fs of fundSource" value={{fs.code}}>
+                            {{fs.desc}}
+                        </option>
+                    </select>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sourceFundWarning">{{'SourceOfFundWarning' | translate}}</div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["sourceoffund"]' #source>
-                    <option value="">{{ 'optionSelect' | translate }}</option>
-                    <option *ngFor="let fs of fundSource" value={{fs.code}}>
-                        {{fs.desc}}
-                    </option>
-                </select>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sourceFundWarning">{{'SourceOfFundWarning' | translate}}</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h3>
-                    {{'FunderName' | translate}}
-                </h3>
-            </div>
-            <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="source" id="source" class="use-keyboard-input" [formControl]='Form_2.controls["fundername"]' #fundername>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="funderWarning">{{'FWarning' | translate}}</div>
+            <div class="row" *ngIf="showFunderName">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h3>
+                        {{'FunderName' | translate}}
+                    </h3>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" style="width: 85%;" name="source" id="source" class="use-keyboard-input" [formControl]='Form_2.controls["fundername"]'  #fundername>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="funderWarning">{{'FWarning' | translate}}</div>
+                </div>
             </div>
         </div>
     </div>
