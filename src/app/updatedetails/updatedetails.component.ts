@@ -924,8 +924,10 @@ export class UpdatedetailsComponent implements OnInit {
           "ZIPCODE":this.AR_Form.controls.postcode.value,
           "COMPANYNAME": this.AR_Form.controls.companyname.value,
           "TITLE":this.AR_Form.controls.salutation.value,
-          "BANKCODE":this.AR_Form.controls.bankname.value, 
-          "ACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value, 
+          //"BANKCODE":this.AR_Form.controls.bankname.value, 
+          //"ACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value, 
+          "BANKCODE": "",
+          "ACCOUNTNUMBER":"",
           "GUARDIANID":currentBijakHolder.guardianid,
           "FATCA":this.AR_Form.controls.fatca.value,
           "CRS":this.AR_Form.controls.crs.value,
@@ -934,7 +936,8 @@ export class UpdatedetailsComponent implements OnInit {
           "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
           "AGENTCODE":signalrConnection.agentCode,
           "BRANCHCODE":signalrConnection.branchCode,
-          "BANKBRANCHCODE": this.AR_Form.controls.bankname.value + "14001", 
+          //"BANKBRANCHCODE": this.AR_Form.controls.bankname.value + "14001", 
+          "BANKBRANCHCODE": "",
           "RELATIONSHIP":this.AR_Form.controls.g_relation.value,
         }
 
