@@ -301,7 +301,7 @@ export class PortalregistrationComponent implements OnInit {
     }
 
     for (var val of appFunc.modules){
-      if(val.moduleName.toLowerCase().includes('update')){
+      if(val.moduleID == 3){//Update CIF
         if(val.enable == true){
           if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
             this.updateDisabled = false;
@@ -313,7 +313,7 @@ export class PortalregistrationComponent implements OnInit {
           }
         }
       }
-      else if(val.moduleName.toLowerCase().includes('financial')){
+      else if(val.moduleID == 5){//Financial
         if(val.enable == true){
           if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
             this.financialDisabled = false;

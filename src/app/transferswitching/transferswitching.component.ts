@@ -210,7 +210,7 @@ export class TransferswitchingComponent implements OnInit {
 
     if(appFunc.isOwn == "major"){
       for (var val of appFunc.modules){
-        if(val.moduleName.toLowerCase().includes('transferm')){
+        if(val.moduleID == 13){//TransferM
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               transferMDisabled = false;
@@ -222,7 +222,7 @@ export class TransferswitchingComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('switchm')){
+        else if(val.moduleID == 15){//SwitchM
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               switchMDisabled = false;
@@ -252,7 +252,7 @@ export class TransferswitchingComponent implements OnInit {
     }
     else{
       for (var val of appFunc.modules){
-        if(val.moduleName.toLowerCase().includes('transferb')){
+        if(val.moduleID == 14){//TransferB
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               transferBDisabled = false;
@@ -264,7 +264,7 @@ export class TransferswitchingComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('switchb')){
+        else if(val.moduleID == 16){//SwitchB
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               switchBDisabled = false;

@@ -971,7 +971,7 @@ export class VerifymykadComponent implements OnInit {
                     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No Old IC account found.");
         
                     for (var val of appFunc.modules){
-                      if(val.moduleName.toLowerCase().includes('major')){
+                      if(val.moduleID == 1){//Major Registration
                         if(val.enable == true){
                           if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
                             this.loadingVisible = false;
@@ -1025,7 +1025,7 @@ export class VerifymykadComponent implements OnInit {
             }
             else{
               for (var val of appFunc.modules){
-                if(val.moduleName.toLowerCase().includes('major')){
+                if(val.moduleID == 1){//Major Registration
                   if(val.enable == true){
                     if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
                       this.loadingVisible = false;

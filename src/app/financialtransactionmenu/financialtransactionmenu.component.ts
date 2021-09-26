@@ -66,7 +66,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
       this.isBijakDisabled = false;
       //Includes Bijak
       for (var val of appFunc.modules){
-        if(val.moduleName.toLowerCase().includes('investmentm')){
+        if(val.moduleID == 9){//InvestmentM
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.InvestmentMDisabled = false;
@@ -78,7 +78,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        if(val.moduleName.toLowerCase().includes('investmentb')){
+        if(val.moduleID == 10){//InvestmentB
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.InvestmentBDisabled = false;
@@ -90,7 +90,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('subscriptionm')){
+        else if(val.moduleID == 11){//SubscriptionM
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SubscriptionMDisabled = false;
@@ -102,7 +102,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('subscriptionb')){
+        else if(val.moduleID == 12){//SubscriptionB
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SubscriptionBDisabled = false;
@@ -114,7 +114,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('subscriptiont')){
+        else if(val.moduleID == 19){//SubscriptionT
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SubscriptionTDisabled = false;
@@ -126,7 +126,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('transferm')){
+        else if(val.moduleID == 13){//TransferM
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.TransferMDisabled = false;
@@ -138,7 +138,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('switchm')){
+        else if(val.moduleID == 15){//SwitchM
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SwitchMDisabled = false;
@@ -150,7 +150,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('transferb')){
+        else if(val.moduleID == 14){//TransferB
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.TransferBDisabled = false;
@@ -162,7 +162,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('switchb')){
+        else if(val.moduleID == 16){//SwitchB
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SwitchBDisabled = false;
@@ -174,7 +174,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('redemptionm')){
+        else if(val.moduleID == 17){//RedemptionM
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.RedemptionMDisabled = false;
@@ -186,7 +186,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('redemptionb')){
+        else if(val.moduleID == 18){//RedemptionB
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.RedemptionBDisabled = false;
@@ -236,7 +236,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
       this.isBijakDisabled = true;
       //No Bijak
       for (var val of appFunc.modules){
-        if(val.moduleName.toLowerCase().includes('investmentm')){
+        if(val.moduleID == 9){//InvestmentM
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.InvestmentMDisabled = false;
@@ -248,7 +248,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('subscriptionm')){
+        else if(val.moduleID == 11){//SubscriptionM
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SubscriptionMDisabled = false;
@@ -260,7 +260,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('subscriptiont')){
+        else if(val.moduleID == 19){//SubscriptionT
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SubscriptionTDisabled = false;
@@ -272,7 +272,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('transferm')){
+        else if(val.moduleID == 13){//TransferM
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.TransferMDisabled = false;
@@ -284,7 +284,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('switchm')){
+        else if(val.moduleID == 15){//SwitchM
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SwitchMDisabled = false;
@@ -296,7 +296,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
             }
           }
         }
-        else if(val.moduleName.toLowerCase().includes('redemptionm')){
+        else if(val.moduleID == 17){//Redemption
           if(val.enable == true){
             if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.RedemptionMDisabled = false;

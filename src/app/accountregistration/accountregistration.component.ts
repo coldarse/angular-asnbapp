@@ -573,7 +573,7 @@ export class AccountregistrationComponent implements OnInit {
 
     
     for (var val of appFunc.modules){
-      if(val.moduleName.toLowerCase().includes('financial')){
+      if(val.moduleID == 5){//Financial
         if(val.enable == true){
           if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
             this.withMinInvestment = true;

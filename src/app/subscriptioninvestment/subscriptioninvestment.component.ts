@@ -683,6 +683,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   SIStep2Back(){
+    this.amountWarning = false;
+    this.amountWarning1 = false;
+    this.Form_1.controls.amount.reset();
+    
     this.SIStep2 = false;
     this.SIStep1 = true;
   }
