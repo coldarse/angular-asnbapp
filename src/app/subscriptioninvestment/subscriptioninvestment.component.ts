@@ -174,6 +174,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   testing = [];
 
+  moduleid = 0;
+  action = "";
+
   variableFundsFilter = [
     'ASNI03',
     'ASNE05',
@@ -373,7 +376,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
     if(appFunc.isInvesment){
       this.isInvestment = true;
       
+      
       if(appFunc.isOwn == "major"){
+        this.moduleid = 9;
+        this.action = "Perform Initial Investment for Major";
         this.checkAMLA();
         this.isInvestmentMajor = true;
         this.isOwn = true;
@@ -416,6 +422,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         });
         
       }else if(appFunc.isOwn == "bijak"){
+        this.moduleid = 10;
+        this.action = "Perform Initial Investment for Minor";
         this.isInvestmentMinor = true;
         this.isBijak = true;
         if(appFunc.isFromReg){
@@ -436,6 +444,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
     }else{
       this.isSubscription = true;
       if(appFunc.isOwn == "major"){
+        this.moduleid = 11;
+        this.action = "Perform Subscription for Major";
         currentHolder.funddetail.forEach((elem1: any) => {
           this.variableFundsFilter.forEach((elem2: string) =>{
             if(elem1.FUNDID.toString() == elem2.toString()){
@@ -458,11 +468,15 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.SIStep1 = true;
         this.checkAMLA();
       }else if(appFunc.isOwn == "bijak"){
+        this.moduleid = 12;
+        this.action = "Perform Subscription for Minor";
         this.isSubscriptionMinor = true;
         this.isBijak = true;
         this.BijakVisible = true;
       }
       else{
+        this.moduleid = 19;
+        this.action = "Perform Subscription for Third Party";
         this.isSubscriptionThird = true;
         this.isThird = true;
         this.checkAMLA();
@@ -1351,6 +1365,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
     if(signalrConnection.isHardcodedIC){
 
+      let kActivit1 = new kActivity();
+      kActivit1.trxno = signalrConnection.trxno;
+      kActivit1.kioskCode = signalrConnection.kioskCode;
+      kActivit1.moduleID = this.moduleid;
+      kActivit1.submoduleID = undefined;
+      kActivit1.action = this.action + " - Hardcoded";
+      kActivit1.startTime = new Date();
+
       this.paymentStep1 = false;
       this.paymentStep3 = true;
 
@@ -1533,6 +1555,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 console.log(JSON.stringify(FTBody));
 
                 this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+
+                kActivit1.endTime = new Date();
+                kActivit1.status = true;
+                appFunc.kioskActivity.push(kActivit1);
               }
               else{
                 errorCodes.Ecode = result1.result.rejectcode;
@@ -1563,6 +1589,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   }
                 }
                 errorCodes.transaction = this.transaction;
+                kActivit1.endTime = new Date();
+                kActivit1.status = false;
+                appFunc.kioskActivity.push(kActivit1);
                 this._router.navigate(['errorscreen']);
               }
             });
@@ -1596,11 +1625,24 @@ export class SubscriptioninvestmentComponent implements OnInit {
               }
             }
             errorCodes.transaction = this.transaction;
+            kActivit1.endTime = new Date();
+            kActivit1.status = false;
+            appFunc.kioskActivity.push(kActivit1);
             this._router.navigate(['errorscreen']);
           }
         });
     }
     else{
+
+      let kActivit1 = new kActivity();
+      kActivit1.trxno = signalrConnection.trxno;
+      kActivit1.kioskCode = signalrConnection.kioskCode;
+      kActivit1.moduleID = this.moduleid;
+      kActivit1.submoduleID = undefined;
+      kActivit1.action = this.action;
+      kActivit1.startTime = new Date();
+
+
       let PaymentAmt = parseFloat(this.amountKeyed.toString()).toFixed(2);
 
       signalrConnection.connection.invoke('ECRConnection', PaymentAmt).then((data: string) => {
@@ -1804,6 +1846,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           console.log(JSON.stringify(FTBody));
   
                           this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+
+                          kActivit1.endTime = new Date();
+                          kActivit1.status = true;
+                          appFunc.kioskActivity.push(kActivit1);
                         }
                         else{
                           errorCodes.Ecode = result1.result.rejectcode;
@@ -1837,6 +1883,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           signalrConnection.connection.invoke('DoVoid', PaymentAmt, cardInfo.HostNo, cardInfo.TransactionTrace, signalrConnection.trxno).then(() => {
                   
                           });
+                          kActivit1.endTime = new Date();
+                          kActivit1.status = false;
+                          appFunc.kioskActivity.push(kActivit1);
                           this._router.navigate(['errorscreen']);
                         }
                       });
@@ -1873,6 +1922,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       signalrConnection.connection.invoke('DoVoid', PaymentAmt, cardInfo.HostNo, cardInfo.TransactionTrace, signalrConnection.trxno).then(() => {
                   
                       });
+                      kActivit1.endTime = new Date();
+                      kActivit1.status = false;
+                      appFunc.kioskActivity.push(kActivit1);
                       this._router.navigate(['errorscreen']);
                     }
                   });
@@ -1910,6 +1962,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   }
                 }
                 errorCodes.transaction = this.transaction;
+                kActivit1.endTime = new Date();
+                kActivit1.status = false;
+                appFunc.kioskActivity.push(kActivit1);
                 this._router.navigate(['errorscreen']);
               }
               // else if(statusCode == "TA"){
@@ -2376,8 +2431,18 @@ export class SubscriptioninvestmentComponent implements OnInit {
     name = currentHolder.firstname;
 
     //let PaymentAmt = parseFloat(this.thirdamountkeyed.toString()).toFixed(2);
+    
 
     if(signalrConnection.isHardcodedIC){
+
+      let kActivit1 = new kActivity();
+      kActivit1.trxno = signalrConnection.trxno;
+      kActivit1.kioskCode = signalrConnection.kioskCode;
+      kActivit1.moduleID = this.moduleid;
+      kActivit1.submoduleID = undefined;
+      kActivit1.action = this.action + " - Hardcoded";
+      kActivit1.startTime = new Date();
+      
 
       this.paymentStep1 = false;
       this.paymentStep3 = true;
@@ -2476,6 +2541,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
               this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
               this.SIStep5 = false;
               this.SIStep6 = true;
+
+              kActivit1.endTime = new Date();
+              kActivit1.status = true;
+              appFunc.kioskActivity.push(kActivit1);
             }
             else{
               errorCodes.Ecode = result1.result.rejectcode;
@@ -2506,6 +2575,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 }
               }
               errorCodes.transaction = this.transaction;
+              kActivit1.endTime = new Date();
+              kActivit1.status = false;
+              appFunc.kioskActivity.push(kActivit1);
               this._router.navigate(['errorscreen']);
             }
           });
@@ -2539,11 +2611,23 @@ export class SubscriptioninvestmentComponent implements OnInit {
             }
           }
           errorCodes.transaction = this.transaction;
+          kActivit1.endTime = new Date();
+          kActivit1.status = false;
+          appFunc.kioskActivity.push(kActivit1);
           this._router.navigate(['errorscreen']);
         }
       });
     }
     else{
+
+      let kActivit1 = new kActivity();
+      kActivit1.trxno = signalrConnection.trxno;
+      kActivit1.kioskCode = signalrConnection.kioskCode;
+      kActivit1.moduleID = this.moduleid;
+      kActivit1.submoduleID = undefined;
+      kActivit1.action = this.action
+      kActivit1.startTime = new Date();
+
       let PaymentAmt = parseFloat(this.thirdamountkeyed.toString()).toFixed(2);
 
       signalrConnection.connection.invoke('ECRConnection', PaymentAmt).then((data: string) => {
@@ -2675,6 +2759,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
                         this.SIStep5 = false;
                         this.SIStep6 = true;
+
+                        kActivit1.endTime = new Date();
+                        kActivit1.status = true;
+                        appFunc.kioskActivity.push(kActivit1);
                       }
                       else{
                         errorCodes.Ecode = result1.result.rejectcode;
@@ -2708,6 +2796,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         signalrConnection.connection.invoke('DoVoid', PaymentAmt, cardInfo.HostNo, cardInfo.TransactionTrace, signalrConnection.trxno).then(() => {
                   
                         });
+                        kActivit1.endTime = new Date();
+                        kActivit1.status = false;
+                        appFunc.kioskActivity.push(kActivit1);
                         this._router.navigate(['errorscreen']);
                       }
                     });
@@ -2744,6 +2835,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     signalrConnection.connection.invoke('DoVoid', PaymentAmt, cardInfo.HostNo, cardInfo.TransactionTrace, signalrConnection.trxno).then(() => {
                   
                     });
+                    kActivit1.endTime = new Date();
+                    kActivit1.status = false;
+                    appFunc.kioskActivity.push(kActivit1);
                     this._router.navigate(['errorscreen']);
                   }
                   });
@@ -2781,6 +2875,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   }
                 }
                 errorCodes.transaction = this.transaction;
+                kActivit1.endTime = new Date();
+                kActivit1.status = false;
+                appFunc.kioskActivity.push(kActivit1);
                 this._router.navigate(['errorscreen']);
               }
               // else if(statusCode == "TA"){

@@ -11,6 +11,7 @@ import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { currentHolder } from '../_models/currentUnitHolder';
 import { ASNBFundID, bankName } from '../_models/dropDownLists';
 import { errorCodes } from '../_models/errorCode';
+import { kActivity } from '../_models/kActivity';
 import { selectLang } from '../_models/language';
 import { signalrConnection } from '../_models/signalr';
 import { ServiceService } from '../_shared/service.service';
@@ -115,6 +116,10 @@ export class RedemptionComponent implements OnInit {
   RedemptionMinValue = 0.00;
   RedemptionMaxValue = 0.00;
 
+
+  moduleid = 0;
+  action = "";
+
   constructor(
     private router: Router,
     private translate: TranslateService,
@@ -134,6 +139,8 @@ export class RedemptionComponent implements OnInit {
     }
 
     if(appFunc.isOwn == "major"){
+      this.moduleid = 17;
+      this.action = "Perform Redemption for Major";
       this.isOwn = true;
       this.isRedemptionMajor = true;
       this.fundDetails = currentHolder.funddetail;
@@ -219,6 +226,8 @@ export class RedemptionComponent implements OnInit {
       }
       
     }else{
+      this.moduleid = 18;
+      this.action = "Perform Redemption for Minor";
       this.isRedemptionMinor = true;
       this.isBijak = true;
       if(appFunc.isRedirectFromRedemption == true){
@@ -629,6 +638,14 @@ export class RedemptionComponent implements OnInit {
 
   redemption3Next(){
 
+    let kActivit1 = new kActivity();
+    kActivit1.trxno = signalrConnection.trxno;
+    kActivit1.kioskCode = signalrConnection.kioskCode;
+    kActivit1.moduleID = this.moduleid;
+    kActivit1.submoduleID = undefined;
+    kActivit1.action = this.action;
+    kActivit1.startTime = new Date();
+
     let txnmode = "";
     if(this.isHistorical){
       txnmode = "A";
@@ -700,6 +717,10 @@ export class RedemptionComponent implements OnInit {
 
           this.redemption3 = false;
           this.redemption4 = true;
+
+          kActivit1.endTime = new Date();
+          kActivit1.status = true;
+          appFunc.kioskActivity.push(kActivit1);
         }
         else{
           errorCodes.Ecode = result.result.rejectcode;
@@ -712,6 +733,9 @@ export class RedemptionComponent implements OnInit {
             errorCodes.accountType = "Bijak/Remaja";
           }
           errorCodes.transaction = this.transaction;
+          kActivit1.endTime = new Date();
+          kActivit1.status = false;
+          appFunc.kioskActivity.push(kActivit1);
           this.router.navigate(['errorscreen']);
         }
       });

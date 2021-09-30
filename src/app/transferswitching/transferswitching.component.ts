@@ -13,6 +13,7 @@ import { currentHolder } from '../_models/currentUnitHolder';
 import { ASNBFundID, reasonTransfer, thirdpartyRelationship } from '../_models/dropDownLists';
 import { errorCodes } from '../_models/errorCode';
 import { fundDetails } from '../_models/fundDetails';
+import { kActivity } from '../_models/kActivity';
 import { selectLang } from '../_models/language';
 import { signalrConnection } from '../_models/signalr';
 import { ServiceService } from '../_shared/service.service';
@@ -53,6 +54,9 @@ export class TransferswitchingComponent implements OnInit {
   isswitching = false;
   isOwn = false;
   isBijak = false;
+
+  moduleid = 0;
+  action = "";
 
   Print_Visible = true;
   Email_Visible = true;
@@ -561,9 +565,13 @@ export class TransferswitchingComponent implements OnInit {
         if(appFunc.isOwn == "major"){
           this.TransferMinValue = elements.majorTransferLimit_min;
           this.TransferMaxValue = elements.majorTransferLimit_max;
+          this.moduleid = 13;
+          this.action = "Perform Transfer for Major";
         }else{
           this.TransferMinValue = elements.minorTransferLimit_min;
           this.TransferMaxValue = elements.minorTransferLimit_max;
+          this.moduleid = 14;
+          this.action = "Perform Transfer for Minor";
         }
 
         if(elements.pricingType.toString().toLowerCase() == "amount"){
@@ -712,6 +720,14 @@ export class TransferswitchingComponent implements OnInit {
 
   transfer2Next(){
 
+    let kActivit1 = new kActivity();
+    kActivit1.trxno = signalrConnection.trxno;
+    kActivit1.kioskCode = signalrConnection.kioskCode;
+    kActivit1.moduleID = this.moduleid;
+    kActivit1.submoduleID = undefined;
+    kActivit1.action = this.action;
+    kActivit1.startTime = new Date();
+
     let uhid = "";
     let firstname = "";
     let ictype = "";
@@ -855,6 +871,10 @@ export class TransferswitchingComponent implements OnInit {
                 else{
                   this.Print_Visible = true;
                 }
+
+                kActivit1.endTime = new Date();
+                kActivit1.status = true;
+                appFunc.kioskActivity.push(kActivit1);
               }
               else{
                 errorCodes.Ecode = result1.result.rejectcode;
@@ -867,6 +887,9 @@ export class TransferswitchingComponent implements OnInit {
                   errorCodes.accountType = "Bijak/Remaja";
                 }
                 errorCodes.transaction = this.transaction;
+                kActivit1.endTime = new Date();
+                kActivit1.status = false;
+                appFunc.kioskActivity.push(kActivit1);
                 this.router.navigate(['errorscreen']);
               }
             });
@@ -882,6 +905,9 @@ export class TransferswitchingComponent implements OnInit {
             errorCodes.accountType = "Bijak/Remaja";
           }
           errorCodes.transaction = this.transaction;
+          kActivit1.endTime = new Date();
+          kActivit1.status = false;
+          appFunc.kioskActivity.push(kActivit1);
           this.router.navigate(['errorscreen']);
         }
     });
@@ -1260,9 +1286,13 @@ export class TransferswitchingComponent implements OnInit {
         if(appFunc.isOwn == "major"){
           this.SwitchingMinValue = elements.majorSwitchingLimit_min;
           this.SwitchingMaxValue = elements.majorSwitchingLimit_max;
+          this.moduleid = 15;
+          this.action = "Perform Switching for Major";
         }else{
           this.SwitchingMinValue = elements.minorSwitchingLimit_min;
           this.SwitchingMaxValue = elements.minorSwitchingLimit_max;
+          this.moduleid = 16;
+          this.action = "Perform Switching for Minor";
         }
 
         if(elements.pricingType.toString().toLowerCase() == "amount"){
@@ -1402,6 +1432,15 @@ export class TransferswitchingComponent implements OnInit {
   }
 
   switching2Next(){
+
+    let kActivit1 = new kActivity();
+    kActivit1.trxno = signalrConnection.trxno;
+    kActivit1.kioskCode = signalrConnection.kioskCode;
+    kActivit1.moduleID = this.moduleid;
+    kActivit1.submoduleID = undefined;
+    kActivit1.action = this.action;
+    kActivit1.startTime = new Date();
+
     let uhid = "";
     let firstname = "";
     let ictype = "";
@@ -1551,6 +1590,9 @@ export class TransferswitchingComponent implements OnInit {
                 else{
                   this.Print_Visible = true;
                 }
+                kActivit1.endTime = new Date();
+                kActivit1.status = true;
+                appFunc.kioskActivity.push(kActivit1);
               }
               else{
                 errorCodes.Ecode = result1.result.rejectcode;
@@ -1563,6 +1605,9 @@ export class TransferswitchingComponent implements OnInit {
                   errorCodes.accountType = "Bijak/Remaja";
                 }
                 errorCodes.transaction = this.transaction;
+                kActivit1.endTime = new Date();
+                kActivit1.status = false;
+                appFunc.kioskActivity.push(kActivit1);
                 this.router.navigate(['errorscreen']);
               }
             });
@@ -1578,6 +1623,9 @@ export class TransferswitchingComponent implements OnInit {
             errorCodes.accountType = "Bijak/Remaja";
           }
           errorCodes.transaction = this.transaction;
+          kActivit1.endTime = new Date();
+          kActivit1.status = false; 
+          appFunc.kioskActivity.push(kActivit1);
           this.router.navigate(['errorscreen']);
         }
     });
