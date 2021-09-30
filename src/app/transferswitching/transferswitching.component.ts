@@ -368,18 +368,6 @@ export class TransferswitchingComponent implements OnInit {
         });
       });
 
-      console.log(this.newFundDetails)
-
-      let before4pm = this.isBefore4pm();
-
-      if(!before4pm){//After 4pm, meaning disable variable funds
-        this.newFundDetails.forEach((fundElement: any) => {
-          if(fundElement.FUNDTYPE.toString().toLowerCase() == "variable"){
-            this.RemoveElementFromStringArray(fundElement.FUNDID, this.newFundDetails);
-          }
-        });
-      }
-      
 
     }else{
       this.transferswitching1 = true;
@@ -588,6 +576,7 @@ export class TransferswitchingComponent implements OnInit {
     });
 
     this.transferswitching = false;
+    this.transferswitching1 = false;
     this.istransfer = true;
     this.transfer1 = true;
 
@@ -606,7 +595,8 @@ export class TransferswitchingComponent implements OnInit {
     this.istransfer = false;
     this.transfer1 = false;
     this.transferswitching = true;
-    
+    this.transferswitching1 = true;
+    this.fundAvailable = [];
     deleteKeyboard();
   }
 
@@ -1281,6 +1271,8 @@ export class TransferswitchingComponent implements OnInit {
         else{
           this.isHistorical = false;
         }
+
+      
       }
     });
 
@@ -1311,6 +1303,7 @@ export class TransferswitchingComponent implements OnInit {
       }
 
       this.transferswitching = false;
+      this.transferswitching1 = false;
       this.isswitching = true;
       this.switching1 = true;
 
@@ -1332,7 +1325,8 @@ export class TransferswitchingComponent implements OnInit {
     this.isswitching = false;
     this.switching1 = false;
     this.transferswitching = true;
-    
+    this.transferswitching1 = true;
+    this.fundAvailable = [];
     deleteKeyboard();
   }
 
@@ -1488,6 +1482,9 @@ export class TransferswitchingComponent implements OnInit {
 
     this.serviceService.postProvisionSubscription(body)
       .subscribe((result: any) => {
+
+
+        console.log(result);
         console.log(result.result.transactionstatus);
         console.log(result.result.transactionnumber);
 
@@ -1497,6 +1494,7 @@ export class TransferswitchingComponent implements OnInit {
         }else{
           txnmode = "U";
         }
+
 
         if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
           const body1 = 
@@ -1529,7 +1527,8 @@ export class TransferswitchingComponent implements OnInit {
       
           this.serviceService.postSwitching(body1)
             .subscribe((result1: any) => {
-              if(result.result.transactionstatus.toLowerCase() == 'Successful'){
+              console.log(result1);
+              if(result1.result.transactionstatus.toLowerCase() == 'successful'){
                 this.switching2 = false;
                 this.switching3 = true;
                 this.refno = result.result.transactionnumber;
