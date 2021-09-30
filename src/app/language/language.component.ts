@@ -141,7 +141,6 @@ export class LanguageComponent implements OnInit {
           this.loadingDisable = false;
           appFunc.modules = res.result.map((em: any) => new eModules(em));
 
-          console.log(appFunc.modules);
           
           for (var val of appFunc.modules){
             if(val.enable == false){
@@ -249,6 +248,7 @@ export class LanguageComponent implements OnInit {
       appFunc.states = res[3].result.items.map((st: any) => new states(st));
       appFunc.bankName = res[10].result.items.map((bn: any) => new bankName(bn));
       appFunc.ASNBFundID = res[15].result.items.map((fi: any) => new ASNBFundID(fi));
+
 
       if (selectLang.selectedLang == 'ms'){
         appFunc.businessNature = res[4].result.items.map((bn: any) => 

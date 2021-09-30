@@ -148,26 +148,55 @@ export class RedemptionComponent implements OnInit {
       this.fundDetails.forEach((element: any) => {
         appFunc.ASNBFundID.forEach((elem: any) => {
           if(elem.code.toLowerCase() == element.FUNDID.toLowerCase()){
-            this.newFundDetails.push({
-              "FUNDID": element.FUNDID,
-              "UNITBALANCE": element.UNITBALANCE,
-              "EPFUNITS": element.EPFUNITS,
-              "LOANUNITS": element.LOANUNITS,
-              "CERTUNITS": element.CERTUNITS,
-              "BLOCKEDUNITS": element.BLOCKEDUNITS,
-              "PROVISIONALUNITS": element.PROVISIONALUNITS,
-              "TOTALUNITS": element.TOTALUNITS,
-              "NAV": element.NAV,
-              "UHHOLDINGS": element.UHHOLDINGS,
-              "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
-              "UBBUNITS": element.UBBUNITS,
-              "UBCUNITS": element.UBCUNITS,
-              "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
-              "FUNDNAME": elem.desc
-            });
+            let before4pm = this.isBefore4pm();
+
+            if(!before4pm){//After 4pm, meaning disable variable funds
+              if(elem.fundType != "Variable"){
+                this.newFundDetails.push({
+                  "FUNDID": element.FUNDID,
+                  "UNITBALANCE": element.UNITBALANCE,
+                  "EPFUNITS": element.EPFUNITS,
+                  "LOANUNITS": element.LOANUNITS,
+                  "CERTUNITS": element.CERTUNITS,
+                  "BLOCKEDUNITS": element.BLOCKEDUNITS,
+                  "PROVISIONALUNITS": element.PROVISIONALUNITS,
+                  "TOTALUNITS": element.TOTALUNITS,
+                  "NAV": element.NAV,
+                  "UHHOLDINGS": element.UHHOLDINGS,
+                  "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
+                  "UBBUNITS": element.UBBUNITS,
+                  "UBCUNITS": element.UBCUNITS,
+                  "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
+                  "FUNDNAME": elem.desc,
+                  "FUNDTYPE": elem.fundType,
+                });
+              }
+            }
+            else{
+              this.newFundDetails.push({
+                "FUNDID": element.FUNDID,
+                "UNITBALANCE": element.UNITBALANCE,
+                "EPFUNITS": element.EPFUNITS,
+                "LOANUNITS": element.LOANUNITS,
+                "CERTUNITS": element.CERTUNITS,
+                "BLOCKEDUNITS": element.BLOCKEDUNITS,
+                "PROVISIONALUNITS": element.PROVISIONALUNITS,
+                "TOTALUNITS": element.TOTALUNITS,
+                "NAV": element.NAV,
+                "UHHOLDINGS": element.UHHOLDINGS,
+                "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
+                "UBBUNITS": element.UBBUNITS,
+                "UBCUNITS": element.UBCUNITS,
+                "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
+                "FUNDNAME": elem.desc,
+                "FUNDTYPE": elem.fundType,
+              });
+            }
           }
         });
       });
+
+      console.log(this.newFundDetails)
 
 
       if(appFunc.isRedirectFromRedemption == true){
@@ -200,6 +229,14 @@ export class RedemptionComponent implements OnInit {
       }
       
     }
+  }
+
+  RemoveElementFromStringArray(element: string, fundArray: any[]) {
+    fundArray.forEach((value, index)=>{
+      if(value.FUNDID.toString().toUpperCase() == element.toString().toUpperCase()){
+        fundArray.splice(index,1);
+      } 
+    });
   }
 
   NextTNC(){
@@ -359,27 +396,64 @@ export class RedemptionComponent implements OnInit {
     this.fundDetails.forEach((element: any) => {
       appFunc.ASNBFundID.forEach((elem: any) => {
         if(elem.code.toLowerCase() == element.FUNDID.toLowerCase()){
-          //element.FUNDID = elem.value;
-          this.newFundDetails.push({
-            "FUNDID": element.FUNDID,
-            "UNITBALANCE": element.UNITBALANCE,
-            "EPFUNITS": element.EPFUNITS,
-            "LOANUNITS": element.LOANUNITS,
-            "CERTUNITS": element.CERTUNITS,
-            "BLOCKEDUNITS": element.BLOCKEDUNITS,
-            "PROVISIONALUNITS": element.PROVISIONALUNITS,
-            "TOTALUNITS": element.TOTALUNITS,
-            "NAV": element.NAV,
-            "UHHOLDINGS": element.UHHOLDINGS,
-            "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
-            "UBBUNITS": element.UBBUNITS,
-            "UBCUNITS": element.UBCUNITS,
-            "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
-            "FUNDNAME": elem.desc
-          });
+          let before4pm = this.isBefore4pm();
+
+            if(!before4pm){//After 4pm, meaning disable variable funds
+              if(elem.fundType != "Variable"){
+                this.newFundDetails.push({
+                  "FUNDID": element.FUNDID,
+                  "UNITBALANCE": element.UNITBALANCE,
+                  "EPFUNITS": element.EPFUNITS,
+                  "LOANUNITS": element.LOANUNITS,
+                  "CERTUNITS": element.CERTUNITS,
+                  "BLOCKEDUNITS": element.BLOCKEDUNITS,
+                  "PROVISIONALUNITS": element.PROVISIONALUNITS,
+                  "TOTALUNITS": element.TOTALUNITS,
+                  "NAV": element.NAV,
+                  "UHHOLDINGS": element.UHHOLDINGS,
+                  "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
+                  "UBBUNITS": element.UBBUNITS,
+                  "UBCUNITS": element.UBCUNITS,
+                  "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
+                  "FUNDNAME": elem.desc,
+                  "FUNDTYPE": elem.fundType,
+                });
+              }
+            }
+            else{
+              this.newFundDetails.push({
+                "FUNDID": element.FUNDID,
+                "UNITBALANCE": element.UNITBALANCE,
+                "EPFUNITS": element.EPFUNITS,
+                "LOANUNITS": element.LOANUNITS,
+                "CERTUNITS": element.CERTUNITS,
+                "BLOCKEDUNITS": element.BLOCKEDUNITS,
+                "PROVISIONALUNITS": element.PROVISIONALUNITS,
+                "TOTALUNITS": element.TOTALUNITS,
+                "NAV": element.NAV,
+                "UHHOLDINGS": element.UHHOLDINGS,
+                "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
+                "UBBUNITS": element.UBBUNITS,
+                "UBCUNITS": element.UBCUNITS,
+                "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
+                "FUNDNAME": elem.desc,
+                "FUNDTYPE": elem.fundType,
+              });
+            }
         }
       });
     });
+
+    let before4pm = this.isBefore4pm();
+
+    if(!before4pm){//After 4pm, meaning disable variable funds
+      this.newFundDetails.forEach((fundElement: any) => {
+        if(fundElement.FUNDTYPE.toString().toLowerCase() == "variable"){
+          this.RemoveElementFromStringArray(fundElement.FUNDID, this.newFundDetails);
+        }
+      });
+    }
+
     this.unitholderid = currentBijakHolder.unitholderid;
     this.unitholdername = currentBijakHolder.firstname;
     this.unitholderidtype = currentBijakHolder.identificationtype;
@@ -419,7 +493,7 @@ export class RedemptionComponent implements OnInit {
 
   SelectFund(fund: any){
 
-    this.isHistorical = this.isBefore4pm();
+    //this.isHistorical = this.isBefore4pm();
 
     this.redemption1 = false;
     this.redemption2 = true;
@@ -442,6 +516,13 @@ export class RedemptionComponent implements OnInit {
         }else{
           this.RedemptionMinValue = elements.minorRedemptionLimit_min;
           this.RedemptionMaxValue = elements.minorRedemptionLimit_max;
+        }
+
+        if(elements.pricingType.toString().toLowerCase() == "amount"){
+          this.isHistorical = true;
+        }
+        else{
+          this.isHistorical = false;
         }
       }
     });

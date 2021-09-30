@@ -213,6 +213,9 @@ export class ASNBFundID {
     majorTransferLimit_max: number;
     majorSwitchingLimit_min: number;
     majorSwitchingLimit_max: number;
+    fundType: string;
+    iscLink: string;
+    pricingType: string;
 
     constructor(fundid: any){
         this.code = fundid.code;
@@ -238,6 +241,9 @@ export class ASNBFundID {
         this.majorTransferLimit_max = fundid.majorTransferLimit_max;
         this.majorSwitchingLimit_min = fundid.majorSwitchingLimit_min;
         this.majorSwitchingLimit_max = fundid.majorSwitchingLimit_max;
+        this.fundType = fundid.fundType;
+        this.iscLink = fundid.iscLink;
+        this.pricingType = fundid.pricingType;
     }
 } 
 

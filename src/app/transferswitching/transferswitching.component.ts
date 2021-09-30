@@ -318,29 +318,69 @@ export class TransferswitchingComponent implements OnInit {
       this.untiholderidno = currentHolder.identificationnumber;
 
       this.fundDetails.forEach((element: any) => {
-        appFunc.ASNBFundID.forEach((elem: any) => {
+        appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
           if(elem.code.toLowerCase() == element.FUNDID.toLowerCase()){
-            //element.FUNDID = elem.value;
-            this.newFundDetails.push({
-              "FUNDID": element.FUNDID,
-              "UNITBALANCE": element.UNITBALANCE,
-              "EPFUNITS": element.EPFUNITS,
-              "LOANUNITS": element.LOANUNITS,
-              "CERTUNITS": element.CERTUNITS,
-              "BLOCKEDUNITS": element.BLOCKEDUNITS,
-              "PROVISIONALUNITS": element.PROVISIONALUNITS,
-              "TOTALUNITS": element.TOTALUNITS,
-              "NAV": element.NAV,
-              "UHHOLDINGS": element.UHHOLDINGS,
-              "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
-              "UBBUNITS": element.UBBUNITS,
-              "UBCUNITS": element.UBCUNITS,
-              "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
-              "FUNDNAME": elem.desc
-            });
+            let before4pm = this.isBefore4pm();
+
+            if(!before4pm){//After 4pm, meaning disable variable funds
+              if(elem.fundType != "Variable"){
+                this.newFundDetails.push({
+                  "FUNDID": element.FUNDID,
+                  "UNITBALANCE": element.UNITBALANCE,
+                  "EPFUNITS": element.EPFUNITS,
+                  "LOANUNITS": element.LOANUNITS,
+                  "CERTUNITS": element.CERTUNITS,
+                  "BLOCKEDUNITS": element.BLOCKEDUNITS,
+                  "PROVISIONALUNITS": element.PROVISIONALUNITS,
+                  "TOTALUNITS": element.TOTALUNITS,
+                  "NAV": element.NAV,
+                  "UHHOLDINGS": element.UHHOLDINGS,
+                  "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
+                  "UBBUNITS": element.UBBUNITS,
+                  "UBCUNITS": element.UBCUNITS,
+                  "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
+                  "FUNDNAME": elem.desc,
+                  "FUNDTYPE": elem.fundType,
+                });
+              }
+            }
+            else{
+              this.newFundDetails.push({
+                "FUNDID": element.FUNDID,
+                "UNITBALANCE": element.UNITBALANCE,
+                "EPFUNITS": element.EPFUNITS,
+                "LOANUNITS": element.LOANUNITS,
+                "CERTUNITS": element.CERTUNITS,
+                "BLOCKEDUNITS": element.BLOCKEDUNITS,
+                "PROVISIONALUNITS": element.PROVISIONALUNITS,
+                "TOTALUNITS": element.TOTALUNITS,
+                "NAV": element.NAV,
+                "UHHOLDINGS": element.UHHOLDINGS,
+                "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
+                "UBBUNITS": element.UBBUNITS,
+                "UBCUNITS": element.UBCUNITS,
+                "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
+                "FUNDNAME": elem.desc,
+                "FUNDTYPE": elem.fundType,
+              });
+            }
           }
         });
       });
+
+      console.log(this.newFundDetails)
+
+      let before4pm = this.isBefore4pm();
+
+      if(!before4pm){//After 4pm, meaning disable variable funds
+        this.newFundDetails.forEach((fundElement: any) => {
+          if(fundElement.FUNDTYPE.toString().toLowerCase() == "variable"){
+            this.RemoveElementFromStringArray(fundElement.FUNDID, this.newFundDetails);
+          }
+        });
+      }
+      
+
     }else{
       this.transferswitching1 = true;
       this.isTransferSwitchingMinor = true;
@@ -349,6 +389,14 @@ export class TransferswitchingComponent implements OnInit {
     }
 
     
+  }
+
+  RemoveElementFromStringArray(element: string, fundArray: any[]) {
+    fundArray.forEach((value, index)=>{
+      if(value.FUNDID.toString().toUpperCase() == element.toString().toUpperCase()){
+        fundArray.splice(index,1);
+      } 
+    });
   }
 
   transferswitchingBack(){
@@ -444,27 +492,64 @@ export class TransferswitchingComponent implements OnInit {
     this.fundDetails.forEach((element: any) => {
       appFunc.ASNBFundID.forEach((elem: any) => {
         if(elem.code.toLowerCase() == element.FUNDID.toLowerCase()){
-          //element.FUNDID = elem.value;
-          this.newFundDetails.push({
-            "FUNDID": element.FUNDID,
-            "UNITBALANCE": element.UNITBALANCE,
-            "EPFUNITS": element.EPFUNITS,
-            "LOANUNITS": element.LOANUNITS,
-            "CERTUNITS": element.CERTUNITS,
-            "BLOCKEDUNITS": element.BLOCKEDUNITS,
-            "PROVISIONALUNITS": element.PROVISIONALUNITS,
-            "TOTALUNITS": element.TOTALUNITS,
-            "NAV": element.NAV,
-            "UHHOLDINGS": element.UHHOLDINGS,
-            "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
-            "UBBUNITS": element.UBBUNITS,
-            "UBCUNITS": element.UBCUNITS,
-            "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
-            "FUNDNAME": elem.desc
-          });
+          let before4pm = this.isBefore4pm();
+
+          if(!before4pm){//After 4pm, meaning disable variable funds
+            if(elem.fundType != "Variable"){
+              this.newFundDetails.push({
+                "FUNDID": element.FUNDID,
+                "UNITBALANCE": element.UNITBALANCE,
+                "EPFUNITS": element.EPFUNITS,
+                "LOANUNITS": element.LOANUNITS,
+                "CERTUNITS": element.CERTUNITS,
+                "BLOCKEDUNITS": element.BLOCKEDUNITS,
+                "PROVISIONALUNITS": element.PROVISIONALUNITS,
+                "TOTALUNITS": element.TOTALUNITS,
+                "NAV": element.NAV,
+                "UHHOLDINGS": element.UHHOLDINGS,
+                "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
+                "UBBUNITS": element.UBBUNITS,
+                "UBCUNITS": element.UBCUNITS,
+                "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
+                "FUNDNAME": elem.desc,
+                "FUNDTYPE": elem.fundType,
+              });
+            }
+          }
+          else{
+            this.newFundDetails.push({
+              "FUNDID": element.FUNDID,
+              "UNITBALANCE": element.UNITBALANCE,
+              "EPFUNITS": element.EPFUNITS,
+              "LOANUNITS": element.LOANUNITS,
+              "CERTUNITS": element.CERTUNITS,
+              "BLOCKEDUNITS": element.BLOCKEDUNITS,
+              "PROVISIONALUNITS": element.PROVISIONALUNITS,
+              "TOTALUNITS": element.TOTALUNITS,
+              "NAV": element.NAV,
+              "UHHOLDINGS": element.UHHOLDINGS,
+              "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
+              "UBBUNITS": element.UBBUNITS,
+              "UBCUNITS": element.UBCUNITS,
+              "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
+              "FUNDNAME": elem.desc,
+              "FUNDTYPE": elem.fundType,
+            });
+          }
         }
       });
     });
+
+    let before4pm = this.isBefore4pm();
+
+    if(!before4pm){//After 4pm, meaning disable variable funds
+      this.newFundDetails.forEach((fundElement: any) => {
+        if(fundElement.FUNDTYPE.toString().toLowerCase() == "variable"){
+          this.RemoveElementFromStringArray(fundElement.FUNDID, this.newFundDetails);
+        }
+      });
+    }
+
     this.unitholderid = currentBijakHolder.unitholderid;
     this.unitholdername = currentBijakHolder.firstname;
     this.unitholderidtype = currentBijakHolder.identificationtype;
@@ -475,7 +560,7 @@ export class TransferswitchingComponent implements OnInit {
 
   Transfer(fund: any){
 
-    this.isHistorical = this.isBefore4pm();
+    //this.isHistorical = this.isBefore4pm();
 
     if(selectLang.selectedLang == 'en'){
       this.transaction = "Transfer";
@@ -491,6 +576,13 @@ export class TransferswitchingComponent implements OnInit {
         }else{
           this.TransferMinValue = elements.minorTransferLimit_min;
           this.TransferMaxValue = elements.minorTransferLimit_max;
+        }
+
+        if(elements.pricingType.toString().toLowerCase() == "amount"){
+          this.isHistorical = true;
+        }
+        else{
+          this.isHistorical = false;
         }
       }
     });
@@ -1158,7 +1250,7 @@ export class TransferswitchingComponent implements OnInit {
 
   Switching(fund: any){
     this.checkAMLA("");
-    this.isHistorical = this.isBefore4pm();
+    //this.isHistorical = this.isBefore4pm();
     
     // const body =
     // {
@@ -1181,6 +1273,13 @@ export class TransferswitchingComponent implements OnInit {
         }else{
           this.SwitchingMinValue = elements.minorSwitchingLimit_min;
           this.SwitchingMaxValue = elements.minorSwitchingLimit_max;
+        }
+
+        if(elements.pricingType.toString().toLowerCase() == "amount"){
+          this.isHistorical = true;
+        }
+        else{
+          this.isHistorical = false;
         }
       }
     });

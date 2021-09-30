@@ -1878,7 +1878,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   });
                 });
               }
-              else if(statusCode == "CE"){
+              else if(this.checkTerminalErrorCodes(statusCode)){
                 signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
                   
                 });
@@ -1912,40 +1912,40 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 errorCodes.transaction = this.transaction;
                 this._router.navigate(['errorscreen']);
               }
-              else if(statusCode == "TA"){
-                signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
+              // else if(statusCode == "TA"){
+              //   signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
                   
-                });
-                errorCodes.Ecode = statusCode;
-                errorCodes.Emessage = `Terminal Status Code ${statusCode}`;
-                if(selectLang.selectedLang == 'ms'){
-                  if(appFunc.isOwn == "major"){
-                    errorCodes.accountType = "Dewasa";
-                    errorCodes.accountName = currentHolder.firstname;
-                    errorCodes.accountNo = currentHolder.unitholderid;
-                  }else if(appFunc.isOwn == "bijak"){
-                    errorCodes.accountType = "Bijak/Remaja";
-                    errorCodes.accountName = name;
-                    errorCodes.accountNo = uhid;
-                  }else{
-                    errorCodes.accountType = "Pihak Ketiga";
-                  }
-                }else{
-                  if(appFunc.isOwn == "major"){
-                    errorCodes.accountType = "Dewasa";
-                    errorCodes.accountName = currentHolder.firstname;
-                    errorCodes.accountNo = currentHolder.unitholderid;
-                  }else if(appFunc.isOwn == "bijak"){
-                    errorCodes.accountType = "Bijak/Remaja";
-                    errorCodes.accountName = name;
-                    errorCodes.accountNo = uhid;
-                  }else{
-                    errorCodes.accountType = "Pihak Ketiga";
-                  }
-                }
-                errorCodes.transaction = this.transaction;
-                this._router.navigate(['errorscreen']);
-              }
+              //   });
+              //   errorCodes.Ecode = statusCode;
+              //   errorCodes.Emessage = `Terminal Status Code ${statusCode}`;
+              //   if(selectLang.selectedLang == 'ms'){
+              //     if(appFunc.isOwn == "major"){
+              //       errorCodes.accountType = "Dewasa";
+              //       errorCodes.accountName = currentHolder.firstname;
+              //       errorCodes.accountNo = currentHolder.unitholderid;
+              //     }else if(appFunc.isOwn == "bijak"){
+              //       errorCodes.accountType = "Bijak/Remaja";
+              //       errorCodes.accountName = name;
+              //       errorCodes.accountNo = uhid;
+              //     }else{
+              //       errorCodes.accountType = "Pihak Ketiga";
+              //     }
+              //   }else{
+              //     if(appFunc.isOwn == "major"){
+              //       errorCodes.accountType = "Dewasa";
+              //       errorCodes.accountName = currentHolder.firstname;
+              //       errorCodes.accountNo = currentHolder.unitholderid;
+              //     }else if(appFunc.isOwn == "bijak"){
+              //       errorCodes.accountType = "Bijak/Remaja";
+              //       errorCodes.accountName = name;
+              //       errorCodes.accountNo = uhid;
+              //     }else{
+              //       errorCodes.accountType = "Pihak Ketiga";
+              //     }
+              //   }
+              //   errorCodes.transaction = this.transaction;
+              //   this._router.navigate(['errorscreen']);
+              // }
               else{
                 theLoop(statusCode);
               }
@@ -1957,6 +1957,22 @@ export class SubscriptioninvestmentComponent implements OnInit {
     }
 
     
+  }
+
+  checkTerminalErrorCodes(statusCode: string){
+    let codes = ["01", "02", "03", "05", "12", "13", "14", "19", "25", "30", "31", "41", "51", "54", "55", "58", "76", "77", "78", "80", "89", "91", "94", "95", "96", "Y1", "Y3", "Z1", "Z3",
+                  "SE", "PE", "IC", "EC", "ZE", "BU", "CE", "RE", "HE", "LE", "VB", "FE", "WC", "TA", "AE", "KE", "VT"];
+    
+    codes.forEach((code) => {
+      if(code == statusCode){
+        return true;
+      }
+      else{
+        return false;
+      }
+    });
+
+    return false;
   }
 
   SIStep5Cancel(){
@@ -2733,7 +2749,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   });
                 });
               }
-              else if(statusCode == "CE"){
+              else if(this.checkTerminalErrorCodes(statusCode)){
                 signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
                   
                 });
@@ -2767,40 +2783,40 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 errorCodes.transaction = this.transaction;
                 this._router.navigate(['errorscreen']);
               }
-              else if(statusCode == "TA"){
-                signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
+              // else if(statusCode == "TA"){
+              //   signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
                   
-                });
-                errorCodes.Ecode = statusCode;
-                errorCodes.Emessage = `Terminal Status Code ${statusCode}`;
-                if(selectLang.selectedLang == 'ms'){
-                  if(appFunc.isOwn == "major"){
-                    errorCodes.accountType = "Dewasa";
-                    errorCodes.accountName = currentHolder.firstname;
-                    errorCodes.accountNo = currentHolder.unitholderid;
-                  }else if(appFunc.isOwn == "bijak"){
-                    errorCodes.accountType = "Bijak/Remaja";
-                    errorCodes.accountName = name;
-                    errorCodes.accountNo = uhid;
-                  }else{
-                    errorCodes.accountType = "Pihak Ketiga";
-                  }
-                }else{
-                  if(appFunc.isOwn == "major"){
-                    errorCodes.accountType = "Dewasa";
-                    errorCodes.accountName = currentHolder.firstname;
-                    errorCodes.accountNo = currentHolder.unitholderid;
-                  }else if(appFunc.isOwn == "bijak"){
-                    errorCodes.accountType = "Bijak/Remaja";
-                    errorCodes.accountName = name;
-                    errorCodes.accountNo = uhid;
-                  }else{
-                    errorCodes.accountType = "Pihak Ketiga";
-                  }
-                }
-                errorCodes.transaction = this.transaction;
-                this._router.navigate(['errorscreen']);
-              }
+              //   });
+              //   errorCodes.Ecode = statusCode;
+              //   errorCodes.Emessage = `Terminal Status Code ${statusCode}`;
+              //   if(selectLang.selectedLang == 'ms'){
+              //     if(appFunc.isOwn == "major"){
+              //       errorCodes.accountType = "Dewasa";
+              //       errorCodes.accountName = currentHolder.firstname;
+              //       errorCodes.accountNo = currentHolder.unitholderid;
+              //     }else if(appFunc.isOwn == "bijak"){
+              //       errorCodes.accountType = "Bijak/Remaja";
+              //       errorCodes.accountName = name;
+              //       errorCodes.accountNo = uhid;
+              //     }else{
+              //       errorCodes.accountType = "Pihak Ketiga";
+              //     }
+              //   }else{
+              //     if(appFunc.isOwn == "major"){
+              //       errorCodes.accountType = "Dewasa";
+              //       errorCodes.accountName = currentHolder.firstname;
+              //       errorCodes.accountNo = currentHolder.unitholderid;
+              //     }else if(appFunc.isOwn == "bijak"){
+              //       errorCodes.accountType = "Bijak/Remaja";
+              //       errorCodes.accountName = name;
+              //       errorCodes.accountNo = uhid;
+              //     }else{
+              //       errorCodes.accountType = "Pihak Ketiga";
+              //     }
+              //   }
+              //   errorCodes.transaction = this.transaction;
+              //   this._router.navigate(['errorscreen']);
+              // }
               else{
                 theLoop(statusCode);
               }
