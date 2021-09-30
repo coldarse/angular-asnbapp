@@ -459,8 +459,8 @@ export class RedemptionComponent implements OnInit {
     this.unitholderidtype = currentBijakHolder.identificationtype;
     this.unitholderidno = currentBijakHolder.identificationnumber;
     this.unitholderemail = currentBijakHolder.email;
-    this.unitholderbankcode = currentBijakHolder.bankcode;
-    this.unitholderbankaccountnumber = currentBijakHolder.accountnumber;
+    this.unitholderbankcode = currentHolder.bankcode;
+    this.unitholderbankaccountnumber = currentHolder.accountnumber;
 
     this.guardianID = currentHolder.unitholderid;
     this.guardianICType = currentHolder.identificationtype;
