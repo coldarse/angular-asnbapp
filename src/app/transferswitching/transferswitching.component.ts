@@ -39,8 +39,8 @@ export class TransferswitchingComponent implements OnInit {
   @ViewChild('sfundid') sfundid : ElementRef | undefined;
   @ViewChild('samount') samount : ElementRef | undefined;
 
-  pdfsrc1 = "assets/Terms_N_Condition.pdf";
-  pdfsrc2 = "assets/ASNB_MasterProspectus.pdf";
+  pdfsrc1 = "assets/Kiosk_TnC_Financial_Transaction_V.01_2021.pdf";
+  pdfsrc2 = "assets/Investment_Notice_Kiosk_v4.pdf";
   pdfsrc3 = "assets/ASNB_MasterProspectus.pdf";
   TermsAndConditions = false;
   InvestmentDisclaimer = false;
@@ -553,6 +553,8 @@ export class TransferswitchingComponent implements OnInit {
   Transfer(fund: any){
 
     //this.isHistorical = this.isBefore4pm();
+
+    this.pdfsrc3 = "assets/TRANSFER/All_Fund_Min_Criteria.pdf";
 
     if(selectLang.selectedLang == 'en'){
       this.transaction = "Transfer";
@@ -1265,6 +1267,9 @@ export class TransferswitchingComponent implements OnInit {
   }
 
   Switching(fund: any){
+
+    this.pdfsrc3 = "assets/SWITCHING/All_Fund_Min_Criteria.pdf";
+
     this.checkAMLA("");
     //this.isHistorical = this.isBefore4pm();
     

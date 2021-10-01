@@ -44,8 +44,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
   @ViewChild('thirdamount') thirdamount : ElementRef | undefined;
   @ViewChild('thirdsource') thirdsource : ElementRef | undefined;
 
-  pdfsrc1 = "assets/Terms_N_Condition.pdf";
-  pdfsrc2 = "assets/ASNB_MasterProspectus.pdf";
+  pdfsrc1 = "assets/Kiosk_TnC_Financial_Transaction_V.01_2021.pdf";
+  pdfsrc2 = "assets/Investment_Notice_Kiosk_v4.pdf";
   pdfsrc3 = "assets/ASNB_MasterProspectus.pdf";
   TermsAndConditions = false;
   InvestmentDisclaimer = false;
@@ -177,25 +177,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   moduleid = 0;
   action = "";
 
-  variableFundsFilter = [
-    'ASNI03',
-    'ASNE05',
-    'AASSGD',
-    'ASN3',
-    'ASN',
-    'AASSGK',
-    'AASSGS',
-    'ASNS02',
-    'ASN2',
-  ];
-  fixedFundsFilter = [
-    'ASW',
-    'AS1M',
-    'ASB2',
-    'ASM',
-    'ASB',
-    'ASD',
-  ];
+
   isloadedfunds = false;
 
   mDetails = currentHolder.minordetail;
@@ -404,20 +386,21 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
         this.serviceService.postEligibleFunds(body)
         .subscribe((result: any) => {
+          
           result.result.fundid.forEach((elem1: string) => {
-            this.variableFundsFilter.forEach((elem2: string) =>{
-              if(elem1.toString() == elem2.toString()){
-                this.variableFunds.push(elem1);
+            appFunc.ASNBFundID.forEach((elem2: ASNBFundID) => {
+              if(elem1.toString() == elem2.code.toString()){
+                if(elem2.fundType == "Variable"){
+                  this.variableFunds.push(elem1);
+                }else{
+                  this.fixedFunds.push(elem1);
+                }
               }
-            })
+            });
           });
-          result.result.fundid.forEach((elem1: string) => {
-            this.fixedFundsFilter.forEach((elem2: string) =>{
-              if(elem1.toString() == elem2.toString()){
-                this.fixedFunds.push(elem1);
-              }
-            })
-          });
+
+          console.log(this.variableFunds);
+          console.log(this.fixedFunds);
           this.isloadedfunds = true;
         });
         
@@ -447,19 +430,17 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.moduleid = 11;
         this.action = "Perform Subscription for Major";
         currentHolder.funddetail.forEach((elem1: any) => {
-          this.variableFundsFilter.forEach((elem2: string) =>{
-            if(elem1.FUNDID.toString() == elem2.toString()){
-              this.variableFunds.push(elem1.FUNDID.toString());
+          appFunc.ASNBFundID.forEach((elem2: ASNBFundID) => {
+            if(elem1.toString() == elem2.code.toString()){
+              if(elem2.fundType == "Variable"){
+                this.variableFunds.push(elem1);
+              }else{
+                this.fixedFunds.push(elem1);
+              }
             }
-          })
+          });
         });
-        currentHolder.funddetail.forEach((elem1: any) => {
-          this.fixedFundsFilter.forEach((elem2: string) =>{
-            if(elem1.FUNDID.toString() == elem2.toString()){
-              this.fixedFunds.push(elem1.FUNDID.toString());
-            }
-          })
-        });
+        
         console.log(this.variableFunds);
         console.log(this.fixedFunds);
         this.isloadedfunds = true;
@@ -515,21 +496,26 @@ export class SubscriptioninvestmentComponent implements OnInit {
           if(appFunc.isInvesment){ //Investment Major
             this.InvestmentMinValue = elements.majorInvestmentLimit_min;
             this.InvestmentMaxValue = elements.majorInvestmentLimit_max;
+            this.pdfsrc3 = "assets/INITIAL_INVESTMENT/" + elements.iscLink + ".pdf";
           }else{ //Subscription Major
             this.SubscriptionMaxValue = elements.majorSubscriptionLimit_max;
             this.SubscriptionMinValue = elements.majorSubscriptionLimit_min;
+            this.pdfsrc3 = "assets/SUBSCRIPTION/" + elements.iscLink + ".pdf";
           }
         }else if(appFunc.isOwn == "bijak"){
           if(appFunc.isInvesment){ //Investment Minor
             this.InvestmentMinValue = elements.minorInvestmentLimit_min;
             this.InvestmentMaxValue = elements.minorInvestmentLimit_max;
+            this.pdfsrc3 = "assets/INITIAL_INVESTMENT/" + elements.iscLink + ".pdf";
           }else{ //Subscription Minor
             this.SubscriptionMaxValue = elements.minorSubscriptionLimit_max;
             this.SubscriptionMinValue = elements.minorSubscriptionLimit_min;
+            this.pdfsrc3 = "assets/SUBSCRIPTION/" + elements.iscLink + ".pdf";
           }
         }else{ //Subscription Third Party
           this.SubscriptionMaxValue = elements.majorSubscriptionLimit_max;
           this.SubscriptionMinValue = elements.majorSubscriptionLimit_min;
+          this.pdfsrc3 = "assets/SUBSCRIPTION/" + elements.iscLink + ".pdf";
         }
       }
     })
@@ -621,19 +607,17 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.variableFunds = [];
           this.fixedFunds = [];
           minor.FUNDID.forEach((elem1: string) => {
-            this.variableFundsFilter.forEach((elem2: string) =>{
-              if(elem1.toString() == elem2.toString()){
-                this.variableFunds.push(elem1);
+            appFunc.ASNBFundID.forEach((elem2: ASNBFundID) => {
+              if(elem1.toString() == elem2.code.toString()){
+                if(elem2.fundType == "Variable"){
+                  this.variableFunds.push(elem1);
+                }else{
+                  this.fixedFunds.push(elem1);
+                }
               }
-            })
+            });
           });
-          minor.FUNDID.forEach((elem1: string) => {
-            this.fixedFundsFilter.forEach((elem2: string) =>{
-              if(elem1.toString() == elem2.toString()){
-                this.fixedFunds.push(elem1);
-              }
-            })
-          });
+          
           console.log(this.variableFunds);
           console.log(this.fixedFunds);
     
@@ -670,19 +654,17 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.serviceService.postEligibleFunds(body)
           .subscribe((result: any) => {
             result.result.fundid.forEach((elem1: string) => {
-              this.variableFundsFilter.forEach((elem2: string) =>{
-                if(elem1.toString() == elem2.toString()){
-                  this.variableFunds.push(elem1);
+              appFunc.ASNBFundID.forEach((elem2: ASNBFundID) => {
+                if(elem1.toString() == elem2.code.toString()){
+                  if(elem2.fundType == "Variable"){
+                    this.variableFunds.push(elem1);
+                  }else{
+                    this.fixedFunds.push(elem1);
+                  }
                 }
-              })
+              });
             });
-            result.result.fundid.forEach((elem1: string) => {
-              this.fixedFundsFilter.forEach((elem2: string) =>{
-                if(elem1.toString() == elem2.toString()){
-                  this.fixedFunds.push(elem1);
-                }
-              })
-            });
+            
             console.log(this.variableFunds);
             console.log(this.fixedFunds);
             this.isloadedfunds = true;

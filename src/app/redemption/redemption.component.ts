@@ -30,9 +30,9 @@ export class RedemptionComponent implements OnInit {
   @ViewChild('ramount1') amount1 : ElementRef | undefined;
   @ViewChild('ramount2') amount2 : ElementRef | undefined;
 
-  pdfsrc1 = "assets/Terms_N_Condition.pdf";
-  pdfsrc2 = "assets/ASNB_MasterProspectus.pdf";
-  pdfsrc3 = "assets/ASNB_MasterProspectus.pdf";
+  pdfsrc1 = "assets/Kiosk_TnC_Financial_Transaction_V.01_2021.pdf";
+  pdfsrc2 = "assets/Investment_Notice_Kiosk_v4.pdf";
+  pdfsrc3 = "assets/REDEMPTION/All_Fund_Min_Criteria.pdf";
   TermsAndConditions = false;
   InvestmentDisclaimer = false;
   MinimumCriteria = false;

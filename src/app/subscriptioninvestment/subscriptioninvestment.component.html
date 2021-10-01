@@ -194,7 +194,7 @@
     <div class="pop-up-fixed text-center" *ngIf="fixedFunds.length > 0">
         <div class="horizontal" *ngIf="isloadedfunds">
             <div *ngFor="let fund2 of fixedFunds"  class="center">
-                <img src="assets/fundicon/{{fund2}}.png" class="fundidicon" style="padding-top: 0.25rem;" (click)="selectedFund(fund2)"> 
+                <img src="assets/fundicon/{{fund2}}.png" class="fundidicon" style="padding-top: 0.25rem;" alt="{{fund2}}" (click)="selectedFund(fund2)"> 
             </div>
         </div>
     </div>
