@@ -3303,7 +3303,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   isBefore4pm(){
     let today = new Date().getHours();
-    if (today < 16) {
+    if (today < 20) { //Temporary change to 20, 8pm
       return true;
     } else {
       return false;
