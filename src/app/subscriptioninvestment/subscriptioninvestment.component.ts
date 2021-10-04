@@ -1428,7 +1428,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 this.unitholderid = uhid;
                 this.unitholderic = icno;
                 this.refno = result.result.transactionnumber;
-                this.status = result1.result.transactionstatus;
+                if(selectLang.selectedLang == 'ms'){
+                  this.status = "Berjaya";
+                }else{
+                  this.status = "Successful";
+                }
                 this.approvalcode = result1.result.paymentreferencenumber;
                 if(appFunc.isOwn = "major"){
                   this.accounttype = "Dewasa"
@@ -1732,7 +1736,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           this.unitholderid = uhid;
                           this.unitholderic = icno;
                           this.refno = result.result.transactionnumber;
-                          this.status = result1.result.transactionstatus;
+                          if(selectLang.selectedLang == 'ms'){
+                            this.status = "Berjaya";
+                          }else{
+                            this.status = "Successful";
+                          }
                           this.approvalcode = result1.result.paymentreferencenumber;
                           if(appFunc.isOwn = "major"){
                             this.accounttype = "Dewasa"
@@ -2476,8 +2484,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
         //"REASONFORTRANSFER":"",
         "REASONFORTRANSFER":this.thirdreasonkeyed,
-        "SOURCEOFFUND":this.sourceOfFund,
-        "OTHERSOURCEOFFUND":"",
+        //"SOURCEOFFUND":this.sourceOfFund,
+        "SOURCEOFFUND":"OTH",
+        "OTHERSOURCEOFFUND":"Sam Wong Gift me!",
         "FUNDERNAME":this.otherSourceOfFund
         }
 
@@ -2510,7 +2519,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
               this.unitholderid = this.thirduhidkeyed;
               this.unitholderic = this.thirdicnokeyed;
               this.refno = result.result.transactionnumber;
-              this.status = result1.result.transactionstatus;
+              if(selectLang.selectedLang == 'ms'){
+                this.status = "Berjaya";
+              }else{
+                this.status = "Successful";
+              }
               this.approvalcode = result1.result.paymentreferencenumber;
               if(appFunc.isOwn = "major"){
                 this.accounttype = "Dewasa"
@@ -2729,7 +2742,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         this.unitholderid = this.thirduhidkeyed;
                         this.unitholderic = this.thirdicnokeyed;
                         this.refno = result.result.transactionnumber;
-                        this.status = result1.result.transactionstatus;
+                        if(selectLang.selectedLang == 'ms'){
+                          this.status = "Berjaya";
+                        }else{
+                          this.status = "Successful";
+                        }
                         this.approvalcode = result1.result.paymentreferencenumber;
                         if(appFunc.isOwn = "major"){
                           this.accounttype = "Dewasa"
