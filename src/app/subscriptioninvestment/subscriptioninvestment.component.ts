@@ -12,7 +12,7 @@ import { currentBijakHolder } from '../_models/currentBijakUnitHolder';
 import { currentMyKadDetails } from '../_models/currentMyKadDetails';
 import { currentMyKidDetails } from '../_models/currentMyKidDetails';
 import { currentHolder } from '../_models/currentUnitHolder';
-import { ASNBFundID, reasonTransfer, thirdpartyRelationship } from '../_models/dropDownLists';
+import { ASNBFundID, icType, reasonTransfer, thirdpartyRelationship } from '../_models/dropDownLists';
 import { errorCodes } from '../_models/errorCode';
 import { kActivity } from '../_models/kActivity';
 import { selectLang } from '../_models/language';
@@ -61,6 +61,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   displayReason = "";
   displayRelationship = "";
   displayFundname = "";
+  displayICType = "";
 
   isSubscription = false;
   isInvestment = false;
@@ -550,8 +551,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.Form_3 = this.fb.group({
       ictype: ['', Validators.required],
       icno: ['', Validators.required],
-      uhid: ['', Validators.required],
-      name: ['', Validators.required],
+      uhid: [''],
+      name: [''],
       reason: ['', Validators.required],
       relationship: ['', Validators.required],
       fund: ['', Validators.required],
@@ -2095,6 +2096,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }
       });
 
+      this.ictype.forEach((element: icType) => {
+        if(element.code == this.thirdictypekeyed){
+          this.displayICType = element.desc;
+        }
+      })
+
       this.relationship.forEach((elem: thirdpartyRelationship) => {
         if(elem.code == this.thirdrelationshipkeyed){
           this.displayRelationship = elem.desc;
@@ -2104,6 +2111,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
         if(elem.code.toLowerCase() == this.thirdfundnamekeyed.toLowerCase()){
           this.fundname = elem.value;
+          this.displayFundname = elem.value;
         }
       });
 
@@ -2461,10 +2469,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "SUBPAYMENTTYPE":"",
         "EWGATEWAY":"",
         "THIRDPARTYINVESTMENT":"",
+        //"THIRDPARTYNAME":"",
         "THIRDPARTYNAME":this.thirdnamekeyed,
         "THIRDPARTYICTYPE":this.thirdictypekeyed,
         "THIRDPARTYICNUMBER":this.thirdicnokeyed,
         "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
+        //"REASONFORTRANSFER":"",
         "REASONFORTRANSFER":this.thirdreasonkeyed,
         "SOURCEOFFUND":this.sourceOfFund,
         "OTHERSOURCEOFFUND":"",
@@ -2683,6 +2693,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "THIRDPARTYICTYPE":this.thirdictypekeyed,
                     "THIRDPARTYICNUMBER":this.thirdicnokeyed,
                     "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
+                    //"REASONFORTRANSFER":"",
                     "REASONFORTRANSFER":this.thirdreasonkeyed,
                     "SOURCEOFFUND":this.sourceOfFund,
                     "OTHERSOURCEOFFUND":"",
