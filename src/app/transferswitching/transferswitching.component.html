@@ -110,10 +110,10 @@
                     <h5 class="h2-ic" style="padding-top: 2rem;">{{ fund.UNITBALANCE | number : '1.2-2'  }}</h5> <!-- Fund.fundvalue -->
                 </div>
                 <div class="col-sm-4" style="padding-top: 1.4rem;">
-                    <button type="button" class="btn btn-transferswitching" (click)="Transfer(fund)" [disabled]="transferDisabled">
+                    <button type="button" class="btn btn-transferswitching" (click)="Transfer(fund)" [disabled]="transferDisabled || fund.DISABLED">
                         {{'Transfer' | translate }}
                     </button>
-                    <button type="button" class="btn btn-transferswitching" (click)="Switching(fund)" [disabled]="switchDisabled">
+                    <button type="button" class="btn btn-transferswitching" (click)="Switching(fund)" [disabled]="switchDisabled || fund.DISABLED">
                         {{'Switching' | translate }}
                     </button>
                 </div>

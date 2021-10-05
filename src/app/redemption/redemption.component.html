@@ -248,7 +248,7 @@
                     <h6 class="h2-ic" style="padding-top: 1.2rem;">{{ fund.UHHOLDINGS | number : '1.2-2' }}</h6>
                 </div>
                 <div class="col-sm-2 ">
-                    <button type="button" class="btn btn-redemption" (click)="SelectFund(fund)" >
+                    <button type="button" class="btn btn-redemption" (click)="SelectFund(fund)" [disabled]="fund.DISABLED">
                         {{'Select' | translate }}
                     </button>
                 </div>

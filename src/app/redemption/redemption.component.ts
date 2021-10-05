@@ -176,6 +176,28 @@ export class RedemptionComponent implements OnInit {
                   "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
                   "FUNDNAME": elem.desc,
                   "FUNDTYPE": elem.fundType,
+                  "DISABLED": false,
+                });
+              }
+              else{
+                this.newFundDetails.push({
+                  "FUNDID": element.FUNDID,
+                  "UNITBALANCE": element.UNITBALANCE,
+                  "EPFUNITS": element.EPFUNITS,
+                  "LOANUNITS": element.LOANUNITS,
+                  "CERTUNITS": element.CERTUNITS,
+                  "BLOCKEDUNITS": element.BLOCKEDUNITS,
+                  "PROVISIONALUNITS": element.PROVISIONALUNITS,
+                  "TOTALUNITS": element.TOTALUNITS,
+                  "NAV": element.NAV,
+                  "UHHOLDINGS": element.UHHOLDINGS,
+                  "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
+                  "UBBUNITS": element.UBBUNITS,
+                  "UBCUNITS": element.UBCUNITS,
+                  "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
+                  "FUNDNAME": elem.desc,
+                  "FUNDTYPE": elem.fundType,
+                  "DISABLED": true,
                 });
               }
             }
@@ -197,6 +219,7 @@ export class RedemptionComponent implements OnInit {
                 "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
                 "FUNDNAME": elem.desc,
                 "FUNDTYPE": elem.fundType,
+                "DISABLED": false,
               });
             }
           }
@@ -426,6 +449,28 @@ export class RedemptionComponent implements OnInit {
                   "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
                   "FUNDNAME": elem.desc,
                   "FUNDTYPE": elem.fundType,
+                  "DISABLED": false,
+                });
+              }
+              else{
+                this.newFundDetails.push({
+                  "FUNDID": element.FUNDID,
+                  "UNITBALANCE": element.UNITBALANCE,
+                  "EPFUNITS": element.EPFUNITS,
+                  "LOANUNITS": element.LOANUNITS,
+                  "CERTUNITS": element.CERTUNITS,
+                  "BLOCKEDUNITS": element.BLOCKEDUNITS,
+                  "PROVISIONALUNITS": element.PROVISIONALUNITS,
+                  "TOTALUNITS": element.TOTALUNITS,
+                  "NAV": element.NAV,
+                  "UHHOLDINGS": element.UHHOLDINGS,
+                  "UHACCOUNTSTATUS": element.UHACCOUNTSTATUS,
+                  "UBBUNITS": element.UBBUNITS,
+                  "UBCUNITS": element.UBCUNITS,
+                  "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
+                  "FUNDNAME": elem.desc,
+                  "FUNDTYPE": elem.fundType,
+                  "DISABLED": true,
                 });
               }
             }
@@ -447,6 +492,7 @@ export class RedemptionComponent implements OnInit {
                 "ELIGIBLELOANUNITS": element.ELIGIBLELOANUNITS,
                 "FUNDNAME": elem.desc,
                 "FUNDTYPE": elem.fundType,
+                "DISABLED": false,
               });
             }
         }
