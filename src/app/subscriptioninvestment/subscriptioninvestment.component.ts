@@ -1324,7 +1324,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
     let ictype = "";
     let icno = "";
     let uhid = "";
-    let name = ""
+    let name = "";
+
+    let guardianID = "";
+    let guardianIC = "";
+    let guardianICtype = "";
 
     if(appFunc.isOwn == "major"){
       ictype = currentHolder.identificationtype;
@@ -1337,6 +1341,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
       icno = this.currentBijakIDNO;
       ictype = this.currentBijakIDType;
       name = this.currentBijakName;
+      guardianID = currentHolder.unitholderid;
+      guardianIC = currentHolder.identificationnumber;
+      guardianICtype = currentHolder.identificationtype;
     }
     else{
 
@@ -1383,9 +1390,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "BANKBRANCHCODE":"",
           "CHEQUENUMBER":"",
           "CHEQUEDATE":"",
-          "GUARDIANID":"",
-          "GUARDIANICTYPE":"",
-          "GUARDIANICNUMBER":"",
+          "GUARDIANID":guardianID,
+          "GUARDIANICTYPE":guardianICtype,
+          "GUARDIANICNUMBER":guardianIC,
           "POLICYNUMBER":"",
           "EPFNUMBER":"",
           "SUBPAYMENTTYPE":"",
@@ -1691,9 +1698,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "BANKBRANCHCODE":"",
                     "CHEQUENUMBER":"",
                     "CHEQUEDATE":"",
-                    "GUARDIANID":"",
-                    "GUARDIANICTYPE":"",
-                    "GUARDIANICNUMBER":"",
+                    "GUARDIANID":guardianID,
+                    "GUARDIANICTYPE":guardianICtype,
+                    "GUARDIANICNUMBER":guardianIC,
                     "POLICYNUMBER":"",
                     "EPFNUMBER":"",
                     "SUBPAYMENTTYPE":"",
