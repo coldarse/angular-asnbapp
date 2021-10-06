@@ -183,6 +183,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   mDetails = currentHolder.minordetail;
 
+  amountOrunit = false;
+
 
   constructor(
     private _router: Router,
@@ -430,17 +432,22 @@ export class SubscriptioninvestmentComponent implements OnInit {
       if(appFunc.isOwn == "major"){
         this.moduleid = 11;
         this.action = "Perform Subscription for Major";
+        let tempFundDetail: any[] = [];
         currentHolder.funddetail.forEach((elem1: any) => {
+          tempFundDetail.push(elem1.FUNDID);
+        });
+
+        tempFundDetail.forEach((element: any) => {
           appFunc.ASNBFundID.forEach((elem2: ASNBFundID) => {
-            if(elem1.toString() == elem2.code.toString()){
+            if(element.toString() == elem2.code.toString()){
               if(elem2.fundType == "Variable"){
-                this.variableFunds.push(elem1);
+                this.variableFunds.push(element);
               }else{
-                this.fixedFunds.push(elem1);
+                this.fixedFunds.push(element);
               }
             }
           });
-        });
+        })
         
         console.log(this.variableFunds);
         console.log(this.fixedFunds);
@@ -518,6 +525,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.SubscriptionMinValue = elements.majorSubscriptionLimit_min;
           this.pdfsrc3 = "assets/SUBSCRIPTION/" + elements.iscLink + ".pdf";
         }
+
+        if(elements.pricingType.toString().toLowerCase() == "amount"){
+          this.amountOrunit = true;
+        }
+        else{
+          this.amountOrunit = false;
+        }
       }
     })
     
@@ -551,8 +565,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.Form_3 = this.fb.group({
       ictype: ['', Validators.required],
       icno: ['', Validators.required],
-      uhid: [''],
-      name: [''],
+      uhid: ['', Validators.required],
+      name: ['', Validators.required],
       reason: ['', Validators.required],
       relationship: ['', Validators.required],
       fund: ['', Validators.required],
@@ -1436,9 +1450,19 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 this.unitholderic = icno;
                 this.refno = result.result.transactionnumber;
                 if(selectLang.selectedLang == 'ms'){
-                  this.status = "Berjaya";
+                  if(this.amountOrunit){
+                    this.status = "Berjaya";
+                  }
+                  else{
+                    this.status = "Diproses";
+                  }
                 }else{
-                  this.status = "Successful";
+                  if(this.amountOrunit){
+                    this.status = "Successful";
+                  }
+                  else{
+                    this.status = "Pending";
+                  }
                 }
                 this.approvalcode = result1.result.paymentreferencenumber;
                 if(appFunc.isOwn = "major"){
@@ -1744,9 +1768,19 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           this.unitholderic = icno;
                           this.refno = result.result.transactionnumber;
                           if(selectLang.selectedLang == 'ms'){
-                            this.status = "Berjaya";
+                            if(this.amountOrunit){
+                              this.status = "Berjaya";
+                            }
+                            else{
+                              this.status = "Diproses";
+                            }
                           }else{
-                            this.status = "Successful";
+                            if(this.amountOrunit){
+                              this.status = "Successful";
+                            }
+                            else{
+                              this.status = "Pending";
+                            }
                           }
                           this.approvalcode = result1.result.paymentreferencenumber;
                           if(appFunc.isOwn = "major"){
@@ -2527,9 +2561,19 @@ export class SubscriptioninvestmentComponent implements OnInit {
               this.unitholderic = this.thirdicnokeyed;
               this.refno = result.result.transactionnumber;
               if(selectLang.selectedLang == 'ms'){
-                this.status = "Berjaya";
+                if(this.amountOrunit){
+                  this.status = "Berjaya";
+                }
+                else{
+                  this.status = "Diproses";
+                }
               }else{
-                this.status = "Successful";
+                if(this.amountOrunit){
+                  this.status = "Successful";
+                }
+                else{
+                  this.status = "Pending";
+                }
               }
               this.approvalcode = result1.result.paymentreferencenumber;
               if(appFunc.isOwn = "major"){
@@ -2750,9 +2794,19 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         this.unitholderic = this.thirdicnokeyed;
                         this.refno = result.result.transactionnumber;
                         if(selectLang.selectedLang == 'ms'){
-                          this.status = "Berjaya";
+                          if(this.amountOrunit){
+                            this.status = "Berjaya";
+                          }
+                          else{
+                            this.status = "Diproses";
+                          }
                         }else{
-                          this.status = "Successful";
+                          if(this.amountOrunit){
+                            this.status = "Successful";
+                          }
+                          else{
+                            this.status = "Pending";
+                          }
                         }
                         this.approvalcode = result1.result.paymentreferencenumber;
                         if(appFunc.isOwn = "major"){
