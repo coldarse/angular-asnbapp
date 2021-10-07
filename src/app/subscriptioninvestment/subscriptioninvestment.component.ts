@@ -2525,9 +2525,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
         //"REASONFORTRANSFER":"",
         "REASONFORTRANSFER":this.thirdreasonkeyed,
-        //"SOURCEOFFUND":this.sourceOfFund,
-        "SOURCEOFFUND":"OTH",
-        "OTHERSOURCEOFFUND":"Sam Wong Gift me!",
+        "SOURCEOFFUND":this.sourceOfFund,
+        "OTHERSOURCEOFFUND":"",
+        //"SOURCEOFFUND":"OTH",
+        //"OTHERSOURCEOFFUND":"Sam Wong Gift me!",
         "FUNDERNAME":this.otherSourceOfFund
         }
 
