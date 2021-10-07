@@ -46,7 +46,6 @@ export class LanguageComponent implements OnInit {
 
   ngOnInit(): void {
 
-
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
     }

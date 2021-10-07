@@ -839,7 +839,7 @@ export class TransferswitchingComponent implements OnInit {
       "SUBPAYMENTTYPE":"",
       "EWGATEWAY":"",
       "THIRDPARTYINVESTMENT":"Y",
-      "THIRDPARTYNAME":"",
+      "THIRDPARTYNAME":this.transferuhname,
       "THIRDPARTYICTYPE":this.transferuhictype,
       "THIRDPARTYICNUMBER":this.transferuhic,
       "THIRDPARTYRELATIONSHIP":this.transferrelationship,
