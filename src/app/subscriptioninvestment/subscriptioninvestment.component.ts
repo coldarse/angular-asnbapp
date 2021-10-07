@@ -468,7 +468,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.action = "Perform Subscription for Third Party";
         this.isSubscriptionThird = true;
         this.isThird = true;
-        this.checkAMLA();
+        //this.checkAMLA();
         this.initializeForm3();
         setTimeout(() => {
           loadKeyboard();
@@ -2192,92 +2192,107 @@ export class SubscriptioninvestmentComponent implements OnInit {
       if(this.amountWarning2 == false){
         deleteKeyboard();
 
-        if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 20K
-  
+        if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){ //More than equal 10K
           this.STPStep1 = false;
           this.STPStep2 = true;
-  
+
           this.initializeForm4();
     
           setTimeout(() => {
             loadKeyboard();
           } , 1000);
         }
-        else if(Number(this.thirdamountkeyed) < Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){//Between 20k and 10k
-          if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.thirdamountkeyed) <= Number(this.appConfig.thresholdForAdditionalInfo2)){//Between 10k and 15k
-  
-            if(appFunc.isOwn == "bijak"){
-              if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-                this.STPStep1 = false;
-                this.STPStep2 = true;
-  
-                this.initializeForm4();
-          
-                setTimeout(() => {
-                  loadKeyboard();
-                } , 1000);
-              }
-              else{
-                this.STPStep1 = false;
-                this.STPStep3 = true; 
-              }
-            }
-            else{
-              if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-                this.STPStep1 = false;
-                this.STPStep2 = true;
-  
-                this.initializeForm4();
-          
-                setTimeout(() => {
-                  loadKeyboard();
-                } , 1000);
-              }
-              else{
-                this.STPStep1 = false;
-                this.STPStep3 = true; 
-              }
-            }
-            
-          }
-          else{//Between 15k and 20k
-            if(appFunc.isOwn == "bijak"){
-              if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-                this.STPStep1 = false;
-                this.STPStep2 = true;
-  
-                this.initializeForm4();
-          
-                setTimeout(() => {
-                  loadKeyboard();
-                } , 1000);
-              }
-              else{
-                this.STPStep1 = false;
-                this.STPStep3 = true; 
-              }
-            }else{
-              if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-                this.STPStep1 = false;
-                this.STPStep2 = true;
-  
-                this.initializeForm4();
-          
-                setTimeout(() => {
-                  loadKeyboard();
-                } , 1000);
-              }
-              else{
-                this.STPStep1 = false;
-                this.STPStep3 = true; 
-              }
-            }
-          }
-        }
         else{
           this.STPStep1 = false;
           this.STPStep3 = true; 
         }
+
+        // if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 20K
+  
+        //   this.STPStep1 = false;
+        //   this.STPStep2 = true;
+  
+        //   this.initializeForm4();
+    
+        //   setTimeout(() => {
+        //     loadKeyboard();
+        //   } , 1000);
+        // }
+        // else if(Number(this.thirdamountkeyed) < Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){//Between 20k and 10k
+        //   if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.thirdamountkeyed) <= Number(this.appConfig.thresholdForAdditionalInfo2)){//Between 10k and 15k
+  
+        //     if(appFunc.isOwn == "bijak"){
+        //       if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+        //         this.STPStep1 = false;
+        //         this.STPStep2 = true;
+  
+        //         this.initializeForm4();
+          
+        //         setTimeout(() => {
+        //           loadKeyboard();
+        //         } , 1000);
+        //       }
+        //       else{
+        //         this.STPStep1 = false;
+        //         this.STPStep3 = true; 
+        //       }
+        //     }
+        //     else{
+        //       if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+        //         this.STPStep1 = false;
+        //         this.STPStep2 = true;
+  
+        //         this.initializeForm4();
+          
+        //         setTimeout(() => {
+        //           loadKeyboard();
+        //         } , 1000);
+        //       }
+        //       else{
+        //         this.STPStep1 = false;
+        //         this.STPStep3 = true; 
+        //       }
+        //     }
+            
+        //   }
+        //   else{//Between 15k and 20k
+        //     if(appFunc.isOwn == "bijak"){
+        //       if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+        //         this.STPStep1 = false;
+        //         this.STPStep2 = true;
+  
+        //         this.initializeForm4();
+          
+        //         setTimeout(() => {
+        //           loadKeyboard();
+        //         } , 1000);
+        //       }
+        //       else{
+        //         this.STPStep1 = false;
+        //         this.STPStep3 = true; 
+        //       }
+        //     }else{
+        //       if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+        //         this.STPStep1 = false;
+        //         this.STPStep2 = true;
+  
+        //         this.initializeForm4();
+          
+        //         setTimeout(() => {
+        //           loadKeyboard();
+        //         } , 1000);
+        //       }
+        //       else{
+        //         this.STPStep1 = false;
+        //         this.STPStep3 = true; 
+        //       }
+        //     }
+        //   }
+        // }
+        // else{
+        //   this.STPStep1 = false;
+        //   this.STPStep3 = true; 
+        // }
       }
       
 
@@ -2343,93 +2358,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   STPStep3Back(){
-    if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 20K
 
+    if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){ //More than equal 10K
       this.STPStep3 = false;
       this.STPStep2 = true;
 
       setTimeout(() => {
         loadKeyboard();
       } , 1000);
-    }
-    else if(Number(this.thirdamountkeyed) < Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){//Between 20k and 10k
-      if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.thirdamountkeyed) <= Number(this.appConfig.thresholdForAdditionalInfo2)){//Between 10k and 15k
-
-        if(appFunc.isOwn == "bijak"){
-          if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-            this.STPStep3 = false;
-            this.STPStep2 = true;
-      
-            setTimeout(() => {
-              loadKeyboard();
-            } , 1000);
-          }
-          else{
-            this.STPStep3 = false;
-            this.STPStep1 = true;
-
-            setTimeout(() => {  
-              loadKeyboard();
-            } , 1000);
-          }
-        }
-        else{
-          if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-            this.STPStep3 = false;
-            this.STPStep2 = true;
-      
-            setTimeout(() => {
-              loadKeyboard();
-            } , 1000);
-          }
-          else{
-            this.STPStep3 = false;
-            this.STPStep1 = true;
-
-            setTimeout(() => {  
-              loadKeyboard();
-            } , 1000);
-          }
-        }
-        
-      }
-      else{//Between 15k and 20k
-        if(appFunc.isOwn == "bijak"){
-          if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-            this.STPStep3 = false;
-            this.STPStep2 = true;
-      
-            setTimeout(() => {
-              loadKeyboard();
-            } , 1000);
-          }
-          else{
-            this.STPStep3 = false;
-            this.STPStep1 = true;
-
-            setTimeout(() => {  
-              loadKeyboard();
-            } , 1000);
-          }
-        }else{
-          if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-            this.STPStep3 = false;
-            this.STPStep2 = true;
-      
-            setTimeout(() => {
-              loadKeyboard();
-            } , 1000);
-          }
-          else{
-            this.STPStep3 = false;
-            this.STPStep1 = true;
-
-            setTimeout(() => {  
-              loadKeyboard();
-            } , 1000);
-          }
-        }
-      }
     }
     else{
       this.STPStep3 = false;
@@ -2439,13 +2375,94 @@ export class SubscriptioninvestmentComponent implements OnInit {
         loadKeyboard();
       } , 1000);
     }
-    // if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){
+
+    // if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 20K
+
     //   this.STPStep3 = false;
     //   this.STPStep2 = true;
 
-    //   setTimeout(() => {  
+    //   setTimeout(() => {
     //     loadKeyboard();
     //   } , 1000);
+    // }
+    // else if(Number(this.thirdamountkeyed) < Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){//Between 20k and 10k
+    //   if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1) && Number(this.thirdamountkeyed) <= Number(this.appConfig.thresholdForAdditionalInfo2)){//Between 10k and 15k
+
+    //     if(appFunc.isOwn == "bijak"){
+    //       if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+    //         this.STPStep3 = false;
+    //         this.STPStep2 = true;
+      
+    //         setTimeout(() => {
+    //           loadKeyboard();
+    //         } , 1000);
+    //       }
+    //       else{
+    //         this.STPStep3 = false;
+    //         this.STPStep1 = true;
+
+    //         setTimeout(() => {  
+    //           loadKeyboard();
+    //         } , 1000);
+    //       }
+    //     }
+    //     else{
+    //       if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+    //         this.STPStep3 = false;
+    //         this.STPStep2 = true;
+      
+    //         setTimeout(() => {
+    //           loadKeyboard();
+    //         } , 1000);
+    //       }
+    //       else{
+    //         this.STPStep3 = false;
+    //         this.STPStep1 = true;
+
+    //         setTimeout(() => {  
+    //           loadKeyboard();
+    //         } , 1000);
+    //       }
+    //     }
+        
+    //   }
+    //   else{//Between 15k and 20k
+    //     if(appFunc.isOwn == "bijak"){
+    //       if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+    //         this.STPStep3 = false;
+    //         this.STPStep2 = true;
+      
+    //         setTimeout(() => {
+    //           loadKeyboard();
+    //         } , 1000);
+    //       }
+    //       else{
+    //         this.STPStep3 = false;
+    //         this.STPStep1 = true;
+
+    //         setTimeout(() => {  
+    //           loadKeyboard();
+    //         } , 1000);
+    //       }
+    //     }else{
+    //       if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+    //         this.STPStep3 = false;
+    //         this.STPStep2 = true;
+      
+    //         setTimeout(() => {
+    //           loadKeyboard();
+    //         } , 1000);
+    //       }
+    //       else{
+    //         this.STPStep3 = false;
+    //         this.STPStep1 = true;
+
+    //         setTimeout(() => {  
+    //           loadKeyboard();
+    //         } , 1000);
+    //       }
+    //     }
+    //   }
     // }
     // else{
     //   this.STPStep3 = false;
