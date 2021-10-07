@@ -446,5 +446,7 @@
 	"InvestmentDisclaimer": "Investment Disclaimer",
 	"MinimumCriteria": "Minimum Criteria",
 	"AdditionalInformationSOF": "The information requested is necessary for ASNB to comply with the provisions of AMLA 2001.",
-	"ThirdICTypeWarning": "Please select an IC Type."
+	"ThirdICTypeWarning": "Please select an IC Type.",
+	"OtherSource": "Others Source of Fund",
+	"OthWarning": "Please key in others source of fund."
 }

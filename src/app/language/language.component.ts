@@ -54,7 +54,7 @@ export class LanguageComponent implements OnInit {
       });
     }
 
-    
+    signalrConnection.itemNo = 1;
 
     currentMyKidDetails.resetCurrentMyKid();
     currentMyKadDetails.resetCurrentMyKid();

@@ -344,13 +344,25 @@
                     </h3>
                 </div>
                 <div class="col-md-6">
-                    <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["sourceoffund"]'  #source>
+                    <select name="" (change)="sourceOnChange($event)" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["sourceoffund"]'  #source>
                         <option value="">{{ 'optionSelect' | translate }}</option>
                         <option *ngFor="let fs of fundSource" value={{fs.code}}>
                             {{fs.desc}}
                         </option>
                     </select>
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sourceFundWarning">{{'SourceOfFundWarning' | translate}}</div>
+                </div>
+            </div>
+            <div class="row" *ngIf="showOtherSource">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h3>
+                        {{'OtherSource' | translate}}
+                    </h3>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" style="width: 85%;" name="source" id="source" class="use-keyboard-input" [formControl]='Form_2.controls["othersource"]'  #othersource>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="otherWarning">{{'OthWarning' | translate}}</div>
                 </div>
             </div>
             <div class="row" *ngIf="showFunderName">
@@ -668,12 +680,25 @@
                 </h3>
             </div>
             <div class="col-md-6">
-                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_4.controls["sourceoffund"]' #thirdsource>
+                <select name="" id="Q1" (change)="sourceOnChange($event)" style="width: 85%; height: 2rem;" [formControl]='Form_4.controls["sourceoffund"]' #thirdsource>
                     <option value="">{{ 'optionSelect' | translate }}</option>
                     <option *ngFor="let fs of fundSource" value={{fs.code}}>
                         {{fs.desc}}
                     </option>
                 </select>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sourceFundWarning">{{'SourceOfFundWarning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row" *ngIf="showOtherSource">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h3>
+                    {{'OtherSource' | translate}}
+                </h3>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="source" id="source" class="use-keyboard-input" [formControl]='Form_4.controls["othersource"]'  #othersource>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="otherWarning">{{'OthWarning' | translate}}</div>
             </div>
         </div>
     </div>

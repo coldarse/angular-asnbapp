@@ -20,6 +20,7 @@ export class signalrConnection {
   static agentCode: string = "ASNB";
   static branchCode: string = "ASNBHQ001";
   static isVerifyMyKad = false;
+  static itemNo = 0;
 }
 
 

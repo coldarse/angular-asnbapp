@@ -4,6 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { Router } from '@angular/router';
 import { FakeMissingTranslationHandler, TranslateService } from '@ngx-translate/core';
+import { SignalR } from 'ng2-signalr';
 
 import { AppConfiguration } from '../config/app-configuration';
 import { accessToken } from '../_models/apiToken';
@@ -43,6 +44,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   @ViewChild('thirdfundname') thirdfundname : ElementRef | undefined;
   @ViewChild('thirdamount') thirdamount : ElementRef | undefined;
   @ViewChild('thirdsource') thirdsource : ElementRef | undefined;
+  @ViewChild('othersource') othersource : ElementRef | undefined;
 
   pdfsrc1 = "assets/Kiosk_TnC_Financial_Transaction_V.01_2021.pdf";
   pdfsrc2 = "assets/Investment_Notice_Kiosk_v4.pdf";
@@ -108,6 +110,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   thirdfundWarning = false;
   sourceFundWarning = false;
   thirdictypeWarning = false;
+  otherWarning = false;
 
   unitholderid = "";  
   unitholdername = "";
@@ -134,6 +137,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   feepercentage = "";
   sourceOfFund = "";
   otherSourceOfFund = "";
+  sourceOther = "";
 
   ispopup = false;
   
@@ -169,6 +173,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   showSOF = false;
   showFunderName = false;
+  showOtherSource = false;
 
   variableFunds: any = [];
   fixedFunds: any = [];
@@ -480,6 +485,17 @@ export class SubscriptioninvestmentComponent implements OnInit {
     }
   }
 
+  sourceOnChange(event: any){
+    if(event.target.value == "OTH"){
+      this.Form_2.controls.othersource.setValidators([Validators.required]);
+      this.showOtherSource = true;
+    }
+    else{
+      this.Form_2.controls.othersource.clearValidators();
+      this.showOtherSource = false;
+    }
+  }
+
   selectedFund(fund: any){
     this.SIStep1 = false;
     this.SIStep2 = true;
@@ -557,7 +573,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
   initializeForm2(){
     this.Form_2 = this.fb.group({
       sourceoffund: [''],
-      fundername: ['']
+      fundername: [''],
+      othersource:['']
     });
   }
 
@@ -576,7 +593,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   initializeForm4(){
     this.Form_4 = this.fb.group({
-      sourceoffund:['', Validators.required]
+      sourceoffund:['', Validators.required],
+      othersource:['']
     });
   }
 
@@ -1051,6 +1069,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
     this.funderWarning = false;
     this.sourceFundWarning = false;
+    this.otherWarning = false;
     
     let x = 0;
     Object.keys(this.Form_2.controls).forEach(key => {
@@ -1062,6 +1081,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
         else if(key.includes('sourceoffund')){
           this.sourceFundWarning = true;
         }
+        else if(key.includes('othersource')){
+          this.otherWarning = true;
+        }
       }
     });
     if (x > 0){
@@ -1070,6 +1092,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
       this.sourceOfFund = this.Form_2.controls.sourceoffund.value;
       this.otherSourceOfFund = this.Form_2.controls.fundername.value;
+      this.sourceOther = this.Form_2.controls.othersource.value;
       this.SIStep3 = false;
       this.SIStep4 = true;
       deleteKeyboard();
@@ -1418,7 +1441,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "THIRDPARTYRELATIONSHIP":"",
           "REASONFORTRANSFER":"",
           "SOURCEOFFUND":this.sourceOfFund,
-          "OTHERSOURCEOFFUND":"",
+          "OTHERSOURCEOFFUND":this.sourceOther,
           "FUNDERNAME":this.otherSourceOfFund
           }
 
@@ -1689,7 +1712,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   "cardHolderName": cardInfo.CardholderName,
                   "cardType": cardInfo.CardType,
                   "applicationLabel": cardInfo.ApplicationLabel,
-                  "createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en')
+                  "createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+                  "itemno": signalrConnection.itemNo
                 }
   
                 this.serviceService.createCustCreditCardInfo(CCInfo).subscribe(() => {});
@@ -1736,7 +1760,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "THIRDPARTYRELATIONSHIP":"",
                     "REASONFORTRANSFER":"",
                     "SOURCEOFFUND":this.sourceOfFund,
-                    "OTHERSOURCEOFFUND":"",
+                    "OTHERSOURCEOFFUND":this.sourceOther,
                     "FUNDERNAME":this.otherSourceOfFund
                     }
   
@@ -1871,14 +1895,15 @@ export class SubscriptioninvestmentComponent implements OnInit {
                             "remark": result1.result.remarks,
                             "creditNoteNumber": result1.result.creditnotenumber,
                             "rejectCode": result1.result.rejectcode,
-                            "rejectReason": result1.result.rejectreason
+                            "rejectReason": result1.result.rejectreason,
+                            "itemno": signalrConnection.itemNo
                             //"createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en')
                           }
 
-                          console.log(JSON.stringify(FTBody));
+                          //console.log(JSON.stringify(FTBody));
   
                           this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
-
+                          signalrConnection.itemNo += 1;
                           kActivit1.endTime = new Date();
                           kActivit1.status = true;
                           appFunc.kioskActivity.push(kActivit1);
@@ -2308,12 +2333,18 @@ export class SubscriptioninvestmentComponent implements OnInit {
   STPStep2Next(){
     this.Form_4.controls.sourceoffund.setValue(this.source?.nativeElement.value);
 
+    this.sourceFundWarning = false;
+    this.otherWarning = false;
+
     let x = 0;
     Object.keys(this.Form_4.controls).forEach(key => {
       if (this.Form_2.controls[key].hasError('required')){
         x += 1;
         if(key.includes('sourceoffund')){
-
+          this.sourceFundWarning = true;
+        }
+        else if(key.includes('othersource')){
+          this.otherWarning = true;
         }
       }
     });
@@ -2321,6 +2352,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
       this.sourceOfFund = this.Form_4.controls.sourceoffund.value;
+      this.sourceOther = this.Form_4.controls.othersource.value;
       this.otherSourceOfFund = "";
       this.STPStep2 = false;
       this.STPStep3 = true;
@@ -2543,7 +2575,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         //"REASONFORTRANSFER":"",
         "REASONFORTRANSFER":this.thirdreasonkeyed,
         "SOURCEOFFUND":this.sourceOfFund,
-        "OTHERSOURCEOFFUND":"",
+        "OTHERSOURCEOFFUND":this.sourceOther,
         //"SOURCEOFFUND":"OTH",
         //"OTHERSOURCEOFFUND":"Sam Wong Gift me!",
         "FUNDERNAME":this.otherSourceOfFund
@@ -2730,7 +2762,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   "cardHolderName": cardInfo.CardholderName,
                   "cardType": cardInfo.CardType,
                   "applicationLabel": cardInfo.ApplicationLabel,
-                  "createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en')
+                  "createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+                  "itemno": signalrConnection.itemNo
                 }
   
                 this.serviceService.createCustCreditCardInfo(CCInfo).subscribe(() => {});
@@ -2778,7 +2811,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     //"REASONFORTRANSFER":"",
                     "REASONFORTRANSFER":this.thirdreasonkeyed,
                     "SOURCEOFFUND":this.sourceOfFund,
-                    "OTHERSOURCEOFFUND":"",
+                    "OTHERSOURCEOFFUND":this.sourceOther,
                     "FUNDERNAME":this.otherSourceOfFund
                   }
 
@@ -2849,6 +2882,82 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         this.SIStep5 = false;
                         this.SIStep6 = true;
 
+
+                        let module = "";
+                        if(appFunc.isOwn == "major"){
+                          if(appFunc.isInvesment){
+                            module = "9";
+                          }else{
+                            module = "11";
+                          }
+                        }else if(appFunc.isOwn == "bijak"){
+                          if(appFunc.isInvesment){
+                            module = "10";
+                          }else{
+                            module = "12";
+                          }
+                        }else{
+                          module = "19";
+                        }
+
+                        const FTBody =
+                        {
+                          "trxNo": signalrConnection.trxno,
+                          //"kioskID": signalrConnection.kioskID,
+                          "kioskCode": signalrConnection.kioskCode,
+                          "unitHolderID": result.result.unitholderid,
+                          "firstName": result.result.firstname,
+                          "identificationType": result.result.identificationtype,
+                          "identificationNumber": result.result.identificationnumber,
+                          "fundID": result.result.fundid,
+                          "amountApplied": result.result.amountapplied,
+                          "transactionDate": result.result.transactiondate,
+                          "transactionTime": result.result.transactiontime,
+                          "transactionType": module,
+                          "customerICNumber": result.result.customericnumber,
+                          "customerName": result.result.customername,
+                          "agentCode": result.result.agentCode,
+                          "referenceNo": result.result.transactionnumber,
+                          "bankTxnReferenceNumber": result.result.banktxnreferencenumber,
+                          "bankCustPhoneNumber": result.result.bankcustphonenumber,
+                          "paymentType": result.result.paymenttype,
+                          "bankAccountNumber": result.result.bankaccountnumber,
+                          "bankBranchCode": result.result.bankbranchcode,
+                          "chequeNumber": result.result.chequenumber,
+                          "chequeDate": result.result.chequedate,
+                          "guardianID": result.result.guardianid,
+                          "guardianicType": result.result.guardianictype,
+                          "guardianicNumber": result.result.guardianicnumber,
+                          "policyNumber": result.result.policynumber,
+                          "epfNumber": result.result.epfnumber,
+                          "subPaymentType": result.result.subpaymenttype,
+                          "ewgateway": result.result.ewgateway,
+                          "thirdPartyInvestment": result.result.thirdpartyinvestment,
+                          "thirdPartyName": result.result.thirdpartyname,
+                          "thirdPartyICNumber": result.result.thirdpartyicnumber,
+                          "thirdPartyRelationship": result.result.thirdpartyrelationship,
+                          "reasonForTransfer": result.result.reasonfortransfer,
+                          "sourceOfFund": result.result.sourceoffund,
+                          "otherSourceOfFund": result.result.othersourceoffund,
+                          "funderName": result.result.fundname,
+                          "transactionStatus": result.result.transactionstatus,
+                          "transactionNumber": result.result.transactionnumber,
+                          "taxInvoiceNumber": result.result.taxinvoicenumber,
+                          "confirmedUnits": Number(parseFloat(result1.result.confirmedunits.toString()).toFixed(2)),
+                          "unitBalance": Number(parseFloat(result1.result.unitbalance.toString()).toFixed(2)),
+                          "operation": result1.result.operation,
+                          "remark": result1.result.remarks,
+                          "creditNoteNumber": result1.result.creditnotenumber,
+                          "rejectCode": result1.result.rejectcode,
+                          "rejectReason": result1.result.rejectreason,
+                          "itemno": signalrConnection.itemNo
+                          //"createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en')
+                        }
+
+                          //console.log(JSON.stringify(FTBody));
+  
+                        this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+                        signalrConnection.itemNo += 1;
                         kActivit1.endTime = new Date();
                         kActivit1.status = true;
                         appFunc.kioskActivity.push(kActivit1);
