@@ -972,7 +972,7 @@ export class RedemptionComponent implements OnInit {
           "UNITHOLDERID": "",
           "FIRSTNAME": "",
           "IDENTIFICATIONTYPE": "W",
-          "IDENTIFICATIONNUMBER": currentMyKidDetails.ICNo,
+          "IDENTIFICATIONNUMBER": currentBijakHolder.identificationnumber,
           "FUNDID": "",
           "INQUIRYCODE": "9",
           "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),

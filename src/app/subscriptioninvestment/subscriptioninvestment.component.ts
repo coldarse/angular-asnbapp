@@ -469,6 +469,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.BijakVisible = true;
       }
       else{
+
         this.moduleid = 19;
         this.action = "Perform Subscription for Third Party";
         this.isSubscriptionThird = true;
@@ -481,19 +482,32 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
         
         this.STPStep1 = true;
+        
       }
     }
   }
 
-  sourceOnChange(event: any){
-    if(event.target.value == "OTH"){
-      this.Form_2.controls.othersource.setValidators([Validators.required]);
-      this.showOtherSource = true;
+  sourceOnChange(event: any, isThird: boolean){
+    if(isThird){
+      if(event.target.value == "OTH"){
+        this.Form_4.controls.othersource.setValidators([Validators.required]);
+        this.showOtherSource = true;
+      }
+      else{
+        this.Form_4.controls.othersource.clearValidators();
+        this.showOtherSource = false;
+      }
+    }else{
+      if(event.target.value == "OTH"){
+        this.Form_2.controls.othersource.setValidators([Validators.required]);
+        this.showOtherSource = true;
+      }
+      else{
+        this.Form_2.controls.othersource.clearValidators();
+        this.showOtherSource = false;
+      }
     }
-    else{
-      this.Form_2.controls.othersource.clearValidators();
-      this.showOtherSource = false;
-    }
+    
   }
 
   selectedFund(fund: any){
@@ -2331,14 +2345,15 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   STPStep2Next(){
-    this.Form_4.controls.sourceoffund.setValue(this.source?.nativeElement.value);
+    this.Form_4.controls.sourceoffund.setValue(this.thirdsource?.nativeElement.value);
+    this.Form_4.controls.othersource.setValue(this.othersource?.nativeElement.value);
 
     this.sourceFundWarning = false;
     this.otherWarning = false;
 
     let x = 0;
     Object.keys(this.Form_4.controls).forEach(key => {
-      if (this.Form_2.controls[key].hasError('required')){
+      if (this.Form_4.controls[key].hasError('required')){
         x += 1;
         if(key.includes('sourceoffund')){
           this.sourceFundWarning = true;
