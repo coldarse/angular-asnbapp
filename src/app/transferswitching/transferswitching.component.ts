@@ -600,6 +600,7 @@ export class TransferswitchingComponent implements OnInit {
 
     //this.isHistorical = this.isBefore4pm();
 
+    
     this.pdfsrc3 = "assets/TRANSFER/All_Fund_Min_Criteria.pdf";
 
     if(selectLang.selectedLang == 'en'){
@@ -645,6 +646,8 @@ export class TransferswitchingComponent implements OnInit {
     setTimeout(() => {
       loadKeyboard();
     } , 1000);
+
+    
   }
 
   transfer1Back(){
@@ -807,52 +810,52 @@ export class TransferswitchingComponent implements OnInit {
       }
     });
 
-    const body = 
-    {
-      "CHANNELTYPE": signalrConnection.channelType,
-      "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-      "DEVICEOWNER": signalrConnection.deviceOwner,
-      "UNITHOLDERID":uhid,
-      "FIRSTNAME": "",
-      "IDENTIFICATIONTYPE":ictype,
-      "IDENTIFICATIONNUMBER":icno,
-      "FUNDID":fundid,
-      "AMOUNTAPPLIED":this.transferamount,
-      "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-      "CUSTOMERICNUMBER":"",
-      "CUSTOMERNAME":"",
-      "AGENTCODE":signalrConnection.agentCode,
-      "BRANCHCODE":signalrConnection.branchCode,
-      "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
-      "BANKCUSTPHONENUMBER":"",
-      "PAYMENTTYPE":"T",
-      "BANKACCOUNTNUMBER":"",
-      "BANKBRANCHCODE":"",
-      "CHEQUENUMBER":"",
-      "CHEQUEDATE":"",
-      "GUARDIANID":guardianID,
-      "GUARDIANICTYPE":guardianICtype,
-      "GUARDIANICNUMBER":guardianIC,
-      "POLICYNUMBER":"",
-      "EPFNUMBER":"",
-      "SUBPAYMENTTYPE":"",
-      "EWGATEWAY":"",
-      "THIRDPARTYINVESTMENT":"Y",
-      "THIRDPARTYNAME":this.transferuhname,
-      "THIRDPARTYICTYPE":this.transferuhictype,
-      "THIRDPARTYICNUMBER":this.transferuhic,
-      "THIRDPARTYRELATIONSHIP":this.transferrelationship,
-      "REASONFORTRANSFER":this.transferreason,
-      "SOURCEOFFUND":"",
-      "OTHERSOURCEOFFUND":"",
-      "FUNDERNAME":""
-    }
+    // const body = 
+    // {
+    //   "CHANNELTYPE": signalrConnection.channelType,
+    //   "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+    //   "DEVICEOWNER": signalrConnection.deviceOwner,
+    //   "UNITHOLDERID":uhid,
+    //   "FIRSTNAME": "",
+    //   "IDENTIFICATIONTYPE":ictype,
+    //   "IDENTIFICATIONNUMBER":icno,
+    //   "FUNDID":fundid,
+    //   "AMOUNTAPPLIED":this.transferamount,
+    //   "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //   "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //   "CUSTOMERICNUMBER":"",
+    //   "CUSTOMERNAME":"",
+    //   "AGENTCODE":signalrConnection.agentCode,
+    //   "BRANCHCODE":signalrConnection.branchCode,
+    //   "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+    //   "BANKCUSTPHONENUMBER":"",
+    //   "PAYMENTTYPE":"T",
+    //   "BANKACCOUNTNUMBER":"",
+    //   "BANKBRANCHCODE":"",
+    //   "CHEQUENUMBER":"",
+    //   "CHEQUEDATE":"",
+    //   "GUARDIANID":guardianID,
+    //   "GUARDIANICTYPE":guardianICtype,
+    //   "GUARDIANICNUMBER":guardianIC,
+    //   "POLICYNUMBER":"",
+    //   "EPFNUMBER":"",
+    //   "SUBPAYMENTTYPE":"",
+    //   "EWGATEWAY":"",
+    //   "THIRDPARTYINVESTMENT":"Y",
+    //   "THIRDPARTYNAME":this.transferuhname,
+    //   "THIRDPARTYICTYPE":this.transferuhictype,
+    //   "THIRDPARTYICNUMBER":this.transferuhic,
+    //   "THIRDPARTYRELATIONSHIP":this.transferrelationship,
+    //   "REASONFORTRANSFER":this.transferreason,
+    //   "SOURCEOFFUND":"",
+    //   "OTHERSOURCEOFFUND":"",
+    //   "FUNDERNAME":""
+    // }
     
-    this.serviceService.postProvisionSubscription(body)
-      .subscribe((result: any) => {
-        console.log(result.result.transactionstatus);
-        console.log(result.result.transactionnumber);
+    // this.serviceService.postProvisionSubscription(body)
+    //   .subscribe((result: any) => {
+    //     console.log(result.result.transactionstatus);
+    //     console.log(result.result.transactionnumber);
 
         let txnmode = "";
         if(this.isHistorical){
@@ -861,7 +864,7 @@ export class TransferswitchingComponent implements OnInit {
           txnmode = "U";
         }
 
-        if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
+        // if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
           const body1 = 
           {
             "CHANNELTYPE":signalrConnection.channelType,
@@ -882,7 +885,7 @@ export class TransferswitchingComponent implements OnInit {
             "PAYMENTTYPE":"",
             "BANKACCOUNTNUMBER":"",
             "TOUNITHOLDERID": this.transferuhid,
-            "TOUHFIRSTNAME": this.transferuhname,
+            "TOUHFIRSTNAME": this.transferuhname, 
             "TOUHIDENTIFICATIONTYPE": this.transferuhictype,
             "TOUHIDENTIFICATIONNUMBER": this.transferuhic,
             "TXNMODE": txnmode,
@@ -899,12 +902,12 @@ export class TransferswitchingComponent implements OnInit {
               if(result1.result.transactionstatus.toLowerCase() == 'successful'){
                 this.transfer2 = false;
                 this.transfer3 = true;
-                this.refno = result.result.transactionnumber;
-                this.feepercentage = result.result.feepercentage == "" ? 0 : result1.result.feepercentage;
-                this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
-                this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
-                this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
-                this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
+                this.refno = result1.result.transactionnumber;
+                this.transferinitialPercentage = result1.result.feepercentage == "" ? 0 : result1.result.feepercentage;
+                this.transferNAV = result1.result.fundprice == "" ? 0 : result1.result.fundprice;
+                this.transferSST = result1.result.gstamount == "" ? 0 : result1.result.gstamount;
+                this.transferunits = result1.result.unitsalloted == "" ? 0 : result1.result.unitsalloted;
+                this.transferinitialRM = result1.result.salescharge == "" ? 0 : result1.result.salescharge;
               
                 if (currentHolder.email == ""){
                   this.Email_Visible = false;
@@ -941,24 +944,24 @@ export class TransferswitchingComponent implements OnInit {
                 this.router.navigate(['errorscreen']);
               }
             });
-        }
-        else{
-          errorCodes.Ecode = result.result.rejectcode;
-          errorCodes.Emessage = result.result.rejectreason;
-          errorCodes.accountName = firstname;
-          errorCodes.accountNo = uhid;
-          if(appFunc.isOwn == "major"){
-            errorCodes.accountType = "Dewasa";
-          }else if(appFunc.isOwn == "bijak"){
-            errorCodes.accountType = "Bijak/Remaja";
-          }
-          errorCodes.transaction = this.transaction;
-          kActivit1.endTime = new Date();
-          kActivit1.status = false;
-          appFunc.kioskActivity.push(kActivit1);
-          this.router.navigate(['errorscreen']);
-        }
-    });
+        // }
+        // else{
+        //   errorCodes.Ecode = result.result.rejectcode;
+        //   errorCodes.Emessage = result.result.rejectreason;
+        //   errorCodes.accountName = firstname;
+        //   errorCodes.accountNo = uhid;
+        //   if(appFunc.isOwn == "major"){
+        //     errorCodes.accountType = "Dewasa";
+        //   }else if(appFunc.isOwn == "bijak"){
+        //     errorCodes.accountType = "Bijak/Remaja";
+        //   }
+        //   errorCodes.transaction = this.transaction;
+        //   kActivit1.endTime = new Date();
+        //   kActivit1.status = false;
+        //   appFunc.kioskActivity.push(kActivit1);
+        //   this.router.navigate(['errorscreen']);
+        // }
+    // });
     
   }
 
@@ -1528,55 +1531,55 @@ export class TransferswitchingComponent implements OnInit {
     //   }
     // });
 
-    const body = 
-    {
-      "CHANNELTYPE": signalrConnection.channelType,
-      "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-      "DEVICEOWNER": signalrConnection.deviceOwner,
-      "UNITHOLDERID":uhid,
-      "FIRSTNAME": "",
-      "IDENTIFICATIONTYPE":ictype,
-      "IDENTIFICATIONNUMBER":icno,
-      "FUNDID":fundid,
-      "AMOUNTAPPLIED":this.switchingamount,
-      "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-      "CUSTOMERICNUMBER":"",
-      "CUSTOMERNAME":"",
-      "AGENTCODE":signalrConnection.agentCode,
-      "BRANCHCODE":signalrConnection.branchCode,
-      "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
-      "BANKCUSTPHONENUMBER":"",
-      "PAYMENTTYPE":"T",
-      "BANKACCOUNTNUMBER":"",
-      "BANKBRANCHCODE":"",
-      "CHEQUENUMBER":"",
-      "CHEQUEDATE":"",
-      "GUARDIANID":guardianID,
-      "GUARDIANICTYPE":guardianICtype,
-      "GUARDIANICNUMBER":guardianIC,
-      "POLICYNUMBER":"",
-      "EPFNUMBER":"",
-      "SUBPAYMENTTYPE":"",
-      "EWGATEWAY":"",
-      "THIRDPARTYINVESTMENT":"",
-      "THIRDPARTYNAME":"",
-      "THIRDPARTYICTYPE":"",
-      "THIRDPARTYICNUMBER":"",
-      "THIRDPARTYRELATIONSHIP":"",
-      "REASONFORTRANSFER":"",
-      "SOURCEOFFUND":"",
-      "OTHERSOURCEOFFUND":"",
-      "FUNDERNAME":""
-    }
+    // const body = 
+    // {
+    //   "CHANNELTYPE": signalrConnection.channelType,
+    //   "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+    //   "DEVICEOWNER": signalrConnection.deviceOwner,
+    //   "UNITHOLDERID":uhid,
+    //   "FIRSTNAME": "",
+    //   "IDENTIFICATIONTYPE":ictype,
+    //   "IDENTIFICATIONNUMBER":icno,
+    //   "FUNDID":fundid,
+    //   "AMOUNTAPPLIED":this.switchingamount,
+    //   "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //   "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //   "CUSTOMERICNUMBER":"",
+    //   "CUSTOMERNAME":"",
+    //   "AGENTCODE":signalrConnection.agentCode,
+    //   "BRANCHCODE":signalrConnection.branchCode,
+    //   "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+    //   "BANKCUSTPHONENUMBER":"",
+    //   "PAYMENTTYPE":"T",
+    //   "BANKACCOUNTNUMBER":"",
+    //   "BANKBRANCHCODE":"",
+    //   "CHEQUENUMBER":"",
+    //   "CHEQUEDATE":"",
+    //   "GUARDIANID":guardianID,
+    //   "GUARDIANICTYPE":guardianICtype,
+    //   "GUARDIANICNUMBER":guardianIC,
+    //   "POLICYNUMBER":"",
+    //   "EPFNUMBER":"",
+    //   "SUBPAYMENTTYPE":"",
+    //   "EWGATEWAY":"",
+    //   "THIRDPARTYINVESTMENT":"",
+    //   "THIRDPARTYNAME":"",
+    //   "THIRDPARTYICTYPE":"",
+    //   "THIRDPARTYICNUMBER":"",
+    //   "THIRDPARTYRELATIONSHIP":"",
+    //   "REASONFORTRANSFER":"",
+    //   "SOURCEOFFUND":"",
+    //   "OTHERSOURCEOFFUND":"",
+    //   "FUNDERNAME":""
+    // }
 
-    this.serviceService.postProvisionSubscription(body)
-      .subscribe((result: any) => {
+    // this.serviceService.postProvisionSubscription(body)
+    //   .subscribe((result: any) => {
 
 
-        console.log(result);
-        console.log(result.result.transactionstatus);
-        console.log(result.result.transactionnumber);
+    //     console.log(result);
+    //     console.log(result.result.transactionstatus);
+    //     console.log(result.result.transactionnumber);
 
         let txnmode = "";
         if(this.isHistorical){
@@ -1586,7 +1589,7 @@ export class TransferswitchingComponent implements OnInit {
         }
 
 
-        if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
+        //if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
           const body1 = 
           {
             "CHANNELTYPE":signalrConnection.channelType,
@@ -1621,12 +1624,12 @@ export class TransferswitchingComponent implements OnInit {
               if(result1.result.transactionstatus.toLowerCase() == 'successful'){
                 this.switching2 = false;
                 this.switching3 = true;
-                this.refno = result.result.transactionnumber;
+                this.refno = result1.result.transactionnumber;
                 this.feepercentage = result1.result.feepercentage == "" ? 0 : result1.result.feepercentage;
-                this.switchingNAVTo = result.result.fundprice == "" ? 0 : result.result.fundprice;
-                this.switchingSST = result.result.gstamount == "" ? 0 : result.result.gstamount;
-                this.switchingUnitsTo = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
-                this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
+                this.switchingNAVTo = result1.result.fundprice == "" ? 0 : result1.result.fundprice;
+                this.switchingSST = result1.result.gstamount == "" ? 0 : result1.result.gstamount;
+                this.switchingUnitsTo = result1.result.unitsalloted == "" ? 0 : result1.result.unitsalloted;
+                this.initialcharges = result1.result.salescharge == "" ? 0 : result1.result.salescharge;
 
                 if (currentHolder.email == ""){
                   this.Email_Visible = false;
@@ -1662,24 +1665,24 @@ export class TransferswitchingComponent implements OnInit {
                 this.router.navigate(['errorscreen']);
               }
             });
-        }
-        else{
-          errorCodes.Ecode = result.result.rejectcode;
-          errorCodes.Emessage = result.result.rejectreason;
-          errorCodes.accountName = firstname;
-          errorCodes.accountNo = uhid;
-          if(appFunc.isOwn == "major"){
-            errorCodes.accountType = "Dewasa";
-          }else if(appFunc.isOwn == "bijak"){
-            errorCodes.accountType = "Bijak/Remaja";
-          }
-          errorCodes.transaction = this.transaction;
-          kActivit1.endTime = new Date();
-          kActivit1.status = false; 
-          appFunc.kioskActivity.push(kActivit1);
-          this.router.navigate(['errorscreen']);
-        }
-    });
+        // }
+        // else{
+        //   errorCodes.Ecode = result.result.rejectcode;
+        //   errorCodes.Emessage = result.result.rejectreason;
+        //   errorCodes.accountName = firstname;
+        //   errorCodes.accountNo = uhid;
+        //   if(appFunc.isOwn == "major"){
+        //     errorCodes.accountType = "Dewasa";
+        //   }else if(appFunc.isOwn == "bijak"){
+        //     errorCodes.accountType = "Bijak/Remaja";
+        //   }
+        //   errorCodes.transaction = this.transaction;
+        //   kActivit1.endTime = new Date();
+        //   kActivit1.status = false; 
+        //   appFunc.kioskActivity.push(kActivit1);
+        //   this.router.navigate(['errorscreen']);
+        // }
+    //});
     
   }
 
@@ -1927,7 +1930,7 @@ export class TransferswitchingComponent implements OnInit {
           "UNITHOLDERID": "",
           "FIRSTNAME": "",
           "IDENTIFICATIONTYPE": "W",
-          "IDENTIFICATIONNUMBER": currentMyKidDetails.ICNo,
+          "IDENTIFICATIONNUMBER": currentBijakHolder.identificationnumber,
           "FUNDID": "",
           "INQUIRYCODE": "9",
           "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),

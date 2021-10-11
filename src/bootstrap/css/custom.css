@@ -595,7 +595,7 @@ user-select: none;
   border: 1px solid;
   border-color: lightgray;
   width: 800px;
-  height: 100px;
+  height: auto;
   background-color: white;
   margin: auto;
   margin-top: 1.5rem;
