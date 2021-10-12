@@ -1591,7 +1591,7 @@ export class TransferswitchingComponent implements OnInit {
 
         //if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
           const body1 = 
-          {
+          { 
             "CHANNELTYPE":signalrConnection.channelType,
             "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
             "DEVICEOWNER":signalrConnection.deviceOwner,

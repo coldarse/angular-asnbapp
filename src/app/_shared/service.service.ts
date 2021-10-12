@@ -202,6 +202,18 @@ export class ServiceService {
     )
   }
 
+  //Post Subscription Without Provision
+  postSubscriptionWithoutProvision(body: any){
+    return this.http.post(
+      this.url + "services/app/OpenAPI/SubscriptionWithoutProvision",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
   //Post Settlement
   postSettlement(body: any)
   {
