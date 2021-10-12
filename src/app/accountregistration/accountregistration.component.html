@@ -254,6 +254,42 @@
     </div>
 </div> 
 
+<div class="bg-popup"  *ngIf="ASNEquityGlobal">
+    <div class="col-md-12 pop-up shadow p-3 mb-5 bg-white rounded-2rem" align="center">
+
+        <ngx-extended-pdf-viewer 
+            [src]="ASNEquityGlobalpdfsrc" 
+            backgroundColor="#ffffff" 
+            [delayFirstView]="1000" 
+            [height]="'530px'"
+            [useBrowserLocale]="true"
+            [showPrintButton]="false"
+            [showBookmarkButton]="false"
+            [showDownloadButton]="false"
+            [showFindButton]="false"
+            [showHandToolButton]="false"
+            [showOpenFileButton]="false"
+            [showPresentationModeButton]="false"
+            [showRotateButton]="false"
+            [showPropertiesButton]="false"
+            [zoom]="'100%'">
+        </ngx-extended-pdf-viewer>
+
+        <footer class="site-footer" style="padding-top:1rem;">
+            <div class="row text-center" >
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-next" id="RM_MainMenu" (click)="NextASNEquityGlobal()">
+                        {{'BTN_Next' | translate }}
+                    </button>
+
+                </div>
+                
+            </div>
+        </footer>
+        
+    </div>
+</div> 
+
 <form [formGroup]='AR_Form' (ngSubmit)="registrationNext()" name="registerForm" *ngIf="ARForm_Visible" autocomplete="off" novalidate>
     
     <div class="col-md-12 content-container">
@@ -815,7 +851,7 @@
         </div>
         <div class="col-md-10">
             <!-- <p>Klik sini untuk baca <a href="#">Prospektus induk ASNB</a></p> -->
-            <p>{{'TNC_5' | translate }}<a class="hyperlinksent" (click)="ClickProspectus()"> {{'TNC_6' | translate }}</a> & <a class="hyperlinksent" (click)="ClickAdditionalProspectus()"> {{'TNC_6half' | translate }}</a></p> 
+            <p>{{'TNC_5' | translate }}<a class="hyperlinksent" (click)="ClickProspectus()"> {{'TNC_6' | translate }}</a>, <a class="hyperlinksent" (click)="ClickAdditionalProspectus()"> {{'TNC_6half' | translate }}</a> & <a class="hyperlinksent" (click)="ClickASNEquityGlobal()"> {{'TNC_6halfhalf' | translate }}</a></p> 
             
         </div>
         <div class="col-md-1">

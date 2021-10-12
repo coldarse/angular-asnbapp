@@ -49,6 +49,8 @@ export class AccountregistrationComponent implements OnInit {
   regpdfsrc = "assets/REGISTRATION_DECLARATION.pdf";
   ASNBAdditionalProspectus = false;
   additionalpdfsrc = "assets/Prospectus_ASN_IMBANG_3_GLOBAL.pdf";
+  ASNEquityGlobal = false;
+  ASNEquityGlobalpdfsrc = "assets/ASNEquityGlobalProspectus01092021_digitalversion.pdf";
 
   ispopup = false;
   transaction_Successful = false;
@@ -757,6 +759,16 @@ export class AccountregistrationComponent implements OnInit {
 
   NextTnc(){
     this.ASNBTnC = false;
+    this.ispopup = false;
+  }
+
+  ClickASNEquityGlobal(){
+    this.ASNEquityGlobal = true;
+    this.ispopup = true;
+  }
+
+  NextASNEquityGlobal(){
+    this.ASNEquityGlobal = false;
     this.ispopup = false;
   }
 

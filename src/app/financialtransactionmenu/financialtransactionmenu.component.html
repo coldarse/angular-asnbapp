@@ -148,36 +148,42 @@
                     <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionMajor()"  [disabled]="SubscriptionMDisabled">
                         <img src="assets/images/PelaburanTambahanAkaunSendiri-blue.png">
                     </button>
+                    <br>
                     <label class="menu__label">{{ 'FMS_1' | translate }}</label>
                 </div>
                 <div class="col-md-4 text-center" *ngIf="!subscriptionMajorNotClicked">
                     <button type="button" class="btn btn-menu-transaction-active" (click)="SubscriptionMajor()"  [disabled]="SubscriptionMDisabled">
                         <img src="assets/images/PelaburanTambahanAkaunSendiri-white.png">
                     </button>
+                    <br>
                     <label class="menu__label">{{ 'FMS_1' | translate }}</label>
                 </div>
                 <div class="col-md-4 text-center" *ngIf="subscriptionMinorNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionMinor()" [disabled]="isBijakDisabled || SubscriptionBDisabled">
                         <img src="assets/images/PelaburanTambahanAkaunBijak-blue.png">
                     </button>
+                    <br>
                     <label class="menu__label">{{ 'FMS_2' | translate }}</label>
                 </div>
                 <div class="col-md-4 text-center" *ngIf="!subscriptionMinorNotClicked">
                     <button type="button" class="btn btn-menu-transaction-active" (click)="SubscriptionMinor()" [disabled]="isBijakDisabled || SubscriptionBDisabled">
                         <img src="assets/images/PelaburanTambahanAkaunBijak-white.png">
                     </button>
+                    <br>
                     <label class="menu__label">{{ 'FMS_2' | translate }}</label>
                 </div>
                 <div class="col-md-4 text-center" *ngIf="subscriptionThirdNotClicked">
                     <button type="button" class="btn btn-menu-transaction" (click)="SubscriptionThird()"  [disabled]="SubscriptionTDisabled">
                         <img src="assets/images/PelaburanTambahanKeAkaunPihakKetiga-blue.png">
                     </button>
+                    <br>
                     <label class="menu__label">{{ 'FMS_3' | translate }}</label>
                 </div>
                 <div class="col-md-4 text-center" *ngIf="!subscriptionThirdNotClicked">
                     <button type="button" class="btn btn-menu-transaction-active" (click)="SubscriptionThird()"  [disabled]="SubscriptionTDisabled">
                         <img src="assets/images/PelaburanTambahanKeAkaunPihakKetiga-white.png">
                     </button>
+                    <br>
                     <label class="menu__label">{{ 'FMS_3' | translate }}</label>
                 </div>
             </div>
