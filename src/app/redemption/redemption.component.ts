@@ -764,6 +764,79 @@ export class RedemptionComponent implements OnInit {
           this.redemption3 = false;
           this.redemption4 = true;
 
+          let module = "";
+          if(appFunc.isOwn == "major"){
+            module = "15";
+          }else if(appFunc.isOwn == "bijak"){
+            module = "16";
+          }
+
+          const FTBody =
+          {
+            "trxNo": signalrConnection.trxno,
+            //"kioskID": signalrConnection.kioskID,
+            "kioskCode": signalrConnection.kioskCode,
+            "unitHolderID": result.result.unitholderid,
+            "firstName": result.result.firstname,
+            "identificationType": result.result.identificationtype,
+            "identificationNumber": result.result.identificationnumber,
+            "fundID": result.result.fundid,
+            "amountApplied": result.result.amountapplied,
+            "transactionDate": result.result.transactiondate,
+            "transactionTime": result.result.transactiontime,
+            "transactionType": module,
+            "customerICNumber": result.result.customericnumber,
+            "customerName": result.result.customername,
+            "agentCode": result.result.agentCode,
+            "referenceNo": "",
+            "bankTxnReferenceNumber": result.result.banktxnreferencenumber,
+            "bankCustPhoneNumber": result.result.bankcustphonenumber,
+            "paymentType": result.result.paymenttype,
+            "bankAccountNumber": result.result.bankaccountnumber,
+            "bankBranchCode": "",
+            "chequeNumber": "",
+            "chequeDate": "",
+            "guardianID": result.result.guardianid,
+            "guardianicType": result.result.guardianictype,
+            "guardianicNumber": result.result.guardianicnumber,
+            "policyNumber": result.result.policynumber,
+            "epfNumber": result.result.epfnumber,
+            "subPaymentType": "",
+            "ewgateway": "",
+            "thirdPartyInvestment": "",
+            "thirdPartyName": "",
+            "thirdPartyICNumber": "",
+            "thirdPartyRelationship": "",
+            // "thirdPartyInvestment": result.result.thirdpartyinvestment,
+            // "thirdPartyName": result.result.thirdpartyname,
+            // "thirdPartyICNumber": result.result.thirdpartyicnumber,
+            //"thirdPartyRelationship": result1.result.thirdpartyrelationship,
+            //"reasonForTransfer": result1.result.reasonfortransfer,
+            //"reasonForTransfer": "",
+            "sourceOfFund": "",
+            "otherSourceOfFund": "",
+            "funderName": "",
+            //"transactionStatus": result1.result.transactionstatus,
+            //"transactionNumber": "",
+            "taxInvoiceNumber": "",
+            // "sourceOfFund": result.result.sourceoffund,
+            // "otherSourceOfFund": result.result.othersourceoffund,
+            // "funderName": result.result.fundname,
+            "transactionStatus": result.result.transactionstatus,
+            "transactionNumber": result.result.transactionnumber,
+            // "taxInvoiceNumber": result.result.taxinvoicenumber,
+            "confirmedUnits": "",
+            "unitBalance": "",
+            "operation": "",
+            "remark": "",
+            "creditNoteNumber": "",
+            "rejectCode": result.result.rejectcode,
+            "rejectReason": result.result.rejectreason,
+            "itemno": signalrConnection.itemNo
+          }
+
+          this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+          signalrConnection.itemNo += 1;
           kActivit1.endTime = new Date();
           kActivit1.status = true;
           appFunc.kioskActivity.push(kActivit1);

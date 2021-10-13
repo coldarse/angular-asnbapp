@@ -923,6 +923,79 @@ export class TransferswitchingComponent implements OnInit {
                   this.Print_Visible = true;
                 }
 
+                let module = "";
+                if(appFunc.isOwn == "major"){
+                  module = "15";
+                }else if(appFunc.isOwn == "bijak"){
+                  module = "16";
+                }
+
+                const FTBody =
+                {
+                  "trxNo": signalrConnection.trxno,
+                  //"kioskID": signalrConnection.kioskID,
+                  "kioskCode": signalrConnection.kioskCode,
+                  "unitHolderID": result1.result.unitholderid,
+                  "firstName": result1.result.firstname,
+                  "identificationType": result1.result.identificationtype,
+                  "identificationNumber": result1.result.identificationnumber,
+                  "fundID": result1.result.fundid,
+                  "amountApplied": result1.result.amountapplied,
+                  "transactionDate": result1.result.transactiondate,
+                  "transactionTime": result1.result.transactiontime,
+                  "transactionType": module,
+                  "customerICNumber": "",
+                  "customerName": "",
+                  "agentCode": result1.result.agentCode,
+                  "referenceNo": "",
+                  "bankTxnReferenceNumber": result1.result.banktxnreferencenumber,
+                  "bankCustPhoneNumber": result1.result.bankcustphonenumber,
+                  "paymentType": result1.result.paymenttype,
+                  "bankAccountNumber": result1.result.bankaccountnumber,
+                  "bankBranchCode": "",
+                  "chequeNumber": "",
+                  "chequeDate": "",
+                  "guardianID": result1.result.guardianid,
+                  "guardianicType": result1.result.guardianictype,
+                  "guardianicNumber": result1.result.guardianicnumber,
+                  "policyNumber": result1.result.policynumber,
+                  "epfNumber": result1.result.epfnumber,
+                  "subPaymentType": "",
+                  "ewgateway": "",
+                  "thirdPartyInvestment": "",
+                  "thirdPartyName": "",
+                  "thirdPartyICNumber": "",
+                  //"thirdPartyRelationship": "",
+                  // "thirdPartyInvestment": result.result.thirdpartyinvestment,
+                  // "thirdPartyName": result.result.thirdpartyname,
+                  // "thirdPartyICNumber": result.result.thirdpartyicnumber,
+                  "thirdPartyRelationship": result1.result.thirdpartyrelationship,
+                  "reasonForTransfer": result1.result.reasonfortransfer,
+                  //"reasonForTransfer": "",
+                  "sourceOfFund": "",
+                  "otherSourceOfFund": "",
+                  "funderName": "",
+                  "transactionStatus": result1.result.transactionstatus,
+                  "transactionNumber": "",
+                  "taxInvoiceNumber": "",
+                  // "sourceOfFund": result.result.sourceoffund,
+                  // "otherSourceOfFund": result.result.othersourceoffund,
+                  // "funderName": result.result.fundname,
+                  // "transactionStatus": result1.result.transactionstatus,
+                  // "transactionNumber": result.result.transactionnumber,
+                  // "taxInvoiceNumber": result.result.taxinvoicenumber,
+                  "confirmedUnits": "",
+                  "unitBalance": "",
+                  "operation": "",
+                  "remark": "",
+                  "creditNoteNumber": "",
+                  "rejectCode": result1.result.rejectcode,
+                  "rejectReason": result1.result.rejectreason,
+                  "itemno": signalrConnection.itemNo
+                }
+
+                this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+                signalrConnection.itemNo += 1;
                 kActivit1.endTime = new Date();
                 kActivit1.status = true;
                 appFunc.kioskActivity.push(kActivit1);
@@ -1588,7 +1661,7 @@ export class TransferswitchingComponent implements OnInit {
           txnmode = "U";
         }
 
-
+        
         //if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
           const body1 = 
           { 
@@ -1644,9 +1717,86 @@ export class TransferswitchingComponent implements OnInit {
                 else{
                   this.Print_Visible = true;
                 }
+
+                let module = "";
+                if(appFunc.isOwn == "major"){
+                  module = "15";
+                }else if(appFunc.isOwn == "bijak"){
+                  module = "16";
+                }
+                
+
+                const FTBody =
+                {
+                  "trxNo": signalrConnection.trxno,
+                  //"kioskID": signalrConnection.kioskID,
+                  "kioskCode": signalrConnection.kioskCode,
+                  "unitHolderID": result1.result.unitholderid,
+                  "firstName": result1.result.firstname,
+                  "identificationType": result1.result.identificationtype,
+                  "identificationNumber": result1.result.identificationnumber,
+                  "fundID": result1.result.fundid,
+                  "amountApplied": result1.result.amountapplied,
+                  "transactionDate": result1.result.transactiondate,
+                  "transactionTime": result1.result.transactiontime,
+                  "transactionType": module,
+                  "customerICNumber": "",
+                  "customerName": "",
+                  "agentCode": result1.result.agentCode,
+                  "referenceNo": "",
+                  "bankTxnReferenceNumber": result1.result.banktxnreferencenumber,
+                  "bankCustPhoneNumber": result1.result.bankcustphonenumber,
+                  "paymentType": result1.result.paymenttype,
+                  "bankAccountNumber": result1.result.bankaccountnumber,
+                  "bankBranchCode": "",
+                  "chequeNumber": "",
+                  "chequeDate": "",
+                  "guardianID": result1.result.guardianid,
+                  "guardianicType": result1.result.guardianictype,
+                  "guardianicNumber": result1.result.guardianicnumber,
+                  "policyNumber": result1.result.policynumber,
+                  "epfNumber": result1.result.epfnumber,
+                  "subPaymentType": "",
+                  "ewgateway": "",
+                  "thirdPartyInvestment": "",
+                  "thirdPartyName": "",
+                  "thirdPartyICNumber": "",
+                  "thirdPartyRelationship": "",
+                  // "thirdPartyInvestment": result.result.thirdpartyinvestment,
+                  // "thirdPartyName": result.result.thirdpartyname,
+                  // "thirdPartyICNumber": result.result.thirdpartyicnumber,
+                  // "thirdPartyRelationship": result.result.thirdpartyrelationship,
+                  //"reasonForTransfer": result.result.reasonfortransfer,
+                  "reasonForTransfer": "",
+                  "sourceOfFund": "",
+                  "otherSourceOfFund": "",
+                  "funderName": "",
+                  "transactionStatus": result1.result.transactionstatus,
+                  "transactionNumber": "",
+                  "taxInvoiceNumber": "",
+                  // "sourceOfFund": result.result.sourceoffund,
+                  // "otherSourceOfFund": result.result.othersourceoffund,
+                  // "funderName": result.result.fundname,
+                  // "transactionStatus": result1.result.transactionstatus,
+                  // "transactionNumber": result.result.transactionnumber,
+                  // "taxInvoiceNumber": result.result.taxinvoicenumber,
+                  "confirmedUnits": "",
+                  "unitBalance": "",
+                  "operation": "",
+                  "remark": "",
+                  "creditNoteNumber": "",
+                  "rejectCode": result1.result.rejectcode,
+                  "rejectReason": result1.result.rejectreason,
+                  "itemno": signalrConnection.itemNo
+                }
+
+                this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+                signalrConnection.itemNo += 1;
+                console.log(signalrConnection.itemNo);
                 kActivit1.endTime = new Date();
                 kActivit1.status = true;
                 appFunc.kioskActivity.push(kActivit1);
+
               }
               else{
                 errorCodes.Ecode = result1.result.rejectcode;

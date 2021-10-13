@@ -55,6 +55,7 @@ export class LanguageComponent implements OnInit {
     }
 
     signalrConnection.itemNo = 1;
+    console.log(signalrConnection.itemNo);
 
     currentMyKidDetails.resetCurrentMyKid();
     currentMyKadDetails.resetCurrentMyKid();
