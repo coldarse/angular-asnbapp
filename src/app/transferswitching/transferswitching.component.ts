@@ -1699,9 +1699,10 @@ export class TransferswitchingComponent implements OnInit {
                 this.switching3 = true;
                 this.refno = result1.result.transactionnumber;
                 this.feepercentage = result1.result.feepercentage == "" ? 0 : result1.result.feepercentage;
-                this.switchingNAVTo = result1.result.fundprice == "" ? 0 : result1.result.fundprice;
+                this.switchingNAVTo = result1.result.tofundprice == "" ? 0 : result1.result.tofundprice;
                 this.switchingSST = result1.result.gstamount == "" ? 0 : result1.result.gstamount;
-                this.switchingUnitsTo = result1.result.unitsalloted == "" ? 0 : result1.result.unitsalloted;
+                this.switchingUnitsFrom = result1.result.unitsalloted == "" ? 0 : result1.result.unitsalloted;
+                this.switchingUnitsTo = result1.result.tounitsalloted == "" ? 0 : result1.result.tounitsalloted;
                 this.initialcharges = result1.result.salescharge == "" ? 0 : result1.result.salescharge;
 
                 if (currentHolder.email == ""){

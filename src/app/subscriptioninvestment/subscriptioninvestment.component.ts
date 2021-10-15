@@ -1753,7 +1753,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "CUSTOMERNAME":"",
                     "AGENTCODE":signalrConnection.agentCode,
                     "BRANCHCODE":signalrConnection.branchCode,
-                    "BANKTXNREFERENCENUMBER":formatDate(new Date(), 'ddMMYYYY', 'en') + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
+                    "BANKTXNREFERENCENUMBER":formatDate(new Date(), 'ddMMyy', 'en') + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
                     "BANKCUSTPHONENUMBER":"",
                     "PAYMENTTYPE":"T",
                     "BANKACCOUNTNUMBER":"",
@@ -1778,7 +1778,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "FUNDERNAME":this.otherSourceOfFund
                     }
   
-                  this.serviceService.postProvisionSubscription(body)
+                  this.serviceService.postSubscriptionWithoutProvision(body)
                   .subscribe((result: any) => {
                     console.log(result.result.transactionstatus);
                     console.log(result.result.transactionnumber);
@@ -2093,19 +2093,60 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   checkTerminalErrorCodes(statusCode: string){
-    let codes = ["01", "02", "03", "05", "12", "13", "14", "19", "25", "30", "31", "41", "51", "54", "55", "58", "76", "77", "78", "80", "89", "91", "94", "95", "96", "Y1", "Y3", "Z1", "Z3",
-                  "SE", "PE", "IC", "EC", "ZE", "BU", "CE", "RE", "HE", "LE", "VB", "FE", "WC", "TA", "AE", "KE", "VT"];
     
-    codes.forEach((code) => {
-      if(code == statusCode){
-        return true;
-      }
-      else{
-        return false;
-      }
-    });
-
-    return false;
+    if(statusCode == "01" || 
+       statusCode == "02" ||
+       statusCode == "03" ||
+       statusCode == "05" ||
+       statusCode == "12" ||
+       statusCode == "13" ||
+       statusCode == "14" ||
+       statusCode == "19" ||
+       statusCode == "25" ||
+       statusCode == "30" ||
+       statusCode == "31" ||
+       statusCode == "41" ||
+       statusCode == "51" ||
+       statusCode == "54" ||
+       statusCode == "55" ||
+       statusCode == "58" ||
+       statusCode == "75" ||
+       statusCode == "76" ||
+       statusCode == "77" ||
+       statusCode == "78" ||
+       statusCode == "80" ||
+       statusCode == "89" ||
+       statusCode == "91" ||
+       statusCode == "94" ||
+       statusCode == "95" ||
+       statusCode == "96" ||
+       statusCode == "Y1" ||
+       statusCode == "Y3" ||
+       statusCode == "Z1" ||
+       statusCode == "Z3" ||
+       statusCode == "SE" ||
+       statusCode == "PE" ||
+       statusCode == "IC" ||
+       statusCode == "EC" ||
+       statusCode == "ZE" ||
+       statusCode == "BU" ||
+       statusCode == "CE" ||
+       statusCode == "RE" ||
+       statusCode == "HE" ||
+       statusCode == "LE" ||
+       statusCode == "VB" ||
+       statusCode == "FE" ||
+       statusCode == "WC" ||
+       statusCode == "TA" ||
+       statusCode == "AE" ||
+       statusCode == "KE" ||
+       statusCode == "VT" 
+    ){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
   SIStep5Cancel(){
@@ -2408,6 +2449,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   SIStep5End(){
+    if(signalrConnection.isHardcodedIC == false){
+      signalrConnection.connection.invoke('CancelECR').then(() => {
+                  
+      });
+    }
     this._router.navigate(['feedbackscreen']);
   }
 
@@ -2541,6 +2587,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
     name = currentHolder.firstname;
 
     //let PaymentAmt = parseFloat(this.thirdamountkeyed.toString()).toFixed(2);
+
+    this.STPStep3 = false;
+    this.SIStep5 = true;
     
 
     if(signalrConnection.isHardcodedIC){
@@ -2809,7 +2858,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "CUSTOMERNAME":"",
                     "AGENTCODE":signalrConnection.agentCode,
                     "BRANCHCODE":signalrConnection.branchCode,
-                    "BANKTXNREFERENCENUMBER":formatDate(new Date(), 'ddMMYYYY', 'en') + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
+                    "BANKTXNREFERENCENUMBER":formatDate(new Date(), 'ddMMyy', 'en') + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
                     "BANKCUSTPHONENUMBER":"",
                     "PAYMENTTYPE":"T",
                     "BANKACCOUNTNUMBER":"",
@@ -2835,7 +2884,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "FUNDERNAME":this.otherSourceOfFund
                   }
 
-                  this.serviceService.postProvisionSubscription(body)
+                  this.serviceService.postSubscriptionWithoutProvision(body)
                   .subscribe((result: any) => {
                   console.log(result.result.transactionstatus);
                   console.log(result.result.transactionnumber);
