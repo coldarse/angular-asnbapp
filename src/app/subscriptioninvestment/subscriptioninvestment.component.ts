@@ -2872,7 +2872,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     // "EPFNUMBER":"",
                     // "SUBPAYMENTTYPE":"",
                     // "EWGATEWAY":"",
-                    "THIRDPARTYINVESTMENT":"",
+                    "THIRDPARTYINVESTMENT":"Y",
                     "THIRDPARTYNAME":this.thirdnamekeyed,
                     "THIRDPARTYICTYPE":this.thirdictypekeyed,
                     "THIRDPARTYICNUMBER":this.thirdicnokeyed,
