@@ -899,18 +899,16 @@ export class RedemptionComponent implements OnInit {
       "NRIC" : this.unitholderidno,
       "AccountType" : accountType,
       "TransactionNumber" : this.redemptionrefno,
+      "AMOUNTAPPLIED": this.redemptionhistoricalpricing,
       "FUNDID" : this.redemptionfundname,
       "FUNDPRICE" : this.redemptionnav,
       "UNITSALLOTED" : this.redemptionunits,
-      "FEEPERCENTAGE" : this.feepercentage,
-      "SALESCHARGE" : this.initialcharges,
-      "GSTAMOUNT" : this.sst,
-      "CARDINFO" : objCardInfo,
+      "NAMEOFBANK": this.redemptionbankname,
       "Language" : selectLang.selectedLang,
       "Signature" : ""
     }
 
-    appFunc.receiptFunction = "GetFinancialTrxPrintout"
+    appFunc.receiptFunction = "GetRedemptionTrxPrintout"
     appFunc.printing = true;
     signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
       if(data){
@@ -979,13 +977,11 @@ export class RedemptionComponent implements OnInit {
       "NRIC" : this.unitholderidno,
       "AccountType" : accountType,
       "TransactionNumber" : this.redemptionrefno,
+      "AMOUNTAPPLIED": this.redemptionhistoricalpricing,
       "FUNDID" : this.redemptionfundname,
       "FUNDPRICE" : this.redemptionnav,
       "UNITSALLOTED" : this.redemptionunits,
-      "FEEPERCENTAGE" : this.feepercentage,
-      "SALESCHARGE" : this.initialcharges,
-      "GSTAMOUNT" : this.sst,
-      "CARDINFO" : objCardInfo,
+      "NAMEOFBANK": this.redemptionbankname,
       "Language" : selectLang.selectedLang,
       "Signature" : ""
     }
@@ -1000,10 +996,10 @@ export class RedemptionComponent implements OnInit {
       "IC" : this.unitholderidno
     }
 
-    appFunc.receiptFunction = "GetFinancialTrxPrintout"
+    appFunc.receiptFunction = "GetRedemptionTrxPrintout"
 
     
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj)).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj), this.redemptionfundname).then((data: any) => {
       
     });
 

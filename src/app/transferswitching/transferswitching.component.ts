@@ -81,6 +81,7 @@ export class TransferswitchingComponent implements OnInit {
   switchingamountWarning = false;
   amountWarning2 = false;
 
+  receiptfundid = "";
 
   transferreasonWarning = false;
   transferrelationshipWarning = false;
@@ -1102,18 +1103,21 @@ export class TransferswitchingComponent implements OnInit {
       "NRIC" : icno,
       "AccountType" : accountType,
       "TransactionNumber" : this.refno,
+      "AMOUNTAPPLIED": this.transferamount,
       "FUNDID" : this.transferfunname,
+      "TOUHFIRSTNAME": this.transferuhname,
+      "TOUNITHOLDERID": this.transferuhid,
+      "THIRDPARTYRELATIONSHIP": this.transferrelationship,
       "FUNDPRICE" : this.nav,
       "UNITSALLOTED" : this.unitsalloted,
-      "FEEPERCENTAGE" : this.feepercentage,
       "SALESCHARGE" : this.initialcharges,
+      "FEEPERCENTAGE" : this.feepercentage,
       "GSTAMOUNT" : this.sst,
-      "CARDINFO" : objCardInfo,
       "Language" : selectLang.selectedLang,
       "Signature" : ""
     }
 
-    appFunc.receiptFunction = "GetFinancialTrxPrintout"
+    appFunc.receiptFunction = "GetTransferTrxPrintout"
     appFunc.printing = true;
     signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
       if(data){
@@ -1210,16 +1214,20 @@ export class TransferswitchingComponent implements OnInit {
       "NRIC" : icno,
       "AccountType" : accountType,
       "TransactionNumber" : this.refno,
+      "AMOUNTAPPLIED": this.transferamount,
       "FUNDID" : this.transferfunname,
+      "TOUHFIRSTNAME": this.transferuhname,
+      "TOUNITHOLDERID": this.transferuhid,
+      "THIRDPARTYRELATIONSHIP": this.transferrelationship,
       "FUNDPRICE" : this.nav,
       "UNITSALLOTED" : this.unitsalloted,
-      "FEEPERCENTAGE" : this.feepercentage,
       "SALESCHARGE" : this.initialcharges,
+      "FEEPERCENTAGE" : this.feepercentage,
       "GSTAMOUNT" : this.sst,
-      "CARDINFO" : objCardInfo,
       "Language" : selectLang.selectedLang,
       "Signature" : ""
     }
+
     appFunc.printing = false;
 
     appFunc.emailObj =
@@ -1232,10 +1240,10 @@ export class TransferswitchingComponent implements OnInit {
       "IC" : icno
     }
 
-    appFunc.receiptFunction = "GetFinancialTrxPrintout"
+    appFunc.receiptFunction = "GetTransferTrxPrintout"
 
     
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj)).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj), this.transferfunname).then((data: any) => {
       
     });
 
@@ -1598,11 +1606,12 @@ export class TransferswitchingComponent implements OnInit {
     this.switchingUnitsFrom = "0";
 
     fundid = this.switchingto;
-    // appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
-    //   if(elem.desc.toLowerCase() == this.switchingto.toLowerCase()){
-    //     fundid = elem.code;
-    //   }
-    // });
+    appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
+      if(elem.desc.toLowerCase() == this.switchingto.toLowerCase()){
+        fundid = elem.code;
+        this.receiptfundid = fundid;
+      }
+    });
 
     // const body = 
     // {
@@ -1900,18 +1909,21 @@ export class TransferswitchingComponent implements OnInit {
       "NRIC" : icno,
       "AccountType" : accountType,
       "TransactionNumber" : this.refno,
+      "AMOUNTAPPLIED": this.switchingamount,
       "FUNDID" : this.switchingto,
+      "TOFUNDID": this.receiptfundid,
       "FUNDPRICE" : this.switchingNAVTo,
+      "TOFUNDPRICE": this.switchingNAVTo,
       "UNITSALLOTED" : this.switchingUnitsTo,
+      "TOUNITSALLOTED": this.switchingUnitsTo,
       "FEEPERCENTAGE" : this.feepercentage,
       "SALESCHARGE" : this.initialcharges,
       "GSTAMOUNT" : this.switchingSST,
-      "CARDINFO" : objCardInfo,
       "Language" : selectLang.selectedLang,
       "Signature" : ""
     }
 
-    appFunc.receiptFunction = "GetFinancialTrxPrintout"
+    appFunc.receiptFunction = "GetSwitchTrxPrintout"
     appFunc.printing = true;
     signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
       if(data){
@@ -1977,6 +1989,11 @@ export class TransferswitchingComponent implements OnInit {
 
     let accountType = "";
     let module = "0";
+
+    this.switchingto;
+    this.actualfundid;
+
+    let switchindetails = "";
     if(selectLang.selectedLang == 'ms'){
       if(appFunc.isOwn == "major"){
         accountType = "Dewasa";
@@ -1985,6 +2002,7 @@ export class TransferswitchingComponent implements OnInit {
         accountType = "Bijak/Remaja";
         module = "16"
       }
+      switchindetails = "Penukaran daripada " + this.switchingfrom + " kepada " + this.switchingto;
     }else{
       if(appFunc.isOwn == "major"){
         accountType = "Dewasa";
@@ -1993,6 +2011,7 @@ export class TransferswitchingComponent implements OnInit {
         accountType = "Bijak/Remaja";
         module = "16"
       }
+      switchindetails = "Switching from " + this.switchingfrom + " to " + this.switchingto;
     }
     
 
@@ -2007,13 +2026,16 @@ export class TransferswitchingComponent implements OnInit {
       "NRIC" : icno,
       "AccountType" : accountType,
       "TransactionNumber" : this.refno,
+      "AMOUNTAPPLIED": this.switchingamount,
       "FUNDID" : this.switchingto,
+      "TOFUNDID": this.receiptfundid,
       "FUNDPRICE" : this.switchingNAVTo,
+      "TOFUNDPRICE": this.switchingNAVTo,
       "UNITSALLOTED" : this.switchingUnitsTo,
+      "TOUNITSALLOTED": this.switchingUnitsTo,
       "FEEPERCENTAGE" : this.feepercentage,
       "SALESCHARGE" : this.initialcharges,
       "GSTAMOUNT" : this.switchingSST,
-      "CARDINFO" : objCardInfo,
       "Language" : selectLang.selectedLang,
       "Signature" : ""
     }
@@ -2029,10 +2051,10 @@ export class TransferswitchingComponent implements OnInit {
       "IC" : icno
     }
 
-    appFunc.receiptFunction = "GetFinancialTrxPrintout"
+    appFunc.receiptFunction = "GetSwitchTrxPrintout"
 
     
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj)).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj), switchindetails).then((data: any) => {
       
     });
 

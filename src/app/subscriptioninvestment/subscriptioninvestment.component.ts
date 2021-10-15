@@ -3256,6 +3256,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "FEEPERCENTAGE" : this.feepercentage,
         "SALESCHARGE" : this.initialcharges,
         "GSTAMOUNT" : this.sst,
+        "UHIDTHIRDPARTY": this.thirdnamekeyed,
+        "NAMETHIRDPARTY": this.thirduhidkeyed,
         "CARDINFO" : objCardInfo,
         "Language" : selectLang.selectedLang,
         "Signature" : ""
@@ -3344,6 +3346,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "FEEPERCENTAGE" : this.feepercentage,
         "SALESCHARGE" : this.initialcharges,
         "GSTAMOUNT" : this.sst,
+        "UHIDTHIRDPARTY": this.thirdnamekeyed,
+        "NAMETHIRDPARTY": this.thirduhidkeyed,
         "CARDINFO" : objCardInfo,
         "Language" : selectLang.selectedLang,
         "Signature" : ""
@@ -3460,7 +3464,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
       
       appFunc.printing = false;
-      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj)).then((data: any) => {
+      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj), this.fundname).then((data: any) => {
         // setTimeout(()=>{   
         //   if (data == true){
         //     this.getAccountInquiry();
