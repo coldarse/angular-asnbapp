@@ -3202,6 +3202,21 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.SIStep6 = false;
     this.Print1_Visible = true;
 
+    let selectedUnitHolder = "";
+    let selectedUnitHolderID = "";
+    let selectedUnitHolderIC = "";
+
+    if(appFunc.isOwn == "major"){
+      selectedUnitHolder = currentHolder.firstname;
+      selectedUnitHolderID = currentHolder.unitholderid;
+      selectedUnitHolderIC = currentHolder.identificationnumber;
+    }
+    else{
+      selectedUnitHolder = currentBijakHolder.firstname;
+      selectedUnitHolderID = currentBijakHolder.unitholderid;
+      selectedUnitHolderIC = currentBijakHolder.identificationnumber;
+    }
+
     if(signalrConnection.isHardcodedIC){
       const objCardInfo = 
       [{
@@ -3245,9 +3260,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "Location" : signalrConnection.branchName,
-        "Name" : this.unitholdername,
-        "UHID" : this.unitholderid,
-        "NRIC" : this.unitholderic,
+        "Name" : selectedUnitHolder,
+        "UHID" : selectedUnitHolderID,
+        "NRIC" : selectedUnitHolderIC,
         "AccountType" : accountType,
         "TransactionNumber" : this.refno,
         "FUNDID" : this.fundid,
@@ -3256,8 +3271,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "FEEPERCENTAGE" : this.feepercentage,
         "SALESCHARGE" : this.initialcharges,
         "GSTAMOUNT" : this.sst,
-        "UHIDTHIRDPARTY": this.thirdnamekeyed,
-        "NAMETHIRDPARTY": this.thirduhidkeyed,
+        "UHIDTHIRDPARTY": this.thirduhidkeyed,
+        "NAMETHIRDPARTY": this.thirdnamekeyed,
         "CARDINFO" : objCardInfo,
         "Language" : selectLang.selectedLang,
         "Signature" : ""
@@ -3335,9 +3350,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "Location" : signalrConnection.branchName,
-        "Name" : this.unitholdername,
-        "UHID" : this.unitholderid,
-        "NRIC" : this.unitholderic,
+        "Name" : selectedUnitHolder,
+        "UHID" : selectedUnitHolderID,
+        "NRIC" : selectedUnitHolderIC,
         "AccountType" : accountType,
         "TransactionNumber" : this.refno,
         "FUNDID" : this.fundid,
@@ -3346,8 +3361,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "FEEPERCENTAGE" : this.feepercentage,
         "SALESCHARGE" : this.initialcharges,
         "GSTAMOUNT" : this.sst,
-        "UHIDTHIRDPARTY": this.thirdnamekeyed,
-        "NAMETHIRDPARTY": this.thirduhidkeyed,
+        "UHIDTHIRDPARTY": this.thirduhidkeyed,
+        "NAMETHIRDPARTY": this.thirdnamekeyed,
         "CARDINFO" : objCardInfo,
         "Language" : selectLang.selectedLang,
         "Signature" : ""
@@ -3388,6 +3403,21 @@ export class SubscriptioninvestmentComponent implements OnInit {
   Email(){
     this.SIStep6 = false;
     this.EmailPage_Visible = true;
+
+    let selectedUnitHolder = "";
+    let selectedUnitHolderID = "";
+    let selectedUnitHolderIC = "";
+
+    if(appFunc.isOwn == "major"){
+      selectedUnitHolder = currentHolder.firstname;
+      selectedUnitHolderID = currentHolder.unitholderid;
+      selectedUnitHolderIC = currentHolder.identificationnumber;
+    }
+    else{
+      selectedUnitHolder = currentBijakHolder.firstname;
+      selectedUnitHolderID = currentBijakHolder.unitholderid;
+      selectedUnitHolderIC = currentBijakHolder.identificationnumber;
+    }
 
     if(signalrConnection.isHardcodedIC){
       const objCardInfo = 
@@ -3434,9 +3464,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "Location" : signalrConnection.branchName,
-        "Name" : this.unitholdername,
-        "UHID" : this.unitholderid,
-        "NRIC" : this.unitholderic,
+        "Name" : selectedUnitHolder,
+        "UHID" : selectedUnitHolderID,
+        "NRIC" : selectedUnitHolderIC,
         "AccountType" : accountType,
         "TransactionNumber" : this.refno,
         "FUNDID" : this.fundid,
@@ -3445,6 +3475,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "FEEPERCENTAGE" : this.feepercentage,
         "SALESCHARGE" : this.initialcharges,
         "GSTAMOUNT" : this.sst,
+        "UHIDTHIRDPARTY": this.thirduhidkeyed,
+        "NAMETHIRDPARTY": this.thirdnamekeyed,
         "CARDINFO" : objCardInfo,
         "Language" : selectLang.selectedLang,
         "Signature" : ""
@@ -3529,9 +3561,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "Location" : signalrConnection.branchName,
-        "Name" : this.unitholdername,
-        "UHID" : this.unitholderid,
-        "NRIC" : this.unitholderic,
+        "Name" : selectedUnitHolder,
+        "UHID" : selectedUnitHolderID,
+        "NRIC" : selectedUnitHolderIC,
         "AccountType" : accountType,
         "TransactionNumber" : this.refno,
         "FUNDID" : this.fundid,
@@ -3540,6 +3572,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "FEEPERCENTAGE" : this.feepercentage,
         "SALESCHARGE" : this.initialcharges,
         "GSTAMOUNT" : this.sst,
+        "UHIDTHIRDPARTY": this.thirduhidkeyed,
+        "NAMETHIRDPARTY": this.thirdnamekeyed,
         "CARDINFO" : objCardInfo,
         "Language" : selectLang.selectedLang,
         "Signature" : ""

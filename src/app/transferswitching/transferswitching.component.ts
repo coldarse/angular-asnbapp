@@ -1108,11 +1108,11 @@ export class TransferswitchingComponent implements OnInit {
       "TOUHFIRSTNAME": this.transferuhname,
       "TOUNITHOLDERID": this.transferuhid,
       "THIRDPARTYRELATIONSHIP": this.transferrelationship,
-      "FUNDPRICE" : this.nav,
-      "UNITSALLOTED" : this.unitsalloted,
-      "SALESCHARGE" : this.initialcharges,
-      "FEEPERCENTAGE" : this.feepercentage,
-      "GSTAMOUNT" : this.sst,
+      "FUNDPRICE" : this.transferNAV,
+      "UNITSALLOTED" : this.transferunits,
+      "SALESCHARGE" : this.transferinitialRM,
+      "FEEPERCENTAGE" : this.transferinitialPercentage,
+      "GSTAMOUNT" : this.transferSST,
       "Language" : selectLang.selectedLang,
       "Signature" : ""
     }
@@ -1219,11 +1219,11 @@ export class TransferswitchingComponent implements OnInit {
       "TOUHFIRSTNAME": this.transferuhname,
       "TOUNITHOLDERID": this.transferuhid,
       "THIRDPARTYRELATIONSHIP": this.transferrelationship,
-      "FUNDPRICE" : this.nav,
-      "UNITSALLOTED" : this.unitsalloted,
-      "SALESCHARGE" : this.initialcharges,
-      "FEEPERCENTAGE" : this.feepercentage,
-      "GSTAMOUNT" : this.sst,
+      "FUNDPRICE" : this.transferNAV,
+      "UNITSALLOTED" : this.transferunits,
+      "SALESCHARGE" : this.transferinitialRM,
+      "FEEPERCENTAGE" : this.transferinitialPercentage,
+      "GSTAMOUNT" : this.transferSST,
       "Language" : selectLang.selectedLang,
       "Signature" : ""
     }
@@ -1607,9 +1607,8 @@ export class TransferswitchingComponent implements OnInit {
 
     fundid = this.switchingto;
     appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
-      if(elem.desc.toLowerCase() == this.switchingto.toLowerCase()){
-        fundid = elem.code;
-        this.receiptfundid = fundid;
+      if(elem.code.toLowerCase() == this.switchingto.toLowerCase()){
+        this.receiptfundid = elem.value;
       }
     });
 
@@ -1910,7 +1909,7 @@ export class TransferswitchingComponent implements OnInit {
       "AccountType" : accountType,
       "TransactionNumber" : this.refno,
       "AMOUNTAPPLIED": this.switchingamount,
-      "FUNDID" : this.switchingto,
+      "FUNDID" : this.switchingfrom,
       "TOFUNDID": this.receiptfundid,
       "FUNDPRICE" : this.switchingNAVTo,
       "TOFUNDPRICE": this.switchingNAVTo,
@@ -1990,8 +1989,6 @@ export class TransferswitchingComponent implements OnInit {
     let accountType = "";
     let module = "0";
 
-    this.switchingto;
-    this.actualfundid;
 
     let switchindetails = "";
     if(selectLang.selectedLang == 'ms'){
@@ -2002,7 +1999,7 @@ export class TransferswitchingComponent implements OnInit {
         accountType = "Bijak/Remaja";
         module = "16"
       }
-      switchindetails = "Penukaran daripada " + this.switchingfrom + " kepada " + this.switchingto;
+      switchindetails = "Penukaran daripada " + this.switchingfrom + " kepada " + this.receiptfundid;
     }else{
       if(appFunc.isOwn == "major"){
         accountType = "Dewasa";
@@ -2011,7 +2008,7 @@ export class TransferswitchingComponent implements OnInit {
         accountType = "Bijak/Remaja";
         module = "16"
       }
-      switchindetails = "Switching from " + this.switchingfrom + " to " + this.switchingto;
+      switchindetails = "Switching from " + this.switchingfrom + " to " + this.receiptfundid;
     }
     
 
@@ -2027,7 +2024,7 @@ export class TransferswitchingComponent implements OnInit {
       "AccountType" : accountType,
       "TransactionNumber" : this.refno,
       "AMOUNTAPPLIED": this.switchingamount,
-      "FUNDID" : this.switchingto,
+      "FUNDID" : this.switchingfrom,
       "TOFUNDID": this.receiptfundid,
       "FUNDPRICE" : this.switchingNAVTo,
       "TOFUNDPRICE": this.switchingNAVTo,
