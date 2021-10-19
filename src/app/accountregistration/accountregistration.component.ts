@@ -858,7 +858,7 @@ export class AccountregistrationComponent implements OnInit {
       "IC" : currentMyKadDetails.ICNo
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "1", JSON.stringify(emailObj)).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.AR_Form.controls.email.value, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "1", JSON.stringify(emailObj), "").then((data: any) => {
       
     });
 

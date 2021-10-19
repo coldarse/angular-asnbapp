@@ -1948,7 +1948,7 @@ export class UpdatedetailsComponent implements OnInit {
       tempEmail = currentHolder.email;
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, tempEmail, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "3", JSON.stringify(emailObj)).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, tempEmail, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "3", JSON.stringify(emailObj), "").then((data: any) => {
       // setTimeout(()=>{   
       //   if (data == true){
       //     setTimeout(()=>{   

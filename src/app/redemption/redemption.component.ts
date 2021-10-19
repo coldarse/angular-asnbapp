@@ -866,10 +866,13 @@ export class RedemptionComponent implements OnInit {
 
 
     let accountType = "";
+    let module = "0";
     if(appFunc.isOwn == "major"){
       accountType = "Dewasa";
+      module = "17";
     }else if(appFunc.isOwn == "bijak"){
       accountType = "Bijak/Remaja";
+      module = "18";
     }
 
     const objCardInfo = 
@@ -913,7 +916,7 @@ export class RedemptionComponent implements OnInit {
     signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
       if(data){
     
-        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, module, selectLang.selectedLang).then((data: any) => {
           setTimeout(()=>{   
             if (data == true){
               this.Print1_Visible = false;
@@ -999,7 +1002,7 @@ export class RedemptionComponent implements OnInit {
     appFunc.receiptFunction = "GetRedemptionTrxPrintout"
 
     
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj), this.redemptionfundname).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, module, JSON.stringify(appFunc.emailObj), this.redemptionfundname).then((data: any) => {
       
     });
 

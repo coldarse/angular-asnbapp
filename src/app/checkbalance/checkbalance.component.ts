@@ -457,7 +457,7 @@ export class CheckbalanceComponent implements OnInit {
       });
 
       if (trans.result.requeststatus.toLowerCase().includes('successful')){
-        signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
+        signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj), "").then((data: any) => {
           // setTimeout(()=>{   
           //   if (data == true){
               kActivit1.endTime = new Date();
@@ -737,7 +737,7 @@ export class CheckbalanceComponent implements OnInit {
       });
 
       if (trans.result.requeststatus.toLowerCase().includes('successful')){
-        signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetDivStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
+        signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(trans.result), accessToken.token, currentHolder.email, "GetDivStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj), "").then((data: any) => {
           // setTimeout(()=>{   
           //   if (data == true){
               kActivit1.endTime = new Date();
@@ -990,7 +990,7 @@ export class CheckbalanceComponent implements OnInit {
     kActivit1.action = "Get Fund Summary";
     kActivit1.startTime = new Date();
     
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetSummaryStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj)).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetSummaryStatementPrintout", signalrConnection.trxno, "6", JSON.stringify(emailObj), "").then((data: any) => {
       // setTimeout(()=>{   
       //   if (data == true){
       //     kActivit1.endTime = new Date();

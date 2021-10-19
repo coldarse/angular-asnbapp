@@ -1290,7 +1290,7 @@ export class PortalregistrationComponent implements OnInit {
       "IC" : currentHolder.identificationnumber
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.portalEmail, "GetPortalRegistrationPrintout", signalrConnection.trxno, "4", JSON.stringify(emailObj)).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, this.portalEmail, "GetPortalRegistrationPrintout", signalrConnection.trxno, "4", JSON.stringify(emailObj), "").then((data: any) => {
       // setTimeout(()=>{   
       //   if (data == true){
       //     setTimeout(()=>{   

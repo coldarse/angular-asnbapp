@@ -3325,22 +3325,24 @@ export class SubscriptioninvestmentComponent implements OnInit {
       }]
   
       let accountType = "";
-      if(selectLang.selectedLang == 'ms'){
-        if(appFunc.isOwn == "major"){
-          accountType = "Dewasa";
-        }else if(appFunc.isOwn == "bijak"){
-          accountType = "Bijak/Remaja";
+      let module = "";
+      if(appFunc.isOwn == "major"){
+        accountType = "Dewasa";
+        if(appFunc.isInvesment){
+          module = "9";
         }else{
-          accountType = "Pihak Ketiga";
+          module = "11";
+        }
+      }else if(appFunc.isOwn == "bijak"){
+        accountType = "Bijak/Remaja";
+        if(appFunc.isInvesment){
+          module = "10";
+        }else{
+          module = "12";
         }
       }else{
-        if(appFunc.isOwn == "major"){
-          accountType = "Dewasa";
-        }else if(appFunc.isOwn == "bijak"){
-          accountType = "Bijak/Remaja";
-        }else{
-          accountType = "Third Party";
-        }
+        accountType = "Pihak Ketiga";
+        module = "19";
       }
       
   
@@ -3375,7 +3377,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
         if(data){
       
-          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
+          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, module, selectLang.selectedLang).then((data: any) => {
             setTimeout(()=>{   
               if (data == true){
                 this.Print1_Visible = false;
@@ -3496,7 +3498,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
       
       appFunc.printing = false;
-      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj), this.fundname).then((data: any) => {
+      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, module, JSON.stringify(appFunc.emailObj), this.fundname).then((data: any) => {
         // setTimeout(()=>{   
         //   if (data == true){
         //     this.getAccountInquiry();
@@ -3591,9 +3593,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
       appFunc.receiptFunction = "GetFinancialTrxPrintout"
 
+     
       
       appFunc.printing = false;
-      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj)).then((data: any) => {
+      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, module, JSON.stringify(appFunc.emailObj), this.fundname).then((data: any) => {
         // setTimeout(()=>{   
         //   if (data == true){
         //     this.getAccountInquiry();

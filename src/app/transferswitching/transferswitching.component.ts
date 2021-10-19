@@ -1077,17 +1077,22 @@ export class TransferswitchingComponent implements OnInit {
     }]
 
     let accountType = "";
+    let module = "0";
     if(selectLang.selectedLang == 'ms'){
       if(appFunc.isOwn == "major"){
         accountType = "Dewasa";
+        module = "13"
       }else if(appFunc.isOwn == "bijak"){
         accountType = "Bijak/Remaja";
+        module = "14"
       }
     }else{
       if(appFunc.isOwn == "major"){
         accountType = "Dewasa";
+        module = "13"
       }else if(appFunc.isOwn == "bijak"){
         accountType = "Bijak/Remaja";
+        module = "14"
       }
     }
     
@@ -1122,7 +1127,7 @@ export class TransferswitchingComponent implements OnInit {
     signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
       if(data){
     
-        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, module, selectLang.selectedLang).then((data: any) => {
           setTimeout(()=>{   
             if (data == true){
               this.Print1_Visible = false;
@@ -1243,7 +1248,7 @@ export class TransferswitchingComponent implements OnInit {
     appFunc.receiptFunction = "GetTransferTrxPrintout"
 
     
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj), this.transferfunname).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, module, JSON.stringify(appFunc.emailObj), this.transferfunname).then((data: any) => {
       
     });
 
@@ -1881,19 +1886,28 @@ export class TransferswitchingComponent implements OnInit {
       "TotalAmount" : 0,
     }]
 
+
     let accountType = "";
+    let module = "0";
+    let switchindetails = "";
     if(selectLang.selectedLang == 'ms'){
       if(appFunc.isOwn == "major"){
         accountType = "Dewasa";
+        module = "15"
       }else if(appFunc.isOwn == "bijak"){
         accountType = "Bijak/Remaja";
+        module = "16"
       }
+      switchindetails = "Penukaran daripada " + this.switchingfrom + " kepada " + this.receiptfundid;
     }else{
       if(appFunc.isOwn == "major"){
         accountType = "Dewasa";
+        module = "15"
       }else if(appFunc.isOwn == "bijak"){
         accountType = "Bijak/Remaja";
+        module = "16"
       }
+      switchindetails = "Switching from " + this.switchingfrom + " to " + this.receiptfundid;
     }
     
 
@@ -1927,7 +1941,7 @@ export class TransferswitchingComponent implements OnInit {
     signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
       if(data){
     
-        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, module, selectLang.selectedLang).then((data: any) => {
           setTimeout(()=>{   
             if (data == true){
               this.Print1_Visible = false;
@@ -2051,7 +2065,7 @@ export class TransferswitchingComponent implements OnInit {
     appFunc.receiptFunction = "GetSwitchTrxPrintout"
 
     
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, "4", JSON.stringify(appFunc.emailObj), switchindetails).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, module, JSON.stringify(appFunc.emailObj), switchindetails).then((data: any) => {
       
     });
 

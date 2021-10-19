@@ -1535,7 +1535,7 @@ export class BijakregistrationComponent implements OnInit {
       "IC" : currentMyKidDetails.ICNo
     }
 
-    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "2", JSON.stringify(emailObj)).then((data: any) => {
+    signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(body), accessToken.token, currentHolder.email, "GetNonFinancialTransactionPrintout", signalrConnection.trxno, "2", JSON.stringify(emailObj), "").then((data: any) => {
       
     });
 
