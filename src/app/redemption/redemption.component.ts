@@ -734,10 +734,10 @@ export class RedemptionComponent implements OnInit {
           this.redemptionamountinclusive = result.result.amountapplied;
           this.redemptiontransactiondate = result.result.transactiondate;
           this.redemptionrefno = result.result.transactionnumber;
-          this.redemptionnav = result.result.fundprice;
-          this.redemptionunits = result.result.unitsalloted;
-          this.feepercentage = result.result.feepercentage;
-          this.initialcharges = result.result.salescharge;
+          this.redemptionnav = result.result.fundprice == "" ? 0 : result.result.fundprice;
+          this.redemptionunits = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
+          this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
+          this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
 
           if(this.feepercentage == "" || this.feepercentage == undefined || this.feepercentage == null){
             this.feepercentage = "0";
@@ -916,7 +916,7 @@ export class RedemptionComponent implements OnInit {
     signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
       if(data){
     
-        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, module, selectLang.selectedLang).then((data: any) => {
+        signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), appFunc.receiptFunction, signalrConnection.trxno, module, selectLang.selectedLang).then((data: any) => {
           setTimeout(()=>{   
             if (data == true){
               this.Print1_Visible = false;

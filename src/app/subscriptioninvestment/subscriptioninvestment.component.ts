@@ -3285,7 +3285,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
         if(data){
       
-          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
+          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), appFunc.receiptFunction, signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
             setTimeout(()=>{   
               if (data == true){
                 this.Print1_Visible = false;
@@ -3377,7 +3377,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
         if(data){
       
-          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), "GetFinancialTrxPrintout", signalrConnection.trxno, module, selectLang.selectedLang).then((data: any) => {
+          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), appFunc.receiptFunction, signalrConnection.trxno, module, selectLang.selectedLang).then((data: any) => {
             setTimeout(()=>{   
               if (data == true){
                 this.Print1_Visible = false;
