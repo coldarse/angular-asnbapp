@@ -535,7 +535,7 @@ export class AccountregistrationComponent implements OnInit {
       "DEVICEOWNER":signalrConnection.deviceOwner,
       "UNITHOLDERID":"",
       "FIRSTNAME": currentMyKadDetails.Name,
-      "IDENTIFICATIONTYPE":currentHolder.identificationtype,
+      "IDENTIFICATIONTYPE":currentMyKadDetails.CategoryType,
       "IDENTIFICATIONNUMBER":currentMyKadDetails.ICNo,
       "AGENTCODE":signalrConnection.agentCode,
       "BRANCHCODE":signalrConnection.branchCode,
