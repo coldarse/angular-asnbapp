@@ -680,6 +680,8 @@ export class RedemptionComponent implements OnInit {
     this.redemption3 = false;
     this.redemption2 = true;
 
+    this.disagreedTNC = true;
+
     setTimeout(() => {
       loadKeyboard();
     } , 1000);

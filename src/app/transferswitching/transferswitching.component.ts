@@ -765,6 +765,8 @@ export class TransferswitchingComponent implements OnInit {
     this.transfer1 = true;
     this.transfer2 = false;
 
+    this.disagreedTNC = true;
+
     setTimeout(() => {
       loadKeyboard();
     } , 1000);
@@ -1556,6 +1558,8 @@ export class TransferswitchingComponent implements OnInit {
   switching2Back(){
     this.switching1 = true;
     this.switching2 = false;
+
+    this.disagreedTNC = true;
 
     setTimeout(() => {
       loadKeyboard();

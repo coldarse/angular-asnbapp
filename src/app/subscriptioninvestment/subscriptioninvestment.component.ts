@@ -352,7 +352,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       if(appFunc.isInvesment){
         this.transaction = "Initial Investment";
       }else{
-        this.transaction = "Subscription";
+        this.transaction = "Additional Investment";
       }
     }else{
       if(appFunc.isInvesment){
@@ -436,7 +436,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       this.isSubscription = true;
       if(appFunc.isOwn == "major"){
         this.moduleid = 11;
-        this.action = "Perform Subscription for Major";
+        this.action = "Perform Additional Investment for Major";
         let tempFundDetail: any[] = [];
         currentHolder.funddetail.forEach((elem1: any) => {
           tempFundDetail.push(elem1.FUNDID);
@@ -463,7 +463,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.checkAMLA();
       }else if(appFunc.isOwn == "bijak"){
         this.moduleid = 12;
-        this.action = "Perform Subscription for Minor";
+        this.action = "Perform Additional Investment for Minor";
         this.isSubscriptionMinor = true;
         this.isBijak = true;
         this.BijakVisible = true;
@@ -471,7 +471,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       else{
 
         this.moduleid = 19;
-        this.action = "Perform Subscription for Third Party";
+        this.action = "Perform Additional Investment for Third Party";
         this.isSubscriptionThird = true;
         this.isThird = true;
         //this.checkAMLA();
@@ -574,7 +574,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   ngOnDestroy() {
     //clearInterval(this.id);
     deleteKeyboard();
-    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Subscription/Investment]" + ": " + "Cleared Interval.");
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Additional Invesment/Initial Investment]" + ": " + "Cleared Interval.");
   }
 
 
@@ -1077,6 +1077,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   SIStep3Back(){
     this.SIStep3 = false;
     this.SIStep2 = true;
+    this.disagreedTNC = true;
 
     setTimeout(() => {  
       loadKeyboard();
@@ -1232,6 +1233,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
               else {
                 this.SIStep4 = false;
                 this.SIStep2 = true;
+
+                this.disagreedTNC = true;
     
                 setTimeout(() => {  
                   loadKeyboard();
@@ -1279,6 +1282,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
               else{
                 this.SIStep4 = false;
                 this.SIStep2 = true;
+
+                this.disagreedTNC = true;
     
                 setTimeout(() => {  
                   loadKeyboard();
@@ -1353,6 +1358,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
           else{
             this.SIStep4 = false;
             this.SIStep2 = true;
+
+            this.disagreedTNC = true;
           }
         }else{
           if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
@@ -1367,6 +1374,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
           else{
             this.SIStep4 = false;
             this.SIStep2 = true;
+
+            this.disagreedTNC = true;
           }
         }
         
@@ -2422,6 +2431,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
   STPStep2Back(){
     this.STPStep2 = false;
     this.STPStep1 = true;
+
+    this.disagreedTNC = true;
   }
 
   STPStep2Next(){
@@ -2502,6 +2513,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
     else{
       this.STPStep3 = false;
       this.STPStep1 = true;
+
+      this.disagreedTNC = true;
 
       setTimeout(() => {  
         loadKeyboard();
@@ -2704,6 +2717,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.unitholderid = this.thirduhidkeyed;
           this.unitholderic = this.thirdicnokeyed;
           this.refno = result.result.transactionnumber;
+
+          this.amountKeyed = Number(this.thirdamountkeyed);
           if(selectLang.selectedLang == 'ms'){
             if(this.amountOrunit){
               this.status = "Berjaya";
