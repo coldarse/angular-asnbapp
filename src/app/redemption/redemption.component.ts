@@ -573,6 +573,9 @@ export class RedemptionComponent implements OnInit {
           this.RedemptionMaxValue = elements.minorRedemptionLimit_max;
         }
 
+        console.log(this.RedemptionMinValue);
+        console.log(this.RedemptionMaxValue);
+
         if(elements.pricingType.toString().toLowerCase() == "amount"){
           this.isHistorical = true;
         }

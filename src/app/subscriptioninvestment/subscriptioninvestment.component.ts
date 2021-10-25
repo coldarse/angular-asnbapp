@@ -189,7 +189,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   mDetails = currentHolder.minordetail;
 
   amountOrunit = false;
-
+  CCinformation : any;
 
   constructor(
     private _router: Router,
@@ -761,6 +761,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
           if(Number(this.amountKeyed) < this.InvestmentMinValue){
             this.amountWarning1 = true;
           }
+          else if(Number(this.amountKeyed) > this.InvestmentMaxValue){
+            this.amountWarning1 = true;
+          }
           else{
             this.amountWarning1 = false;
           }
@@ -770,6 +773,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.amountWarning1 = false;
         }else{
           if(Number(this.amountKeyed) < this.SubscriptionMinValue){
+            this.amountWarning1 = true;
+          }
+          else if(Number(this.amountKeyed) > this.SubscriptionMaxValue){
             this.amountWarning1 = true;
           }
           else{
@@ -1481,13 +1487,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 this.status = "Successful";
               }
               else{
-                this.status = "Pending";
+                this.status = "Processing";
               }
             }
             this.approvalcode = "Approval Code";
-            if(appFunc.isOwn = "major"){
+            if(appFunc.isOwn == "major"){
               this.accounttype = "Dewasa"
-            }else if(appFunc.isOwn = "bijak"){
+            }else if(appFunc.isOwn == "bijak"){
               this.accounttype = "Bijak/Remaja"
             }else{
               if(selectLang.selectedLang == 'ms'){
@@ -1729,6 +1735,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   "createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
                   "itemno": signalrConnection.itemNo
                 }
+
+                this.CCinformation = CCInfo;
   
                 this.serviceService.createCustCreditCardInfo(CCInfo).subscribe(() => {});
   
@@ -1800,13 +1808,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           this.status = "Successful";
                         }
                         else{
-                          this.status = "Pending";
+                          this.status = "Processing";
                         }
                       }
                       this.approvalcode = CCInfo.approvalCode;
-                      if(appFunc.isOwn = "major"){
+                      if(appFunc.isOwn == "major"){
                         this.accounttype = "Dewasa"
-                      }else if(appFunc.isOwn = "bijak"){
+                      }else if(appFunc.isOwn == "bijak"){
                         this.accounttype = "Bijak/Remaja"
                       }else{
                         if(selectLang.selectedLang == 'ms'){
@@ -2248,14 +2256,35 @@ export class SubscriptioninvestmentComponent implements OnInit {
         if(elem.code.toLowerCase() == this.thirdfundnamekeyed.toLowerCase()){
           this.fundname = elem.value;
           this.displayFundname = elem.value;
+          this.fundid = this.thirdfundnamekeyed;
         }
       });
 
+      appFunc.ASNBFundID.forEach((elements: ASNBFundID) => {
+        if(elements.code.toString().toLowerCase() == this.thirdfundnamekeyed.toLowerCase()){
+           //Subscription Third Party
+          this.SubscriptionMaxValue = elements.majorSubscriptionLimit_max;
+          this.SubscriptionMinValue = elements.majorSubscriptionLimit_min;
+          this.pdfsrc3 = "assets/SUBSCRIPTION/" + elements.iscLink + ".pdf";
+  
+          if(elements.pricingType.toString().toLowerCase() == "amount"){
+            this.amountOrunit = true;
+          }
+          else{
+            this.amountOrunit = false;
+          }
+        }
+      })
+
       if(appFunc.isInvesment){ //Investment Major
+        
         if(this.InvestmentMaxValue == 0.00 && this.InvestmentMinValue == 0.00 ){
           this.amountWarning2 = false;
         }else{
           if(Number(this.thirdamountkeyed) < this.InvestmentMinValue){
+            this.amountWarning2 = true;
+          }
+          else if(Number(this.thirdamountkeyed) > this.InvestmentMaxValue){
             this.amountWarning2 = true;
           }
           else{
@@ -2267,6 +2296,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.amountWarning2 = false;
         }else{
           if(Number(this.thirdamountkeyed) < this.SubscriptionMinValue){
+            this.amountWarning2 = true;
+          }
+          else if(Number(this.thirdamountkeyed) > this.SubscriptionMaxValue){
             this.amountWarning2 = true;
           }
           else{
@@ -2684,13 +2716,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
               this.status = "Successful";
             }
             else{
-              this.status = "Pending";
+              this.status = "Processing";
             }
           }
           this.approvalcode = formatDate(new Date(), 'dd/MM/yyyy HH:mm:ss', 'en');
-          if(appFunc.isOwn = "major"){
+          if(appFunc.isOwn == "major"){
             this.accounttype = "Dewasa"
-          }else if(appFunc.isOwn = "bijak"){
+          }else if(appFunc.isOwn == "bijak"){
             this.accounttype = "Bijak/Remaja"
           }else{
             if(selectLang.selectedLang == 'ms'){
@@ -2834,6 +2866,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   "createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
                   "itemno": signalrConnection.itemNo
                 }
+
+                this.CCinformation = CCInfo;
   
                 this.serviceService.createCustCreditCardInfo(CCInfo).subscribe(() => {});
   
@@ -2920,13 +2954,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         this.status = "Successful";
                       }
                       else{
-                        this.status = "Pending";
+                        this.status = "Processing";
                       }
                     }
                     this.approvalcode = CCInfo.approvalCode;
-                    if(appFunc.isOwn = "major"){
+                    if(appFunc.isOwn == "major"){
                       this.accounttype = "Dewasa"
-                    }else if(appFunc.isOwn = "bijak"){
+                    }else if(appFunc.isOwn == "bijak"){
                       this.accounttype = "Bijak/Remaja"
                     }else{
                       if(selectLang.selectedLang == 'ms'){
@@ -3212,10 +3246,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
       selectedUnitHolderIC = currentHolder.identificationnumber;
     }
     else{
-      selectedUnitHolder = currentBijakHolder.firstname;
-      selectedUnitHolderID = currentBijakHolder.unitholderid;
-      selectedUnitHolderIC = currentBijakHolder.identificationnumber;
+      selectedUnitHolder = this.currentBijakName;
+      selectedUnitHolderID = this.currentBijakUHID;
+      selectedUnitHolderIC = this.currentBijakIDNO;
     }
+
 
     if(signalrConnection.isHardcodedIC){
       const objCardInfo = 
@@ -3310,7 +3345,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     else{
       const objCardInfo = 
       [{
-        "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
+        "DateTime" : this.CCinformation.createDate,
         "BatchNum" : this.tempCardInfo.BatchNumber,
         "Invoice" : this.tempCardInfo.TransactionTrace,
         "MID" : this.tempCardInfo.MID,
@@ -3333,14 +3368,16 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }else{
           module = "11";
         }
-      }else if(appFunc.isOwn == "bijak"){
+      }
+      else if(appFunc.isOwn == "bijak"){
         accountType = "Bijak/Remaja";
         if(appFunc.isInvesment){
           module = "10";
         }else{
           module = "12";
         }
-      }else{
+      }
+      else{
         accountType = "Pihak Ketiga";
         module = "19";
       }
@@ -3416,10 +3453,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
       selectedUnitHolderIC = currentHolder.identificationnumber;
     }
     else{
-      selectedUnitHolder = currentBijakHolder.firstname;
-      selectedUnitHolderID = currentBijakHolder.unitholderid;
-      selectedUnitHolderIC = currentBijakHolder.identificationnumber;
+      selectedUnitHolder = this.currentBijakName;
+      selectedUnitHolderID = this.currentBijakUHID;
+      selectedUnitHolderIC = this.currentBijakIDNO;
     }
+
 
     if(signalrConnection.isHardcodedIC){
       const objCardInfo = 
@@ -3459,7 +3497,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
         module = "19";
       }
       
-
       appFunc.body = 
       {
         "Transaction" : this.transaction,
@@ -3520,7 +3557,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     }else{
       const objCardInfo = 
       [{
-        "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
+        "DateTime" : this.CCinformation.createDate,
         "BatchNum" : this.tempCardInfo.BatchNumber,
         "Invoice" : this.tempCardInfo.TransactionTrace,
         "MID" : this.tempCardInfo.MID,
@@ -3654,6 +3691,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     try{
 
       if(appFunc.isOwn == "bijak"){
+
         const body = { 
 
           "CHANNELTYPE": signalrConnection.channelType,
@@ -3662,7 +3700,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "UNITHOLDERID": "",
           "FIRSTNAME": "",
           "IDENTIFICATIONTYPE": "W",
-          "IDENTIFICATIONNUMBER": currentMyKidDetails.ICNo,
+          "IDENTIFICATIONNUMBER": this.currentBijakIDNO,
           "FUNDID": "",
           "INQUIRYCODE": "9",
           "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),

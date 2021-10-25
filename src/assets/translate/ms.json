@@ -294,7 +294,7 @@
 	"ARMessage1_1" : "Peringatan",
 	"ARMessage1_2" : "Sila pastikan anda membuat pelaburan permulaan dalam tempoh ENAM BULAN dari tarikh pendaftaran akaun. Terima Kasih.",
 	"NoticeMsg1" : "Sila pastikan nombor telefon bimbit yang tertera dibawah adalah berstatus aktif. Jika tidak, sila kemas kini nombor telefon bimbit anda sebelum meneruskan pendaftaran Portal myASNB. Sebarang pertanyaan, sila rujuk pegawai ASNB yang bertugas.",
-	"Financial_Transaction_Menu_Header_Title": "MENU TRANSAKSI KEWANGAN",
+	"Financial_Transaction_Menu_Header_Title": "TRANSAKSI KEWANGAN",
 	"FM_1": "Pelaburan Tambahan",
 	"FM_2": "Pelaburan Permulaan",
 	"FM_3": "Pemindahan & Penukaran",
@@ -446,7 +446,7 @@
 	"MinimumCriteria": "Kriteria Minimum",
 	"AdditionalInformationSOF": "Maklumat yang diminta adalah diperlukan oleh ASNB untuk mematuhi peraturan di bawah AMLA 2001.",
 	"ThirdICTypeWarning": "Sila pilih jenis ID.",
-	"OtherSource": "Sumber Tana",
-	"OthWarning": "Sila isikan SUmber Tana",
+	"OtherSource": "Sumber Dana",
+	"OthWarning": "Sila isikan Sumber Dana",
 	"TNC_6halfhalf": "Prospektus ASN Equity Global"
 }

@@ -80,7 +80,7 @@ const Keyboard = {
             "%","q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "*",
             "caps", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter",
             "!","_", "z", "x", "c", "v", "b", "n", "m", ",", ".", "@", 
-            "done", "clear", "space", "tab", "-", "$"
+            "done", "clear", "/", "space", "tab", "-", "$"
         ];
 
         // Creates HTML for an icon
@@ -260,6 +260,9 @@ const Keyboard = {
         else if(element.tagname.toLowerCase().includes('switchamount')){
             element.value = element.value.replace(/[^\d.-]/g, '');
         }
+        else if(element.tagname.toLowerCase().includes('thirdicno')){
+            element.value = element.value.replace(/[^\d.-]/g, '');
+        }
     },
 
     
@@ -281,6 +284,9 @@ const Keyboard = {
         }
         else if(element.tagname.toLowerCase().includes('compname')){
             element.value = element.value.replace('&', '');
+        }
+        else if(element.tagname.toLowerCase().includes('thirdicno')){
+            element.value = element.value.replace(/[$-/:-?{-~!"^_`\[\]@]/, '');
         }
     },
 
@@ -328,6 +334,9 @@ const Keyboard = {
         }
         else if(element.tagname.toLowerCase().includes('newpass2')){
             max_chars = 20;
+        }
+        else if(element.tagname.toLowerCase().includes('thirdicno')){
+            max_chars = 13;
         }
         
         if(element.value.length >= max_chars) {
