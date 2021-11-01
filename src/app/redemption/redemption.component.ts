@@ -771,15 +771,17 @@ export class RedemptionComponent implements OnInit {
 
           let module = "";
           if(appFunc.isOwn == "major"){
-            module = "15";
+            module = "17";
           }else if(appFunc.isOwn == "bijak"){
-            module = "16";
+            module = "18";
           }
+
+          console.log("ItemNo: " + signalrConnection.itemNo);
+          console.log("ItemNo: " + signalrConnection.itemNo + 1);
 
           const FTBody =
           {
             "trxNo": signalrConnection.trxno,
-            //"kioskID": signalrConnection.kioskID,
             "kioskCode": signalrConnection.kioskCode,
             "unitHolderID": result.result.unitholderid,
             "firstName": result.result.firstname,
@@ -812,24 +814,12 @@ export class RedemptionComponent implements OnInit {
             "thirdPartyName": "",
             "thirdPartyICNumber": "",
             "thirdPartyRelationship": "",
-            // "thirdPartyInvestment": result.result.thirdpartyinvestment,
-            // "thirdPartyName": result.result.thirdpartyname,
-            // "thirdPartyICNumber": result.result.thirdpartyicnumber,
-            //"thirdPartyRelationship": result1.result.thirdpartyrelationship,
-            //"reasonForTransfer": result1.result.reasonfortransfer,
-            //"reasonForTransfer": "",
             "sourceOfFund": "",
             "otherSourceOfFund": "",
             "funderName": "",
-            //"transactionStatus": result1.result.transactionstatus,
-            //"transactionNumber": "",
             "taxInvoiceNumber": "",
-            // "sourceOfFund": result.result.sourceoffund,
-            // "otherSourceOfFund": result.result.othersourceoffund,
-            // "funderName": result.result.fundname,
             "transactionStatus": result.result.transactionstatus,
             "transactionNumber": result.result.transactionnumber,
-            // "taxInvoiceNumber": result.result.taxinvoicenumber,
             "confirmedUnits": "",
             "unitBalance": "",
             "operation": "",
