@@ -58,6 +58,8 @@ export class TransferswitchingComponent implements OnInit {
   moduleid = 0;
   action = "";
 
+  isGetInfo = false;
+
   Print_Visible = true;
   Email_Visible = true;
 
@@ -673,107 +675,184 @@ export class TransferswitchingComponent implements OnInit {
     this.transferswitching = true;
     this.transferswitching1 = true;
     this.fundAvailable = [];
+    this.isGetInfo = false;
     deleteKeyboard();
   }
 
   transfer1Next(){
-    this.Form_1.controls.uhid.setValue(this.tuhid?.nativeElement.value);
-    this.Form_1.controls.uhname.setValue(this.tuhname?.nativeElement.value);
-    this.Form_1.controls.uhic.setValue(this.tuhic?.nativeElement.value);
-    this.Form_1.controls.amount.setValue(this.tamount?.nativeElement.value);
 
-    this.uhidWarning = false;
-    this.uhnameWarning = false;
-    this.uhictypeWarning = false;
-    this.uhicWarning = false;
-    this.transferamountWarning = false;
-    this.transferreasonWarning = false;
-    this.transferrelationshipWarning = false;
-    this.amountWarning1 = false;
+    if(this.isGetInfo == false){
+      this.Form_1.controls.uhic.setValue(this.tuhic?.nativeElement.value);
 
-    
-    let x = 0;
-    Object.keys(this.Form_1.controls).forEach(key => {
-      if (this.Form_1.controls[key].hasError('required')){
-        x += 1;
-        if(key.includes('uhid')){
-          this.uhidWarning = true;
-        }
-        else if(key.includes('uhname')){
-          this.uhnameWarning = true;
-        }
-        else if(key.includes('ictype')){
-          this.uhictypeWarning = true;
-        }
-        else if(key.includes('uhic')){
-          this.uhicWarning = true;
-        }
-        else if(key.includes('amount')){
-          this.transferamountWarning = true;
-        }
-        else if(key.includes('reason')){
-          this.transferreasonWarning = true;
-        }
-        else if(key.includes('relationship')){
-          this.transferrelationshipWarning = true;
-        }
-      }
-    });
-    if (x > 0){
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
-    }else{
+      this.uhictypeWarning = false;
+      this.uhicWarning = false;
 
-      
-      if(this.TransferMinValue == 0.00 && this.TransferMaxValue == 0.00){
-        this.amountWarning1 = false;
-      }
-      else{
-        if(Number(this.Form_1.controls.amount.value) < this.TransferMinValue || Number(this.Form_1.controls.amount.value) > this.TransferMaxValue){
-          this.amountWarning1 = true;
+      let x = 0;
+      Object.keys(this.Form_1.controls).forEach(key => {
+        if (this.Form_1.controls[key].hasError('required')){
+          
+          if(key.includes('ictype')){
+            x += 1;
+            this.uhictypeWarning = true;
+          }
+          else if(key.includes('uhic')){
+            x += 1;
+            this.uhicWarning = true;
+          }
         }
-        else{
-          this.amountWarning1 = false;
-        }
-      }
-
-      if(this.amountWarning1 == false){
-        this.transfer1 = false;
-        this.transfer2 = true;
-  
-        this.transferuhid = this.Form_1.controls.uhid.value;
-        this.transferuhname = this.Form_1.controls.uhname.value;
+      });
+      if (x > 0){
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
+      }else{
         this.transferuhictype = this.Form_1.controls.ictype.value;
         this.transferuhic = this.Form_1.controls.uhic.value;
-        this.transferreason = this.Form_1.controls.reason.value;
-        this.transferrelationship = this.Form_1.controls.relationship.value;
-        this.transferamount = this.Form_1.controls.amount.value;
+
+        const body = { 
+
+          "CHANNELTYPE": signalrConnection.channelType,
+          "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+          "DEVICEOWNER": signalrConnection.deviceOwner,
+          "UNITHOLDERID": "",
+          "FIRSTNAME": "",
+          "IDENTIFICATIONTYPE": this.transferuhictype,
+          "IDENTIFICATIONNUMBER": this.transferuhic,
+          "FUNDID": "",
+          "INQUIRYCODE": "9",
+          "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+          "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
+          "BANKCUSTPHONENUMBER": "",
+          "FILTRATIONFLAG": "1",
+          "GUARDIANID": "",
+          "GUARDIANICTYPE": "",
+          "GUARDIANICNUMBER": ""
   
-        this.reason.forEach((element: reasonTransfer) => {
-          if(element.code == this.transferreason){
-            this.displayReason = element.desc;
-          }
+         };
+  
+  
+    
+        this.serviceService.getAccountInquiry(body)
+          .subscribe((result: any) => {
+            if(result.transactionstatus.toLowerCase().includes('successful')){
+              this.Form_1.controls.uhid.setValue(result.unitholderid);
+              this.Form_1.controls.uhname.setValue(result.firstname);
+  
+              this.Form_1.controls.ictype.disable();
+              this.Form_1.controls.uhic.disable();
+              this.Form_1.controls.uhid.disable();
+              this.Form_1.controls.uhname.disable();
+
+              this.isGetInfo = true;
+            }else{
+              this.Form_1.controls.uhic.setValue("");
+              this.Form_1.controls.ictype.setValue("");
+              this.uhicWarning = true;
+              this.uhictypeWarning = true;
+            }
+            
         });
+      
+      }
+    }
+    else{
+      this.Form_1.controls.uhid.setValue(this.tuhid?.nativeElement.value);
+      this.Form_1.controls.uhname.setValue(this.tuhname?.nativeElement.value);
+      this.Form_1.controls.uhic.setValue(this.tuhic?.nativeElement.value);
+      this.Form_1.controls.amount.setValue(this.tamount?.nativeElement.value);
   
-        this.relationship.forEach((elem: thirdpartyRelationship) => {
-          if(elem.code == this.transferrelationship){
-            this.displayRelationship = elem.desc;
+      this.uhidWarning = false;
+      this.uhnameWarning = false;
+      this.uhictypeWarning = false;
+      this.uhicWarning = false;
+      this.transferamountWarning = false;
+      this.transferreasonWarning = false;
+      this.transferrelationshipWarning = false;
+      this.amountWarning1 = false;
+  
+      
+      let x = 0;
+      Object.keys(this.Form_1.controls).forEach(key => {
+        if (this.Form_1.controls[key].hasError('required')){
+          x += 1;
+          if(key.includes('uhid')){
+            this.uhidWarning = true;
           }
-        });
+          else if(key.includes('uhname')){
+            this.uhnameWarning = true;
+          }
+          else if(key.includes('ictype')){
+            this.uhictypeWarning = true;
+          }
+          else if(key.includes('uhic')){
+            this.uhicWarning = true;
+          }
+          else if(key.includes('amount')){
+            this.transferamountWarning = true;
+          }
+          else if(key.includes('reason')){
+            this.transferreasonWarning = true;
+          }
+          else if(key.includes('relationship')){
+            this.transferrelationshipWarning = true;
+          }
+        }
+      });
+      if (x > 0){
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
+      }else{
   
-        if(appFunc.isOwn == "major"){
-          this.transferfrom = currentHolder.unitholderid;
-          this.transferfromName = currentHolder.firstname;
-        }else{
-          this.transferfrom = currentBijakHolder.unitholderid;
-          this.transferfromName = currentBijakHolder.firstname;
+        
+        if(this.TransferMinValue == 0.00 && this.TransferMaxValue == 0.00){
+          this.amountWarning1 = false;
+        }
+        else{
+          if(Number(this.Form_1.controls.amount.value) < this.TransferMinValue || Number(this.Form_1.controls.amount.value) > this.TransferMaxValue){
+            this.amountWarning1 = true;
+          }
+          else{
+            this.amountWarning1 = false;
+          }
         }
   
-        this.transferfunname = this.actualfundname;
-        
+        if(this.amountWarning1 == false){
+          this.transfer1 = false;
+          this.transfer2 = true;
+    
+          this.transferuhid = this.Form_1.controls.uhid.value;
+          this.transferuhname = this.Form_1.controls.uhname.value;
+          this.transferuhictype = this.Form_1.controls.ictype.value;
+          this.transferuhic = this.Form_1.controls.uhic.value;
+          this.transferreason = this.Form_1.controls.reason.value;
+          this.transferrelationship = this.Form_1.controls.relationship.value;
+          this.transferamount = this.Form_1.controls.amount.value;
+    
+          this.reason.forEach((element: reasonTransfer) => {
+            if(element.code == this.transferreason){
+              this.displayReason = element.desc;
+            }
+          });
+    
+          this.relationship.forEach((elem: thirdpartyRelationship) => {
+            if(elem.code == this.transferrelationship){
+              this.displayRelationship = elem.desc;
+            }
+          });
+    
+          if(appFunc.isOwn == "major"){
+            this.transferfrom = currentHolder.unitholderid;
+            this.transferfromName = currentHolder.firstname;
+          }else{
+            this.transferfrom = currentBijakHolder.unitholderid;
+            this.transferfromName = currentBijakHolder.firstname;
+          }
+    
+          this.transferfunname = this.actualfundname;
+          
+    
+          deleteKeyboard();
+        }
   
-        deleteKeyboard();
       }
-
     }
   }
 
@@ -1555,8 +1634,7 @@ export class TransferswitchingComponent implements OnInit {
       }
 
       if(this.amountWarning2 == false){
-        this.switching1 = false;
-        this.switching2 = true;
+        
 
 
         this.switchinguhid = this.unitholderid;
@@ -1564,6 +1642,15 @@ export class TransferswitchingComponent implements OnInit {
         this.switchingto = this.Form_2.controls.fundname.value;
         this.switchingamount = this.Form_2.controls.amount.value;
 
+
+        appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
+          if(elem.code.toLowerCase() == this.switchingto.toLowerCase()){
+            this.receiptfundid = elem.value;
+          }
+        });
+
+        this.switching1 = false;
+        this.switching2 = true;
         
         deleteKeyboard();
       }

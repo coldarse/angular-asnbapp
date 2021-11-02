@@ -760,8 +760,8 @@ export class VerifymykadComponent implements OnInit {
                   // (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
                   // (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
                   // (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
-                  (currentHolder.email == "" || currentHolder.email == undefined) ||
-                  (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined) ||
+                  (currentHolder.email == "" || currentHolder.email == undefined || currentHolder.email == "NA") ||
+                  (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined || currentHolder.cellphonenumber == "NA") ||
                   (currentHolder.preferredmailmode == "" || currentHolder.preferredmailmode == undefined) ||
                   (currentHolder.bankcode == "" || currentHolder.bankcode == undefined) ||
                   (currentHolder.accountnumber == "" || currentHolder.accountnumber == undefined) 
@@ -949,8 +949,8 @@ export class VerifymykadComponent implements OnInit {
                           // (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
                           // (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
                           // (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
-                          (currentHolder.email == "" || currentHolder.email == undefined) ||
-                          (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined) ||
+                          (currentHolder.email == "" || currentHolder.email == undefined || currentHolder.email == "NA") ||
+                          (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined || currentHolder.cellphonenumber == "NA") ||
                           (currentHolder.preferredmailmode == "" || currentHolder.preferredmailmode == undefined) ||
                           (currentHolder.bankcode == "" || currentHolder.bankcode == undefined) ||
                           (currentHolder.accountnumber == "" || currentHolder.accountnumber == undefined) 

@@ -316,30 +316,6 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
-                    {{'ARSuccess_5' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="touhid" id="touhid" class="use-keyboard-input" [formControl]='Form_1.controls["uhid"]' #tuhid>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhidWarning">{{'ThirdUHIDWarning' | translate}}</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'UHName' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="touhname" id="touhname" class="use-keyboard-input" [formControl]='Form_1.controls["uhname"]' #tuhname>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhnameWarning">{{'ThirdNameWarning' | translate}}</div>
-            </div>
-        </div>
-        <div class="row" style="padding-top:2rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
                     {{'ICType' | translate}}
                 </h4>
             </div>
@@ -353,7 +329,7 @@
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhictypeWarning">{{'ThirdICTypeWarning' | translate}}</div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="padding-bottom: 2rem;">
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
@@ -365,7 +341,33 @@
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhicWarning">{{'ThirdICWarning' | translate}}</div>
             </div>
         </div>
-        <div class="row">
+
+
+        <div class="row" *ngIf="isGetInfo">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ARSuccess_5' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="touhid" id="touhid" class="use-keyboard-input" [formControl]='Form_1.controls["uhid"]' #tuhid>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhidWarning">{{'ThirdUHIDWarning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row" *ngIf="isGetInfo">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'UHName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="touhname" id="touhname" class="use-keyboard-input" [formControl]='Form_1.controls["uhname"]' #tuhname>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhnameWarning">{{'ThirdNameWarning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row" *ngIf="isGetInfo">
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
@@ -382,7 +384,7 @@
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferreasonWarning">{{'SourceOfFundWarning' | translate}}</div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="isGetInfo">
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
@@ -399,7 +401,7 @@
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferrelationshipWarning">{{'ThirdRelationshipWarning' | translate}}</div>
             </div>
         </div>
-        <div class="row" style="padding-bottom: 2rem;">
+        <div class="row" style="padding-bottom: 2rem;" *ngIf="isGetInfo">
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
@@ -929,7 +931,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
-                    {{'SwitchTo' | translate}} - {{'ARSuccess_5' | translate}}
+                    {{'SwitchTo' | translate}} - {{'CBTH_1' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -1011,7 +1013,7 @@
    
     <div class="text-center" style="padding-top:3rem">
         <h2>
-            {{'Switching' | translate}}
+            {{'Switching2' | translate}}
         </h2>
     </div>
     <div class="text-center">
@@ -1027,7 +1029,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
-                    {{'FundName' | translate}}
+                    {{'CB2_2' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -1071,7 +1073,7 @@
             </div>
             <div class="col-md-6">
                 <h4>
-                    : {{ switchingto }}
+                    : {{ receiptfundid }}
                 </h4>
             </div>
         </div>
@@ -1130,7 +1132,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
-                    {{'FundName' | translate}}
+                    {{'CB2_2' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
