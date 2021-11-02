@@ -193,6 +193,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   requeryInfo: any;
 
+  id: any; 
+
   
   constructor(
     private _router: Router,
@@ -488,6 +490,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
         
       }
     }
+
+    if (!signalrConnection.isHardcodedIC){
+      this.id = setInterval(() => {
+        this.DetectMyKad();
+      }, 1000);
+    }
   }
 
   sourceOnChange(event: any, isThird: boolean){
@@ -575,11 +583,20 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    //clearInterval(this.id);
+    clearInterval(this.id);
     deleteKeyboard();
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Additional Invesment/Initial Investment]" + ": " + "Cleared Interval.");
   }
 
+  DetectMyKad() {
+    signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
+      signalrConnection.cardDetect = data;
+      if(signalrConnection.cardDetect != true){
+        this._router.navigate(['feedbackscreen']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
+      }
+    });
+  }
 
   initializeForm1(){
     this.Form_1 = this.fb.group({

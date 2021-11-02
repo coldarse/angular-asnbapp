@@ -167,6 +167,7 @@ export class TransferswitchingComponent implements OnInit {
   transferDisabled = false;
   switchDisabled = false;
 
+  id: any; 
 
   constructor(
     private router: Router,
@@ -404,6 +405,11 @@ export class TransferswitchingComponent implements OnInit {
       this.BijakVisible = true;
     }
 
+    if (!signalrConnection.isHardcodedIC){
+      this.id = setInterval(() => {
+        this.DetectMyKad();
+      }, 1000);
+    }
     
   }
 
@@ -425,12 +431,22 @@ export class TransferswitchingComponent implements OnInit {
     }
   }
 
+  DetectMyKad() {
+    signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
+      signalrConnection.cardDetect = data;
+      if(signalrConnection.cardDetect != true){
+        this.router.navigate(['feedbackscreen']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
+      }
+    });
+  }
+
   Back(){
     this.router.navigate(['financialtransactionmenu']);
   }
 
   ngOnDestroy() {
-    //clearInterval(this.id);
+    clearInterval(this.id);
     deleteKeyboard();
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transfer/Switching]" + ": " + "Cleared Interval.");
   }

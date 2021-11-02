@@ -120,6 +120,8 @@ export class RedemptionComponent implements OnInit {
   moduleid = 0;
   action = "";
 
+  id: any; 
+
   constructor(
     private router: Router,
     private translate: TranslateService,
@@ -261,6 +263,22 @@ export class RedemptionComponent implements OnInit {
       }
       
     }
+
+    if (!signalrConnection.isHardcodedIC){
+      this.id = setInterval(() => {
+        this.DetectMyKad();
+      }, 1000);
+    }
+  }
+
+  DetectMyKad() {
+    signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
+      signalrConnection.cardDetect = data;
+      if(signalrConnection.cardDetect != true){
+        this.router.navigate(['feedbackscreen']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
+      }
+    });
   }
 
   RemoveElementFromStringArray(element: string, fundArray: any[]) {
@@ -297,7 +315,7 @@ export class RedemptionComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    //clearInterval(this.id);
+    clearInterval(this.id);
     deleteKeyboard();
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Redemption]" + ": " + "Cleared Interval.");
   }

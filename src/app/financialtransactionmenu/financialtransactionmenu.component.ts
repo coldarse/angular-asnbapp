@@ -55,6 +55,8 @@ export class FinancialtransactionmenuComponent implements OnInit {
   redemptionMinorNotClicked = true;
   subscriptionThirdNotClicked = true;
 
+  id: any; 
+
   constructor(
     private translate: TranslateService,
     private _router: Router
@@ -343,6 +345,27 @@ export class FinancialtransactionmenuComponent implements OnInit {
       }
     }
 
+    if (!signalrConnection.isHardcodedIC){
+      this.id = setInterval(() => {
+        this.DetectMyKad();
+      }, 1000);
+    }
+
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.id);
+    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Cleared Interval.");
+  }
+
+  DetectMyKad() {
+    signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
+      signalrConnection.cardDetect = data;
+      if(signalrConnection.cardDetect != true){
+        this._router.navigate(['feedbackscreen']);
+        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
+      }
+    });
   }
 
   isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {
