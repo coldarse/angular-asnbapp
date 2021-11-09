@@ -11,8 +11,8 @@
                 <label class="upStyle col-sm-12" *ngIf="isSubscription">{{ 'Subscription' | translate }}</label>
                 <label class="upStyle col-sm-12" *ngIf="isInvestment">{{ 'Investment' | translate }}</label>
                 <!-- <label class="downStyle col-sm-12" *ngIf="isOwn">{{ 'Own' | translate }}</label> -->
-                <label class="downStyle col-sm-12" *ngIf="isBijak">{{ 'Bijak' | translate }}</label>
-                <label class="downStyle col-sm-12" *ngIf="isThird">{{ 'Third' | translate }}</label>
+                <!-- <label class="downStyle col-sm-12" *ngIf="isBijak">{{ 'Bijak' | translate }}</label> -->
+                <!-- <label class="downStyle col-sm-12" *ngIf="isThird">{{ 'Third' | translate }}</label> -->
             </div>
         </div>
 
@@ -500,7 +500,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
-                    {{'ICType' | translate}}
+                    {{'ICType1' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -523,6 +523,7 @@
             <div class="col-md-6">
                 <input type="text" style="width: 85%;" name="thirdicno" id="thirdicno" class="use-keyboard-input" [formControl]='Form_3.controls["icno"]' #thirdicno>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdicnoWarning">{{'ThirdICWarning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNotExist">{{'uhNotExist' | translate}}</div>
             </div>
         </div>
 
@@ -532,7 +533,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
-                    {{'CB2_6' | translate}}
+                    {{'CB2_6_1' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -544,7 +545,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-5">
                 <h4>
-                    {{'CB2_2' | translate}}
+                    {{'CB2_2_1' | translate}}
                 </h4>
             </div>
             <div class="col-md-6">
@@ -619,7 +620,7 @@
     </div>
 
 
-    <div style="display:grid; place-items: center; padding-top: 2rem;">
+    <div style="display:grid; place-items: center; padding-top: 2rem;" *ngIf="isGetInfo">
         <div style="width: 1200px">
             <p>1. {{'SIStep2_1' | translate}}</p>
             <p>2. {{'SIStep2_2' | translate}}</p>
@@ -628,7 +629,7 @@
         </div>
     </div>
 
-    <div class="row text-center" style="padding-top: 1rem;">
+    <div class="row text-center" style="padding-top: 1rem;" *ngIf="isGetInfo">
         <!-- <div class="col-md-1">
 
         </div> -->

@@ -1413,6 +1413,7 @@ export class BijakregistrationComponent implements OnInit {
   }
 
   ClickProspectus(){
+    this.pdfsrc = "assets/ASNB_MasterProspectus.pdf";
     this.ASNBProspectus = true;
     this.ispopup = true;
   }
@@ -1455,6 +1456,18 @@ export class BijakregistrationComponent implements OnInit {
   NextASNEquityGlobal(){
     this.ASNEquityGlobal = false;
     this.ispopup = false;
+  }
+
+  ClickSupplementaryProspectus(){
+    this.pdfsrc = "assets/ASNB_Supplementary_Prospectus.pdf";
+    this.ASNBProspectus = true;
+    this.ispopup = true;
+  }
+
+  ClickSupplementaryFundProspectus(){
+    this.pdfsrc = "assets/ASN_IMBANG_3_GLOBAL_SUPPLEMENTARY_PROSPECTUS.pdf";
+    this.ASNBProspectus = true;
+    this.ispopup = true;
   }
 
   Print(){

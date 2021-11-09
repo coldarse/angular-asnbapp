@@ -266,6 +266,18 @@ export class ServiceService {
     )
   }
 
+  postRequery(body: any)
+  {
+    return this.http.post(
+      this.url + "services/app/OpenAPI/ReQuery",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
   //Post AMLA
   postAMLA(body: any)
   {

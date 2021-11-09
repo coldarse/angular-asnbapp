@@ -109,7 +109,7 @@
 	"TNC_13":"Dengan ini saya mengesahkan bahawa saya telah membaca, memahami dan bersetuju dengan syarat-syarat yang telah ditetapkan.",
 	"ARSuccess_1":"Pengesahan Pendaftaran",
 	"ARSuccess_2":"Pendaftaran anda berjaya.",
-	"ARSuccess_3":"Nama",
+	"ARSuccess_3":"Nama Pemegang Unit",
 	"ARSuccess_5":"ID Pemegang Unit",
 	"ARSuccess_7":"Tarikh Pendaftaran",
 	"ARSuccess_9":"Jenis Akaun",
@@ -151,8 +151,10 @@
 	"CB1_3":"Akaun Bijak/Remaja",
 	"CB2_1":"Penyata Pegangan Pelaburan",
 	"CB2_2":"Nama Pemegang Unit",
+	"CB2_2_1":"Nama Pihak Ketiga",
 	"CB2_4":"No. MyKad",
 	"CB2_6":"ID Pemegang Unit",
+	"CB2_6_1":"ID Pihak Ketiga",
 	"CB2_8":"Baki Keseluruhan",
 	"CBTH_1":"Unit Amanah",
 	"CBTH_2":"Pelaburan Tunai",
@@ -353,6 +355,7 @@
 	"FWarning": "Sila isikan Nama Pemberi Dana.",
 	"Third": "AKAUN PIHAK KETIGA",
 	"ICType": "Jenis ID Pemegang Unit",
+	"ICType1": "Jenis ID Pihak Ketiga",
 	"ReasonForTransfer": "Tujuan Pemindahan",
 	"ThirdPartyDetails": "+ Maklumat Akaun Pihak Ketiga",
 	"TransferSwitching": "PEMINDAHAN & PENUKARAN",
@@ -452,5 +455,9 @@
 	"ThirdICTypeWarning": "Sila pilih jenis ID.",
 	"OtherSource": "Sumber Dana",
 	"OthWarning": "Sila isikan Sumber Dana",
-	"TNC_6halfhalf": "Prospektus ASN Equity Global"
+	"TNC_6halfhalf": "Prospektus ASN Equity Global",
+	"uhNotExist": "Pemegang Unit dengan No. IC ini tidak wujud.",
+	"uhNoFund": "Pemegang Unit tidak mempunyai dana yang telah dipilih untuk Pemindahan.",
+	"SupplementaryProspectus": "Prospektus IndukTambahan ASNB",
+	"SupplementaryProspectusForFund" : "Prospektus Tambahan ASN Imbang 3 Global"
 }

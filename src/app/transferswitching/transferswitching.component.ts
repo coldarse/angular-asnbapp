@@ -48,6 +48,9 @@ export class TransferswitchingComponent implements OnInit {
   ispopup = false;
   isHistorical = false;
 
+  uhNotExist = false;
+  uhNoFund = false;
+
   transferswitching1 = false;
   transferswitching = false;
   istransfer = false;
@@ -70,7 +73,7 @@ export class TransferswitchingComponent implements OnInit {
   initialcharges = 0;
   feepercentage = "";
 
-  disagreedTNC = true;
+  disagreedTNC = false;
 
   uhidWarning = false;
   uhnameWarning = false;
@@ -168,6 +171,8 @@ export class TransferswitchingComponent implements OnInit {
 
   transferDisabled = false;
   switchDisabled = false;
+
+  selectedFundID = "";
 
   id: any; 
 
@@ -628,6 +633,8 @@ export class TransferswitchingComponent implements OnInit {
       this.transaction = "Pemindahan";
     }
 
+    this.selectedFundID = fund.FUNDID;
+
     appFunc.ASNBFundID.forEach((elements: ASNBFundID) => {
       if(elements.code.toString().toLowerCase() == fund.FUNDID.toLowerCase()){
         if(appFunc.isOwn == "major"){
@@ -676,6 +683,19 @@ export class TransferswitchingComponent implements OnInit {
     this.transferswitching1 = true;
     this.fundAvailable = [];
     this.isGetInfo = false;
+
+    this.uhidWarning = false;
+    this.uhnameWarning = false;
+    this.uhictypeWarning = false;
+    this.uhicWarning = false;
+    this.transferamountWarning = false;
+    this.transferreasonWarning = false;
+    this.transferrelationshipWarning = false;
+    this.amountWarning1 = false;
+    this.uhNoFund = false;
+    this.uhNotExist = false;
+    this.disagreedTNC = false;
+    
     deleteKeyboard();
   }
 
@@ -686,6 +706,8 @@ export class TransferswitchingComponent implements OnInit {
 
       this.uhictypeWarning = false;
       this.uhicWarning = false;
+      this.uhNoFund = false;
+      this.uhNotExist = false;
 
       let x = 0;
       Object.keys(this.Form_1.controls).forEach(key => {
@@ -706,6 +728,7 @@ export class TransferswitchingComponent implements OnInit {
       }else{
         this.transferuhictype = this.Form_1.controls.ictype.value;
         this.transferuhic = this.Form_1.controls.uhic.value;
+        this.disagreedTNC = true;
 
         const body = { 
 
@@ -734,20 +757,41 @@ export class TransferswitchingComponent implements OnInit {
         this.serviceService.getAccountInquiry(body)
           .subscribe((result: any) => {
             if(result.transactionstatus.toLowerCase().includes('successful')){
-              this.Form_1.controls.uhid.setValue(result.unitholderid);
-              this.Form_1.controls.uhname.setValue(result.firstname);
-  
-              this.Form_1.controls.ictype.disable();
-              this.Form_1.controls.uhic.disable();
-              this.Form_1.controls.uhid.disable();
-              this.Form_1.controls.uhname.disable();
 
-              this.isGetInfo = true;
+              let isFund = false;
+              result.funddetail.forEach((element: any) => {
+                if(element.FUNDID == this.selectedFundID){
+                  isFund = true;
+                }
+              });
+
+              if(isFund){
+                this.Form_1.controls.uhid.setValue(result.unitholderid);
+                this.Form_1.controls.uhname.setValue(result.firstname);
+    
+                this.Form_1.controls.ictype.disable();
+                this.Form_1.controls.uhic.disable();
+                this.Form_1.controls.uhid.disable();
+                this.Form_1.controls.uhname.disable();
+  
+                this.isGetInfo = true;
+              }
+              else{
+                this.disagreedTNC = false;
+                this.Form_1.controls.uhic.setValue("");
+                this.Form_1.controls.ictype.setValue("");
+                // this.uhicWarning = true;
+                // this.uhictypeWarning = true;
+                this.uhNoFund = true;
+              }
+              
             }else{
+              this.disagreedTNC = false;
               this.Form_1.controls.uhic.setValue("");
               this.Form_1.controls.ictype.setValue("");
-              this.uhicWarning = true;
-              this.uhictypeWarning = true;
+              // this.uhicWarning = true;
+              // this.uhictypeWarning = true;
+              this.uhNotExist = true;
             }
             
         });

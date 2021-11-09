@@ -94,7 +94,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   Print_Visible = true;
   Email_Visible = true;
 
-  disagreedTNC = true;
+  disagreedTNC = false;
 
   amountWarning = false;
   amountWarning1 = false;
@@ -167,6 +167,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
   InvestmentMaxValue = 0.00;
   SubscriptionMinValue = 0.00;
   SubscriptionMaxValue = 0.00;
+
+  uhNotExist = false;
 
   Form_1: any;
   Form_2: any;
@@ -1507,21 +1509,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             this.unitholderid = uhid;
             this.unitholderic = icno;
             this.refno = result.result.transactionnumber;
-            if(selectLang.selectedLang == 'ms'){
-              if(this.amountOrunit){
-                this.status = "Berjaya";
-              }
-              else{
-                this.status = "Diproses";
-              }
-            }else{
-              if(this.amountOrunit){
-                this.status = "Successful";
-              }
-              else{
-                this.status = "Processing";
-              }
-            }
+         
             this.approvalcode = "Approval Code";
             if(appFunc.isOwn == "major"){
               this.accounttype = "Dewasa"
@@ -1543,6 +1531,24 @@ export class SubscriptioninvestmentComponent implements OnInit {
             this.SIStep6 = true;
 
             this.isHistorical = this.isBefore4pm();
+
+            if(selectLang.selectedLang == 'ms'){
+              if(this.amountOrunit){
+                this.status = "Berjaya";
+              }
+              else{
+                this.status = "Diproses";
+                this.isHistorical = false;
+              }
+            }else{
+              if(this.amountOrunit){
+                this.status = "Successful";
+              }
+              else{
+                this.status = "Processing";
+                this.isHistorical = false;
+              }
+            }
 
             if (currentHolder.email == ""){
               this.Email_Visible = false;
@@ -1769,21 +1775,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       this.unitholderid = uhid;
                       this.unitholderic = icno;
                       this.refno = result.result.transactionnumber;
-                      if(selectLang.selectedLang == 'ms'){
-                        if(this.amountOrunit){
-                          this.status = "Berjaya";
-                        }
-                        else{
-                          this.status = "Diproses";
-                        }
-                      }else{
-                        if(this.amountOrunit){
-                          this.status = "Successful";
-                        }
-                        else{
-                          this.status = "Processing";
-                        }
-                      }
+                      
                       this.approvalcode = CCInfo.approvalCode;
                       if(appFunc.isOwn == "major"){
                         this.accounttype = "Dewasa"
@@ -1812,6 +1804,24 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       }
 
                       this.isHistorical = this.isBefore4pm();
+
+                      if(selectLang.selectedLang == 'ms'){
+                        if(this.amountOrunit){
+                          this.status = "Berjaya";
+                        }
+                        else{
+                          this.status = "Diproses";
+                          this.isHistorical = false;
+                        }
+                      }else{
+                        if(this.amountOrunit){
+                          this.status = "Successful";
+                        }
+                        else{
+                          this.status = "Processing";
+                          this.isHistorical = false;
+                        }
+                      }
 
                       this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
                       this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
@@ -1905,11 +1915,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       this.unitholderid = uhid;
                       this.unitholderic = icno;
                       this.refno = result.result.transactionnumber;
-                      if(selectLang.selectedLang == 'ms'){
-                        this.status = "Diproses";
-                      }else{
-                        this.status = "Processing";
-                      }
+                  
 
                       this.approvalcode = CCInfo.approvalCode;
                       if(appFunc.isOwn == "major"){
@@ -1925,6 +1931,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       }
 
                       this.isHistorical = this.isBefore4pm();
+
+                      if(selectLang.selectedLang == 'ms'){
+                        this.status = "Diproses";
+                        this.isHistorical = false;
+                      }else{
+                        this.status = "Processing";
+                        this.isHistorical = false;
+                      }
 
                       this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
                       this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
@@ -2220,6 +2234,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       this.Form_3.controls.icno.setValue(this.thirdicno?.nativeElement.value);
       this.thirdicnoWarning = false;
       this.thirdictypeWarning = false;
+      this.uhNotExist = false;
 
       let x = 0;
       Object.keys(this.Form_3.controls).forEach(key => {
@@ -2240,6 +2255,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       else{
         this.thirdictypekeyed = this.Form_3.controls.ictype.value;
         this.thirdicnokeyed = this.Form_3.controls.icno.value;
+        this.disagreedTNC = true;
 
         const body = { 
 
@@ -2295,10 +2311,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
   
               this.isGetInfo = true;
             }else{
+              this.disagreedTNC = false;
               this.Form_3.controls.icno.setValue("");
               this.Form_3.controls.ictype.setValue("");
-              this.thirdicnoWarning = true;
-              this.thirdictypeWarning = true;
+              this.uhNotExist = true;
+              // this.thirdicnoWarning = true;
+              // this.thirdictypeWarning = true;
             }
             
         });
@@ -2647,21 +2665,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.refno = result.result.transactionnumber;
 
           this.amountKeyed = Number(this.thirdamountkeyed);
-          if(selectLang.selectedLang == 'ms'){
-            if(this.amountOrunit){
-              this.status = "Berjaya";
-            }
-            else{
-              this.status = "Diproses";
-            }
-          }else{
-            if(this.amountOrunit){
-              this.status = "Successful";
-            }
-            else{
-              this.status = "Processing";
-            }
-          }
+         
           this.approvalcode = formatDate(new Date(), 'dd/MM/yyyy HH:mm:ss', 'en');
           if(appFunc.isOwn == "major"){
             this.accounttype = "Dewasa"
@@ -2690,6 +2694,24 @@ export class SubscriptioninvestmentComponent implements OnInit {
           }
 
           this.isHistorical = this.isBefore4pm();
+
+          if(selectLang.selectedLang == 'ms'){
+            if(this.amountOrunit){
+              this.status = "Berjaya";
+            }
+            else{
+              this.status = "Diproses";
+              this.isHistorical = false;
+            }
+          }else{
+            if(this.amountOrunit){
+              this.status = "Successful";
+            }
+            else{
+              this.status = "Processing";
+              this.isHistorical = false;
+            }
+          }
 
           this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
           this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
@@ -2838,21 +2860,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     this.unitholderid = this.thirduhidkeyed;
                     this.unitholderic = this.thirdicnokeyed;
                     this.refno = result.result.transactionnumber;
-                    if(selectLang.selectedLang == 'ms'){
-                      if(this.amountOrunit){
-                        this.status = "Berjaya";
-                      }
-                      else{
-                        this.status = "Diproses";
-                      }
-                    }else{
-                      if(this.amountOrunit){
-                        this.status = "Successful";
-                      }
-                      else{
-                        this.status = "Processing";
-                      }
-                    }
+               
                     this.approvalcode = CCInfo.approvalCode;
                     if(appFunc.isOwn == "major"){
                       this.accounttype = "Dewasa"
@@ -2881,6 +2889,24 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     }
 
                     this.isHistorical = this.isBefore4pm();
+
+                    if(selectLang.selectedLang == 'ms'){
+                      if(this.amountOrunit){
+                        this.status = "Berjaya";
+                      }
+                      else{
+                        this.status = "Diproses";
+                        this.isHistorical = false;
+                      }
+                    }else{
+                      if(this.amountOrunit){
+                        this.status = "Successful";
+                      }
+                      else{
+                        this.status = "Processing";
+                        this.isHistorical = false;
+                      }
+                    }
 
                     this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
                     this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
@@ -2980,11 +3006,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     this.refno = result.result.transactionnumber;
 
 
-                    if(selectLang.selectedLang == 'ms'){
-                      this.status = "Diproses";
-                    }else{
-                      this.status = "Processing";
-                    }
+                    
 
                     this.approvalcode = CCInfo.approvalCode;
                     if(appFunc.isOwn == "major"){
@@ -3000,6 +3022,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     }
 
                     this.isHistorical = this.isBefore4pm();
+
+                    if(selectLang.selectedLang == 'ms'){
+                      this.status = "Diproses";
+                      this.isHistorical = false;
+                    }else{
+                      this.status = "Processing";
+                      this.isHistorical = false;
+                    }
 
                     this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
                     this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
@@ -3265,6 +3295,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
     }
 
 
+    let fundname = "";
+    appFunc.ASNBFundID.forEach((element: ASNBFundID) => {
+      if(this.fundid.toLowerCase() == element.code.toString().toLowerCase()){
+        fundname = element.value;
+      }
+    });
+
     if(signalrConnection.isHardcodedIC){
       const objCardInfo = 
       [{
@@ -3305,7 +3342,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   
       appFunc.body = 
       {
-        "Transaction" : this.transaction,
+        "Transaction" : this.transaction.toUpperCase(),
         "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "Location" : signalrConnection.branchName,
@@ -3314,7 +3351,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "NRIC" : selectedUnitHolderIC,
         "AccountType" : accountType,
         "TransactionNumber" : this.refno,
-        "FUNDID" : this.fundid,
+        "FUNDID" : fundname,
         "FUNDPRICE" : this.nav,
         "UNITSALLOTED" : this.unitsalloted,
         "FEEPERCENTAGE" : this.feepercentage,
@@ -3400,7 +3437,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   
       appFunc.body = 
       {
-        "Transaction" : this.transaction,
+        "Transaction" : this.transaction.toUpperCase(),
         "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "Location" : signalrConnection.branchName,
@@ -3409,7 +3446,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "NRIC" : selectedUnitHolderIC,
         "AccountType" : accountType,
         "TransactionNumber" : this.refno,
-        "FUNDID" : this.fundid,
+        "FUNDID" : fundname,
         "FUNDPRICE" : this.nav,
         "UNITSALLOTED" : this.unitsalloted,
         "FEEPERCENTAGE" : this.feepercentage,
@@ -3502,6 +3539,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
       selectedUnitHolderIC = this.currentBijakIDNO;
     }
 
+    let fundname = "";
+    appFunc.ASNBFundID.forEach((element: ASNBFundID) => {
+      if(this.fundid.toLowerCase() == element.code.toString().toLowerCase()){
+        fundname = element.value;
+      }
+    });
+
 
     if(signalrConnection.isHardcodedIC){
       const objCardInfo = 
@@ -3544,7 +3588,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       
       appFunc.body = 
       {
-        "Transaction" : this.transaction,
+        "Transaction" : this.transaction.toUpperCase(),
         "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "Location" : signalrConnection.branchName,
@@ -3553,7 +3597,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "NRIC" : selectedUnitHolderIC,
         "AccountType" : accountType,
         "TransactionNumber" : this.refno,
-        "FUNDID" : this.fundid,
+        "FUNDID" : fundname,
         "FUNDPRICE" : this.nav,
         "UNITSALLOTED" : this.unitsalloted,
         "FEEPERCENTAGE" : this.feepercentage,
@@ -3642,7 +3686,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
       appFunc.body = 
       {
-        "Transaction" : this.transaction,
+        "Transaction" : this.transaction.toUpperCase(),
         "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
         "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
         "Location" : signalrConnection.branchName,
@@ -3651,7 +3695,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "NRIC" : selectedUnitHolderIC,
         "AccountType" : accountType,
         "TransactionNumber" : this.refno,
-        "FUNDID" : this.fundid,
+        "FUNDID" : fundname,
         "FUNDPRICE" : this.nav,
         "UNITSALLOTED" : this.unitsalloted,
         "FEEPERCENTAGE" : this.feepercentage,

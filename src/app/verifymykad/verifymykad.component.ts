@@ -97,6 +97,30 @@ export class VerifymykadComponent implements OnInit {
     signalrConnection.isVerifyMyKad = true;
     console.log(signalrConnection.isVerifyMyKad);
 
+    // const jiahao = 
+    //   {
+    //     "CHANNELTYPE":"ATM",
+    //     "REQUESTORIDENTIFICATION":"TESTFDSSERVER",
+    //     "DEVICEOWNER":"ASNB",
+    //     "AGENTCODE":"ASNB",
+    //     "BRANCHCODE":"ASNBHQ001",
+    //     "BANKTXNREFERENCENUMBER": "123456789133",
+    //     "TXNREFERENCENUMBER":"0220201400000005",
+    //     "TRANSACTIONDATE":"19/05/2020",
+    //     "TRANSACTIONTYPE":"02",
+    //     "UNITHOLDERID":"000000009911",
+    //     "IDENTIFICATIONTYPE":"W",
+    //     "IDENTIFICATIONNUMBER":"530518015791",
+    //     "FUNDID":"ASB",
+    //     "GUARDIANID":"",
+    //     "GUARDIANICTYPE":"",
+    //     "GUARDIANICNUMBER":""
+    //   }
+
+    // this.serviceService.postRequery(jiahao).subscribe((result: any) => {
+    //   console.log(result);
+    // })
+
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);
     }
