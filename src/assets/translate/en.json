@@ -351,6 +351,8 @@
 	"InitialSalesCharge": "Initial Sales Charge (RM)",
 	"SIStep6_1": "Transaction is Successful.",
 	"SIStep6_2": "Transaction is accepted. Your subscription will be updated after 2 business days.",
+	"SIStep6_2_1": "Transaction is accepted. Your transfer will be updated after 2 business days.",
+	"SIStep6_2_2": "Transaction is accepted. Your switching will be updated after 2 business days.",
 	"AWarning": "Please key in amount.",
 	"A1Warning": "Please key in a valid amount.",
 	"FWarning": "Please insert Funder Name.",
@@ -363,7 +365,7 @@
 	"Transfer": "Transfer",
 	"Switching": "Switching",
 	"Transfer1": "TRANSFER",
-	"Transfer2": "Unit Trsut Fund Transfer",
+	"Transfer2": "Unit Trust Fund Transfer",
 	"Switching1": "SWITCHING",
 	"Switching2": "Unit Trust Fund Switching​",
 	"CurrentValue": "Current Value (RM)",
@@ -375,7 +377,7 @@
 	"TransferCopywriting2": "Please note that the units will be allotted base on Net Asset Value(NAV) for the respective unit trust funds after deducting the relevant charges (if any).",
 	"TransferCopywriting3": "The minimum transfer value is RM100.00 for historical price funds and 100 units for forward price funds.",
 	"TransferCopywriting4": "The maximum transfer value (inclusive of fees) is subject to the maximum investment holding of the fixed funds or variable funds with historical pricing mechanism. However, the maximum transfer value (inclusive of fees) is limited to 30,000 units/transaction for variable funds with forward pricing mechanism.",
-	"TransferConfirmationPage": "Confirmation of Fund Transfer To",
+	"TransferConfirmationPage": "Confirmation of Fund Transfer to",
 	"TransferFrom": "Transfer From",
 	"InitialServiceChargeRM": "Initial Service Charge (RM)",
 	"InitialServiceChargePercentage": "Initial Service Charge (%)",
@@ -460,5 +462,6 @@
 	"uhNotExist": "Unit Holder with this IC No. does not exist.",
 	"uhNoFund": "Unit Holder does not have the selected fund to proceed with transfer.",
 	"SupplementaryProspectus": "ASNB Supplementary Master Prospectus",
-	"SupplementaryProspectusForFund" : "ASN Imbang 3 Global Supplementary Prospectus"
+	"SupplementaryProspectusForFund" : "ASN Imbang 3 Global Supplementary Prospectus",
+	"RemoveDebitCard": "Please remove your Debit Card"
 }

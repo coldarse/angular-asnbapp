@@ -129,11 +129,11 @@ export class TransferswitchingComponent implements OnInit {
   transferfrom = "";
   transferfromName = "";
   transferfunname = "";
-  transferNAV = "";
-  transferunits = "";
-  transferSST = "";
-  transferinitialRM = "";
-  transferinitialPercentage = "";
+  transferNAV = 0;
+  transferunits = 0;
+  transferSST = 0;
+  transferinitialRM = 0;
+  transferinitialPercentage = 0;
 
   displayReason = "";
   displayRelationship = "";
@@ -143,11 +143,11 @@ export class TransferswitchingComponent implements OnInit {
   switchingfrom = "";
   switchingto = "";
   switchingamount = "";
-  switchingNAVFrom = "";
-  switchingNAVTo = "";
-  switchingUnitsFrom = "";
-  switchingUnitsTo = "";
-  switchingSST = "";
+  switchingNAVFrom = 0;
+  switchingNAVTo = 0;
+  switchingUnitsFrom = 0;
+  switchingUnitsTo = 0;
+  switchingSST = 0;
 
   unitholderid = "000011112221";
   unitholdername = "Alia Nur Ali";
@@ -623,7 +623,7 @@ export class TransferswitchingComponent implements OnInit {
   Transfer(fund: any){
 
     //this.isHistorical = this.isBefore4pm();
-
+    this.disagreedTNC = false;
     
     this.pdfsrc3 = "assets/TRANSFER/All_Fund_Min_Criteria.pdf";
 
@@ -1543,7 +1543,7 @@ export class TransferswitchingComponent implements OnInit {
   }
 
   Switching(fund: any){
-
+    this.disagreedTNC = true;
     this.pdfsrc3 = "assets/SWITCHING/All_Fund_Min_Criteria.pdf";
 
     this.checkAMLA("");
@@ -1759,7 +1759,7 @@ export class TransferswitchingComponent implements OnInit {
 
     this.switchinguhid = uhid;
     
-    this.switchingUnitsFrom = "0";
+    this.switchingUnitsFrom = 0;
 
     fundid = this.switchingto;
     appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {

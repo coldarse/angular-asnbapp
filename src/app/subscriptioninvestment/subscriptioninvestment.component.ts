@@ -147,6 +147,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   paymentStep1 = true;
   paymentStep2 = false;
   paymentStep3 = false;
+  paymentStep4 = false;
 
   thirdictypekeyed = "";
   thirdicnokeyed = "";
@@ -374,7 +375,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     
     if(appFunc.isInvesment){
       this.isInvestment = true;
-      
+      this.disagreedTNC = true;
       
       if(appFunc.isOwn == "major"){
         this.moduleid = 9;
@@ -442,8 +443,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }
       }
     }else{
+
       this.isSubscription = true;
       if(appFunc.isOwn == "major"){
+        this.disagreedTNC = true;
         this.moduleid = 11;
         this.action = "Perform Additional Investment for Major";
         let tempFundDetail: any[] = [];
@@ -471,6 +474,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.SIStep1 = true;
         this.checkAMLA();
       }else if(appFunc.isOwn == "bijak"){
+        this.disagreedTNC = true;
         this.moduleid = 12;
         this.action = "Perform Additional Investment for Minor";
         this.isSubscriptionMinor = true;
@@ -478,7 +482,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.BijakVisible = true;
       }
       else{
-
+        this.disagreedTNC = false;
         this.moduleid = 19;
         this.action = "Perform Additional Investment for Third Party";
         this.isSubscriptionThird = true;
@@ -1527,8 +1531,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
             this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
             this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
-            this.SIStep5 = false;
-            this.SIStep6 = true;
+            
 
             this.isHistorical = this.isBefore4pm();
 
@@ -1642,6 +1645,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
             kActivit1.status = true;
             appFunc.kioskActivity.push(kActivit1);
 
+            this.paymentStep3 = false;
+            this.paymentStep4 = true;
+
+            setTimeout(() => {
+              this.SIStep5 = false;
+              this.SIStep6 = true;
+            }, 5000);
           }
           else{
             errorCodes.Ecode = result.result.rejectcode;
@@ -1828,8 +1838,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
                       this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
                       this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
-                      this.SIStep5 = false;
-                      this.SIStep6 = true;
+                 
 
                       let module = "";
                       if(appFunc.isOwn == "major"){
@@ -1907,6 +1916,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       kActivit1.status = true;
                       appFunc.kioskActivity.push(kActivit1);
 
+                      this.paymentStep3 = false;
+                      this.paymentStep4 = true;
+
+                      setTimeout(() => {
+                        this.SIStep5 = false;
+                        this.SIStep6 = true;
+                      }, 5000);
+
                     }
                     else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode == ""){
                       
@@ -1945,8 +1962,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
                       this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
                       this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
-                      this.SIStep5 = false;
-                      this.SIStep6 = true;
+                     
 
                       let module = "";
                       if(appFunc.isOwn == "major"){
@@ -2060,6 +2076,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       kActivit1.endTime = new Date();
                       kActivit1.status = true;
                       appFunc.kioskActivity.push(kActivit1);
+
+                      this.paymentStep3 = false;
+                      this.paymentStep4 = true;
+
+                      setTimeout(() => {
+                        this.SIStep5 = false;
+                        this.SIStep6 = true;
+                      }, 5000);
                     }
                     else{
                       errorCodes.Ecode = result.result.rejectcode;
@@ -2530,6 +2554,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   ClickTNC(){
     this.TermsAndConditions = true;
     this.ispopup = true;
+
   }
   ClickInvesmtentDisclaimer(){
     this.InvestmentDisclaimer = true;
@@ -2718,12 +2743,19 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
           this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
           this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
-          this.SIStep5 = false;
-          this.SIStep6 = true;
+       
 
           kActivit1.endTime = new Date();
           kActivit1.status = true;
           appFunc.kioskActivity.push(kActivit1);
+
+          this.paymentStep3 = false;
+          this.paymentStep4 = true;
+
+          setTimeout(() => {
+            this.SIStep5 = false;
+            this.SIStep6 = true;
+          }, 5000);
 
         }
         else{
@@ -2853,9 +2885,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   console.log(result.result.transactionnumber);
                   if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
 
-                    this.STPStep3 = false;
-                    this.SIStep5 = true;
-
+                   
                     this.unitholdername = this.thirdnamekeyed;
                     this.unitholderid = this.thirduhidkeyed;
                     this.unitholderic = this.thirdicnokeyed;
@@ -2992,6 +3022,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     kActivit1.endTime = new Date();
                     kActivit1.status = true;
                     appFunc.kioskActivity.push(kActivit1);
+
+                    this.paymentStep3 = false;
+                    this.paymentStep4 = true;
+
+                    setTimeout(() => {
+                      this.SIStep5 = false;
+                      this.SIStep6 = true;
+                    }, 5000);
                   }
                   else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode == ""){
                     

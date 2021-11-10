@@ -344,12 +344,15 @@
 	"AmountInclusiveSST3": "Jumlah termasuk SST (kadar 0%)",
 	"AmountInclusiveSST4": "Jumlah Pemindahan Unit",
 	"AmountInclusiveSST5": "Jumlah Pemindahan termasuk SST (kadar %) dan Caj Jualan Permulaan",
+	"AmountInclusiveSST6": "Jumlah Penukaran Unit",
 	"NAV": "NAB",
 	"SST": "SST @ 0% (RM)",
 	"UnitsAlloted": "Unit Diperuntukkan",
 	"InitialSalesCharge": "Caj Jualan Permulaan (RM)",
 	"SIStep6_1": "Transaksi berjaya.",
 	"SIStep6_2": "Transaksi diterima. Urus niaga pelaburan anda akan dikemas kini selepas 2 hari bekerja.",
+	"SIStep6_2_1": "Transaksi diterima. Urus niaga pemindahan anda akan dikemas kini selepas 2 hari bekerja.",
+	"SIStep6_2_2": "Transaksi diterima. Urus niaga penukaran anda akan dikemas kini selepas 2 hari bekerja.",
 	"AWarning": "Sila isikan jumlah.",
 	"A1Warning": "Sila isikan jumlah yang sah.",
 	"FWarning": "Sila isikan Nama Pemberi Dana.",
@@ -459,5 +462,6 @@
 	"uhNotExist": "Pemegang Unit dengan No. IC ini tidak wujud.",
 	"uhNoFund": "Pemegang Unit tidak mempunyai dana yang telah dipilih untuk Pemindahan.",
 	"SupplementaryProspectus": "Prospektus IndukTambahan ASNB",
-	"SupplementaryProspectusForFund" : "Prospektus Tambahan ASN Imbang 3 Global"
+	"SupplementaryProspectusForFund" : "Prospektus Tambahan ASN Imbang 3 Global",
+	"RemoveDebitCard": "Sila keluarkan Kad Debit"
 }

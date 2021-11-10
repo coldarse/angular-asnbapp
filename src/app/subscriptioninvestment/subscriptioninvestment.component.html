@@ -504,7 +504,7 @@
                 </h4>
             </div>
             <div class="col-md-6">
-                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["ictype"]' #thirdictype>
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["ictype"]' [hidden]="ispopup" #thirdictype>
                     <option value="">{{ 'optionSelect' | translate }}</option>
                     <option *ngFor="let type of ictype" value={{type.code}}>
                         {{type.desc}}
@@ -850,7 +850,7 @@
     <footer class="site-footer"> 
         <div class="row text-center" style="padding-top:4.4rem; padding-bottom:5rem;">
             <div class="col-md-12">
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep3Back()">
+                <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="STPStep3Back()">
                     {{'BTN_Back' | translate }}
                 </button>
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep3Next()" [disabled]="disagreedTNC">
@@ -880,20 +880,26 @@
         </div>
         
     </div>
-    <!-- <div class="col-md-6 text-center" style="padding-top:15rem" *ngIf="paymentStep2">
-        <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin1' | translate }}</h3>
-        <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin2' | translate }}</h3>
-    </div> -->
+
     <div class="col-md-6 text-center" style="padding-top:15rem" *ngIf="paymentStep3">
         <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin1' | translate }}</h3>
         <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin2' | translate }}</h3>
         &nbsp;
         <div class="spinner-border text-primary spinning-addon" role="status"> </div>
     </div>
-    <div class="col-md-6 text-center" style="padding-top:3rem">
+    <div class="col-md-6 text-center" style="padding-top:3rem" *ngIf="paymentStep3 || paymentStep1">
         <img src="assets/images/InsertDebitCard.gif" class="ICReader__centered img-addon padding-top-5rem" alt="ICReaderImage">
     </div>
+
+    <div class="col-md-6 text-center" style="padding-top:15rem" *ngIf="paymentStep4">
+        <h3 class="h2-ic" id="BR2_Title1">{{'RemoveDebitCard' | translate }}</h3>
+    </div>
+    <div class="col-md-6 text-center" style="padding-top:3rem" *ngIf="paymentStep4">
+        <img src="assets/images/RemoveDebitCard.gif" class="ICReader__centered img-addon padding-top-5rem" alt="ICReaderImage">
+    </div>
 </div>
+
+
 
 <div *ngIf="SIStep6" class="content-container">
 
@@ -1071,8 +1077,8 @@
                 </h5>
             </div>
             <div class="col-md-6">
-                <h5 *ngIf="isHistorical">
-                    : {{nav | number : '1.4-4'}}
+                <h5>
+                    : {{nav == 0 ? "" : (nav | number : '1.4-4')}}
                 </h5>
             </div>
         </div>
@@ -1084,8 +1090,8 @@
                 </h5>
             </div>
             <div class="col-md-6">
-                <h5 *ngIf="isHistorical">
-                    : {{sst | number : '1.2-2'}}
+                <h5>
+                    : {{sst == 0 ? "" : ( sst | number : '1.2-2')}}
                 </h5>
             </div>
         </div>
@@ -1097,8 +1103,8 @@
                 </h5>
             </div>
             <div class="col-md-6">
-                <h5 *ngIf="isHistorical">
-                    : {{unitsalloted | number : '1.2-2' }}
+                <h5>
+                    : {{unitsalloted == 0 ? "" : (unitsalloted | number : '1.2-2' )}}
                 </h5>
             </div>
         </div>
@@ -1110,8 +1116,8 @@
                 </h5>
             </div>
             <div class="col-md-6">
-                <h5 *ngIf="isHistorical">
-                    : {{initialcharges | number : '1.2-2'}}
+                <h5>
+                    : {{initialcharges == 0 ? "" : (initialcharges | number : '1.2-2')}}
                 </h5>
             </div>
         </div>
