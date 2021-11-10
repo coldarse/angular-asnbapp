@@ -98,6 +98,7 @@
 	"TNC_5":"Klik ",
 	"TNC_5_1": "di sini",
 	"TNC_5_2": " untuk baca ",
+	"TNC_5_3": "Klik di sini untuk ",
 	"TNC_6":"Prospektus Induk ASNB",
 	"TNC_6half":"Prospektus ASN Imbang 3 Global",
 	"TNC_7":"Saya telah membaca prospektus yang berkenaan dan memahami kandungannya. Saya juga telah membaca dan bersetuju dengan terma dan syarat yang mentadbir permohonan ini dan pendaftaran unit serta sebarang penambahan dan pindaan selepas itu.",
@@ -461,7 +462,7 @@
 	"TNC_6halfhalf": "Prospektus ASN Equity Global",
 	"uhNotExist": "Pemegang Unit dengan No. IC ini tidak wujud.",
 	"uhNoFund": "Pemegang Unit tidak mempunyai dana yang telah dipilih untuk Pemindahan.",
-	"SupplementaryProspectus": "Prospektus IndukTambahan ASNB",
+	"SupplementaryProspectus": "Prospektus Induk Tambahan ASNB",
 	"SupplementaryProspectusForFund" : "Prospektus Tambahan ASN Imbang 3 Global",
 	"RemoveDebitCard": "Sila keluarkan Kad Debit"
 }
