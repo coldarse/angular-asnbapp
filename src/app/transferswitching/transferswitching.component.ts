@@ -1067,9 +1067,9 @@ export class TransferswitchingComponent implements OnInit {
 
                 let module = "";
                 if(appFunc.isOwn == "major"){
-                  module = "15";
+                  module = "13";
                 }else if(appFunc.isOwn == "bijak"){
-                  module = "16";
+                  module = "14";
                 }
 
                 const FTBody =
@@ -1883,28 +1883,30 @@ export class TransferswitchingComponent implements OnInit {
                   this.Print_Visible = true;
                 }
 
-                let module = "";
+                let module1 = "";
+                let module2 = "";
                 if(appFunc.isOwn == "major"){
-                  module = "15";
+                  module1 = "20"; //out
+                  module2 = "22"; //in
                 }else if(appFunc.isOwn == "bijak"){
-                  module = "16";
+                  module1 = "21"; //out
+                  module2 = "23"; //in
                 }
                 
 
-                const FTBody =
+                const FTBodyOut =
                 {
                   "trxNo": signalrConnection.trxno,
-                  //"kioskID": signalrConnection.kioskID,
                   "kioskCode": signalrConnection.kioskCode,
                   "unitHolderID": result1.result.unitholderid,
                   "firstName": result1.result.firstname,
                   "identificationType": result1.result.identificationtype,
                   "identificationNumber": result1.result.identificationnumber,
-                  "fundID": result1.result.fundid,
-                  "amountApplied": result1.result.amountapplied,
+                  "fundID": this.actualfundid,
+                  "amountApplied": " - " + result1.result.amountapplied,
                   "transactionDate": result1.result.transactiondate,
                   "transactionTime": result1.result.transactiontime,
-                  "transactionType": module,
+                  "transactionType": module1,
                   "customerICNumber": "",
                   "customerName": "",
                   "agentCode": result1.result.agentCode,
@@ -1927,11 +1929,6 @@ export class TransferswitchingComponent implements OnInit {
                   "thirdPartyName": "",
                   "thirdPartyICNumber": "",
                   "thirdPartyRelationship": "",
-                  // "thirdPartyInvestment": result.result.thirdpartyinvestment,
-                  // "thirdPartyName": result.result.thirdpartyname,
-                  // "thirdPartyICNumber": result.result.thirdpartyicnumber,
-                  // "thirdPartyRelationship": result.result.thirdpartyrelationship,
-                  //"reasonForTransfer": result.result.reasonfortransfer,
                   "reasonForTransfer": "",
                   "sourceOfFund": "",
                   "otherSourceOfFund": "",
@@ -1939,12 +1936,6 @@ export class TransferswitchingComponent implements OnInit {
                   "transactionStatus": result1.result.transactionstatus,
                   "transactionNumber": "",
                   "taxInvoiceNumber": "",
-                  // "sourceOfFund": result.result.sourceoffund,
-                  // "otherSourceOfFund": result.result.othersourceoffund,
-                  // "funderName": result.result.fundname,
-                  // "transactionStatus": result1.result.transactionstatus,
-                  // "transactionNumber": result.result.transactionnumber,
-                  // "taxInvoiceNumber": result.result.taxinvoicenumber,
                   "confirmedUnits": "",
                   "unitBalance": "",
                   "operation": "",
@@ -1955,7 +1946,60 @@ export class TransferswitchingComponent implements OnInit {
                   "itemno": signalrConnection.itemNo
                 }
 
-                this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+                const FTBodyIn =
+                {
+                  "trxNo": signalrConnection.trxno,
+                  "kioskCode": signalrConnection.kioskCode,
+                  "unitHolderID": result1.result.unitholderid,
+                  "firstName": result1.result.firstname,
+                  "identificationType": result1.result.identificationtype,
+                  "identificationNumber": result1.result.identificationnumber,
+                  "fundID": fundid,
+                  "amountApplied": result1.result.amountapplied,
+                  "transactionDate": result1.result.transactiondate,
+                  "transactionTime": result1.result.transactiontime,
+                  "transactionType": module2,
+                  "customerICNumber": "",
+                  "customerName": "",
+                  "agentCode": result1.result.agentCode,
+                  "referenceNo": "",
+                  "bankTxnReferenceNumber": result1.result.banktxnreferencenumber,
+                  "bankCustPhoneNumber": result1.result.bankcustphonenumber,
+                  "paymentType": result1.result.paymenttype,
+                  "bankAccountNumber": result1.result.bankaccountnumber,
+                  "bankBranchCode": "",
+                  "chequeNumber": "",
+                  "chequeDate": "",
+                  "guardianID": result1.result.guardianid,
+                  "guardianicType": result1.result.guardianictype,
+                  "guardianicNumber": result1.result.guardianicnumber,
+                  "policyNumber": result1.result.policynumber,
+                  "epfNumber": result1.result.epfnumber,
+                  "subPaymentType": "",
+                  "ewgateway": "",
+                  "thirdPartyInvestment": "",
+                  "thirdPartyName": "",
+                  "thirdPartyICNumber": "",
+                  "thirdPartyRelationship": "",
+                  "reasonForTransfer": "",
+                  "sourceOfFund": "",
+                  "otherSourceOfFund": "",
+                  "funderName": "",
+                  "transactionStatus": result1.result.transactionstatus,
+                  "transactionNumber": "",
+                  "taxInvoiceNumber": "",
+                  "confirmedUnits": "",
+                  "unitBalance": "",
+                  "operation": "",
+                  "remark": "",
+                  "creditNoteNumber": "",
+                  "rejectCode": result1.result.rejectcode,
+                  "rejectReason": result1.result.rejectreason,
+                  "itemno": signalrConnection.itemNo
+                }
+
+                this.serviceService.createFundTransaction(FTBodyOut).subscribe(() => {});
+                this.serviceService.createFundTransaction(FTBodyIn).subscribe(() => {});
                 signalrConnection.itemNo += 1;
                 console.log(signalrConnection.itemNo);
                 kActivit1.endTime = new Date();
