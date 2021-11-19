@@ -1083,7 +1083,7 @@ export class PortalregistrationComponent implements OnInit {
         "signature": encryptedbody.toString()
       }
 
-
+      console.log(JSON.stringify(newbody));
       this.serviceService.tacVerification(newbody).subscribe((res: any) => {
         if (res.result.error_reason == ""){
           this.nextDetails_disabled = false;

@@ -269,12 +269,12 @@
 </div> 
 
 <div id="BR_Reminder" *ngIf="BRReminder_Visible" class="content-container">
-    <div class="col-md-12 text-center" style="margin-top:4rem;">
+    <div class="col-md-12 text-center content-container" style="margin-top:4rem;">
         <!-- <h2>Peringatan</h2> -->
         <!-- <h2>{{'BRReminder_1' | translate }}</h2> -->
     </div>
 
-    <div class="row" style="padding-top:8rem;">
+    <div class="row content-container" style="padding-top:8rem;">
         <div class="col-md-12 text-center" >
             <!-- <h3 class="h2-ic">Pendaftaran akaun Bijak melalui saluran ini hanya boleh dilakukan oleh</h3>
             <h3 class="h2-ic">ibu bapa kandung, di mana maklumat yang relevan akan disahkan berdasarkan</h3>
@@ -1083,12 +1083,12 @@
 
 
 <div id="BR_TNC" *ngIf="BRTNC_Visible" class="content-container">
-    <div class="col-md-12 text-center" style="margin-top:2rem;">
+    <div class="col-md-12 text-center content-container" style="margin-top:2rem;">
         <!-- <h3>AKUAN PENGESAHAN</h3> -->
         <h3>{{'TNC_1' | translate }}</h3>
     </div>
 
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-1">
 
         </div>
@@ -1101,7 +1101,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-1">
 
         </div>
@@ -1114,7 +1114,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-1">
 
         </div>
@@ -1136,7 +1136,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-1">
 
         </div>
@@ -1150,7 +1150,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-1">
 
         </div>
@@ -1164,7 +1164,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-1">
 
         </div>
@@ -1178,7 +1178,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-1">
 
         </div>
@@ -1192,7 +1192,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-1">
 
         </div>
@@ -1206,7 +1206,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-1">
 
         </div>
@@ -1220,7 +1220,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-1">
 
         </div>
@@ -1249,7 +1249,7 @@
         </div>
     </div> -->
 
-    <div class="row text-center" style="padding-top: 4rem;">
+    <div class="row text-center content-container" style="padding-top: 4rem;">
         <div class="col-md-1">
 
         </div>
@@ -1396,7 +1396,7 @@
 </div>
 
 <div id="BR_Print1" *ngIf="BRPrint1_Visible" class="content-container">
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <!-- <h2 class="h2-ic" id="BRP1_Title1">Resit anda sedang dicetak.</h2> -->
             <h2 class="h2-ic" id="BRP1_Title1">{{'Print1_1' | translate }}</h2>
@@ -1411,7 +1411,7 @@
 </div>
 
 <div id="BR_Print2" *ngIf="BRPrint2_Visible" class="content-container">
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="BRP2_Title1">Sila ambil resit anda</h2> -->
             <h2 class="h2-ic" id="BRP2_Title1">{{'Print2_1' | translate }}</h2>
@@ -1423,7 +1423,7 @@
 </div>
 
 <div id="BR_Email" *ngIf="BREmail_Visible" class="content-container">
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <!-- <h2 class="h2-ic" id="BRE_Title1">Salinan resit akan hantar ke</h2>
             <h2 class="h2-ic" id="BRE_Title2">alamat e-mel anda.</h2> -->
@@ -1438,17 +1438,17 @@
 </div>
 
 <div class="content-container" *ngIf="transaction_Successful">
-    <div class="row text-center">
+    <div class="row text-center content-container">
         <div class="col-md-12 padding-top-2rem">
             <img src="assets/images/ASNB-tick.png" class="ticklogo " alt="ASNB">
         </div>
     </div>
     
-    <div class="row text-center padding-top-5rem" *ngIf="withMinInvestment == false">
+    <div class="row text-center padding-top-5rem content-container" *ngIf="withMinInvestment == false">
         <h2 class="h2-ic" id="ST_Title1">{{'TS_1' | translate }}</h2>
     </div>
 
-    <div class="row text-center padding-top-5rem" *ngIf="withMinInvestment == true">
+    <div class="row text-center padding-top-5rem content-container" *ngIf="withMinInvestment == true">
         <h2 class="h2-ic" id="ST_Title1">{{'TS_1_1' | translate }}</h2>
     </div>
     

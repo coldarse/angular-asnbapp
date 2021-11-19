@@ -1,4 +1,4 @@
- <nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
+<nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
     <div class="container-fluid">
         <div class="titleNLogo">
             <!-- Language Screen NavBar -->
@@ -130,8 +130,6 @@
     </div>
 </div> 
 
-
-
 <div *ngIf="BijakVisible" class="content-container">
    
     <div>
@@ -201,12 +199,11 @@
   
     <footer class="site-footer">
         <div class="row text-center" style="padding-top:5rem; padding-bottom:5rem;">
-            <div class="col-md-12">
+            <div class="col-md-12" style="margin-left: auto; margin-right: auto;">
                 <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep1Back()">
                     {{'BTN_Back' | translate }}
                 </button>
             </div>
-            
         </div>
     </footer>
     
@@ -222,65 +219,66 @@
     </div>
 
    
-
-    <div class="pop-up-addinvestment">
-        <div class="row" style="padding-top:2rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h3>
-                    {{'ARSuccess_3' | translate}}
-                </h3>
+    <div class="col-md-12 content-container">
+        <div class="pop-up-addinvestment">
+            <div class="row" style="padding-top:2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h3>
+                        {{'ARSuccess_3' | translate}}
+                    </h3>
+                </div>
+                <div class="col-md-6">
+                    <h3>
+                        : {{unitholdername}}
+                    </h3>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h3>
-                    : {{unitholdername}}
-                </h3>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h3>
+                        {{'ARSuccess_5' | translate}}
+                    </h3>
+                </div>
+                <div class="col-md-6">
+                    <h3>
+                        : {{unitholderid}}
+                    </h3>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h3>
-                    {{'ARSuccess_5' | translate}}
-                </h3>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h3>
+                        {{'FundName' | translate}}
+                    </h3>
+                </div>
+                <div class="col-md-6">
+                    <h3>
+                        : {{fundname}}
+                    </h3>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h3>
-                    : {{unitholderid}}
-                </h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h3>
-                    {{'FundName' | translate}}
-                </h3>
-            </div>
-            <div class="col-md-6">
-                <h3>
-                    : {{fundname}}
-                </h3>
-            </div>
-        </div>
-        <div class="row" style="padding-bottom:2rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h3 style="font-size: 1.45rem;">
-                    {{'AmountInclusiveSST1' | translate}}
-                </h3>
-            </div>
-            <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="amount" id="amt" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #amount>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning">{{'AWarning' | translate}}</div>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning1">{{'A1Warning' | translate}}</div>
+            <div class="row" style="padding-bottom:2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h3 style="font-size: 1.45rem;">
+                        {{'AmountInclusiveSST1' | translate}}
+                    </h3>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" style="width: 85%;" name="amount" id="amt" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #amount>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning">{{'AWarning' | translate}}</div>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning1">{{'A1Warning' | translate}}</div>
+                </div>
             </div>
         </div>
     </div>
+    
 
-
-    <div style="display:grid; place-items: center; padding-top: 2rem;">
-        <div style="width: 1200px">
+    <div class="col-md-12 content-container" style="margin-left: auto; margin-right: auto; padding-top: 2rem;">
+        <div style="width: 1200px; margin-left: auto; margin-right: auto;">
             <p>1. {{'SIStep2_1' | translate}}</p>
             <p>2. {{'SIStep2_2' | translate}}</p>
             <p>3. {{'SIStep2_3' | translate}}</p>
@@ -288,10 +286,7 @@
         </div>
     </div>
 
-    <div class="row text-center" style="padding-top: 1rem;">
-        <!-- <div class="col-md-1">
-
-        </div> -->
+    <div class="row text-center content-container" style="padding-top: 1rem;">
         <div class="col-md-12">
             <input type="checkbox" class="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC($event)">
             <label for="tncCheck" style="padding-left:1rem; font-size: 0.75rem;">
@@ -302,9 +297,6 @@
                 {{'SIStep2_6' | translate }}
             </label><br>
         </div>
-        <!-- <div class="col-md-1">
-            
-        </div> -->
     </div>
   
     <footer class="site-footer">
@@ -353,7 +345,7 @@
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sourceFundWarning">{{'SourceOfFundWarning' | translate}}</div>
                 </div>
             </div>
-            <div class="row" *ngIf="showOtherSource">
+            <div class="row" [hidden]="showOtherSource">
                 <div class="col-md-1"></div>
                 <div class="col-md-5">
                     <h3>
@@ -523,6 +515,7 @@
             <div class="col-md-6">
                 <input type="text" style="width: 85%;" name="thirdicno" id="thirdicno" class="use-keyboard-input" [formControl]='Form_3.controls["icno"]' #thirdicno>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdicnoWarning">{{'ThirdICWarning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sameUH">{{'sameUH' | translate}}</div>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNotExist">{{'uhNotExist' | translate}}</div>
             </div>
         </div>
@@ -694,7 +687,7 @@
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sourceFundWarning">{{'SourceOfFundWarning' | translate}}</div>
                 </div>
             </div>
-            <div class="row" *ngIf="showOtherSource">
+            <div class="row" [hidden]="showOtherSource">
                 <div class="col-md-1"></div>
                 <div class="col-md-5">
                     <h3>
@@ -864,7 +857,6 @@
 
 </div>
 
-
 <div *ngIf="SIStep5" class="row content-container">
     <div class="col-md-6 text-center" style="padding-top:15rem" *ngIf="paymentStep1">
         <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin1' | translate }}</h3>
@@ -899,8 +891,6 @@
     </div>
 </div>
 
-
-
 <div *ngIf="SIStep6" class="content-container">
 
     <div class="text-center" style="padding-top:3rem">
@@ -909,222 +899,224 @@
         </h2>
     </div>
 
-
-    <div class="pop-up-status">
-        <div class="row" style="padding-top:1rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'CB2_2' | translate}}
-                </h5>
+    <div class="col-md-12 content-container">
+        <div class="pop-up-status">
+            <div class="row" style="padding-top:1rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'CB2_2' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{unitholdername}}
+                    </h5>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{unitholdername}}
-                </h5>
+            <!-- isThird -->
+            <div class="row" *ngIf="isThird">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'ICType' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{displayICType}}
+                    </h5>
+                </div>
             </div>
-        </div>
-        <!-- isThird -->
-        <div class="row" *ngIf="isThird">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'ICType' | translate}}
-                </h5>
+            <div class="row" *ngIf="isThird">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'CB2_4' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{thirdicnokeyed}}
+                    </h5>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{displayICType}}
-                </h5>
+            <div class="row" *ngIf="isThird">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'CB2_6' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{thirduhidkeyed}}
+                    </h5>
+                </div>
             </div>
-        </div>
-        <div class="row" *ngIf="isThird">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'CB2_4' | translate}}
-                </h5>
+            <div class="row" *ngIf="isThird">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'ReasonForTransfer' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{displayReason}}
+                    </h5>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{thirdicnokeyed}}
-                </h5>
+            <div class="row" *ngIf="isThird">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'FLB_9' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{displayRelationship}}
+                    </h5>
+                </div>
             </div>
-        </div>
-        <div class="row" *ngIf="isThird">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'CB2_6' | translate}}
-                </h5>
+    
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'RefNo' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{refno}}
+                    </h5>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{thirduhidkeyed}}
-                </h5>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'Status' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{status}}
+                    </h5>
+                </div>
             </div>
-        </div>
-        <div class="row" *ngIf="isThird">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'ReasonForTransfer' | translate}}
-                </h5>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'ApprovalCode' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{approvalcode}}
+                    </h5>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{displayReason}}
-                </h5>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'AccountTypeCP' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{accounttype}}
+                    </h5>
+                </div>
             </div>
-        </div>
-        <div class="row" *ngIf="isThird">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'FLB_9' | translate}}
-                </h5>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'AmountInclusiveSST1' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{amountKeyed | number : '1.2-2'}}
+                    </h5>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{displayRelationship}}
-                </h5>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'FundName' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{fundname}}
+                    </h5>
+                </div>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'RefNo' | translate}}
-                </h5>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'NAV' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{nav == 0 ? "" : (nav | number : '1.4-4')}}
+                    </h5>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{refno}}
-                </h5>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'SST' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{sst == 0 ? (nav == 0 ? "" : (sst | number : '1.2-2')) : (sst | number : '1.2-2')}}
+                    </h5>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'Status' | translate}}
-                </h5>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'UnitsAlloted' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{unitsalloted == 0 ? (nav == 0 ? "" : (unitsalloted | number : '1.2-2')) : (unitsalloted | number : '1.2-2' )}}
+                    </h5>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{status}}
-                </h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'ApprovalCode' | translate}}
-                </h5>
-            </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{approvalcode}}
-                </h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'AccountTypeCP' | translate}}
-                </h5>
-            </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{accounttype}}
-                </h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'AmountInclusiveSST1' | translate}}
-                </h5>
-            </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{amountKeyed | number : '1.2-2'}}
-                </h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'FundName' | translate}}
-                </h5>
-            </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{fundname}}
-                </h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'NAV' | translate}}
-                </h5>
-            </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{nav == 0 ? "" : (nav | number : '1.4-4')}}
-                </h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'SST' | translate}}
-                </h5>
-            </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{sst == 0 ? "" : ( sst | number : '1.2-2')}}
-                </h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'UnitsAlloted' | translate}}
-                </h5>
-            </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{unitsalloted == 0 ? "" : (unitsalloted | number : '1.2-2' )}}
-                </h5>
-            </div>
-        </div>
-        <div class="row" style="padding-bottom: 1.5rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h5>
-                    {{'InitialSalesCharge' | translate}}
-                </h5>
-            </div>
-            <div class="col-md-6">
-                <h5>
-                    : {{initialcharges == 0 ? "" : (initialcharges | number : '1.2-2')}}
-                </h5>
+            <div class="row" style="padding-bottom: 1.5rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h5>
+                        {{'InitialSalesCharge' | translate}}
+                    </h5>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        : {{initialcharges == 0 ? (nav == 0 ? "" : (initialcharges | number : '1.2-2')) : (initialcharges | number : '1.2-2')}}
+                    </h5>
+                </div>
             </div>
         </div>
     </div>
+    
 
 
-    <div class="row text-center" style="padding-top: 1rem; ">
+    <div class="row text-center content-container" style="padding-top: 1rem; ">
         <div class="col-md-1">
 
         </div>
@@ -1181,7 +1173,7 @@
 </div>
 
 <div *ngIf="Print1_Visible" class="content-container">
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <h2 class="h2-ic" id="ARP1_Title1">{{'Print1_1' | translate }}</h2>
             <h2 class="h2-ic" id="ARP1_Title2">{{'Print1_2' | translate }}</h2>
@@ -1194,7 +1186,7 @@
 </div>
 
 <div *ngIf="Print2_Visible" class="content-container">
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <h2 class="h2-ic" id="ARP2_Title1">{{'Print2_1' | translate }}</h2>
         </div>
@@ -1205,7 +1197,7 @@
 </div>
 
 <div *ngIf="EmailPage_Visible" class="content-container">
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <h2 class="h2-ic" id="ARE_Title1">{{'Email_1' | translate }}</h2>
             <h2 class="h2-ic" id="ARE_Title2">{{'Email_2' | translate }}</h2>
@@ -1217,15 +1209,14 @@
     </div>
 </div>
 
-
 <div class="content-container" *ngIf="transaction_Successful">
-    <div class="row text-center">
+    <div class="row text-center content-container">
         <div class="col-md-12 padding-top-2rem">
             <img src="assets/images/ASNB-tick.png" class="ticklogo " alt="ASNB">
         </div>
     </div>
     
-    <div class="row text-center padding-top-5rem" >
+    <div class="row text-center padding-top-5rem content-container" >
         <h2 class="h2-ic" id="ST_Title1">{{'TS_1' | translate }}</h2>
     </div>
     

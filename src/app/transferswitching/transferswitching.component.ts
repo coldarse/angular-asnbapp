@@ -119,6 +119,8 @@ export class TransferswitchingComponent implements OnInit {
 
   fundAvailable: any = [];
 
+  sameUH = false;
+
   transferuhid = "";
   transferuhname = "";
   transferuhictype = "";
@@ -621,7 +623,7 @@ export class TransferswitchingComponent implements OnInit {
   }
 
   Transfer(fund: any){
-
+    console.log(fund);
     //this.isHistorical = this.isBefore4pm();
     this.disagreedTNC = false;
     
@@ -637,6 +639,7 @@ export class TransferswitchingComponent implements OnInit {
 
     appFunc.ASNBFundID.forEach((elements: ASNBFundID) => {
       if(elements.code.toString().toLowerCase() == fund.FUNDID.toLowerCase()){
+        this.actualfundname = elements.value;
         if(appFunc.isOwn == "major"){
           this.TransferMinValue = elements.majorTransferLimit_min;
           this.TransferMaxValue = elements.majorTransferLimit_max;
@@ -665,7 +668,7 @@ export class TransferswitchingComponent implements OnInit {
 
     this.initializeForm1();
 
-    this.actualfundname = fund.FUNDNAME;
+    
     this.actualfundvalue = fund.UNITBALANCE;
     this.actualfundid = fund.FUNDID;
 
@@ -703,11 +706,12 @@ export class TransferswitchingComponent implements OnInit {
 
     if(this.isGetInfo == false){
       this.Form_1.controls.uhic.setValue(this.tuhic?.nativeElement.value);
-
+      this.sameUH = false;
       this.uhictypeWarning = false;
       this.uhicWarning = false;
       this.uhNoFund = false;
       this.uhNotExist = false;
+      closeKeyboard();
 
       let x = 0;
       Object.keys(this.Form_1.controls).forEach(key => {
@@ -726,76 +730,87 @@ export class TransferswitchingComponent implements OnInit {
       if (x > 0){
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
       }else{
-        this.transferuhictype = this.Form_1.controls.ictype.value;
-        this.transferuhic = this.Form_1.controls.uhic.value;
-        this.disagreedTNC = true;
+        if(this.Form_1.controls.uhic.value == currentHolder.identificationnumber){
+          this.sameUH = true;
+          this.disagreedTNC = false;
+          this.Form_1.controls.uhic.setValue("");
+          this.Form_1.controls.ictype.setValue("");
+        }else{
+          this.transferuhictype = this.Form_1.controls.ictype.value;
+          this.transferuhic = this.Form_1.controls.uhic.value;
+          this.disagreedTNC = true;
 
-        const body = { 
+          const body = { 
 
-          "CHANNELTYPE": signalrConnection.channelType,
-          "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-          "DEVICEOWNER": signalrConnection.deviceOwner,
-          "UNITHOLDERID": "",
-          "FIRSTNAME": "",
-          "IDENTIFICATIONTYPE": this.transferuhictype,
-          "IDENTIFICATIONNUMBER": this.transferuhic,
-          "FUNDID": "",
-          "INQUIRYCODE": "9",
-          "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-          "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
-          "BANKCUSTPHONENUMBER": "",
-          "FILTRATIONFLAG": "1",
-          "GUARDIANID": "",
-          "GUARDIANICTYPE": "",
-          "GUARDIANICNUMBER": ""
-  
-         };
-  
-  
+            "CHANNELTYPE": signalrConnection.channelType,
+            "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+            "DEVICEOWNER": signalrConnection.deviceOwner,
+            "UNITHOLDERID": "",
+            "FIRSTNAME": "",
+            "IDENTIFICATIONTYPE": this.transferuhictype,
+            "IDENTIFICATIONNUMBER": this.transferuhic,
+            "FUNDID": "",
+            "INQUIRYCODE": "9",
+            "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+            "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+            "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
+            "BANKCUSTPHONENUMBER": "",
+            "FILTRATIONFLAG": "1",
+            "GUARDIANID": "",
+            "GUARDIANICTYPE": "",
+            "GUARDIANICNUMBER": ""
     
-        this.serviceService.getAccountInquiry(body)
-          .subscribe((result: any) => {
-            if(result.transactionstatus.toLowerCase().includes('successful')){
+          };
+    
+    
+      
+          this.serviceService.getAccountInquiry(body)
+            .subscribe((result: any) => {
+              if(result.transactionstatus.toLowerCase().includes('successful')){
 
-              let isFund = false;
-              result.funddetail.forEach((element: any) => {
-                if(element.FUNDID == this.selectedFundID){
-                  isFund = true;
+                let isFund = false;
+                result.funddetail.forEach((element: any) => {
+                  if(element.FUNDID == this.selectedFundID){
+                    isFund = true;
+                  }
+                });
+
+                if(isFund){
+                  this.Form_1.controls.uhid.setValue(result.unitholderid);
+                  this.Form_1.controls.uhname.setValue(result.firstname);
+      
+                  this.Form_1.controls.ictype.disable();
+                  this.Form_1.controls.uhic.disable();
+                  this.Form_1.controls.uhid.disable();
+                  this.Form_1.controls.uhname.disable();
+    
+                  deleteKeyboard();
+                
+                  this.isGetInfo = true;
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 300);
                 }
-              });
-
-              if(isFund){
-                this.Form_1.controls.uhid.setValue(result.unitholderid);
-                this.Form_1.controls.uhname.setValue(result.firstname);
-    
-                this.Form_1.controls.ictype.disable();
-                this.Form_1.controls.uhic.disable();
-                this.Form_1.controls.uhid.disable();
-                this.Form_1.controls.uhname.disable();
-  
-                this.isGetInfo = true;
-              }
-              else{
+                else{
+                  this.disagreedTNC = false;
+                  this.Form_1.controls.uhic.setValue("");
+                  this.Form_1.controls.ictype.setValue("");
+                  // this.uhicWarning = true;
+                  // this.uhictypeWarning = true;
+                  this.uhNoFund = true;
+                }
+                
+              }else{
                 this.disagreedTNC = false;
                 this.Form_1.controls.uhic.setValue("");
                 this.Form_1.controls.ictype.setValue("");
                 // this.uhicWarning = true;
                 // this.uhictypeWarning = true;
-                this.uhNoFund = true;
+                this.uhNotExist = true;
               }
               
-            }else{
-              this.disagreedTNC = false;
-              this.Form_1.controls.uhic.setValue("");
-              this.Form_1.controls.ictype.setValue("");
-              // this.uhicWarning = true;
-              // this.uhictypeWarning = true;
-              this.uhNotExist = true;
-            }
-            
-        });
-      
+          });
+        }
       }
     }
     else{
@@ -947,7 +962,7 @@ export class TransferswitchingComponent implements OnInit {
     }
 
     appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
-      if(elem.desc.toLowerCase() == this.transferfunname.toLowerCase()){
+      if(elem.value.toLowerCase() == this.transferfunname.toLowerCase()){
         fundid = elem.code;
       }
     });
@@ -1543,6 +1558,8 @@ export class TransferswitchingComponent implements OnInit {
   }
 
   Switching(fund: any){
+
+    console.log(fund);
     this.disagreedTNC = true;
     this.pdfsrc3 = "assets/SWITCHING/All_Fund_Min_Criteria.pdf";
 
@@ -1564,6 +1581,7 @@ export class TransferswitchingComponent implements OnInit {
 
     appFunc.ASNBFundID.forEach((elements: ASNBFundID) => {
       if(elements.code.toString().toLowerCase() == fund.FUNDID.toLowerCase()){
+        this.actualfundname = elements.value;
         if(appFunc.isOwn == "major"){
           this.SwitchingMinValue = elements.majorSwitchingLimit_min;
           this.SwitchingMaxValue = elements.majorSwitchingLimit_max;
@@ -1604,8 +1622,21 @@ export class TransferswitchingComponent implements OnInit {
 
       //console.log(this.fundAvailable);
 
-      this.switchingNAVFrom = fund.NAV;
-      this.switchingfrom = fund.FUNDNAME;
+
+      
+
+      appFunc.ASNBFundID.forEach((element: ASNBFundID) => {
+        if(fund.FUNDID.toString().toLowerCase() == element.code.toString().toLowerCase()){
+          this.switchingfrom = element.value;
+          if(element.pricingType.toLowerCase() == 'amount'){
+            this.switchingNAVFrom = fund.NAV;
+          }
+          else{
+            this.switchingNAVFrom = 0;
+          }
+        }
+      });
+      
 
       if(selectLang.selectedLang == 'en'){
         this.transaction = "Switching";
@@ -1620,7 +1651,7 @@ export class TransferswitchingComponent implements OnInit {
 
       this.initializeForm2();
 
-      this.actualfundname = fund.FUNDNAME;
+      
       this.actualfundvalue = fund.UNITBALANCE;
       this.actualfundid = fund.FUNDID;
 
@@ -1903,7 +1934,7 @@ export class TransferswitchingComponent implements OnInit {
                   "identificationType": result1.result.identificationtype,
                   "identificationNumber": result1.result.identificationnumber,
                   "fundID": this.actualfundid,
-                  "amountApplied": " - " + result1.result.amountapplied,
+                  "amountApplied": 0 - result1.result.amountapplied,
                   "transactionDate": result1.result.transactiondate,
                   "transactionTime": result1.result.transactiontime,
                   "transactionType": module1,
@@ -2120,9 +2151,9 @@ export class TransferswitchingComponent implements OnInit {
       "AMOUNTAPPLIED": this.switchingamount,
       "FUNDID" : this.switchingfrom,
       "TOFUNDID": this.receiptfundid,
-      "FUNDPRICE" : this.switchingNAVTo,
+      "FUNDPRICE" : this.switchingNAVFrom,
       "TOFUNDPRICE": this.switchingNAVTo,
-      "UNITSALLOTED" : this.switchingUnitsTo,
+      "UNITSALLOTED" : this.switchingUnitsFrom,
       "TOUNITSALLOTED": this.switchingUnitsTo,
       "FEEPERCENTAGE" : this.feepercentage,
       "SALESCHARGE" : this.initialcharges,
@@ -2235,9 +2266,9 @@ export class TransferswitchingComponent implements OnInit {
       "AMOUNTAPPLIED": this.switchingamount,
       "FUNDID" : this.switchingfrom,
       "TOFUNDID": this.receiptfundid,
-      "FUNDPRICE" : this.switchingNAVTo,
+      "FUNDPRICE" : this.switchingNAVFrom,
       "TOFUNDPRICE": this.switchingNAVTo,
-      "UNITSALLOTED" : this.switchingUnitsTo,
+      "UNITSALLOTED" : this.switchingUnitsFrom,
       "TOUNITSALLOTED": this.switchingUnitsTo,
       "FEEPERCENTAGE" : this.feepercentage,
       "SALESCHARGE" : this.initialcharges,

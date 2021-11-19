@@ -302,7 +302,7 @@
 	"Financial_Transaction_Menu_Header_Title": "FINANCIAL TRANSACTION",
 	"FM_1": "Additional Investment",
 	"FM_2": "Initial Investment",
-	"FM_3": "Transfer & Switch",
+	"FM_3": "Transfer & Switching",
 	"FM_4": "Redemption",
 	"FMI_1": "Own Account",
 	"FMI_2": "Akaun Bijak/Remaja",
@@ -374,8 +374,8 @@
 	"TransferTo": "Transfer To",
 	"UHName": "Unit Holder Name",
 	"UHICNo": "Unit Holder MyKad No",
-	"TransferCopywriting1": "Please enter the fund and amount you wish to transfer.",
-	"TransferCopywriting2": "Please note that the units will be allotted base on Net Asset Value(NAV) for the respective unit trust funds after deducting the relevant charges (if any).",
+	"TransferCopywriting1": "Please enter the amount you wish to transfer.",
+	"TransferCopywriting2": "Please note that the units will be allotted based on Net Asset Value(NAV) for the respective unit trust funds after deducting the relevant charges (if any).",
 	"TransferCopywriting3": "The minimum transfer value is RM100.00 for historical price funds and 100 units for forward price funds.",
 	"TransferCopywriting4": "The maximum transfer value (inclusive of fees) is subject to the maximum investment holding of the fixed funds or variable funds with historical pricing mechanism. However, the maximum transfer value (inclusive of fees) is limited to 30,000 units/transaction for variable funds with forward pricing mechanism.",
 	"TransferConfirmationPage": "Confirmation of Fund Transfer to",
@@ -383,8 +383,8 @@
 	"InitialServiceChargeRM": "Initial Service Charge (RM)",
 	"InitialServiceChargePercentage": "Initial Service Charge (%)",
 	"SwitchTo": "Switch To",
-	"SwitchingCopywriting1": "Please enter the fund and amount you wish to switch.",
-	"SwitchingCopywriting2": "Please note that the units will be allotted base on Net Asset Value(NAV) for the respective unit trust funds after deducting the relevant charges (if any).",
+	"SwitchingCopywriting1": "Please enter the amount you wish to switch.",
+	"SwitchingCopywriting2": "Please note that the units will be allotted based on Net Asset Value(NAV) for the respective unit trust funds after deducting the relevant charges (if any).",
 	"SwitchingCopywriting3": "The minimum switching value is RM100.00 for historical price funds and 100 units for forward price funds.",
 	"SwitchingCopywriting4": "The maximum switching value (inclusive of fees) is subject to the maximum investment holding of the fixed funds or variable funds with historical pricing mechanism. However, the maximum transfer value (inclusive of fees) is limited to 30,000 units/transaction for variable funds with forward pricing mechanism.",
 	"SwitchingConfirmationPage": "Fund Switching Confirmation",
@@ -464,5 +464,6 @@
 	"uhNoFund": "Unit Holder does not have the selected fund to proceed with transfer.",
 	"SupplementaryProspectus": "ASNB Supplementary Master Prospectus",
 	"SupplementaryProspectusForFund" : "ASN Imbang 3 Global Supplementary Prospectus",
-	"RemoveDebitCard": "Please remove your Debit Card"
+	"RemoveDebitCard": "Please remove your Debit Card",
+	"sameUH": "Transfer to Own Account is not allowed."
 }

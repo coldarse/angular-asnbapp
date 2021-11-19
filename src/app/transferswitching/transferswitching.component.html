@@ -1,5 +1,3 @@
-
-
 <nav class="navbar navbar-expand-lg navbar-light-custom bg-white">
     <div class="container-fluid">
         <div class="titleNLogo">
@@ -52,7 +50,6 @@
 
 </div>
 
-
 <div *ngIf="transferswitching" class="content-container">
 
     <div class="text-center" style="padding-top:3rem">
@@ -61,7 +58,7 @@
         </h2>
     </div>
 
-    <div class="row text-center" style="padding-top:1rem">
+    <div class="row text-center content-container" style="padding-top:1rem">
         <div class="col-md-1" >
 
         </div>
@@ -73,7 +70,7 @@
         </div>
     </div>
 
-    <div class="row text-center" style="padding-top:1rem">
+    <div class="row text-center content-container" style="padding-top:1rem">
         <div class="col-md-1" >
 
         </div>
@@ -96,7 +93,7 @@
     </div>
 
     <!-- NgFor how many funds -->
-    <div class="row text-center" style="padding-top:1rem" *ngFor="let fund of newFundDetails">
+    <div class="row text-center content-container" style="padding-top:1rem" *ngFor="let fund of newFundDetails">
         <div class="col-md-1" >
 
         </div>
@@ -250,7 +247,7 @@
 
 <div *ngIf="transfer1" class="content-container">
    
-    <div class="row text-center" style="padding-top:1rem">
+    <div class="row text-center content-container" style="padding-top:1rem">
         <div class="col-md-1" >
 
         </div>
@@ -262,7 +259,7 @@
         </div>
     </div>
 
-    <div class="row text-center" style="padding-top:1rem">
+    <div class="row text-center content-container" style="padding-top:1rem">
         <div class="col-md-1" >
 
         </div>
@@ -284,7 +281,7 @@
         </div>
     </div>
 
-    <div class="row text-center" style="padding-top:1rem">
+    <div class="row text-center content-container" style="padding-top:1rem">
         <div class="col-md-1" >
 
         </div>
@@ -307,122 +304,126 @@
         </div>
     </div>
 
-    <div class="col-md-12 text-center" style="padding-top:1rem;">
+    <div class="col-md-12 text-center content-container" style="padding-top:1rem;">
         <h4>+ {{'TransferTo' | translate }}</h4>
     </div>
 
-    <div class="pop-up-third">
-        <div class="row" style="padding-top:2rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'ICType' | translate}}
-                </h4>
+    <div class="col-md-12 content-container">
+        <div class="pop-up-third">
+            <div class="row" style="padding-top:2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'ICType' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["ictype"]' [hidden]="ispopup" #thirdictype>
+                        <option value="">{{ 'optionSelect' | translate }}</option>
+                        <option *ngFor="let type of ictype" value={{type.code}}>
+                            {{type.desc}}
+                        </option>
+                    </select>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhictypeWarning">{{'ThirdICTypeWarning' | translate}}</div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["ictype"]' [hidden]="ispopup" #thirdictype>
-                    <option value="">{{ 'optionSelect' | translate }}</option>
-                    <option *ngFor="let type of ictype" value={{type.code}}>
-                        {{type.desc}}
-                    </option>
-                </select>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhictypeWarning">{{'ThirdICTypeWarning' | translate}}</div>
+            <div class="row" style="padding-bottom: 2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'TransferTo' | translate}} - {{'UHICNo' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" style="width: 85%;" name="thirdicno" id="thirdicno" class="use-keyboard-input" [formControl]='Form_1.controls["uhic"]' #tuhic>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhicWarning">{{'ThirdICWarning' | translate}}</div>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNotExist">{{'uhNotExist' | translate}}</div>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNoFund">{{'uhNoFund' | translate}}</div>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sameUH">{{'sameUH' | translate}}</div>
+                </div>
             </div>
-        </div>
-        <div class="row" style="padding-bottom: 2rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'TransferTo' | translate}} - {{'UHICNo' | translate}}
-                </h4>
+    
+    
+            <div class="row" *ngIf="isGetInfo">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'ARSuccess_5' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" style="width: 85%;" name="touhid" id="touhid" class="use-keyboard-input" [formControl]='Form_1.controls["uhid"]' #tuhid>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhidWarning">{{'ThirdUHIDWarning' | translate}}</div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="thirdicno" id="thirdicno" class="use-keyboard-input" [formControl]='Form_1.controls["uhic"]' #tuhic>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhicWarning">{{'ThirdICWarning' | translate}}</div>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNotExist">{{'uhNotExist' | translate}}</div>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNoFund">{{'uhNoFund' | translate}}</div>
+            <div class="row" *ngIf="isGetInfo">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'UHName' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" style="width: 85%;" name="touhname" id="touhname" class="use-keyboard-input" [formControl]='Form_1.controls["uhname"]' #tuhname>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhnameWarning">{{'ThirdNameWarning' | translate}}</div>
+                </div>
             </div>
-        </div>
-
-
-        <div class="row" *ngIf="isGetInfo">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'ARSuccess_5' | translate}}
-                </h4>
+            <div class="row" *ngIf="isGetInfo">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'ReasonForTransfer' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["reason"]' #treason>
+                        <option value="">{{ 'optionSelect' | translate }}</option>
+                        <option *ngFor="let rea of reason" value={{rea.code}}>
+                            {{rea.desc}}
+                        </option>
+                    </select>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferreasonWarning">{{'SourceOfFundWarning' | translate}}</div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="touhid" id="touhid" class="use-keyboard-input" [formControl]='Form_1.controls["uhid"]' #tuhid>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhidWarning">{{'ThirdUHIDWarning' | translate}}</div>
+            <div class="row" *ngIf="isGetInfo">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'FLB_9' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["relationship"]' #trelationship>
+                        <option value="">{{ 'optionSelect' | translate }}</option>
+                        <option *ngFor="let re of relationship" value={{re.code}}>
+                            {{re.desc}}
+                        </option>
+                    </select> 
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferrelationshipWarning">{{'ThirdRelationshipWarning' | translate}}</div>
+                </div>
             </div>
-        </div>
-        <div class="row" *ngIf="isGetInfo">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'UHName' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="touhname" id="touhname" class="use-keyboard-input" [formControl]='Form_1.controls["uhname"]' #tuhname>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhnameWarning">{{'ThirdNameWarning' | translate}}</div>
-            </div>
-        </div>
-        <div class="row" *ngIf="isGetInfo">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'ReasonForTransfer' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["reason"]' #treason>
-                    <option value="">{{ 'optionSelect' | translate }}</option>
-                    <option *ngFor="let rea of reason" value={{rea.code}}>
-                        {{rea.desc}}
-                    </option>
-                </select>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferreasonWarning">{{'SourceOfFundWarning' | translate}}</div>
-            </div>
-        </div>
-        <div class="row" *ngIf="isGetInfo">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'FLB_9' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["relationship"]' #trelationship>
-                    <option value="">{{ 'optionSelect' | translate }}</option>
-                    <option *ngFor="let re of relationship" value={{re.code}}>
-                        {{re.desc}}
-                    </option>
-                </select> 
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferrelationshipWarning">{{'ThirdRelationshipWarning' | translate}}</div>
-            </div>
-        </div>
-        <div class="row" style="padding-bottom: 2rem;" *ngIf="isGetInfo">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
-                    {{'AmountInclusiveSST5' | translate}}
-                </h4>
-                <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
-                    {{'AmountInclusiveSST4' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="amount" id="amount" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #tamount>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferamountWarning">{{'AWarning' | translate}}</div>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning1">{{'A1Warning' | translate}}</div>
+            <div class="row" style="padding-bottom: 2rem;" *ngIf="isGetInfo">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
+                        {{'AmountInclusiveSST5' | translate}}
+                    </h4>
+                    <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
+                        {{'AmountInclusiveSST4' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" style="width: 85%;" name="amount" id="amount" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #tamount>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferamountWarning">{{'AWarning' | translate}}</div>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning1">{{'A1Warning' | translate}}</div>
+                </div>
             </div>
         </div>
     </div>
+    
 
-    <div style="display:grid; place-items: center; padding-top: 2rem;" *ngIf="isGetInfo">
-        <div style="width: 1200px">
+    <div class="col-md-12 content-container" style="margin-left: auto; margin-right: auto; padding-top: 2rem;" *ngIf="isGetInfo">
+        <div style="width: 1200px; margin-left: auto; margin-right: auto;">
             <p>1. {{'TransferCopywriting1' | translate}}</p>
             <p>2. {{'TransferCopywriting2' | translate}}</p>
             <p>3. {{'TransferCopywriting3' | translate}}</p>
@@ -430,10 +431,7 @@
         </div>
     </div>
 
-    <div class="row text-center" style="padding-top: 1rem;" *ngIf="isGetInfo">
-        <!-- <div class="col-md-1">
-
-        </div> -->
+    <div class="row text-center content-container" style="padding-top: 1rem;" *ngIf="isGetInfo">
         <div class="col-md-12">
             <input type="checkbox" class="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC($event)">
             <label for="tncCheck" style="padding-left:1rem; font-size: 0.75rem;">
@@ -444,9 +442,6 @@
                 {{'SIStep2_6' | translate }}
             </label><br>
         </div>
-        <!-- <div class="col-md-1">
-            
-        </div> -->
     </div>
 
 
@@ -637,196 +632,198 @@
     </div>
 
     
-
-    <div class="pop-up-third">
-        <div class="row" style="padding-top:2rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'ARSuccess_5' | translate}}
-                </h4>
+    <div class="col-md-12 content-container">
+        <div class="pop-up-third">
+            <div class="row" style="padding-top:2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'ARSuccess_5' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ transferuhid }}
+                    </h4>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ transferuhid }}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'UHName' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ transferuhname }}
+                    </h4>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'UHName' | translate}}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'UHICNo' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ transferuhic }}
+                    </h4>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ transferuhname }}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'ReasonForTransfer' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ displayReason }}
+                    </h4>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'UHICNo' | translate}}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'FLB_9' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ displayRelationship }}
+                    </h4>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ transferuhic }}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
+                        {{'AmountInclusiveSST5' | translate}}
+                    </h4>
+                    <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
+                        {{'AmountInclusiveSST4' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ transferamount | number : '1.2-2' }}
+                    </h4>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'ReasonForTransfer' | translate}}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'TransferFrom' | translate}} - {{'ARSuccess_5' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ transferfrom }}
+                    </h4>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ displayReason }}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'TransferFrom' | translate}} - {{'UHName' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ transferfromName }}
+                    </h4>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'FLB_9' | translate}}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'FundName' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ transferfunname }}
+                    </h4>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ displayRelationship }}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'NAV' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ transferNAV == 0 ? "" : ( transferNAV | number : '1.4-4' )}}
+                    </h4>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
-                    {{'AmountInclusiveSST5' | translate}}
-                </h4>
-                <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
-                    {{'AmountInclusiveSST4' | translate}}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'Units' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ transferunits == 0 ? (transferNAV == 0 ? "" : ( transferunits | number : '1.2-2' )) : ( transferunits | number : '1.2-2' ) }}
+                    </h4>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ transferamount | number : '1.2-2' }}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'SST' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ transferSST == 0 ? (transferNAV == 0 ? "" : ( transferSST | number : '1.2-2' )) : ( transferSST | number : '1.2-2' ) }}
+                    </h4>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'TransferFrom' | translate}} - {{'ARSuccess_5' | translate}}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'InitialServiceChargeRM' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ transferinitialRM == 0 ? (transferNAV == 0 ? "" : ( transferinitialRM | number : '1.2-2' )) : ( transferinitialRM | number : '1.2-2' ) }}
+                    </h4>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ transferfrom }}
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'TransferFrom' | translate}} - {{'UHName' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ transferfromName }}
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'FundName' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ transferfunname }}
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'NAV' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ transferNAV == 0 ? "" : ( transferNAV | number : '1.4-4' )}}
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'Units' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ transferunits == 0 ? "" : ( transferunits | number : '1.2-2' )}}
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'SST' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ transferSST == 0 ? "" : ( transferSST | number : '1.2-2' )}}
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'InitialServiceChargeRM' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ transferinitialRM == 0 ? "" : ( transferinitialRM | number : '1.2-2' )}}
-                </h4>
-            </div>
-        </div>
-        <div class="row" style="padding-bottom: 2rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'InitialServiceChargePercentage' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ transferinitialPercentage == 0 ? "" :  transferinitialPercentage}}
-                </h4>
+            <div class="row" style="padding-bottom: 2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'InitialServiceChargePercentage' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ transferinitialPercentage == 0 ? (transferNAV == 0 ? "" : ( transferinitialPercentage | number : '1.2-2'  )) : (transferinitialPercentage | number : '1.2-2') }}
+                    </h4>
+                </div>
             </div>
         </div>
     </div>
+    
 
-    <div class="row text-center" style="padding-top: 1rem; ">
+    <div class="row text-center content-container" style="padding-top: 1rem; ">
         <div class="col-md-1">
 
         </div>
@@ -884,7 +881,7 @@
 
 <div *ngIf="switching1" class="content-container">
    
-    <div class="row text-center" style="padding-top:1rem">
+    <div class="row text-center content-container" style="padding-top:1rem">
         <div class="col-md-1" >
 
         </div>
@@ -896,7 +893,7 @@
         </div>
     </div>
 
-    <div class="row text-center" style="padding-top:1rem">
+    <div class="row text-center content-container" style="padding-top:1rem">
         <div class="col-md-1" >
 
         </div>
@@ -918,7 +915,7 @@
         </div>
     </div>
 
-    <div class="row text-center" style="padding-top:1rem">
+    <div class="row text-center content-container" style="padding-top:1rem">
         <div class="col-md-1" >
 
         </div>
@@ -941,48 +938,51 @@
         </div>
     </div>
 
-    <div class="col-md-12 text-center" style="padding-top:1rem;">
+    <div class="col-md-12 text-center content-container" style="padding-top:1rem;">
         <h4>+ {{'SwitchTo' | translate }}</h4>
     </div>
 
-    <div class="pop-up-third">
-        <div class="row" style="padding-top:2rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'SwitchTo' | translate}} - {{'CBTH_1' | translate}}
-                </h4>
+    <div class="col-md-12 content-container">
+        <div class="pop-up-third">
+            <div class="row" style="padding-top:2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'SwitchTo' | translate}} - {{'CBTH_1' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["fundname"]' #sfundid>
+                        <option value="">{{ 'optionSelect' | translate }}</option>
+                        <option *ngFor="let fa of fundAvailable" value={{fa.FUNDID}}>
+                            {{fa.FUNDNAME}}
+                        </option>
+                    </select>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="switchingFundWarning">{{'ThirdFundWarning' | translate}}</div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_2.controls["fundname"]' #sfundid>
-                    <option value="">{{ 'optionSelect' | translate }}</option>
-                    <option *ngFor="let fa of fundAvailable" value={{fa.FUNDID}}>
-                        {{fa.FUNDNAME}}
-                    </option>
-                </select>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="switchingFundWarning">{{'ThirdFundWarning' | translate}}</div>
-            </div>
-        </div>
-        <div class="row" style="padding-bottom: 2rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
-                    {{'AmountInclusiveSST2' | translate}}
-                </h4>
-                <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
-                    {{'AmountInclusiveSST6' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="switchamount" id="switchamount" class="use-keyboard-input" [formControl]='Form_2.controls["amount"]' #samount>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="switchingamountWarning">{{'AWarning' | translate}}</div>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning2">{{'A1Warning' | translate}}</div>
+            <div class="row" style="padding-bottom: 2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
+                        {{'AmountInclusiveSST2' | translate}}
+                    </h4>
+                    <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
+                        {{'AmountInclusiveSST6' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" style="width: 85%;" name="switchamount" id="switchamount" class="use-keyboard-input" [formControl]='Form_2.controls["amount"]' #samount>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="switchingamountWarning">{{'AWarning' | translate}}</div>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning2">{{'A1Warning' | translate}}</div>
+                </div>
             </div>
         </div>
     </div>
+    
 
-    <div style="display:grid; place-items: center; padding-top: 2rem;">
-        <div style="width: 1200px">
+    <div class="col-md-12 content-container" style="margin-left: auto; margin-right: auto; padding-top: 2rem;">
+        <div style="width: 1200px; margin-left: auto; margin-right: auto;">
             <p>1. {{'SwitchingCopywriting1' | translate}}</p>
             <p>2. {{'SwitchingCopywriting2' | translate}}</p>
             <p>3. {{'SwitchingCopywriting3' | translate}}</p>
@@ -990,10 +990,7 @@
         </div>
     </div>
 
-    <div class="row text-center" style="padding-top: 1rem;">
-        <!-- <div class="col-md-1">
-
-        </div> -->
+    <div class="row text-center content-container" style="padding-top: 1rem;">
         <div class="col-md-12">
             <input type="checkbox" class="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC($event)">
             <label for="tncCheck" style="padding-left:1rem; font-size: 0.75rem;">
@@ -1004,9 +1001,6 @@
                 {{'SIStep2_6' | translate }}
             </label><br>
         </div>
-        <!-- <div class="col-md-1">
-            
-        </div> -->
     </div>
 
 
@@ -1145,144 +1139,146 @@
     </div>
 
     
-
-    <div class="pop-up-third">
-        <div class="row" style="padding-top:2rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'CB2_2' | translate}}
-                </h4>
+    <div class="col-md-12 content-container">
+        <div class="pop-up-third">
+            <div class="row" style="padding-top:2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'CB2_2' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ switchingFromName }}
+                    </h4>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ switchingFromName }}
-                </h4>
+            <div class="row" >
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'ARSuccess_5' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ switchinguhid }}
+                    </h4>
+                </div>
             </div>
-        </div>
-        <div class="row" >
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'ARSuccess_5' | translate}}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'SwitchFrom' | translate}} - {{'FundName' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ switchingfrom }}
+                    </h4>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ switchinguhid }}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'SwitchTo' | translate}} - {{'FundName' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ receiptfundid }}
+                    </h4>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'SwitchFrom' | translate}} - {{'FundName' | translate}}
-                </h4>
+            <div class="row" >
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
+                        {{'AmountInclusiveSST2' | translate}}
+                    </h4>
+                    <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
+                        {{'AmountInclusiveSST6' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ switchingamount | number : '1.2-2'  }}
+                    </h4>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ switchingfrom }}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'NAV' | translate}} ({{'FromFund' | translate}})
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ switchingNAVFrom == 0 ? "" : ( switchingNAVFrom | number : '1.4-4' )}}
+                    </h4>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'SwitchTo' | translate}} - {{'FundName' | translate}}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'NAV' | translate}} ({{'ToFund' | translate}})
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ switchingNAVTo == 0 ? "" : ( switchingNAVTo | number : '1.4-4' ) }}
+                    </h4>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ receiptfundid }}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'Units' | translate}} ({{'FromFund' | translate}})
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ switchingUnitsFrom  == 0 ? (switchingNAVTo == 0 ? "" : ( switchingUnitsFrom | number : '1.2-2' )) :  (switchingUnitsFrom | number : '1.2-2') }}
+                    </h4>
+                </div>
             </div>
-        </div>
-        <div class="row" >
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
-                    {{'AmountInclusiveSST2' | translate}}
-                </h4>
-                <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
-                    {{'AmountInclusiveSST6' | translate}}
-                </h4>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'Units' | translate}} ({{'ToFund' | translate}})
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ switchingUnitsTo == 0 ? (switchingNAVTo == 0 ? "" : ( switchingUnitsTo | number : '1.2-2' )) : ( switchingUnitsTo | number : '1.2-2' ) }}
+                    </h4>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ switchingamount | number : '1.2-2'  }}
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'NAV' | translate}} ({{'FromFund' | translate}})
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ switchingNAVFrom | number : '1.4-4'  }}
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'NAV' | translate}} ({{'ToFund' | translate}})
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ switchingNAVTo == 0 ? "" : ( switchingNAVTo | number : '1.4-4' ) }}
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'Units' | translate}} ({{'FromFund' | translate}})
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ switchingUnitsFrom  == 0 ? "" : ( switchingUnitsFrom | number : '1.2-2' ) }}
-                </h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'Units' | translate}} ({{'ToFund' | translate}})
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ switchingUnitsTo == 0 ? "" : ( switchingUnitsTo | number : '1.2-2' ) }}
-                </h4>
-            </div>
-        </div>
-        <div class="row" style="padding-bottom: 2rem;">
-            <div class="col-md-1"></div>
-            <div class="col-md-5">
-                <h4>
-                    {{'SST' | translate}}
-                </h4>
-            </div>
-            <div class="col-md-6">
-                <h4>
-                    : {{ switchingSST  == 0 ? "" : ( switchingSST | number : '1.2-2' ) }}
-                </h4>
+            <div class="row" style="padding-bottom: 2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'SST' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        : {{ switchingSST  == 0 ? (switchingNAVTo == 0 ? "" : ( switchingSST | number : '1.2-2' )) : ( switchingSST | number : '1.2-2' ) }}
+                    </h4>
+                </div>
             </div>
         </div>
     </div>
+    
 
-    <div class="row text-center" style="padding-top: 1rem; ">
+    <div class="row text-center content-container" style="padding-top: 1rem; ">
         <div class="col-md-1">
 
         </div>
@@ -1339,7 +1335,7 @@
 </div>
 
 <div *ngIf="Print1_Visible" class="content-container">
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <h2 class="h2-ic" id="ARP1_Title1">{{'Print1_1' | translate }}</h2>
             <h2 class="h2-ic" id="ARP1_Title2">{{'Print1_2' | translate }}</h2>
@@ -1351,7 +1347,7 @@
     </div>
 </div>
 
-<div *ngIf="Print2_Visible" class="content-container">
+<div *ngIf="Print2_Visible content-container" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <h2 class="h2-ic" id="ARP2_Title1">{{'Print2_1' | translate }}</h2>
@@ -1362,7 +1358,7 @@
     </div>
 </div>
 
-<div *ngIf="EmailPage_Visible" class="content-container">
+<div *ngIf="EmailPage_Visible content-container" class="content-container">
     <div class="row">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <h2 class="h2-ic" id="ARE_Title1">{{'Email_1' | translate }}</h2>
@@ -1375,15 +1371,14 @@
     </div>
 </div>
 
-
 <div class="content-container" *ngIf="transaction_Successful">
-    <div class="row text-center">
+    <div class="row text-center content-container">
         <div class="col-md-12 padding-top-2rem">
             <img src="assets/images/ASNB-tick.png" class="ticklogo " alt="ASNB">
         </div>
     </div>
     
-    <div class="row text-center padding-top-5rem" >
+    <div class="row text-center padding-top-5rem content-container" >
         <h2 class="h2-ic" id="ST_Title1">{{'TS_1' | translate }}</h2>
     </div>
     

@@ -1102,7 +1102,7 @@
 </div>
 
 <div id="AR_Print1" *ngIf="ARPrint1_Visible" class="content-container">
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-6 text-center" style="padding-top:20rem;">
             <h2 class="h2-ic" id="ARP1_Title1">{{'Print1_1' | translate }}</h2>
             <h2 class="h2-ic" id="ARP1_Title2">{{'Print1_2' | translate }}</h2>
@@ -1115,7 +1115,7 @@
 </div>
 
 <div id="AR_Print2" *ngIf="ARPrint2_Visible" class="content-container">
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <h2 class="h2-ic" id="ARP2_Title1">{{'Print2_1' | translate }}</h2>
         </div>
@@ -1126,7 +1126,7 @@
 </div>
 
 <div id="AR_Email" *ngIf="AREmail_Visible" class="content-container">
-    <div class="row">
+    <div class="row content-container">
         <div class="col-md-6 text-center" style="padding-top:20rem ">
             <h2 class="h2-ic" id="ARE_Title1">{{'Email_1' | translate }}</h2>
             <h2 class="h2-ic" id="ARE_Title2">{{'Email_2' | translate }}</h2>
@@ -1140,17 +1140,17 @@
 
 
 <div class="content-container" *ngIf="transaction_Successful">
-    <div class="row text-center">
+    <div class="row text-center content-container">
         <div class="col-md-12 padding-top-2rem">
             <img src="assets/images/ASNB-tick.png" class="ticklogo " alt="ASNB">
         </div>
     </div>
     
-    <div class="row text-center padding-top-5rem" *ngIf="withMinInvestment == false">
+    <div class="row text-center padding-top-5rem content-container" *ngIf="withMinInvestment == false">
         <h2 class="h2-ic" id="ST_Title1">{{'TS_1' | translate }}</h2>
     </div>
 
-    <div class="row text-center padding-top-5rem" *ngIf="withMinInvestment == true">
+    <div class="row text-center padding-top-5rem content-container" *ngIf="withMinInvestment == true">
         <h2 class="h2-ic" id="ST_Title1">{{'TS_1_1' | translate }}</h2>
     </div>
     

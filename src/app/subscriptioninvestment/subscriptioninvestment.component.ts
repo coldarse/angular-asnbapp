@@ -142,6 +142,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
   sourceOther = "";
 
   ispopup = false;
+
+  sameUH = false;
   
 
   paymentStep1 = true;
@@ -156,7 +158,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   thirdreasonkeyed = "";
   thirdrelationshipkeyed = "";
   thirdfundnamekeyed = "";
-  thirdamountkeyed = "";
+  thirdamountkeyed = 0;
 
   transaction = "";
   currentBijakUHID = "";
@@ -178,7 +180,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   showSOF = false;
   showFunderName = false;
-  showOtherSource = false;
+  showOtherSource = true;
 
   variableFunds: any = [];
   fixedFunds: any = [];
@@ -482,6 +484,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.BijakVisible = true;
       }
       else{
+        if(selectLang.selectedLang == 'en'){
+          this.transaction = "Additional Investment (Third Party Account)";
+        }
+        else{
+          this.transaction = "Pelaburan Tambahan (Akaun Pihak Ketiga)";
+        }
         this.disagreedTNC = false;
         this.moduleid = 19;
         this.action = "Perform Additional Investment for Third Party";
@@ -510,20 +518,20 @@ export class SubscriptioninvestmentComponent implements OnInit {
     if(isThird){
       if(event.target.value == "OTH"){
         this.Form_4.controls.othersource.setValidators([Validators.required]);
-        this.showOtherSource = true;
+        this.showOtherSource = false;
       }
       else{
         this.Form_4.controls.othersource.clearValidators();
-        this.showOtherSource = false;
+        this.showOtherSource = true;
       }
     }else{
       if(event.target.value == "OTH"){
         this.Form_2.controls.othersource.setValidators([Validators.required]);
-        this.showOtherSource = true;
+        this.showOtherSource = false;
       }
       else{
         this.Form_2.controls.othersource.clearValidators();
-        this.showOtherSource = false;
+        this.showOtherSource = true;
       }
     }
     
@@ -771,6 +779,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   SIStep2Next(){
+    console.log(currentHolder.riskprofile);
     this.Form_1.controls.amount.setValue(this.amount?.nativeElement.value);
 
     this.amountWarning = false;
@@ -833,11 +842,19 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
           if(appFunc.isOwn == "bijak"){
             if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-              this.showSOF = true;
-              this.showFunderName = true;
-
-              this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
-              this.Form_2.controls.fundername.setValidators([Validators.required]);
+              if(currentBijakHolder.riskprofile == "HC"){
+                this.showSOF = true;
+                this.showFunderName = false;
+  
+                this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+              }
+              else{
+                this.showSOF = true;
+                this.showFunderName = true;
+  
+                this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                this.Form_2.controls.fundername.setValidators([Validators.required]);
+              }
             }
             else{
               this.showSOF = true;
@@ -845,17 +862,22 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
               this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
         
-              setTimeout(() => {
-                loadKeyboard();
-              } , 1000);
             }
           }else{
-            if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-              this.showSOF = true;
-              this.showFunderName = true;
-
-              this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
-              this.Form_2.controls.fundername.setValidators([Validators.required]);
+            if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){ //student
+              if(currentHolder.riskprofile == "HC"){
+                this.showSOF = true;
+                this.showFunderName = false;
+  
+                this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+              }
+              else{
+                this.showSOF = true;
+                this.showFunderName = true;
+  
+                this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                this.Form_2.controls.fundername.setValidators([Validators.required]);
+              }
             }
             else{
               this.showSOF = true;
@@ -863,9 +885,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
               this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
         
-              setTimeout(() => {
-                loadKeyboard();
-              } , 1000);
             }
           }
     
@@ -885,10 +904,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   this.initializeForm2();
   
                   this.showSOF = true;
-                  this.showFunderName = true;
+                  this.showFunderName = false;
   
                   this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
-                  this.Form_2.controls.fundername.setValidators([Validators.required]);
             
                   setTimeout(() => {
                     loadKeyboard();
@@ -909,31 +927,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     loadKeyboard();
                   } , 1000);
                 }
-                // else{
-                //   this.SIStep2 = false;
-                //   this.SIStep4 = true;
-                // }
               }else{
-                if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-                  this.SIStep2 = false;
-                  this.SIStep3 = true;
-            
-                  this.initializeForm2();
-  
-                  this.showSOF = false;
-                  this.showFunderName = true;
-  
-                  // this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
-                  this.Form_2.controls.fundername.setValidators([Validators.required]);
-            
-                  setTimeout(() => {
-                    loadKeyboard();
-                  } , 1000);
-                }
-                else {
-                  this.SIStep2 = false;
-                  this.SIStep4 = true;
-                }
+                this.SIStep2 = false;
+                this.SIStep4 = true;
               }
             }
             else{
@@ -945,50 +941,111 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   this.initializeForm2();
   
                   this.showSOF = true;
-                  this.showFunderName = true;
+                  this.showFunderName = false;
   
                   this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
-                  this.Form_2.controls.fundername.setValidators([Validators.required]);
             
                   setTimeout(() => {
                     loadKeyboard();
                   } , 1000);
                 }
-                else if(currentBijakHolder.occupationcategory == "EM" || 
-                        currentBijakHolder.occupationcategory == "SE" || 
-                        currentBijakHolder.occupationcategory == "RY"){
-                          this.SIStep2 = false;
-                          this.SIStep3 = true;
+                // else if(currentBijakHolder.occupationcategory == "EM" || 
+                //         currentBijakHolder.occupationcategory == "SE" || 
+                //         currentBijakHolder.occupationcategory == "RY"){
+                //           this.SIStep2 = false;
+                //           this.SIStep3 = true;
                     
-                          this.initializeForm2();
+                //           this.initializeForm2();
           
-                          this.showSOF = true;
-                          this.showFunderName = false;
+                //           this.showSOF = true;
+                //           this.showFunderName = false;
           
-                          this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                //           this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
                     
-                          setTimeout(() => {
-                            loadKeyboard();
-                          } , 1000);
-                }
+                //           setTimeout(() => {
+                //             loadKeyboard();
+                //           } , 1000);
+                // }
                 else{
-                  this.SIStep2 = false;
-                  this.SIStep4 = true;
-                }
-              }
-              else{
-                if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
                   this.SIStep2 = false;
                   this.SIStep3 = true;
             
                   this.initializeForm2();
   
-                  this.showSOF = false;
-                  this.showFunderName = true;
+                  this.showSOF = true;
+                  this.showFunderName = false;
   
-                  // this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
-                  this.Form_2.controls.fundername.setValidators([Validators.required]);
+                  this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
             
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }
+              }
+              else{
+                // if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+                //   this.SIStep2 = false;
+                //   this.SIStep3 = true;
+            
+                //   this.initializeForm2();
+  
+                //   this.showSOF = false;
+                //   this.showFunderName = true;
+  
+                //   // this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                //   this.Form_2.controls.fundername.setValidators([Validators.required]);
+            
+                //   setTimeout(() => {
+                //     loadKeyboard();
+                //   } , 1000);
+                // }
+                // else{
+                //   this.SIStep2 = false;
+                //   this.SIStep4 = true;
+                // }
+                this.SIStep2 = false;
+                this.SIStep4 = true;
+              }
+            }
+          }//Between 10k and 15k
+          else{//Between 15k and 25k
+            if(appFunc.isOwn == "bijak"){
+              if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+                this.initializeForm2();
+                if(currentBijakHolder.riskprofile == "HC"){
+                  this.showSOF = true;
+                  this.showFunderName = false;
+    
+                  this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                }
+                else{
+                  this.showSOF = true;
+                  this.showFunderName = true;
+    
+                  this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                  this.Form_2.controls.fundername.setValidators([Validators.required]);
+                } 
+                
+
+                this.SIStep2 = false;
+                this.SIStep3 = true;
+          
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }
+              else{
+                if(currentBijakHolder.riskprofile == "HC"){
+                  this.initializeForm2();
+                  this.showSOF = true;
+                  this.showFunderName = false;
+
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+    
+                  this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+
+                
                   setTimeout(() => {
                     loadKeyboard();
                   } , 1000);
@@ -996,114 +1053,94 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 else{
                   this.SIStep2 = false;
                   this.SIStep4 = true;
-                }
-              }
-            }
-            
-          }//Between 10k and 15k
-          else{//Between 15k and 25k
-            if(appFunc.isOwn == "bijak"){
-              if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-                this.SIStep2 = false;
-                this.SIStep3 = true;
-
-                this.showSOF = true;
-                this.showFunderName = true;
-
-                this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
-                this.Form_2.controls.fundername.setValidators([Validators.required]);
-          
-                this.initializeForm2();
-          
-                setTimeout(() => {
-                  loadKeyboard();
-                } , 1000);
-              }
-              else{
-                this.SIStep2 = false;
-                this.SIStep3 = true;
-          
-                this.initializeForm2();
-
-                this.showSOF = true;
-                this.showFunderName = false;
-
-                this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
-          
-                setTimeout(() => {
-                  loadKeyboard();
-                } , 1000);
+                } 
               }
             }else{
               if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-                this.SIStep2 = false;
-                this.SIStep3 = true;
-          
                 this.initializeForm2();
+                if(currentHolder.riskprofile == "HC"){
+                  this.showSOF = true;
+                  this.showFunderName = false;
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+    
+                  this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                }
+                else{
+                  this.showSOF = true;
+                  this.showFunderName = true;
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+    
+                  this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
+                  this.Form_2.controls.fundername.setValidators([Validators.required]);
+                } 
 
-                this.showSOF = true;
-                this.showFunderName = true;
-
-                this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
-                this.Form_2.controls.fundername.setValidators([Validators.required]);
+                
           
                 setTimeout(() => {
                   loadKeyboard();
                 } , 1000);
               }
               else {
-                this.SIStep2 = false;
-                this.SIStep3 = true;
-          
-                this.initializeForm2();
+                if(currentHolder.riskprofile == "HC"){
+                  this.initializeForm2();
+                  this.showSOF = true;
+                  this.showFunderName = false;
+                  this.SIStep2 = false;
+                  this.SIStep3 = true;
+    
+                  this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
 
-                this.showSOF = true;
-                this.showFunderName = false;
-
-                this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
           
-                setTimeout(() => {
-                  loadKeyboard();
-                } , 1000);
+                  setTimeout(() => {
+                    loadKeyboard();
+                  } , 1000);
+                }
+                else{
+                  this.SIStep2 = false;
+                  this.SIStep4 = true;
+                } 
               }
             }
           }
         }
         else{
-          if(appFunc.isOwn == "bijak"){
-            if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-              this.SIStep2 = false;
-              this.SIStep3 = true;
+          // if(appFunc.isOwn == "bijak"){
+          //   if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+          //     this.SIStep2 = false;
+          //     this.SIStep3 = true;
         
-              this.initializeForm2();
+          //     this.initializeForm2();
 
-              this.showSOF = false;
-              this.showFunderName = true;
+          //     this.showSOF = false;
+          //     this.showFunderName = true;
 
-              this.Form_2.controls.fundername.setValidators([Validators.required]);
-            }
-            else{
-              this.SIStep2 = false;
-              this.SIStep4 = true;
-            }
-          }else{
-            if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-              this.SIStep2 = false;
-              this.SIStep3 = true;
+          //     this.Form_2.controls.fundername.setValidators([Validators.required]);
+          //   }
+          //   else{
+          //     this.SIStep2 = false;
+          //     this.SIStep4 = true;
+          //   }
+          // }else{
+          //   if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+          //     this.SIStep2 = false;
+          //     this.SIStep3 = true;
         
-              this.initializeForm2();
+          //     this.initializeForm2();
 
-              this.showSOF = false;
-              this.showFunderName = true;
+          //     this.showSOF = false;
+          //     this.showFunderName = true;
 
-              this.Form_2.controls.fundername.setValidators([Validators.required]);
-            }
-            else{
-              this.SIStep2 = false;
-              this.SIStep4 = true;
-            }
-          }
-          
+          //     this.Form_2.controls.fundername.setValidators([Validators.required]);
+          //   }
+          //   else{
+          //     this.SIStep2 = false;
+          //     this.SIStep4 = true;
+          //   }
+          // }
+          this.SIStep2 = false;
+          this.SIStep4 = true;
         }
       }
       
@@ -1123,7 +1160,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
   SIStep3Next(){
     this.Form_2.controls.sourceoffund.setValue(this.source?.nativeElement.value);
     this.Form_2.controls.fundername.setValue(this.fundername?.nativeElement.value);
+    this.Form_2.controls.othersource.setValue(this.othersource?.nativeElement.value);
 
+    
     this.funderWarning = false;
     this.sourceFundWarning = false;
     this.otherWarning = false;
@@ -1131,15 +1170,20 @@ export class SubscriptioninvestmentComponent implements OnInit {
     let x = 0;
     Object.keys(this.Form_2.controls).forEach(key => {
       if (this.Form_2.controls[key].hasError('required')){
-        x += 1;
+        
         if(key.includes('fundername')){
+          x += 1;
           this.funderWarning = true;
         }
         else if(key.includes('sourceoffund')){
+          x += 1;
           this.sourceFundWarning = true;
         }
         else if(key.includes('othersource')){
-          this.otherWarning = true;
+          if(this.showOtherSource == false){
+            x += 1;
+            this.otherWarning = true;
+          }
         }
       }
     });
@@ -1183,16 +1227,22 @@ export class SubscriptioninvestmentComponent implements OnInit {
     // }
 
     //if(this.amountWarning1 == false){
-      if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 20K
+      if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 25K
 
         this.SIStep4 = false;
         this.SIStep3 = true;
 
         if(appFunc.isOwn == "bijak"){
           if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-            this.showSOF = true;
-            this.showFunderName = true;
-
+            if(currentBijakHolder.riskprofile == "HC"){
+              this.showSOF = true;
+              this.showFunderName = false;
+            }
+            else{
+              this.showSOF = true;
+              this.showFunderName = true;
+            }
+            
             setTimeout(() => {
               loadKeyboard();
             } , 1000);
@@ -1207,8 +1257,15 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }
         }else{
           if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-            this.showSOF = true;
-            this.showFunderName = true;
+            if(currentHolder.riskprofile == "HC"){
+              this.showSOF = true;
+              this.showFunderName = false;
+            }
+            else{
+              this.showSOF = true;
+              this.showFunderName = true;
+            }
+
 
             setTimeout(() => {
               loadKeyboard();
@@ -1217,6 +1274,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           else{
             this.showSOF = true;
             this.showFunderName = false;
+
       
             setTimeout(() => {
               loadKeyboard();
@@ -1236,7 +1294,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 this.SIStep3 = true;
   
                 this.showSOF = true;
-                this.showFunderName = true;
+                this.showFunderName = false;
           
                 setTimeout(() => {
                   loadKeyboard();
@@ -1255,27 +1313,31 @@ export class SubscriptioninvestmentComponent implements OnInit {
               }
             }
             else{
-              if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-                this.SIStep4 = false;
-                this.SIStep3 = true;
+              // if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+              //   this.SIStep4 = false;
+              //   this.SIStep3 = true;
   
-                this.showSOF = false;
-                this.showFunderName = true;
+              //   this.showSOF = false;
+              //   this.showFunderName = true;
           
-                setTimeout(() => {
-                  loadKeyboard();
-                } , 1000);
-              }
-              else {
-                this.SIStep4 = false;
-                this.SIStep2 = true;
+              //   setTimeout(() => {
+              //     loadKeyboard();
+              //   } , 1000);
+              // }
+              // else {
+              //   this.SIStep4 = false;
+              //   this.SIStep2 = true;
 
-                this.disagreedTNC = true;
+              //   this.disagreedTNC = true;
     
-                setTimeout(() => {  
-                  loadKeyboard();
-                } , 1000);
-              }
+              //   setTimeout(() => {  
+              //     loadKeyboard();
+              //   } , 1000);
+              // }
+              this.SIStep4 = false;
+              this.SIStep2 = true;
+
+              this.disagreedTNC = true;
             }
           }
           else{
@@ -1285,7 +1347,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 this.SIStep3 = true;
   
                 this.showSOF = true;
-                this.showFunderName = true;
+                this.showFunderName = false;
           
                 setTimeout(() => {
                   loadKeyboard();
@@ -1304,13 +1366,58 @@ export class SubscriptioninvestmentComponent implements OnInit {
               }
             }
             else{
-              if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-                this.SIStep4 = false;
-                this.SIStep3 = true;
+            //   if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+            //     this.SIStep4 = false;
+            //     this.SIStep3 = true;
   
+            //     this.showSOF = true;
+            //     this.showFunderName = true;
+          
+            //     setTimeout(() => {
+            //       loadKeyboard();
+            //     } , 1000);
+            //   }
+            //   else{
+            //     this.SIStep4 = false;
+            //     this.SIStep2 = true;
+
+            //     this.disagreedTNC = true;
+    
+            //     setTimeout(() => {  
+            //       loadKeyboard();
+            //     } , 1000);
+            //   }
+              this.SIStep4 = false;
+              this.SIStep2 = true;
+
+              this.disagreedTNC = true;
+            }
+          }
+        }
+        else{//Between 15k and 20k
+          if(appFunc.isOwn == "bijak"){
+            if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+              if(currentBijakHolder.riskprofile == "HC"){
+                this.showSOF = true;
+                this.showFunderName = false;
+              }
+              else{
                 this.showSOF = true;
                 this.showFunderName = true;
-          
+              }
+
+              this.SIStep4 = false;
+              this.SIStep3 = true;
+
+              setTimeout(() => {
+                loadKeyboard();
+              } , 1000);
+            }
+            else{
+              if(currentBijakHolder.riskprofile == "HC"){
+                this.showSOF = true;
+                this.showFunderName = false;
+
                 setTimeout(() => {
                   loadKeyboard();
                 } , 1000);
@@ -1320,101 +1427,86 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 this.SIStep2 = true;
 
                 this.disagreedTNC = true;
-    
-                setTimeout(() => {  
-                  loadKeyboard();
-                } , 1000);
               }
-            }
-            
-          }
-          
-        }
-        else{//Between 15k and 20k
-          if(appFunc.isOwn == "bijak"){
-            if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-              this.SIStep4 = false;
-              this.SIStep3 = true;
-
-              this.showSOF = true;
-              this.showFunderName = true;
-        
-              setTimeout(() => {
-                loadKeyboard();
-              } , 1000);
-            }
-            else{
-              this.SIStep4 = false;
-              this.SIStep3 = true;
-
-              this.showSOF = true;
-              this.showFunderName = false;
-        
-              setTimeout(() => {
-                loadKeyboard();
-              } , 1000);
             }
           }else{
             if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
               this.SIStep4 = false;
               this.SIStep3 = true;
 
-              this.showSOF = true;
-              this.showFunderName = true;
+              if(currentHolder.riskprofile == "HC"){
+                this.showSOF = true;
+                this.showFunderName = false;
+              }
+              else{
+                this.showSOF = true;
+                this.showFunderName = true;
+              }
         
               setTimeout(() => {
                 loadKeyboard();
               } , 1000);
             }
             else{
-              this.SIStep4 = false;
-              this.SIStep3 = true;
+              if(currentHolder.riskprofile == "HC"){
+                this.showSOF = true;
+                this.showFunderName = false;
 
-              this.showSOF = true;
-              this.showFunderName = false;
-        
-              setTimeout(() => {
-                loadKeyboard();
-              } , 1000);
+                this.SIStep4 = false;
+                this.SIStep3 = true;
+
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 1000);
+              }
+              else{
+                this.SIStep4 = false;
+                this.SIStep2 = true;
+
+                this.disagreedTNC = true;
+              }
             }
           }
         }
       }
       else{
-        if(appFunc.isOwn == "bijak"){
-          if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-            this.SIStep4 = false;
-            this.SIStep3 = true;
+        // if(appFunc.isOwn == "bijak"){
+        //   if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
+        //     this.SIStep4 = false;
+        //     this.SIStep3 = true;
       
-            this.showSOF = false;
-            this.showFunderName = true;
+        //     this.showSOF = false;
+        //     this.showFunderName = true;
 
-            this.Form_2.controls.fundername.setValidators([Validators.required]);
-          }
-          else{
-            this.SIStep4 = false;
-            this.SIStep2 = true;
+        //     this.Form_2.controls.fundername.setValidators([Validators.required]);
+        //   }
+        //   else{
+        //     this.SIStep4 = false;
+        //     this.SIStep2 = true;
 
-            this.disagreedTNC = true;
-          }
-        }else{
-          if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-            this.SIStep4 = false;
-            this.SIStep3 = true;
+        //     this.disagreedTNC = true;
+        //   }
+        // }else{
+        //   if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
+        //     this.SIStep4 = false;
+        //     this.SIStep3 = true;
       
-            this.showSOF = false;
-            this.showFunderName = true;
+        //     this.showSOF = false;
+        //     this.showFunderName = true;
 
-            this.Form_2.controls.fundername.setValidators([Validators.required]);
-          }
-          else{
-            this.SIStep4 = false;
-            this.SIStep2 = true;
+        //     this.Form_2.controls.fundername.setValidators([Validators.required]);
+        //   }
+        //   else{
+        //     this.SIStep4 = false;
+        //     this.SIStep2 = true;
 
-            this.disagreedTNC = true;
-          }
-        }
-        
+        //     this.disagreedTNC = true;
+        //   }
+        // }
+        this.SIStep4 = false;
+        this.SIStep2 = true;
+
+        this.disagreedTNC = true;
       }
     //}
     
@@ -1667,6 +1759,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 errorCodes.accountNo = uhid;
               }else{
                 errorCodes.accountType = "Pihak Ketiga";
+                errorCodes.accountName = currentHolder.firstname;
+                errorCodes.accountNo = currentHolder.unitholderid;
               }
             }else{
               if(appFunc.isOwn == "major"){
@@ -1679,6 +1773,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 errorCodes.accountNo = uhid;
               }else{
                 errorCodes.accountType = "Pihak Ketiga";
+                errorCodes.accountName = currentHolder.firstname;
+                errorCodes.accountNo = currentHolder.unitholderid;
               }
             }
             errorCodes.transaction = this.transaction;
@@ -2099,6 +2195,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           errorCodes.accountNo = uhid;
                         }else{
                           errorCodes.accountType = "Pihak Ketiga";
+                          errorCodes.accountName = currentHolder.firstname;
+                          errorCodes.accountNo = currentHolder.unitholderid;
                         }
                       }else{
                         if(appFunc.isOwn == "major"){
@@ -2111,6 +2209,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           errorCodes.accountNo = uhid;
                         }else{
                           errorCodes.accountType = "Pihak Ketiga";
+                          errorCodes.accountName = currentHolder.firstname;
+                          errorCodes.accountNo = currentHolder.unitholderid;
                         }
                       }
                       errorCodes.transaction = this.transaction;
@@ -2142,6 +2242,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     errorCodes.accountNo = uhid;
                   }else{
                     errorCodes.accountType = "Pihak Ketiga";
+                    errorCodes.accountName = currentHolder.firstname;
+                    errorCodes.accountNo = currentHolder.unitholderid;
                   }
                 }else{
                   if(appFunc.isOwn == "major"){
@@ -2154,6 +2256,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     errorCodes.accountNo = uhid;
                   }else{
                     errorCodes.accountType = "Pihak Ketiga";
+                    errorCodes.accountName = currentHolder.firstname;
+                    errorCodes.accountNo = currentHolder.unitholderid;
                   }
                 }
                 errorCodes.transaction = this.transaction;
@@ -2259,6 +2363,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
       this.thirdicnoWarning = false;
       this.thirdictypeWarning = false;
       this.uhNotExist = false;
+      this.sameUH = false;
+      closeKeyboard();
 
       let x = 0;
       Object.keys(this.Form_3.controls).forEach(key => {
@@ -2277,73 +2383,85 @@ export class SubscriptioninvestmentComponent implements OnInit {
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
       }
       else{
-        this.thirdictypekeyed = this.Form_3.controls.ictype.value;
-        this.thirdicnokeyed = this.Form_3.controls.icno.value;
-        this.disagreedTNC = true;
-
-        const body = { 
-
-          "CHANNELTYPE": signalrConnection.channelType,
-          "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-          "DEVICEOWNER": signalrConnection.deviceOwner,
-          "UNITHOLDERID": "",
-          "FIRSTNAME": "",
-          "IDENTIFICATIONTYPE": this.thirdictypekeyed,
-          "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
-          "FUNDID": "",
-          "INQUIRYCODE": "9",
-          "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-          "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
-          "BANKCUSTPHONENUMBER": "",
-          "FILTRATIONFLAG": "1",
-          "GUARDIANID": "",
-          "GUARDIANICTYPE": "",
-          "GUARDIANICNUMBER": ""
+        if(this.Form_3.controls.icno.value == currentHolder.identificationnumber){
+          this.sameUH = true;
+          this.disagreedTNC = false;
+          this.Form_3.controls.icno.setValue("");
+          this.Form_3.controls.ictype.setValue("");
+        }else{
+          this.thirdictypekeyed = this.Form_3.controls.ictype.value;
+          this.thirdicnokeyed = this.Form_3.controls.icno.value;
+          this.disagreedTNC = true;
   
-         };
+          const body = { 
   
-  
+            "CHANNELTYPE": signalrConnection.channelType,
+            "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+            "DEVICEOWNER": signalrConnection.deviceOwner,
+            "UNITHOLDERID": "",
+            "FIRSTNAME": "",
+            "IDENTIFICATIONTYPE": this.thirdictypekeyed,
+            "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
+            "FUNDID": "",
+            "INQUIRYCODE": "9",
+            "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+            "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+            "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
+            "BANKCUSTPHONENUMBER": "",
+            "FILTRATIONFLAG": "1",
+            "GUARDIANID": "",
+            "GUARDIANICTYPE": "",
+            "GUARDIANICNUMBER": ""
     
-        this.serviceService.getAccountInquiry(body)
-          .subscribe((result: any) => {
-
-            if(result.transactionstatus.toLowerCase().includes('successful')){
-              this.Form_3.controls.uhid.setValue(result.unitholderid);
-              this.Form_3.controls.name.setValue(result.firstname);
+           };
+    
+    
+      
+          this.serviceService.getAccountInquiry(body)
+            .subscribe((result: any) => {
   
-              this.Form_3.controls.ictype.disable();
-              this.Form_3.controls.icno.disable();
-              this.Form_3.controls.uhid.disable();
-              this.Form_3.controls.name.disable();
-
-              console.log(result.funddetail);
+              if(result.transactionstatus.toLowerCase().includes('successful')){
+                this.Form_3.controls.uhid.setValue(result.unitholderid);
+                this.Form_3.controls.name.setValue(result.firstname);
+    
+                this.Form_3.controls.ictype.disable();
+                this.Form_3.controls.icno.disable();
+                this.Form_3.controls.uhid.disable();
+                this.Form_3.controls.name.disable();
   
-              this.fundnamelist = [];
-              result.funddetail.forEach((elem: any) => {
-                appFunc.ASNBFundID.forEach((element: any) => {
-                  if(elem.FUNDID != undefined){
-                    if(elem.FUNDID.toString().toLowerCase() == element.code.toString().toLowerCase()){
-                      this.fundnamelist.push(element);
-                      this.pdfsrc3 = "assets/SUBSCRIPTION/" + element.iscLink + ".pdf";
+                console.log(result.funddetail);
+    
+                this.fundnamelist = [];
+                result.funddetail.forEach((elem: any) => {
+                  appFunc.ASNBFundID.forEach((element: any) => {
+                    if(elem.FUNDID != undefined){
+                      if(elem.FUNDID.toString().toLowerCase() == element.code.toString().toLowerCase()){
+                        this.fundnamelist.push(element);
+                        this.pdfsrc3 = "assets/SUBSCRIPTION/" + element.iscLink + ".pdf";
+                      }
                     }
-                  }
-                })
-              });
-
+                  })
+                });
+                
+                deleteKeyboard();
+                
+    
+                this.isGetInfo = true;
+                setTimeout(() => {
+                  loadKeyboard();
+                } , 300);
+              }else{
+                this.disagreedTNC = false;
+                this.Form_3.controls.icno.setValue("");
+                this.Form_3.controls.ictype.setValue("");
+                this.uhNotExist = true;
+                // this.thirdicnoWarning = true;
+                // this.thirdictypeWarning = true;
+              }
               
-  
-              this.isGetInfo = true;
-            }else{
-              this.disagreedTNC = false;
-              this.Form_3.controls.icno.setValue("");
-              this.Form_3.controls.ictype.setValue("");
-              this.uhNotExist = true;
-              // this.thirdicnoWarning = true;
-              // this.thirdictypeWarning = true;
-            }
-            
-        });
+          });
+        }
+        
       }
      }
      else{
@@ -2772,6 +2890,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
               errorCodes.accountNo = uhid;
             }else{
               errorCodes.accountType = "Pihak Ketiga";
+              errorCodes.accountName = currentHolder.firstname;
+              errorCodes.accountNo = currentHolder.unitholderid;
             }
           }else{
             if(appFunc.isOwn == "major"){
@@ -2784,6 +2904,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
               errorCodes.accountNo = uhid;
             }else{
               errorCodes.accountType = "Pihak Ketiga";
+              errorCodes.accountName = currentHolder.firstname;
+              errorCodes.accountNo = currentHolder.unitholderid;
             }
           }
           errorCodes.transaction = this.transaction;
@@ -3204,6 +3326,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         errorCodes.accountNo = uhid;
                       }else{
                         errorCodes.accountType = "Pihak Ketiga";
+                        errorCodes.accountName = currentHolder.firstname;
+                        errorCodes.accountNo = currentHolder.unitholderid;
                       }
                     }else{
                       if(appFunc.isOwn == "major"){
@@ -3216,6 +3340,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         errorCodes.accountNo = uhid;
                       }else{
                         errorCodes.accountType = "Pihak Ketiga";
+                        errorCodes.accountName = currentHolder.firstname;
+                        errorCodes.accountNo = currentHolder.unitholderid;
                       }
                     }
                     errorCodes.transaction = this.transaction;
@@ -3247,6 +3373,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     errorCodes.accountNo = uhid;
                   }else{
                     errorCodes.accountType = "Pihak Ketiga";
+                    errorCodes.accountName = currentHolder.firstname;
+                    errorCodes.accountNo = currentHolder.unitholderid;
                   }
                 }else{
                   if(appFunc.isOwn == "major"){
@@ -3259,6 +3387,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     errorCodes.accountNo = uhid;
                   }else{
                     errorCodes.accountType = "Pihak Ketiga";
+                    errorCodes.accountName = currentHolder.firstname;
+                    errorCodes.accountNo = currentHolder.unitholderid;
                   }
                 }
                 errorCodes.transaction = this.transaction;
@@ -3326,10 +3456,15 @@ export class SubscriptioninvestmentComponent implements OnInit {
       selectedUnitHolderID = currentHolder.unitholderid;
       selectedUnitHolderIC = currentHolder.identificationnumber;
     }
-    else{
+    else if(appFunc.isOwn == "bijak"){
       selectedUnitHolder = this.currentBijakName;
       selectedUnitHolderID = this.currentBijakUHID;
       selectedUnitHolderIC = this.currentBijakIDNO;
+    }
+    else{
+      selectedUnitHolder = currentHolder.firstname;
+      selectedUnitHolderID = currentHolder.unitholderid;
+      selectedUnitHolderIC = currentHolder.identificationnumber;
     }
 
 
@@ -3339,6 +3474,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
         fundname = element.value;
       }
     });
+
+    let paidamount = 0;
+    if(appFunc.isOwn == "major" || appFunc.isOwn == "bijak"){
+      paidamount = this.amountKeyed;
+    }
+    else{
+      paidamount = this.thirdamountkeyed;
+    }
 
     if(signalrConnection.isHardcodedIC){
       const objCardInfo = 
@@ -3354,7 +3497,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ExpDate" : "",
         "ApprovalCode" : "",
         "ReferenceNumber" : "",
-        "TotalAmount" : this.amountKeyed,
+        "TotalAmount" : paidamount,
         "ApplicationLable": "",
       }]
 
@@ -3445,7 +3588,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ExpDate" : this.tempCardInfo.ExpiryDate,
         "ApprovalCode" : this.tempCardInfo.ApprovalCode,
         "ReferenceNumber" : this.tempCardInfo.RRN,
-        "TotalAmount" : this.amountKeyed,
+        "TotalAmount" : paidamount,
         "ApplicationLabel": this.tempCardInfo.ApplicationLabel,
       }]
   
@@ -3468,7 +3611,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }
       }
       else{
-        accountType = "Pihak Ketiga";
+        if(selectLang.selectedLang == 'ms'){
+          accountType = "Pihak Ketiga";
+        }
+        else{
+          accountType = "Third Party";
+        }
         module = "19";
       }
       
@@ -3496,43 +3644,46 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "Language" : selectLang.selectedLang,
         "Signature" : ""
       }
+
+      console.log(JSON.stringify(appFunc.body));
   
       appFunc.receiptFunction = "GetFinancialTrxPrintout"
   
   
-      this.requeryInfo.email = currentHolder.email;
-      this.requeryInfo.url = JSON.stringify(appFunc.body);
+      // this.requeryInfo.email = currentHolder.email;
+      // this.requeryInfo.url = JSON.stringify(appFunc.body);
 
      
-      signalrConnection.connection.invoke(
-        'InsertRequery', 
-        signalrConnection.channelType,
-        signalrConnection.requestIdentification,
-        signalrConnection.deviceOwner,
-        signalrConnection.agentCode,
-        signalrConnection.branchCode,
-        this.requeryInfo.banktrxreferencenumber,
-        "",
-        this.requeryInfo.transactiondate,
-        this.requeryInfo.unitholderid,
-        this.requeryInfo.identificationtype,
-        this.requeryInfo.identificationnumber,
-        this.requeryInfo.fundid,
-        this.requeryInfo.guardianid,
-        this.requeryInfo.guardianictype,
-        this.requeryInfo.guardianicnumber,
-        this.requeryInfo.firstname,
-        this.requeryInfo.module,
-        this.requeryInfo.language,
-        this.requeryInfo.url
-      ).then((data: any) => {
+      // signalrConnection.connection.invoke(
+      //   'InsertRequery', 
+      //   signalrConnection.channelType,
+      //   signalrConnection.requestIdentification,
+      //   signalrConnection.deviceOwner,
+      //   signalrConnection.agentCode,
+      //   signalrConnection.branchCode,
+      //   this.requeryInfo.banktrxreferencenumber,
+      //   "",
+      //   this.requeryInfo.transactiondate,
+      //   this.requeryInfo.unitholderid,
+      //   this.requeryInfo.identificationtype,
+      //   this.requeryInfo.identificationnumber,
+      //   this.requeryInfo.fundid,
+      //   this.requeryInfo.guardianid,
+      //   this.requeryInfo.guardianictype,
+      //   this.requeryInfo.guardianicnumber,
+      //   this.requeryInfo.firstname,
+      //   this.requeryInfo.module,
+      //   this.requeryInfo.language,
+      //   this.requeryInfo.url
+      // ).then((data: any) => {
 
-      });
+      // });
 
       appFunc.printing = true;
       signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+        console.log(data);
         if(data){
-      
+          
           signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), appFunc.receiptFunction, signalrConnection.trxno, module, selectLang.selectedLang).then((data: any) => {
             setTimeout(()=>{   
               if (data == true){
@@ -3571,10 +3722,15 @@ export class SubscriptioninvestmentComponent implements OnInit {
       selectedUnitHolderID = currentHolder.unitholderid;
       selectedUnitHolderIC = currentHolder.identificationnumber;
     }
-    else{
+    else if(appFunc.isOwn == "bijak"){
       selectedUnitHolder = this.currentBijakName;
       selectedUnitHolderID = this.currentBijakUHID;
       selectedUnitHolderIC = this.currentBijakIDNO;
+    }
+    else{
+      selectedUnitHolder = currentHolder.firstname;
+      selectedUnitHolderID = currentHolder.unitholderid;
+      selectedUnitHolderIC = currentHolder.identificationnumber;
     }
 
     let fundname = "";
@@ -3584,6 +3740,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
       }
     });
 
+
+    let paidamount = 0;
+    if(appFunc.isOwn == "major" || appFunc.isOwn == "bijak"){
+      paidamount = this.amountKeyed;
+    }
+    else{
+      paidamount = this.thirdamountkeyed;
+    }
 
     if(signalrConnection.isHardcodedIC){
       const objCardInfo = 
@@ -3599,7 +3763,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ExpDate" : "",
         "ApprovalCode" : "",
         "ReferenceNumber" : "",
-        "TotalAmount" : this.amountKeyed,
+        "TotalAmount" : paidamount,
         "ApplicationLabel": "",
       }]
 
@@ -3620,7 +3784,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
           module = "12";
         }
       }else{
-        accountType = "Pihak Ketiga";
+        if(selectLang.selectedLang == 'ms'){
+          accountType = "Pihak Ketiga";
+        }
+        else{
+          accountType = "Third Party";
+        }
         module = "19";
       }
       
@@ -3695,7 +3864,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ExpDate" : this.tempCardInfo.ExpiryDate,
         "ApprovalCode" : this.tempCardInfo.ApprovalCode,
         "ReferenceNumber" : this.tempCardInfo.RRN,
-        "TotalAmount" : this.amountKeyed,
+        "TotalAmount" : paidamount,
         "ApplicationLabel": this.tempCardInfo.ApplicationLabel,
       }]
 
@@ -3716,7 +3885,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
           module = "12";
         }
       }else{
-        accountType = "Pihak Ketiga";
+        if(selectLang.selectedLang == 'ms'){
+          accountType = "Pihak Ketiga";
+        }
+        else{
+          accountType = "Third Party";
+        }
         module = "19";
       }
       
@@ -3758,34 +3932,34 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
       appFunc.receiptFunction = "GetFinancialTrxPrintout"
 
-      this.requeryInfo.email = currentHolder.email;
-      this.requeryInfo.url = JSON.stringify(appFunc.body);
+      // this.requeryInfo.email = currentHolder.email;
+      // this.requeryInfo.url = JSON.stringify(appFunc.body);
 
      
-      signalrConnection.connection.invoke(
-        'InsertRequery', 
-        signalrConnection.channelType,
-        signalrConnection.requestIdentification,
-        signalrConnection.deviceOwner,
-        signalrConnection.agentCode,
-        signalrConnection.branchCode,
-        this.requeryInfo.banktrxreferencenumber,
-        "",
-        this.requeryInfo.transactiondate,
-        this.requeryInfo.unitholderid,
-        this.requeryInfo.identificationtype,
-        this.requeryInfo.identificationnumber,
-        this.requeryInfo.fundid,
-        this.requeryInfo.guardianid,
-        this.requeryInfo.guardianictype,
-        this.requeryInfo.guardianicnumber,
-        this.requeryInfo.firstname,
-        this.requeryInfo.module,
-        this.requeryInfo.language,
-        this.requeryInfo.url
-      ).then((data: any) => {
+      // signalrConnection.connection.invoke(
+      //   'InsertRequery', 
+      //   signalrConnection.channelType,
+      //   signalrConnection.requestIdentification,
+      //   signalrConnection.deviceOwner,
+      //   signalrConnection.agentCode,
+      //   signalrConnection.branchCode,
+      //   this.requeryInfo.banktrxreferencenumber,
+      //   "",
+      //   this.requeryInfo.transactiondate,
+      //   this.requeryInfo.unitholderid,
+      //   this.requeryInfo.identificationtype,
+      //   this.requeryInfo.identificationnumber,
+      //   this.requeryInfo.fundid,
+      //   this.requeryInfo.guardianid,
+      //   this.requeryInfo.guardianictype,
+      //   this.requeryInfo.guardianicnumber,
+      //   this.requeryInfo.firstname,
+      //   this.requeryInfo.module,
+      //   this.requeryInfo.language,
+      //   this.requeryInfo.url
+      // ).then((data: any) => {
 
-      });
+      // });
       
       appFunc.printing = false;
       signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, module, JSON.stringify(appFunc.emailObj), this.fundname).then((data: any) => {

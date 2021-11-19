@@ -299,11 +299,11 @@ export class BijakregistrationComponent implements OnInit {
 
     if(selectLang.selectedLang == 'ms'){
       this.BRSuccess_10 = "Bijak/Remaja";
-      this.transaction = "Pendaftaran Akaun Bijak";
+      this.transaction = "Pendaftaran Akaun Bijak/Remaja";
     }
     else{
       this.BRSuccess_10 = "Bijak/Remaja";
-      this.transaction = "Bijak Account Registration";
+      this.transaction = "Bijak/Remaja Account Registration";
     }
     
     this.initializeForm();

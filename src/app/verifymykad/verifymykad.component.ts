@@ -730,6 +730,7 @@ export class VerifymykadComponent implements OnInit {
         currentHolder.rejectcode = result.rejectcode;
         currentHolder.rejectreason = result.rejectreason;
 
+        console.log(result);
 
         if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
 

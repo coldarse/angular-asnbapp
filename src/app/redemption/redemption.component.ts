@@ -105,11 +105,11 @@ export class RedemptionComponent implements OnInit {
   redemptionhistoricalpricing = "6103.00";
   redemptionforwardpricing = "6103.00";
 
-  redemptionamountinclusive = "";
+  redemptionamountinclusive = 0;
   redemptiontransactiondate =  "";
   redemptionrefno = "";
-  redemptionnav = "";
-  redemptionunits  = "";
+  redemptionnav = 0;
+  redemptionunits  = 0;
 
   transaction = "";
 
@@ -578,11 +578,13 @@ export class RedemptionComponent implements OnInit {
     this.redemptionbankcode = this.unitholderbankcode;
     this.redemptionbankaccountno = this.unitholderbankaccountnumber;
     this.redemptionemailaddress = this.unitholderemail;
-    this.redemptionfundname = fund.FUNDNAME;
+
+    
     this.redemptionfundid = fund.FUNDID;
 
     appFunc.ASNBFundID.forEach((elements: ASNBFundID) => {
       if(elements.code.toString().toLowerCase() == fund.FUNDID.toLowerCase()){
+        this.redemptionfundname = elements.value;
         if(appFunc.isOwn == "major"){
           this.RedemptionMinValue = elements.majorRedemptionLimit_min;
           this.RedemptionMaxValue = elements.majorRedemptionLimit_max;
