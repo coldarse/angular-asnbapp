@@ -1216,21 +1216,6 @@ export class TransferswitchingComponent implements OnInit {
       icno = currentBijakHolder.identificationnumber;
     }
 
-    const objCardInfo = 
-    [{
-      "DateTime" : "",
-      "BatchNum" : "",
-      "Invoice" : "",
-      "MID" : "",
-      "TID" : "",
-      "Type" : "",
-      "CardName" : "",
-      "CardNumber" : "",
-      "ExpDate" : "",
-      "ApprovalCode" : "",
-      "ReferenceNumber" : "",
-      "TotalAmount" : 0,
-    }]
 
     let accountType = "";
     let module = "0";
@@ -1268,7 +1253,7 @@ export class TransferswitchingComponent implements OnInit {
       "FUNDID" : this.transferfunname,
       "TOUHFIRSTNAME": this.transferuhname,
       "TOUNITHOLDERID": this.transferuhid,
-      "THIRDPARTYRELATIONSHIP": this.transferrelationship,
+      "THIRDPARTYRELATIONSHIP": this.displayRelationship,
       "FUNDPRICE" : this.transferNAV,
       "UNITSALLOTED" : this.transferunits,
       "SALESCHARGE" : this.transferinitialRM,

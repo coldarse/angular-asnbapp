@@ -202,6 +202,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   id: any; 
 
+  isRequery = false;
+
   
   constructor(
     private _router: Router,
@@ -1788,7 +1790,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           }
           else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
                       
-                      
+            this.isRequery = true;        
             this.unitholdername = name;
             this.unitholderid = uhid;
             this.unitholderic = icno;
@@ -2262,7 +2264,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     }
                     else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
                       
-                      
+                      this.isRequery = true;  
                       this.unitholdername = name;
                       this.unitholderid = uhid;
                       this.unitholderic = icno;
@@ -3156,7 +3158,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
                     
                     
-                    
+          this.isRequery = true;       
           this.STPStep3 = false;
           this.SIStep5 = true;
 
@@ -3628,7 +3630,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
                     
                     
-                    
+                    this.isRequery = true;  
                     this.STPStep3 = false;
                     this.SIStep5 = true;
 
@@ -3973,6 +3975,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ReferenceNumber" : "",
         "TotalAmount" : paidamount,
         "ApplicationLable": "",
+        "TransactionTrace": "",
+        "HostNo": "",
       }]
 
       let accountType = "";
@@ -4021,31 +4025,35 @@ export class SubscriptioninvestmentComponent implements OnInit {
   
       appFunc.receiptFunction = "GetFinancialTrxPrintout"
   
-      signalrConnection.connection.invoke(
-        'InsertRequery', 
-        signalrConnection.channelType,
-        signalrConnection.requestIdentification,
-        signalrConnection.deviceOwner,
-        signalrConnection.agentCode,
-        signalrConnection.branchCode,
-        this.requeryInfo.banktrxreferencenumber,
-        "",
-        this.requeryInfo.transactiondate,
-        this.requeryInfo.unitholderid,
-        this.requeryInfo.identificationtype,
-        this.requeryInfo.identificationnumber,
-        this.requeryInfo.fundid,
-        this.requeryInfo.guardianid,
-        this.requeryInfo.guardianictype,
-        this.requeryInfo.guardianicnumber,
-        this.requeryInfo.firstname,
-        currentHolder.email,
-        this.requeryInfo.module,
-        this.requeryInfo.language,
-        JSON.stringify(appFunc.body)
-      ).then((data: any) => {
-  
-      });
+
+      if(this.isRequery){
+        signalrConnection.connection.invoke(
+          'InsertRequery', 
+          signalrConnection.channelType,
+          signalrConnection.requestIdentification,
+          signalrConnection.deviceOwner,
+          signalrConnection.agentCode,
+          signalrConnection.branchCode,
+          this.requeryInfo.banktrxreferencenumber,
+          "",
+          this.requeryInfo.transactiondate,
+          this.requeryInfo.unitholderid,
+          this.requeryInfo.identificationtype,
+          this.requeryInfo.identificationnumber,
+          this.requeryInfo.fundid,
+          this.requeryInfo.guardianid,
+          this.requeryInfo.guardianictype,
+          this.requeryInfo.guardianicnumber,
+          this.requeryInfo.firstname,
+          currentHolder.email,
+          this.requeryInfo.module,
+          this.requeryInfo.language,
+          JSON.stringify(appFunc.body)
+        ).then((data: any) => {
+    
+        });
+      }
+      
   
       appFunc.printing = true;
       signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
@@ -4089,8 +4097,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ReferenceNumber" : this.tempCardInfo.RRN,
         "TotalAmount" : paidamount,
         "ApplicationLabel": this.tempCardInfo.ApplicationLabel,
+        "TransactionTrace": this.tempCardInfo.transactionTrace,
+        "HostNo": this.tempCardInfo.hostNo,
       }]
-  
+
       let accountType = "";
       let module = "";
       if(appFunc.isOwn == "major"){
@@ -4148,31 +4158,34 @@ export class SubscriptioninvestmentComponent implements OnInit {
   
       appFunc.receiptFunction = "GetFinancialTrxPrintout"
 
-      signalrConnection.connection.invoke(
-        'InsertRequery', 
-        signalrConnection.channelType,
-        signalrConnection.requestIdentification,
-        signalrConnection.deviceOwner,
-        signalrConnection.agentCode,
-        signalrConnection.branchCode,
-        this.requeryInfo.banktrxreferencenumber,
-        "",
-        this.requeryInfo.transactiondate,
-        this.requeryInfo.unitholderid,
-        this.requeryInfo.identificationtype,
-        this.requeryInfo.identificationnumber,
-        this.requeryInfo.fundid,
-        this.requeryInfo.guardianid,
-        this.requeryInfo.guardianictype,
-        this.requeryInfo.guardianicnumber,
-        this.requeryInfo.firstname,
-        currentHolder.email,
-        this.requeryInfo.module,
-        this.requeryInfo.language,
-        JSON.stringify(appFunc.body)
-      ).then((data: any) => {
-  
-      });
+      if(this.isRequery){
+        signalrConnection.connection.invoke(
+          'InsertRequery', 
+          signalrConnection.channelType,
+          signalrConnection.requestIdentification,
+          signalrConnection.deviceOwner,
+          signalrConnection.agentCode,
+          signalrConnection.branchCode,
+          this.requeryInfo.banktrxreferencenumber,
+          "",
+          this.requeryInfo.transactiondate,
+          this.requeryInfo.unitholderid,
+          this.requeryInfo.identificationtype,
+          this.requeryInfo.identificationnumber,
+          this.requeryInfo.fundid,
+          this.requeryInfo.guardianid,
+          this.requeryInfo.guardianictype,
+          this.requeryInfo.guardianicnumber,
+          this.requeryInfo.firstname,
+          currentHolder.email,
+          this.requeryInfo.module,
+          this.requeryInfo.language,
+          JSON.stringify(appFunc.body)
+        ).then((data: any) => {
+    
+        });
+      }
+      
   
       appFunc.printing = true;
       signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
@@ -4261,6 +4274,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ReferenceNumber" : "",
         "TotalAmount" : paidamount,
         "ApplicationLabel": "",
+        "TransactionTrace": "",
+        "HostNo": "",
       }]
 
       let accountType = "";
@@ -4325,31 +4340,35 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
       appFunc.receiptFunction = "GetFinancialTrxPrintout"
 
-      signalrConnection.connection.invoke(
-        'InsertRequery', 
-        signalrConnection.channelType,
-        signalrConnection.requestIdentification,
-        signalrConnection.deviceOwner,
-        signalrConnection.agentCode,
-        signalrConnection.branchCode,
-        this.requeryInfo.banktrxreferencenumber,
-        "",
-        this.requeryInfo.transactiondate,
-        this.requeryInfo.unitholderid,
-        this.requeryInfo.identificationtype,
-        this.requeryInfo.identificationnumber,
-        this.requeryInfo.fundid,
-        this.requeryInfo.guardianid,
-        this.requeryInfo.guardianictype,
-        this.requeryInfo.guardianicnumber,
-        this.requeryInfo.firstname,
-        currentHolder.email,
-        this.requeryInfo.module,
-        this.requeryInfo.language,
-        JSON.stringify(appFunc.body)
-      ).then((data: any) => {
-  
-      });
+
+      if(this.isRequery){
+        signalrConnection.connection.invoke(
+          'InsertRequery', 
+          signalrConnection.channelType,
+          signalrConnection.requestIdentification,
+          signalrConnection.deviceOwner,
+          signalrConnection.agentCode,
+          signalrConnection.branchCode,
+          this.requeryInfo.banktrxreferencenumber,
+          "",
+          this.requeryInfo.transactiondate,
+          this.requeryInfo.unitholderid,
+          this.requeryInfo.identificationtype,
+          this.requeryInfo.identificationnumber,
+          this.requeryInfo.fundid,
+          this.requeryInfo.guardianid,
+          this.requeryInfo.guardianictype,
+          this.requeryInfo.guardianicnumber,
+          this.requeryInfo.firstname,
+          currentHolder.email,
+          this.requeryInfo.module,
+          this.requeryInfo.language,
+          JSON.stringify(appFunc.body)
+        ).then((data: any) => {
+    
+        });
+      }
+      
       
       appFunc.printing = false;
       signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, module, JSON.stringify(appFunc.emailObj), this.fundname).then((data: any) => {
@@ -4387,6 +4406,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ReferenceNumber" : this.tempCardInfo.RRN,
         "TotalAmount" : paidamount,
         "ApplicationLabel": this.tempCardInfo.ApplicationLabel,
+        "TransactionTrace": this.tempCardInfo.transactionTrace,
+        "HostNo": this.tempCardInfo.hostNo,
       }]
 
       let accountType = "";
@@ -4453,31 +4474,35 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
       appFunc.receiptFunction = "GetFinancialTrxPrintout"
 
-      signalrConnection.connection.invoke(
-        'InsertRequery', 
-        signalrConnection.channelType,
-        signalrConnection.requestIdentification,
-        signalrConnection.deviceOwner,
-        signalrConnection.agentCode,
-        signalrConnection.branchCode,
-        this.requeryInfo.banktrxreferencenumber,
-        "",
-        this.requeryInfo.transactiondate,
-        this.requeryInfo.unitholderid,
-        this.requeryInfo.identificationtype,
-        this.requeryInfo.identificationnumber,
-        this.requeryInfo.fundid,
-        this.requeryInfo.guardianid,
-        this.requeryInfo.guardianictype,
-        this.requeryInfo.guardianicnumber,
-        this.requeryInfo.firstname,
-        currentHolder.email,
-        this.requeryInfo.module,
-        this.requeryInfo.language,
-        JSON.stringify(appFunc.body)
-      ).then((data: any) => {
-  
-      });
+
+      if(this.isRequery){
+        signalrConnection.connection.invoke(
+          'InsertRequery', 
+          signalrConnection.channelType,
+          signalrConnection.requestIdentification,
+          signalrConnection.deviceOwner,
+          signalrConnection.agentCode,
+          signalrConnection.branchCode,
+          this.requeryInfo.banktrxreferencenumber,
+          "",
+          this.requeryInfo.transactiondate,
+          this.requeryInfo.unitholderid,
+          this.requeryInfo.identificationtype,
+          this.requeryInfo.identificationnumber,
+          this.requeryInfo.fundid,
+          this.requeryInfo.guardianid,
+          this.requeryInfo.guardianictype,
+          this.requeryInfo.guardianicnumber,
+          this.requeryInfo.firstname,
+          currentHolder.email,
+          this.requeryInfo.module,
+          this.requeryInfo.language,
+          JSON.stringify(appFunc.body)
+        ).then((data: any) => {
+    
+        });
+      }
+      
       
       
       appFunc.printing = false;
