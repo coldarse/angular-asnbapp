@@ -1080,27 +1080,36 @@ export class TransferswitchingComponent implements OnInit {
                   this.Print_Visible = true;
                 }
 
-                let module = "";
+                // let module = "";
+                // if(appFunc.isOwn == "major"){
+                //   module = "13";
+                // }else if(appFunc.isOwn == "bijak"){
+                //   module = "14";
+                // }
+
+                let module1 = "";
+                let module2 = "";
                 if(appFunc.isOwn == "major"){
-                  module = "13";
+                  module1 = "25"; //out
+                  module2 = "27"; //in
                 }else if(appFunc.isOwn == "bijak"){
-                  module = "14";
+                  module1 = "26"; //out
+                  module2 = "28"; //in
                 }
 
-                const FTBody =
+                const FTBodyOut =
                 {
                   "trxNo": signalrConnection.trxno,
-                  //"kioskID": signalrConnection.kioskID,
                   "kioskCode": signalrConnection.kioskCode,
                   "unitHolderID": result1.result.unitholderid,
                   "firstName": result1.result.firstname,
                   "identificationType": result1.result.identificationtype,
                   "identificationNumber": result1.result.identificationnumber,
                   "fundID": result1.result.fundid,
-                  "amountApplied": result1.result.amountapplied,
+                  "amountApplied": 0 - result1.result.amountapplied,
                   "transactionDate": result1.result.transactiondate,
                   "transactionTime": result1.result.transactiontime,
-                  "transactionType": module,
+                  "transactionType": module1,
                   "customerICNumber": "",
                   "customerName": "",
                   "agentCode": result1.result.agentCode,
@@ -1122,25 +1131,14 @@ export class TransferswitchingComponent implements OnInit {
                   "thirdPartyInvestment": "",
                   "thirdPartyName": "",
                   "thirdPartyICNumber": "",
-                  //"thirdPartyRelationship": "",
-                  // "thirdPartyInvestment": result.result.thirdpartyinvestment,
-                  // "thirdPartyName": result.result.thirdpartyname,
-                  // "thirdPartyICNumber": result.result.thirdpartyicnumber,
                   "thirdPartyRelationship": result1.result.thirdpartyrelationship,
                   "reasonForTransfer": result1.result.reasonfortransfer,
-                  //"reasonForTransfer": "",
                   "sourceOfFund": "",
                   "otherSourceOfFund": "",
                   "funderName": "",
                   "transactionStatus": result1.result.transactionstatus,
-                  "transactionNumber": "",
+                  "transactionNumber": result1.result.transactionnumber,
                   "taxInvoiceNumber": "",
-                  // "sourceOfFund": result.result.sourceoffund,
-                  // "otherSourceOfFund": result.result.othersourceoffund,
-                  // "funderName": result.result.fundname,
-                  // "transactionStatus": result1.result.transactionstatus,
-                  // "transactionNumber": result.result.transactionnumber,
-                  // "taxInvoiceNumber": result.result.taxinvoicenumber,
                   "confirmedUnits": "",
                   "unitBalance": "",
                   "operation": "",
@@ -1151,7 +1149,60 @@ export class TransferswitchingComponent implements OnInit {
                   "itemno": signalrConnection.itemNo
                 }
 
-                this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+                const FTBodyIn =
+                {
+                  "trxNo": signalrConnection.trxno,
+                  "kioskCode": signalrConnection.kioskCode,
+                  "unitHolderID": this.transferuhid,
+                  "firstName": this.transferuhname,
+                  "identificationType": this.transferuhictype,
+                  "identificationNumber": this.transferuhic,
+                  "fundID": result1.result.fundid,
+                  "amountApplied": result1.result.amountapplied,
+                  "transactionDate": result1.result.transactiondate,
+                  "transactionTime": result1.result.transactiontime,
+                  "transactionType": module2,
+                  "customerICNumber": "",
+                  "customerName": "",
+                  "agentCode": result1.result.agentCode,
+                  "referenceNo": "",
+                  "bankTxnReferenceNumber": result1.result.banktxnreferencenumber,
+                  "bankCustPhoneNumber": result1.result.bankcustphonenumber,
+                  "paymentType": result1.result.paymenttype,
+                  "bankAccountNumber": result1.result.bankaccountnumber,
+                  "bankBranchCode": "",
+                  "chequeNumber": "",
+                  "chequeDate": "",
+                  "guardianID": result1.result.guardianid,
+                  "guardianicType": result1.result.guardianictype,
+                  "guardianicNumber": result1.result.guardianicnumber,
+                  "policyNumber": result1.result.policynumber,
+                  "epfNumber": result1.result.epfnumber,
+                  "subPaymentType": "",
+                  "ewgateway": "",
+                  "thirdPartyInvestment": "",
+                  "thirdPartyName": "",
+                  "thirdPartyICNumber": "",
+                  "thirdPartyRelationship": result1.result.thirdpartyrelationship,
+                  "reasonForTransfer": result1.result.reasonfortransfer,
+                  "sourceOfFund": "",
+                  "otherSourceOfFund": "",
+                  "funderName": "",
+                  "transactionStatus": result1.result.transactionstatus,
+                  "transactionNumber": result1.result.transactionnumber,
+                  "taxInvoiceNumber": "",
+                  "confirmedUnits": "",
+                  "unitBalance": "",
+                  "operation": "",
+                  "remark": "",
+                  "creditNoteNumber": "",
+                  "rejectCode": result1.result.rejectcode,
+                  "rejectReason": result1.result.rejectreason,
+                  "itemno": signalrConnection.itemNo
+                }
+
+                this.serviceService.createFundTransaction(FTBodyOut).subscribe(() => {});
+                this.serviceService.createFundTransaction(FTBodyIn).subscribe(() => {});
                 signalrConnection.itemNo += 1;
                 kActivit1.endTime = new Date();
                 kActivit1.status = true;
@@ -1950,7 +2001,7 @@ export class TransferswitchingComponent implements OnInit {
                   "otherSourceOfFund": "",
                   "funderName": "",
                   "transactionStatus": result1.result.transactionstatus,
-                  "transactionNumber": "",
+                  "transactionNumber": result1.result.transactionnumber,
                   "taxInvoiceNumber": "",
                   "confirmedUnits": "",
                   "unitBalance": "",
@@ -2002,7 +2053,7 @@ export class TransferswitchingComponent implements OnInit {
                   "otherSourceOfFund": "",
                   "funderName": "",
                   "transactionStatus": result1.result.transactionstatus,
-                  "transactionNumber": "",
+                  "transactionNumber": result1.result.transactionnumber,
                   "taxInvoiceNumber": "",
                   "confirmedUnits": "",
                   "unitBalance": "",

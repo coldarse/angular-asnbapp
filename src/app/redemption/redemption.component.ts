@@ -137,7 +137,7 @@ export class RedemptionComponent implements OnInit {
     if(selectLang.selectedLang == 'en'){
       this.transaction = "Redemption";
     }else{
-      this.transaction = "Pengeluaran";
+      this.transaction = "Jualan Balik";
     }
 
     if(appFunc.isOwn == "major"){
