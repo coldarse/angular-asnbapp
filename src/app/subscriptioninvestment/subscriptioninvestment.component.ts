@@ -3974,9 +3974,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ApprovalCode" : "",
         "ReferenceNumber" : "",
         "TotalAmount" : paidamount,
-        "ApplicationLable": "",
+        "ApplicationLabel": "",
         "TransactionTrace": "",
-        "HostNo": "",
+        "HostNo": ""
       }]
 
       let accountType = "";
@@ -4095,10 +4095,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ExpDate" : this.tempCardInfo.ExpiryDate,
         "ApprovalCode" : this.tempCardInfo.ApprovalCode,
         "ReferenceNumber" : this.tempCardInfo.RRN,
-        "TotalAmount" : paidamount,
+        "TotalAmount" : this.amountKeyed,
         "ApplicationLabel": this.tempCardInfo.ApplicationLabel,
-        "TransactionTrace": this.tempCardInfo.transactionTrace,
-        "HostNo": this.tempCardInfo.hostNo,
+        "TransactionTrace": this.tempCardInfo.TransactionTrace,
+        "HostNo": this.tempCardInfo.HostNo
       }]
 
       let accountType = "";
@@ -4275,7 +4275,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "TotalAmount" : paidamount,
         "ApplicationLabel": "",
         "TransactionTrace": "",
-        "HostNo": "",
+        "HostNo": ""
       }]
 
       let accountType = "";
@@ -4404,10 +4404,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ExpDate" : this.tempCardInfo.ExpiryDate,
         "ApprovalCode" : this.tempCardInfo.ApprovalCode,
         "ReferenceNumber" : this.tempCardInfo.RRN,
-        "TotalAmount" : paidamount,
+        "TotalAmount" : this.amountKeyed,
         "ApplicationLabel": this.tempCardInfo.ApplicationLabel,
-        "TransactionTrace": this.tempCardInfo.transactionTrace,
-        "HostNo": this.tempCardInfo.hostNo,
+        "TransactionTrace": this.tempCardInfo.TransactionTrace,
+        "HostNo": this.tempCardInfo.HostNo
       }]
 
       let accountType = "";
