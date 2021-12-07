@@ -466,7 +466,7 @@
                 <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="SIStep4Back()">
                     {{'BTN_Back' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep4Next()" [disabled]="disagreedTNC">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="SIStep4Next()" [disabled]="isClicked">
                     {{'BTN_Next' | translate }}
                 </button>
             </div>
@@ -487,7 +487,7 @@
 
    
 
-    <div class="pop-up-third">
+    <!-- <div class="pop-up-third">
         <div class="row" style="padding-top:2rem;">
             <div class="col-md-1"></div>
             <div class="col-md-5">
@@ -610,10 +610,135 @@
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning2">{{'A1Warning' | translate}}</div>
             </div>
         </div>
+    </div> -->
+
+    <div class="pop-up-third">
+        <div class="row" style="padding-top:2rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ICType1' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["ictype"]' [hidden]="ispopup" #thirdictype>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
+                    <option *ngFor="let type of ictype" value={{type.code}}>
+                        {{type.desc}}
+                    </option>
+                </select>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdictypeWarning">{{'ThirdICTypeWarning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 1.75rem;">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'CB2_4' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="thirdicno" id="thirdicno" class="use-keyboard-input" [formControl]='Form_3.controls["icno"]' #thirdicno>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdicnoWarning">{{'ThirdICWarning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sameUH">{{'sameUH' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNotExist">{{'uhNotExist' | translate}}</div>
+            </div>
+        </div>
+
+
+
+        <div class="row" >
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'CB2_6_1' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="thirduhid" id="thirduhid" class="use-keyboard-input" [formControl]='Form_3.controls["uhid"]' #thirduhid>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirduhidWarning">{{'ThirdUHIDWarning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'CB2_2_1' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <input type="text" style="width: 85%;" name="thirdname" id="thirdname" class="use-keyboard-input" [formControl]='Form_3.controls["name"]' #thirdname>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdnameWarning">{{'ThirdNameWarning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'ReasonForTransfer' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["reason"]' #thirdreason>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
+                    <option *ngFor="let rea of reason" value={{rea.code}}>
+                        {{rea.desc}}
+                    </option>
+                </select>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdreasonWarning">{{'ThirdReasonWarning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'FLB_9' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_3.controls["relationship"]' #thirdrelationship>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
+                    <option *ngFor="let re of relationship" value={{re.code}}>
+                        {{re.desc}}
+                    </option>
+                </select>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdrelationshipWarning">{{'ThirdRelationshipWarning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row" >
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4>
+                    {{'FundName' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6">
+                <select name="" id="Q1" style="width: 85%; height: 2rem;" (change)="fundOnChange($event)" [formControl]='Form_3.controls["fund"]' #thirdfundname>
+                    <option value="">{{ 'optionSelect' | translate }}</option>
+                    <option *ngFor="let fund of fundnamelist" value={{fund.code}}>
+                        {{fund.value}}
+                    </option>
+                </select>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdfundWarning">{{'ThirdFundWarning' | translate}}</div>
+            </div>
+        </div>
+        <div class="row" style="padding-bottom: 1.75rem;" >
+            <div class="col-md-1"></div>
+            <div class="col-md-5">
+                <h4 style="font-size: 1.25rem;">
+                    {{'AmountInclusiveSST1' | translate}}
+                </h4>
+            </div>
+            <div class="col-md-6" >
+                <input type="text" style="width: 85%;" name="amount" id="amount" class="use-keyboard-input" [formControl]='Form_3.controls["amount"]' #thirdamount>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdamountWarning">{{'AWarning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning2">{{'A1Warning' | translate}}</div>
+            </div>
+        </div>
     </div>
 
 
-    <div style="display:grid; place-items: center; padding-top: 2rem;" *ngIf="isGetInfo">
+    <div style="display:grid; place-items: center; padding-top: 2rem;" class="content-container">
         <div style="width: 1200px">
             <p>1. {{'SIStep2_1' | translate}}</p>
             <p>2. {{'SIStep2_2' | translate}}</p>
@@ -622,7 +747,7 @@
         </div>
     </div>
 
-    <div class="row text-center" style="padding-top: 1rem;" *ngIf="isGetInfo">
+    <div class="row text-center content-container" style="padding-top: 1rem;" >
         <!-- <div class="col-md-1">
 
         </div> -->
@@ -702,7 +827,7 @@
         </div>
     </div>
 
-    <h4 class="h2-ic text-center" style="padding-top: 2rem;">
+    <h4 class="h2-ic text-center content-container" style="padding-top: 2rem;">
         {{'AdditionalInformationSOF' | translate}}
     </h4>
 
@@ -846,7 +971,7 @@
                 <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="STPStep3Back()">
                     {{'BTN_Back' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep3Next()" [disabled]="disagreedTNC">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="STPStep3Next()" [disabled]="isClicked">
                     {{'BTN_Next' | translate }}
                 </button>
             </div>
@@ -1042,7 +1167,7 @@
                 </div>
                 <div class="col-md-6">
                     <h5>
-                        : {{amountKeyed | number : '1.2-2'}}
+                        : {{amountKeyed == 0 ? (thirdamountkeyed  | number : '1.2-2') : (amountKeyed | number : '1.2-2')}}
                     </h5>
                 </div>
             </div>

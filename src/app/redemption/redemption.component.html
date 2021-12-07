@@ -639,7 +639,7 @@
                 <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="redemption3Back()">
                     {{'BTN_Back' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="redemption3Next()">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="redemption3Next()" [disabled]="isClicked">
                     {{'BTN_Next' | translate }}
                 </button>
             </div>

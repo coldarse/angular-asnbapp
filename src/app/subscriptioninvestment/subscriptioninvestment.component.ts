@@ -173,6 +173,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   uhNotExist = false;
 
+  isClicked = false;
+
   Form_1: any;
   Form_2: any;
   Form_3: any;
@@ -1166,6 +1168,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   SIStep3Next(){
+
     this.Form_2.controls.sourceoffund.setValue(this.source?.nativeElement.value);
     this.Form_2.controls.fundername.setValue(this.fundername?.nativeElement.value);
     this.Form_2.controls.othersource.setValue(this.othersource?.nativeElement.value);
@@ -1523,6 +1526,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   SIStep4Next(){
 
+    this.isClicked = true;
+
     let ictype = "";
     let icno = "";
     let uhid = "";
@@ -1783,6 +1788,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
             this.paymentStep3 = false;
             this.paymentStep4 = true;
 
+            this.isClicked = false;
+
             setTimeout(() => {
               this.SIStep5 = false;
               this.SIStep6 = true;
@@ -1943,12 +1950,16 @@ export class SubscriptioninvestmentComponent implements OnInit {
             this.paymentStep3 = false;
             this.paymentStep4 = true;
 
+            this.isClicked = false;
+
             setTimeout(() => {
               this.SIStep5 = false;
               this.SIStep6 = true;
             }, 5000);
           }
           else{
+
+            this.isClicked = false;
             errorCodes.Ecode = result.result.rejectcode;
             errorCodes.Emessage = result.result.rejectreason;
             if(selectLang.selectedLang == 'ms'){
@@ -1990,6 +2001,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     }
     else{
 
+      
       let kActivit1 = new kActivity();
       kActivit1.trxno = signalrConnection.trxno;
       kActivit1.kioskCode = signalrConnection.kioskCode;
@@ -2027,7 +2039,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   "cardHolderName": cardInfo.CardholderName,
                   "cardType": cardInfo.CardType,
                   "applicationLabel": cardInfo.ApplicationLabel,
-                  "createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+                  "createDate": formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
                   "itemno": signalrConnection.itemNo
                 }
 
@@ -2256,6 +2268,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       this.paymentStep3 = false;
                       this.paymentStep4 = true;
 
+                      this.isClicked = false;
+
                       setTimeout(() => {
                         this.SIStep5 = false;
                         this.SIStep6 = true;
@@ -2420,12 +2434,16 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       this.paymentStep3 = false;
                       this.paymentStep4 = true;
 
+                      this.isClicked = false;
+
                       setTimeout(() => {
                         this.SIStep5 = false;
                         this.SIStep6 = true;
                       }, 5000);
                     }
                     else{
+
+                      this.isClicked = false;
                       errorCodes.Ecode = result.result.rejectcode;
                       errorCodes.Emessage = result.result.rejectreason;
                       if(selectLang.selectedLang == 'ms'){
@@ -2470,6 +2488,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 });
               }
               else if(this.checkTerminalErrorCodes(statusCode)){
+
+                this.isClicked = false;
                 signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
                   
                 });
@@ -2602,113 +2622,113 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   STPStep1Next(){
     
-     if(this.isGetInfo == false){
-      this.Form_3.controls.icno.setValue(this.thirdicno?.nativeElement.value);
-      this.thirdicnoWarning = false;
-      this.thirdictypeWarning = false;
-      this.uhNotExist = false;
-      this.sameUH = false;
-      closeKeyboard();
+    //  if(this.isGetInfo == false){
+    //   this.Form_3.controls.icno.setValue(this.thirdicno?.nativeElement.value);
+    //   this.thirdicnoWarning = false;
+    //   this.thirdictypeWarning = false;
+    //   this.uhNotExist = false;
+    //   this.sameUH = false;
+    //   closeKeyboard();
 
-      let x = 0;
-      Object.keys(this.Form_3.controls).forEach(key => {
-        if (this.Form_3.controls[key].hasError('required')){
-          if(key.includes('icno')){
-            x += 1;
-            this.thirdicnoWarning = true;
-          }
-          else if(key.includes('ictype')){
-            x += 1;
-            this.thirdictypeWarning = true;
-          }
-        }
-      });
-      if (x > 0){
-        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
-      }
-      else{
-        if(this.Form_3.controls.icno.value == currentHolder.identificationnumber){
-          this.sameUH = true;
-          this.disagreedTNC = false;
-          this.Form_3.controls.icno.setValue("");
-          this.Form_3.controls.ictype.setValue("");
-        }else{
-          this.thirdictypekeyed = this.Form_3.controls.ictype.value;
-          this.thirdicnokeyed = this.Form_3.controls.icno.value;
-          this.disagreedTNC = true;
+    //   let x = 0;
+    //   Object.keys(this.Form_3.controls).forEach(key => {
+    //     if (this.Form_3.controls[key].hasError('required')){
+    //       if(key.includes('icno')){
+    //         x += 1;
+    //         this.thirdicnoWarning = true;
+    //       }
+    //       else if(key.includes('ictype')){
+    //         x += 1;
+    //         this.thirdictypeWarning = true;
+    //       }
+    //     }
+    //   });
+    //   if (x > 0){
+    //     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
+    //   }
+    //   else{
+    //     if(this.Form_3.controls.icno.value == currentHolder.identificationnumber){
+    //       this.sameUH = true;
+    //       this.disagreedTNC = false;
+    //       this.Form_3.controls.icno.setValue("");
+    //       this.Form_3.controls.ictype.setValue("");
+    //     }else{
+    //       this.thirdictypekeyed = this.Form_3.controls.ictype.value;
+    //       this.thirdicnokeyed = this.Form_3.controls.icno.value;
+    //       this.disagreedTNC = true;
   
-          const body = { 
+    //       const body = { 
   
-            "CHANNELTYPE": signalrConnection.channelType,
-            "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-            "DEVICEOWNER": signalrConnection.deviceOwner,
-            "UNITHOLDERID": "",
-            "FIRSTNAME": "",
-            "IDENTIFICATIONTYPE": this.thirdictypekeyed,
-            "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
-            "FUNDID": "",
-            "INQUIRYCODE": "9",
-            "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-            "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-            "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
-            "BANKCUSTPHONENUMBER": "",
-            "FILTRATIONFLAG": "1",
-            "GUARDIANID": "",
-            "GUARDIANICTYPE": "",
-            "GUARDIANICNUMBER": ""
+    //         "CHANNELTYPE": signalrConnection.channelType,
+    //         "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+    //         "DEVICEOWNER": signalrConnection.deviceOwner,
+    //         "UNITHOLDERID": "",
+    //         "FIRSTNAME": "",
+    //         "IDENTIFICATIONTYPE": this.thirdictypekeyed,
+    //         "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
+    //         "FUNDID": "",
+    //         "INQUIRYCODE": "9",
+    //         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+    //         "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
+    //         "BANKCUSTPHONENUMBER": "",
+    //         "FILTRATIONFLAG": "1",
+    //         "GUARDIANID": "",
+    //         "GUARDIANICTYPE": "",
+    //         "GUARDIANICNUMBER": ""
     
-           };
+    //        };
     
     
       
-          this.serviceService.getAccountInquiry(body)
-            .subscribe((result: any) => {
-              console.log(result);
-              if(result.transactionstatus.toLowerCase().includes('successful')){
-                this.Form_3.controls.uhid.setValue(result.unitholderid);
-                this.Form_3.controls.name.setValue(result.firstname);
+    //       this.serviceService.getAccountInquiry(body)
+    //         .subscribe((result: any) => {
+    //           console.log(result);
+    //           if(result.transactionstatus.toLowerCase().includes('successful')){
+    //             this.Form_3.controls.uhid.setValue(result.unitholderid);
+    //             this.Form_3.controls.name.setValue(result.firstname);
     
-                this.Form_3.controls.ictype.disable();
-                this.Form_3.controls.icno.disable();
-                this.Form_3.controls.uhid.disable();
-                this.Form_3.controls.name.disable();
+    //             this.Form_3.controls.ictype.disable();
+    //             this.Form_3.controls.icno.disable();
+    //             this.Form_3.controls.uhid.disable();
+    //             this.Form_3.controls.name.disable();
   
-                console.log(result.funddetail);
+    //             console.log(result.funddetail);
     
-                this.fundnamelist = [];
-                result.funddetail.forEach((elem: any) => {
-                  appFunc.ASNBFundID.forEach((element: any) => {
-                    if(elem.FUNDID != undefined){
-                      if(elem.FUNDID.toString().toLowerCase() == element.code.toString().toLowerCase()){
-                        this.fundnamelist.push(element);
-                        this.pdfsrc3 = "assets/SUBSCRIPTION/" + element.iscLink + ".pdf";
-                      }
-                    }
-                  })
-                });
+    //             this.fundnamelist = [];
+    //             result.funddetail.forEach((elem: any) => {
+    //               appFunc.ASNBFundID.forEach((element: any) => {
+    //                 if(elem.FUNDID != undefined){
+    //                   if(elem.FUNDID.toString().toLowerCase() == element.code.toString().toLowerCase()){
+    //                     this.fundnamelist.push(element);
+    //                     this.pdfsrc3 = "assets/SUBSCRIPTION/" + element.iscLink + ".pdf";
+    //                   }
+    //                 }
+    //               })
+    //             });
                 
-                deleteKeyboard();
+    //             deleteKeyboard();
                 
     
-                this.isGetInfo = true;
-                setTimeout(() => {
-                  loadKeyboard();
-                } , 300);
-              }else{
-                this.disagreedTNC = false;
-                this.Form_3.controls.icno.setValue("");
-                this.Form_3.controls.ictype.setValue("");
-                this.uhNotExist = true;
-                // this.thirdicnoWarning = true;
-                // this.thirdictypeWarning = true;
-              }
+    //             this.isGetInfo = true;
+    //             setTimeout(() => {
+    //               loadKeyboard();
+    //             } , 300);
+    //           }else{
+    //             this.disagreedTNC = false;
+    //             this.Form_3.controls.icno.setValue("");
+    //             this.Form_3.controls.ictype.setValue("");
+    //             this.uhNotExist = true;
+    //             // this.thirdicnoWarning = true;
+    //             // this.thirdictypeWarning = true;
+    //           }
               
-          });
-        }
+    //       });
+    //     }
         
-      }
-     }
-     else{
+    //   }
+    //  }
+    //  else{
       this.Form_3.controls.icno.setValue(this.thirdicno?.nativeElement.value);
       this.Form_3.controls.uhid.setValue(this.thirduhid?.nativeElement.value);
       this.Form_3.controls.name.setValue(this.thirdname?.nativeElement.value);
@@ -2859,7 +2879,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   
         }
       }
-     }
+    // }
     
   }
 
@@ -2961,6 +2981,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   STPStep3Next(){
+
+    this.isClicked = true;
     let ictype = "";
     let icno = "";
     let uhid = "";
@@ -3149,6 +3171,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.paymentStep3 = false;
           this.paymentStep4 = true;
 
+          this.isClicked = false;
+
           setTimeout(() => {
             this.SIStep5 = false;
             this.SIStep6 = true;
@@ -3198,8 +3222,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
           this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
           this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
-          this.SIStep5 = false;
-          this.SIStep6 = true;
+ 
 
 
           let module = "";
@@ -3313,8 +3336,17 @@ export class SubscriptioninvestmentComponent implements OnInit {
           kActivit1.endTime = new Date();
           kActivit1.status = true;
           appFunc.kioskActivity.push(kActivit1);
+
+          this.isClicked = false;
+
+          setTimeout(() => {
+            this.SIStep5 = false;
+            this.SIStep6 = true;
+          }, 5000);
         }
         else{
+
+          this.isClicked = false;
           errorCodes.Ecode = result.result.rejectcode;
           errorCodes.Emessage = result.result.rejectreason;
           if(selectLang.selectedLang == 'ms'){
@@ -3392,7 +3424,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   "cardHolderName": cardInfo.CardholderName,
                   "cardType": cardInfo.CardType,
                   "applicationLabel": cardInfo.ApplicationLabel,
-                  "createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+                  "createDate": formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
                   "itemno": signalrConnection.itemNo
                 }
 
@@ -3539,10 +3571,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
                     this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
                     this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
-                    this.SIStep5 = false;
-                    this.SIStep6 = true;
-
-
+     
                     let module = "";
                     if(appFunc.isOwn == "major"){
                       if(appFunc.isInvesment){
@@ -3622,6 +3651,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     this.paymentStep3 = false;
                     this.paymentStep4 = true;
 
+                    this.isClicked = false;
+
                     setTimeout(() => {
                       this.SIStep5 = false;
                       this.SIStep6 = true;
@@ -3669,9 +3700,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
                     this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
                     this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
-                    this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
-                    this.SIStep5 = false;
-                    this.SIStep6 = true;
+          
 
 
                     let module = "";
@@ -3785,8 +3814,17 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     kActivit1.endTime = new Date();
                     kActivit1.status = true;
                     appFunc.kioskActivity.push(kActivit1);
+
+                    this.isClicked = false;
+
+                    setTimeout(() => {
+                      this.SIStep5 = false;
+                      this.SIStep6 = true;
+                    }, 5000);
                   }
                   else{
+
+                    this.isClicked = false;
                     errorCodes.Ecode = result.result.rejectcode;
                     errorCodes.Emessage = result.result.rejectreason;
                     if(selectLang.selectedLang == 'ms'){
@@ -3831,6 +3869,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 });
               }
               else if(this.checkTerminalErrorCodes(statusCode)){
+                this.isClicked = false;
                 signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
                   
                 });
@@ -4095,7 +4134,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ExpDate" : this.tempCardInfo.ExpiryDate,
         "ApprovalCode" : this.tempCardInfo.ApprovalCode,
         "ReferenceNumber" : this.tempCardInfo.RRN,
-        "TotalAmount" : this.amountKeyed,
+        "TotalAmount" : paidamount,
         "ApplicationLabel": this.tempCardInfo.ApplicationLabel,
         "TransactionTrace": this.tempCardInfo.TransactionTrace,
         "HostNo": this.tempCardInfo.HostNo
@@ -4404,7 +4443,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "ExpDate" : this.tempCardInfo.ExpiryDate,
         "ApprovalCode" : this.tempCardInfo.ApprovalCode,
         "ReferenceNumber" : this.tempCardInfo.RRN,
-        "TotalAmount" : this.amountKeyed,
+        "TotalAmount" : paidamount,
         "ApplicationLabel": this.tempCardInfo.ApplicationLabel,
         "TransactionTrace": this.tempCardInfo.TransactionTrace,
         "HostNo": this.tempCardInfo.HostNo

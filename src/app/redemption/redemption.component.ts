@@ -37,6 +37,8 @@ export class RedemptionComponent implements OnInit {
   InvestmentDisclaimer = false;
   MinimumCriteria = false;
 
+  isClicked = false;
+
   ispopup = false;
   isHistorical = true;
 
@@ -709,6 +711,10 @@ export class RedemptionComponent implements OnInit {
 
   redemption3Next(){
 
+    this.isClicked = true;
+
+    
+
     let kActivit1 = new kActivity();
     kActivit1.trxno = signalrConnection.trxno;
     kActivit1.kioskCode = signalrConnection.kioskCode;
@@ -855,8 +861,12 @@ export class RedemptionComponent implements OnInit {
           kActivit1.endTime = new Date();
           kActivit1.status = true;
           appFunc.kioskActivity.push(kActivit1);
+
+          this.isClicked = false;
         }
         else{
+
+          this.isClicked = false;
           errorCodes.Ecode = result.result.rejectcode;
           errorCodes.Emessage = result.result.rejectreason;
           errorCodes.accountName = this.unitholdername;

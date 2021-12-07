@@ -475,7 +475,7 @@ export class VerifymykadComponent implements OnInit {
 
       if (age > 17){
         currentMyKadDetails.Name = this.myKadData['Name'];
-        currentMyKadDetails.ICNo = this.myKadData['ICNo'];
+        currentMyKadDetails.ICNo = this.myKadData['ICNo'].toString().replace("*", "");
         currentMyKadDetails.OldICNo = this.myKadData['OldICNo'];
         currentMyKadDetails.DOB = this.myKadData['DOB'];
         currentMyKadDetails.POB =  this.myKadData['POB'];
@@ -527,7 +527,7 @@ export class VerifymykadComponent implements OnInit {
         signalrConnection.connection.invoke('GetMyKadNo').then((data: string) => {
           harcodedic = data;
           currentMyKadDetails.Name = "John Smith";
-          currentMyKadDetails.ICNo = harcodedic;
+          currentMyKadDetails.ICNo = harcodedic.toString().replace("*", "");
           currentMyKadDetails.OldICNo = "";
           currentMyKadDetails.DOB = new Date("1957-08-31");
           currentMyKadDetails.POB =  "SELANGOR";
@@ -559,7 +559,7 @@ export class VerifymykadComponent implements OnInit {
       }
       else{
         currentMyKadDetails.Name = "John Smith";
-        currentMyKadDetails.ICNo = this.icnumber?.nativeElement.value;
+        currentMyKadDetails.ICNo = this.icnumber?.nativeElement.value.toString().replace("*", "");
         currentMyKadDetails.OldICNo = "";
         currentMyKadDetails.DOB = new Date("1957-08-31");
         currentMyKadDetails.POB =  "SELANGOR";

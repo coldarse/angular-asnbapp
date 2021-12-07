@@ -48,6 +48,8 @@ export class TransferswitchingComponent implements OnInit {
   ispopup = false;
   isHistorical = false;
 
+  isClicked = false;
+
   uhNotExist = false;
   uhNoFund = false;
 
@@ -704,116 +706,116 @@ export class TransferswitchingComponent implements OnInit {
 
   transfer1Next(){
 
-    if(this.isGetInfo == false){
-      this.Form_1.controls.uhic.setValue(this.tuhic?.nativeElement.value);
-      this.sameUH = false;
-      this.uhictypeWarning = false;
-      this.uhicWarning = false;
-      this.uhNoFund = false;
-      this.uhNotExist = false;
-      closeKeyboard();
+    // if(this.isGetInfo == false){
+    //   this.Form_1.controls.uhic.setValue(this.tuhic?.nativeElement.value);
+    //   this.sameUH = false;
+    //   this.uhictypeWarning = false;
+    //   this.uhicWarning = false;
+    //   this.uhNoFund = false;
+    //   this.uhNotExist = false;
+    //   closeKeyboard();
 
-      let x = 0;
-      Object.keys(this.Form_1.controls).forEach(key => {
-        if (this.Form_1.controls[key].hasError('required')){
+    //   let x = 0;
+    //   Object.keys(this.Form_1.controls).forEach(key => {
+    //     if (this.Form_1.controls[key].hasError('required')){
           
-          if(key.includes('ictype')){
-            x += 1;
-            this.uhictypeWarning = true;
-          }
-          else if(key.includes('uhic')){
-            x += 1;
-            this.uhicWarning = true;
-          }
-        }
-      });
-      if (x > 0){
-        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
-      }else{
-        if(this.Form_1.controls.uhic.value == currentHolder.identificationnumber){
-          this.sameUH = true;
-          this.disagreedTNC = false;
-          this.Form_1.controls.uhic.setValue("");
-          this.Form_1.controls.ictype.setValue("");
-        }else{
-          this.transferuhictype = this.Form_1.controls.ictype.value;
-          this.transferuhic = this.Form_1.controls.uhic.value;
-          this.disagreedTNC = true;
+    //       if(key.includes('ictype')){
+    //         x += 1;
+    //         this.uhictypeWarning = true;
+    //       }
+    //       else if(key.includes('uhic')){
+    //         x += 1;
+    //         this.uhicWarning = true;
+    //       }
+    //     }
+    //   });
+    //   if (x > 0){
+    //     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
+    //   }else{
+    //     if(this.Form_1.controls.uhic.value == currentHolder.identificationnumber){
+    //       this.sameUH = true;
+    //       this.disagreedTNC = false;
+    //       this.Form_1.controls.uhic.setValue("");
+    //       this.Form_1.controls.ictype.setValue("");
+    //     }else{
+    //       this.transferuhictype = this.Form_1.controls.ictype.value;
+    //       this.transferuhic = this.Form_1.controls.uhic.value;
+    //       this.disagreedTNC = true;
 
-          const body = { 
+    //       const body = { 
 
-            "CHANNELTYPE": signalrConnection.channelType,
-            "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-            "DEVICEOWNER": signalrConnection.deviceOwner,
-            "UNITHOLDERID": "",
-            "FIRSTNAME": "",
-            "IDENTIFICATIONTYPE": this.transferuhictype,
-            "IDENTIFICATIONNUMBER": this.transferuhic,
-            "FUNDID": "",
-            "INQUIRYCODE": "9",
-            "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-            "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-            "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
-            "BANKCUSTPHONENUMBER": "",
-            "FILTRATIONFLAG": "1",
-            "GUARDIANID": "",
-            "GUARDIANICTYPE": "",
-            "GUARDIANICNUMBER": ""
+    //         "CHANNELTYPE": signalrConnection.channelType,
+    //         "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+    //         "DEVICEOWNER": signalrConnection.deviceOwner,
+    //         "UNITHOLDERID": "",
+    //         "FIRSTNAME": "",
+    //         "IDENTIFICATIONTYPE": this.transferuhictype,
+    //         "IDENTIFICATIONNUMBER": this.transferuhic,
+    //         "FUNDID": "",
+    //         "INQUIRYCODE": "9",
+    //         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+    //         "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
+    //         "BANKCUSTPHONENUMBER": "",
+    //         "FILTRATIONFLAG": "1",
+    //         "GUARDIANID": "",
+    //         "GUARDIANICTYPE": "",
+    //         "GUARDIANICNUMBER": ""
     
-          };
+    //       };
     
     
       
-          this.serviceService.getAccountInquiry(body)
-            .subscribe((result: any) => {
-              if(result.transactionstatus.toLowerCase().includes('successful')){
+    //       this.serviceService.getAccountInquiry(body)
+    //         .subscribe((result: any) => {
+    //           if(result.transactionstatus.toLowerCase().includes('successful')){
 
-                let isFund = false;
-                result.funddetail.forEach((element: any) => {
-                  if(element.FUNDID == this.selectedFundID){
-                    isFund = true;
-                  }
-                });
+    //             let isFund = false;
+    //             result.funddetail.forEach((element: any) => {
+    //               if(element.FUNDID == this.selectedFundID){
+    //                 isFund = true;
+    //               }
+    //             });
 
-                if(isFund){
-                  this.Form_1.controls.uhid.setValue(result.unitholderid);
-                  this.Form_1.controls.uhname.setValue(result.firstname);
+    //             if(isFund){
+    //               this.Form_1.controls.uhid.setValue(result.unitholderid);
+    //               this.Form_1.controls.uhname.setValue(result.firstname);
       
-                  this.Form_1.controls.ictype.disable();
-                  this.Form_1.controls.uhic.disable();
-                  this.Form_1.controls.uhid.disable();
-                  this.Form_1.controls.uhname.disable();
+    //               this.Form_1.controls.ictype.disable();
+    //               this.Form_1.controls.uhic.disable();
+    //               this.Form_1.controls.uhid.disable();
+    //               this.Form_1.controls.uhname.disable();
     
-                  deleteKeyboard();
+    //               deleteKeyboard();
                 
-                  this.isGetInfo = true;
-                  setTimeout(() => {
-                    loadKeyboard();
-                  } , 300);
-                }
-                else{
-                  this.disagreedTNC = false;
-                  this.Form_1.controls.uhic.setValue("");
-                  this.Form_1.controls.ictype.setValue("");
-                  // this.uhicWarning = true;
-                  // this.uhictypeWarning = true;
-                  this.uhNoFund = true;
-                }
+    //               this.isGetInfo = true;
+    //               setTimeout(() => {
+    //                 loadKeyboard();
+    //               } , 300);
+    //             }
+    //             else{
+    //               this.disagreedTNC = false;
+    //               this.Form_1.controls.uhic.setValue("");
+    //               this.Form_1.controls.ictype.setValue("");
+    //               // this.uhicWarning = true;
+    //               // this.uhictypeWarning = true;
+    //               this.uhNoFund = true;
+    //             }
                 
-              }else{
-                this.disagreedTNC = false;
-                this.Form_1.controls.uhic.setValue("");
-                this.Form_1.controls.ictype.setValue("");
-                // this.uhicWarning = true;
-                // this.uhictypeWarning = true;
-                this.uhNotExist = true;
-              }
+    //           }else{
+    //             this.disagreedTNC = false;
+    //             this.Form_1.controls.uhic.setValue("");
+    //             this.Form_1.controls.ictype.setValue("");
+    //             // this.uhicWarning = true;
+    //             // this.uhictypeWarning = true;
+    //             this.uhNotExist = true;
+    //           }
               
-          });
-        }
-      }
-    }
-    else{
+    //       });
+    //     }
+    //   }
+    // }
+    // else{
       this.Form_1.controls.uhid.setValue(this.tuhid?.nativeElement.value);
       this.Form_1.controls.uhname.setValue(this.tuhname?.nativeElement.value);
       this.Form_1.controls.uhic.setValue(this.tuhic?.nativeElement.value);
@@ -912,7 +914,7 @@ export class TransferswitchingComponent implements OnInit {
         }
   
       }
-    }
+    // }
   }
 
   transfer2Back(){
@@ -927,6 +929,10 @@ export class TransferswitchingComponent implements OnInit {
   }
 
   transfer2Next(){
+
+    this.isClicked = true;
+
+    
 
     let kActivit1 = new kActivity();
     kActivit1.trxno = signalrConnection.trxno;
@@ -1207,8 +1213,12 @@ export class TransferswitchingComponent implements OnInit {
                 kActivit1.endTime = new Date();
                 kActivit1.status = true;
                 appFunc.kioskActivity.push(kActivit1);
+
+                this.isClicked = false;
               }
               else{
+
+                this.isClicked = false;
                 errorCodes.Ecode = result1.result.rejectcode;
                 errorCodes.Emessage = result1.result.rejectreason;
                 errorCodes.accountName = firstname;
@@ -1791,6 +1801,10 @@ export class TransferswitchingComponent implements OnInit {
 
   switching2Next(){
 
+    this.isClicked = true;
+
+    
+
     let kActivit1 = new kActivity();
     kActivit1.trxno = signalrConnection.trxno;
     kActivit1.kioskCode = signalrConnection.kioskCode;
@@ -2072,9 +2086,10 @@ export class TransferswitchingComponent implements OnInit {
                 kActivit1.endTime = new Date();
                 kActivit1.status = true;
                 appFunc.kioskActivity.push(kActivit1);
-
+                this.isClicked = false;
               }
               else{
+                this.isClicked = false;
                 errorCodes.Ecode = result1.result.rejectcode;
                 errorCodes.Emessage = result1.result.rejectreason;
                 errorCodes.accountName = firstname;

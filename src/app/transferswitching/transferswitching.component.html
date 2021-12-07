@@ -308,7 +308,7 @@
         <h4>+ {{'TransferTo' | translate }}</h4>
     </div>
 
-    <div class="col-md-12 content-container">
+    <!-- <div class="col-md-12 content-container">
         <div class="pop-up-third">
             <div class="row" style="padding-top:2rem;">
                 <div class="col-md-1"></div>
@@ -419,10 +419,122 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     
+    <div class="col-md-12 content-container">
+        <div class="pop-up-third">
+            <div class="row" style="padding-top:2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'ICType' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["ictype"]' [hidden]="ispopup" #thirdictype>
+                        <option value="">{{ 'optionSelect' | translate }}</option>
+                        <option *ngFor="let type of ictype" value={{type.code}}>
+                            {{type.desc}}
+                        </option>
+                    </select>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhictypeWarning">{{'ThirdICTypeWarning' | translate}}</div>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'TransferTo' | translate}} - {{'UHICNo' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" style="width: 85%;" name="thirdicno" id="thirdicno" class="use-keyboard-input" [formControl]='Form_1.controls["uhic"]' #tuhic>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhicWarning">{{'ThirdICWarning' | translate}}</div>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNotExist">{{'uhNotExist' | translate}}</div>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNoFund">{{'uhNoFund' | translate}}</div>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sameUH">{{'sameUH' | translate}}</div>
+                </div>
+            </div>
+    
+    
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'ARSuccess_5' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" style="width: 85%;" name="touhid" id="touhid" class="use-keyboard-input" [formControl]='Form_1.controls["uhid"]' #tuhid>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhidWarning">{{'ThirdUHIDWarning' | translate}}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'UHName' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" style="width: 85%;" name="touhname" id="touhname" class="use-keyboard-input" [formControl]='Form_1.controls["uhname"]' #tuhname>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhnameWarning">{{'ThirdNameWarning' | translate}}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'ReasonForTransfer' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["reason"]' #treason>
+                        <option value="">{{ 'optionSelect' | translate }}</option>
+                        <option *ngFor="let rea of reason" value={{rea.code}}>
+                            {{rea.desc}}
+                        </option>
+                    </select>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferreasonWarning">{{'SourceOfFundWarning' | translate}}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4>
+                        {{'FLB_9' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <select name="" id="Q1" style="width: 85%; height: 2rem;" [formControl]='Form_1.controls["relationship"]' #trelationship>
+                        <option value="">{{ 'optionSelect' | translate }}</option>
+                        <option *ngFor="let re of relationship" value={{re.code}}>
+                            {{re.desc}}
+                        </option>
+                    </select> 
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferrelationshipWarning">{{'ThirdRelationshipWarning' | translate}}</div>
+                </div>
+            </div>
+            <div class="row" style="padding-bottom: 2rem;">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h4 style="font-size: 1.25rem;" *ngIf="isHistorical">
+                        {{'AmountInclusiveSST5' | translate}}
+                    </h4>
+                    <h4 style="font-size: 1.25rem;" *ngIf="!isHistorical">
+                        {{'AmountInclusiveSST4' | translate}}
+                    </h4>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" style="width: 85%;" name="amount" id="amount" class="use-keyboard-input" [formControl]='Form_1.controls["amount"]' #tamount>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="transferamountWarning">{{'AWarning' | translate}}</div>
+                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="amountWarning1">{{'A1Warning' | translate}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="col-md-12 content-container" style="margin-left: auto; margin-right: auto; padding-top: 2rem;" *ngIf="isGetInfo">
+    <div class="col-md-12 content-container" style="margin-left: auto; margin-right: auto; padding-top: 2rem;">
         <div style="width: 1200px; margin-left: auto; margin-right: auto;">
             <p>1. {{'TransferCopywriting1' | translate}}</p>
             <p>2. {{'TransferCopywriting2' | translate}}</p>
@@ -431,7 +543,7 @@
         </div>
     </div>
 
-    <div class="row text-center content-container" style="padding-top: 1rem;" *ngIf="isGetInfo">
+    <div class="row text-center content-container" style="padding-top: 1rem;">
         <div class="col-md-12">
             <input type="checkbox" class="agreeCheck" name="tncCheck" value="false" (click)="agreeTNC($event)">
             <label for="tncCheck" style="padding-left:1rem; font-size: 0.75rem;">
@@ -607,7 +719,7 @@
                 <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="transfer2Back()">
                     {{'BTN_Back' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transfer2Next()">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="transfer2Next()"  [disabled]="isClicked">
                     {{'BTN_Next' | translate }}
                 </button>
             </div>
@@ -1114,7 +1226,7 @@
                 <button type="button" class="btn btn-cancel-white" id="CB1_Cancel" (click)="switching2Back()">
                     {{'BTN_Back' | translate }}
                 </button>
-                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="switching2Next()">
+                <button type="button" class="btn btn-next" id="CB1_Cancel" (click)="switching2Next()" [disabled]="isClicked">
                     {{'BTN_Next' | translate }}
                 </button>
             </div>
