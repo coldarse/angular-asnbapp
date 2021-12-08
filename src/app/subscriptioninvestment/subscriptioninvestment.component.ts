@@ -685,7 +685,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       "FUNDID": "",
       "INQUIRYCODE": "9",
       "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+      "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en'),
       "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
       "BANKCUSTPHONENUMBER": "",
       "FILTRATIONFLAG": "1",
@@ -1767,13 +1767,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
               "transactionStatus": result.result.transactionstatus,
               "transactionNumber": result.result.transactionnumber,
               "taxInvoiceNumber": result.result.taxinvoicenumber,
-              "confirmedUnits": "",
+              "confirmedUnits": result.result.unitsalloted,
               "unitBalance": "",
               "operation": "",
               "remark": "",
               "creditNoteNumber": "",
               "rejectCode": result.result.rejectcode,
-              "rejectReason": result.result.rejectreason
+              "rejectReason": result.result.rejectreason,
+              "itemno": signalrConnection.itemNo
               //"createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en')
             }
 
@@ -1930,13 +1931,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
               "transactionStatus": result.result.transactionstatus,
               "transactionNumber": result.result.transactionnumber,
               "taxInvoiceNumber": result.result.taxinvoicenumber,
-              "confirmedUnits": "",
+              "confirmedUnits": result.result.unitsalloted,
               "unitBalance": "",
               "operation": "",
               "remark": "",
               "creditNoteNumber": "",
-              "rejectCode": "",
-              "rejectReason": "",
+              "rejectCode": result.result.rejectcode,
+              "rejectReason": result.result.rejectreason,
               "itemno": signalrConnection.itemNo
             }
 
@@ -2039,7 +2040,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   "cardHolderName": cardInfo.CardholderName,
                   "cardType": cardInfo.CardType,
                   "applicationLabel": cardInfo.ApplicationLabel,
-                  "createDate": formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
+                  "createDate": formatDate(new Date(), 'MM/dd/yyyy HH:mm:ss', 'en'),
                   "itemno": signalrConnection.itemNo
                 }
 
@@ -2125,9 +2126,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
   
                   this.serviceService.postSubscriptionWithoutProvision(body)
                   .subscribe((result: any) => {
-                    console.log(result.result.transactionstatus);
-                    console.log(result.result.transactionnumber);
-                    console.log(result.result);
+                    // console.log(result.result.transactionstatus);
+                    // console.log(result.result.transactionnumber);
+                    // console.log(result.result);
                     if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
                       
                       this.unitholdername = name;
@@ -2248,13 +2249,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "transactionStatus": result.result.transactionstatus,
                         "transactionNumber": result.result.transactionnumber,
                         "taxInvoiceNumber": result.result.taxinvoicenumber,
-                        "confirmedUnits": "",
+                        "confirmedUnits": result.result.unitsalloted,
                         "unitBalance": "",
                         "operation": "",
                         "remark": "",
                         "creditNoteNumber": "",
-                        "rejectCode": "",
-                        "rejectReason": "",
+                        "rejectCode": result.result.rejectcode,
+                        "rejectReason": result.result.rejectreason,
                         "itemno": signalrConnection.itemNo
                       }
 
@@ -2414,13 +2415,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "transactionStatus": result.result.transactionstatus,
                         "transactionNumber": result.result.transactionnumber,
                         "taxInvoiceNumber": result.result.taxinvoicenumber,
-                        "confirmedUnits": "",
+                        "confirmedUnits": result.result.unitsalloted,
                         "unitBalance": "",
                         "operation": "",
                         "remark": "",
                         "creditNoteNumber": "",
-                        "rejectCode": "",
-                        "rejectReason": "",
+                        "rejectCode": result.result.rejectcode,
+                        "rejectReason": result.result.rejectreason,
                         "itemno": signalrConnection.itemNo
                       }
 
@@ -3085,8 +3086,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
       this.serviceService.postSubscriptionWithoutProvision(body)
       .subscribe((result: any) => {
-        console.log(result.result.transactionstatus);
-        console.log(result.result.transactionnumber);
+        // console.log(result.result.transactionstatus);
+        // console.log(result.result.transactionnumber);
         if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
 
           this.STPStep3 = false;
@@ -3223,8 +3224,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
           this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
  
-
-
           let module = "";
           if(appFunc.isOwn == "major"){
             if(appFunc.isInvesment){
@@ -3321,7 +3320,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             "transactionStatus": result.result.transactionstatus,
             "transactionNumber": result.result.transactionnumber,
             "taxInvoiceNumber": result.result.taxinvoicenumber,
-            "confirmedUnits": "",
+            "confirmedUnits": result.result.unitsalloted,
             "unitBalance": "",
             "operation": "",
             "remark": "",
@@ -3424,7 +3423,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   "cardHolderName": cardInfo.CardholderName,
                   "cardType": cardInfo.CardType,
                   "applicationLabel": cardInfo.ApplicationLabel,
-                  "createDate": formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
+                  "createDate": formatDate(new Date(), 'MM/dd/yyyy HH:mm:ss', 'en'),
                   "itemno": signalrConnection.itemNo
                 }
 
@@ -3508,9 +3507,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
                   this.serviceService.postSubscriptionWithoutProvision(body)
                   .subscribe((result: any) => {
-                  console.log(result.result.transactionstatus);
-                  console.log(result.result.transactionnumber);
-                  console.log(result.result);
+                  // console.log(result.result.transactionstatus);
+                  // console.log(result.result.transactionnumber);
+                  // console.log(result.result);
                   if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
 
                    
@@ -3632,7 +3631,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       "transactionStatus": result.result.transactionstatus,
                       "transactionNumber": result.result.transactionnumber,
                       "taxInvoiceNumber": result.result.taxinvoicenumber,
-                      "confirmedUnits": "",
+                      "confirmedUnits": result.result.unitsalloted,
                       "unitBalance": "",
                       "operation": "",
                       "remark": "",
@@ -3799,7 +3798,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       "transactionStatus": result.result.transactionstatus,
                       "transactionNumber": result.result.transactionnumber,
                       "taxInvoiceNumber": result.result.taxinvoicenumber,
-                      "confirmedUnits": "",
+                      "confirmedUnits": result.result.unitsalloted,
                       "unitBalance": "",
                       "operation": "",
                       "remark": "",
@@ -4616,7 +4615,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "FUNDID": "",
           "INQUIRYCODE": "9",
           "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+          "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en'),
           "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
           "BANKCUSTPHONENUMBER": "",
           "FILTRATIONFLAG": "1",
@@ -4720,7 +4719,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "FUNDID": "",
           "INQUIRYCODE": "9",
           "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+          "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en'),
           "BANKTXNREFERENCENUMBER": signalrConnection.trxno ,
           "BANKCUSTPHONENUMBER": "",
           "FILTRATIONFLAG": "1",
