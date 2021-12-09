@@ -1649,6 +1649,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
           console.log(result.result.transactionnumber);
           if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
             
+
+            signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+                  
+            });
+            
             this.unitholdername = name;
             this.unitholderid = uhid;
             this.unitholderic = icno;
@@ -1800,7 +1805,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
             }, 5000);
           }
           else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
-                      
+                  
+            
+            signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+                  
+            });
+
             this.isRequery = true;        
             this.unitholdername = name;
             this.unitholderid = uhid;
@@ -2137,6 +2147,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     // console.log(result.result);
                     if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
                       
+                      signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+                  
+                      });
+
                       this.unitholdername = name;
                       this.unitholderid = uhid;
                       this.unitholderic = icno;
@@ -2289,6 +2303,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     }
                     else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
                       
+
+                      signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+                  
+                      });
+
                       this.isRequery = true;  
                       this.unitholdername = name;
                       this.unitholderid = uhid;
@@ -3103,6 +3122,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
         // console.log(result.result.transactionnumber);
         if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
 
+          signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+                  
+          });
+
           this.STPStep3 = false;
           this.SIStep5 = true;
           // const body1 = 
@@ -3195,6 +3218,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }
         else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
                     
+          signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+                  
+          });
                     
           this.isRequery = true;       
           this.STPStep3 = false;
@@ -3529,6 +3555,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   // console.log(result.result);
                   if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
 
+
+                    signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+                  
+                    });
+
                    
                     this.unitholdername = this.thirdnamekeyed;
                     this.unitholderid = this.thirduhidkeyed;
@@ -3679,6 +3710,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   }
                   else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
                     
+                    signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+                  
+                    });
                     
                     this.isRequery = true;  
                     this.STPStep3 = false;
