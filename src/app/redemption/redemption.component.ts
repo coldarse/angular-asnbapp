@@ -853,7 +853,10 @@ export class RedemptionComponent implements OnInit {
             "creditNoteNumber": "",
             "rejectCode": result.result.rejectcode,
             "rejectReason": result.result.rejectreason,
-            "itemno": signalrConnection.itemNo
+            "itemno": signalrConnection.itemNo,
+            "nav": result.result.fundprice,
+            "fee": result.result.salescharge,
+            "sst": 0
           }
 
           this.serviceService.createFundTransaction(FTBody).subscribe(() => {});

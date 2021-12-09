@@ -1152,7 +1152,10 @@ export class TransferswitchingComponent implements OnInit {
                   "creditNoteNumber": "",
                   "rejectCode": result1.result.rejectcode,
                   "rejectReason": result1.result.rejectreason,
-                  "itemno": signalrConnection.itemNo
+                  "itemno": signalrConnection.itemNo,
+                  "nav": 0,
+                  "fee": 0,
+                  "sst": 0
                 }
 
                 const FTBodyIn =
@@ -1204,7 +1207,10 @@ export class TransferswitchingComponent implements OnInit {
                   "creditNoteNumber": "",
                   "rejectCode": result1.result.rejectcode,
                   "rejectReason": result1.result.rejectreason,
-                  "itemno": signalrConnection.itemNo
+                  "itemno": signalrConnection.itemNo,
+                  "nav": 0,
+                  "fee": 0,
+                  "sst": 0
                 }
 
                 this.serviceService.createFundTransaction(FTBodyOut).subscribe(() => {});
@@ -2024,7 +2030,10 @@ export class TransferswitchingComponent implements OnInit {
                   "creditNoteNumber": "",
                   "rejectCode": result1.result.rejectcode,
                   "rejectReason": result1.result.rejectreason,
-                  "itemno": signalrConnection.itemNo
+                  "itemno": signalrConnection.itemNo,
+                  "nav": result1.result.fundprice,
+                  "fee": result1.result.salescharge,
+                  "sst": result1.result.gstamount
                 }
 
                 const FTBodyIn =
@@ -2076,7 +2085,10 @@ export class TransferswitchingComponent implements OnInit {
                   "creditNoteNumber": "",
                   "rejectCode": result1.result.rejectcode,
                   "rejectReason": result1.result.rejectreason,
-                  "itemno": signalrConnection.itemNo
+                  "itemno": signalrConnection.itemNo,
+                  "nav": result1.result.tofundprice,
+                  "fee": result1.result.salescharge,
+                  "sst": result1.result.gstamount
                 }
 
                 this.serviceService.createFundTransaction(FTBodyOut).subscribe(() => {});

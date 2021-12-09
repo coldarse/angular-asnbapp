@@ -1774,7 +1774,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
               "creditNoteNumber": "",
               "rejectCode": result.result.rejectcode,
               "rejectReason": result.result.rejectreason,
-              "itemno": signalrConnection.itemNo
+              "itemno": signalrConnection.itemNo,
+              "nav": result.result.fundprice,
+              "fee": result.result.salescharge,
+              "sst": result.result.gstamount
               //"createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en')
             }
 
@@ -1938,7 +1941,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
               "creditNoteNumber": "",
               "rejectCode": result.result.rejectcode,
               "rejectReason": result.result.rejectreason,
-              "itemno": signalrConnection.itemNo
+              "itemno": signalrConnection.itemNo,
+              "nav": result.result.fundprice,
+              "fee": result.result.salescharge,
+              "sst": result.result.gstamount
             }
 
 
@@ -2211,12 +2217,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       {
                         "trxNo": signalrConnection.trxno,
                         "kioskCode": signalrConnection.kioskCode,
-                        "unitHolderID": result.result.unitholderid,
-                        "firstName": result.result.firstname,
-                        "identificationType": result.result.identificationtype,
-                        "identificationNumber": result.result.identificationnumber,
-                        "fundID": result.result.fundid,
-                        "amountApplied": result.result.amountapplied,
+                        "unitHolderID": this.requeryInfo.UNITHOLDERID,
+                        "firstName": this.requeryInfo.FIRSTNAME,
+                        "identificationType": this.requeryInfo.IDENTIFICATIONTYPE,
+                        "identificationNumber": this.requeryInfo.IDENTIFICATIONNUMBER,
+                        "fundID": this.requeryInfo.FUNDID,
+                        "amountApplied": this.requeryInfo.AMOUNTAPPLIED,
                         "transactionDate": result.result.transactiondate,
                         "transactionTime": result.result.transactiontime,
                         "transactionType": module,
@@ -2224,9 +2230,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "customerName": result.result.customername,
                         "agentCode": result.result.agentCode,
                         "referenceNo": result.result.transactionnumber,
-                        "bankTxnReferenceNumber": result.result.banktxnreferencenumber,
+                        "bankTxnReferenceNumber": this.requeryInfo.BANKTXNREFERENCENUMBER,
                         "bankCustPhoneNumber": result.result.bankcustphonenumber,
-                        "paymentType": result.result.paymenttype,
+                        "paymentType": "T",
                         "bankAccountNumber": result.result.bankaccountnumber,
                         "bankBranchCode": result.result.bankbranchcode,
                         "chequeNumber": result.result.chequenumber,
@@ -2246,7 +2252,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "sourceOfFund": result.result.sourceoffund,
                         "otherSourceOfFund": result.result.othersourceoffund,
                         "funderName": result.result.fundname,
-                        "transactionStatus": result.result.transactionstatus,
+                        "transactionStatus": "PROCESSING",
                         "transactionNumber": result.result.transactionnumber,
                         "taxInvoiceNumber": result.result.taxinvoicenumber,
                         "confirmedUnits": result.result.unitsalloted,
@@ -2256,7 +2262,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "creditNoteNumber": "",
                         "rejectCode": result.result.rejectcode,
                         "rejectReason": result.result.rejectreason,
-                        "itemno": signalrConnection.itemNo
+                        "itemno": signalrConnection.itemNo,
+                        "nav": result.result.fundprice,
+                        "fee": result.result.salescharge,
+                        "sst": result.result.gstamount
+
                       }
 
 
@@ -2422,7 +2432,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "creditNoteNumber": "",
                         "rejectCode": result.result.rejectcode,
                         "rejectReason": result.result.rejectreason,
-                        "itemno": signalrConnection.itemNo
+                        "itemno": signalrConnection.itemNo,
+                        "nav": result.result.fundprice,
+                        "fee": result.result.salescharge,
+                        "sst": result.result.gstamount
                       }
 
 
@@ -3327,7 +3340,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
             "creditNoteNumber": "",
             "rejectCode": result.result.rejectcode,
             "rejectReason": result.result.rejectreason,
-            "itemno": signalrConnection.itemNo
+            "itemno": signalrConnection.itemNo,
+            "nav": result.result.fundprice,
+            "fee": result.result.salescharge,
+            "sst": result.result.gstamount
           }
 
           this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
@@ -3425,6 +3441,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   "applicationLabel": cardInfo.ApplicationLabel,
                   "createDate": formatDate(new Date(), 'MM/dd/yyyy HH:mm:ss', 'en'),
                   "itemno": signalrConnection.itemNo
+
                 }
 
                 this.CCinformation = CCInfo;
@@ -3638,7 +3655,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       "creditNoteNumber": "",
                       "rejectCode": result.result.rejectcode,
                       "rejectReason": result.result.rejectreason,
-                      "itemno": signalrConnection.itemNo
+                      "itemno": signalrConnection.itemNo,
+                      "nav": result.result.fundprice,
+                      "fee": result.result.salescharge,
+                      "sst": result.result.gstamount
                     }
 
                     this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
@@ -3805,7 +3825,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       "creditNoteNumber": "",
                       "rejectCode": result.result.rejectcode,
                       "rejectReason": result.result.rejectreason,
-                      "itemno": signalrConnection.itemNo
+                      "itemno": signalrConnection.itemNo,
+                      "nav": result.result.fundprice,
+                      "fee": result.result.salescharge,
+                      "sst": result.result.gstamount
                     }
 
                     this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
