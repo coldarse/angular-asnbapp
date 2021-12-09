@@ -1605,8 +1605,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "REASONFORTRANSFER":"",
           "SOURCEOFFUND":this.sourceOfFund,
           "OTHERSOURCEOFFUND":this.sourceOther,
-          "FUNDERNAME":this.otherSourceOfFund
-          }
+          "FUNDERNAME":this.otherSourceOfFund,
+          "signature": ""
+        }
 
         this.requeryInfo = 
         {
@@ -1643,7 +1644,53 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "FUNDERNAME":this.otherSourceOfFund
         }
 
-        this.serviceService.postSubscriptionWithoutProvision(body)
+        let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
+        let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
+          keySize: 128,
+          blockSize: 128,
+          mode: CryptoJS.mode.ECB,
+          padding: CryptoJS.pad.Pkcs7
+        });
+
+        const newbody = 
+        {
+          "CHANNELTYPE": signalrConnection.channelType,
+          "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+          "DEVICEOWNER": signalrConnection.deviceOwner,
+          "UNITHOLDERID":uhid,
+          "FIRSTNAME": "",
+          "IDENTIFICATIONTYPE":ictype,
+          "IDENTIFICATIONNUMBER":icno,
+          "FUNDID":this.fundid,
+          "AMOUNTAPPLIED":this.amountKeyed,
+          "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+          "CUSTOMERICNUMBER":"",
+          "CUSTOMERNAME":"",
+          "AGENTCODE":signalrConnection.agentCode,
+          "BRANCHCODE":signalrConnection.branchCode,
+          "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+          "BANKCUSTPHONENUMBER":"",
+          "PAYMENTTYPE":"T",
+          "BANKACCOUNTNUMBER":"",
+          "GUARDIANID":guardianID,
+          "GUARDIANICTYPE":guardianICtype,
+          "GUARDIANICNUMBER":guardianIC,
+          "THIRDPARTYINVESTMENT":"",
+          "THIRDPARTYNAME":"",
+          "THIRDPARTYICTYPE":"",
+          "THIRDPARTYICNUMBER":"",
+          "THIRDPARTYRELATIONSHIP":"",
+          "REASONFORTRANSFER":"",
+          "SOURCEOFFUND":this.sourceOfFund,
+          "OTHERSOURCEOFFUND":this.sourceOther,
+          "FUNDERNAME":this.otherSourceOfFund,
+          "signature": encryptedBody.toString()
+        }
+
+
+
+        this.serviceService.postSubscriptionWithoutProvision(newbody)
         .subscribe((result: any) => {
           console.log(result.result.transactionstatus);
           console.log(result.result.transactionnumber);
@@ -2102,7 +2149,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "REASONFORTRANSFER":"",
                     "SOURCEOFFUND":this.sourceOfFund,
                     "OTHERSOURCEOFFUND":this.sourceOther,
-                    "FUNDERNAME":this.otherSourceOfFund
+                    "FUNDERNAME":this.otherSourceOfFund,
+                    "signature": ""
                   }
 
                   this.requeryInfo = 
@@ -2139,8 +2187,52 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "OTHERSOURCEOFFUND":this.sourceOther,
                     "FUNDERNAME":this.otherSourceOfFund
                   }
+
+                  let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
+                  let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
+                    keySize: 128,
+                    blockSize: 128,
+                    mode: CryptoJS.mode.ECB,
+                    padding: CryptoJS.pad.Pkcs7
+                  });
+
+                  const newbody = 
+                  {
+                    "CHANNELTYPE": signalrConnection.channelType,
+                    "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+                    "DEVICEOWNER": signalrConnection.deviceOwner,
+                    "UNITHOLDERID":uhid,
+                    "FIRSTNAME": "",
+                    "IDENTIFICATIONTYPE":ictype,
+                    "IDENTIFICATIONNUMBER":icno,
+                    "FUNDID":this.fundid,
+                    "AMOUNTAPPLIED":this.amountKeyed,
+                    "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+                    "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+                    "CUSTOMERICNUMBER":"",
+                    "CUSTOMERNAME":"",
+                    "AGENTCODE":signalrConnection.agentCode,
+                    "BRANCHCODE":signalrConnection.branchCode,
+                    "BANKTXNREFERENCENUMBER":formatDate(new Date(), 'ddMMyy', 'en') + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
+                    "BANKCUSTPHONENUMBER":"",
+                    "PAYMENTTYPE":"T",
+                    "BANKACCOUNTNUMBER":"",
+                    "GUARDIANID":guardianID,
+                    "GUARDIANICTYPE":guardianICtype,
+                    "GUARDIANICNUMBER":guardianIC,
+                    "THIRDPARTYINVESTMENT":"",
+                    "THIRDPARTYNAME":"",
+                    "THIRDPARTYICTYPE":"",
+                    "THIRDPARTYICNUMBER":"",
+                    "THIRDPARTYRELATIONSHIP":"",
+                    "REASONFORTRANSFER":"",
+                    "SOURCEOFFUND":this.sourceOfFund,
+                    "OTHERSOURCEOFFUND":this.sourceOther,
+                    "FUNDERNAME":this.otherSourceOfFund,
+                    "signature": encryptedBody.toString()
+                  }
   
-                  this.serviceService.postSubscriptionWithoutProvision(body)
+                  this.serviceService.postSubscriptionWithoutProvision(newbody)
                   .subscribe((result: any) => {
                     // console.log(result.result.transactionstatus);
                     // console.log(result.result.transactionnumber);
@@ -3078,7 +3170,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "REASONFORTRANSFER":this.thirdreasonkeyed,
         "SOURCEOFFUND":this.sourceOfFund,
         "OTHERSOURCEOFFUND":this.sourceOther,
-        "FUNDERNAME":this.otherSourceOfFund
+        "FUNDERNAME":this.otherSourceOfFund,
+        "signature": ""
       }
 
       this.requeryInfo = 
@@ -3116,7 +3209,51 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "FUNDERNAME":this.otherSourceOfFund
       }
 
-      this.serviceService.postSubscriptionWithoutProvision(body)
+      let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
+        let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
+          keySize: 128,
+          blockSize: 128,
+          mode: CryptoJS.mode.ECB,
+          padding: CryptoJS.pad.Pkcs7
+        });
+
+        const newbody = 
+        {
+          "CHANNELTYPE": signalrConnection.channelType,
+          "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+          "DEVICEOWNER": signalrConnection.deviceOwner,
+          "UNITHOLDERID":this.thirduhidkeyed,
+          "FIRSTNAME": "",
+          "IDENTIFICATIONTYPE": this.thirdictypekeyed,
+          "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
+          "FUNDID":this.thirdfundnamekeyed,
+          "AMOUNTAPPLIED":this.thirdamountkeyed,
+          "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+          "CUSTOMERICNUMBER":"",
+          "CUSTOMERNAME":"",
+          "AGENTCODE":signalrConnection.agentCode,
+          "BRANCHCODE":signalrConnection.branchCode,
+          "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+          "BANKCUSTPHONENUMBER":"",
+          "PAYMENTTYPE":"T",
+          "BANKACCOUNTNUMBER":"",
+          "GUARDIANID":"",
+          "GUARDIANICTYPE":"",
+          "GUARDIANICNUMBER":"",
+          "THIRDPARTYINVESTMENT": "Y",
+          "THIRDPARTYNAME": name,
+          "THIRDPARTYICTYPE": ictype,
+          "THIRDPARTYICNUMBER": icno,
+          "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
+          "REASONFORTRANSFER":this.thirdreasonkeyed,
+          "SOURCEOFFUND":this.sourceOfFund,
+          "OTHERSOURCEOFFUND":this.sourceOther,
+          "FUNDERNAME":this.otherSourceOfFund,
+          "signature": encryptedBody.toString()
+        }
+
+      this.serviceService.postSubscriptionWithoutProvision(newbody)
       .subscribe((result: any) => {
         // console.log(result.result.transactionstatus);
         // console.log(result.result.transactionnumber);
@@ -3510,7 +3647,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "REASONFORTRANSFER":this.thirdreasonkeyed,
                     "SOURCEOFFUND":this.sourceOfFund,
                     "OTHERSOURCEOFFUND":this.sourceOther,
-                    "FUNDERNAME":this.otherSourceOfFund
+                    "FUNDERNAME":this.otherSourceOfFund,
+                    "signature": ""
                   }
 
                   this.requeryInfo =
@@ -3548,7 +3686,51 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "FUNDERNAME":this.otherSourceOfFund
                   }
 
-                  this.serviceService.postSubscriptionWithoutProvision(body)
+                  let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
+                  let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
+                    keySize: 128,
+                    blockSize: 128,
+                    mode: CryptoJS.mode.ECB,
+                    padding: CryptoJS.pad.Pkcs7
+                  });
+
+                  const newbody = 
+                  {
+                    "CHANNELTYPE": signalrConnection.channelType,
+                    "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+                    "DEVICEOWNER": signalrConnection.deviceOwner,
+                    "UNITHOLDERID":this.thirduhidkeyed,
+                    "FIRSTNAME": "",
+                    "IDENTIFICATIONTYPE": this.thirdictypekeyed,
+                    "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
+                    "FUNDID":this.thirdfundnamekeyed,
+                    "AMOUNTAPPLIED":this.thirdamountkeyed,
+                    "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+                    "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+                    "CUSTOMERICNUMBER":"",
+                    "CUSTOMERNAME":"",
+                    "AGENTCODE":signalrConnection.agentCode,
+                    "BRANCHCODE":signalrConnection.branchCode,
+                    "BANKTXNREFERENCENUMBER":formatDate(new Date(), 'ddMMyy', 'en') + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
+                    "BANKCUSTPHONENUMBER":"",
+                    "PAYMENTTYPE":"T",
+                    "BANKACCOUNTNUMBER":"",
+                    "GUARDIANID":"",
+                    "GUARDIANICTYPE":"",
+                    "GUARDIANICNUMBER":"",
+                    "THIRDPARTYINVESTMENT":"Y",
+                    "THIRDPARTYNAME": name,
+                    "THIRDPARTYICTYPE": ictype,
+                    "THIRDPARTYICNUMBER": icno,
+                    "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
+                    "REASONFORTRANSFER":this.thirdreasonkeyed,
+                    "SOURCEOFFUND":this.sourceOfFund,
+                    "OTHERSOURCEOFFUND":this.sourceOther,
+                    "FUNDERNAME":this.otherSourceOfFund,
+                    "signature": encryptedBody.toString()
+                  }
+
+                  this.serviceService.postSubscriptionWithoutProvision(newbody)
                   .subscribe((result: any) => {
                   // console.log(result.result.transactionstatus);
                   // console.log(result.result.transactionnumber);

@@ -357,12 +357,13 @@ export class BijakregistrationComponent implements OnInit {
     }
     this.race = currentMyKadDetails.Race;
     for(var y of this.form_races){
-      if (y.textBM.toLowerCase().includes(this.race.toLowerCase())){
-        this.race = y.value;
-        break;
-      }else{
-        this.race = currentMyKadDetails.Race;
-      }
+      // if (y.textBM.toLowerCase().includes(this.race.toLowerCase())){
+        if (this.race.toLowerCase().includes(y.textBM.toLowerCase())){
+          this.race = y.value;
+          break;
+        }else{
+          this.race = 'FGN';
+        }
     }
 
 
@@ -877,11 +878,12 @@ export class BijakregistrationComponent implements OnInit {
             }
             this.race = currentMyKidDetails.FathersRace;
             for(var y of this.form_races){
-              if (y.textBM.toLowerCase().includes(this.race.toLowerCase())){
+              // if (y.textBM.toLowerCase().includes(this.race.toLowerCase())){
+              if (this.race.toLowerCase().includes(y.textBM.toLowerCase())){
                 this.race = y.value;
                 break;
               }else{
-                this.race = currentMyKidDetails.FathersRace;
+                this.race = 'FGN';
               }
             }
 

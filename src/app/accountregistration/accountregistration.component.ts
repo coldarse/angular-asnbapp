@@ -281,11 +281,12 @@ export class AccountregistrationComponent implements OnInit {
     }
     this.race = currentMyKadDetails.Race;
     for(var y of this.form_races){
-      if (y.textBM.toLowerCase().includes(this.race.toLowerCase())){
+      // if (y.textBM.toLowerCase().includes(this.race.toLowerCase())){
+      if (this.race.toLowerCase().includes(y.textBM.toLowerCase())){
         this.race = y.value;
         break;
       }else{
-        this.race = currentMyKadDetails.Race;
+        this.race = 'FGN';
       }
     }
     let ismobile = false;
