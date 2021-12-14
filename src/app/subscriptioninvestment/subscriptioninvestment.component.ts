@@ -5124,7 +5124,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             }
           }
           else{
-            if (currentBijakHolder.rejectreason.includes('not exists')){
+            if (currentBijakHolder.rejectcode.toString() == "019"){
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "No account found.");
   
               
@@ -5285,7 +5285,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             }
           }
           else{
-            if (currentHolder.rejectreason.includes('not exists')){
+            if (currentHolder.rejectcode.toString() == "019"){
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
   
               

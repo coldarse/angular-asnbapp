@@ -804,7 +804,7 @@ export class VerifymykadComponent implements OnInit {
           }
         }
         else{
-          if (currentHolder.rejectreason.includes('not exists')){
+          if (currentHolder.rejectcode.toString() == "019"){
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No account found.");
 
             if (currentMyKadDetails.OldICNo != ""){
@@ -992,7 +992,7 @@ export class VerifymykadComponent implements OnInit {
                   }
                 }
                 else{
-                  if (currentHolder.rejectreason.includes('not exists')){
+                  if (currentHolder.rejectcode.toString() == "019"){
                     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No Old IC account found.");
         
                     for (var val of appFunc.modules){
