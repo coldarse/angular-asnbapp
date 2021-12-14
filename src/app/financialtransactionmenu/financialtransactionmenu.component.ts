@@ -6,6 +6,7 @@ import { appFunc } from '../_models/appFunctions';
 import { currentHolder } from '../_models/currentUnitHolder';
 import { selectLang } from '../_models/language';
 import { signalrConnection } from '../_models/signalr';
+import { ServiceService } from '../_shared/service.service';
 
 @Component({
   selector: 'app-financialtransactionmenu',
@@ -59,7 +60,8 @@ export class FinancialtransactionmenuComponent implements OnInit {
 
   constructor(
     private translate: TranslateService,
-    private _router: Router
+    private _router: Router,
+    private serviceService : ServiceService
   ) { }
 
   ngOnInit(): void {
@@ -355,6 +357,11 @@ export class FinancialtransactionmenuComponent implements OnInit {
 
   ngOnDestroy() {
     clearInterval(this.id);
+    if(appFunc.kioskActivity != undefined){
+      this.serviceService.postKioskActivity(appFunc.kioskActivity).subscribe((res: any) => {
+      });
+    }
+    appFunc.kioskActivity = [];
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Cleared Interval.");
   }
 

@@ -297,6 +297,11 @@ export class UpdatedetailsComponent implements OnInit {
   ngOnDestroy() {
     clearInterval(this.id);
     deleteKeyboard();
+    if(appFunc.kioskActivity != undefined){
+      this.serviceService.postKioskActivity(appFunc.kioskActivity).subscribe((res: any) => {
+      });
+    }
+    appFunc.kioskActivity = [];
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Cleared Interval.");
   }
 
