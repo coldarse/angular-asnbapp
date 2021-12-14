@@ -1059,7 +1059,7 @@ export class TransferswitchingComponent implements OnInit {
             "GUARDIANID":guardianID,
             "GUARDIANICTYPE":guardianICtype,
             "GUARDIANICNUMBER":guardianIC,
-            "THIRDPARTYTRANSFER":"Y",
+            "THIRDPARTYTRANSFER":"N",
             "THIRDPARTYRELATIONSHIP":this.transferrelationship,
             "REASONFORTRANSFER":this.transferreason
           }
