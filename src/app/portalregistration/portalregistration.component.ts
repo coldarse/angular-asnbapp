@@ -490,6 +490,11 @@ export class PortalregistrationComponent implements OnInit {
   ngOnDestroy() {
     clearInterval(this.id);
     deleteKeyboard();
+    if(appFunc.kioskActivity != undefined){
+      this.serviceService.postKioskActivity(appFunc.kioskActivity).subscribe((res: any) => {
+      });
+    }
+    appFunc.kioskActivity = [];
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + "Cleared Interval.");
   }
 
@@ -1462,7 +1467,7 @@ export class PortalregistrationComponent implements OnInit {
           }
         }
         else{
-          if (currentHolder.rejectreason.includes('not exists')){
+          if (currentHolder.rejectcode.toString() == "019"){
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
 
             

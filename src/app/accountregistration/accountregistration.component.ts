@@ -397,6 +397,11 @@ export class AccountregistrationComponent implements OnInit {
     try{
       clearInterval(this.id);
       deleteKeyboard();
+      if(appFunc.kioskActivity != undefined){
+        this.serviceService.postKioskActivity(appFunc.kioskActivity).subscribe((res: any) => {
+        });
+      }
+      appFunc.kioskActivity = [];
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Cleared Interval and removed keyboard.");
     }catch(e:any){
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "Error clearing interval and/or removing keyboard." + e.toString());
@@ -1272,7 +1277,7 @@ export class AccountregistrationComponent implements OnInit {
           }
         }
         else{
-          if (currentHolder.rejectreason.includes('not exists')){
+          if (currentHolder.rejectcode.toString() == "019"){
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
 
             

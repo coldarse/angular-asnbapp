@@ -297,6 +297,11 @@ export class UpdatedetailsComponent implements OnInit {
   ngOnDestroy() {
     clearInterval(this.id);
     deleteKeyboard();
+    if(appFunc.kioskActivity != undefined){
+      this.serviceService.postKioskActivity(appFunc.kioskActivity).subscribe((res: any) => {
+      });
+    }
+    appFunc.kioskActivity = [];
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update Details]" + ": " + "Cleared Interval.");
   }
 
@@ -555,7 +560,7 @@ export class UpdatedetailsComponent implements OnInit {
         
       }
       else{
-        if (currentBijakHolder.rejectreason.includes('not exists')){
+        if (currentBijakHolder.rejectcode.toString() == "019"){
           signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Update CIF]" + ": " + "No Bijak account found.");
 
           errorCodes.Ecode = currentBijakHolder.rejectcode;
@@ -2139,7 +2144,7 @@ export class UpdatedetailsComponent implements OnInit {
           }
         }
         else{
-          if (currentHolder.rejectreason.includes('not exists')){
+          if (currentHolder.rejectcode.toString() == "019"){
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
             this._router.navigate(['feedbackscreen']);
           }
@@ -2267,7 +2272,7 @@ export class UpdatedetailsComponent implements OnInit {
           }
         }
         else{
-          if (currentBijakHolder.rejectreason.includes('not exists')){
+          if (currentBijakHolder.rejectcode.toString() == "019"){
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "No account found.");
 
             

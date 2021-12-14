@@ -10,6 +10,7 @@ import { errorCodes } from '../_models/errorCode';
 import { currentHolder } from '../_models/currentUnitHolder';
 import { fundDetails } from '../_models/fundDetails';
 import { ASNBFundID } from '../_models/dropDownLists';
+import { ServiceService } from '../_shared/service.service';
 
 @Component({
   selector: 'app-transactionmenu',
@@ -43,7 +44,8 @@ export class TransactionmenuComponent implements OnInit {
   id: any; 
 
   constructor(private _router: Router,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private serviceService : ServiceService) { }
 
   ngOnInit(): void {
     
@@ -141,6 +143,11 @@ export class TransactionmenuComponent implements OnInit {
 
   ngOnDestroy() {
     clearInterval(this.id);
+    if(appFunc.kioskActivity != undefined){
+      this.serviceService.postKioskActivity(appFunc.kioskActivity).subscribe((res: any) => {
+      });
+    }
+    appFunc.kioskActivity = [];
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Cleared Interval.");
   }
 

@@ -5,6 +5,7 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 import { Router } from '@angular/router';
 import { FakeMissingTranslationHandler, TranslateService } from '@ngx-translate/core';
 import { SignalR } from 'ng2-signalr';
+import * as CryptoJS from 'crypto-js'; 
 
 import { AppConfiguration } from '../config/app-configuration';
 import { accessToken } from '../_models/apiToken';
@@ -613,6 +614,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
   ngOnDestroy() {
     clearInterval(this.id);
     deleteKeyboard();
+    if(appFunc.kioskActivity != undefined){
+      this.serviceService.postKioskActivity(appFunc.kioskActivity).subscribe((res: any) => {
+      });
+    }
+    appFunc.kioskActivity = [];
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Additional Invesment/Initial Investment]" + ": " + "Cleared Interval.");
   }
 
@@ -2319,16 +2325,72 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         module = "19";
                       }
 
+                      // const FTBody =
+                      // {
+                      //   "trxNo": signalrConnection.trxno,
+                      //   "kioskCode": signalrConnection.kioskCode,
+                      //   "unitHolderID": this.requeryInfo.UNITHOLDERID,
+                      //   "firstName": this.requeryInfo.FIRSTNAME,
+                      //   "identificationType": this.requeryInfo.IDENTIFICATIONTYPE,
+                      //   "identificationNumber": this.requeryInfo.IDENTIFICATIONNUMBER,
+                      //   "fundID": this.requeryInfo.FUNDID,
+                      //   "amountApplied": this.requeryInfo.AMOUNTAPPLIED,
+                      //   "transactionDate": result.result.transactiondate,
+                      //   "transactionTime": result.result.transactiontime,
+                      //   "transactionType": module,
+                      //   "customerICNumber": result.result.customericnumber,
+                      //   "customerName": result.result.customername,
+                      //   "agentCode": result.result.agentCode,
+                      //   "referenceNo": result.result.transactionnumber,
+                      //   "bankTxnReferenceNumber": this.requeryInfo.BANKTXNREFERENCENUMBER,
+                      //   "bankCustPhoneNumber": result.result.bankcustphonenumber,
+                      //   "paymentType": "T",
+                      //   "bankAccountNumber": result.result.bankaccountnumber,
+                      //   "bankBranchCode": result.result.bankbranchcode,
+                      //   "chequeNumber": result.result.chequenumber,
+                      //   "chequeDate": result.result.chequedate,
+                      //   "guardianID": result.result.guardianid,
+                      //   "guardianicType": result.result.guardianictype,
+                      //   "guardianicNumber": result.result.guardianicnumber,
+                      //   "policyNumber": result.result.policynumber,
+                      //   "epfNumber": result.result.epfnumber,
+                      //   "subPaymentType": result.result.subpaymenttype,
+                      //   "ewgateway": result.result.ewgateway,
+                      //   "thirdPartyInvestment": result.result.thirdpartyinvestment,
+                      //   "thirdPartyName": result.result.thirdpartyname,
+                      //   "thirdPartyICNumber": result.result.thirdpartyicnumber,
+                      //   "thirdPartyRelationship": result.result.thirdpartyrelationship,
+                      //   "reasonForTransfer": result.result.reasonfortransfer,
+                      //   "sourceOfFund": result.result.sourceoffund,
+                      //   "otherSourceOfFund": result.result.othersourceoffund,
+                      //   "funderName": result.result.fundname,
+                      //   "transactionStatus": "PROCESSING",
+                      //   "transactionNumber": result.result.transactionnumber,
+                      //   "taxInvoiceNumber": result.result.taxinvoicenumber,
+                      //   "confirmedUnits": result.result.unitsalloted,
+                      //   "unitBalance": "",
+                      //   "operation": "",
+                      //   "remark": "",
+                      //   "creditNoteNumber": "",
+                      //   "rejectCode": result.result.rejectcode,
+                      //   "rejectReason": result.result.rejectreason,
+                      //   "itemno": signalrConnection.itemNo,
+                      //   "nav": result.result.fundprice,
+                      //   "fee": result.result.salescharge,
+                      //   "sst": result.result.gstamount
+
+                      // }
+
                       const FTBody =
                       {
                         "trxNo": signalrConnection.trxno,
                         "kioskCode": signalrConnection.kioskCode,
-                        "unitHolderID": this.requeryInfo.UNITHOLDERID,
-                        "firstName": this.requeryInfo.FIRSTNAME,
-                        "identificationType": this.requeryInfo.IDENTIFICATIONTYPE,
-                        "identificationNumber": this.requeryInfo.IDENTIFICATIONNUMBER,
-                        "fundID": this.requeryInfo.FUNDID,
-                        "amountApplied": this.requeryInfo.AMOUNTAPPLIED,
+                        "unitHolderID": result.result.unitholderid,
+                        "firstName": result.result.firstname,
+                        "identificationType": result.result.identificationtype,
+                        "identificationNumber": result.result.identificationnumber,
+                        "fundID": result.result.fundid,
+                        "amountApplied": result.result.amountapplied,
                         "transactionDate": result.result.transactiondate,
                         "transactionTime": result.result.transactiontime,
                         "transactionType": module,
@@ -2336,9 +2398,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "customerName": result.result.customername,
                         "agentCode": result.result.agentCode,
                         "referenceNo": result.result.transactionnumber,
-                        "bankTxnReferenceNumber": this.requeryInfo.BANKTXNREFERENCENUMBER,
+                        "bankTxnReferenceNumber": result.result.banktxnreferencenumber,
                         "bankCustPhoneNumber": result.result.bankcustphonenumber,
-                        "paymentType": "T",
+                        "paymentType": result.result.paymenttype,
                         "bankAccountNumber": result.result.bankaccountnumber,
                         "bankBranchCode": result.result.bankbranchcode,
                         "chequeNumber": result.result.chequenumber,
@@ -2358,7 +2420,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "sourceOfFund": result.result.sourceoffund,
                         "otherSourceOfFund": result.result.othersourceoffund,
                         "funderName": result.result.fundname,
-                        "transactionStatus": "PROCESSING",
+                        "transactionStatus": result.result.transactionstatus,
                         "transactionNumber": result.result.transactionnumber,
                         "taxInvoiceNumber": result.result.taxinvoicenumber,
                         "confirmedUnits": result.result.unitsalloted,
@@ -2372,7 +2434,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "nav": result.result.fundprice,
                         "fee": result.result.salescharge,
                         "sst": result.result.gstamount
-
                       }
 
 
@@ -3276,7 +3337,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           //   "REMARKS":"Payment Cleared",
           //   "PAYMENTREFERENCENUMBER":formatDate(new Date(), 'dd/MM/yyyy HH:mm:ss', 'en'),
           // }
-
+          this.thirdnamekeyed = result.result.firstname;
           this.unitholdername = this.thirdnamekeyed;
           this.unitholderid = this.thirduhidkeyed;
           this.unitholderic = this.thirdicnokeyed;
@@ -3362,7 +3423,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.isRequery = true;       
           this.STPStep3 = false;
           this.SIStep5 = true;
-
+          this.thirdnamekeyed = result.result.firstname;
           this.unitholdername = this.thirdnamekeyed;
           this.unitholderid = this.thirduhidkeyed;
           this.unitholderic = this.thirdicnokeyed;
@@ -3742,7 +3803,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   
                     });
 
-                   
+                    this.thirdnamekeyed = result.result.firstname;
                     this.unitholdername = this.thirdnamekeyed;
                     this.unitholderid = this.thirduhidkeyed;
                     this.unitholderic = this.thirdicnokeyed;
@@ -3899,7 +3960,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     this.isRequery = true;  
                     this.STPStep3 = false;
                     this.SIStep5 = true;
-
+                    this.thirdnamekeyed = result.result.firstname;
                     this.unitholdername = this.thirdnamekeyed;
                     this.unitholderid = this.thirduhidkeyed;
                     this.unitholderic = this.thirdicnokeyed;
@@ -4275,30 +4336,57 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }
       }
       
-  
-      appFunc.body = 
-      {
-        "Transaction" : this.transaction.toUpperCase(),
-        "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-        "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-        "Location" : signalrConnection.branchName,
-        "Name" : selectedUnitHolder,
-        "UHID" : selectedUnitHolderID,
-        "NRIC" : selectedUnitHolderIC,
-        "AccountType" : accountType,
-        "TransactionNumber" : this.refno,
-        "FUNDID" : fundname,
-        "FUNDPRICE" : this.nav,
-        "UNITSALLOTED" : this.unitsalloted,
-        "FEEPERCENTAGE" : this.feepercentage,
-        "SALESCHARGE" : this.initialcharges,
-        "GSTAMOUNT" : this.sst,
-        "UHIDTHIRDPARTY": this.thirduhidkeyed,
-        "NAMETHIRDPARTY": this.thirdnamekeyed,
-        "CARDINFO" : objCardInfo,
-        "Language" : selectLang.selectedLang,
-        "Signature" : ""
-      }
+      // if(this.thirduhidkeyed == ""){
+        appFunc.body = 
+        {
+          "Transaction" : this.transaction.toUpperCase(),
+          "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+          "Location" : signalrConnection.branchName,
+          "Name" : selectedUnitHolder,
+          "UHID" : selectedUnitHolderID,
+          "NRIC" : selectedUnitHolderIC,
+          "AccountType" : accountType,
+          "TransactionNumber" : this.refno,
+          "FUNDID" : fundname,
+          "FUNDPRICE" : this.nav,
+          "UNITSALLOTED" : this.unitsalloted,
+          "FEEPERCENTAGE" : this.feepercentage,
+          "SALESCHARGE" : this.initialcharges,
+          "GSTAMOUNT" : this.sst,
+          "UHIDTHIRDPARTY": this.thirduhidkeyed,
+          "NAMETHIRDPARTY": this.thirdnamekeyed,
+          "CARDINFO" : objCardInfo,
+          "Language" : selectLang.selectedLang,
+          "Signature" : ""
+        }
+      // }
+      // else{
+      //   appFunc.body = 
+      //   {
+      //     "Transaction" : this.transaction.toUpperCase(),
+      //     "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      //     "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+      //     "Location" : signalrConnection.branchName,
+      //     "Name" : this.thirdnamekeyed,
+      //     "UHID" : this.thirduhidkeyed,
+      //     "NRIC" : selectedUnitHolderIC,
+      //     "AccountType" : accountType,
+      //     "TransactionNumber" : this.refno,
+      //     "FUNDID" : fundname,
+      //     "FUNDPRICE" : this.nav,
+      //     "UNITSALLOTED" : this.unitsalloted,
+      //     "FEEPERCENTAGE" : this.feepercentage,
+      //     "SALESCHARGE" : this.initialcharges,
+      //     "GSTAMOUNT" : this.sst,
+      //     "UHIDTHIRDPARTY": selectedUnitHolderID,
+      //     "NAMETHIRDPARTY": selectedUnitHolder,
+      //     "CARDINFO" : objCardInfo,
+      //     "Language" : selectLang.selectedLang,
+      //     "Signature" : ""
+      //   }
+      // }
+      
   
       appFunc.receiptFunction = "GetFinancialTrxPrintout"
   
@@ -4405,31 +4493,58 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }
         module = "19";
       }
-      
-  
-      appFunc.body = 
-      {
-        "Transaction" : this.transaction.toUpperCase(),
-        "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-        "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-        "Location" : signalrConnection.branchName,
-        "Name" : selectedUnitHolder,
-        "UHID" : selectedUnitHolderID,
-        "NRIC" : selectedUnitHolderIC,
-        "AccountType" : accountType,
-        "TransactionNumber" : this.refno,
-        "FUNDID" : fundname,
-        "FUNDPRICE" : this.nav,
-        "UNITSALLOTED" : this.unitsalloted,
-        "FEEPERCENTAGE" : this.feepercentage,
-        "SALESCHARGE" : this.initialcharges,
-        "GSTAMOUNT" : this.sst,
-        "UHIDTHIRDPARTY": this.thirduhidkeyed,
-        "NAMETHIRDPARTY": this.thirdnamekeyed,
-        "CARDINFO" : objCardInfo,
-        "Language" : selectLang.selectedLang,
-        "Signature" : ""
-      }
+    
+
+      // if(this.thirduhidkeyed == ""){
+        appFunc.body = 
+        {
+          "Transaction" : this.transaction.toUpperCase(),
+          "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+          "Location" : signalrConnection.branchName,
+          "Name" : selectedUnitHolder,
+          "UHID" : selectedUnitHolderID,
+          "NRIC" : selectedUnitHolderIC,
+          "AccountType" : accountType,
+          "TransactionNumber" : this.refno,
+          "FUNDID" : fundname,
+          "FUNDPRICE" : this.nav,
+          "UNITSALLOTED" : this.unitsalloted,
+          "FEEPERCENTAGE" : this.feepercentage,
+          "SALESCHARGE" : this.initialcharges,
+          "GSTAMOUNT" : this.sst,
+          "UHIDTHIRDPARTY": this.thirduhidkeyed,
+          "NAMETHIRDPARTY": this.thirdnamekeyed,
+          "CARDINFO" : objCardInfo,
+          "Language" : selectLang.selectedLang,
+          "Signature" : ""
+        }
+      // }
+      // else{
+      //   appFunc.body = 
+      //   {
+      //     "Transaction" : this.transaction.toUpperCase(),
+      //     "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      //     "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+      //     "Location" : signalrConnection.branchName,
+      //     "Name" : this.thirdnamekeyed,
+      //     "UHID" : this.thirduhidkeyed,
+      //     "NRIC" : selectedUnitHolderIC,
+      //     "AccountType" : accountType,
+      //     "TransactionNumber" : this.refno,
+      //     "FUNDID" : fundname,
+      //     "FUNDPRICE" : this.nav,
+      //     "UNITSALLOTED" : this.unitsalloted,
+      //     "FEEPERCENTAGE" : this.feepercentage,
+      //     "SALESCHARGE" : this.initialcharges,
+      //     "GSTAMOUNT" : this.sst,
+      //     "UHIDTHIRDPARTY": selectedUnitHolderID,
+      //     "NAMETHIRDPARTY": selectedUnitHolder,
+      //     "CARDINFO" : objCardInfo,
+      //     "Language" : selectLang.selectedLang,
+      //     "Signature" : ""
+      //   }
+      // }
 
       console.log(JSON.stringify(appFunc.body));
   
@@ -4581,39 +4696,80 @@ export class SubscriptioninvestmentComponent implements OnInit {
         module = "19";
       }
       
-      appFunc.body = 
-      {
-        "Transaction" : this.transaction.toUpperCase(),
-        "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-        "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-        "Location" : signalrConnection.branchName,
-        "Name" : selectedUnitHolder,
-        "UHID" : selectedUnitHolderID,
-        "NRIC" : selectedUnitHolderIC,
-        "AccountType" : accountType,
-        "TransactionNumber" : this.refno,
-        "FUNDID" : fundname,
-        "FUNDPRICE" : this.nav,
-        "UNITSALLOTED" : this.unitsalloted,
-        "FEEPERCENTAGE" : this.feepercentage,
-        "SALESCHARGE" : this.initialcharges,
-        "GSTAMOUNT" : this.sst,
-        "UHIDTHIRDPARTY": this.thirduhidkeyed,
-        "NAMETHIRDPARTY": this.thirdnamekeyed,
-        "CARDINFO" : objCardInfo,
-        "Language" : selectLang.selectedLang,
-        "Signature" : ""
-      }
+      // if(this.thirduhidkeyed == ""){
+        appFunc.body = 
+        {
+          "Transaction" : this.transaction.toUpperCase(),
+          "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+          "Location" : signalrConnection.branchName,
+          "Name" : selectedUnitHolder,
+          "UHID" : selectedUnitHolderID,
+          "NRIC" : selectedUnitHolderIC,
+          "AccountType" : accountType,
+          "TransactionNumber" : this.refno,
+          "FUNDID" : fundname,
+          "FUNDPRICE" : this.nav,
+          "UNITSALLOTED" : this.unitsalloted,
+          "FEEPERCENTAGE" : this.feepercentage,
+          "SALESCHARGE" : this.initialcharges,
+          "GSTAMOUNT" : this.sst,
+          "UHIDTHIRDPARTY": this.thirduhidkeyed,
+          "NAMETHIRDPARTY": this.thirdnamekeyed,
+          "CARDINFO" : objCardInfo,
+          "Language" : selectLang.selectedLang,
+          "Signature" : ""
+        }
+      // }
+      // else{
+      //   appFunc.body = 
+      //   {
+      //     "Transaction" : this.transaction.toUpperCase(),
+      //     "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      //     "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+      //     "Location" : signalrConnection.branchName,
+      //     "Name" : this.thirdnamekeyed,
+      //     "UHID" : this.thirduhidkeyed,
+      //     "NRIC" : selectedUnitHolderIC,
+      //     "AccountType" : accountType,
+      //     "TransactionNumber" : this.refno,
+      //     "FUNDID" : fundname,
+      //     "FUNDPRICE" : this.nav,
+      //     "UNITSALLOTED" : this.unitsalloted,
+      //     "FEEPERCENTAGE" : this.feepercentage,
+      //     "SALESCHARGE" : this.initialcharges,
+      //     "GSTAMOUNT" : this.sst,
+      //     "UHIDTHIRDPARTY": selectedUnitHolderID,
+      //     "NAMETHIRDPARTY": selectedUnitHolder,
+      //     "CARDINFO" : objCardInfo,
+      //     "Language" : selectLang.selectedLang,
+      //     "Signature" : ""
+      //   }
+      // }
 
-      appFunc.emailObj =
-      {
-        "Name" : this.unitholdername,
-        "UnitHolderID" : this.unitholderid,
-        "Module" : module,
-        "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
-        "language" : selectLang.selectedLang,
-        "IC" : this.unitholderic
+      if(this.thirduhidkeyed == ""){
+        appFunc.emailObj =
+        {
+          "Name" : this.unitholdername,
+          "UnitHolderID" : this.unitholderid,
+          "Module" : module,
+          "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+          "language" : selectLang.selectedLang,
+          "IC" : this.unitholderic
+        }
       }
+      else{
+        appFunc.emailObj =
+        {
+          "Name" : selectedUnitHolder,
+          "UnitHolderID" : selectedUnitHolderID,
+          "Module" : module,
+          "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+          "language" : selectLang.selectedLang,
+          "IC" : this.unitholderic
+        }
+      }
+      
 
       appFunc.receiptFunction = "GetFinancialTrxPrintout"
 
@@ -4715,39 +4871,79 @@ export class SubscriptioninvestmentComponent implements OnInit {
       
       
 
-      appFunc.body = 
-      {
-        "Transaction" : this.transaction.toUpperCase(),
-        "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-        "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-        "Location" : signalrConnection.branchName,
-        "Name" : selectedUnitHolder,
-        "UHID" : selectedUnitHolderID,
-        "NRIC" : selectedUnitHolderIC,
-        "AccountType" : accountType,
-        "TransactionNumber" : this.refno,
-        "FUNDID" : fundname,
-        "FUNDPRICE" : this.nav,
-        "UNITSALLOTED" : this.unitsalloted,
-        "FEEPERCENTAGE" : this.feepercentage,
-        "SALESCHARGE" : this.initialcharges,
-        "GSTAMOUNT" : this.sst,
-        "UHIDTHIRDPARTY": this.thirduhidkeyed,
-        "NAMETHIRDPARTY": this.thirdnamekeyed,
-        "CARDINFO" : objCardInfo,
-        "Language" : selectLang.selectedLang,
-        "Signature" : ""
+      // if(this.thirduhidkeyed == ""){
+        appFunc.body = 
+        {
+          "Transaction" : this.transaction.toUpperCase(),
+          "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+          "Location" : signalrConnection.branchName,
+          "Name" : selectedUnitHolder,
+          "UHID" : selectedUnitHolderID,
+          "NRIC" : selectedUnitHolderIC,
+          "AccountType" : accountType,
+          "TransactionNumber" : this.refno,
+          "FUNDID" : fundname,
+          "FUNDPRICE" : this.nav,
+          "UNITSALLOTED" : this.unitsalloted,
+          "FEEPERCENTAGE" : this.feepercentage,
+          "SALESCHARGE" : this.initialcharges,
+          "GSTAMOUNT" : this.sst,
+          "UHIDTHIRDPARTY": this.thirduhidkeyed,
+          "NAMETHIRDPARTY": this.thirdnamekeyed,
+          "CARDINFO" : objCardInfo,
+          "Language" : selectLang.selectedLang,
+          "Signature" : ""
+        }
+      // }
+      // else{
+      //   appFunc.body = 
+      //   {
+      //     "Transaction" : this.transaction.toUpperCase(),
+      //     "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+      //     "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+      //     "Location" : signalrConnection.branchName,
+      //     "Name" : this.thirdnamekeyed,
+      //     "UHID" : this.thirduhidkeyed,
+      //     "NRIC" : selectedUnitHolderIC,
+      //     "AccountType" : accountType,
+      //     "TransactionNumber" : this.refno,
+      //     "FUNDID" : fundname,
+      //     "FUNDPRICE" : this.nav,
+      //     "UNITSALLOTED" : this.unitsalloted,
+      //     "FEEPERCENTAGE" : this.feepercentage,
+      //     "SALESCHARGE" : this.initialcharges,
+      //     "GSTAMOUNT" : this.sst,
+      //     "UHIDTHIRDPARTY": selectedUnitHolderID,
+      //     "NAMETHIRDPARTY": selectedUnitHolder,
+      //     "CARDINFO" : objCardInfo,
+      //     "Language" : selectLang.selectedLang,
+      //     "Signature" : ""
+      //   }
+      // }
+      if(this.thirduhidkeyed == ""){
+        appFunc.emailObj =
+        {
+          "Name" : this.unitholdername,
+          "UnitHolderID" : this.unitholderid,
+          "Module" : module,
+          "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+          "language" : selectLang.selectedLang,
+          "IC" : this.unitholderic
+        }
       }
-
-      appFunc.emailObj =
-      {
-        "Name" : this.unitholdername,
-        "UnitHolderID" : this.unitholderid,
-        "Module" : module,
-        "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
-        "language" : selectLang.selectedLang,
-        "IC" : this.unitholderic
+      else{
+        appFunc.emailObj =
+        {
+          "Name" : selectedUnitHolder,
+          "UnitHolderID" : selectedUnitHolderID,
+          "Module" : module,
+          "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+          "language" : selectLang.selectedLang,
+          "IC" : this.unitholderic
+        }
       }
+      
 
       appFunc.receiptFunction = "GetFinancialTrxPrintout"
 
@@ -4928,7 +5124,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             }
           }
           else{
-            if (currentBijakHolder.rejectreason.includes('not exists')){
+            if (currentBijakHolder.rejectcode.toString() == "019"){
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Account Registration]" + ": " + "No account found.");
   
               
@@ -5089,7 +5285,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             }
           }
           else{
-            if (currentHolder.rejectreason.includes('not exists')){
+            if (currentHolder.rejectcode.toString() == "019"){
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Account Registration]" + ": " + "No account found.");
   
               
