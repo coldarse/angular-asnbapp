@@ -531,7 +531,7 @@ export class CheckbalanceComponent implements OnInit {
         let thisYear = new Date().getFullYear();
         let divYear: number = +thisYear;
         divYear = divYear - 1;
-
+        
         let body : any;
         if (this.isMain){
           body = {
