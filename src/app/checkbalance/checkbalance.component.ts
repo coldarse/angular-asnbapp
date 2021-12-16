@@ -266,7 +266,8 @@ export class CheckbalanceComponent implements OnInit {
             "CERTUNITS": selectedFundDetails.CERTUNITS.toString(),
             "BLOCKEDUNITS": selectedFundDetails.BLOCKEDUNITS.toString(),
             "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
-            "POLICYTYPE":"UT"
+            "POLICYTYPE":"UT",
+            "LANGUAGE": selectLang.selectedLang
           };
         }
     
@@ -428,7 +429,8 @@ export class CheckbalanceComponent implements OnInit {
         "CERTUNITS": selectedFundDetails.CERTUNITS.toString(),
         "BLOCKEDUNITS": selectedFundDetails.BLOCKEDUNITS.toString(),
         "TOTALUNITS": selectedFundDetails.TOTALUNITS.toString(),
-        "POLICYTYPE":"UT"
+        "POLICYTYPE":"UT",
+        "LANGUAGE": selectLang.selectedLang
       };
     }
      
@@ -572,7 +574,8 @@ export class CheckbalanceComponent implements OnInit {
             "identificationnumber": this.CB2_5.toString(),
             "guardianidnumber": this.CB_GuardianID.toString(),
             "fundid": selectedFundDetails.FUNDID.toString(),
-            "financialyear": divYear.toString()
+            "financialyear": divYear.toString(),
+            "LANGUAGE": selectLang.selectedLang
           };
         }
     
@@ -708,7 +711,8 @@ export class CheckbalanceComponent implements OnInit {
         "identificationnumber": this.CB2_5.toString(),
         "guardianidnumber": this.CB_GuardianID.toString(),
         "fundid": selectedFundDetails.FUNDID.toString(),
-        "financialyear": divYear.toString()
+        "financialyear": divYear.toString(),
+        "LANGUAGE": selectLang.selectedLang
       };
     }
      
@@ -1053,7 +1057,8 @@ export class CheckbalanceComponent implements OnInit {
       "FILTRATIONFLAG": "1",
       "GUARDIANID": currentHolder.unitholderid,
       "GUARDIANICTYPE": currentHolder.identificationtype,
-      "GUARDIANICNUMBER": currentHolder.identificationnumber
+      "GUARDIANICNUMBER": currentHolder.identificationnumber,
+      "LANGUAGE": selectLang.selectedLang
       };
 
      this.serviceService.getAccountInquiry(body)

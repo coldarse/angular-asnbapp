@@ -629,8 +629,8 @@ export class VerifymykadComponent implements OnInit {
         "FILTRATIONFLAG": "1",
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
-        "GUARDIANICNUMBER": ""
-
+        "GUARDIANICNUMBER": "",
+        "LANGUAGE": selectLang.selectedLang
        };
 
 
@@ -828,7 +828,8 @@ export class VerifymykadComponent implements OnInit {
                 "FILTRATIONFLAG": "1",
                 "GUARDIANID": "",
                 "GUARDIANICTYPE": "",
-                "GUARDIANICNUMBER": ""
+                "GUARDIANICNUMBER": "",
+                "LANGUAGE": selectLang.selectedLang
               };
               this.serviceService.getAccountInquiry(body)
               .subscribe((result: any) => {

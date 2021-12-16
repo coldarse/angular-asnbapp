@@ -345,7 +345,8 @@ export class RedemptionComponent implements OnInit {
       "FILTRATIONFLAG": "1",
       "GUARDIANID": currentHolder.unitholderid,
       "GUARDIANICTYPE": currentHolder.identificationtype,
-      "GUARDIANICNUMBER": currentHolder.identificationnumber
+      "GUARDIANICNUMBER": currentHolder.identificationnumber,
+      "LANGUAGE": selectLang.selectedLang
       };
 
      this.serviceService.getAccountInquiry(body)
@@ -761,7 +762,8 @@ export class RedemptionComponent implements OnInit {
       "EPFNUMBER":"",
       "GUARDIANID":this.guardianID,
       "GUARDIANICTYPE":this.guardianICType,
-      "GUARDIANICNUMBER":this.guardianICNO
+      "GUARDIANICNUMBER":this.guardianICNO,
+      "LANGUAGE": selectLang.selectedLang
     }
 
     this.serviceService.postRedemption(body)
@@ -1087,7 +1089,8 @@ export class RedemptionComponent implements OnInit {
           "FILTRATIONFLAG": "1",
           "GUARDIANID": currentHolder.unitholderid,
           "GUARDIANICTYPE": currentHolder.identificationtype,
-          "GUARDIANICNUMBER": currentHolder.identificationnumber
+          "GUARDIANICNUMBER": currentHolder.identificationnumber,
+          "LANGUAGE": selectLang.selectedLang
   
          };
         this.serviceService.getAccountInquiry(body)
@@ -1244,7 +1247,8 @@ export class RedemptionComponent implements OnInit {
         "FILTRATIONFLAG": "1",
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
-        "GUARDIANICNUMBER": ""
+        "GUARDIANICNUMBER": "",
+        "LANGUAGE": selectLang.selectedLang
 
        };
       this.serviceService.getAccountInquiry(body)

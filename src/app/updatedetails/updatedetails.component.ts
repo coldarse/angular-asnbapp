@@ -424,7 +424,8 @@ export class UpdatedetailsComponent implements OnInit {
       "FILTRATIONFLAG": "1",
       "GUARDIANID": currentHolder.unitholderid,
       "GUARDIANICTYPE": currentHolder.identificationtype,
-      "GUARDIANICNUMBER": currentHolder.identificationnumber
+      "GUARDIANICNUMBER": currentHolder.identificationnumber,
+      "LANGUAGE": selectLang.selectedLang
       };
 
     this.serviceService.getAccountInquiry(body)
@@ -834,7 +835,8 @@ export class UpdatedetailsComponent implements OnInit {
           "CRS":this.AR_Form.controls.crs.value,
           "PARTICIPATEINASNBMKT":this.AR_Form.controls.news.value,
           "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
-          "BANKBRANCHCODE": this.AR_Form.controls.bankname.value + "14001"
+          "BANKBRANCHCODE": this.AR_Form.controls.bankname.value + "14001",
+          "LANGUAGE": selectLang.selectedLang
         }
 
       
@@ -952,6 +954,7 @@ export class UpdatedetailsComponent implements OnInit {
           //"BANKBRANCHCODE": this.AR_Form.controls.bankname.value + "14001", 
           "BANKBRANCHCODE": "",
           "RELATIONSHIP":this.AR_Form.controls.g_relation.value,
+          "LANGUAGE": selectLang.selectedLang
         }
 
         
@@ -996,7 +999,8 @@ export class UpdatedetailsComponent implements OnInit {
                 "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
                 "AGENTCODE":signalrConnection.agentCode,
                 "BRANCHCODE":signalrConnection.branchCode,
-                "PEP":this.AR_Form.controls.pep.value
+                "PEP":this.AR_Form.controls.pep.value,
+                "LANGUAGE": selectLang.selectedLang
               }
 
               this.serviceService.updateDetails(majorBody).subscribe((data: any) => {
@@ -2008,7 +2012,8 @@ export class UpdatedetailsComponent implements OnInit {
         "FILTRATIONFLAG": "1",
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
-        "GUARDIANICNUMBER": ""
+        "GUARDIANICNUMBER": "",
+        "LANGUAGE": selectLang.selectedLang
 
        };
 
@@ -2196,7 +2201,8 @@ export class UpdatedetailsComponent implements OnInit {
         "FILTRATIONFLAG": "1",
         "GUARDIANID": currentHolder.unitholderid,
         "GUARDIANICTYPE": currentHolder.identificationtype,
-        "GUARDIANICNUMBER": currentHolder.identificationnumber
+        "GUARDIANICNUMBER": currentHolder.identificationnumber,
+        "LANGUAGE": selectLang.selectedLang
 
        };
 

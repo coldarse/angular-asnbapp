@@ -402,7 +402,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "UNITHOLDERID": currentHolder.unitholderid,
           "IDENTIFICATIONTYPE": currentHolder.identificationtype,
           "IDENTIFICATIONNUMBER": currentHolder.identificationnumber,
-          "FUNDLISTTYPE":"N"
+          "FUNDLISTTYPE":"N",
+          "LANGUAGE": selectLang.selectedLang
         }
 
         this.variableFunds = [];
@@ -697,7 +698,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
       "FILTRATIONFLAG": "1",
       "GUARDIANID": currentHolder.unitholderid,
       "GUARDIANICTYPE": currentHolder.identificationtype,
-      "GUARDIANICNUMBER": currentHolder.identificationnumber
+      "GUARDIANICNUMBER": currentHolder.identificationnumber,
+      "LANGUAGE": selectLang.selectedLang
       };
       this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
@@ -741,7 +743,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
             "UNITHOLDERID": minor.UHID,
             "IDENTIFICATIONTYPE": minor.ICTYPE,
             "IDENTIFICATIONNUMBER": minor.ICNO,
-            "FUNDLISTTYPE":"N"
+            "FUNDLISTTYPE":"N",
+            "LANGUAGE": selectLang.selectedLang
           }
     
           this.currentBijakUHID = minor.UHID;
@@ -1612,6 +1615,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "SOURCEOFFUND":this.sourceOfFund,
           "OTHERSOURCEOFFUND":this.sourceOther,
           "FUNDERNAME":this.otherSourceOfFund,
+          "LANGUAGE": selectLang.selectedLang,
           "signature": ""
         }
 
@@ -1691,10 +1695,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "SOURCEOFFUND":this.sourceOfFund,
           "OTHERSOURCEOFFUND":this.sourceOther,
           "FUNDERNAME":this.otherSourceOfFund,
+          "LANGUAGE": selectLang.selectedLang,
           "signature": encryptedBody.toString()
         }
 
-
+        console.log(JSON.stringify(newbody));
 
         this.serviceService.postSubscriptionWithoutProvision(newbody)
         .subscribe((result: any) => {
@@ -2156,6 +2161,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "SOURCEOFFUND":this.sourceOfFund,
                     "OTHERSOURCEOFFUND":this.sourceOther,
                     "FUNDERNAME":this.otherSourceOfFund,
+                    "LANGUAGE": selectLang.selectedLang,
                     "signature": ""
                   }
 
@@ -2235,6 +2241,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "SOURCEOFFUND":this.sourceOfFund,
                     "OTHERSOURCEOFFUND":this.sourceOther,
                     "FUNDERNAME":this.otherSourceOfFund,
+                    "LANGUAGE": selectLang.selectedLang,
                     "signature": encryptedBody.toString()
                   }
   
@@ -3232,6 +3239,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "SOURCEOFFUND":this.sourceOfFund,
         "OTHERSOURCEOFFUND":this.sourceOther,
         "FUNDERNAME":this.otherSourceOfFund,
+        "LANGUAGE": selectLang.selectedLang,
         "signature": ""
       }
 
@@ -3311,8 +3319,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "SOURCEOFFUND":this.sourceOfFund,
           "OTHERSOURCEOFFUND":this.sourceOther,
           "FUNDERNAME":this.otherSourceOfFund,
+          "LANGUAGE": selectLang.selectedLang,
           "signature": encryptedBody.toString()
         }
+
+        console.log(JSON.stringify(newbody));
 
       this.serviceService.postSubscriptionWithoutProvision(newbody)
       .subscribe((result: any) => {
@@ -3709,6 +3720,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "SOURCEOFFUND":this.sourceOfFund,
                     "OTHERSOURCEOFFUND":this.sourceOther,
                     "FUNDERNAME":this.otherSourceOfFund,
+                    "LANGUAGE": selectLang.selectedLang,
                     "signature": ""
                   }
 
@@ -3788,8 +3800,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "SOURCEOFFUND":this.sourceOfFund,
                     "OTHERSOURCEOFFUND":this.sourceOther,
                     "FUNDERNAME":this.otherSourceOfFund,
+                    "LANGUAGE": selectLang.selectedLang,
                     "signature": encryptedBody.toString()
                   }
+
+                  console.log(JSON.stringify(newbody));
 
                   this.serviceService.postSubscriptionWithoutProvision(newbody)
                   .subscribe((result: any) => {
@@ -5056,7 +5071,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "FILTRATIONFLAG": "1",
           "GUARDIANID": currentHolder.unitholderid,
           "GUARDIANICTYPE": currentHolder.identificationtype,
-          "GUARDIANICNUMBER": currentHolder.identificationnumber
+          "GUARDIANICNUMBER": currentHolder.identificationnumber,
+        "LANGUAGE": selectLang.selectedLang
   
          };
         this.serviceService.getAccountInquiry(body)
@@ -5160,7 +5176,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "FILTRATIONFLAG": "1",
           "GUARDIANID": "",
           "GUARDIANICTYPE": "",
-          "GUARDIANICNUMBER": ""
+          "GUARDIANICNUMBER": "",
+          "LANGUAGE": selectLang.selectedLang
   
          };
         this.serviceService.getAccountInquiry(body)

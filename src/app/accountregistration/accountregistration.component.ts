@@ -576,6 +576,7 @@ export class AccountregistrationComponent implements OnInit {
       "BANKACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value,
       "RELATIONSHIP":"",
       "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
+      "LANGUAGE": selectLang.selectedLang
     }
 
 
@@ -1150,7 +1151,8 @@ export class AccountregistrationComponent implements OnInit {
         "FILTRATIONFLAG": "1",
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
-        "GUARDIANICNUMBER": ""
+        "GUARDIANICNUMBER": "",
+        "LANGUAGE": selectLang.selectedLang
 
        };
 

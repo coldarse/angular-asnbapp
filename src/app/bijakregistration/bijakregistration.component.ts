@@ -778,7 +778,8 @@ export class BijakregistrationComponent implements OnInit {
         "FILTRATIONFLAG": "1",
         "GUARDIANID": currentHolder.unitholderid,
         "GUARDIANICTYPE": currentMyKadDetails.CategoryType,
-        "GUARDIANICNUMBER":  currentHolder.identificationnumber
+        "GUARDIANICNUMBER":  currentHolder.identificationnumber,
+        "LANGUAGE": selectLang.selectedLang
   
        };
 
@@ -1320,7 +1321,8 @@ export class BijakregistrationComponent implements OnInit {
       "BANKCODE": "",
       "BANKACCOUNTNUMBER": "", 
       "RELATIONSHIP":this.AR_Form.controls.g_relation.value,
-      "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value
+      "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
+      "LANGUAGE": selectLang.selectedLang
     }
 
     for (var val of appFunc.modules){
@@ -1595,7 +1597,8 @@ export class BijakregistrationComponent implements OnInit {
         "FILTRATIONFLAG": "1",
         "GUARDIANID": currentHolder.unitholderid,
         "GUARDIANICTYPE": currentHolder.identificationtype,
-        "GUARDIANICNUMBER": currentHolder.identificationnumber
+        "GUARDIANICNUMBER": currentHolder.identificationnumber,
+        "LANGUAGE": selectLang.selectedLang
 
        };
       this.serviceService.getAccountInquiry(body)
@@ -1721,7 +1724,8 @@ export class BijakregistrationComponent implements OnInit {
         "FILTRATIONFLAG": "1",
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
-        "GUARDIANICNUMBER": ""
+        "GUARDIANICNUMBER": "",
+        "LANGUAGE": selectLang.selectedLang
 
        };
 

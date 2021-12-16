@@ -485,7 +485,8 @@ export class TransferswitchingComponent implements OnInit {
       "FILTRATIONFLAG": "1",
       "GUARDIANID": currentHolder.unitholderid,
       "GUARDIANICTYPE": currentHolder.identificationtype,
-      "GUARDIANICNUMBER": currentHolder.identificationnumber
+      "GUARDIANICNUMBER": currentHolder.identificationnumber,
+      "LANGUAGE": selectLang.selectedLang
       };
 
      this.serviceService.getAccountInquiry(body)
@@ -1061,7 +1062,8 @@ export class TransferswitchingComponent implements OnInit {
             "GUARDIANICNUMBER":guardianIC,
             "THIRDPARTYTRANSFER":"N",
             "THIRDPARTYRELATIONSHIP":this.transferrelationship,
-            "REASONFORTRANSFER":this.transferreason
+            "REASONFORTRANSFER":this.transferreason,
+            "LANGUAGE": selectLang.selectedLang
           }
       
           this.serviceService.postTransfer(body1)
@@ -1157,9 +1159,9 @@ export class TransferswitchingComponent implements OnInit {
                   "rejectCode": result1.result.rejectcode,
                   "rejectReason": result1.result.rejectreason,
                   "itemno": signalrConnection.itemNo,
-                  "nav": 0,
-                  "fee": 0,
-                  "sst": 0
+                  "nav": result1.result.fundprice,
+                  "fee": result1.result.salescharge,
+                  "sst": result1.result.gstamount
                 }
 
                 const FTBodyIn =
@@ -1943,7 +1945,8 @@ export class TransferswitchingComponent implements OnInit {
             "EPFNUMBER":"",
             "GUARDIANID":guardianID,
             "GUARDIANICTYPE":guardianICtype,
-            "GUARDIANICNUMBER":guardianIC
+            "GUARDIANICNUMBER":guardianIC,
+            "LANGUAGE": selectLang.selectedLang
             }
       
           this.serviceService.postSwitching(body1)
@@ -2417,7 +2420,8 @@ export class TransferswitchingComponent implements OnInit {
           "FILTRATIONFLAG": "1",
           "GUARDIANID": currentHolder.unitholderid,
           "GUARDIANICTYPE": currentHolder.identificationtype,
-          "GUARDIANICNUMBER": currentHolder.identificationnumber
+          "GUARDIANICNUMBER": currentHolder.identificationnumber,
+          "LANGUAGE": selectLang.selectedLang
   
          };
         this.serviceService.getAccountInquiry(body)
@@ -2523,7 +2527,8 @@ export class TransferswitchingComponent implements OnInit {
         "FILTRATIONFLAG": "1",
         "GUARDIANID": "",
         "GUARDIANICTYPE": "",
-        "GUARDIANICNUMBER": ""
+        "GUARDIANICNUMBER": "",
+        "LANGUAGE": selectLang.selectedLang
 
        };
       this.serviceService.getAccountInquiry(body)
