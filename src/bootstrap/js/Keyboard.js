@@ -338,6 +338,15 @@ const Keyboard = {
         else if(element.tagname.toLowerCase().includes('thirdicno')){
             max_chars = 13;
         }
+        else if(element.tagname.toLowerCase().includes('thirduhid')){
+            max_chars = 13;
+        }
+        else if(element.tagname.toLowerCase().includes('tuhic')){
+            max_chars = 13;
+        }
+        else if(element.tagname.toLowerCase().includes('tuhid')){
+            max_chars = 13;
+        }
         
         if(element.value.length >= max_chars) {
             element.value = element.value.substr(0, max_chars - 1);

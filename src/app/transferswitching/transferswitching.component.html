@@ -104,7 +104,7 @@
                     <h5 class="h2-ic" style="margin-top: auto; margin-bottom:auto; text-align: left;">{{ fund.FUNDNAME }}</h5> <!-- Fund.fundid -->
                 </div>
                 <div class="col-sm-4">
-                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ fund.UNITBALANCE | number : '1.2-2'  }}</h5> <!-- Fund.fundvalue -->
+                    <h5 class="h2-ic" style="padding-top: 2rem;">{{ fund.UHHOLDINGS | number : '1.2-2'  }}</h5> <!-- Fund.fundvalue -->
                 </div>
                 <div class="col-sm-4" style="padding-top: 1.4rem;">
                     <button type="button" class="btn btn-transferswitching" (click)="Transfer(fund)" [disabled]="transferDisabled || fund.DISABLED">
@@ -423,6 +423,9 @@
     
     <div class="col-md-12 content-container">
         <div class="pop-up-third">
+            <div class="row text-center">
+                <div style="color: rgba(255,0,0); font-style: italic; padding-top:2rem;" *ngIf="sameUH">{{'sameUH' | translate}}</div>
+            </div>
             <div class="row" style="padding-top:2rem;">
                 <div class="col-md-1"></div>
                 <div class="col-md-5">
@@ -452,7 +455,7 @@
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhicWarning">{{'ThirdICWarning' | translate}}</div>
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNotExist">{{'uhNotExist' | translate}}</div>
                     <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNoFund">{{'uhNoFund' | translate}}</div>
-                    <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sameUH">{{'sameUH' | translate}}</div>
+                    
                 </div>
             </div>
     

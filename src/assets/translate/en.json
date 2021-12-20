@@ -465,5 +465,6 @@
 	"SupplementaryProspectus": "ASNB Supplementary Master Prospectus",
 	"SupplementaryProspectusForFund" : "ASN Imbang 3 Global Supplementary Prospectus",
 	"RemoveDebitCard": "Please remove your Debit Card",
-	"sameUH": "Transfer to Own Account is not allowed."
+	"sameUH": "Transfer to Own Account is not allowed.",
+	"sameUHS": "Additional Investment to Own Account is not allowed."
 }

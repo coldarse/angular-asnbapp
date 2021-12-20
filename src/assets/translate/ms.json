@@ -465,5 +465,6 @@
 	"SupplementaryProspectus": "Prospektus Induk Tambahan ASNB",
 	"SupplementaryProspectusForFund" : "Prospektus Tambahan ASN Imbang 3 Global",
 	"RemoveDebitCard": "Sila keluarkan Kad Debit",
-	"sameUH": "Anda tidak boleh memindah ke akaun sendiri"
+	"sameUH": "Anda tidak boleh memindah ke akaun sendiri",
+	"sameUHS": "Anda tidak boleh membuat Pelaburan Tambahan ke akaun sendiri"
 }

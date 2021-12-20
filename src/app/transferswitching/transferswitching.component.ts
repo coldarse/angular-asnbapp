@@ -677,7 +677,7 @@ export class TransferswitchingComponent implements OnInit {
     this.initializeForm1();
 
     
-    this.actualfundvalue = fund.UNITBALANCE;
+    this.actualfundvalue = fund.UHHOLDINGS;
     this.actualfundid = fund.FUNDID;
 
     setTimeout(() => {
@@ -835,6 +835,8 @@ export class TransferswitchingComponent implements OnInit {
       this.transferreasonWarning = false;
       this.transferrelationshipWarning = false;
       this.amountWarning1 = false;
+
+      this.sameUH = false;
   
       
       let x = 0;
@@ -868,57 +870,123 @@ export class TransferswitchingComponent implements OnInit {
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
       }else{
   
-        
-        if(this.TransferMinValue == 0.00 && this.TransferMaxValue == 0.00){
-          this.amountWarning1 = false;
-        }
-        else{
-          if(Number(this.Form_1.controls.amount.value) < this.TransferMinValue || Number(this.Form_1.controls.amount.value) > this.TransferMaxValue){
-            this.amountWarning1 = true;
+        if(appFunc.isOwn == "major"){
+          if(this.Form_1.controls.uhic.value == currentHolder.identificationnumber || this.Form_1.controls.uhid.value == currentHolder.unitholderid){
+            this.sameUH = true;
           }
           else{
-            this.amountWarning1 = false;
+            if(this.TransferMinValue == 0.00 && this.TransferMaxValue == 0.00){
+              this.amountWarning1 = false;
+            }
+            else{
+              if(Number(this.Form_1.controls.amount.value) < this.TransferMinValue || Number(this.Form_1.controls.amount.value) > this.TransferMaxValue){
+                this.amountWarning1 = true;
+              }
+              else{
+                this.amountWarning1 = false;
+              }
+            }
+      
+            if(this.amountWarning1 == false){
+              this.transfer1 = false;
+              this.transfer2 = true;
+        
+              this.transferuhid = this.Form_1.controls.uhid.value;
+              this.transferuhname = this.Form_1.controls.uhname.value;
+              this.transferuhictype = this.Form_1.controls.ictype.value;
+              this.transferuhic = this.Form_1.controls.uhic.value;
+              this.transferreason = this.Form_1.controls.reason.value;
+              this.transferrelationship = this.Form_1.controls.relationship.value;
+              this.transferamount = this.Form_1.controls.amount.value;
+        
+              this.reason.forEach((element: reasonTransfer) => {
+                if(element.code == this.transferreason){
+                  this.displayReason = element.desc;
+                }
+              });
+        
+              this.relationship.forEach((elem: thirdpartyRelationship) => {
+                if(elem.code == this.transferrelationship){
+                  this.displayRelationship = elem.desc;
+                }
+              });
+    
+        
+              if(appFunc.isOwn == "major"){
+                this.transferfrom = currentHolder.unitholderid;
+                this.transferfromName = currentHolder.firstname;
+              }else{
+                this.transferfrom = currentBijakHolder.unitholderid;
+                this.transferfromName = currentBijakHolder.firstname;
+              }
+        
+              this.transferfunname = this.actualfundname;
+              
+        
+              deleteKeyboard();
+            }
           }
         }
-  
-        if(this.amountWarning1 == false){
-          this.transfer1 = false;
-          this.transfer2 = true;
-    
-          this.transferuhid = this.Form_1.controls.uhid.value;
-          this.transferuhname = this.Form_1.controls.uhname.value;
-          this.transferuhictype = this.Form_1.controls.ictype.value;
-          this.transferuhic = this.Form_1.controls.uhic.value;
-          this.transferreason = this.Form_1.controls.reason.value;
-          this.transferrelationship = this.Form_1.controls.relationship.value;
-          this.transferamount = this.Form_1.controls.amount.value;
-    
-          this.reason.forEach((element: reasonTransfer) => {
-            if(element.code == this.transferreason){
-              this.displayReason = element.desc;
-            }
-          });
-    
-          this.relationship.forEach((elem: thirdpartyRelationship) => {
-            if(elem.code == this.transferrelationship){
-              this.displayRelationship = elem.desc;
-            }
-          });
-
-    
-          if(appFunc.isOwn == "major"){
-            this.transferfrom = currentHolder.unitholderid;
-            this.transferfromName = currentHolder.firstname;
-          }else{
-            this.transferfrom = currentBijakHolder.unitholderid;
-            this.transferfromName = currentBijakHolder.firstname;
+        else{
+          if(this.Form_1.controls.uhic.value == currentBijakHolder.identificationnumber || this.Form_1.controls.uhid.value == currentBijakHolder.unitholderid){
+            this.sameUH = true;
           }
+          else{
+            if(this.TransferMinValue == 0.00 && this.TransferMaxValue == 0.00){
+              this.amountWarning1 = false;
+            }
+            else{
+              if(Number(this.Form_1.controls.amount.value) < this.TransferMinValue || Number(this.Form_1.controls.amount.value) > this.TransferMaxValue){
+                this.amountWarning1 = true;
+              }
+              else{
+                this.amountWarning1 = false;
+              }
+            }
+      
+            if(this.amountWarning1 == false){
+              this.transfer1 = false;
+              this.transfer2 = true;
+        
+              this.transferuhid = this.Form_1.controls.uhid.value;
+              this.transferuhname = this.Form_1.controls.uhname.value;
+              this.transferuhictype = this.Form_1.controls.ictype.value;
+              this.transferuhic = this.Form_1.controls.uhic.value;
+              this.transferreason = this.Form_1.controls.reason.value;
+              this.transferrelationship = this.Form_1.controls.relationship.value;
+              this.transferamount = this.Form_1.controls.amount.value;
+        
+              this.reason.forEach((element: reasonTransfer) => {
+                if(element.code == this.transferreason){
+                  this.displayReason = element.desc;
+                }
+              });
+        
+              this.relationship.forEach((elem: thirdpartyRelationship) => {
+                if(elem.code == this.transferrelationship){
+                  this.displayRelationship = elem.desc;
+                }
+              });
     
-          this.transferfunname = this.actualfundname;
-          
-    
-          deleteKeyboard();
+        
+              if(appFunc.isOwn == "major"){
+                this.transferfrom = currentHolder.unitholderid;
+                this.transferfromName = currentHolder.firstname;
+              }else{
+                this.transferfrom = currentBijakHolder.unitholderid;
+                this.transferfromName = currentBijakHolder.firstname;
+              }
+        
+              this.transferfunname = this.actualfundname;
+              
+        
+              deleteKeyboard();
+            }
+          }
         }
+        
+        
+        
   
       }
     // }
@@ -1658,7 +1726,7 @@ export class TransferswitchingComponent implements OnInit {
         else{
           this.isHistorical = false;
         }
-
+        
       
       }
     });
@@ -1710,7 +1778,7 @@ export class TransferswitchingComponent implements OnInit {
       this.initializeForm2();
 
       
-      this.actualfundvalue = fund.UNITBALANCE;
+      this.actualfundvalue = fund.UHHOLDINGS;
       this.actualfundid = fund.FUNDID;
 
       setTimeout(() => {
@@ -1962,6 +2030,10 @@ export class TransferswitchingComponent implements OnInit {
                 this.switchingUnitsFrom = result1.result.unitsalloted == "" ? 0 : result1.result.unitsalloted;
                 this.switchingUnitsTo = result1.result.tounitsalloted == "" ? 0 : result1.result.tounitsalloted;
                 this.initialcharges = result1.result.salescharge == "" ? 0 : result1.result.salescharge;
+
+                if(this.switchingNAVTo == 0){
+                  this.isHistorical = false;
+                }
 
                 if (currentHolder.email == ""){
                   this.Email_Visible = false;

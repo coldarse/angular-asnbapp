@@ -613,6 +613,9 @@
     </div> -->
 
     <div class="pop-up-third">
+        <div class="row text-center">
+            <div style="color: rgba(255,0,0); font-style: italic; padding-top:2rem;" *ngIf="sameUH">{{'sameUHS' | translate}}</div>
+        </div>
         <div class="row" style="padding-top:2rem;">
             <div class="col-md-1"></div>
             <div class="col-md-5">
@@ -640,7 +643,7 @@
             <div class="col-md-6">
                 <input type="text" style="width: 85%;" name="thirdicno" id="thirdicno" class="use-keyboard-input" [formControl]='Form_3.controls["icno"]' #thirdicno>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdicnoWarning">{{'ThirdICWarning' | translate}}</div>
-                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="sameUH">{{'sameUH' | translate}}</div>
+                
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNotExist">{{'uhNotExist' | translate}}</div>
             </div>
         </div>
