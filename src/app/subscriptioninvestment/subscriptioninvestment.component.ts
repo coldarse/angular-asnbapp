@@ -207,6 +207,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   isRequery = false;
 
+  isInvest = false;
+
   
   constructor(
     private _router: Router,
@@ -353,6 +355,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.translate.use(selectLang.selectedLang);
     this.initializeForm1();
     this.fundnamelist = [];
+
+    this.isInvest = appFunc.isInvesment;
 
 
     currentHolder.funddetail.forEach((elem: any) => {
@@ -973,23 +977,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     loadKeyboard();
                   } , 1000);
                 }
-                // else if(currentBijakHolder.occupationcategory == "EM" || 
-                //         currentBijakHolder.occupationcategory == "SE" || 
-                //         currentBijakHolder.occupationcategory == "RY"){
-                //           this.SIStep2 = false;
-                //           this.SIStep3 = true;
-                    
-                //           this.initializeForm2();
-          
-                //           this.showSOF = true;
-                //           this.showFunderName = false;
-          
-                //           this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
-                    
-                //           setTimeout(() => {
-                //             loadKeyboard();
-                //           } , 1000);
-                // }
                 else{
                   this.SIStep2 = false;
                   this.SIStep3 = true;
@@ -1007,26 +994,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 }
               }
               else{
-                // if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-                //   this.SIStep2 = false;
-                //   this.SIStep3 = true;
-            
-                //   this.initializeForm2();
-  
-                //   this.showSOF = false;
-                //   this.showFunderName = true;
-  
-                //   // this.Form_2.controls.sourceoffund.setValidators([Validators.required]);
-                //   this.Form_2.controls.fundername.setValidators([Validators.required]);
-            
-                //   setTimeout(() => {
-                //     loadKeyboard();
-                //   } , 1000);
-                // }
-                // else{
-                //   this.SIStep2 = false;
-                //   this.SIStep4 = true;
-                // }
+               
                 this.SIStep2 = false;
                 this.SIStep4 = true;
               }
@@ -1131,39 +1099,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
           }
         }
         else{
-          // if(appFunc.isOwn == "bijak"){
-          //   if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-          //     this.SIStep2 = false;
-          //     this.SIStep3 = true;
-        
-          //     this.initializeForm2();
-
-          //     this.showSOF = false;
-          //     this.showFunderName = true;
-
-          //     this.Form_2.controls.fundername.setValidators([Validators.required]);
-          //   }
-          //   else{
-          //     this.SIStep2 = false;
-          //     this.SIStep4 = true;
-          //   }
-          // }else{
-          //   if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-          //     this.SIStep2 = false;
-          //     this.SIStep3 = true;
-        
-          //     this.initializeForm2();
-
-          //     this.showSOF = false;
-          //     this.showFunderName = true;
-
-          //     this.Form_2.controls.fundername.setValidators([Validators.required]);
-          //   }
-          //   else{
-          //     this.SIStep2 = false;
-          //     this.SIStep4 = true;
-          //   }
-          // }
           this.SIStep2 = false;
           this.SIStep4 = true;
         }
@@ -1228,31 +1163,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   SIStep4Back(){
-    // if(appFunc.isInvesment){ //Investment Major
-    //   if(this.InvestmentMaxValue == 0.00 && this.InvestmentMinValue == 0.00 ){
-    //     this.amountWarning1 = false;
-    //   }else{
-    //     if(Number(this.amountKeyed) < this.InvestmentMinValue){
-    //       this.amountWarning1 = true;
-    //     }
-    //     else{
-    //       this.amountWarning1 = false;
-    //     }
-    //   }
-    // }else{ //Subscription Major
-    //   if(this.SubscriptionMaxValue == 0.00 && this.SubscriptionMinValue == 0.00 ){
-    //     this.amountWarning1 = false;
-    //   }else{
-    //     if(Number(this.amountKeyed) < this.SubscriptionMinValue){
-    //       this.amountWarning1 = true;
-    //     }
-    //     else{
-    //       this.amountWarning1 = false;
-    //     }
-    //   }
-    // }
-
-    //if(this.amountWarning1 == false){
       if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 25K
 
         this.SIStep4 = false;
@@ -1339,27 +1249,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
               }
             }
             else{
-              // if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-              //   this.SIStep4 = false;
-              //   this.SIStep3 = true;
-  
-              //   this.showSOF = false;
-              //   this.showFunderName = true;
-          
-              //   setTimeout(() => {
-              //     loadKeyboard();
-              //   } , 1000);
-              // }
-              // else {
-              //   this.SIStep4 = false;
-              //   this.SIStep2 = true;
-
-              //   this.disagreedTNC = true;
-    
-              //   setTimeout(() => {  
-              //     loadKeyboard();
-              //   } , 1000);
-              // }
               this.SIStep4 = false;
               this.SIStep2 = true;
 
@@ -1392,27 +1281,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
               }
             }
             else{
-            //   if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-            //     this.SIStep4 = false;
-            //     this.SIStep3 = true;
-  
-            //     this.showSOF = true;
-            //     this.showFunderName = true;
-          
-            //     setTimeout(() => {
-            //       loadKeyboard();
-            //     } , 1000);
-            //   }
-            //   else{
-            //     this.SIStep4 = false;
-            //     this.SIStep2 = true;
-
-            //     this.disagreedTNC = true;
-    
-            //     setTimeout(() => {  
-            //       loadKeyboard();
-            //     } , 1000);
-            //   }
               this.SIStep4 = false;
               this.SIStep2 = true;
 
@@ -1496,45 +1364,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }
       }
       else{
-        // if(appFunc.isOwn == "bijak"){
-        //   if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
-        //     this.SIStep4 = false;
-        //     this.SIStep3 = true;
-      
-        //     this.showSOF = false;
-        //     this.showFunderName = true;
-
-        //     this.Form_2.controls.fundername.setValidators([Validators.required]);
-        //   }
-        //   else{
-        //     this.SIStep4 = false;
-        //     this.SIStep2 = true;
-
-        //     this.disagreedTNC = true;
-        //   }
-        // }else{
-        //   if(currentHolder.occupationcategory == "UM" || currentHolder.occupationcategory == "HM"){
-        //     this.SIStep4 = false;
-        //     this.SIStep3 = true;
-      
-        //     this.showSOF = false;
-        //     this.showFunderName = true;
-
-        //     this.Form_2.controls.fundername.setValidators([Validators.required]);
-        //   }
-        //   else{
-        //     this.SIStep4 = false;
-        //     this.SIStep2 = true;
-
-        //     this.disagreedTNC = true;
-        //   }
-        // }
         this.SIStep4 = false;
         this.SIStep2 = true;
 
         this.disagreedTNC = true;
       }
-    //}
     
     
   }
@@ -1707,6 +1541,81 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
         console.log(JSON.stringify(newbody));
 
+        let module = "";
+        if(appFunc.isOwn == "major"){
+          if(appFunc.isInvesment){
+            module = "9";
+          }else{
+            module = "11";
+          }
+        }else if(appFunc.isOwn == "bijak"){
+          if(appFunc.isInvesment){
+            module = "10";
+          }else{
+            module = "12";
+          }
+        }else{
+          module = "19";
+        }
+
+        const FTBody =
+        {
+          "trxNo": signalrConnection.trxno,
+          "kioskCode": signalrConnection.kioskCode,
+          "unitHolderID": uhid,
+          "firstName": name,
+          "identificationType": ictype,
+          "identificationNumber": icno,
+          "fundID": this.fundid,
+          "amountApplied": this.amountKeyed,
+          "transactionDate": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+          "transactionTime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+          "transactionType": module,
+          "customerICNumber": "",
+          "customerName": "",
+          "agentCode": signalrConnection.agentCode,
+          "referenceNo": "",
+          "bankTxnReferenceNumber": "",
+          "bankCustPhoneNumber": "",
+          "paymentType": "T",
+          "bankAccountNumber": "",
+          "bankBranchCode": "",
+          "chequeNumber": "",
+          "chequeDate": "",
+          "guardianID": guardianID,
+          "guardianicType": guardianICtype,
+          "guardianicNumber": guardianIC,
+          "policyNumber": "",
+          "epfNumber": "",
+          "subPaymentType": "",
+          "ewgateway": "",
+          "thirdPartyInvestment": "",
+          "thirdPartyName": "",
+          "thirdPartyICNumber": "",
+          "thirdPartyRelationship": "",
+          "reasonForTransfer": "",
+          "sourceOfFund": this.sourceOfFund,
+          "otherSourceOfFund": this.sourceOther,
+          "funderName": this.otherSourceOfFund,
+          "transactionStatus": "Pending",
+          "transactionNumber": "",
+          "taxInvoiceNumber": "",
+          "confirmedUnits": "",
+          "unitBalance": "",
+          "operation": "",
+          "remark": "",
+          "creditNoteNumber": "",
+          "rejectCode": "",
+          "rejectReason": "",
+          "itemno": signalrConnection.itemNo,
+          "nav": "",
+          "fee": "",
+          "sst": ""
+        }
+
+        console.log(JSON.stringify(FTBody));
+        this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+
         this.serviceService.postSubscriptionWithoutProvision(newbody)
         .subscribe((result: any) => {
           console.log(result.result.transactionstatus);
@@ -1796,7 +1705,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
             const FTBody =
             {
               "trxNo": signalrConnection.trxno,
-              //"kioskID": signalrConnection.kioskID,
               "kioskCode": signalrConnection.kioskCode,
               "unitHolderID": result.result.unitholderid,
               "firstName": result.result.firstname,
@@ -1847,12 +1755,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
               "nav": result.result.fundprice,
               "fee": result.result.salescharge,
               "sst": result.result.gstamount
-              //"createDate": formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en')
             }
 
             console.log(JSON.stringify(FTBody));
 
-            this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+            this.serviceService.updateFundTransaction(FTBody).subscribe(() => {});
 
             kActivit1.endTime = new Date();
             kActivit1.status = true;
@@ -2250,6 +2157,80 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "LANGUAGE": selectLang.selectedLang,
                     "signature": encryptedBody.toString()
                   }
+
+                  let module = "";
+                  if(appFunc.isOwn == "major"){
+                    if(appFunc.isInvesment){
+                      module = "9";
+                    }else{
+                      module = "11";
+                    }
+                  }else if(appFunc.isOwn == "bijak"){
+                    if(appFunc.isInvesment){
+                      module = "10";
+                    }else{
+                      module = "12";
+                    }
+                  }else{
+                    module = "19";
+                  }
+
+                  const FTBody =
+                  {
+                    "trxNo": signalrConnection.trxno,
+                    "kioskCode": signalrConnection.kioskCode,
+                    "unitHolderID": uhid,
+                    "firstName": name,
+                    "identificationType": ictype,
+                    "identificationNumber": icno,
+                    "fundID": this.fundid,
+                    "amountApplied": this.amountKeyed,
+                    "transactionDate": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+                    "transactionTime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+                    "transactionType": module,
+                    "customerICNumber": "",
+                    "customerName": "",
+                    "agentCode": signalrConnection.agentCode,
+                    "referenceNo": "",
+                    "bankTxnReferenceNumber": formatDate(new Date(), 'ddMMyy', 'en') + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
+                    "bankCustPhoneNumber": "",
+                    "paymentType": "T",
+                    "bankAccountNumber": "",
+                    "bankBranchCode": "",
+                    "chequeNumber": "",
+                    "chequeDate": "",
+                    "guardianID": guardianID,
+                    "guardianicType": guardianICtype,
+                    "guardianicNumber": guardianIC,
+                    "policyNumber": "",
+                    "epfNumber": "",
+                    "subPaymentType": "",
+                    "ewgateway": "",
+                    "thirdPartyInvestment": "",
+                    "thirdPartyName": "",
+                    "thirdPartyICNumber": "",
+                    "thirdPartyRelationship": "",
+                    "reasonForTransfer": "",
+                    "sourceOfFund": this.sourceOfFund,
+                    "otherSourceOfFund": this.sourceOther,
+                    "funderName": this.otherSourceOfFund,
+                    "transactionStatus": "Pending",
+                    "transactionNumber": "",
+                    "taxInvoiceNumber": "",
+                    "confirmedUnits": "",
+                    "unitBalance": "",
+                    "operation": "",
+                    "remark": "",
+                    "creditNoteNumber": "",
+                    "rejectCode": "",
+                    "rejectReason": "",
+                    "itemno": signalrConnection.itemNo,
+                    "nav": "",
+                    "fee": "",
+                    "sst": ""
+                  }
+
+                  this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
   
                   this.serviceService.postSubscriptionWithoutProvision(newbody)
                   .subscribe((result: any) => {
@@ -2338,62 +2319,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         module = "19";
                       }
 
-                      // const FTBody =
-                      // {
-                      //   "trxNo": signalrConnection.trxno,
-                      //   "kioskCode": signalrConnection.kioskCode,
-                      //   "unitHolderID": this.requeryInfo.UNITHOLDERID,
-                      //   "firstName": this.requeryInfo.FIRSTNAME,
-                      //   "identificationType": this.requeryInfo.IDENTIFICATIONTYPE,
-                      //   "identificationNumber": this.requeryInfo.IDENTIFICATIONNUMBER,
-                      //   "fundID": this.requeryInfo.FUNDID,
-                      //   "amountApplied": this.requeryInfo.AMOUNTAPPLIED,
-                      //   "transactionDate": result.result.transactiondate,
-                      //   "transactionTime": result.result.transactiontime,
-                      //   "transactionType": module,
-                      //   "customerICNumber": result.result.customericnumber,
-                      //   "customerName": result.result.customername,
-                      //   "agentCode": result.result.agentCode,
-                      //   "referenceNo": result.result.transactionnumber,
-                      //   "bankTxnReferenceNumber": this.requeryInfo.BANKTXNREFERENCENUMBER,
-                      //   "bankCustPhoneNumber": result.result.bankcustphonenumber,
-                      //   "paymentType": "T",
-                      //   "bankAccountNumber": result.result.bankaccountnumber,
-                      //   "bankBranchCode": result.result.bankbranchcode,
-                      //   "chequeNumber": result.result.chequenumber,
-                      //   "chequeDate": result.result.chequedate,
-                      //   "guardianID": result.result.guardianid,
-                      //   "guardianicType": result.result.guardianictype,
-                      //   "guardianicNumber": result.result.guardianicnumber,
-                      //   "policyNumber": result.result.policynumber,
-                      //   "epfNumber": result.result.epfnumber,
-                      //   "subPaymentType": result.result.subpaymenttype,
-                      //   "ewgateway": result.result.ewgateway,
-                      //   "thirdPartyInvestment": result.result.thirdpartyinvestment,
-                      //   "thirdPartyName": result.result.thirdpartyname,
-                      //   "thirdPartyICNumber": result.result.thirdpartyicnumber,
-                      //   "thirdPartyRelationship": result.result.thirdpartyrelationship,
-                      //   "reasonForTransfer": result.result.reasonfortransfer,
-                      //   "sourceOfFund": result.result.sourceoffund,
-                      //   "otherSourceOfFund": result.result.othersourceoffund,
-                      //   "funderName": result.result.fundname,
-                      //   "transactionStatus": "PROCESSING",
-                      //   "transactionNumber": result.result.transactionnumber,
-                      //   "taxInvoiceNumber": result.result.taxinvoicenumber,
-                      //   "confirmedUnits": result.result.unitsalloted,
-                      //   "unitBalance": "",
-                      //   "operation": "",
-                      //   "remark": "",
-                      //   "creditNoteNumber": "",
-                      //   "rejectCode": result.result.rejectcode,
-                      //   "rejectReason": result.result.rejectreason,
-                      //   "itemno": signalrConnection.itemNo,
-                      //   "nav": result.result.fundprice,
-                      //   "fee": result.result.salescharge,
-                      //   "sst": result.result.gstamount
-
-                      // }
-
                       const FTBody =
                       {
                         "trxNo": signalrConnection.trxno,
@@ -2450,7 +2375,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       }
 
 
-                      this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+                      this.serviceService.updateFundTransaction(FTBody).subscribe(() => {});
                       signalrConnection.itemNo += 1;
                       kActivit1.endTime = new Date();
                       kActivit1.status = true;
@@ -2624,7 +2549,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       }
 
 
-                      this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+                      this.serviceService.updateFundTransaction(FTBody).subscribe(() => {});
                       signalrConnection.itemNo += 1;
                       kActivit1.endTime = new Date();
                       kActivit1.status = true;
@@ -2641,6 +2566,64 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       }, 5000);
                     }
                     else{
+
+                      const FTBody =
+                      {
+                        "trxNo": signalrConnection.trxno,
+                        "kioskCode": signalrConnection.kioskCode,
+                        "unitHolderID": uhid,
+                        "firstName": name,
+                        "identificationType": ictype,
+                        "identificationNumber": icno,
+                        "fundID": this.fundid,
+                        "amountApplied": this.amountKeyed,
+                        "transactionDate": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+                        "transactionTime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+                        "transactionType": module,
+                        "customerICNumber": "",
+                        "customerName": "",
+                        "agentCode": signalrConnection.agentCode,
+                        "referenceNo": "",
+                        "bankTxnReferenceNumber": formatDate(new Date(), 'ddMMyy', 'en') + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
+                        "bankCustPhoneNumber": "",
+                        "paymentType": "T",
+                        "bankAccountNumber": "",
+                        "bankBranchCode": "",
+                        "chequeNumber": "",
+                        "chequeDate": "",
+                        "guardianID": guardianID,
+                        "guardianicType": guardianICtype,
+                        "guardianicNumber": guardianIC,
+                        "policyNumber": "",
+                        "epfNumber": "",
+                        "subPaymentType": "",
+                        "ewgateway": "",
+                        "thirdPartyInvestment": "",
+                        "thirdPartyName": "",
+                        "thirdPartyICNumber": "",
+                        "thirdPartyRelationship": "",
+                        "reasonForTransfer": "",
+                        "sourceOfFund": this.sourceOfFund,
+                        "otherSourceOfFund": this.sourceOther,
+                        "funderName": this.otherSourceOfFund,
+                        "transactionStatus": "Failed",
+                        "transactionNumber": "",
+                        "taxInvoiceNumber": "",
+                        "confirmedUnits": "",
+                        "unitBalance": "",
+                        "operation": "",
+                        "remark": "",
+                        "creditNoteNumber": "",
+                        "rejectCode": "",
+                        "rejectReason": "",
+                        "itemno": signalrConnection.itemNo,
+                        "nav": "",
+                        "fee": "",
+                        "sst": ""
+                      }
+
+
+                      this.serviceService.updateFundTransaction(FTBody).subscribe(() => {});
 
                       this.isClicked = false;
                       errorCodes.Ecode = result.result.rejectcode;
@@ -3294,51 +3277,53 @@ export class SubscriptioninvestmentComponent implements OnInit {
       }
 
       let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
-        let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
-          keySize: 128,
-          blockSize: 128,
-          mode: CryptoJS.mode.ECB,
-          padding: CryptoJS.pad.Pkcs7
-        });
+      let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
+        keySize: 128,
+        blockSize: 128,
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+      });
 
-        const newbody = 
-        {
-          "CHANNELTYPE": signalrConnection.channelType,
-          "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-          "DEVICEOWNER": signalrConnection.deviceOwner,
-          "UNITHOLDERID":this.thirduhidkeyed,
-          "FIRSTNAME": "",
-          "IDENTIFICATIONTYPE": this.thirdictypekeyed,
-          "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
-          "FUNDID":this.thirdfundnamekeyed,
-          "AMOUNTAPPLIED":this.thirdamountkeyed,
-          "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-          "CUSTOMERICNUMBER":"",
-          "CUSTOMERNAME":"",
-          "AGENTCODE":signalrConnection.agentCode,
-          "BRANCHCODE":signalrConnection.branchCode,
-          "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
-          "BANKCUSTPHONENUMBER":"",
-          "PAYMENTTYPE":"T",
-          "BANKACCOUNTNUMBER":"",
-          "GUARDIANID":"",
-          "GUARDIANICTYPE":"",
-          "GUARDIANICNUMBER":"",
-          "THIRDPARTYINVESTMENT": "Y",
-          "THIRDPARTYNAME": name,
-          "THIRDPARTYICTYPE": ictype,
-          "THIRDPARTYICNUMBER": icno,
-          "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
-          "REASONFORTRANSFER":this.thirdreasonkeyed,
-          "SOURCEOFFUND":this.sourceOfFund,
-          "OTHERSOURCEOFFUND":this.sourceOther,
-          "FUNDERNAME":this.otherSourceOfFund,
-          "LANGUAGE": selectLang.selectedLang,
-          "signature": encryptedBody.toString()
-        }
+      const newbody = 
+      {
+        "CHANNELTYPE": signalrConnection.channelType,
+        "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+        "DEVICEOWNER": signalrConnection.deviceOwner,
+        "UNITHOLDERID":this.thirduhidkeyed,
+        "FIRSTNAME": "",
+        "IDENTIFICATIONTYPE": this.thirdictypekeyed,
+        "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
+        "FUNDID":this.thirdfundnamekeyed,
+        "AMOUNTAPPLIED":this.thirdamountkeyed,
+        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+        "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+        "CUSTOMERICNUMBER":"",
+        "CUSTOMERNAME":"",
+        "AGENTCODE":signalrConnection.agentCode,
+        "BRANCHCODE":signalrConnection.branchCode,
+        "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+        "BANKCUSTPHONENUMBER":"",
+        "PAYMENTTYPE":"T",
+        "BANKACCOUNTNUMBER":"",
+        "GUARDIANID":"",
+        "GUARDIANICTYPE":"",
+        "GUARDIANICNUMBER":"",
+        "THIRDPARTYINVESTMENT": "Y",
+        "THIRDPARTYNAME": name,
+        "THIRDPARTYICTYPE": ictype,
+        "THIRDPARTYICNUMBER": icno,
+        "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
+        "REASONFORTRANSFER":this.thirdreasonkeyed,
+        "SOURCEOFFUND":this.sourceOfFund,
+        "OTHERSOURCEOFFUND":this.sourceOther,
+        "FUNDERNAME":this.otherSourceOfFund,
+        "LANGUAGE": selectLang.selectedLang,
+        "signature": encryptedBody.toString()
+      }
 
-        console.log(JSON.stringify(newbody));
+      
+
+      console.log(JSON.stringify(newbody));
 
       this.serviceService.postSubscriptionWithoutProvision(newbody)
       .subscribe((result: any) => {
@@ -3819,6 +3804,80 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "signature": encryptedBody.toString()
                   }
 
+                  let module = "";
+                  if(appFunc.isOwn == "major"){
+                    if(appFunc.isInvesment){
+                      module = "9";
+                    }else{
+                      module = "11";
+                    }
+                  }else if(appFunc.isOwn == "bijak"){
+                    if(appFunc.isInvesment){
+                      module = "10";
+                    }else{
+                      module = "12";
+                    }
+                  }else{
+                    module = "19";
+                  }
+
+                  const FTBody =
+                  {
+                    "trxNo": signalrConnection.trxno,
+                    "kioskCode": signalrConnection.kioskCode,
+                    "unitHolderID": this.thirduhidkeyed,
+                    "firstName": "",
+                    "identificationType": this.thirdictypekeyed,
+                    "identificationNumber": this.thirdicnokeyed,
+                    "fundID": this.thirdfundnamekeyed,
+                    "amountApplied": this.thirdamountkeyed,
+                    "transactionDate": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+                    "transactionTime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+                    "transactionType": module,
+                    "customerICNumber": "",
+                    "customerName": "",
+                    "agentCode": signalrConnection.agentCode,
+                    "referenceNo": "",
+                    "bankTxnReferenceNumber": formatDate(new Date(), 'ddMMyy', 'en') + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
+                    "bankCustPhoneNumber": "",
+                    "paymentType": "T",
+                    "bankAccountNumber": "",
+                    "bankBranchCode": "",
+                    "chequeNumber": "",
+                    "chequeDate": "",
+                    "guardianID": "",
+                    "guardianicType": "",
+                    "guardianicNumber": "",
+                    "policyNumber": "",
+                    "epfNumber": "",
+                    "subPaymentType": "",
+                    "ewgateway": "",
+                    "thirdPartyInvestment": "Y",
+                    "thirdPartyName": name,
+                    "thirdPartyICNumber": icno,
+                    "thirdPartyRelationship": this.thirdrelationshipkeyed,
+                    "reasonForTransfer": this.thirdreasonkeyed,
+                    "sourceOfFund": this.sourceOfFund,
+                    "otherSourceOfFund": this.sourceOther,
+                    "funderName": this.otherSourceOfFund,
+                    "transactionStatus": "Pending",
+                    "transactionNumber": "",
+                    "taxInvoiceNumber": "",
+                    "confirmedUnits": "",
+                    "unitBalance": "",
+                    "operation": "",
+                    "remark": "",
+                    "creditNoteNumber": "",
+                    "rejectCode": "",
+                    "rejectReason": "",
+                    "itemno": signalrConnection.itemNo,
+                    "nav": "",
+                    "fee": "",
+                    "sst": ""
+                  }
+
+                  this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+
                   console.log(JSON.stringify(newbody));
 
                   this.serviceService.postSubscriptionWithoutProvision(newbody)
@@ -3912,7 +3971,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     const FTBody =
                     {
                       "trxNo": signalrConnection.trxno,
-                      //"kioskID": signalrConnection.kioskID,
                       "kioskCode": signalrConnection.kioskCode,
                       "unitHolderID": result.result.unitholderid,
                       "firstName": result.result.firstname,
@@ -3965,7 +4023,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       "sst": result.result.gstamount
                     }
 
-                    this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+                    this.serviceService.updateFundTransaction(FTBody).subscribe(() => {});
                     signalrConnection.itemNo += 1;
                     kActivit1.endTime = new Date();
                     kActivit1.status = true;
@@ -4138,7 +4196,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       "sst": result.result.gstamount
                     }
 
-                    this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+                    this.serviceService.updateFundTransaction(FTBody).subscribe(() => {});
                     signalrConnection.itemNo += 1;
                     kActivit1.endTime = new Date();
                     kActivit1.status = true;
@@ -4152,6 +4210,63 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     }, 5000);
                   }
                   else{
+
+                    const FTBody =
+                    {
+                      "trxNo": signalrConnection.trxno,
+                      "kioskCode": signalrConnection.kioskCode,
+                      "unitHolderID": this.thirduhidkeyed,
+                      "firstName": "",
+                      "identificationType": this.thirdictypekeyed,
+                      "identificationNumber": this.thirdicnokeyed,
+                      "fundID": this.thirdfundnamekeyed,
+                      "amountApplied": this.thirdamountkeyed,
+                      "transactionDate": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+                      "transactionTime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+                      "transactionType": module,
+                      "customerICNumber": "",
+                      "customerName": "",
+                      "agentCode": signalrConnection.agentCode,
+                      "referenceNo": "",
+                      "bankTxnReferenceNumber": formatDate(new Date(), 'ddMMyy', 'en') + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
+                      "bankCustPhoneNumber": "",
+                      "paymentType": "T",
+                      "bankAccountNumber": "",
+                      "bankBranchCode": "",
+                      "chequeNumber": "",
+                      "chequeDate": "",
+                      "guardianID": "",
+                      "guardianicType": "",
+                      "guardianicNumber": "",
+                      "policyNumber": "",
+                      "epfNumber": "",
+                      "subPaymentType": "",
+                      "ewgateway": "",
+                      "thirdPartyInvestment": "Y",
+                      "thirdPartyName": name,
+                      "thirdPartyICNumber": icno,
+                      "thirdPartyRelationship": this.thirdrelationshipkeyed,
+                      "reasonForTransfer": this.thirdreasonkeyed,
+                      "sourceOfFund": this.sourceOfFund,
+                      "otherSourceOfFund": this.sourceOther,
+                      "funderName": this.otherSourceOfFund,
+                      "transactionStatus": "Failed",
+                      "transactionNumber": "",
+                      "taxInvoiceNumber": "",
+                      "confirmedUnits": "",
+                      "unitBalance": "",
+                      "operation": "",
+                      "remark": "",
+                      "creditNoteNumber": "",
+                      "rejectCode": "",
+                      "rejectReason": "",
+                      "itemno": signalrConnection.itemNo,
+                      "nav": "",
+                      "fee": "",
+                      "sst": ""
+                    }
+
+                    this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
 
                     this.isClicked = false;
                     errorCodes.Ecode = result.result.rejectcode;
@@ -4239,40 +4354,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 appFunc.kioskActivity.push(kActivit1);
                 this._router.navigate(['errorscreen']);
               }
-              // else if(statusCode == "TA"){
-              //   signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
-                  
-              //   });
-              //   errorCodes.Ecode = statusCode;
-              //   errorCodes.Emessage = `Terminal Status Code ${statusCode}`;
-              //   if(selectLang.selectedLang == 'ms'){
-              //     if(appFunc.isOwn == "major"){
-              //       errorCodes.accountType = "Dewasa";
-              //       errorCodes.accountName = currentHolder.firstname;
-              //       errorCodes.accountNo = currentHolder.unitholderid;
-              //     }else if(appFunc.isOwn == "bijak"){
-              //       errorCodes.accountType = "Bijak/Remaja";
-              //       errorCodes.accountName = name;
-              //       errorCodes.accountNo = uhid;
-              //     }else{
-              //       errorCodes.accountType = "Pihak Ketiga";
-              //     }
-              //   }else{
-              //     if(appFunc.isOwn == "major"){
-              //       errorCodes.accountType = "Dewasa";
-              //       errorCodes.accountName = currentHolder.firstname;
-              //       errorCodes.accountNo = currentHolder.unitholderid;
-              //     }else if(appFunc.isOwn == "bijak"){
-              //       errorCodes.accountType = "Bijak/Remaja";
-              //       errorCodes.accountName = name;
-              //       errorCodes.accountNo = uhid;
-              //     }else{
-              //       errorCodes.accountType = "Pihak Ketiga";
-              //     }
-              //   }
-              //   errorCodes.transaction = this.transaction;
-              //   this._router.navigate(['errorscreen']);
-              // }
               else{
                 theLoop(statusCode);
               }

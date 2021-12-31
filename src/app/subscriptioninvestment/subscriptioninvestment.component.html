@@ -212,7 +212,13 @@
 
 <div *ngIf="SIStep2" class="content-container">
    
-    <div class="text-center" style="padding-top:3rem">
+    <div class="text-center" style="padding-top:3rem" *ngIf="isInvest">
+        <h2>
+            {{'InitInvestment' | translate}}
+        </h2>
+    </div>
+
+    <div class="text-center" style="padding-top:3rem" *ngIf="!isInvest">
         <h2>
             {{'AddInvestment' | translate}}
         </h2>
@@ -396,7 +402,13 @@
 
 <div *ngIf="SIStep4" class="content-container">
    
-    <div class="text-center" style="padding-top:3rem">
+    <div class="text-center" style="padding-top:3rem" *ngIf="isInvest">
+        <h2>
+            {{'InitInvestment' | translate}}
+        </h2>
+    </div>
+
+    <div class="text-center" style="padding-top:3rem" *ngIf="!isInvest">
         <h2>
             {{'AddInvestment' | translate}}
         </h2>

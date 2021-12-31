@@ -357,6 +357,19 @@ export class ServiceService {
     )
   }
 
+  //Update FundTransaction
+  updateFundTransaction(body: any)
+  {
+    return this.http.put(
+      this.url + "services/app/FundTransaction/UpdateAll",
+      body,
+      accessToken.httpOptions
+    ).pipe(
+      retry(1),
+      catchError(this.handleError),
+    )
+  }
+
 
   //TAC Verification
   tacVerification(body: any)
