@@ -485,7 +485,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.isOwn = true;
         this.SIStep1 = true;
         this.checkAMLA();
-      }else if(appFunc.isOwn == "bijak"){
+      }
+      else if(appFunc.isOwn == "bijak"){
         this.disagreedTNC = true;
         this.moduleid = 12;
         this.action = "Perform Additional Investment for Minor";
@@ -2803,274 +2804,165 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   STPStep1Next(){
-    
-    //  if(this.isGetInfo == false){
-    //   this.Form_3.controls.icno.setValue(this.thirdicno?.nativeElement.value);
-    //   this.thirdicnoWarning = false;
-    //   this.thirdictypeWarning = false;
-    //   this.uhNotExist = false;
-    //   this.sameUH = false;
-    //   closeKeyboard();
+    this.Form_3.controls.icno.setValue(this.thirdicno?.nativeElement.value);
+    this.Form_3.controls.uhid.setValue(this.thirduhid?.nativeElement.value);
+    this.Form_3.controls.name.setValue(this.thirdname?.nativeElement.value);
+    this.Form_3.controls.amount.setValue(this.thirdamount?.nativeElement.value);
 
-    //   let x = 0;
-    //   Object.keys(this.Form_3.controls).forEach(key => {
-    //     if (this.Form_3.controls[key].hasError('required')){
-    //       if(key.includes('icno')){
-    //         x += 1;
-    //         this.thirdicnoWarning = true;
-    //       }
-    //       else if(key.includes('ictype')){
-    //         x += 1;
-    //         this.thirdictypeWarning = true;
-    //       }
-    //     }
-    //   });
-    //   if (x > 0){
-    //     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
-    //   }
-    //   else{
-    //     if(this.Form_3.controls.icno.value == currentHolder.identificationnumber){
-    //       this.sameUH = true;
-    //       this.disagreedTNC = false;
-    //       this.Form_3.controls.icno.setValue("");
-    //       this.Form_3.controls.ictype.setValue("");
-    //     }else{
-    //       this.thirdictypekeyed = this.Form_3.controls.ictype.value;
-    //       this.thirdicnokeyed = this.Form_3.controls.icno.value;
-    //       this.disagreedTNC = true;
-  
-    //       const body = { 
-  
-    //         "CHANNELTYPE": signalrConnection.channelType,
-    //         "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-    //         "DEVICEOWNER": signalrConnection.deviceOwner,
-    //         "UNITHOLDERID": "",
-    //         "FIRSTNAME": "",
-    //         "IDENTIFICATIONTYPE": this.thirdictypekeyed,
-    //         "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
-    //         "FUNDID": "",
-    //         "INQUIRYCODE": "9",
-    //         "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-    //         "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-    //         "BANKTXNREFERENCENUMBER": signalrConnection.trxno,
-    //         "BANKCUSTPHONENUMBER": "",
-    //         "FILTRATIONFLAG": "1",
-    //         "GUARDIANID": "",
-    //         "GUARDIANICTYPE": "",
-    //         "GUARDIANICNUMBER": ""
-    
-    //        };
-    
-    
-      
-    //       this.serviceService.getAccountInquiry(body)
-    //         .subscribe((result: any) => {
-    //           console.log(result);
-    //           if(result.transactionstatus.toLowerCase().includes('successful')){
-    //             this.Form_3.controls.uhid.setValue(result.unitholderid);
-    //             this.Form_3.controls.name.setValue(result.firstname);
-    
-    //             this.Form_3.controls.ictype.disable();
-    //             this.Form_3.controls.icno.disable();
-    //             this.Form_3.controls.uhid.disable();
-    //             this.Form_3.controls.name.disable();
-  
-    //             console.log(result.funddetail);
-    
-    //             this.fundnamelist = [];
-    //             result.funddetail.forEach((elem: any) => {
-    //               appFunc.ASNBFundID.forEach((element: any) => {
-    //                 if(elem.FUNDID != undefined){
-    //                   if(elem.FUNDID.toString().toLowerCase() == element.code.toString().toLowerCase()){
-    //                     this.fundnamelist.push(element);
-    //                     this.pdfsrc3 = "assets/SUBSCRIPTION/" + element.iscLink + ".pdf";
-    //                   }
-    //                 }
-    //               })
-    //             });
-                
-    //             deleteKeyboard();
-                
-    
-    //             this.isGetInfo = true;
-    //             setTimeout(() => {
-    //               loadKeyboard();
-    //             } , 300);
-    //           }else{
-    //             this.disagreedTNC = false;
-    //             this.Form_3.controls.icno.setValue("");
-    //             this.Form_3.controls.ictype.setValue("");
-    //             this.uhNotExist = true;
-    //             // this.thirdicnoWarning = true;
-    //             // this.thirdictypeWarning = true;
-    //           }
-              
-    //       });
-    //     }
-        
-    //   }
-    //  }
-    //  else{
-      this.Form_3.controls.icno.setValue(this.thirdicno?.nativeElement.value);
-      this.Form_3.controls.uhid.setValue(this.thirduhid?.nativeElement.value);
-      this.Form_3.controls.name.setValue(this.thirdname?.nativeElement.value);
-      this.Form_3.controls.amount.setValue(this.thirdamount?.nativeElement.value);
-  
-      this.thirdicnoWarning = false;
-      this.thirduhidWarning = false;
-      this.thirdnameWarning = false;
-      this.thirdamountWarning = false;
-      this.thirdictypeWarning = false;
-      this.thirdreasonWarning = false;
-      this.thirdrelationshipWarning = false;
-      this.thirdfundWarning = false;
+    this.thirdicnoWarning = false;
+    this.thirduhidWarning = false;
+    this.thirdnameWarning = false;
+    this.thirdamountWarning = false;
+    this.thirdictypeWarning = false;
+    this.thirdreasonWarning = false;
+    this.thirdrelationshipWarning = false;
+    this.thirdfundWarning = false;
 
-      this.sameUH = false;
-  
-      let x = 0;
-      Object.keys(this.Form_3.controls).forEach(key => {
-        if (this.Form_3.controls[key].hasError('required')){
-          x += 1;
-          if(key.includes('icno')){
-            this.thirdicnoWarning = true;
-          }
-          else if(key.includes('uhid')){
-            this.thirduhidWarning = true;
-          }
-          else if(key.includes('name')){
-            this.thirdnameWarning = true;
-          }
-          else if(key.includes('amount')){
-            this.thirdamountWarning = true;
-          }
-          else if(key.includes('ictype')){
-            this.thirdictypeWarning = true;
-          }
-          else if(key.includes('reason')){
-            this.thirdreasonWarning = true;
-          }
-          else if(key.includes('relationship')){
-            this.thirdrelationshipWarning = true;
-          }
-          else if(key.includes('fund')){
-            this.thirdfundWarning = true;
-          }
+    this.sameUH = false;
+
+    let x = 0;
+    Object.keys(this.Form_3.controls).forEach(key => {
+      if (this.Form_3.controls[key].hasError('required')){
+        x += 1;
+        if(key.includes('icno')){
+          this.thirdicnoWarning = true;
         }
-      });
-      if (x > 0){
-        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
-      }else{
-
-        
-        if(this.Form_3.controls.icno.value == currentHolder.identificationnumber || this.Form_3.controls.uhid.value == currentHolder.unitholderid){
-          this.sameUH = true;
+        else if(key.includes('uhid')){
+          this.thirduhidWarning = true;
         }
-        else{
-          this.thirdictypekeyed = this.Form_3.controls.ictype.value;
-          this.thirdicnokeyed = this.Form_3.controls.icno.value;
-          this.thirduhidkeyed = this.Form_3.controls.uhid.value;
-          this.thirdnamekeyed = this.Form_3.controls.name.value;
-          this.thirdreasonkeyed = this.Form_3.controls.reason.value;
-          this.thirdrelationshipkeyed = this.Form_3.controls.relationship.value;
-          this.thirdfundnamekeyed = this.Form_3.controls.fund.value;
-          this.thirdamountkeyed = this.Form_3.controls.amount.value;
-    
-          this.reason.forEach((element: reasonTransfer) => {
-            if(element.code == this.thirdreasonkeyed){
-              this.displayReason = element.desc;
-            }
-          });
-    
-          this.ictype.forEach((element: icType) => {
-            if(element.code == this.thirdictypekeyed){
-              this.displayICType = element.desc;
-            }
-          })
-    
-          this.relationship.forEach((elem: thirdpartyRelationship) => {
-            if(elem.code == this.thirdrelationshipkeyed){
-              this.displayRelationship = elem.desc;
-            }
-          });
-    
-          appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
-            if(elem.code.toLowerCase() == this.thirdfundnamekeyed.toLowerCase()){
-              this.fundname = elem.value;
-              this.displayFundname = elem.value;
-              this.fundid = this.thirdfundnamekeyed;
-            }
-          });
-    
-          appFunc.ASNBFundID.forEach((elements: ASNBFundID) => {
-            if(elements.code.toString().toLowerCase() == this.thirdfundnamekeyed.toLowerCase()){
-               //Subscription Third Party
-              this.SubscriptionMaxValue = elements.majorSubscriptionLimit_max;
-              this.SubscriptionMinValue = elements.majorSubscriptionLimit_min;
-              this.pdfsrc3 = "assets/SUBSCRIPTION/" + elements.iscLink + ".pdf";
-      
-              if(elements.pricingType.toString().toLowerCase() == "amount"){
-                this.amountOrunit = true;
-              }
-              else{
-                this.amountOrunit = false;
-              }
-            }
-          })
-    
-          if(appFunc.isInvesment){ //Investment Major
-            
-            if(this.InvestmentMaxValue == 0.00 && this.InvestmentMinValue == 0.00 ){
-              this.amountWarning2 = false;
-            }else{
-              if(Number(this.thirdamountkeyed) < this.InvestmentMinValue){
-                this.amountWarning2 = true;
-              }
-              else if(Number(this.thirdamountkeyed) > this.InvestmentMaxValue){
-                this.amountWarning2 = true;
-              }
-              else{
-                this.amountWarning2 = false;
-              }
-            }
-          }else{ //Subscription Major
-            if(this.SubscriptionMaxValue == 0.00 && this.SubscriptionMinValue == 0.00 ){
-              this.amountWarning2 = false;
-            }else{
-              if(Number(this.thirdamountkeyed) < this.SubscriptionMinValue){
-                this.amountWarning2 = true;
-              }
-              else if(Number(this.thirdamountkeyed) > this.SubscriptionMaxValue){
-                this.amountWarning2 = true;
-              }
-              else{
-                this.amountWarning2 = false;
-              }
-            }
-          }
-    
-    
-          if(this.amountWarning2 == false){
-            deleteKeyboard();
-    
-            if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){ //More than equal 10K
-              this.STPStep1 = false;
-              this.STPStep2 = true;
-    
-              this.initializeForm4();
-        
-              setTimeout(() => {
-                loadKeyboard();
-              } , 1000);
-            }
-            else{
-              this.STPStep1 = false;
-              this.STPStep3 = true; 
-            }
-    
-          }
+        else if(key.includes('name')){
+          this.thirdnameWarning = true;
+        }
+        else if(key.includes('amount')){
+          this.thirdamountWarning = true;
+        }
+        else if(key.includes('ictype')){
+          this.thirdictypeWarning = true;
+        }
+        else if(key.includes('reason')){
+          this.thirdreasonWarning = true;
+        }
+        else if(key.includes('relationship')){
+          this.thirdrelationshipWarning = true;
+        }
+        else if(key.includes('fund')){
+          this.thirdfundWarning = true;
         }
       }
-    // }
+    });
+    if (x > 0){
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
+    }else{
+
+      
+      if(this.Form_3.controls.icno.value == currentHolder.identificationnumber || this.Form_3.controls.uhid.value == currentHolder.unitholderid){
+        this.sameUH = true;
+      }
+      else{
+        this.thirdictypekeyed = this.Form_3.controls.ictype.value;
+        this.thirdicnokeyed = this.Form_3.controls.icno.value;
+        this.thirduhidkeyed = this.Form_3.controls.uhid.value;
+        this.thirdnamekeyed = this.Form_3.controls.name.value;
+        this.thirdreasonkeyed = this.Form_3.controls.reason.value;
+        this.thirdrelationshipkeyed = this.Form_3.controls.relationship.value;
+        this.thirdfundnamekeyed = this.Form_3.controls.fund.value;
+        this.thirdamountkeyed = this.Form_3.controls.amount.value;
+  
+        this.reason.forEach((element: reasonTransfer) => {
+          if(element.code == this.thirdreasonkeyed){
+            this.displayReason = element.desc;
+          }
+        });
+  
+        this.ictype.forEach((element: icType) => {
+          if(element.code == this.thirdictypekeyed){
+            this.displayICType = element.desc;
+          }
+        })
+  
+        this.relationship.forEach((elem: thirdpartyRelationship) => {
+          if(elem.code == this.thirdrelationshipkeyed){
+            this.displayRelationship = elem.desc;
+          }
+        });
+  
+        appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
+          if(elem.code.toLowerCase() == this.thirdfundnamekeyed.toLowerCase()){
+            this.fundname = elem.value;
+            this.displayFundname = elem.value;
+            this.fundid = this.thirdfundnamekeyed;
+          }
+        });
+  
+        appFunc.ASNBFundID.forEach((elements: ASNBFundID) => {
+          if(elements.code.toString().toLowerCase() == this.thirdfundnamekeyed.toLowerCase()){
+              //Subscription Third Party
+            this.SubscriptionMaxValue = elements.majorSubscriptionLimit_max;
+            this.SubscriptionMinValue = elements.majorSubscriptionLimit_min;
+            this.pdfsrc3 = "assets/SUBSCRIPTION/" + elements.iscLink + ".pdf";
+    
+            if(elements.pricingType.toString().toLowerCase() == "amount"){
+              this.amountOrunit = true;
+            }
+            else{
+              this.amountOrunit = false;
+            }
+          }
+        })
+  
+        if(appFunc.isInvesment){ //Investment Major
+          
+          if(this.InvestmentMaxValue == 0.00 && this.InvestmentMinValue == 0.00 ){
+            this.amountWarning2 = false;
+          }else{
+            if(Number(this.thirdamountkeyed) < this.InvestmentMinValue){
+              this.amountWarning2 = true;
+            }
+            else if(Number(this.thirdamountkeyed) > this.InvestmentMaxValue){
+              this.amountWarning2 = true;
+            }
+            else{
+              this.amountWarning2 = false;
+            }
+          }
+        }else{ //Subscription Major
+          if(this.SubscriptionMaxValue == 0.00 && this.SubscriptionMinValue == 0.00 ){
+            this.amountWarning2 = false;
+          }else{
+            if(Number(this.thirdamountkeyed) < this.SubscriptionMinValue){
+              this.amountWarning2 = true;
+            }
+            else if(Number(this.thirdamountkeyed) > this.SubscriptionMaxValue){
+              this.amountWarning2 = true;
+            }
+            else{
+              this.amountWarning2 = false;
+            }
+          }
+        }
+  
+  
+        if(this.amountWarning2 == false){
+          deleteKeyboard();
+  
+          if(Number(this.thirdamountkeyed) >= Number(this.appConfig.thresholdForAdditionalInfo3)){ //More than equal 10K
+            this.STPStep1 = false;
+            this.STPStep2 = true;
+  
+            this.initializeForm4();
+      
+            setTimeout(() => {
+              loadKeyboard();
+            } , 1000);
+          }
+          else{
+            this.STPStep1 = false;
+            this.STPStep3 = true; 
+          }
+  
+        }
+      }
+    }
     
   }
 
