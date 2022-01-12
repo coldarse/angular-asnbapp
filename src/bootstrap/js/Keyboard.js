@@ -263,6 +263,12 @@ const Keyboard = {
         else if(element.tagname.toLowerCase().includes('thirdicno')){
             element.value = element.value.replace(/[^\d.-]/g, '');
         }
+        else if(element.tagname.toLowerCase().includes('tuhid')){
+            element.value = element.value.replace(/[^\d.-]/g, '');
+        }
+        else if(element.tagname.toLowerCase().includes('thirduhid')){
+            element.value = element.value.replace(/[^\d.-]/g, '');
+        }
     },
 
     

@@ -657,6 +657,7 @@
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirdicnoWarning">{{'ThirdICWarning' | translate}}</div>
                 
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="uhNotExist">{{'uhNotExist' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="ic12digit">{{'ic12digit' | translate}}</div>
             </div>
         </div>
 
@@ -670,8 +671,9 @@
                 </h4>
             </div>
             <div class="col-md-6">
-                <input type="text" style="width: 85%;" name="thirduhid" id="thirduhid" class="use-keyboard-input" [formControl]='Form_3.controls["uhid"]' #thirduhid>
+                <input type="text" style="width: 85%;" name="tuhid" id="tuhid" class="use-keyboard-input" [formControl]='Form_3.controls["uhid"]' #thirduhid>
                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="thirduhidWarning">{{'ThirdUHIDWarning' | translate}}</div>
+                <div style="color: rgba(255,0,0); font-style: italic" *ngIf="id12digit">{{'id12digit' | translate}}</div>
             </div>
         </div>
         <div class="row" >

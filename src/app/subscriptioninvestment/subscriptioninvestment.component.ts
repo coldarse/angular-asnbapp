@@ -74,6 +74,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   BijakVisible = false;
 
+  ic12digit = false;
+  id12digit = false;
+
+
   SIStep1 = false;
   SIStep2 = false;
   SIStep3 = false;
@@ -661,8 +665,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
   initializeForm3(){
     this.Form_3 = this.fb.group({
       ictype: ['', Validators.required],
-      icno: ['', Validators.required],
-      uhid: ['', Validators.required],
+      icno: ['', [Validators.required, Validators.minLength(12)]],
+      uhid: ['', [Validators.required, Validators.minLength(12)]],
       name: ['', Validators.required],
       reason: ['', Validators.required],
       relationship: ['', Validators.required],
@@ -1382,6 +1386,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     let icno = "";
     let uhid = "";
     let name = "";
+    let email = "";
 
     let guardianID = "";
     let guardianIC = "";
@@ -1392,6 +1397,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       icno = currentHolder.identificationnumber;
       uhid = currentHolder.unitholderid;
       name = currentHolder.firstname;
+      email = currentHolder.email;
     }
     else if(appFunc.isOwn == "bijak"){
       uhid = this.currentBijakUHID;
@@ -1401,9 +1407,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
       guardianID = currentHolder.unitholderid;
       guardianIC = currentHolder.identificationnumber;
       guardianICtype = currentHolder.identificationtype;
+      email = currentBijakHolder.email;
     }
     else{
-
+      email = currentHolder.email;
     }
 
     this.SIStep4 = false;
@@ -1605,7 +1612,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "unitBalance": "",
           "operation": "",
           "remark": "",
-          "creditNoteNumber": "",
+          "creditNoteNumber": email,
           "rejectCode": "",
           "rejectReason": "",
           "itemno": signalrConnection.itemNo,
@@ -1749,7 +1756,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
               "unitBalance": "",
               "operation": "",
               "remark": "",
-              "creditNoteNumber": "",
+              "creditNoteNumber": email,
               "rejectCode": result.result.rejectcode,
               "rejectReason": result.result.rejectreason,
               "itemno": signalrConnection.itemNo,
@@ -1920,7 +1927,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
               "unitBalance": "",
               "operation": "",
               "remark": "",
-              "creditNoteNumber": "",
+              "creditNoteNumber": email,
               "rejectCode": result.result.rejectcode,
               "rejectReason": result.result.rejectreason,
               "itemno": signalrConnection.itemNo,
@@ -1930,7 +1937,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             }
 
 
-            this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+            this.serviceService.updateFundTransaction(FTBody).subscribe(() => {});
             signalrConnection.itemNo += 1;
             kActivit1.endTime = new Date();
             kActivit1.status = true;
@@ -2222,7 +2229,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "unitBalance": "",
                     "operation": "",
                     "remark": "",
-                    "creditNoteNumber": "",
+                    "creditNoteNumber": email,
                     "rejectCode": "",
                     "rejectReason": "",
                     "itemno": signalrConnection.itemNo,
@@ -2235,9 +2242,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
   
                   this.serviceService.postSubscriptionWithoutProvision(newbody)
                   .subscribe((result: any) => {
-                    // console.log(result.result.transactionstatus);
-                    // console.log(result.result.transactionnumber);
-                    // console.log(result.result);
                     if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
                       
                       signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
@@ -2366,7 +2370,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "unitBalance": "",
                         "operation": "",
                         "remark": "",
-                        "creditNoteNumber": "",
+                        "creditNoteNumber": email,
                         "rejectCode": result.result.rejectcode,
                         "rejectReason": result.result.rejectreason,
                         "itemno": signalrConnection.itemNo,
@@ -2540,7 +2544,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "unitBalance": "",
                         "operation": "",
                         "remark": "",
-                        "creditNoteNumber": "",
+                        "creditNoteNumber": email,
                         "rejectCode": result.result.rejectcode,
                         "rejectReason": result.result.rejectreason,
                         "itemno": signalrConnection.itemNo,
@@ -2614,7 +2618,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "unitBalance": "",
                         "operation": "",
                         "remark": "",
-                        "creditNoteNumber": "",
+                        "creditNoteNumber": email,
                         "rejectCode": "",
                         "rejectReason": "",
                         "itemno": signalrConnection.itemNo,
@@ -2623,6 +2627,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         "sst": ""
                       }
 
+                      signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+                  
+                      });
 
                       this.serviceService.updateFundTransaction(FTBody).subscribe(() => {});
 
@@ -2809,6 +2816,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.Form_3.controls.name.setValue(this.thirdname?.nativeElement.value);
     this.Form_3.controls.amount.setValue(this.thirdamount?.nativeElement.value);
 
+    console.log(this.Form_3.controls.icno);
+
     this.thirdicnoWarning = false;
     this.thirduhidWarning = false;
     this.thirdnameWarning = false;
@@ -2817,6 +2826,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.thirdreasonWarning = false;
     this.thirdrelationshipWarning = false;
     this.thirdfundWarning = false;
+    this.id12digit = false;
+    this.ic12digit = false;
 
     this.sameUH = false;
 
@@ -2847,6 +2858,17 @@ export class SubscriptioninvestmentComponent implements OnInit {
         }
         else if(key.includes('fund')){
           this.thirdfundWarning = true;
+        }
+      }
+      else if(this.Form_3.controls[key].hasError('minlength')){
+        
+        if(key.includes('uhid')){
+          x += 1;
+          this.id12digit = true;
+        }
+        else if(key.includes('icno')){
+          x += 1;
+          this.ic12digit = true;
         }
       }
     });
@@ -3069,12 +3091,15 @@ export class SubscriptioninvestmentComponent implements OnInit {
     let ictype = "";
     let icno = "";
     let uhid = "";
-    let name = ""
+    let name = "";
+    let email = "";
 
     ictype = currentHolder.identificationtype;
     icno = currentHolder.identificationnumber;
     uhid = currentHolder.unitholderid;
     name = currentHolder.firstname;
+    email = currentHolder.email;
+
 
     //let PaymentAmt = parseFloat(this.thirdamountkeyed.toString()).toFixed(2);
 
@@ -3229,17 +3254,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
           this.STPStep3 = false;
           this.SIStep5 = true;
-          // const body1 = 
-          // {
-          //   "CHANNELTYPE":signalrConnection.channelType,
-          //   "REQUESTORIDENTIFICATION":signalrConnection.requestIdentification,
-          //   "DEVICEOWNER":signalrConnection.deviceOwner,
-          //   "UNITHOLDERID":result.result.unitholderid,
-          //   "TRANSACTIONNUMBER":result.result.transactionnumber,
-          //   "OPERATION":"C",
-          //   "REMARKS":"Payment Cleared",
-          //   "PAYMENTREFERENCENUMBER":formatDate(new Date(), 'dd/MM/yyyy HH:mm:ss', 'en'),
-          // }
           this.thirdnamekeyed = result.result.firstname;
           this.unitholdername = this.thirdnamekeyed;
           this.unitholderid = this.thirduhidkeyed;
@@ -3464,7 +3478,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             "unitBalance": "",
             "operation": "",
             "remark": "",
-            "creditNoteNumber": "",
+            "creditNoteNumber": email,
             "rejectCode": result.result.rejectcode,
             "rejectReason": result.result.rejectreason,
             "itemno": signalrConnection.itemNo,
@@ -3473,7 +3487,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             "sst": result.result.gstamount
           }
 
-          this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+          this.serviceService.updateFundTransaction(FTBody).subscribe(() => {});
           signalrConnection.itemNo += 1;
           kActivit1.endTime = new Date();
           kActivit1.status = true;
@@ -3487,6 +3501,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
           }, 5000);
         }
         else{
+          signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+                  
+          });
 
           this.isClicked = false;
           errorCodes.Ecode = result.result.rejectcode;
@@ -3759,7 +3776,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "unitBalance": "",
                     "operation": "",
                     "remark": "",
-                    "creditNoteNumber": "",
+                    "creditNoteNumber": email,
                     "rejectCode": "",
                     "rejectReason": "",
                     "itemno": signalrConnection.itemNo,
@@ -3769,8 +3786,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   }
 
                   this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
-
-                  console.log(JSON.stringify(newbody));
 
                   this.serviceService.postSubscriptionWithoutProvision(newbody)
                   .subscribe((result: any) => {
@@ -3906,7 +3921,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       "unitBalance": "",
                       "operation": "",
                       "remark": "",
-                      "creditNoteNumber": "",
+                      "creditNoteNumber": email,
                       "rejectCode": result.result.rejectcode,
                       "rejectReason": result.result.rejectreason,
                       "itemno": signalrConnection.itemNo,
@@ -4079,7 +4094,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       "unitBalance": "",
                       "operation": "",
                       "remark": "",
-                      "creditNoteNumber": "",
+                      "creditNoteNumber": email,
                       "rejectCode": result.result.rejectcode,
                       "rejectReason": result.result.rejectreason,
                       "itemno": signalrConnection.itemNo,
@@ -4149,7 +4164,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       "unitBalance": "",
                       "operation": "",
                       "remark": "",
-                      "creditNoteNumber": "",
+                      "creditNoteNumber": email,
                       "rejectCode": "",
                       "rejectReason": "",
                       "itemno": signalrConnection.itemNo,
@@ -4158,7 +4173,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       "sst": ""
                     }
 
-                    this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+                    this.serviceService.updateFundTransaction(FTBody).subscribe(() => {});
 
                     this.isClicked = false;
                     errorCodes.Ecode = result.result.rejectcode;

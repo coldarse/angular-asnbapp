@@ -467,5 +467,7 @@
 	"SupplementaryProspectusForFund" : "Prospektus Tambahan ASN Imbang 3 Global",
 	"RemoveDebitCard": "Sila keluarkan Kad Debit",
 	"sameUH": "Anda tidak boleh memindah ke akaun sendiri",
-	"sameUHS": "Anda tidak boleh membuat Pelaburan Tambahan ke akaun sendiri"
+	"sameUHS": "Anda tidak boleh membuat Pelaburan Tambahan ke akaun sendiri",
+	"ic12digit": "Nombor Kad Pengenalan tidak boleh kurang daripada 12 digit.",
+	"id12digit": "Nombor Pemegang Unit tidak boleh kurang daripada 12 digit."
 }

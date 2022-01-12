@@ -467,5 +467,8 @@
 	"SupplementaryProspectusForFund" : "ASN Imbang 3 Global Supplementary Prospectus",
 	"RemoveDebitCard": "Please remove your Debit Card",
 	"sameUH": "Transfer to Own Account is not allowed.",
-	"sameUHS": "Additional Investment to Own Account is not allowed."
+	"sameUHS": "Additional Investment to Own Account is not allowed.",
+	"ic12digit": "IC number cannot be less than 12 digits.",
+	"id12digit": "UHID cannot be less than 12 digits."
+	
 }

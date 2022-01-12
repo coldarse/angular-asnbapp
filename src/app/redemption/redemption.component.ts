@@ -719,7 +719,7 @@ export class RedemptionComponent implements OnInit {
 
     this.isClicked = true;
 
-    
+    let email = "";
 
     let kActivit1 = new kActivity();
     kActivit1.trxno = signalrConnection.trxno;
@@ -728,6 +728,13 @@ export class RedemptionComponent implements OnInit {
     kActivit1.submoduleID = undefined;
     kActivit1.action = this.action;
     kActivit1.startTime = new Date();
+
+    if(appFunc.isOwn == "major"){
+      email = currentHolder.email;
+    }
+    else{
+      email = currentBijakHolder.email;
+    }
 
     let txnmode = "";
     if(this.isHistorical){
@@ -853,11 +860,11 @@ export class RedemptionComponent implements OnInit {
             "taxInvoiceNumber": "",
             "transactionStatus": result.result.transactionstatus,
             "transactionNumber": result.result.transactionnumber,
-            "confirmedUnits": "",
+            "confirmedUnits": result.result.unitsalloted,
             "unitBalance": "",
             "operation": "",
             "remark": "",
-            "creditNoteNumber": "",
+            "creditNoteNumber": email,
             "rejectCode": result.result.rejectcode,
             "rejectReason": result.result.rejectreason,
             "itemno": signalrConnection.itemNo,

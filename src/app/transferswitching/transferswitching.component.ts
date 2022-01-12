@@ -52,6 +52,8 @@ export class TransferswitchingComponent implements OnInit {
 
   uhNotExist = false;
   uhNoFund = false;
+  ic12digit = false;
+  id12digit = false;
 
   transferswitching1 = false;
   transferswitching = false;
@@ -835,6 +837,8 @@ export class TransferswitchingComponent implements OnInit {
       this.transferreasonWarning = false;
       this.transferrelationshipWarning = false;
       this.amountWarning1 = false;
+      this.id12digit = false;
+      this.ic12digit = false;
 
       this.sameUH = false;
   
@@ -863,6 +867,16 @@ export class TransferswitchingComponent implements OnInit {
           }
           else if(key.includes('relationship')){
             this.transferrelationshipWarning = true;
+          }
+        }
+        else if(this.Form_1.controls[key].hasError('minlength')){
+          if(key.includes('uhid')){
+            x += 1;
+            this.id12digit = true;
+          }
+          else if(key.includes('uhic')){
+            x += 1;
+            this.ic12digit = true;
           }
         }
       });
@@ -1020,6 +1034,7 @@ export class TransferswitchingComponent implements OnInit {
     let ictype = "";
     let icno = "";
     let fundid = "";
+    let email = "";
 
     let guardianID = "";
     let guardianIC = "";
@@ -1030,6 +1045,7 @@ export class TransferswitchingComponent implements OnInit {
       firstname = currentHolder.firstname;
       ictype = currentHolder.identificationtype;
       icno = currentHolder.identificationnumber;
+      email = currentHolder.email;
     }
     else{
       uhid = currentBijakHolder.unitholderid;
@@ -1039,6 +1055,7 @@ export class TransferswitchingComponent implements OnInit {
       guardianID = currentHolder.unitholderid;
       guardianIC = currentHolder.identificationnumber;
       guardianICtype = currentHolder.identificationtype;
+      email = currentBijakHolder.email;
     }
 
     appFunc.ASNBFundID.forEach((elem: ASNBFundID) => {
@@ -1169,7 +1186,7 @@ export class TransferswitchingComponent implements OnInit {
             "unitBalance": "",
             "operation": "",
             "remark": "",
-            "creditNoteNumber": "",
+            "creditNoteNumber": email,
             "rejectCode": result1.result.rejectcode,
             "rejectReason": result1.result.rejectreason,
             "itemno": signalrConnection.itemNo,
@@ -1224,7 +1241,7 @@ export class TransferswitchingComponent implements OnInit {
             "unitBalance": "",
             "operation": "",
             "remark": "",
-            "creditNoteNumber": "",
+            "creditNoteNumber": email,
             "rejectCode": result1.result.rejectcode,
             "rejectReason": result1.result.rejectreason,
             "itemno": signalrConnection.itemNo,
@@ -1826,6 +1843,7 @@ export class TransferswitchingComponent implements OnInit {
     let ictype = "";
     let icno = "";
     let fundid = "";
+    let email = "";
 
     let guardianID = "";
     let guardianIC = "";
@@ -1836,6 +1854,7 @@ export class TransferswitchingComponent implements OnInit {
       firstname = currentHolder.firstname;
       ictype = currentHolder.identificationtype;
       icno = currentHolder.identificationnumber;
+      email = currentHolder.email;
     }else{
       uhid = currentBijakHolder.unitholderid;
       firstname = currentBijakHolder.firstname;
@@ -1844,6 +1863,7 @@ export class TransferswitchingComponent implements OnInit {
       guardianID = currentHolder.unitholderid;
       guardianIC = currentHolder.identificationnumber;
       guardianICtype = currentHolder.identificationtype;
+      email = currentBijakHolder.email;
     }
 
     this.switchinguhid = uhid;
@@ -1984,13 +2004,13 @@ export class TransferswitchingComponent implements OnInit {
             "unitBalance": "",
             "operation": "",
             "remark": "",
-            "creditNoteNumber": "",
+            "creditNoteNumber": email,
             "rejectCode": result1.result.rejectcode,
             "rejectReason": result1.result.rejectreason,
             "itemno": signalrConnection.itemNo,
             "nav": result1.result.fundprice,
-            "fee": result1.result.salescharge,
-            "sst": result1.result.gstamount
+            "fee": 0,
+            "sst": 0
           }
 
           const FTBodyIn =
@@ -2039,7 +2059,7 @@ export class TransferswitchingComponent implements OnInit {
             "unitBalance": "",
             "operation": "",
             "remark": "",
-            "creditNoteNumber": "",
+            "creditNoteNumber": email,
             "rejectCode": result1.result.rejectcode,
             "rejectReason": result1.result.rejectreason,
             "itemno": signalrConnection.itemNo,
@@ -2313,10 +2333,10 @@ export class TransferswitchingComponent implements OnInit {
 
   initializeForm1(){
     this.Form_1 = this.fb.group({
-      uhid: ['', Validators.required],
+      uhid: ['', [Validators.required, Validators.minLength(12)]],
       uhname: ['', Validators.required],
       ictype:['', Validators.required],
-      uhic: ['', Validators.required],
+      uhic: ['', [Validators.required, Validators.minLength(12)]],
       reason: ['', Validators.required],
       relationship: ['', Validators.required],
       amount: ['', Validators.required],

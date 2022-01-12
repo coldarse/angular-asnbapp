@@ -750,8 +750,6 @@ export class UpdatedetailsComponent implements OnInit {
   }
 
   ConfirmYes(){
-
-    // console.log(this.AR_Form.controls.city.value);
     if(this.AR_Form.controls.fatca.value == 'Y' || this.AR_Form.controls.crs.value == 'Y'){
       errorCodes.Ecode = "0118";
       errorCodes.Emessage = "FATCA/PEP/CRS selected.";
@@ -924,12 +922,17 @@ export class UpdatedetailsComponent implements OnInit {
           "IDENTIFICATIONTYPE":"W",
           "IDENTIFICATIONNUMBER":currentBijakHolder.identificationnumber,
           "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
-          "OCCUPATION":this.AR_Form.controls.jobname.value,
+          // "OCCUPATION":this.AR_Form.controls.jobname.value,
+          "OCCUPATION":"",
           "EMAIL":this.AR_Form.controls.email.value,
-          "OTHERINFO8":this.AR_Form.controls.monthlyincome.value,
-          "OCCUPATIONSECTOR":this.AR_Form.controls.jobsector.value,
-          "OCCUPATIONCATEGORY":this.AR_Form.controls.jobcategory.value,
-          "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
+          // "OTHERINFO8":this.AR_Form.controls.monthlyincome.value,
+          "OTHERINFO8":"",
+          // "OCCUPATIONSECTOR":this.AR_Form.controls.jobsector.value,
+          // "OCCUPATIONCATEGORY":this.AR_Form.controls.jobcategory.value,
+          // "NATUREOFBUSINESS":this.AR_Form.controls.natureofjob.value,
+          "OCCUPATIONSECTOR":"",
+          "OCCUPATIONCATEGORY":"",
+          "NATUREOFBUSINESS":"",
           "CELLPHONENUMBER" :this.AR_Form.controls.telephone.value,
           "TELEPHONE1": this.AR_Form.controls.homenumber.value,
           "ADDRESSLINE1": this.AR_Form.controls.address1.value,
@@ -937,10 +940,9 @@ export class UpdatedetailsComponent implements OnInit {
           "ADDRESSLINE3":this.AR_Form.controls.city.value,
           "ADDRESSLINE4":this.AR_Form.controls.state.value,
           "ZIPCODE":this.AR_Form.controls.postcode.value,
-          "COMPANYNAME": this.AR_Form.controls.companyname.value,
+          //"COMPANYNAME": this.AR_Form.controls.companyname.value,
+          "COMPANYNAME": "",
           "TITLE":this.AR_Form.controls.salutation.value,
-          //"BANKCODE":this.AR_Form.controls.bankname.value, 
-          //"ACCOUNTNUMBER":this.AR_Form.controls.bankaccount.value, 
           "BANKCODE": "",
           "ACCOUNTNUMBER":"",
           "GUARDIANID":currentBijakHolder.guardianid,
@@ -951,7 +953,6 @@ export class UpdatedetailsComponent implements OnInit {
           "PREFERREDMAILMODE":this.AR_Form.controls.deliverystate.value,
           "AGENTCODE":signalrConnection.agentCode,
           "BRANCHCODE":signalrConnection.branchCode,
-          //"BANKBRANCHCODE": this.AR_Form.controls.bankname.value + "14001", 
           "BANKBRANCHCODE": "",
           "RELATIONSHIP":this.AR_Form.controls.g_relation.value,
           "LANGUAGE": selectLang.selectedLang
