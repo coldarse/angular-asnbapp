@@ -284,9 +284,6 @@ export class AccountregistrationComponent implements OnInit {
       // if (y.textBM.toLowerCase().includes(this.race.toLowerCase())){
       if (this.race.toLowerCase().includes(y.textBM.toLowerCase())){
         this.race = y.value;
-        break;
-      }else{
-        this.race = 'FGN';
       }
     }
     let ismobile = false;
