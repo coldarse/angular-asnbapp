@@ -1245,9 +1245,9 @@ export class TransferswitchingComponent implements OnInit {
             "rejectCode": result1.result.rejectcode,
             "rejectReason": result1.result.rejectreason,
             "itemno": signalrConnection.itemNo,
-            "nav": result1.result.fundprice,
-            "fee": result1.result.salescharge,
-            "sst": result1.result.gstamount
+            "nav": 0,
+            "fee": 0,
+            "sst": 0
           }
 
           this.serviceService.createFundTransaction(FTBodyOut).subscribe(() => {});
