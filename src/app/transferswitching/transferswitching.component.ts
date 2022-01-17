@@ -1245,7 +1245,7 @@ export class TransferswitchingComponent implements OnInit {
             "rejectCode": result1.result.rejectcode,
             "rejectReason": result1.result.rejectreason,
             "itemno": signalrConnection.itemNo,
-            "nav": 0,
+            "nav": result1.result.fundprice,
             "fee": 0,
             "sst": 0
           }
