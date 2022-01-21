@@ -26,7 +26,6 @@ import { AppConfiguration } from '../config/app-configuration';
 
 export class ServiceService {
   protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
-  //url = 'https://aldansupport.com/ASNBCore/api/'; // Using Aldan Support Swagger
   url: any; // Using Alibaba Development Swagger
   receipturl: any;
   constructor(

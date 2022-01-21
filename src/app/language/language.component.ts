@@ -184,7 +184,7 @@ export class LanguageComponent implements OnInit {
                     }
                   }
                 }
-                else if(val.moduleID == 2){//Bijak Registration
+                else if(val.moduleID == 2){//Bisak Registration
                   if(val.enable == true){
                     if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
                       count += 1;
