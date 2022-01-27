@@ -29,7 +29,6 @@ export class LanguageComponent implements OnInit {
   loadingDisable = true;
 
 
-  
 
   id: any;
 
@@ -78,11 +77,6 @@ export class LanguageComponent implements OnInit {
 
 
   startConnection() : void {
-
-    
-    
-
-
     this._signalR.connect().then((c) => {
       console.log("API King is now Connected on " + formatDate(new Date(), 'HH:MM:ss', 'en'));
       signalrConnection.connection = c;
@@ -139,79 +133,92 @@ export class LanguageComponent implements OnInit {
           appFunc.screenSaver = res.result[0].agentDownloadPath;
           appFunc.screenSaverList = res.result[0].fileList;
         });
-        this.serviceService.getKioskModules(signalrConnection.kioskCode).subscribe((res: any) => {
-          var areDisabled = 0
-          this.loadingDisable = false;
-          appFunc.modules = res.result.map((em: any) => new eModules(em));
 
-          
-          for (var val of appFunc.modules){
-            if(val.enable == false){
-              areDisabled += 1;
+        if(appFunc.isEmptySSList){
+          appFunc.isEmptySSList = false;
+          this.route.navigate(['/screensaver']);
+        }
+        else{
+          this.serviceService.getKioskModules(signalrConnection.kioskCode).subscribe((res: any) => {
+            var areDisabled = 0
+            this.loadingDisable = false;
+            appFunc.modules = res.result.map((em: any) => new eModules(em));
+  
+            
+            for (var val of appFunc.modules){
+              if(val.enable == false){
+                areDisabled += 1;
+              }
             }
-          }
-
-          console.log(signalrConnection.kioskCode);
-
-          if(areDisabled == appFunc.modules.length){
-            errorCodes.code = "0168";
-            errorCodes.message = "Under Maintenance";
+  
+            console.log(signalrConnection.kioskCode);
+  
+            if(areDisabled == appFunc.modules.length){
+              errorCodes.code = "0168";
+              errorCodes.message = "Under Maintenance";
+              this.route.navigate(['outofservice']);
+            }
+  
+            
+            //else{
+              setTimeout(() => {
+                this.id = setInterval(() => {
+                  let count = 0;
+                  for (var val of appFunc.modules){
+                    if(val.moduleID == 3){//Update CIF
+                      if(val.enable == true){
+                        if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                          count += 1;
+                        }
+                      }
+                    }
+                    else if(val.moduleID == 6){//Balance Inquiry
+                      if(val.enable == true){
+                        if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                          count += 1;
+                        }
+                      }
+                    }
+                    else if(val.moduleID == 5){//Financial
+                      if(val.enable == true){
+                        if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                          count += 1;
+                        }
+                      }
+                    }
+                    else if(val.moduleID == 2){//Bisak Registration
+                      if(val.enable == true){
+                        if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                          count += 1;
+                        }
+                      }
+                    }
+                    else if(val.moduleID == 4){//Portal Registration
+                      if(val.enable == true){
+                        if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+                          count += 1;
+                        }
+                      }
+                    }
+                  }
+            
+                  if(count == 0){
+                    errorCodes.code = "0168";
+                    errorCodes.message = "Under Maintenance";
+                    this.route.navigate(['outofservice']);
+                  }
+                }, 1000);
+              } , 60000);
+            //}
+  
+  
+            
+          }, error => {
+            errorCodes.code = error.status;
+            errorCodes.message = "Harap Maaf, Kiosk tidak berfungsi buat sementara waktu" + '\n' + "Sorry, Kiosk is temporarily out of service";
             this.route.navigate(['outofservice']);
-          }
-
-          setTimeout(() => {
-            this.id = setInterval(() => {
-              let count = 0;
-              for (var val of appFunc.modules){
-                if(val.moduleID == 3){//Update CIF
-                  if(val.enable == true){
-                    if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
-                      count += 1;
-                    }
-                  }
-                }
-                else if(val.moduleID == 6){//Balance Inquiry
-                  if(val.enable == true){
-                    if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
-                      count += 1;
-                    }
-                  }
-                }
-                else if(val.moduleID == 5){//Financial
-                  if(val.enable == true){
-                    if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
-                      count += 1;
-                    }
-                  }
-                }
-                else if(val.moduleID == 2){//Bisak Registration
-                  if(val.enable == true){
-                    if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
-                      count += 1;
-                    }
-                  }
-                }
-                else if(val.moduleID == 4){//Portal Registration
-                  if(val.enable == true){
-                    if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
-                      count += 1;
-                    }
-                  }
-                }
-              }
-        
-              if(count == 0){
-                errorCodes.code = "0168";
-                errorCodes.message = "Under Maintenance";
-                this.route.navigate(['outofservice']);
-              }
-            }, 1000);
-          } , 60000);
-        }, error => {
-          errorCodes.code = error.status;
-          errorCodes.message = "Harap Maaf, Kiosk tidak berfungsi buat sementara waktu" + '\n' + "Sorry, Kiosk is temporarily out of service";
-          this.route.navigate(['outofservice']);
-        });
+          });
+        }
       });
       
       

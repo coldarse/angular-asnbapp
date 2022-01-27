@@ -48,6 +48,10 @@ export class TransactionmenuComponent implements OnInit {
     private serviceService : ServiceService) { }
 
   ngOnInit(): void {
+
+    signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
+                          
+    });
     
     if(signalrConnection.logsaves != undefined){
       signalrConnection.connection.invoke('SaveToLog', signalrConnection.logsaves);

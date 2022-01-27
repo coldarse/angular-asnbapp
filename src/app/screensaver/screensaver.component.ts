@@ -33,16 +33,23 @@ export class ScreensaverComponent implements OnInit {
     
     if(appFunc.screenSaver == undefined){
       this.path = "";
+      appFunc.isEmptySSList = true;
     }else{
       this.path = appFunc.screenSaver;
       this.path = this.path.substring(this.path.indexOf("screensaver/") + 12);
       console.log(this.path);
     }
     
-    this.imgCycle();
-    this.id = setInterval(() => {
+    if(appFunc.isEmptySSList){
+      this.router.navigate(['language']);
+    }
+    else{
       this.imgCycle();
-    }, 5000);
+      this.id = setInterval(() => {
+        this.imgCycle();
+      }, 5000);
+    }
+    
   }
 
   imgCycle() {

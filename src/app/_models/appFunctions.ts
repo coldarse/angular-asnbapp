@@ -32,6 +32,7 @@ export class appFunc {
   static reasonTransfer: reasonTransfer[];
   static screenSaver: string;
   static screenSaverList: string[];
+  static isEmptySSList = false
 
   static kioskActivity: kioskActivities[];
 
