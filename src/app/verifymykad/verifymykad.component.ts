@@ -499,6 +499,8 @@ export class VerifymykadComponent implements OnInit {
         currentMyKadDetails.CardVersion = this.myKadData['CardVersion'];
         currentMyKadDetails.OtherID = this.myKadData['OtherID'];
         currentMyKadDetails.CategoryType = this.myKadData['CategoryType'];
+
+        
   
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
     
@@ -561,7 +563,6 @@ export class VerifymykadComponent implements OnInit {
         currentMyKadDetails.Name = "John Smith";
         currentMyKadDetails.ICNo = this.icnumber?.nativeElement.value.toString().replace("*", "");
         currentMyKadDetails.OldICNo = "";
-        currentMyKadDetails.DOB = new Date("1957-08-31");
         currentMyKadDetails.POB =  "SELANGOR";
         currentMyKadDetails.Gender = "Male";
         currentMyKadDetails.Citizenship = "WARGANEGARA";

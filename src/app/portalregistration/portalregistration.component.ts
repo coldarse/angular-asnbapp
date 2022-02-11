@@ -533,7 +533,7 @@ export class PortalregistrationComponent implements OnInit {
       userid: ['', Validators.required],
       email: [isNaEmail, [
         Validators.required,
-        Validators.email, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]],
+        Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$')]],
       securephrase: ['', Validators.required],
       
       q1: ['', Validators.required],
