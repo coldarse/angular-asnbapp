@@ -122,10 +122,10 @@ export class TransactionmenuComponent implements OnInit {
     }
 
     if(
-      this.updatedDetailsEnabled == true &&
-      this.checkBalanceEnabled == true &&
-      this.financialTransactionEnabled == true &&
-      this.bijakRegistrationEnabled == true &&
+      this.updatedDetailsEnabled == true ||
+      this.checkBalanceEnabled == true ||
+      this.financialTransactionEnabled == true ||
+      this.bijakRegistrationEnabled == true ||
       this.portalRegistrationEnabled == true
     ){
       errorCodes.code = "0168";
