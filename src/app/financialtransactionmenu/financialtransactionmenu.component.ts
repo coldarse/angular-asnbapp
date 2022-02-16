@@ -66,6 +66,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.translate.use(selectLang.selectedLang);
+    // console.log(currentHolder.totalminoraccount);
     if(currentHolder.totalminoraccount != "0"){
       this.isBijakDisabled = false;
       //Includes Bijak
@@ -77,7 +78,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.InvestmentMDisabled = false;
             }
           }
@@ -89,7 +90,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.InvestmentBDisabled = false;
             }
           }
@@ -101,7 +102,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SubscriptionMDisabled = false;
             }
           }
@@ -113,7 +114,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SubscriptionBDisabled = false;
             }
           }
@@ -125,7 +126,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SubscriptionTDisabled = false;
             }
           }
@@ -137,7 +138,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.TransferMDisabled = false;
             }
           }
@@ -149,7 +150,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SwitchMDisabled = false;
             }
           }
@@ -161,7 +162,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.TransferBDisabled = false;
             }
           }
@@ -173,7 +174,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SwitchBDisabled = false;
             }
           }
@@ -185,7 +186,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.RedemptionMDisabled = false;
             }
           }
@@ -197,12 +198,13 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.RedemptionBDisabled = false;
             }
           }
         }
       }
+
 
       //for Investment
       if(this.InvestmentMDisabled && this.InvestmentBDisabled){
@@ -247,7 +249,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Update Details Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.InvestmentMDisabled = false;
             }
           }
@@ -259,7 +261,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SubscriptionMDisabled = false;
             }
           }
@@ -271,7 +273,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SubscriptionTDisabled = false;
             }
           }
@@ -283,7 +285,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.TransferMDisabled = false;
             }
           }
@@ -295,7 +297,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.SwitchMDisabled = false;
             }
           }
@@ -307,7 +309,7 @@ export class FinancialtransactionmenuComponent implements OnInit {
               signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "Enabled Check Balance Module.");
             }
           }else{
-            if(!this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
               this.RedemptionMDisabled = false;
             }
           }

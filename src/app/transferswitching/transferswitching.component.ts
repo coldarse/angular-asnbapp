@@ -322,7 +322,7 @@ export class TransferswitchingComponent implements OnInit {
   ngOnInit(): void {
     this.translate.use(selectLang.selectedLang);
 
-    console.log(appFunc.ASNBFundID);
+    // console.log(appFunc.ASNBFundID);
 
     this.isModuleEnabled();
     if(appFunc.isOwn == "major"){
@@ -633,7 +633,7 @@ export class TransferswitchingComponent implements OnInit {
   }
 
   Transfer(fund: any){
-    console.log(fund);
+    // console.log(fund);
     //this.isHistorical = this.isBefore4pm();
     this.disagreedTNC = false;
     
@@ -1630,7 +1630,7 @@ export class TransferswitchingComponent implements OnInit {
 
   Switching(fund: any){
 
-    console.log(fund);
+    // console.log(fund);
     this.disagreedTNC = true;
     this.pdfsrc3 = "assets/SWITCHING/All_Fund_Min_Criteria.pdf";
 
@@ -1917,7 +1917,7 @@ export class TransferswitchingComponent implements OnInit {
 
     this.serviceService.postSwitching(body1)
       .subscribe((result1: any) => {
-        console.log(result1);
+        // console.log(result1);
         if(result1.result.transactionstatus.toLowerCase() == 'successful'){
           this.switching2 = false;
           this.switching3 = true;
@@ -2071,7 +2071,7 @@ export class TransferswitchingComponent implements OnInit {
           this.serviceService.createFundTransaction(FTBodyOut).subscribe(() => {});
           this.serviceService.createFundTransaction(FTBodyIn).subscribe(() => {});
           signalrConnection.itemNo += 1;
-          console.log(signalrConnection.itemNo);
+          // console.log(signalrConnection.itemNo);
           kActivit1.endTime = new Date();
           kActivit1.status = true;
           appFunc.kioskActivity.push(kActivit1);

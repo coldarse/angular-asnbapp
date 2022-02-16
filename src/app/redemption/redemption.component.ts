@@ -230,7 +230,7 @@ export class RedemptionComponent implements OnInit {
         });
       });
 
-      console.log(this.newFundDetails)
+      // console.log(this.newFundDetails)
 
 
       if(appFunc.isRedirectFromRedemption == true){
@@ -601,8 +601,8 @@ export class RedemptionComponent implements OnInit {
           this.RedemptionMaxValue = elements.minorRedemptionLimit_max;
         }
 
-        console.log(this.RedemptionMinValue);
-        console.log(this.RedemptionMaxValue);
+        // console.log(this.RedemptionMinValue);
+        // console.log(this.RedemptionMaxValue);
 
         if(elements.pricingType.toString().toLowerCase() == "amount"){
           this.isHistorical = true;
@@ -816,8 +816,8 @@ export class RedemptionComponent implements OnInit {
             module = "18";
           }
 
-          console.log("ItemNo: " + signalrConnection.itemNo);
-          console.log("ItemNo: " + signalrConnection.itemNo + 1);
+          // console.log("ItemNo: " + signalrConnection.itemNo);
+          // console.log("ItemNo: " + signalrConnection.itemNo + 1);
 
           const FTBody =
           {

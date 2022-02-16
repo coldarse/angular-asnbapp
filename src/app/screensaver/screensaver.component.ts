@@ -37,7 +37,7 @@ export class ScreensaverComponent implements OnInit {
     }else{
       this.path = appFunc.screenSaver;
       this.path = this.path.substring(this.path.indexOf("screensaver/") + 12);
-      console.log(this.path);
+      // console.log(this.path);
     }
     
     if(appFunc.isEmptySSList){

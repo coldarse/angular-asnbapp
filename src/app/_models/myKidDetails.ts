@@ -72,7 +72,7 @@ export class MyKidDetails implements IMyKidDetails {
 
     static fromJS(data: any): MyKidDetails {
         let result = new MyKidDetails();
-        console.log(data["Name"]);
+        // console.log(data["Name"]);
         result.init(data);
         return result;
     }

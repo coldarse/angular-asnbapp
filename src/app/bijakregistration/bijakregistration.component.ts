@@ -561,14 +561,14 @@ export class BijakregistrationComponent implements OnInit {
         currentMyKidDetails.MothersRace = this.myKidData['MothersRace'];
         currentMyKidDetails.MothersReligion = this.myKidData['MothersReligion'];
 
-        console.log("Father's Name: " + currentMyKidDetails.FathersName);
-        console.log("Father's ICNo: " + currentMyKidDetails.FathersICNo);
-        console.log("Father's Race: " + currentMyKidDetails.FathersRace);
-        console.log("Father's Religion: " + currentMyKidDetails.FathersReligion);
-        console.log("Mother's Name: " + currentMyKidDetails.MothersName);
-        console.log("Mother's ICNo: " + currentMyKidDetails.MothersICNo);
-        console.log("Mother's Race: " + currentMyKidDetails.MothersRace);
-        console.log("Mother's Religion: " + currentMyKidDetails.MothersReligion);
+        // console.log("Father's Name: " + currentMyKidDetails.FathersName);
+        // console.log("Father's ICNo: " + currentMyKidDetails.FathersICNo);
+        // console.log("Father's Race: " + currentMyKidDetails.FathersRace);
+        // console.log("Father's Religion: " + currentMyKidDetails.FathersReligion);
+        // console.log("Mother's Name: " + currentMyKidDetails.MothersName);
+        // console.log("Mother's ICNo: " + currentMyKidDetails.MothersICNo);
+        // console.log("Mother's Race: " + currentMyKidDetails.MothersRace);
+        // console.log("Mother's Religion: " + currentMyKidDetails.MothersReligion);
         
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Bijak Registration]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKid details to Web App Object Class`);
     
@@ -786,7 +786,7 @@ export class BijakregistrationComponent implements OnInit {
        this.serviceService.getAccountInquiry(body)
        .subscribe((result: any) => {
 
-        console.log(result);
+        // console.log(result);
         //Mapping Happens Here
         currentBijakHolder.channeltype = result.channeltype;
         currentBijakHolder.requestoridentification = result.requestoridentification;
@@ -1164,7 +1164,7 @@ export class BijakregistrationComponent implements OnInit {
             this.AR_Form.controls.jobcategory.value != 'RY' &&
             this.AR_Form.controls.jobcategory.value != 'UM' 
             ){
-              console.log(this.AR_Form.controls.jobcategory.value);
+              // console.log(this.AR_Form.controls.jobcategory.value);
               x += 1;
               this.JN_Warning = true;
             }
@@ -1176,7 +1176,7 @@ export class BijakregistrationComponent implements OnInit {
             this.AR_Form.controls.jobcategory.value != 'RY' &&
             this.AR_Form.controls.jobcategory.value != 'UM' 
             ){
-              console.log(this.AR_Form.controls.jobcategory.value);
+              // console.log(this.AR_Form.controls.jobcategory.value);
               x += 1;
               this.NOJ_Warning = true;
             }
@@ -1188,7 +1188,7 @@ export class BijakregistrationComponent implements OnInit {
             this.AR_Form.controls.jobcategory.value != 'RY' &&
             this.AR_Form.controls.jobcategory.value != 'UM' 
             ){
-              console.log(this.AR_Form.controls.jobcategory.value);
+              // console.log(this.AR_Form.controls.jobcategory.value);
               x += 1;
               this.JS_Warning = true;
             }

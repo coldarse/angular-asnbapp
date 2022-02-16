@@ -998,7 +998,7 @@ export class AccountregistrationComponent implements OnInit {
             this.AR_Form.controls.jobcategory.value != 'RY' &&
             this.AR_Form.controls.jobcategory.value != 'UM' 
             ){
-              console.log(this.AR_Form.controls.jobcategory.value);
+              // console.log(this.AR_Form.controls.jobcategory.value);
               x += 1;
               this.JN_Warning = true;
             }
@@ -1010,7 +1010,7 @@ export class AccountregistrationComponent implements OnInit {
             this.AR_Form.controls.jobcategory.value != 'RY' &&
             this.AR_Form.controls.jobcategory.value != 'UM' 
             ){
-              console.log(this.AR_Form.controls.jobcategory.value);
+              // console.log(this.AR_Form.controls.jobcategory.value);
               x += 1;
               this.NOJ_Warning = true;
             }
@@ -1022,7 +1022,7 @@ export class AccountregistrationComponent implements OnInit {
             this.AR_Form.controls.jobcategory.value != 'RY' &&
             this.AR_Form.controls.jobcategory.value != 'UM' 
             ){
-              console.log(this.AR_Form.controls.jobcategory.value);
+              // console.log(this.AR_Form.controls.jobcategory.value);
               x += 1;
               this.JS_Warning = true;
             }

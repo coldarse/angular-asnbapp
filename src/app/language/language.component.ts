@@ -54,7 +54,7 @@ export class LanguageComponent implements OnInit {
     }
 
     signalrConnection.itemNo = 1;
-    console.log(signalrConnection.itemNo);
+    // console.log(signalrConnection.itemNo);
 
     currentMyKidDetails.resetCurrentMyKid();
     currentMyKadDetails.resetCurrentMyKid();
@@ -144,6 +144,7 @@ export class LanguageComponent implements OnInit {
             this.loadingDisable = false;
             appFunc.modules = res.result.map((em: any) => new eModules(em));
   
+            // console.log(appFunc.modules);
             
             for (var val of appFunc.modules){
               if(val.enable == false){
@@ -151,7 +152,7 @@ export class LanguageComponent implements OnInit {
               }
             }
   
-            console.log(signalrConnection.kioskCode);
+            // console.log(signalrConnection.kioskCode);
   
             if(areDisabled == appFunc.modules.length){
               errorCodes.code = "0168";

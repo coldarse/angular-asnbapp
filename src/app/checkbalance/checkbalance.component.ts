@@ -1112,7 +1112,7 @@ export class CheckbalanceComponent implements OnInit {
     this.isMain = true;
 
     this.fDetails = currentHolder.funddetail;
-    console.log(this.fDetails);
+    // console.log(this.fDetails);
 
     //if (this.fDetails.length == 1 || this.fDetails.length == 0){
     if(this.fDetails[0].FUNDID.length < 1){

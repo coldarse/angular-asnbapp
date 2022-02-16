@@ -95,7 +95,7 @@ export class VerifymykadComponent implements OnInit {
   ngOnInit(): void {
 
     signalrConnection.isVerifyMyKad = true;
-    console.log(signalrConnection.isVerifyMyKad);
+    // console.log(signalrConnection.isVerifyMyKad);
 
     // const jiahao = 
     //   {
@@ -641,7 +641,7 @@ export class VerifymykadComponent implements OnInit {
 
         
 
-        console.log(result);
+        // console.log(result);
         currentHolder.channeltype = result.channeltype;
         currentHolder.requestoridentification = result.requestoridentification;
         currentHolder.deviceowner = result.deviceowner;
@@ -731,7 +731,7 @@ export class VerifymykadComponent implements OnInit {
         currentHolder.rejectcode = result.rejectcode;
         currentHolder.rejectreason = result.rejectreason;
 
-        console.log(result);
+        // console.log(result);
 
         if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
 

@@ -405,7 +405,7 @@ export class PortalregistrationComponent implements OnInit {
             "uhid": currentHolder.unitholderid,
             "language": this.selectedLanguage
           }
-          console.log('A ' + body.idno + ' ' + body.idtype + ' ' + body.uhid + ' ' + body.language);
+          // console.log('A ' + body.idno + ' ' + body.idtype + ' ' + body.uhid + ' ' + body.language);
           this.serviceService.unitHolderVerification(body).pipe(
             timeout(10000),
             catchError(error => of(`504`))
@@ -705,7 +705,7 @@ export class PortalregistrationComponent implements OnInit {
           "signature": encryptedBody.toString()
         }
 
-        console.log(JSON.stringify(newBody));
+        // console.log(JSON.stringify(newBody));
 
         this.serviceService.unitHolderRegistration(newBody).subscribe((data: any) => {
           if (data.result.registration_status == true){
@@ -852,11 +852,11 @@ export class PortalregistrationComponent implements OnInit {
         x += 1;
         if(key.includes('newPass')){
           this.newpass_warning = true;
-          console.log('newpass: ' + this.newpass_warning);
+          // console.log('newpass: ' + this.newpass_warning);
         }
         else if (key.includes('newpassR')){
           this.newpassR_warning = true;
-          console.log('newpassR: ' + this.newpassR_warning);
+          // console.log('newpassR: ' + this.newpassR_warning);
         }
       }
     });
@@ -1060,10 +1060,10 @@ export class PortalregistrationComponent implements OnInit {
     });
     if (x > 0){
       window.scroll(0,0);
-      console.log("Error");
+      // console.log("Error");
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Portal Registration]" + ": " + `${x} field(s) empty.`);
     }else{
-      console.log("No Error");
+      // console.log("No Error");
       const body = {
         "mobileno" : currentHolder.cellphonenumber,
         "moduleid" : "316",
@@ -1088,7 +1088,7 @@ export class PortalregistrationComponent implements OnInit {
         "signature": encryptedbody.toString()
       }
 
-      console.log(JSON.stringify(newbody));
+      // console.log(JSON.stringify(newbody));
       this.serviceService.tacVerification(newbody).subscribe((res: any) => {
         if (res.result.error_reason == ""){
           this.nextDetails_disabled = false;

@@ -433,8 +433,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
             });
           });
 
-          console.log(this.variableFunds);
-          console.log(this.fixedFunds);
+          // console.log(this.variableFunds);
+          // console.log(this.fixedFunds);
           this.isloadedfunds = true;
         });
 
@@ -482,8 +482,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
           });
         })
 
-        console.log(this.variableFunds);
-        console.log(this.fixedFunds);
+        // console.log(this.variableFunds);
+        // console.log(this.fixedFunds);
         this.isloadedfunds = true;
         this.isSubscriptionMajor = true;
         this.isOwn = true;
@@ -736,8 +736,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
             });
           });
 
-          console.log(this.variableFunds);
-          console.log(this.fixedFunds);
+          // console.log(this.variableFunds);
+          // console.log(this.fixedFunds);
 
           this.currentBijakUHID = minor.UHID;
           this.currentBijakIDNO = minor.ICNO;
@@ -784,8 +784,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
               });
             });
 
-            console.log(this.variableFunds);
-            console.log(this.fixedFunds);
+            // console.log(this.variableFunds);
+            // console.log(this.fixedFunds);
             this.isloadedfunds = true;
           });
 
@@ -807,7 +807,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   SIStep2Next(){
-    console.log(currentHolder.riskprofile);
+    // console.log(currentHolder.riskprofile);
     this.Form_1.controls.amount.setValue(this.amount?.nativeElement.value);
 
     this.amountWarning = false;
@@ -860,10 +860,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
       if(this.amountWarning1 == false){
         deleteKeyboard();
 
-        console.log(this.appConfig.thresholdForAdditionalInfo1);//25000
-        console.log(this.appConfig.thresholdForAdditionalInfo2);//15000
-        console.log(this.appConfig.thresholdForAdditionalInfo3);//10000
-        console.log(this.amountKeyed);
+        // console.log(this.appConfig.thresholdForAdditionalInfo1);//25000
+        // console.log(this.appConfig.thresholdForAdditionalInfo2);//15000
+        // console.log(this.appConfig.thresholdForAdditionalInfo3);//10000
+        // console.log(this.amountKeyed);
 
         if(Number(this.amountKeyed) >= Number(this.appConfig.thresholdForAdditionalInfo1)){ //More than 25K
 
@@ -1006,7 +1006,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             }
           }//Between 10k and 15k
           else{//Between 15k and 25k
-            console.log("termasuk sini");
+            // console.log("termasuk sini");
             if(appFunc.isOwn == "bijak"){
               if(currentBijakHolder.occupationcategory == "UM" || currentBijakHolder.occupationcategory == "HM"){
                 this.initializeForm2();
@@ -1548,7 +1548,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "signature": encryptedBody.toString()
         }
 
-        console.log(JSON.stringify(newbody));
+        // console.log(JSON.stringify(newbody));
 
         let module = "";
         if(appFunc.isOwn == "major"){
@@ -1622,13 +1622,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "sst": ""
         }
 
-        console.log(JSON.stringify(FTBody));
+        // console.log(JSON.stringify(FTBody));
         this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
 
         this.serviceService.postSubscriptionWithoutProvision(newbody)
         .subscribe((result: any) => {
-          console.log(result.result.transactionstatus);
-          console.log(result.result.transactionnumber);
+          // console.log(result.result.transactionstatus);
+          // console.log(result.result.transactionnumber);
           if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
 
 
@@ -1766,7 +1766,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
               "sst": result.result.gstamount
             }
 
-            console.log(JSON.stringify(FTBody));
+            // console.log(JSON.stringify(FTBody));
 
             this.serviceService.updateFundTransaction(FTBody).subscribe(() => {});
 
@@ -2022,7 +2022,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         let theLoop: (loopC2: string) => void = (loopC2: string) => {
           setTimeout(() => {
             signalrConnection.connection.invoke('getCardInfo').then((cardInfo: any) => {
-              console.log("Current Card Info Status: " +  cardInfo.StatusCode);
+              // console.log("Current Card Info Status: " +  cardInfo.StatusCode);
               this.tempCardInfo = cardInfo;
               statusCode = cardInfo.StatusCode;
               if (statusCode == "00") {
@@ -2847,7 +2847,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.Form_3.controls.name.setValue(this.thirdname?.nativeElement.value);
     this.Form_3.controls.amount.setValue(this.thirdamount?.nativeElement.value);
 
-    console.log(this.Form_3.controls.icno);
+    // console.log(this.Form_3.controls.icno);
 
     this.thirdicnoWarning = false;
     this.thirduhidWarning = false;
@@ -3271,7 +3271,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
 
 
-      console.log(JSON.stringify(newbody));
+      // console.log(JSON.stringify(newbody));
 
       this.serviceService.postSubscriptionWithoutProvision(newbody)
       .subscribe((result: any) => {
@@ -3600,7 +3600,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         let theLoop: (loopC2: string) => void = (loopC2: string) => {
           setTimeout(() => {
             signalrConnection.connection.invoke('getCardInfo').then((cardInfo: any) => {
-              console.log("Current Card Info Status: " +  cardInfo.StatusCode);
+              // console.log("Current Card Info Status: " +  cardInfo.StatusCode);
               this.tempCardInfo = cardInfo;
               statusCode = cardInfo.StatusCode;
               if (statusCode == "00") {
@@ -4621,7 +4621,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       //   }
       // }
 
-      console.log(JSON.stringify(appFunc.body));
+      // console.log(JSON.stringify(appFunc.body));
 
       appFunc.receiptFunction = "GetFinancialTrxPrintout"
 
@@ -4656,7 +4656,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
       appFunc.printing = true;
       signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
-        console.log(data);
+        // console.log(data);
         if(data){
 
           signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), appFunc.receiptFunction, signalrConnection.trxno, module, selectLang.selectedLang).then((data: any) => {

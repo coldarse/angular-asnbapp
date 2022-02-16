@@ -65,7 +65,7 @@ export class ErrorscreenComponent implements OnInit {
 
 
   Print(){
-    console.log("Init printing");
+    // console.log("Init printing");
     signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
       if(data){
         const body = {

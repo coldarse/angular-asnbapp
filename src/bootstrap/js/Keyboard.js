@@ -44,7 +44,7 @@ const Keyboard = {
         //document.body.childNodes[1]..appendChild(this.elements.main);
         document.body.appendChild(this.elements.main);
         document.body.appendChild(this.elements.keyboardspace);
-        console.log(document.body.firstChild.nextSibling);
+        // console.log(document.body.firstChild.nextSibling);
         // Automatically use keyboard for elements with .use-keyboard-input
         document.querySelectorAll(".use-keyboard-input").forEach(element => {
             element.addEventListener("focus", () => {
@@ -67,7 +67,7 @@ const Keyboard = {
             }
         }
         catch(ex){
-            console.log(ex.message);
+            // console.log(ex.message);
             this.elements.startpos = null;
             this.elements.endpos = null;
         }
@@ -221,7 +221,7 @@ const Keyboard = {
                             this.elements.startpos += 1;
                             this.elements.currElemLength = this.properties.value.length;
                         }
-                        console.log(this.properties.value);
+                        // console.log(this.properties.value);
                         this._limit(this.properties);
                         this._isSymbol(this.properties);
                         this._isNumeric(this.properties);

@@ -40,14 +40,14 @@ export class AppComponent {
     idle.onIdleEnd.subscribe(() => { 
       this.timeoutidle = false;
       this.idleState = 'No longer idle.'
-      console.log(this.idleState);
+      // console.log(this.idleState);
       this.reset();
     });
     
     idle.onTimeout.subscribe(() => {
       this.idleState = 'Timed out!';
       this.timedOut = true;
-      console.log(this.idleState);
+      // console.log(this.idleState);
       if (this.router.url === '/outofservice' ){//|| this.router.url === '/screensaver'){
         if (errorCodes.code = "0168"){
           this.checkinterval();
@@ -65,24 +65,24 @@ export class AppComponent {
       if(this.router.url === '/screensaver'){
         this.timeoutidle = false;
         this.idleState = 'You\'ve gone idle!'
-        console.log(this.idleState);
+        // console.log(this.idleState);
       }
       else if(this.router.url === '/outofservice'){
         this.timeoutidle = false;
         this.idleState = 'You\'ve gone idle!'
-        console.log(this.idleState);
+        // console.log(this.idleState);
       }
       else{
         this.timeoutidle = true;
         this.idleState = 'You\'ve gone idle!'
-        console.log(this.idleState);
+        // console.log(this.idleState);
       }
     });
     
     idle.onTimeoutWarning.subscribe((countdown) => {
       this.timer = countdown;
       this.idleState = 'You will time out in ' + countdown + ' seconds!'
-      console.log(this.idleState);
+      // console.log(this.idleState);
     });
 
     // sets the ping interval to 15 seconds
@@ -112,7 +112,7 @@ export class AppComponent {
   }
 
   No(){
-    console.log("clicked no");
+    // console.log("clicked no");
     appFunc.timedOut = true;
     this.router.navigate(['/screensaver']);
     this.reset();
