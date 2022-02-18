@@ -1494,7 +1494,7 @@ export class PortalregistrationComponent implements OnInit {
   }
 
   PMForm2_Financial(){
-    this._router.navigate(['/screensaver']);
+    this._router.navigate(['/financialtransactionmenu']);
   }
 
   isInBetween(startDateTime: Date, stopDateTime: Date, current: Date): Boolean {
