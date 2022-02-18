@@ -331,14 +331,14 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input "  [readonly]="true" [formControl]='AR_Form.controls["identificationcardno"]' id="AR2">
+                                <input type="text" class="input-normal use-keyboard-input"  [readonly]="true" [formControl]='AR_Form.controls["identificationcardno"]' id="AR2">
                             </div>
                             <div class="col-md-4">
                                 <!-- <h4>Tarikh lahir</h4> -->
                                 <h4>{{'FL_5' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="input-normal use-keyboard-input "  [readonly]="true" [formControl]='AR_Form.controls["dob"]' id="AR3">
+                                <input type="text" class="input-normal use-keyboard-input"  [readonly]="true" [formControl]='AR_Form.controls["dob"]' id="AR3">
                             </div>
                         </div>
                     </div>
@@ -463,7 +463,7 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input name="homeno" #homenumber type="text" class="input-normal use-keyboard-input "  id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
+                                <input name="homeno" #homenumber type="text" class="input-normal use-keyboard-input"  id="AR12" [formControl]='AR_Form.controls["homenumber"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="homephone_Warning">{{'HPNWarning1' | translate}}</div> 
                             </div>
                             <div class="col-md-4">
@@ -471,7 +471,7 @@
                                 <h4>{{'FL_16' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input [class.is-invalid]="telephone_Warning" name="phoneno" #telephone class="input-normal use-keyboard-input " [formControl]='AR_Form.controls["telephone"]'  formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
+                                <input [class.is-invalid]="telephone_Warning" name="phoneno" #telephone class="input-normal use-keyboard-input" [formControl]='AR_Form.controls["telephone"]'  formControlName="telephone" [disabled]="checkedXTelephone" id="AR_Telephone">
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning">{{'MNWarning' | translate}}</div>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="telephone_Warning1">{{'MPNWarning1' | translate}}</div> 
                                 <input type="checkbox" id="noPhone" name="noPhone" [formControl]='AR_Form.controls["notelephone"]' (click)="noTelephoneCheck()" style="margin-top: 0.8rem;" >
@@ -494,7 +494,7 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-md-4">
-                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email id="AREmail" type="text" ng-model="emailAddress" class="input-normal use-keyboard-input "  [disabled]="checkedXEmail" [formControl]='AR_Form.controls["email"]'>
+                                <input [class.is-invalid]="email_Warning || email_Warning1" name="emailadd" #email id="AREmail" type="text" ng-model="emailAddress" class="input-normal use-keyboard-input"  [disabled]="checkedXEmail" [formControl]='AR_Form.controls["email"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning">{{'EAWarning' | translate}}</div> 
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="email_Warning1">{{'EAWarning1' | translate}}</div> 
                                 <input type="checkbox" id="noEmail" name="noEmail" [formControl]='AR_Form.controls["noemail"]' (click)="noEmailCheck()" style="margin-top: 0.8rem;">
@@ -543,7 +543,7 @@
                                 <h4>{{'FL_23' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input [class.is-invalid]="bankNo_Warning" type="text" #bankaccount name="acctno" class="input-normal use-keyboard-input "  id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
+                                <input [class.is-invalid]="bankNo_Warning" type="text" #bankaccount name="acctno" class="input-normal use-keyboard-input"  id="AR13" [formControl]='AR_Form.controls["bankaccount"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning1">{{'BANWarning1' | translate}}</div> 
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="bankNo_Warning">{{'BANWarning' | translate}}.</div> 
                             </div>
@@ -647,7 +647,7 @@
                                 <h4>{{'FL_30' | translate }}</h4>
                             </div>
                             <div class="col-md-4">
-                                <input [class.is-invalid]="companyName_Warning" name="compname" #companyname type="text" class="input-normal use-keyboard-input "  id="AR14" [formControl]='AR_Form.controls["companyname"]'>
+                                <input [class.is-invalid]="companyName_Warning" name="compname" #companyname type="text" class="input-normal use-keyboard-input"  id="AR14" [formControl]='AR_Form.controls["companyname"]'>
                                 <div style="color: rgba(255,0,0); font-style: italic" *ngIf="companyName_Warning">{{'CNWarning' | translate}}</div> 
                             </div>
                         </div>
