@@ -122,12 +122,18 @@ export class TransactionmenuComponent implements OnInit {
     }
 
     if(
-      this.updatedDetailsEnabled == true ||
-      this.checkBalanceEnabled == true ||
-      this.financialTransactionEnabled == true ||
-      this.bijakRegistrationEnabled == true ||
+      //SAM Comment - if ALL 5 Modules in Transaction Menu are out of Operation Time Range will Under Maintenance
+      this.updatedDetailsEnabled == true &&
+      this.checkBalanceEnabled == true &&
+      this.financialTransactionEnabled == true &&
+      this.bijakRegistrationEnabled == true &&
       this.portalRegistrationEnabled == true
     ){
+      // console.log ("Transaction updatedDetailsEnabled" + this.updatedDetailsEnabled.toString());
+      // console.log ("Transaction checkBalanceEnabled" + this.checkBalanceEnabled.toString());
+      // console.log ("Transaction financialTransactionEnabled" + this.financialTransactionEnabled.toString());
+      // console.log ("Transaction bijakRegistrationEnabled" + this.bijakRegistrationEnabled.toString());
+      // console.log ("Transaction portalRegistrationEnabled" + this.portalRegistrationEnabled.toString());
       errorCodes.code = "0168";
       errorCodes.message = "Under Maintenance";
       this._router.navigate(['outofservice']);
