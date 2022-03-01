@@ -11,6 +11,7 @@ import { formatDate } from '@angular/common';
 import { errorCodes } from '../_models/errorCode';
 import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
+import { DatePipe } from '@angular/common';
 
 @Component({        
   selector: 'app-verifymykad',
@@ -24,6 +25,7 @@ export class VerifymykadComponent implements OnInit {
 
   ishardcodeic = signalrConnection.isHardcodedIC;
 
+  
   @ViewChild('icnumber') icnumber : ElementRef | undefined;
   @ViewChild('ictype') ictype : ElementRef | undefined;
 
@@ -472,11 +474,13 @@ export class VerifymykadComponent implements OnInit {
     try {
 
       let age = this.calculateAge(new Date(this.myKadData['DOB']));
+      var datePipe = new DatePipe("en-US");
 
       if (age > 17){
         currentMyKadDetails.Name = this.myKadData['Name'];
         currentMyKadDetails.ICNo = this.myKadData['ICNo'].toString().replace("*", "");
         currentMyKadDetails.OldICNo = this.myKadData['OldICNo'];
+
         currentMyKadDetails.DOB = this.myKadData['DOB'];
         currentMyKadDetails.POB =  this.myKadData['POB'];
         currentMyKadDetails.Gender = this.myKadData['Gender'];
@@ -500,8 +504,6 @@ export class VerifymykadComponent implements OnInit {
         currentMyKadDetails.OtherID = this.myKadData['OtherID'];
         currentMyKadDetails.CategoryType = this.myKadData['CategoryType'];
 
-        
-  
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + `Mapped ${currentMyKadDetails.Name}'s MyKad details to Web App Object Class`);
     
         this.getAccountInquiry();
@@ -523,14 +525,16 @@ export class VerifymykadComponent implements OnInit {
 
   bindMyKadDataHardcoded(): void {
     try {
-
       let harcodedic = "";
+      // var datePipe = new DatePipe("en-US");
+
       if(this.icnumber?.nativeElement.value.toString() == ""){
         signalrConnection.connection.invoke('GetMyKadNo').then((data: string) => {
           harcodedic = data;
           currentMyKadDetails.Name = "John Smith";
           currentMyKadDetails.ICNo = harcodedic.toString().replace("*", "");
           currentMyKadDetails.OldICNo = "";
+
           currentMyKadDetails.DOB = new Date("1957-08-31");
           currentMyKadDetails.POB =  "SELANGOR";
           currentMyKadDetails.Gender = "Male";
@@ -563,6 +567,14 @@ export class VerifymykadComponent implements OnInit {
         currentMyKadDetails.Name = "John Smith";
         currentMyKadDetails.ICNo = this.icnumber?.nativeElement.value.toString().replace("*", "");
         currentMyKadDetails.OldICNo = "";
+        
+        //MMddyy
+        let DOB = formatDate(currentMyKadDetails.ICNo.substring(2,4).padStart(2,"0") + " " 
+        + currentMyKadDetails.ICNo.substring(4,6).padStart(2,"0") + " " 
+        + currentMyKadDetails.ICNo.substring(0,2).padStart(2,"0"),'dd MMM yyyy', 'en');
+
+        //console.log("575 " + datePipe.transform(DOB,"yyyy-MM-dd"));
+        currentMyKadDetails.DOB = new Date(formatDate(DOB, "dd MMM yyyy", "en"));
         currentMyKadDetails.POB =  "SELANGOR";
         currentMyKadDetails.Gender = "Male";
         currentMyKadDetails.Citizenship = "WARGANEGARA";
