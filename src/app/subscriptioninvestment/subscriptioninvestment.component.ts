@@ -2084,7 +2084,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "BRANCHCODE":signalrConnection.branchCode,
                     //"BANKTXNREFERENCENUMBER": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
                     //NEW FORMAT 8 digit of TID + Last 5 digit RRN
-                    "BANKTXNREFERENCENUMBER": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().slice(-5),
+                    "BANKTXNREFERENCENUMBER": cardInfo.TID.toString() + cardInfo.RRN.toString().slice(-5),
                     "BANKCUSTPHONENUMBER":"",
                     "PAYMENTTYPE":"T",
                     "BANKACCOUNTNUMBER":"",
@@ -2123,7 +2123,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "BRANCHCODE":signalrConnection.branchCode,
                     //"BANKTXNREFERENCENUMBER": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
                     //NEW FORMAT 8 digit of TID + Last 5 digit RRN
-                    "BANKTXNREFERENCENUMBER": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().slice(-5),
+                    "BANKTXNREFERENCENUMBER": cardInfo.TID.toString() + cardInfo.RRN.toString().slice(-5),
                     "BANKCUSTPHONENUMBER":"",
                     "PAYMENTTYPE":"T",
                     "BANKACCOUNTNUMBER":"",
@@ -2168,7 +2168,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "BRANCHCODE":signalrConnection.branchCode,
                     //"BANKTXNREFERENCENUMBER": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
                     //NEW FORMAT 8 digit of TID + Last 5 digit RRN
-                    "BANKTXNREFERENCENUMBER": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().slice(-5),
+                    "BANKTXNREFERENCENUMBER": cardInfo.TID.toString() + cardInfo.RRN.toString().slice(-5),
                     "BANKCUSTPHONENUMBER":"",
                     "PAYMENTTYPE":"T",
                     "BANKACCOUNTNUMBER":"",
@@ -2224,7 +2224,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "referenceNo": "",
                     //"bankTxnReferenceNumber": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
                     //NEW FORMAT 8 digit of TID + Last 5 digit RRN
-                    "bankTxnReferenceNumber": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().slice(-5),
+                    "bankTxnReferenceNumber": cardInfo.TID.toString() + cardInfo.RRN.toString().slice(-5),
                     "bankCustPhoneNumber": "",
                     "paymentType": "T",
                     "bankAccountNumber": "",
@@ -2627,7 +2627,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                             "referenceNo": "",
                             //"bankTxnReferenceNumber": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
                             //NEW FORMAT 8 digit of TID + Last 5 digit RRN
-                            "bankTxnReferenceNumber": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().slice(-5),
+                            "bankTxnReferenceNumber": cardInfo.TID.toString() + cardInfo.RRN.toString().slice(-5),
                             "bankCustPhoneNumber": "",
                             "paymentType": "T",
                             "bankAccountNumber": "",
@@ -3696,7 +3696,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "BRANCHCODE":signalrConnection.branchCode,
                     //"BANKTXNREFERENCENUMBER": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
                     //NEW FORMAT 8 digit of TID + Last 5 digit RRN
-                    "BANKTXNREFERENCENUMBER": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().slice(-5),
+                    "BANKTXNREFERENCENUMBER": cardInfo.TID.toString() + cardInfo.RRN.toString().slice(-5),
                     "BANKCUSTPHONENUMBER":"",
                     "PAYMENTTYPE":"T",
                     "BANKACCOUNTNUMBER":"",
@@ -3735,7 +3735,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "BRANCHCODE":signalrConnection.branchCode,
                     //"BANKTXNREFERENCENUMBER": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
                     //NEW FORMAT 8 digit of TID + Last 5 digit RRN
-                    "BANKTXNREFERENCENUMBER": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().slice(-5),
+                    "BANKTXNREFERENCENUMBER": cardInfo.TID.toString() + cardInfo.RRN.toString().slice(-5),
                     "BANKCUSTPHONENUMBER":"",
                     "PAYMENTTYPE":"T",
                     "BANKACCOUNTNUMBER":"",
@@ -3780,7 +3780,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "BRANCHCODE":signalrConnection.branchCode,
                     //"BANKTXNREFERENCENUMBER": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
                     //NEW FORMAT 8 digit of TID + Last 5 digit RRN
-                    "BANKTXNREFERENCENUMBER": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().slice(-5),
+                    "BANKTXNREFERENCENUMBER": cardInfo.TID.toString() + cardInfo.RRN.toString().slice(-5),
                     "BANKCUSTPHONENUMBER":"",
                     "PAYMENTTYPE":"T",
                     "BANKACCOUNTNUMBER":"",
@@ -3836,7 +3836,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "referenceNo": "",
                     //"bankTxnReferenceNumber": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
                     //NEW FORMAT 8 digit of TID + Last 5 digit RRN
-                    "bankTxnReferenceNumber": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().slice(-5),
+                    "bankTxnReferenceNumber": cardInfo.TID.toString() + cardInfo.RRN.toString().slice(-5),
                     "bankCustPhoneNumber": "",
                     "paymentType": "T",
                     "bankAccountNumber": "",
@@ -4240,7 +4240,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           "referenceNo": "",
                           //"bankTxnReferenceNumber": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().substring(cardInfo.RRN.length - 10),
                           //NEW FORMAT 8 digit of TID + Last 5 digit RRN
-                          "bankTxnReferenceNumber": cardInfo.TID.toString().substring(cardInfo.TID.length - 6) + cardInfo.RRN.toString().slice(-5),
+                          "bankTxnReferenceNumber": cardInfo.TID.toString() + cardInfo.RRN.toString().slice(-5),
                           "bankCustPhoneNumber": "",
                           "paymentType": "T",
                           "bankAccountNumber": "",
