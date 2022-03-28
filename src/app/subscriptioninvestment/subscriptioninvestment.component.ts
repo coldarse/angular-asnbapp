@@ -2020,51 +2020,43 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
 
       let PaymentAmt = parseFloat(this.amountKeyed.toString()).toFixed(2);
-
+      let inProgress = false;
       signalrConnection.connection.invoke('ECRConnection', PaymentAmt).then((data: string) => {
-        // let theLoop1: (loopC1: string) => void = (loopC1: string) => {
-        //   setTimeout(() => {
-        //     signalrConnection.connection.invoke('isTerminalLoading').then((status: any) => {
-        //       console.log(status);
-        //       if(status){
-        //         this.paymentStep1 = false;
-        //         this.paymentStep3 = true;
         let statusCode = "";
         let theLoop: (loopC2: string) => void = (loopC2: string) => {
           setTimeout(() => {
             signalrConnection.connection.invoke('getCardInfo').then((cardInfo: any) => {
-              // console.log("Current Card Info Status: " +  cardInfo.StatusCode);
               this.tempCardInfo = cardInfo;
               statusCode = cardInfo.StatusCode;
               if (statusCode == "00") {
-                const CCInfo =
-                {
-                  "trxNo": signalrConnection.trxno,
-                  "cardNo": cardInfo.CardNo,
-                  "expiryDate": cardInfo.ExpiryDate,
-                  "statusCode": cardInfo.StatusCode,
-                  "approvalCode": cardInfo.ApprovalCode,
-                  "rrn": cardInfo.RRN,
-                  "transactionTrace": cardInfo.TransactionTrace,
-                  "batchNumber": cardInfo.BatchNumber,
-                  "hostNo": cardInfo.HostNo,
-                  "tid": cardInfo.TID,
-                  "mid": cardInfo.MID,
-                  "aid": cardInfo.AID,
-                  "tc": cardInfo.TC,
-                  "cardHolderName": cardInfo.CardholderName,
-                  "cardType": cardInfo.CardType,
-                  "applicationLabel": cardInfo.ApplicationLabel,
-                  "createDate": formatDate(new Date(), 'MM/dd/yyyy HH:mm:ss', 'en'),
-                  "itemno": signalrConnection.itemNo
-                }
-
-                this.CCinformation = CCInfo;
-
-                this.serviceService.createCustCreditCardInfo(CCInfo).subscribe(() => {});
-
-
                 signalrConnection.connection.invoke('deleteCreditCardInfo', true).then((data: string) => {
+                  inProgress = true;
+                  const CCInfo =
+                  {
+                    "trxNo": signalrConnection.trxno,
+                    "cardNo": this.tempCardInfo.CardNo,
+                    "expiryDate": this.tempCardInfo.ExpiryDate,
+                    "statusCode": this.tempCardInfo.StatusCode,
+                    "approvalCode": this.tempCardInfo.ApprovalCode,
+                    "rrn": this.tempCardInfo.RRN,
+                    "transactionTrace": this.tempCardInfo.TransactionTrace,
+                    "batchNumber": this.tempCardInfo.BatchNumber,
+                    "hostNo": this.tempCardInfo.HostNo,
+                    "tid": this.tempCardInfo.TID,
+                    "mid": this.tempCardInfo.MID,
+                    "aid": this.tempCardInfo.AID,
+                    "tc": this.tempCardInfo.TC,
+                    "cardHolderName": this.tempCardInfo.CardholderName,
+                    "cardType": this.tempCardInfo.CardType,
+                    "applicationLabel": this.tempCardInfo.ApplicationLabel,
+                    "createDate": formatDate(new Date(), 'MM/dd/yyyy HH:mm:ss', 'en'),
+                    "itemno": signalrConnection.itemNo
+                  }
+
+                  this.CCinformation = CCInfo;
+
+                  this.serviceService.createCustCreditCardInfo(CCInfo).subscribe(() => {});
+
                   const body =
                   {
                     "CHANNELTYPE": signalrConnection.channelType,
@@ -2262,10 +2254,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "sst": ""
                   }
 
-                  // this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
                   this.serviceService.createFundTransaction(FTBody).toPromise().then
                   ((result: any) => {
-                      // console.log("2259 Create Fund Transaction : " + result);
 
                       this.serviceService.postSubscriptionWithoutProvision(newbody)
                       .subscribe((result: any) => 
@@ -2769,23 +2759,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     this.paymentStep1 = false;
                     this.paymentStep3 = true;
                   }
-                  theLoop(statusCode);
+                  if(!inProgress) theLoop(statusCode);
                 });
               }
             });
           }, 3000);
         };
         theLoop(statusCode);
-        //       }
-        //       else{
-        //         theLoop1("");
-        //       }
-        //     });
-        //   }, 3000);
-        // };
-        // theLoop1("");
-
-        
       });
     }
 
@@ -3630,53 +3610,45 @@ export class SubscriptioninvestmentComponent implements OnInit {
       kActivit1.startTime = new Date();
 
       let PaymentAmt = parseFloat(this.thirdamountkeyed.toString()).toFixed(2);
-
+      let inProgress = false;
       signalrConnection.connection.invoke('ECRConnection', PaymentAmt).then((data: string) => {
-        // let theLoop1: (loopC1: string) => void = (loopC1: string) => {
-        //   setTimeout(() => {
-        //     signalrConnection.connection.invoke('isTerminalLoading').then((status: any) => {
-        //       console.log(status);
-        //       if(status){
-        //         this.paymentStep1 = false;
-        //         this.paymentStep3 = true;
         let statusCode = "";
         let theLoop: (loopC2: string) => void = (loopC2: string) => {
           setTimeout(() => {
             signalrConnection.connection.invoke('getCardInfo').then((cardInfo: any) => {
-              // console.log("Current Card Info Status: " +  cardInfo.StatusCode);
               this.tempCardInfo = cardInfo;
               statusCode = cardInfo.StatusCode;
+              //clear
               if (statusCode == "00") {
-                const CCInfo =
-                {
-                  "trxNo": signalrConnection.trxno,
-                  "cardNo": cardInfo.CardNo,
-                  "expiryDate": cardInfo.ExpiryDate,
-                  "statusCode": cardInfo.StatusCode,
-                  "approvalCode": cardInfo.ApprovalCode,
-                  "rrn": cardInfo.RRN,
-                  "transactionTrace": cardInfo.TransactionTrace,
-                  "batchNumber": cardInfo.BatchNumber,
-                  "hostNo": cardInfo.HostNo,
-                  "tid": cardInfo.TID,
-                  "mid": cardInfo.MID,
-                  "aid": cardInfo.AID,
-                  "tc": cardInfo.TC,
-                  "cardHolderName": cardInfo.CardholderName,
-                  "cardType": cardInfo.CardType,
-                  "applicationLabel": cardInfo.ApplicationLabel,
-                  "createDate": formatDate(new Date(), 'MM/dd/yyyy HH:mm:ss', 'en'),
-                  "itemno": signalrConnection.itemNo
-
-                }
-
-                this.CCinformation = CCInfo;
-
-                this.serviceService.createCustCreditCardInfo(CCInfo).subscribe(() => {});
-
-
-
+                inProgress = true;
                 signalrConnection.connection.invoke('deleteCreditCardInfo', true).then((data: string) => {
+
+                  const CCInfo =
+                  {
+                    "trxNo": signalrConnection.trxno,
+                    "cardNo": this.tempCardInfo.CardNo,
+                    "expiryDate": this.tempCardInfo.ExpiryDate,
+                    "statusCode": this.tempCardInfo.StatusCode,
+                    "approvalCode": this.tempCardInfo.ApprovalCode,
+                    "rrn": this.tempCardInfo.RRN,
+                    "transactionTrace": this.tempCardInfo.TransactionTrace,
+                    "batchNumber": this.tempCardInfo.BatchNumber,
+                    "hostNo": this.tempCardInfo.HostNo,
+                    "tid": this.tempCardInfo.TID,
+                    "mid": this.tempCardInfo.MID,
+                    "aid": this.tempCardInfo.AID,
+                    "tc": this.tempCardInfo.TC,
+                    "cardHolderName": this.tempCardInfo.CardholderName,
+                    "cardType": this.tempCardInfo.CardType,
+                    "applicationLabel": this.tempCardInfo.ApplicationLabel,
+                    "createDate": formatDate(new Date(), 'MM/dd/yyyy HH:mm:ss', 'en'),
+                    "itemno": signalrConnection.itemNo
+
+                  }
+
+                  this.CCinformation = CCInfo;
+
+                  this.serviceService.createCustCreditCardInfo(CCInfo).subscribe(() => {});
                   const body =
                   {
                     "CHANNELTYPE": signalrConnection.channelType,
@@ -4378,7 +4350,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     this.paymentStep1 = false;
                     this.paymentStep3 = true;
                   }
-                  theLoop(statusCode);
+                  if(!inProgress) theLoop(statusCode);
                 });
                 
                 
@@ -4387,16 +4359,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
           }, 3000);
         };
         theLoop(statusCode);
-        //       }
-        //       else{
-        //         theLoop1("");
-        //       }
-        //     });
-        //   }, 3000);
-        // };
-        // theLoop1("");
-
-        
       });
     }
 
