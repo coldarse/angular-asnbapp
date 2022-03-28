@@ -793,8 +793,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.SIStep1 = true;
         }
       });
-
-
   }
 
   SIStep2Back(){
@@ -1628,7 +1626,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             // console.log("1628 Create Fund Transaction : " + result);
 
             this.serviceService.postSubscriptionWithoutProvision(newbody)
-              .subscribe((result: any) => 
+              .toPromise().then((result: any) => 
         {
           // console.log(result.result.transactionstatus);
           // console.log(result.result.transactionnumber);
@@ -1771,7 +1769,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
             // console.log("1769 " + JSON.stringify(FTBody));
 
-            this.serviceService.updateFundTransaction(FTBody).subscribe(
+            this.serviceService.updateFundTransaction(FTBody).toPromise().then(
               (result: any) => {
                 // console.log("1944 " + JSON.stringify(result.result));
               });
@@ -1945,7 +1943,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
             // console.log("1940 " + JSON.stringify(FTBody));
 
-            this.serviceService.updateFundTransaction(FTBody).subscribe(
+            this.serviceService.updateFundTransaction(FTBody).toPromise().then(
               (result: any) => {
                 // console.log("1944 " + JSON.stringify(result.result));
               });
@@ -2267,8 +2265,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   ((result: any) => {
                       // console.log("2259 Create Fund Transaction : " + result);
 
-                      this.serviceService.postSubscriptionWithoutProvision(newbody)
-                      .subscribe((result: any) => 
+                      this.serviceService.postSubscriptionWithoutProvision(newbody).toPromise().then
+                      ((result: any) => 
                       {
                         if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
     
@@ -2409,7 +2407,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     
                           // console.log("2401 " + JSON.stringify(FTBody));
     
-                          this.serviceService.updateFundTransaction(FTBody).subscribe(
+                          this.serviceService.updateFundTransaction(FTBody).toPromise().then(
                             (result: any) => {
                               // console.log("2405 " + JSON.stringify(result.result));
                             });
@@ -2587,7 +2585,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     
                           // console.log("2563 " + JSON.stringify(FTBody));
     
-                          this.serviceService.updateFundTransaction(FTBody).subscribe(
+                          this.serviceService.updateFundTransaction(FTBody).toPromise().then(
                             (result: any) => {
                               // console.log("2567 " + JSON.stringify(result.result));
                             });
@@ -2670,7 +2668,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           });
     
                           // console.log("2642 " + JSON.stringify(FTBody));
-                          this.serviceService.updateFundTransaction(FTBody).subscribe(
+                          this.serviceService.updateFundTransaction(FTBody).toPromise().then(
                             (result: any) => {
                               // console.log("3981 " + JSON.stringify(result.result));
                             });
@@ -3312,7 +3310,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       // console.log(JSON.stringify(newbody));
 
       this.serviceService.postSubscriptionWithoutProvision(newbody)
-      .subscribe((result: any) => {
+      .toPromise().then((result: any) => {
         // console.log(result.result.transactionstatus);
         // console.log(result.result.transactionnumber);
         if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
@@ -3558,7 +3556,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
           // console.log("3525 " + JSON.stringify(FTBody));
 
-          this.serviceService.updateFundTransaction(FTBody).subscribe(
+          this.serviceService.updateFundTransaction(FTBody).toPromise().then(
             (result: any) => {
               // console.log("3529 " + JSON.stringify(result.result));
             });
@@ -3880,7 +3878,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                       // console.log("3860 Create Fund Transaction : " + result);
 
                       this.serviceService.postSubscriptionWithoutProvision(newbody)
-                      .subscribe((result: any) => 
+                      .toPromise().then((result: any) => 
                       {
                       // console.log(result.result.transactionstatus);
                       // console.log(result.result.transactionnumber);
@@ -4025,7 +4023,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         
                       
     
-                        this.serviceService.updateFundTransaction(FTBody).subscribe(
+                        this.serviceService.updateFundTransaction(FTBody).toPromise().then(
                           (result: any) => {
                             // console.log("3981 " + JSON.stringify(result.result));
                           });
@@ -4203,7 +4201,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     
                         // console.log("4152 " + JSON.stringify(FTBody));
     
-                        this.serviceService.updateFundTransaction(FTBody).subscribe(
+                        this.serviceService.updateFundTransaction(FTBody).toPromise().then(
                           (result: any) => {
                             // console.log("4177 " + JSON.stringify(result.result));
                           });
@@ -4280,7 +4278,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     
                         // console.log("4224 " + JSON.stringify(FTBody));
     
-                        this.serviceService.updateFundTransaction(FTBody).subscribe(
+                        this.serviceService.updateFundTransaction(FTBody).toPromise().then(
                           (result: any) => {
                             // console.log("4252 " + JSON.stringify(result.result));
                           });

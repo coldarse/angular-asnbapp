@@ -208,7 +208,7 @@ export class ServiceService {
       body,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -338,7 +338,7 @@ export class ServiceService {
       body,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -351,7 +351,7 @@ export class ServiceService {
       body,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -364,7 +364,7 @@ export class ServiceService {
       body,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
