@@ -537,8 +537,13 @@ export class CheckbalanceComponent implements OnInit {
       
         let thisYear = new Date().getFullYear();
         let divYear: number = +thisYear;
-        divYear = divYear - 1;
+        // divYear = divYear - 1;
         
+        let March_Financial_Fund = ['ASM', 'ASB2', 'AASSGD', 'AASSGK', 'AASSGS'];
+        var index = March_Financial_Fund.indexOf(selectedFundDetails.FUNDID.toString())
+        
+        divYear = index == -1 ? (divYear - 1) : divYear; //index == -1, Not Found will get the financial year = current year - 1, else financial year = current year
+    
         let body : any;
         if (this.isMain){
           body = {
@@ -672,9 +677,12 @@ export class CheckbalanceComponent implements OnInit {
 
     let thisYear = new Date().getFullYear();
     let divYear: number = +thisYear;
-    divYear = divYear - 1;
+    // divYear = divYear - 1;
 
+    let March_Financial_Fund = ['ASM', 'ASB2', 'AASSGD', 'AASSGK', 'AASSGS'];
+    var index = March_Financial_Fund.indexOf(selectedFundDetails.FUNDID.toString())
     
+    divYear = index == -1 ? (divYear - 1) : divYear; //index == -1, Not Found will get the financial year = current year - 1, else financial year = current year
 
     let body: any;
     if (this.isMain){

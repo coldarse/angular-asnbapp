@@ -111,7 +111,7 @@ export class ServiceService {
       body,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -124,7 +124,7 @@ export class ServiceService {
       body,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -135,7 +135,7 @@ export class ServiceService {
       this.url + `services/app/Sequence/generateTrxNo?KioskCode=${kioskcode}&TrxType=${trxtype}`,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -146,7 +146,7 @@ export class ServiceService {
       this.url + `services/app/KioskAgent/GetScreenSaver1?KioskCode=${kioskcode}`,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -157,7 +157,7 @@ export class ServiceService {
       this.url + `services/app/KioskModuleOperation/GetKioskModuleOperationSummaries?KioskCode=${kioskcode}`,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -183,7 +183,7 @@ export class ServiceService {
       body,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -285,7 +285,7 @@ export class ServiceService {
       body,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -297,7 +297,7 @@ export class ServiceService {
       body,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -310,7 +310,7 @@ export class ServiceService {
       body,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -325,7 +325,7 @@ export class ServiceService {
       body,
       accessToken.httpOptions
     ).pipe(
-      retry(1),
+      retry(0),
       catchError(this.handleError),
     )
   }
@@ -511,9 +511,6 @@ export class ServiceService {
         return _observableOf(status);
     }
   }
-
-  
-  
 }
 
 function throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {

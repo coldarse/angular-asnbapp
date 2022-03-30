@@ -1005,10 +1005,10 @@
         <h3 class="h2-ic" id="BR2_Title1">{{'EnterCardAndPin2' | translate }}</h3>
         &nbsp;
         <div class="text-center">
-            <button type="button" class="btn btn-cancel-white" style="width: 225px;" (click)="SIStep5Cancel()">
+            <button type="button" [disabled]="isButtonDisabled" class="btn btn-cancel-white" style="width: 225px;" (click)="SIStep5Cancel()">
                 {{'BTN_Back' | translate }}
             </button>
-            <button type="button" class="btn btn-cancel" style="width: 225px;" (click)="SIStep5End()">
+            <button type="button" [disabled]="isButtonDisabled" class="btn btn-cancel" style="width: 225px;" (click)="SIStep5End()">
                 {{'BTN_End' | translate }}
             </button>
         </div>

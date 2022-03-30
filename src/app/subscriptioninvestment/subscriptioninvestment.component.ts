@@ -212,7 +212,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
   isRequery = false;
 
   isInvest = false;
-
+  isButtonDisabled = true;
 
   constructor(
     private _router: Router,
@@ -361,7 +361,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.fundnamelist = [];
 
     this.isInvest = appFunc.isInvesment;
-
+    this.isButtonDisabled = true;
 
     currentHolder.funddetail.forEach((elem: any) => {
       appFunc.ASNBFundID.forEach((element: any) => {
@@ -2007,6 +2007,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     }
     else{
 
+      this.isButtonDisabled = true;
 
       let kActivit1 = new kActivity();
       kActivit1.trxno = signalrConnection.trxno;
@@ -2020,6 +2021,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
       let PaymentAmt = parseFloat(this.amountKeyed.toString()).toFixed(2);
       let inProgress = false;
       signalrConnection.connection.invoke('ECRConnection', PaymentAmt).then((data: string) => {
+        setTimeout(() => {
+          this.isButtonDisabled = false;
+        } , 3500);
+
         let statusCode = "";
         let theLoop: (loopC2: string) => void = (loopC2: string) => {
           setTimeout(() => {
@@ -3599,6 +3604,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
     }
     else{
 
+      this.isButtonDisabled = true;
+      
       let kActivit1 = new kActivity();
       kActivit1.trxno = signalrConnection.trxno;
       kActivit1.kioskCode = signalrConnection.kioskCode;
@@ -3610,6 +3617,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
       let PaymentAmt = parseFloat(this.thirdamountkeyed.toString()).toFixed(2);
       let inProgress = false;
       signalrConnection.connection.invoke('ECRConnection', PaymentAmt).then((data: string) => {
+        setTimeout(() => {
+          this.isButtonDisabled = false;
+        } , 3500);
+
         let statusCode = "";
         let theLoop: (loopC2: string) => void = (loopC2: string) => {
           setTimeout(() => {
