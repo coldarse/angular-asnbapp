@@ -2777,59 +2777,64 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   checkTerminalErrorCodes(statusCode: string){
 
-    if(statusCode == "01" ||
-       statusCode == "02" ||
-       statusCode == "03" ||
-       statusCode == "05" ||
-       statusCode == "12" ||
-       statusCode == "13" ||
-       statusCode == "14" ||
-       statusCode == "19" ||
-       statusCode == "25" ||
-       statusCode == "30" ||
-       statusCode == "31" ||
-       statusCode == "41" ||
-       statusCode == "51" ||
-       statusCode == "54" ||
-       statusCode == "55" ||
-       statusCode == "58" ||
-       statusCode == "75" ||
-       statusCode == "76" ||
-       statusCode == "77" ||
-       statusCode == "78" ||
-       statusCode == "80" ||
-       statusCode == "89" ||
-       statusCode == "91" ||
-       statusCode == "94" ||
-       statusCode == "95" ||
-       statusCode == "96" ||
-       statusCode == "Y1" ||
-       statusCode == "Y3" ||
-       statusCode == "Z1" ||
-       statusCode == "Z3" ||
-       statusCode == "SE" ||
-       statusCode == "PE" ||
-       statusCode == "IC" ||
-       statusCode == "EC" ||
-       statusCode == "ZE" ||
-       statusCode == "BU" ||
-       statusCode == "CE" ||
-       statusCode == "RE" ||
-       statusCode == "HE" ||
-       statusCode == "LE" ||
-       statusCode == "VB" ||
-       statusCode == "FE" ||
-       statusCode == "WC" ||
-       statusCode == "TA" ||
-       statusCode == "AE" ||
-       statusCode == "KE" ||
-       statusCode == "VT"
-    ){
-      return true;
-    }
-    else{
+    // if(statusCode == "01" ||
+    //    statusCode == "02" ||
+    //    statusCode == "03" ||
+    //    statusCode == "05" ||
+    //    statusCode == "12" ||
+    //    statusCode == "13" ||
+    //    statusCode == "14" ||
+    //    statusCode == "19" ||
+    //    statusCode == "25" ||
+    //    statusCode == "30" ||
+    //    statusCode == "31" ||
+    //    statusCode == "41" ||
+    //    statusCode == "51" ||
+    //    statusCode == "54" ||
+    //    statusCode == "55" ||
+    //    statusCode == "58" ||
+    //    statusCode == "75" ||
+    //    statusCode == "76" ||
+    //    statusCode == "77" ||
+    //    statusCode == "78" ||
+    //    statusCode == "80" ||
+    //    statusCode == "89" ||
+    //    statusCode == "91" ||
+    //    statusCode == "94" ||
+    //    statusCode == "95" ||
+    //    statusCode == "96" ||
+    //    statusCode == "Y1" ||
+    //    statusCode == "Y3" ||
+    //    statusCode == "Z1" ||
+    //    statusCode == "Z3" ||
+    //    statusCode == "SE" ||
+    //    statusCode == "PE" ||
+    //    statusCode == "IC" ||
+    //    statusCode == "EC" ||
+    //    statusCode == "ZE" ||
+    //    statusCode == "BU" ||
+    //    statusCode == "CE" ||
+    //    statusCode == "RE" ||
+    //    statusCode == "HE" ||
+    //    statusCode == "LE" ||
+    //    statusCode == "VB" ||
+    //    statusCode == "FE" ||
+    //    statusCode == "WC" ||
+    //    statusCode == "TA" ||
+    //    statusCode == "AE" ||
+    //    statusCode == "KE" ||
+    //    statusCode == "VT"
+    // ){
+    //   return true;
+    // }
+    // else{
+    //   return false;
+    // }
+    if (statusCode == "00" || statusCode == "" || statusCode == null)
+    {
       return false;
     }
+    else { return true;}
   }
 
   SIStep5Cancel(){
@@ -3627,7 +3632,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
             signalrConnection.connection.invoke('getCardInfo').then((cardInfo: any) => {
               this.tempCardInfo = cardInfo;
               statusCode = cardInfo.StatusCode;
-              //clear
+
               if (statusCode == "00") {
                 inProgress = true;
                 signalrConnection.connection.invoke('deleteCreditCardInfo', true).then((data: string) => {
@@ -4312,6 +4317,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 });
               }
               else if(this.checkTerminalErrorCodes(statusCode)){
+				        inProgress = true;				  
                 this.isClicked = false;
                 signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
 
@@ -4352,6 +4358,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 kActivit1.status = false;
                 appFunc.kioskActivity.push(kActivit1);
                 this._router.navigate(['errorscreen']);
+				        statusCode = ""; //Clear the status Code to prevent still hold the value of 00																			  
               }
               else{
                 signalrConnection.connection.invoke('isTerminalLoading').then((status: any) => {

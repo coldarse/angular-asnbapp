@@ -14,6 +14,7 @@ import { kActivity } from '../_models/kActivity';
 import { appFunc } from '../_models/appFunctions';
 import { errorCodes } from '../_models/errorCode';
 import { accessToken } from '../_models/apiToken';
+import { PdfToggleSecondaryToolbarComponent } from 'ngx-extended-pdf-viewer';
 
 @Component({
   selector: 'app-checkbalance',

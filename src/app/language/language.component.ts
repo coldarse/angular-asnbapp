@@ -133,6 +133,14 @@ export class LanguageComponent implements OnInit {
           appFunc.screenSaver = res.result[0].agentDownloadPath;
           appFunc.screenSaverList = res.result[0].fileList;
         });
+        
+        //Clear SignalR
+        signalrConnection.connection.invoke('CancelECR').then(() => {
+        });
+
+        //Delete local temp credit card info if click to home button
+        signalrConnection.connection.invoke('deleteCreditCardInfo').then((data: string) => {
+        });
 
         if(appFunc.isEmptySSList){
           appFunc.isEmptySSList = false;
