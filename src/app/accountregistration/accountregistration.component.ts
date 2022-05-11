@@ -258,9 +258,13 @@ export class AccountregistrationComponent implements OnInit {
         this.city = currentMyKadDetails.City;
       }
     }
+
     this.state = currentMyKadDetails.State.toString().replace(" ", "");
+
     for(var y of this.form_states){
-      if (y.text.toLowerCase().replace(" ", "").includes(this.state.toLowerCase())){
+
+      if(y.text.toLowerCase() == this.state.toLowerCase())
+      {
         this.state = y.value;
         break;
       }

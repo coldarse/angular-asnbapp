@@ -547,7 +547,7 @@ export class VerifymykadComponent implements OnInit {
           currentMyKadDetails.Address3 = "Sri Hartamas";
           currentMyKadDetails.PostCode = "50480";
           currentMyKadDetails.City = "Kuala Lumpur";
-          currentMyKadDetails.State = "W. PERSEKUTUAN(KL)";
+          currentMyKadDetails.State = "PULAU PINANG";
           currentMyKadDetails.Country = "Malaysia";
           currentMyKadDetails.Address = "";
           currentMyKadDetails.RJ = "";
@@ -586,7 +586,7 @@ export class VerifymykadComponent implements OnInit {
         currentMyKadDetails.Address3 = "Sri Hartamas";
         currentMyKadDetails.PostCode = "50480";
         currentMyKadDetails.City = "Kuala Lumpur";
-        currentMyKadDetails.State = "W. PERSEKUTUAN(KL)";
+        currentMyKadDetails.State = "PULAU PINANG";
         currentMyKadDetails.Country = "Malaysia";
         currentMyKadDetails.Address = "";
         currentMyKadDetails.RJ = "";
@@ -820,249 +820,248 @@ export class VerifymykadComponent implements OnInit {
           if (currentHolder.rejectcode.toString() == "019"){
             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No account found.");
 
-            if (currentMyKadDetails.OldICNo != ""){
-              signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Retry with Old IC");
+            // if (currentMyKadDetails.OldICNo != ""){
+            //   signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Retry with Old IC");
 
-              const body = { 
+            //   const body = { 
 
-                "CHANNELTYPE": signalrConnection.channelType,
-                "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-                "DEVICEOWNER": signalrConnection.deviceOwner,
-                "UNITHOLDERID": "",
-                "FIRSTNAME": "",
-                "IDENTIFICATIONTYPE": "OL",
-                "IDENTIFICATIONNUMBER": currentMyKadDetails.OldICNo,
-                "FUNDID": "",
-                "INQUIRYCODE": "9",
-                "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-                "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
-                "BANKTXNREFERENCENUMBER": signalrConnection.trxno ,
-                "BANKCUSTPHONENUMBER": "",
-                "FILTRATIONFLAG": "1",
-                "GUARDIANID": "",
-                "GUARDIANICTYPE": "",
-                "GUARDIANICNUMBER": "",
-                "LANGUAGE": selectLang.selectedLang
-              };
-              this.serviceService.getAccountInquiry(body)
-              .subscribe((result: any) => {
-                currentHolder.channeltype = result.channeltype;
-                currentHolder.requestoridentification = result.requestoridentification;
-                currentHolder.deviceowner = result.deviceowner;
-                currentHolder.unitholderid = result.unitholderid;
-                currentHolder.firstname = result.firstname;
-                currentHolder.identificationtype = result.identificationtype;
-                currentHolder.identificationnumber = result.identificationnumber;
-                currentHolder.fundid = result.fundid;
-                currentHolder.inquirycode = result.inquirycode;
-                currentHolder.transactiondate = result.transactiondate;
-                currentHolder.transactiontime = result.transactiontime;
-                currentHolder.banktxnreferencenumber = result.banktxnreferencenumber;
-                currentHolder.bankcustphonenumber = result.bankcustphonenumber;
-                currentHolder.filtrationflag = result.filtrationflag;      		
-                currentHolder.cifstopaccountstatus = result.cifstopaccountstatus
-                currentHolder.typeclosed = result.typeclosed;
-                currentHolder.participateinasnbmkt = result.participateinasnbmkt;
-                currentHolder.unitbalance = result.unitbalance;
-                currentHolder.funddetail = result.funddetail;
-                currentHolder.cifnumber = result.cifnumber;
-                currentHolder.race = result.race;
-                currentHolder.religion = result.religion;
-                currentHolder.uhcategory = result.uhcategory;
-                currentHolder.title = result.title;
-                currentHolder.accountopeningdate = result.accountopeningdate;
-                currentHolder.investortype = result.investortype;
-                currentHolder.maritalstatus = result.maritalstatus;
-                currentHolder.addresslinE1 = result.addresslinE1;
-                currentHolder.addresslinE2 = result.addresslinE2;
-                currentHolder.addresslinE3 = result.addresslinE3;
-                currentHolder.addresslinE4 = result.addresslinE4;
-                currentHolder.country = result.country;
-                currentHolder.email = result.email;
-                currentHolder.zipcode = result.zipcode;
-                currentHolder.contactperson = result.contactperson;
-                currentHolder.telephonE1 = result.telephonE1;
-                currentHolder.telephonE2 = result.telephonE2;
-                currentHolder.cellphonenumber = result.cellphonenumber;
-                currentHolder.fax = result.fax;
-                currentHolder.dateofbirth = result.dateofbirth;
-                currentHolder.bankcode = result.bankcode;
-                currentHolder.bankbranchcode = result.bankbranchcode;
-                currentHolder.accounttype = result.accounttype;
-                currentHolder.accountnumber = result.accountnumber;
-                currentHolder.accountcurrency = result.accountcurrency;
-                currentHolder.fundcode = result.fundcode;
-                currentHolder.transactiontype = result.transactiontype;
-                currentHolder.directdebit = result.directdebit;
-                currentHolder.mothername = result.mothername;
-                currentHolder.portalenabled = result.portalenabled;				
-                currentHolder.grandtotalunitbalance = result.grandtotalunitbalance;
-                currentHolder.grandtotalepfunits = result.grandtotalepfunits;
-                currentHolder.grandtotalloanunits = result.grandtotalloanunits;
-                currentHolder.grandtotalcertunits = result.grandtotalcertunits;
-                currentHolder.grandtotalblockedunits = result.grandtotalblockedunits;
-                currentHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
-                currentHolder.grandtotalunits = result.grandtotalunits;
-                currentHolder.grandtotaluhholdings = result.grandtotaluhholdings;
-                currentHolder.totalminoraccount = result.totalminoraccount;
-                currentHolder.minordetail = result.minordetail;
-                currentHolder.guardianid = result.guardianid;
-                currentHolder.guardianictype = result.guardianictype;
-                currentHolder.guardianicnumber = result.guardianicnumber;
-                currentHolder.epfnumber = result.epfnumber;
-                currentHolder.epfapplicable = result.epfapplicable;
-                currentHolder.epfaccounttype = result.epfaccounttype;
-                currentHolder.epfaccounttypeeffdate = result.epfaccounttypeeffdate;
-                currentHolder.agentcode  = result.agentcode;
-                currentHolder.branchcode  = result.branchcode;
-                currentHolder.occupation = result.occupation;
-                currentHolder.otherinfO8 = result.otherinfO8;
-                currentHolder.occupationsector = result.occupationsector;
-                currentHolder.occupationcategory = result.occupationcategory;
-                currentHolder.natureofbusiness = result.natureofbusiness;
-                currentHolder.companyname = result.companyname;
-                currentHolder.preferredmailmode = result.preferredmailmode;
-                currentHolder.fatca = result.fatca;
-                currentHolder.crs = result.crs;
-                currentHolder.pep = result.pep;
-                currentHolder.riskprofile = result.riskprofile;
-                currentHolder.relationship = result.relationship;
-                currentHolder.agentcode = result.agentcode;
-                currentHolder.branchcode = result.branchcode;
-                currentHolder.lastupdatedate = result.lastupdatedate;
-                currentHolder.transactionchannel = result.transactionchannel;
-                currentHolder.transactionstatus = result.transactionstatus;
-                currentHolder.rejectcode = result.rejectcode;
-                currentHolder.rejectreason = result.rejectreason;
+            //     "CHANNELTYPE": signalrConnection.channelType,
+            //     "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+            //     "DEVICEOWNER": signalrConnection.deviceOwner,
+            //     "UNITHOLDERID": "",
+            //     "FIRSTNAME": "",
+            //     "IDENTIFICATIONTYPE": "OL",
+            //     "IDENTIFICATIONNUMBER": currentMyKadDetails.OldICNo,
+            //     "FUNDID": "",
+            //     "INQUIRYCODE": "9",
+            //     "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+            //     "TRANSACTIONTIME": formatDate(new Date(), 'HH:MM:ss', 'en'),
+            //     "BANKTXNREFERENCENUMBER": signalrConnection.trxno ,
+            //     "BANKCUSTPHONENUMBER": "",
+            //     "FILTRATIONFLAG": "1",
+            //     "GUARDIANID": "",
+            //     "GUARDIANICTYPE": "",
+            //     "GUARDIANICNUMBER": "",
+            //     "LANGUAGE": selectLang.selectedLang
+            //   };
+            //   this.serviceService.getAccountInquiry(body)
+            //   .subscribe((result: any) => {
+            //     currentHolder.channeltype = result.channeltype;
+            //     currentHolder.requestoridentification = result.requestoridentification;
+            //     currentHolder.deviceowner = result.deviceowner;
+            //     currentHolder.unitholderid = result.unitholderid;
+            //     currentHolder.firstname = result.firstname;
+            //     currentHolder.identificationtype = result.identificationtype;
+            //     currentHolder.identificationnumber = result.identificationnumber;
+            //     currentHolder.fundid = result.fundid;
+            //     currentHolder.inquirycode = result.inquirycode;
+            //     currentHolder.transactiondate = result.transactiondate;
+            //     currentHolder.transactiontime = result.transactiontime;
+            //     currentHolder.banktxnreferencenumber = result.banktxnreferencenumber;
+            //     currentHolder.bankcustphonenumber = result.bankcustphonenumber;
+            //     currentHolder.filtrationflag = result.filtrationflag;      		
+            //     currentHolder.cifstopaccountstatus = result.cifstopaccountstatus
+            //     currentHolder.typeclosed = result.typeclosed;
+            //     currentHolder.participateinasnbmkt = result.participateinasnbmkt;
+            //     currentHolder.unitbalance = result.unitbalance;
+            //     currentHolder.funddetail = result.funddetail;
+            //     currentHolder.cifnumber = result.cifnumber;
+            //     currentHolder.race = result.race;
+            //     currentHolder.religion = result.religion;
+            //     currentHolder.uhcategory = result.uhcategory;
+            //     currentHolder.title = result.title;
+            //     currentHolder.accountopeningdate = result.accountopeningdate;
+            //     currentHolder.investortype = result.investortype;
+            //     currentHolder.maritalstatus = result.maritalstatus;
+            //     currentHolder.addresslinE1 = result.addresslinE1;
+            //     currentHolder.addresslinE2 = result.addresslinE2;
+            //     currentHolder.addresslinE3 = result.addresslinE3;
+            //     currentHolder.addresslinE4 = result.addresslinE4;
+            //     currentHolder.country = result.country;
+            //     currentHolder.email = result.email;
+            //     currentHolder.zipcode = result.zipcode;
+            //     currentHolder.contactperson = result.contactperson;
+            //     currentHolder.telephonE1 = result.telephonE1;
+            //     currentHolder.telephonE2 = result.telephonE2;
+            //     currentHolder.cellphonenumber = result.cellphonenumber;
+            //     currentHolder.fax = result.fax;
+            //     currentHolder.dateofbirth = result.dateofbirth;
+            //     currentHolder.bankcode = result.bankcode;
+            //     currentHolder.bankbranchcode = result.bankbranchcode;
+            //     currentHolder.accounttype = result.accounttype;
+            //     currentHolder.accountnumber = result.accountnumber;
+            //     currentHolder.accountcurrency = result.accountcurrency;
+            //     currentHolder.fundcode = result.fundcode;
+            //     currentHolder.transactiontype = result.transactiontype;
+            //     currentHolder.directdebit = result.directdebit;
+            //     currentHolder.mothername = result.mothername;
+            //     currentHolder.portalenabled = result.portalenabled;				
+            //     currentHolder.grandtotalunitbalance = result.grandtotalunitbalance;
+            //     currentHolder.grandtotalepfunits = result.grandtotalepfunits;
+            //     currentHolder.grandtotalloanunits = result.grandtotalloanunits;
+            //     currentHolder.grandtotalcertunits = result.grandtotalcertunits;
+            //     currentHolder.grandtotalblockedunits = result.grandtotalblockedunits;
+            //     currentHolder.grandtotalprovisionalunits = result.grandtotalprovisionalunits;
+            //     currentHolder.grandtotalunits = result.grandtotalunits;
+            //     currentHolder.grandtotaluhholdings = result.grandtotaluhholdings;
+            //     currentHolder.totalminoraccount = result.totalminoraccount;
+            //     currentHolder.minordetail = result.minordetail;
+            //     currentHolder.guardianid = result.guardianid;
+            //     currentHolder.guardianictype = result.guardianictype;
+            //     currentHolder.guardianicnumber = result.guardianicnumber;
+            //     currentHolder.epfnumber = result.epfnumber;
+            //     currentHolder.epfapplicable = result.epfapplicable;
+            //     currentHolder.epfaccounttype = result.epfaccounttype;
+            //     currentHolder.epfaccounttypeeffdate = result.epfaccounttypeeffdate;
+            //     currentHolder.agentcode  = result.agentcode;
+            //     currentHolder.branchcode  = result.branchcode;
+            //     currentHolder.occupation = result.occupation;
+            //     currentHolder.otherinfO8 = result.otherinfO8;
+            //     currentHolder.occupationsector = result.occupationsector;
+            //     currentHolder.occupationcategory = result.occupationcategory;
+            //     currentHolder.natureofbusiness = result.natureofbusiness;
+            //     currentHolder.companyname = result.companyname;
+            //     currentHolder.preferredmailmode = result.preferredmailmode;
+            //     currentHolder.fatca = result.fatca;
+            //     currentHolder.crs = result.crs;
+            //     currentHolder.pep = result.pep;
+            //     currentHolder.riskprofile = result.riskprofile;
+            //     currentHolder.relationship = result.relationship;
+            //     currentHolder.agentcode = result.agentcode;
+            //     currentHolder.branchcode = result.branchcode;
+            //     currentHolder.lastupdatedate = result.lastupdatedate;
+            //     currentHolder.transactionchannel = result.transactionchannel;
+            //     currentHolder.transactionstatus = result.transactionstatus;
+            //     currentHolder.rejectcode = result.rejectcode;
+            //     currentHolder.rejectreason = result.rejectreason;
         
         
-                if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
+            //     if (currentHolder.transactionstatus.toLowerCase().includes('successful')){
         
-                  if (!currentHolder.typeclosed.toLowerCase().includes('n')){
-                    //Insolvent Status = "Y", reject code = 106
-                    if (currentHolder.typeclosed.toLowerCase().includes('y'))
-                    {
-                      errorCodes.Ecode = "0106";
-                    }
-                     //Pending Status = "P", reject code = 102
-                    else if (currentHolder.typeclosed.toLowerCase().includes('p'))
-                    {
-                      errorCodes.Ecode = "0102";
-                    }
-                    else
-                    {
-                      errorCodes.Ecode = "0109";
-                    }
-                    // errorCodes.Emessage = "Your Old IC Account has been closed. Akaun anda telah ditutup.";
-                    errorCodes.accountName = currentHolder.firstname;
-                    errorCodes.accountNo = currentHolder.unitholderid;
-                    if(selectLang.selectedLang == 'ms'){
-                      errorCodes.accountType = "Dewasa";
-                    }else{
-                      errorCodes.accountType = "Dewasa";
-                    }
-                    errorCodes.transaction = this.transaction;
-                    this._router.navigate(['errorscreen']);
-                  }
-                  else{
-                    if(currentHolder.rejectcode.toString() != ""){
-                      errorCodes.Ecode = currentHolder.rejectcode;
-                      errorCodes.Emessage = currentHolder.rejectreason;
-                      errorCodes.accountName = currentHolder.firstname;
-                      errorCodes.accountNo = currentHolder.unitholderid;
-                      if(selectLang.selectedLang == 'ms'){
-                        errorCodes.accountType = "Dewasa";
-                      }else{
-                        errorCodes.accountType = "Dewasa";
-                      }
-                      errorCodes.transaction = this.transaction;
-                      this._router.navigate(['errorscreen']);
-                    }else{
-                      if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
-                        signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Old IC Account Found, But no Fund.");
+            //       if (!currentHolder.typeclosed.toLowerCase().includes('n')){
+            //         //Insolvent Status = "Y", reject code = 106
+            //         if (currentHolder.typeclosed.toLowerCase().includes('y'))
+            //         {
+            //           errorCodes.Ecode = "0106";
+            //         }
+            //          //Pending Status = "P", reject code = 102
+            //         else if (currentHolder.typeclosed.toLowerCase().includes('p'))
+            //         {
+            //           errorCodes.Ecode = "0102";
+            //         }
+            //         else
+            //         {
+            //           errorCodes.Ecode = "0109";
+            //         }
+            //         // errorCodes.Emessage = "Your Old IC Account has been closed. Akaun anda telah ditutup.";
+            //         errorCodes.accountName = currentHolder.firstname;
+            //         errorCodes.accountNo = currentHolder.unitholderid;
+            //         if(selectLang.selectedLang == 'ms'){
+            //           errorCodes.accountType = "Dewasa";
+            //         }else{
+            //           errorCodes.accountType = "Dewasa";
+            //         }
+            //         errorCodes.transaction = this.transaction;
+            //         this._router.navigate(['errorscreen']);
+            //       }
+            //       else{
+            //         if(currentHolder.rejectcode.toString() != ""){
+            //           errorCodes.Ecode = currentHolder.rejectcode;
+            //           errorCodes.Emessage = currentHolder.rejectreason;
+            //           errorCodes.accountName = currentHolder.firstname;
+            //           errorCodes.accountNo = currentHolder.unitholderid;
+            //           if(selectLang.selectedLang == 'ms'){
+            //             errorCodes.accountType = "Dewasa";
+            //           }else{
+            //             errorCodes.accountType = "Dewasa";
+            //           }
+            //           errorCodes.transaction = this.transaction;
+            //           this._router.navigate(['errorscreen']);
+            //         }else{
+            //           if(currentHolder.unitholderid != "" || currentHolder.unitholderid != undefined){
+            //             signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "Old IC Account Found, But no Fund.");
   
-                        if (
-                          (currentHolder.occupationcategory == "" || currentHolder.occupationcategory == undefined) ||
-                          // (currentHolder.occupation == "" || currentHolder.occupation == undefined) ||
-                          // (currentHolder.natureofbusiness == "" || currentHolder.natureofbusiness == undefined) ||
-                          // (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
-                          // (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
-                          // (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
-                          (currentHolder.email == "" || currentHolder.email == undefined || currentHolder.email == "NA") ||
-                          (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined || currentHolder.cellphonenumber == "NA") ||
-                          (currentHolder.preferredmailmode == "" || currentHolder.preferredmailmode == undefined) ||
-                          (currentHolder.bankcode == "" || currentHolder.bankcode == undefined) ||
-                          (currentHolder.accountnumber == "" || currentHolder.accountnumber == undefined) 
-                        ){
-                          this.loadingVisible = false;
-                          this.RMError4_Visible = true;
-                        }else{
-                          signalrConnection.isVerifyMyKad = false;
-                          this._router.navigate(['transactionmenu']);
-                        }
-                    }
-                    
-                    }
-                  }
-                }
-                else{
-                  if (currentHolder.rejectcode.toString() == "019"){
-                    signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No Old IC account found.");
+            //             if (
+            //               (currentHolder.occupationcategory == "" || currentHolder.occupationcategory == undefined) ||
+            //               // (currentHolder.occupation == "" || currentHolder.occupation == undefined) ||
+            //               // (currentHolder.natureofbusiness == "" || currentHolder.natureofbusiness == undefined) ||
+            //               // (currentHolder.occupationsector == "" || currentHolder.occupationsector == undefined) ||
+            //               // (currentHolder.companyname == "" || currentHolder.companyname == undefined) ||
+            //               // (currentHolder.otherinfO8 == "" || currentHolder.otherinfO8 == undefined) ||
+            //               (currentHolder.email == "" || currentHolder.email == undefined || currentHolder.email == "NA") ||
+            //               (currentHolder.cellphonenumber == "" || currentHolder.cellphonenumber == undefined || currentHolder.cellphonenumber == "NA") ||
+            //               (currentHolder.preferredmailmode == "" || currentHolder.preferredmailmode == undefined) ||
+            //               (currentHolder.bankcode == "" || currentHolder.bankcode == undefined) ||
+            //               (currentHolder.accountnumber == "" || currentHolder.accountnumber == undefined) 
+            //             ){
+            //               this.loadingVisible = false;
+            //               this.RMError4_Visible = true;
+            //             }else{
+            //               signalrConnection.isVerifyMyKad = false;
+            //               this._router.navigate(['transactionmenu']);
+            //             }
+            //           }                   
+            //         }
+            //       }
+            //     }
+            //     else{
+            //       if (currentHolder.rejectcode.toString() == "019"){
+            //         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Verify MyKad]" + ": " + "No Old IC account found.");
         
-                    for (var val of appFunc.modules){
-                      if(val.moduleID == 1){//Major Registration
-                        if(val.enable == true){
-                          if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
-                            this.loadingVisible = false;
-                            this.RMError3_Visible = true;
-                          }
-                          else{
-                            errorCodes.Ecode = currentHolder.rejectcode;
-                            errorCodes.Emessage = currentHolder.rejectreason;
-                            errorCodes.accountName = currentHolder.firstname;
-                            errorCodes.accountNo = currentHolder.unitholderid;
-                            if(selectLang.selectedLang == 'ms'){
-                              errorCodes.accountType = "Dewasa";
-                            }else{
-                              errorCodes.accountType = "Dewasa";
-                            }
-                            errorCodes.transaction = this.transaction;
-                            this._router.navigate(['errorscreen']);
-                          }
-                        }
-                        else{
-                          errorCodes.Ecode = currentHolder.rejectcode;
-                          errorCodes.Emessage = currentHolder.rejectreason;
-                          errorCodes.accountName = currentHolder.firstname;
-                          errorCodes.accountNo = currentHolder.unitholderid;
-                          if(selectLang.selectedLang == 'ms'){
-                            errorCodes.accountType = "Dewasa";
-                          }else{
-                            errorCodes.accountType = "Dewasa";
-                          }
-                          errorCodes.transaction = this.transaction;
-                          this._router.navigate(['errorscreen']);
-                        }
-                      }
-                    }
-                  }
-                  else{
-                    errorCodes.Ecode = currentHolder.rejectcode;
-                    errorCodes.Emessage = currentHolder.rejectreason;
-                    errorCodes.accountName = currentHolder.firstname;
-                    errorCodes.accountNo = currentHolder.unitholderid;
-                    if(selectLang.selectedLang == 'ms'){
-                      errorCodes.accountType = "Dewasa";
-                    }else{
-                      errorCodes.accountType = "Dewasa";
-                    }
-                    errorCodes.transaction = this.transaction;
-                    this._router.navigate(['errorscreen']);
-                  }
-                }
-              });
-            }
-            else{
+            //         for (var val of appFunc.modules){
+            //           if(val.moduleID == 1){//Major Registration
+            //             if(val.enable == true){
+            //               if(this.isInBetween(new Date(val.operationStart), new Date(val.operationEnd), new Date())){
+            //                 this.loadingVisible = false;
+            //                 this.RMError3_Visible = true;
+            //               }
+            //               else{
+            //                 errorCodes.Ecode = currentHolder.rejectcode;
+            //                 errorCodes.Emessage = currentHolder.rejectreason;
+            //                 errorCodes.accountName = currentHolder.firstname;
+            //                 errorCodes.accountNo = currentHolder.unitholderid;
+            //                 if(selectLang.selectedLang == 'ms'){
+            //                   errorCodes.accountType = "Dewasa";
+            //                 }else{
+            //                   errorCodes.accountType = "Dewasa";
+            //                 }
+            //                 errorCodes.transaction = this.transaction;
+            //                 this._router.navigate(['errorscreen']);
+            //               }
+            //             }
+            //             else{
+            //               errorCodes.Ecode = currentHolder.rejectcode;
+            //               errorCodes.Emessage = currentHolder.rejectreason;
+            //               errorCodes.accountName = currentHolder.firstname;
+            //               errorCodes.accountNo = currentHolder.unitholderid;
+            //               if(selectLang.selectedLang == 'ms'){
+            //                 errorCodes.accountType = "Dewasa";
+            //               }else{
+            //                 errorCodes.accountType = "Dewasa";
+            //               }
+            //               errorCodes.transaction = this.transaction;
+            //               this._router.navigate(['errorscreen']);
+            //             }
+            //           }
+            //         }
+            //       }
+            //       else{
+            //         errorCodes.Ecode = currentHolder.rejectcode;
+            //         errorCodes.Emessage = currentHolder.rejectreason;
+            //         errorCodes.accountName = currentHolder.firstname;
+            //         errorCodes.accountNo = currentHolder.unitholderid;
+            //         if(selectLang.selectedLang == 'ms'){
+            //           errorCodes.accountType = "Dewasa";
+            //         }else{
+            //           errorCodes.accountType = "Dewasa";
+            //         }
+            //         errorCodes.transaction = this.transaction;
+            //         this._router.navigate(['errorscreen']);
+            //       }
+            //     }
+            //   });
+            // }
+            // else{
               for (var val of appFunc.modules){
                 if(val.moduleID == 1){//Major Registration
                   if(val.enable == true){
@@ -1099,7 +1098,7 @@ export class VerifymykadComponent implements OnInit {
                   }
                 }
               }
-            }
+            // }
           }
           else{
             errorCodes.Ecode = currentHolder.rejectcode;

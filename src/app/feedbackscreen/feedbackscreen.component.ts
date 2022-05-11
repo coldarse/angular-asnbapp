@@ -125,13 +125,14 @@ export class FeedbackscreenComponent implements OnInit {
 
     this.FBS1_Visible = false;
     this.FBS2_Visible = true;
+
     setTimeout(()=>{   
-      this.DetectMyKad();     
+      // this.DetectMyKad();     
       this.id = setInterval(() => {
         this.playAudio();
         this.DetectMyKad();
-      }, 1000);
-      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Feedback Screen]" + ": " + "Set interval to 1 second to detect MyKad/MyKid.");
+      }, 3000);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Feedback Screen]" + ": " + "Set interval to 3 second to detect MyKad/MyKid.");
     }, 5000);
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Feedback Screen]" + ": " + "Set timer to 5 seconds.");
   }
@@ -140,7 +141,8 @@ export class FeedbackscreenComponent implements OnInit {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
 
       signalrConnection.cardDetect = data;
-      if(signalrConnection.cardDetect != true){
+
+      if(signalrConnection.cardDetect == false){
         let kActivit = new kActivity();
         kActivit.trxno = signalrConnection.trxno;
         kActivit.kioskCode = signalrConnection.kioskCode;
@@ -154,6 +156,7 @@ export class FeedbackscreenComponent implements OnInit {
         appFunc.kioskActivity.push(kActivit);
         this._router.navigate(['language']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Feedback Screen]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
+      
       }
     });
   }

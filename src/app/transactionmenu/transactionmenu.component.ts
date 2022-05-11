@@ -7,7 +7,6 @@ import { appFunc } from '../_models/appFunctions';
 import { formatDate } from '@angular/common';
 import { kActivity } from '../_models/kActivity';
 import { errorCodes } from '../_models/errorCode';
-import { currentHolder } from '../_models/currentUnitHolder';
 import { fundDetails } from '../_models/fundDetails';
 import { ASNBFundID } from '../_models/dropDownLists';
 import { ServiceService } from '../_shared/service.service';
@@ -164,7 +163,9 @@ export class TransactionmenuComponent implements OnInit {
   DetectMyKad() {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
       signalrConnection.cardDetect = data;
-      if(signalrConnection.cardDetect != true){
+      
+      if(signalrConnection.cardDetect == false){
+
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }

@@ -276,7 +276,14 @@ export class RedemptionComponent implements OnInit {
   DetectMyKad() {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
       signalrConnection.cardDetect = data;
-      if(signalrConnection.cardDetect != true){
+     
+      if(signalrConnection.cardDetect == false){
+
+        currentMyKidDetails.resetCurrentMyKid();
+        currentMyKadDetails.resetCurrentMyKid();
+        currentBijakHolder.resetCurretnBijakHolder();
+        currentHolder.resetCurrentHolder();
+
         this.router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }

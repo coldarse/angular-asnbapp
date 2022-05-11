@@ -1,5 +1,5 @@
 import { formatDate } from '@angular/common';
-import { Component, ElementRef, ModuleWithComponentFactories, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ModuleWithComponentFactories, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { Router } from '@angular/router';
@@ -20,6 +20,8 @@ import { kActivity } from '../_models/kActivity';
 import { selectLang } from '../_models/language';
 import { signalrConnection } from '../_models/signalr';
 import { ServiceService } from '../_shared/service.service';
+import { MyKadDetails } from '../_models/myKadDetails';
+import { Subscription } from 'rxjs';  
 
 declare const loadKeyboard: any;
 declare const deleteKeyboard: any;
@@ -30,7 +32,14 @@ declare const closeKeyboard: any;
   templateUrl: './subscriptioninvestment.component.html',
   styleUrls: ['./subscriptioninvestment.component.css']
 })
-export class SubscriptioninvestmentComponent implements OnInit {
+export class SubscriptioninvestmentComponent implements OnInit, OnDestroy {
+
+  private subscriptionPOA: Subscription | undefined; //PostSubscriptionWithoutProvision API
+  private subscriptionCustCC: Subscription | undefined; //Insert createCustCreditCardInfo 
+  // private subscriptionCreateFund: Subscription | undefined; //Insert createFundTransaction
+  private subscriptionPostAMLA: Subscription | undefined; //Insert postAMLA
+  private subscriptionGetAccountInquiry: Subscription | undefined; //Get Account Inquiry
+  private subscriptionEligibleFund : Subscription | undefined; // Get Eligible Fund
 
   @ViewChild('amount') amount : ElementRef | undefined;
   @ViewChild('source') source : ElementRef | undefined;
@@ -254,7 +263,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "RtnEnCryptScanID": ""
         }
 
-        this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+        this.subscriptionPostAMLA = this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
           faultCode = data.result.faultCode;
           faultString = data.result.faultString;
           currentBijakHolder.riskprofile = data.result.rtnHit;
@@ -317,7 +326,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "RtnEnCryptScanID": ""
         }
 
-        this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
+        this.subscriptionPostAMLA = this.serviceService.postAMLA(AMLABody).subscribe((data: any) => {
           faultCode = data.result.faultCode;
           faultString = data.result.faultString;
           currentHolder.riskprofile = data.result.rtnHit;
@@ -356,12 +365,15 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.translate.use(selectLang.selectedLang);
     this.initializeForm1();
     this.fundnamelist = [];
 
     this.isInvest = appFunc.isInvesment;
     this.isButtonDisabled = true;
+    this.amountKeyed = 0;
+    this.fundid = "";
 
     currentHolder.funddetail.forEach((elem: any) => {
       appFunc.ASNBFundID.forEach((element: any) => {
@@ -418,7 +430,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.fixedFunds = [];
 
 
-        this.serviceService.postEligibleFunds(body)
+        this.subscriptionEligibleFund = this.serviceService.postEligibleFunds(body)
         .subscribe((result: any) => {
 
           result.result.fundid.forEach((elem1: string) => {
@@ -528,11 +540,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
       }
     }
 
-    if (!signalrConnection.isHardcodedIC){
-      this.id = setInterval(() => {
-        this.DetectMyKad();
-      }, 1000);
-    }
+    // if (!signalrConnection.isHardcodedIC){
+    //   this.id = setInterval(() => {
+    //     this.DetectMyKad();
+    //   }, 1000);
+    // }
   }
 
   sourceOnChange(event: any, isThird: boolean){
@@ -569,8 +581,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
   selectedFund(fund: any){
     this.SIStep1 = false;
     this.SIStep2 = true;
-
-
 
     if(appFunc.isOwn == "major"){
       this.unitholdername = currentHolder.firstname;
@@ -630,10 +640,42 @@ export class SubscriptioninvestmentComponent implements OnInit {
   ngOnDestroy() {
     clearInterval(this.id);
     deleteKeyboard();
+
+    if (this.subscriptionPOA != undefined){
+      this.subscriptionPOA.unsubscribe();
+    }
+
+    if (this.subscriptionCustCC != undefined){
+      this.subscriptionCustCC.unsubscribe();
+    }
+    
+    if (this.subscriptionPostAMLA != undefined){
+      this.subscriptionPostAMLA.unsubscribe();
+    }
+
+    if (this.subscriptionGetAccountInquiry != undefined){
+      this.subscriptionGetAccountInquiry.unsubscribe();
+    }
+
+    if (this.subscriptionEligibleFund != undefined){
+      this.subscriptionEligibleFund.unsubscribe();
+    }
+      
+    this.fundid = "";
+    this.amountKeyed = 0;
+    this.unitholdername = "";
+    this.unitholderid = "";
+
+    // currentMyKidDetails.resetCurrentMyKid();
+    // currentMyKadDetails.resetCurrentMyKid();
+    // currentBijakHolder.resetCurretnBijakHolder();
+    // currentHolder.resetCurrentHolder();
+
     if(appFunc.kioskActivity != undefined){
       this.serviceService.postKioskActivity(appFunc.kioskActivity).subscribe((res: any) => {
       });
     }
+
     appFunc.kioskActivity = [];
     signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Additional Invesment/Initial Investment]" + ": " + "Cleared Interval.");
   }
@@ -641,7 +683,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
   DetectMyKad() {
     signalrConnection.connection.invoke('IsCardDetected').then((data: boolean) => {
       signalrConnection.cardDetect = data;
-      if(signalrConnection.cardDetect != true){
+
+      if(signalrConnection.cardDetect == false){
+
+        currentMyKidDetails.resetCurrentMyKid();
+        currentMyKadDetails.resetCurrentMyKid();
+        currentBijakHolder.resetCurretnBijakHolder();
+        currentHolder.resetCurrentHolder();
+
         this._router.navigate(['feedbackscreen']);
         signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Transaction Menu]" + ": " + "MyKad Not Detected. Redirected to Feedback Screen.");
       }
@@ -716,7 +765,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
       "GUARDIANICNUMBER": currentHolder.identificationnumber,
       "LANGUAGE": selectLang.selectedLang
       };
-      this.serviceService.getAccountInquiry(body)
+      this.subscriptionGetAccountInquiry = this.serviceService.getAccountInquiry(body)
       .subscribe((result: any) => {
         currentBijakHolder.riskprofile = result.riskprofile;
         this.checkAMLA();
@@ -770,8 +819,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this.variableFunds = [];
           this.fixedFunds = [];
 
-          this.serviceService.postEligibleFunds(body)
+          this.subscriptionEligibleFund = this.serviceService.postEligibleFunds(body)
           .subscribe((result: any) => {
+
             result.result.fundid.forEach((elem1: string) => {
               appFunc.ASNBFundID.forEach((elem2: ASNBFundID) => {
                 if(elem1.toString() == elem2.code.toString()){
@@ -1376,7 +1426,15 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   }
 
+  //Major / Minor Subscription
   SIStep4Next(){
+
+    if (currentHolder.identificationnumber != currentMyKadDetails.ICNo)
+    { 
+      this._router.navigate(['feedbackscreen']);
+      signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [SIStep4Next] " + ": " + "currentHolder : " + currentHolder.identificationnumber.toString() + ", currentMyKadHolder : " + currentMyKadDetails.ICNo.toString());
+    }
+    else{
 
     this.isClicked = true;
 
@@ -1389,6 +1447,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
     let guardianID = "";
     let guardianIC = "";
     let guardianICtype = "";
+
 
     if(appFunc.isOwn == "major"){
       ictype = currentHolder.identificationtype;
@@ -1416,596 +1475,593 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
     //let PaymentAmt = parseFloat(this.amountKeyed.toString()).toFixed(2);
 
-    if(signalrConnection.isHardcodedIC){
+    // if(signalrConnection.isHardcodedIC){
 
-      let kActivit1 = new kActivity();
-      kActivit1.trxno = signalrConnection.trxno;
-      kActivit1.kioskCode = signalrConnection.kioskCode;
-      kActivit1.moduleID = this.moduleid;
-      kActivit1.submoduleID = undefined;
-      kActivit1.action = this.action + " - Hardcoded";
-      kActivit1.startTime = new Date();
+    //   let kActivit1 = new kActivity();
+    //   kActivit1.trxno = signalrConnection.trxno;
+    //   kActivit1.kioskCode = signalrConnection.kioskCode;
+    //   kActivit1.moduleID = this.moduleid;
+    //   kActivit1.submoduleID = undefined;
+    //   kActivit1.action = this.action + " - Hardcoded";
+    //   kActivit1.startTime = new Date();
 
-      this.paymentStep1 = false;
-      this.paymentStep3 = true;
+    //   this.paymentStep1 = false;
+    //   this.paymentStep3 = true;
 
-      const body =
-        {
-          "CHANNELTYPE": signalrConnection.channelType,
-          "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-          "DEVICEOWNER": signalrConnection.deviceOwner,
-          "UNITHOLDERID":uhid,
-          "FIRSTNAME": "",
-          "IDENTIFICATIONTYPE":ictype,
-          "IDENTIFICATIONNUMBER":icno,
-          "FUNDID":this.fundid,
-          "AMOUNTAPPLIED":this.amountKeyed,
-          "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-          "CUSTOMERICNUMBER":"",
-          "CUSTOMERNAME":"",
-          "AGENTCODE":signalrConnection.agentCode,
-          "BRANCHCODE":signalrConnection.branchCode,
-          "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
-          "BANKCUSTPHONENUMBER":"",
-          "PAYMENTTYPE":"T",
-          "BANKACCOUNTNUMBER":"",
-          "GUARDIANID":guardianID,
-          "GUARDIANICTYPE":guardianICtype,
-          "GUARDIANICNUMBER":guardianIC,
-          "THIRDPARTYINVESTMENT":"",
-          "THIRDPARTYNAME":"",
-          "THIRDPARTYICTYPE":"",
-          "THIRDPARTYICNUMBER":"",
-          "THIRDPARTYRELATIONSHIP":"",
-          "REASONFORTRANSFER":"",
-          "SOURCEOFFUND":this.sourceOfFund,
-          "OTHERSOURCEOFFUND":this.sourceOther,
-          "FUNDERNAME":this.otherSourceOfFund,
-          "LANGUAGE": selectLang.selectedLang,
-          "signature": ""
-        }
+    //   const body =
+    //     {
+    //       "CHANNELTYPE": signalrConnection.channelType,
+    //       "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+    //       "DEVICEOWNER": signalrConnection.deviceOwner,
+    //       "UNITHOLDERID":uhid,
+    //       "FIRSTNAME": "",
+    //       "IDENTIFICATIONTYPE":ictype,
+    //       "IDENTIFICATIONNUMBER":icno,
+    //       "FUNDID":this.fundid,
+    //       "AMOUNTAPPLIED":this.amountKeyed,
+    //       "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //       "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //       "CUSTOMERICNUMBER":"",
+    //       "CUSTOMERNAME":"",
+    //       "AGENTCODE":signalrConnection.agentCode,
+    //       "BRANCHCODE":signalrConnection.branchCode,
+    //       "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+    //       "BANKCUSTPHONENUMBER":"",
+    //       "PAYMENTTYPE":"T",
+    //       "BANKACCOUNTNUMBER":"",
+    //       "GUARDIANID":guardianID,
+    //       "GUARDIANICTYPE":guardianICtype,
+    //       "GUARDIANICNUMBER":guardianIC,
+    //       "THIRDPARTYINVESTMENT":"",
+    //       "THIRDPARTYNAME":"",
+    //       "THIRDPARTYICTYPE":"",
+    //       "THIRDPARTYICNUMBER":"",
+    //       "THIRDPARTYRELATIONSHIP":"",
+    //       "REASONFORTRANSFER":"",
+    //       "SOURCEOFFUND":this.sourceOfFund,
+    //       "OTHERSOURCEOFFUND":this.sourceOther,
+    //       "FUNDERNAME":this.otherSourceOfFund,
+    //       "LANGUAGE": selectLang.selectedLang,
+    //       "signature": ""
+    //     }
 
-        this.requeryInfo =
-        {
-          "CHANNELTYPE": signalrConnection.channelType,
-          "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-          "DEVICEOWNER": signalrConnection.deviceOwner,
-          "UNITHOLDERID":uhid,
-          "FIRSTNAME": "",
-          "IDENTIFICATIONTYPE":ictype,
-          "IDENTIFICATIONNUMBER":icno,
-          "FUNDID":this.fundid,
-          "AMOUNTAPPLIED":this.amountKeyed,
-          "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-          "CUSTOMERICNUMBER":"",
-          "CUSTOMERNAME":"",
-          "AGENTCODE":signalrConnection.agentCode,
-          "BRANCHCODE":signalrConnection.branchCode,
-          "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
-          "BANKCUSTPHONENUMBER":"",
-          "PAYMENTTYPE":"T",
-          "BANKACCOUNTNUMBER":"",
-          "GUARDIANID":guardianID,
-          "GUARDIANICTYPE":guardianICtype,
-          "GUARDIANICNUMBER":guardianIC,
-          "THIRDPARTYINVESTMENT":"",
-          "THIRDPARTYNAME":"",
-          "THIRDPARTYICTYPE":"",
-          "THIRDPARTYICNUMBER":"",
-          "THIRDPARTYRELATIONSHIP":"",
-          "REASONFORTRANSFER":"",
-          "SOURCEOFFUND":this.sourceOfFund,
-          "OTHERSOURCEOFFUND":this.sourceOther,
-          "FUNDERNAME":this.otherSourceOfFund
-        }
+    //     this.requeryInfo =
+    //     {
+    //       "CHANNELTYPE": signalrConnection.channelType,
+    //       "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+    //       "DEVICEOWNER": signalrConnection.deviceOwner,
+    //       "UNITHOLDERID":uhid,
+    //       "FIRSTNAME": "",
+    //       "IDENTIFICATIONTYPE":ictype,
+    //       "IDENTIFICATIONNUMBER":icno,
+    //       "FUNDID":this.fundid,
+    //       "AMOUNTAPPLIED":this.amountKeyed,
+    //       "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //       "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //       "CUSTOMERICNUMBER":"",
+    //       "CUSTOMERNAME":"",
+    //       "AGENTCODE":signalrConnection.agentCode,
+    //       "BRANCHCODE":signalrConnection.branchCode,
+    //       "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+    //       "BANKCUSTPHONENUMBER":"",
+    //       "PAYMENTTYPE":"T",
+    //       "BANKACCOUNTNUMBER":"",
+    //       "GUARDIANID":guardianID,
+    //       "GUARDIANICTYPE":guardianICtype,
+    //       "GUARDIANICNUMBER":guardianIC,
+    //       "THIRDPARTYINVESTMENT":"",
+    //       "THIRDPARTYNAME":"",
+    //       "THIRDPARTYICTYPE":"",
+    //       "THIRDPARTYICNUMBER":"",
+    //       "THIRDPARTYRELATIONSHIP":"",
+    //       "REASONFORTRANSFER":"",
+    //       "SOURCEOFFUND":this.sourceOfFund,
+    //       "OTHERSOURCEOFFUND":this.sourceOther,
+    //       "FUNDERNAME":this.otherSourceOfFund
+    //     }
 
-        let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
-        let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
-          keySize: 128,
-          blockSize: 128,
-          mode: CryptoJS.mode.ECB,
-          padding: CryptoJS.pad.Pkcs7
-        });
+    //     let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
+    //     let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
+    //       keySize: 128,
+    //       blockSize: 128,
+    //       mode: CryptoJS.mode.ECB,
+    //       padding: CryptoJS.pad.Pkcs7
+    //     });
 
-        const newbody =
-        {
-          "CHANNELTYPE": signalrConnection.channelType,
-          "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-          "DEVICEOWNER": signalrConnection.deviceOwner,
-          "UNITHOLDERID":uhid,
-          "FIRSTNAME": "",
-          "IDENTIFICATIONTYPE":ictype,
-          "IDENTIFICATIONNUMBER":icno,
-          "FUNDID":this.fundid,
-          "AMOUNTAPPLIED":this.amountKeyed,
-          "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-          "CUSTOMERICNUMBER":"",
-          "CUSTOMERNAME":"",
-          "AGENTCODE":signalrConnection.agentCode,
-          "BRANCHCODE":signalrConnection.branchCode,
-          "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
-          "BANKCUSTPHONENUMBER":"",
-          "PAYMENTTYPE":"T",
-          "BANKACCOUNTNUMBER":"",
-          "GUARDIANID":guardianID,
-          "GUARDIANICTYPE":guardianICtype,
-          "GUARDIANICNUMBER":guardianIC,
-          "THIRDPARTYINVESTMENT":"",
-          "THIRDPARTYNAME":"",
-          "THIRDPARTYICTYPE":"",
-          "THIRDPARTYICNUMBER":"",
-          "THIRDPARTYRELATIONSHIP":"",
-          "REASONFORTRANSFER":"",
-          "SOURCEOFFUND":this.sourceOfFund,
-          "OTHERSOURCEOFFUND":this.sourceOther,
-          "FUNDERNAME":this.otherSourceOfFund,
-          "LANGUAGE": selectLang.selectedLang,
-          "signature": encryptedBody.toString()
-        }
+    //     const newbody =
+    //     {
+    //       "CHANNELTYPE": signalrConnection.channelType,
+    //       "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+    //       "DEVICEOWNER": signalrConnection.deviceOwner,
+    //       "UNITHOLDERID":uhid,
+    //       "FIRSTNAME": "",
+    //       "IDENTIFICATIONTYPE":ictype,
+    //       "IDENTIFICATIONNUMBER":icno,
+    //       "FUNDID":this.fundid,
+    //       "AMOUNTAPPLIED":this.amountKeyed,
+    //       "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //       "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //       "CUSTOMERICNUMBER":"",
+    //       "CUSTOMERNAME":"",
+    //       "AGENTCODE":signalrConnection.agentCode,
+    //       "BRANCHCODE":signalrConnection.branchCode,
+    //       "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+    //       "BANKCUSTPHONENUMBER":"",
+    //       "PAYMENTTYPE":"T",
+    //       "BANKACCOUNTNUMBER":"",
+    //       "GUARDIANID":guardianID,
+    //       "GUARDIANICTYPE":guardianICtype,
+    //       "GUARDIANICNUMBER":guardianIC,
+    //       "THIRDPARTYINVESTMENT":"",
+    //       "THIRDPARTYNAME":"",
+    //       "THIRDPARTYICTYPE":"",
+    //       "THIRDPARTYICNUMBER":"",
+    //       "THIRDPARTYRELATIONSHIP":"",
+    //       "REASONFORTRANSFER":"",
+    //       "SOURCEOFFUND":this.sourceOfFund,
+    //       "OTHERSOURCEOFFUND":this.sourceOther,
+    //       "FUNDERNAME":this.otherSourceOfFund,
+    //       "LANGUAGE": selectLang.selectedLang,
+    //       "signature": encryptedBody.toString()
+    //     }
 
-        // console.log(JSON.stringify(newbody));
+    //     // console.log(JSON.stringify(newbody));
 
-        let module = "";
-        if(appFunc.isOwn == "major"){
-          if(appFunc.isInvesment){
-            module = "9";
-          }else{
-            module = "11";
-          }
-        }else if(appFunc.isOwn == "bijak"){
-          if(appFunc.isInvesment){
-            module = "10";
-          }else{
-            module = "12";
-          }
-        }else{
-          module = "19";
-        }
+    //     let module = "";
+    //     if(appFunc.isOwn == "major"){
+    //       if(appFunc.isInvesment){
+    //         module = "9";
+    //       }else{
+    //         module = "11";
+    //       }
+    //     }else if(appFunc.isOwn == "bijak"){
+    //       if(appFunc.isInvesment){
+    //         module = "10";
+    //       }else{
+    //         module = "12";
+    //       }
+    //     }else{
+    //       module = "19";
+    //     }
 
-        const FTBody =
-        {
-          "trxNo": signalrConnection.trxno,
-          "kioskCode": signalrConnection.kioskCode,
-          "unitHolderID": uhid,
-          "firstName": name,
-          "identificationType": ictype,
-          "identificationNumber": icno,
-          "fundID": this.fundid,
-          "amountApplied": this.amountKeyed,
-          "transactionDate": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "transactionTime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-          "transactionType": module,
-          "customerICNumber": "",
-          "customerName": "",
-          "agentCode": signalrConnection.agentCode,
-          "referenceNo": "",
-          "bankTxnReferenceNumber": "",
-          "bankCustPhoneNumber": "",
-          "paymentType": "T",
-          "bankAccountNumber": "",
-          "bankBranchCode": "",
-          "chequeNumber": "",
-          "chequeDate": "",
-          "guardianID": guardianID,
-          "guardianicType": guardianICtype,
-          "guardianicNumber": guardianIC,
-          "policyNumber": "",
-          "epfNumber": "",
-          "subPaymentType": "",
-          "ewgateway": "",
-          "thirdPartyInvestment": "",
-          "thirdPartyName": "",
-          "thirdPartyICNumber": "",
-          "thirdPartyRelationship": "",
-          "reasonForTransfer": "",
-          "sourceOfFund": this.sourceOfFund,
-          "otherSourceOfFund": this.sourceOther,
-          "funderName": this.otherSourceOfFund,
-          "transactionStatus": "Pending",
-          "transactionNumber": "",
-          "taxInvoiceNumber": "",
-          "confirmedUnits": "",
-          "unitBalance": "",
-          "operation": "",
-          "remark": "",
-          "creditNoteNumber": email,
-          "rejectCode": "",
-          "rejectReason": "",
-          "itemno": signalrConnection.itemNo,
-          "nav": "",
-          "fee": "",
-          "sst": ""
-        }
+    //     const FTBody =
+    //     {
+    //       "trxNo": signalrConnection.trxno,
+    //       "kioskCode": signalrConnection.kioskCode,
+    //       "unitHolderID": uhid,
+    //       "firstName": name,
+    //       "identificationType": ictype,
+    //       "identificationNumber": icno,
+    //       "fundID": this.fundid,
+    //       "amountApplied": this.amountKeyed,
+    //       "transactionDate": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //       "transactionTime": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //       "transactionType": module,
+    //       "customerICNumber": "",
+    //       "customerName": "",
+    //       "agentCode": signalrConnection.agentCode,
+    //       "referenceNo": "",
+    //       "bankTxnReferenceNumber": "",
+    //       "bankCustPhoneNumber": "",
+    //       "paymentType": "T",
+    //       "bankAccountNumber": "",
+    //       "bankBranchCode": "",
+    //       "chequeNumber": "",
+    //       "chequeDate": "",
+    //       "guardianID": guardianID,
+    //       "guardianicType": guardianICtype,
+    //       "guardianicNumber": guardianIC,
+    //       "policyNumber": "",
+    //       "epfNumber": "",
+    //       "subPaymentType": "",
+    //       "ewgateway": "",
+    //       "thirdPartyInvestment": "",
+    //       "thirdPartyName": "",
+    //       "thirdPartyICNumber": "",
+    //       "thirdPartyRelationship": "",
+    //       "reasonForTransfer": "",
+    //       "sourceOfFund": this.sourceOfFund,
+    //       "otherSourceOfFund": this.sourceOther,
+    //       "funderName": this.otherSourceOfFund,
+    //       "transactionStatus": "Pending",
+    //       "transactionNumber": "",
+    //       "taxInvoiceNumber": "",
+    //       "confirmedUnits": "",
+    //       "unitBalance": "",
+    //       "operation": "",
+    //       "remark": "",
+    //       "creditNoteNumber": email,
+    //       "rejectCode": "",
+    //       "rejectReason": "",
+    //       "itemno": signalrConnection.itemNo,
+    //       "nav": "",
+    //       "fee": "",
+    //       "sst": ""
+    //     }
 
-        // this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
-        this.serviceService.createFundTransaction(FTBody).toPromise().then
-        ((result: any) => {
-            // console.log("1628 Create Fund Transaction : " + result);
+    //     // this.serviceService.createFundTransaction(FTBody).subscribe(() => {});
+    //     this.serviceService.createFundTransaction(FTBody).toPromise().then
+    //     ((result: any) => {
+    //         // console.log("1628 Create Fund Transaction : " + result);
 
-            this.serviceService.postSubscriptionWithoutProvision(newbody)
-              .toPromise().then((result: any) => 
-        {
-          // console.log(result.result.transactionstatus);
-          // console.log(result.result.transactionnumber);
-          if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
+    //         this.serviceService.postSubscriptionWithoutProvision(newbody)
+    //           .toPromise().then((result: any) => 
+    //     {
+    //       // console.log(result.result.transactionstatus);
+    //       // console.log(result.result.transactionnumber);
+    //       if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
 
+    //         signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {});
 
-            signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+    //         this.unitholdername = name;
+    //         this.unitholderid = uhid;
+    //         this.unitholderic = icno;
+    //         this.refno = result.result.transactionnumber;
 
-            });
-
-            this.unitholdername = name;
-            this.unitholderid = uhid;
-            this.unitholderic = icno;
-            this.refno = result.result.transactionnumber;
-
-            this.approvalcode = "Approval Code";
-            if(appFunc.isOwn == "major"){
-              this.accounttype = "Dewasa"
-            }else if(appFunc.isOwn == "bijak"){
-              this.accounttype = "Bijak/Remaja"
-            }else{
-              if(selectLang.selectedLang == 'ms'){
-                this.accounttype = "Pihak Ketiga"
-              }else{
-                this.accounttype = "Third Party"
-              }
-            }
-            this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
-            this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
-            this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
-            this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
-            this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
+    //         this.approvalcode = "Approval Code";
+    //         if(appFunc.isOwn == "major"){
+    //           this.accounttype = "Dewasa"
+    //         }else if(appFunc.isOwn == "bijak"){
+    //           this.accounttype = "Bijak/Remaja"
+    //         }else{
+    //           if(selectLang.selectedLang == 'ms'){
+    //             this.accounttype = "Pihak Ketiga"
+    //           }else{
+    //             this.accounttype = "Third Party"
+    //           }
+    //         }
+    //         this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
+    //         this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
+    //         this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
+    //         this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
+    //         this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
 
 
-            this.isHistorical = this.isBefore4pm();
+    //         this.isHistorical = this.isBefore4pm();
 
-            if(selectLang.selectedLang == 'ms'){
-              if(this.amountOrunit){
-                this.status = "Berjaya";
-              }
-              else{
-                this.status = "Diproses";
-                this.isHistorical = false;
-              }
-            }else{
-              if(this.amountOrunit){
-                this.status = "Successful";
-              }
-              else{
-                this.status = "Processing";
-                this.isHistorical = false;
-              }
-            }
+    //         if(selectLang.selectedLang == 'ms'){
+    //           if(this.amountOrunit){
+    //             this.status = "Berjaya";
+    //           }
+    //           else{
+    //             this.status = "Diproses";
+    //             this.isHistorical = false;
+    //           }
+    //         }else{
+    //           if(this.amountOrunit){
+    //             this.status = "Successful";
+    //           }
+    //           else{
+    //             this.status = "Processing";
+    //             this.isHistorical = false;
+    //           }
+    //         }
 
-            if (currentHolder.email == ""){
-              this.Email_Visible = false;
-            }
-            else{
-              this.Email_Visible = true;
-            }
+    //         if (currentHolder.email == ""){
+    //           this.Email_Visible = false;
+    //         }
+    //         else{
+    //           this.Email_Visible = true;
+    //         }
 
-            if(signalrConnection.kioskType == 'Mobile'){
-              this.Print_Visible = false;
-            }
-            else{
-              this.Print_Visible = true;
-            }
+    //         if(signalrConnection.kioskType == 'Mobile'){
+    //           this.Print_Visible = false;
+    //         }
+    //         else{
+    //           this.Print_Visible = true;
+    //         }
 
-            let module = "";
-            if(appFunc.isOwn == "major"){
-              if(appFunc.isInvesment){
-                module = "9";
-              }else{
-                module = "11";
-              }
-            }else if(appFunc.isOwn == "bijak"){
-              if(appFunc.isInvesment){
-                module = "10";
-              }else{
-                module = "12";
-              }
-            }else{
-              module = "19";
-            }
+    //         let module = "";
+    //         if(appFunc.isOwn == "major"){
+    //           if(appFunc.isInvesment){
+    //             module = "9";
+    //           }else{
+    //             module = "11";
+    //           }
+    //         }else if(appFunc.isOwn == "bijak"){
+    //           if(appFunc.isInvesment){
+    //             module = "10";
+    //           }else{
+    //             module = "12";
+    //           }
+    //         }else{
+    //           module = "19";
+    //         }
 
-            const FTBody =
-            {
-              "trxNo": signalrConnection.trxno,
-              "kioskCode": signalrConnection.kioskCode,
-              "unitHolderID": result.result.unitholderid,
-              "firstName": result.result.firstname,
-              "identificationType": result.result.identificationtype,
-              "identificationNumber": result.result.identificationnumber,
-              "fundID": result.result.fundid,
-              "amountApplied": result.result.amountapplied,
-              "transactionDate": result.result.transactiondate,
-              "transactionTime": result.result.transactiontime,
-              "transactionType": module,
-              "customerICNumber": result.result.customericnumber,
-              "customerName": result.result.customername,
-              "agentCode": result.result.agentCode,
-              "referenceNo": result.result.transactionnumber,
-              "bankTxnReferenceNumber": result.result.banktxnreferencenumber,
-              "bankCustPhoneNumber": result.result.bankcustphonenumber,
-              "paymentType": result.result.paymenttype,
-              "bankAccountNumber": result.result.bankaccountnumber,
-              "bankBranchCode": result.result.bankbranchcode,
-              "chequeNumber": result.result.chequenumber,
-              "chequeDate": result.result.chequedate,
-              "guardianID": result.result.guardianid,
-              "guardianicType": result.result.guardianictype,
-              "guardianicNumber": result.result.guardianicnumber,
-              "policyNumber": result.result.policynumber,
-              "epfNumber": result.result.epfnumber,
-              "subPaymentType": result.result.subpaymenttype,
-              "ewgateway": result.result.ewgateway,
-              "thirdPartyInvestment": result.result.thirdpartyinvestment,
-              "thirdPartyName": result.result.thirdpartyname,
-              "thirdPartyICNumber": result.result.thirdpartyicnumber,
-              "thirdPartyRelationship": result.result.thirdpartyrelationship,
-              "reasonForTransfer": result.result.reasonfortransfer,
-              "sourceOfFund": result.result.sourceoffund,
-              "otherSourceOfFund": result.result.othersourceoffund,
-              "funderName": result.result.fundname,
-              "transactionStatus": result.result.transactionstatus,
-              "transactionNumber": result.result.transactionnumber,
-              "taxInvoiceNumber": result.result.taxinvoicenumber,
-              "confirmedUnits": result.result.unitsalloted,
-              "unitBalance": "",
-              "operation": "",
-              "remark": "",
-              "creditNoteNumber": email,
-              "rejectCode": result.result.rejectcode,
-              "rejectReason": result.result.rejectreason,
-              "itemno": signalrConnection.itemNo,
-              "nav": result.result.fundprice,
-              "fee": result.result.salescharge,
-              "sst": result.result.gstamount
-            }
+    //         const FTBody =
+    //         {
+    //           "trxNo": signalrConnection.trxno,
+    //           "kioskCode": signalrConnection.kioskCode,
+    //           "unitHolderID": result.result.unitholderid,
+    //           "firstName": result.result.firstname,
+    //           "identificationType": result.result.identificationtype,
+    //           "identificationNumber": result.result.identificationnumber,
+    //           "fundID": result.result.fundid,
+    //           "amountApplied": result.result.amountapplied,
+    //           "transactionDate": result.result.transactiondate,
+    //           "transactionTime": result.result.transactiontime,
+    //           "transactionType": module,
+    //           "customerICNumber": result.result.customericnumber,
+    //           "customerName": result.result.customername,
+    //           "agentCode": result.result.agentCode,
+    //           "referenceNo": result.result.transactionnumber,
+    //           "bankTxnReferenceNumber": result.result.banktxnreferencenumber,
+    //           "bankCustPhoneNumber": result.result.bankcustphonenumber,
+    //           "paymentType": result.result.paymenttype,
+    //           "bankAccountNumber": result.result.bankaccountnumber,
+    //           "bankBranchCode": result.result.bankbranchcode,
+    //           "chequeNumber": result.result.chequenumber,
+    //           "chequeDate": result.result.chequedate,
+    //           "guardianID": result.result.guardianid,
+    //           "guardianicType": result.result.guardianictype,
+    //           "guardianicNumber": result.result.guardianicnumber,
+    //           "policyNumber": result.result.policynumber,
+    //           "epfNumber": result.result.epfnumber,
+    //           "subPaymentType": result.result.subpaymenttype,
+    //           "ewgateway": result.result.ewgateway,
+    //           "thirdPartyInvestment": result.result.thirdpartyinvestment,
+    //           "thirdPartyName": result.result.thirdpartyname,
+    //           "thirdPartyICNumber": result.result.thirdpartyicnumber,
+    //           "thirdPartyRelationship": result.result.thirdpartyrelationship,
+    //           "reasonForTransfer": result.result.reasonfortransfer,
+    //           "sourceOfFund": result.result.sourceoffund,
+    //           "otherSourceOfFund": result.result.othersourceoffund,
+    //           "funderName": result.result.fundname,
+    //           "transactionStatus": result.result.transactionstatus,
+    //           "transactionNumber": result.result.transactionnumber,
+    //           "taxInvoiceNumber": result.result.taxinvoicenumber,
+    //           "confirmedUnits": result.result.unitsalloted,
+    //           "unitBalance": "",
+    //           "operation": "",
+    //           "remark": "",
+    //           "creditNoteNumber": email,
+    //           "rejectCode": result.result.rejectcode,
+    //           "rejectReason": result.result.rejectreason,
+    //           "itemno": signalrConnection.itemNo,
+    //           "nav": result.result.fundprice,
+    //           "fee": result.result.salescharge,
+    //           "sst": result.result.gstamount
+    //         }
 
-            // console.log("1769 " + JSON.stringify(FTBody));
+    //         // console.log("1769 " + JSON.stringify(FTBody));
 
-            this.serviceService.updateFundTransaction(FTBody).toPromise().then(
-              (result: any) => {
-                // console.log("1944 " + JSON.stringify(result.result));
-              });
+    //         this.serviceService.updateFundTransaction(FTBody).toPromise().then(
+    //           (result: any) => {
+    //             // console.log("1944 " + JSON.stringify(result.result));
+    //           });
 
-            kActivit1.endTime = new Date();
-            kActivit1.status = true;
-            appFunc.kioskActivity.push(kActivit1);
+    //         kActivit1.endTime = new Date();
+    //         kActivit1.status = true;
+    //         appFunc.kioskActivity.push(kActivit1);
 
-            this.paymentStep3 = false;
-            this.paymentStep4 = true;
+    //         this.paymentStep3 = false;
+    //         this.paymentStep4 = true;
 
-            this.isClicked = false;
+    //         this.isClicked = false;
 
-            setTimeout(() => {
-              this.SIStep5 = false;
-              this.SIStep6 = true;
-            }, 5000);
-          }
-          else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
-
-
-            signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
-
-            });
-
-            this.isRequery = true;
-            this.unitholdername = name;
-            this.unitholderid = uhid;
-            this.unitholderic = icno;
-            this.refno = result.result.transactionnumber;
+    //         setTimeout(() => {
+    //           this.SIStep5 = false;
+    //           this.SIStep6 = true;
+    //         }, 5000);
+    //       }
+    //       else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
 
 
-            this.approvalcode = "1234";
-            if(appFunc.isOwn == "major"){
-              this.accounttype = "Dewasa"
-            }else if(appFunc.isOwn == "bijak"){
-              this.accounttype = "Bijak/Remaja"
-            }else{
-              if(selectLang.selectedLang == 'ms'){
-                this.accounttype = "Pihak Ketiga"
-              }else{
-                this.accounttype = "Third Party"
-              }
-            }
+    //         signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
 
-            this.isHistorical = this.isBefore4pm();
+    //         });
 
-            if(selectLang.selectedLang == 'ms'){
-              this.status = "Diproses";
-              this.isHistorical = false;
-            }else{
-              this.status = "Processing";
-              this.isHistorical = false;
-            }
-
-            this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
-            this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
-            this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
-            this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
-            this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
+    //         this.isRequery = true;
+    //         this.unitholdername = name;
+    //         this.unitholderid = uhid;
+    //         this.unitholderic = icno;
+    //         this.refno = result.result.transactionnumber;
 
 
-            let module = "";
-            if(appFunc.isOwn == "major"){
-              if(appFunc.isInvesment){
-                module = "9";
-              }else{
-                module = "11";
-              }
-            }else if(appFunc.isOwn == "bijak"){
-              if(appFunc.isInvesment){
-                module = "10";
-              }else{
-                module = "12";
-              }
-            }else{
-              module = "19";
-            }
+    //         this.approvalcode = "1234";
+    //         if(appFunc.isOwn == "major"){
+    //           this.accounttype = "Dewasa"
+    //         }else if(appFunc.isOwn == "bijak"){
+    //           this.accounttype = "Bijak/Remaja"
+    //         }else{
+    //           if(selectLang.selectedLang == 'ms'){
+    //             this.accounttype = "Pihak Ketiga"
+    //           }else{
+    //             this.accounttype = "Third Party"
+    //           }
+    //         }
 
-            if (currentHolder.email == ""){
-              this.Email_Visible = false;
-            }
-            else{
-              this.Email_Visible = true;
-            }
+    //         this.isHistorical = this.isBefore4pm();
 
-            if(signalrConnection.kioskType == 'Mobile'){
-              this.Print_Visible = false;
-            }
-            else{
-              this.Print_Visible = true;
-            }
+    //         if(selectLang.selectedLang == 'ms'){
+    //           this.status = "Diproses";
+    //           this.isHistorical = false;
+    //         }else{
+    //           this.status = "Processing";
+    //           this.isHistorical = false;
+    //         }
 
-            this.requeryInfo = {
-              "channeltype": signalrConnection.channelType,
-              "requestoridentification": signalrConnection.requestIdentification,
-              "deviceowner": signalrConnection.deviceOwner,
-              "agentcode": signalrConnection.agentCode,
-              "branchcode": signalrConnection.branchCode,
-              "banktrxreferencenumber": body.BANKTXNREFERENCENUMBER,
-              "txnreferencenumber": "",
-              "transactiondate": body.TRANSACTIONDATE,
-              "unitholderid": uhid,
-              "identificationtype": ictype,
-              "identificationnumber": icno,
-              "fundid": this.fundid,
-              "guardianid": guardianID,
-              "guardianictype": guardianICtype,
-              "guardianicnumber": guardianIC,
-              "firstname": name,
-              "email": "",
-              "module": module,
-              "language": selectLang.selectedLang,
-              "url": "",
-            }
+    //         this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
+    //         this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
+    //         this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
+    //         this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
+    //         this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
 
-            const FTBody =
-            {
-              "trxNo": signalrConnection.trxno,
-              "kioskCode": signalrConnection.kioskCode,
-              "unitHolderID": result.result.unitholderid,
-              "firstName": result.result.firstname,
-              "identificationType": result.result.identificationtype,
-              "identificationNumber": result.result.identificationnumber,
-              "fundID": result.result.fundid,
-              "amountApplied": result.result.amountapplied,
-              "transactionDate": result.result.transactiondate,
-              "transactionTime": result.result.transactiontime,
-              "transactionType": module,
-              "customerICNumber": result.result.customericnumber,
-              "customerName": result.result.customername,
-              "agentCode": result.result.agentCode,
-              "referenceNo": result.result.transactionnumber,
-              "bankTxnReferenceNumber": result.result.banktxnreferencenumber,
-              "bankCustPhoneNumber": result.result.bankcustphonenumber,
-              "paymentType": result.result.paymenttype,
-              "bankAccountNumber": result.result.bankaccountnumber,
-              "bankBranchCode": result.result.bankbranchcode,
-              "chequeNumber": result.result.chequenumber,
-              "chequeDate": result.result.chequedate,
-              "guardianID": result.result.guardianid,
-              "guardianicType": result.result.guardianictype,
-              "guardianicNumber": result.result.guardianicnumber,
-              "policyNumber": result.result.policynumber,
-              "epfNumber": result.result.epfnumber,
-              "subPaymentType": result.result.subpaymenttype,
-              "ewgateway": result.result.ewgateway,
-              "thirdPartyInvestment": result.result.thirdpartyinvestment,
-              "thirdPartyName": result.result.thirdpartyname,
-              "thirdPartyICNumber": result.result.thirdpartyicnumber,
-              "thirdPartyRelationship": result.result.thirdpartyrelationship,
-              "reasonForTransfer": result.result.reasonfortransfer,
-              "sourceOfFund": result.result.sourceoffund,
-              "otherSourceOfFund": result.result.othersourceoffund,
-              "funderName": result.result.fundname,
-              "transactionStatus": result.result.transactionstatus,
-              "transactionNumber": result.result.transactionnumber,
-              "taxInvoiceNumber": result.result.taxinvoicenumber,
-              "confirmedUnits": result.result.unitsalloted,
-              "unitBalance": "",
-              "operation": "",
-              "remark": "",
-              "creditNoteNumber": email,
-              "rejectCode": result.result.rejectcode,
-              "rejectReason": result.result.rejectreason,
-              "itemno": signalrConnection.itemNo,
-              "nav": result.result.fundprice,
-              "fee": result.result.salescharge,
-              "sst": result.result.gstamount
-            }
 
-            // console.log("1940 " + JSON.stringify(FTBody));
+    //         let module = "";
+    //         if(appFunc.isOwn == "major"){
+    //           if(appFunc.isInvesment){
+    //             module = "9";
+    //           }else{
+    //             module = "11";
+    //           }
+    //         }else if(appFunc.isOwn == "bijak"){
+    //           if(appFunc.isInvesment){
+    //             module = "10";
+    //           }else{
+    //             module = "12";
+    //           }
+    //         }else{
+    //           module = "19";
+    //         }
 
-            this.serviceService.updateFundTransaction(FTBody).toPromise().then(
-              (result: any) => {
-                // console.log("1944 " + JSON.stringify(result.result));
-              });
-            signalrConnection.itemNo += 1;
-            kActivit1.endTime = new Date();
-            kActivit1.status = true;
-            appFunc.kioskActivity.push(kActivit1);
+    //         if (currentHolder.email == ""){
+    //           this.Email_Visible = false;
+    //         }
+    //         else{
+    //           this.Email_Visible = true;
+    //         }
 
-            this.paymentStep3 = false;
-            this.paymentStep4 = true;
+    //         if(signalrConnection.kioskType == 'Mobile'){
+    //           this.Print_Visible = false;
+    //         }
+    //         else{
+    //           this.Print_Visible = true;
+    //         }
 
-            this.isClicked = false;
+    //         this.requeryInfo = {
+    //           "channeltype": signalrConnection.channelType,
+    //           "requestoridentification": signalrConnection.requestIdentification,
+    //           "deviceowner": signalrConnection.deviceOwner,
+    //           "agentcode": signalrConnection.agentCode,
+    //           "branchcode": signalrConnection.branchCode,
+    //           "banktrxreferencenumber": body.BANKTXNREFERENCENUMBER,
+    //           "txnreferencenumber": "",
+    //           "transactiondate": body.TRANSACTIONDATE,
+    //           "unitholderid": uhid,
+    //           "identificationtype": ictype,
+    //           "identificationnumber": icno,
+    //           "fundid": this.fundid,
+    //           "guardianid": guardianID,
+    //           "guardianictype": guardianICtype,
+    //           "guardianicnumber": guardianIC,
+    //           "firstname": name,
+    //           "email": "",
+    //           "module": module,
+    //           "language": selectLang.selectedLang,
+    //           "url": "",
+    //         }
 
-            setTimeout(() => {
-              this.SIStep5 = false;
-              this.SIStep6 = true;
-            }, 5000);
-          }
-          else{
+    //         const FTBody =
+    //         {
+    //           "trxNo": signalrConnection.trxno,
+    //           "kioskCode": signalrConnection.kioskCode,
+    //           "unitHolderID": result.result.unitholderid,
+    //           "firstName": result.result.firstname,
+    //           "identificationType": result.result.identificationtype,
+    //           "identificationNumber": result.result.identificationnumber,
+    //           "fundID": result.result.fundid,
+    //           "amountApplied": result.result.amountapplied,
+    //           "transactionDate": result.result.transactiondate,
+    //           "transactionTime": result.result.transactiontime,
+    //           "transactionType": module,
+    //           "customerICNumber": result.result.customericnumber,
+    //           "customerName": result.result.customername,
+    //           "agentCode": result.result.agentCode,
+    //           "referenceNo": result.result.transactionnumber,
+    //           "bankTxnReferenceNumber": result.result.banktxnreferencenumber,
+    //           "bankCustPhoneNumber": result.result.bankcustphonenumber,
+    //           "paymentType": result.result.paymenttype,
+    //           "bankAccountNumber": result.result.bankaccountnumber,
+    //           "bankBranchCode": result.result.bankbranchcode,
+    //           "chequeNumber": result.result.chequenumber,
+    //           "chequeDate": result.result.chequedate,
+    //           "guardianID": result.result.guardianid,
+    //           "guardianicType": result.result.guardianictype,
+    //           "guardianicNumber": result.result.guardianicnumber,
+    //           "policyNumber": result.result.policynumber,
+    //           "epfNumber": result.result.epfnumber,
+    //           "subPaymentType": result.result.subpaymenttype,
+    //           "ewgateway": result.result.ewgateway,
+    //           "thirdPartyInvestment": result.result.thirdpartyinvestment,
+    //           "thirdPartyName": result.result.thirdpartyname,
+    //           "thirdPartyICNumber": result.result.thirdpartyicnumber,
+    //           "thirdPartyRelationship": result.result.thirdpartyrelationship,
+    //           "reasonForTransfer": result.result.reasonfortransfer,
+    //           "sourceOfFund": result.result.sourceoffund,
+    //           "otherSourceOfFund": result.result.othersourceoffund,
+    //           "funderName": result.result.fundname,
+    //           "transactionStatus": result.result.transactionstatus,
+    //           "transactionNumber": result.result.transactionnumber,
+    //           "taxInvoiceNumber": result.result.taxinvoicenumber,
+    //           "confirmedUnits": result.result.unitsalloted,
+    //           "unitBalance": "",
+    //           "operation": "",
+    //           "remark": "",
+    //           "creditNoteNumber": email,
+    //           "rejectCode": result.result.rejectcode,
+    //           "rejectReason": result.result.rejectreason,
+    //           "itemno": signalrConnection.itemNo,
+    //           "nav": result.result.fundprice,
+    //           "fee": result.result.salescharge,
+    //           "sst": result.result.gstamount
+    //         }
 
-            this.isClicked = false;
-            errorCodes.Ecode = result.result.rejectcode;
-            errorCodes.Emessage = result.result.rejectreason;
-            if(selectLang.selectedLang == 'ms'){
-              if(appFunc.isOwn == "major"){
-                errorCodes.accountType = "Dewasa";
-                errorCodes.accountName = currentHolder.firstname;
-                errorCodes.accountNo = currentHolder.unitholderid;
-              }else if(appFunc.isOwn == "bijak"){
-                errorCodes.accountType = "Bijak/Remaja";
-                errorCodes.accountName = name;
-                errorCodes.accountNo = uhid;
-              }else{
-                errorCodes.accountType = "Pihak Ketiga";
-                errorCodes.accountName = currentHolder.firstname;
-                errorCodes.accountNo = currentHolder.unitholderid;
-              }
-            }else{
-              if(appFunc.isOwn == "major"){
-                errorCodes.accountType = "Dewasa";
-                errorCodes.accountName = currentHolder.firstname;
-                errorCodes.accountNo = currentHolder.unitholderid;
-              }else if(appFunc.isOwn == "bijak"){
-                errorCodes.accountType = "Bijak/Remaja";
-                errorCodes.accountName = name;
-                errorCodes.accountNo = uhid;
-              }else{
-                errorCodes.accountType = "Pihak Ketiga";
-                errorCodes.accountName = currentHolder.firstname;
-                errorCodes.accountNo = currentHolder.unitholderid;
-              }
-            }
-            errorCodes.transaction = this.transaction;
-            kActivit1.endTime = new Date();
-            kActivit1.status = false;
-            appFunc.kioskActivity.push(kActivit1);
-            this._router.navigate(['errorscreen']);
-          }
-            });
-        });  
-    }
-    else{
+    //         // console.log("1940 " + JSON.stringify(FTBody));
+
+    //         this.serviceService.updateFundTransaction(FTBody).toPromise().then(
+    //           (result: any) => {
+    //             // console.log("1944 " + JSON.stringify(result.result));
+    //           });
+    //         signalrConnection.itemNo += 1;
+    //         kActivit1.endTime = new Date();
+    //         kActivit1.status = true;
+    //         appFunc.kioskActivity.push(kActivit1);
+
+    //         this.paymentStep3 = false;
+    //         this.paymentStep4 = true;
+
+    //         this.isClicked = false;
+
+    //         setTimeout(() => {
+    //           this.SIStep5 = false;
+    //           this.SIStep6 = true;
+    //         }, 5000);
+    //       }
+    //       else{
+
+    //         this.isClicked = false;
+    //         errorCodes.Ecode = result.result.rejectcode;
+    //         errorCodes.Emessage = result.result.rejectreason;
+    //         if(selectLang.selectedLang == 'ms'){
+    //           if(appFunc.isOwn == "major"){
+    //             errorCodes.accountType = "Dewasa";
+    //             errorCodes.accountName = currentHolder.firstname;
+    //             errorCodes.accountNo = currentHolder.unitholderid;
+    //           }else if(appFunc.isOwn == "bijak"){
+    //             errorCodes.accountType = "Bijak/Remaja";
+    //             errorCodes.accountName = name;
+    //             errorCodes.accountNo = uhid;
+    //           }else{
+    //             errorCodes.accountType = "Pihak Ketiga";
+    //             errorCodes.accountName = currentHolder.firstname;
+    //             errorCodes.accountNo = currentHolder.unitholderid;
+    //           }
+    //         }else{
+    //           if(appFunc.isOwn == "major"){
+    //             errorCodes.accountType = "Dewasa";
+    //             errorCodes.accountName = currentHolder.firstname;
+    //             errorCodes.accountNo = currentHolder.unitholderid;
+    //           }else if(appFunc.isOwn == "bijak"){
+    //             errorCodes.accountType = "Bijak/Remaja";
+    //             errorCodes.accountName = name;
+    //             errorCodes.accountNo = uhid;
+    //           }else{
+    //             errorCodes.accountType = "Pihak Ketiga";
+    //             errorCodes.accountName = currentHolder.firstname;
+    //             errorCodes.accountNo = currentHolder.unitholderid;
+    //           }
+    //         }
+    //         errorCodes.transaction = this.transaction;
+    //         kActivit1.endTime = new Date();
+    //         kActivit1.status = false;
+    //         appFunc.kioskActivity.push(kActivit1);
+    //         this._router.navigate(['errorscreen']);
+    //       }
+    //         });
+    //     });  
+    // }
+    //else{
 
       this.isButtonDisabled = true;
 
@@ -2020,6 +2076,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
       let PaymentAmt = parseFloat(this.amountKeyed.toString()).toFixed(2);
       let inProgress = false;
+
       signalrConnection.connection.invoke('ECRConnection', PaymentAmt).then((data: string) => {
         setTimeout(() => {
           this.isButtonDisabled = false;
@@ -2031,9 +2088,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
             signalrConnection.connection.invoke('getCardInfo').then((cardInfo: any) => {
               this.tempCardInfo = cardInfo;
               statusCode = cardInfo.StatusCode;
+
               if (statusCode == "00") {
-                signalrConnection.connection.invoke('deleteCreditCardInfo', true).then((data: string) => {
+                if (inProgress == false){
                   inProgress = true;
+                  signalrConnection.connection.invoke('deleteCreditCardInfo', true).then((data: string) => {
+
                   const CCInfo =
                   {
                     "trxNo": signalrConnection.trxno,
@@ -2058,7 +2118,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
                   this.CCinformation = CCInfo;
 
-                  this.serviceService.createCustCreditCardInfo(CCInfo).subscribe(() => {});
+                  this.subscriptionCustCC = this.serviceService.createCustCreditCardInfo(CCInfo).subscribe(() => {});
 
                   const body =
                   {
@@ -2256,11 +2316,12 @@ export class SubscriptioninvestmentComponent implements OnInit {
                     "fee": "",
                     "sst": ""
                   }
-
+                  
                   this.serviceService.createFundTransaction(FTBody).toPromise().then
                   ((result: any) => {
-
-                      this.serviceService.postSubscriptionWithoutProvision(newbody).toPromise().then
+                      
+                      // this.serviceService.postSubscriptionWithoutProvision(newbody).toPromise().then
+                      this.subscriptionPOA = this.serviceService.postSubscriptionWithoutProvision(newbody).subscribe
                       ((result: any) => 
                       {
                         if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
@@ -2272,9 +2333,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           this.unitholdername = name;
                           this.unitholderid = uhid;
                           this.unitholderic = icno;
-                          this.refno = result.result.transactionnumber;
-    
+                          this.refno = result.result.transactionnumber; 
                           this.approvalcode = CCInfo.approvalCode;
+
                           if(appFunc.isOwn == "major"){
                             this.accounttype = "Dewasa"
                           }else if(appFunc.isOwn == "bijak"){
@@ -2406,6 +2467,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                             (result: any) => {
                               // console.log("2405 " + JSON.stringify(result.result));
                             });
+
                           signalrConnection.itemNo += 1;
                           kActivit1.endTime = new Date();
                           kActivit1.status = true;
@@ -2424,7 +2486,6 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         }
                         else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
     
-    
                           signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
     
                           });
@@ -2433,10 +2494,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           this.unitholdername = name;
                           this.unitholderid = uhid;
                           this.unitholderic = icno;
-                          this.refno = result.result.transactionnumber;
-    
-    
+                          this.refno = result.result.transactionnumber;  
                           this.approvalcode = CCInfo.approvalCode;
+
                           if(appFunc.isOwn == "major"){
                             this.accounttype = "Dewasa"
                           }else if(appFunc.isOwn == "bijak"){
@@ -2482,10 +2542,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           }else{
                             module = "19";
                           }
-    
-    
-    
-    
+
                           if (currentHolder.email == ""){
                             this.Email_Visible = false;
                           }
@@ -2584,6 +2641,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                             (result: any) => {
                               // console.log("2567 " + JSON.stringify(result.result));
                             });
+
                           signalrConnection.itemNo += 1;
                           kActivit1.endTime = new Date();
                           kActivit1.status = true;
@@ -2669,6 +2727,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                             });
     
                           this.isClicked = false;
+
                           errorCodes.Ecode = result.result.rejectcode;
                           errorCodes.Emessage = result.result.rejectreason;
                           if(selectLang.selectedLang == 'ms'){
@@ -2704,18 +2763,21 @@ export class SubscriptioninvestmentComponent implements OnInit {
                           signalrConnection.connection.invoke('DoVoid', PaymentAmt, cardInfo.HostNo, cardInfo.TransactionTrace, signalrConnection.trxno).then(() => {
     
                           });
+
                           kActivit1.endTime = new Date();
                           kActivit1.status = false;
                           appFunc.kioskActivity.push(kActivit1);
                           this._router.navigate(['errorscreen']);
                         }
                       });
+                    });
                   });
-                });
+                }
               }
               else if(this.checkTerminalErrorCodes(statusCode)){
-
+                inProgress = true;
                 this.isClicked = false;
+
                 signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
 
                 });
@@ -2754,6 +2816,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 kActivit1.endTime = new Date();
                 kActivit1.status = false;
                 appFunc.kioskActivity.push(kActivit1);
+
                 this._router.navigate(['errorscreen']);
               }
               else{
@@ -2770,9 +2833,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
         };
         theLoop(statusCode);
       });
+    // }
     }
-
-
   }
 
   checkTerminalErrorCodes(statusCode: string){
@@ -2839,16 +2901,17 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   SIStep5Cancel(){
     this.isClicked = false;
-    if(signalrConnection.isHardcodedIC){
-      if(appFunc.isOwn == "third"){
-        this.STPStep3 = true;
-        this.SIStep5 = false;
-      }else{
-        this.SIStep4 = true;
-        this.SIStep5 = false;
-      }
-    }
-    else{
+
+    // if(signalrConnection.isHardcodedIC){
+    //   if(appFunc.isOwn == "third"){
+    //     this.STPStep3 = true;
+    //     this.SIStep5 = false;
+    //   }else{
+    //     this.SIStep4 = true;
+    //     this.SIStep5 = false;
+    //   }
+    // }
+    // else{
       signalrConnection.connection.invoke('CancelECR').then(() => {
 
       });
@@ -2859,8 +2922,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.SIStep4 = true;
         this.SIStep5 = false;
       }
-    }
-
+    // }
   }
 
   STPStep1Back(){
@@ -3110,11 +3172,8 @@ export class SubscriptioninvestmentComponent implements OnInit {
   }
 
   SIStep5End(){
-    if(signalrConnection.isHardcodedIC == false){
       signalrConnection.connection.invoke('CancelECR').then(() => {
-
       });
-    }
     this._router.navigate(['feedbackscreen']);
   }
 
@@ -3142,9 +3201,11 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
   }
 
+  //Third Party Subscription
   STPStep3Next(){
 
     this.isClicked = true;
+
     let ictype = "";
     let icno = "";
     let uhid = "";
@@ -3164,450 +3225,450 @@ export class SubscriptioninvestmentComponent implements OnInit {
     this.SIStep5 = true;
 
 
-    if(signalrConnection.isHardcodedIC){
+    // if(signalrConnection.isHardcodedIC){
 
-      let kActivit1 = new kActivity();
-      kActivit1.trxno = signalrConnection.trxno;
-      kActivit1.kioskCode = signalrConnection.kioskCode;
-      kActivit1.moduleID = this.moduleid;
-      kActivit1.submoduleID = undefined;
-      kActivit1.action = this.action + " - Hardcoded";
-      kActivit1.startTime = new Date();
-
-
-      this.paymentStep1 = false;
-      this.paymentStep3 = true;
-
-      const body =
-      {
-        "CHANNELTYPE": signalrConnection.channelType,
-        "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-        "DEVICEOWNER": signalrConnection.deviceOwner,
-        "UNITHOLDERID":this.thirduhidkeyed,
-        "FIRSTNAME": "",
-        "IDENTIFICATIONTYPE": this.thirdictypekeyed,
-        "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
-        "FUNDID":this.thirdfundnamekeyed,
-        "AMOUNTAPPLIED":this.thirdamountkeyed,
-        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-        "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-        "CUSTOMERICNUMBER":"",
-        "CUSTOMERNAME":"",
-        "AGENTCODE":signalrConnection.agentCode,
-        "BRANCHCODE":signalrConnection.branchCode,
-        "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
-        "BANKCUSTPHONENUMBER":"",
-        "PAYMENTTYPE":"T",
-        "BANKACCOUNTNUMBER":"",
-        "GUARDIANID":"",
-        "GUARDIANICTYPE":"",
-        "GUARDIANICNUMBER":"",
-        "THIRDPARTYINVESTMENT": "Y",
-        "THIRDPARTYNAME": name,
-        "THIRDPARTYICTYPE": ictype,
-        "THIRDPARTYICNUMBER": icno,
-        "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
-        "REASONFORTRANSFER":this.thirdreasonkeyed,
-        "SOURCEOFFUND":this.sourceOfFund,
-        "OTHERSOURCEOFFUND":this.sourceOther,
-        "FUNDERNAME":this.otherSourceOfFund,
-        "LANGUAGE": selectLang.selectedLang,
-        "signature": ""
-      }
-
-      this.requeryInfo =
-      {
-        "CHANNELTYPE": signalrConnection.channelType,
-        "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-        "DEVICEOWNER": signalrConnection.deviceOwner,
-        "UNITHOLDERID":this.thirduhidkeyed,
-        "FIRSTNAME": "",
-        "IDENTIFICATIONTYPE": this.thirdictypekeyed,
-        "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
-        "FUNDID":this.thirdfundnamekeyed,
-        "AMOUNTAPPLIED":this.thirdamountkeyed,
-        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-        "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-        "CUSTOMERICNUMBER":"",
-        "CUSTOMERNAME":"",
-        "AGENTCODE":signalrConnection.agentCode,
-        "BRANCHCODE":signalrConnection.branchCode,
-        "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
-        "BANKCUSTPHONENUMBER":"",
-        "PAYMENTTYPE":"T",
-        "BANKACCOUNTNUMBER":"",
-        "GUARDIANID":"",
-        "GUARDIANICTYPE":"",
-        "GUARDIANICNUMBER":"",
-        "THIRDPARTYINVESTMENT": "Y",
-        "THIRDPARTYNAME": name,
-        "THIRDPARTYICTYPE": ictype,
-        "THIRDPARTYICNUMBER": icno,
-        "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
-        "REASONFORTRANSFER":this.thirdreasonkeyed,
-        "SOURCEOFFUND":this.sourceOfFund,
-        "OTHERSOURCEOFFUND":this.sourceOther,
-        "FUNDERNAME":this.otherSourceOfFund
-      }
-
-      let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
-      let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
-        keySize: 128,
-        blockSize: 128,
-        mode: CryptoJS.mode.ECB,
-        padding: CryptoJS.pad.Pkcs7
-      });
-
-      const newbody =
-      {
-        "CHANNELTYPE": signalrConnection.channelType,
-        "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
-        "DEVICEOWNER": signalrConnection.deviceOwner,
-        "UNITHOLDERID":this.thirduhidkeyed,
-        "FIRSTNAME": "",
-        "IDENTIFICATIONTYPE": this.thirdictypekeyed,
-        "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
-        "FUNDID":this.thirdfundnamekeyed,
-        "AMOUNTAPPLIED":this.thirdamountkeyed,
-        "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-        "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-        "CUSTOMERICNUMBER":"",
-        "CUSTOMERNAME":"",
-        "AGENTCODE":signalrConnection.agentCode,
-        "BRANCHCODE":signalrConnection.branchCode,
-        "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
-        "BANKCUSTPHONENUMBER":"",
-        "PAYMENTTYPE":"T",
-        "BANKACCOUNTNUMBER":"",
-        "GUARDIANID":"",
-        "GUARDIANICTYPE":"",
-        "GUARDIANICNUMBER":"",
-        "THIRDPARTYINVESTMENT": "Y",
-        "THIRDPARTYNAME": name,
-        "THIRDPARTYICTYPE": ictype,
-        "THIRDPARTYICNUMBER": icno,
-        "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
-        "REASONFORTRANSFER":this.thirdreasonkeyed,
-        "SOURCEOFFUND":this.sourceOfFund,
-        "OTHERSOURCEOFFUND":this.sourceOther,
-        "FUNDERNAME":this.otherSourceOfFund,
-        "LANGUAGE": selectLang.selectedLang,
-        "signature": encryptedBody.toString()
-      }
+    //   let kActivit1 = new kActivity();
+    //   kActivit1.trxno = signalrConnection.trxno;
+    //   kActivit1.kioskCode = signalrConnection.kioskCode;
+    //   kActivit1.moduleID = this.moduleid;
+    //   kActivit1.submoduleID = undefined;
+    //   kActivit1.action = this.action + " - Hardcoded";
+    //   kActivit1.startTime = new Date();
 
 
+    //   this.paymentStep1 = false;
+    //   this.paymentStep3 = true;
 
-      // console.log(JSON.stringify(newbody));
+    //   const body =
+    //   {
+    //     "CHANNELTYPE": signalrConnection.channelType,
+    //     "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+    //     "DEVICEOWNER": signalrConnection.deviceOwner,
+    //     "UNITHOLDERID":this.thirduhidkeyed,
+    //     "FIRSTNAME": "",
+    //     "IDENTIFICATIONTYPE": this.thirdictypekeyed,
+    //     "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
+    //     "FUNDID":this.thirdfundnamekeyed,
+    //     "AMOUNTAPPLIED":this.thirdamountkeyed,
+    //     "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //     "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //     "CUSTOMERICNUMBER":"",
+    //     "CUSTOMERNAME":"",
+    //     "AGENTCODE":signalrConnection.agentCode,
+    //     "BRANCHCODE":signalrConnection.branchCode,
+    //     "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+    //     "BANKCUSTPHONENUMBER":"",
+    //     "PAYMENTTYPE":"T",
+    //     "BANKACCOUNTNUMBER":"",
+    //     "GUARDIANID":"",
+    //     "GUARDIANICTYPE":"",
+    //     "GUARDIANICNUMBER":"",
+    //     "THIRDPARTYINVESTMENT": "Y",
+    //     "THIRDPARTYNAME": name,
+    //     "THIRDPARTYICTYPE": ictype,
+    //     "THIRDPARTYICNUMBER": icno,
+    //     "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
+    //     "REASONFORTRANSFER":this.thirdreasonkeyed,
+    //     "SOURCEOFFUND":this.sourceOfFund,
+    //     "OTHERSOURCEOFFUND":this.sourceOther,
+    //     "FUNDERNAME":this.otherSourceOfFund,
+    //     "LANGUAGE": selectLang.selectedLang,
+    //     "signature": ""
+    //   }
 
-      this.serviceService.postSubscriptionWithoutProvision(newbody)
-      .toPromise().then((result: any) => {
-        // console.log(result.result.transactionstatus);
-        // console.log(result.result.transactionnumber);
-        if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
+    //   this.requeryInfo =
+    //   {
+    //     "CHANNELTYPE": signalrConnection.channelType,
+    //     "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+    //     "DEVICEOWNER": signalrConnection.deviceOwner,
+    //     "UNITHOLDERID":this.thirduhidkeyed,
+    //     "FIRSTNAME": "",
+    //     "IDENTIFICATIONTYPE": this.thirdictypekeyed,
+    //     "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
+    //     "FUNDID":this.thirdfundnamekeyed,
+    //     "AMOUNTAPPLIED":this.thirdamountkeyed,
+    //     "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //     "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //     "CUSTOMERICNUMBER":"",
+    //     "CUSTOMERNAME":"",
+    //     "AGENTCODE":signalrConnection.agentCode,
+    //     "BRANCHCODE":signalrConnection.branchCode,
+    //     "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+    //     "BANKCUSTPHONENUMBER":"",
+    //     "PAYMENTTYPE":"T",
+    //     "BANKACCOUNTNUMBER":"",
+    //     "GUARDIANID":"",
+    //     "GUARDIANICTYPE":"",
+    //     "GUARDIANICNUMBER":"",
+    //     "THIRDPARTYINVESTMENT": "Y",
+    //     "THIRDPARTYNAME": name,
+    //     "THIRDPARTYICTYPE": ictype,
+    //     "THIRDPARTYICNUMBER": icno,
+    //     "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
+    //     "REASONFORTRANSFER":this.thirdreasonkeyed,
+    //     "SOURCEOFFUND":this.sourceOfFund,
+    //     "OTHERSOURCEOFFUND":this.sourceOther,
+    //     "FUNDERNAME":this.otherSourceOfFund
+    //   }
 
-          signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+    //   let key = CryptoJS.enc.Utf8.parse(this.appConfig.AESCrpytKey);
+    //   let encryptedBody = CryptoJS.AES.encrypt(JSON.stringify(body), key, {
+    //     keySize: 128,
+    //     blockSize: 128,
+    //     mode: CryptoJS.mode.ECB,
+    //     padding: CryptoJS.pad.Pkcs7
+    //   });
 
-          });
-
-          this.STPStep3 = false;
-          this.SIStep5 = true;
-          this.thirdnamekeyed = result.result.firstname;
-          this.unitholdername = this.thirdnamekeyed;
-          this.unitholderid = this.thirduhidkeyed;
-          this.unitholderic = this.thirdicnokeyed;
-          this.refno = result.result.transactionnumber;
-
-          this.amountKeyed = Number(this.thirdamountkeyed);
-
-          this.approvalcode = formatDate(new Date(), 'dd/MM/yyyy HH:mm:ss', 'en');
-          if(appFunc.isOwn == "major"){
-            this.accounttype = "Dewasa"
-          }else if(appFunc.isOwn == "bijak"){
-            this.accounttype = "Bijak/Remaja"
-          }else{
-            if(selectLang.selectedLang == 'ms'){
-              this.accounttype = "Pihak Ketiga"
-            }else{
-              this.accounttype = "Third Party"
-            }
-          }
-
-          if (currentHolder.email == ""){
-            this.Email_Visible = false;
-          }
-          else{
-            this.Email_Visible = true;
-          }
-
-          if(signalrConnection.kioskType == 'Mobile'){
-            this.Print_Visible = false;
-          }
-          else{
-            this.Print_Visible = true;
-          }
-
-          this.isHistorical = this.isBefore4pm();
-
-          if(selectLang.selectedLang == 'ms'){
-            if(this.amountOrunit){
-              this.status = "Berjaya";
-            }
-            else{
-              this.status = "Diproses";
-              this.isHistorical = false;
-            }
-          }else{
-            if(this.amountOrunit){
-              this.status = "Successful";
-            }
-            else{
-              this.status = "Processing";
-              this.isHistorical = false;
-            }
-          }
-
-          this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
-          this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
-          this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
-          this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
-          this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
-
-
-          kActivit1.endTime = new Date();
-          kActivit1.status = true;
-          appFunc.kioskActivity.push(kActivit1);
-
-          this.paymentStep3 = false;
-          this.paymentStep4 = true;
-
-          this.isClicked = false;
-
-          setTimeout(() => {
-            this.SIStep5 = false;
-            this.SIStep6 = true;
-          }, 5000);
-
-        }
-        else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
-
-          signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
-
-          });
-
-          this.isRequery = true;
-          this.STPStep3 = false;
-          this.SIStep5 = true;
-          this.thirdnamekeyed = result.result.firstname;
-          this.unitholdername = this.thirdnamekeyed;
-          this.unitholderid = this.thirduhidkeyed;
-          this.unitholderic = this.thirdicnokeyed;
-          this.refno = result.result.transactionnumber;
+    //   const newbody =
+    //   {
+    //     "CHANNELTYPE": signalrConnection.channelType,
+    //     "REQUESTORIDENTIFICATION": signalrConnection.requestIdentification,
+    //     "DEVICEOWNER": signalrConnection.deviceOwner,
+    //     "UNITHOLDERID":this.thirduhidkeyed,
+    //     "FIRSTNAME": "",
+    //     "IDENTIFICATIONTYPE": this.thirdictypekeyed,
+    //     "IDENTIFICATIONNUMBER": this.thirdicnokeyed,
+    //     "FUNDID":this.thirdfundnamekeyed,
+    //     "AMOUNTAPPLIED":this.thirdamountkeyed,
+    //     "TRANSACTIONDATE": formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //     "TRANSACTIONTIME": formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //     "CUSTOMERICNUMBER":"",
+    //     "CUSTOMERNAME":"",
+    //     "AGENTCODE":signalrConnection.agentCode,
+    //     "BRANCHCODE":signalrConnection.branchCode,
+    //     "BANKTXNREFERENCENUMBER":signalrConnection.trxno,
+    //     "BANKCUSTPHONENUMBER":"",
+    //     "PAYMENTTYPE":"T",
+    //     "BANKACCOUNTNUMBER":"",
+    //     "GUARDIANID":"",
+    //     "GUARDIANICTYPE":"",
+    //     "GUARDIANICNUMBER":"",
+    //     "THIRDPARTYINVESTMENT": "Y",
+    //     "THIRDPARTYNAME": name,
+    //     "THIRDPARTYICTYPE": ictype,
+    //     "THIRDPARTYICNUMBER": icno,
+    //     "THIRDPARTYRELATIONSHIP":this.thirdrelationshipkeyed,
+    //     "REASONFORTRANSFER":this.thirdreasonkeyed,
+    //     "SOURCEOFFUND":this.sourceOfFund,
+    //     "OTHERSOURCEOFFUND":this.sourceOther,
+    //     "FUNDERNAME":this.otherSourceOfFund,
+    //     "LANGUAGE": selectLang.selectedLang,
+    //     "signature": encryptedBody.toString()
+    //   }
 
 
 
+    //   // console.log(JSON.stringify(newbody));
 
-          this.approvalcode = "1234";
-          if(appFunc.isOwn == "major"){
-            this.accounttype = "Dewasa"
-          }else if(appFunc.isOwn == "bijak"){
-            this.accounttype = "Bijak/Remaja"
-          }else{
-            if(selectLang.selectedLang == 'ms'){
-              this.accounttype = "Pihak Ketiga"
-            }else{
-              this.accounttype = "Third Party"
-            }
-          }
+    //   this.serviceService.postSubscriptionWithoutProvision(newbody)
+    //   .toPromise().then((result: any) => {
+    //     // console.log(result.result.transactionstatus);
+    //     // console.log(result.result.transactionnumber);
+    //     if(result.result.transactionstatus.toString().toLowerCase().includes('successful') && result.result.transactionnumber.toString() != ""){
 
-          this.isHistorical = this.isBefore4pm();
+    //       signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
 
-          if(selectLang.selectedLang == 'ms'){
-            this.status = "Diproses";
-            this.isHistorical = false;
-          }else{
-            this.status = "Processing";
-            this.isHistorical = false;
-          }
+    //       });
 
-          this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
-          this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
-          this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
-          this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
-          this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
+    //       this.STPStep3 = false;
+    //       this.SIStep5 = true;
+    //       this.thirdnamekeyed = result.result.firstname;
+    //       this.unitholdername = this.thirdnamekeyed;
+    //       this.unitholderid = this.thirduhidkeyed;
+    //       this.unitholderic = this.thirdicnokeyed;
+    //       this.refno = result.result.transactionnumber;
 
-          let module = "";
-          if(appFunc.isOwn == "major"){
-            if(appFunc.isInvesment){
-              module = "9";
-            }else{
-              module = "11";
-            }
-          }else if(appFunc.isOwn == "bijak"){
-            if(appFunc.isInvesment){
-              module = "10";
-            }else{
-              module = "12";
-            }
-          }else{
-            module = "19";
-          }
+    //       this.amountKeyed = Number(this.thirdamountkeyed);
 
-          if (currentHolder.email == ""){
-            this.Email_Visible = false;
-          }
-          else{
-            this.Email_Visible = true;
-          }
+    //       this.approvalcode = formatDate(new Date(), 'dd/MM/yyyy HH:mm:ss', 'en');
+    //       if(appFunc.isOwn == "major"){
+    //         this.accounttype = "Dewasa"
+    //       }else if(appFunc.isOwn == "bijak"){
+    //         this.accounttype = "Bijak/Remaja"
+    //       }else{
+    //         if(selectLang.selectedLang == 'ms'){
+    //           this.accounttype = "Pihak Ketiga"
+    //         }else{
+    //           this.accounttype = "Third Party"
+    //         }
+    //       }
 
-          if(signalrConnection.kioskType == 'Mobile'){
-            this.Print_Visible = false;
-          }
-          else{
-            this.Print_Visible = true;
-          }
+    //       if (currentHolder.email == ""){
+    //         this.Email_Visible = false;
+    //       }
+    //       else{
+    //         this.Email_Visible = true;
+    //       }
 
-          this.requeryInfo = {
-            "channeltype": signalrConnection.channelType,
-            "requestoridentification": signalrConnection.requestIdentification,
-            "deviceowner": signalrConnection.deviceOwner,
-            "agentcode": signalrConnection.agentCode,
-            "branchcode": signalrConnection.branchCode,
-            "banktrxreferencenumber": body.BANKTXNREFERENCENUMBER,
-            "txnreferencenumber": "",
-            "transactiondate": body.TRANSACTIONDATE,
-            "unitholderid": uhid,
-            "identificationtype": ictype,
-            "identificationnumber": icno,
-            "fundid": this.fundid,
-            "guardianid": "",
-            "guardianictype": "",
-            "guardianicnumber": "",
-            "firstname": name,
-            "email": "",
-            "module": module,
-            "language": selectLang.selectedLang,
-            "url": "",
-          }
+    //       if(signalrConnection.kioskType == 'Mobile'){
+    //         this.Print_Visible = false;
+    //       }
+    //       else{
+    //         this.Print_Visible = true;
+    //       }
 
-          const FTBody =
-          {
-            "trxNo": signalrConnection.trxno,
-            "kioskCode": signalrConnection.kioskCode,
-            "unitHolderID": result.result.unitholderid,
-            "firstName": result.result.firstname,
-            "identificationType": result.result.identificationtype,
-            "identificationNumber": result.result.identificationnumber,
-            "fundID": result.result.fundid,
-            "amountApplied": result.result.amountapplied,
-            "transactionDate": result.result.transactiondate,
-            "transactionTime": result.result.transactiontime,
-            "transactionType": module,
-            "customerICNumber": result.result.customericnumber,
-            "customerName": result.result.customername,
-            "agentCode": result.result.agentCode,
-            "referenceNo": result.result.transactionnumber,
-            "bankTxnReferenceNumber": result.result.banktxnreferencenumber,
-            "bankCustPhoneNumber": result.result.bankcustphonenumber,
-            "paymentType": result.result.paymenttype,
-            "bankAccountNumber": result.result.bankaccountnumber,
-            "bankBranchCode": result.result.bankbranchcode,
-            "chequeNumber": result.result.chequenumber,
-            "chequeDate": result.result.chequedate,
-            "guardianID": result.result.guardianid,
-            "guardianicType": result.result.guardianictype,
-            "guardianicNumber": result.result.guardianicnumber,
-            "policyNumber": result.result.policynumber,
-            "epfNumber": result.result.epfnumber,
-            "subPaymentType": result.result.subpaymenttype,
-            "ewgateway": result.result.ewgateway,
-            "thirdPartyInvestment": result.result.thirdpartyinvestment,
-            "thirdPartyName": result.result.thirdpartyname,
-            "thirdPartyICNumber": result.result.thirdpartyicnumber,
-            "thirdPartyRelationship": result.result.thirdpartyrelationship,
-            "reasonForTransfer": result.result.reasonfortransfer,
-            "sourceOfFund": result.result.sourceoffund,
-            "otherSourceOfFund": result.result.othersourceoffund,
-            "funderName": result.result.fundname,
-            "transactionStatus": result.result.transactionstatus,
-            "transactionNumber": result.result.transactionnumber,
-            "taxInvoiceNumber": result.result.taxinvoicenumber,
-            "confirmedUnits": result.result.unitsalloted,
-            "unitBalance": "",
-            "operation": "",
-            "remark": "",
-            "creditNoteNumber": email,
-            "rejectCode": result.result.rejectcode,
-            "rejectReason": result.result.rejectreason,
-            "itemno": signalrConnection.itemNo,
-            "nav": result.result.fundprice,
-            "fee": result.result.salescharge,
-            "sst": result.result.gstamount
-          }
+    //       this.isHistorical = this.isBefore4pm();
 
-          // console.log("3525 " + JSON.stringify(FTBody));
+    //       if(selectLang.selectedLang == 'ms'){
+    //         if(this.amountOrunit){
+    //           this.status = "Berjaya";
+    //         }
+    //         else{
+    //           this.status = "Diproses";
+    //           this.isHistorical = false;
+    //         }
+    //       }else{
+    //         if(this.amountOrunit){
+    //           this.status = "Successful";
+    //         }
+    //         else{
+    //           this.status = "Processing";
+    //           this.isHistorical = false;
+    //         }
+    //       }
 
-          this.serviceService.updateFundTransaction(FTBody).toPromise().then(
-            (result: any) => {
-              // console.log("3529 " + JSON.stringify(result.result));
-            });
-          signalrConnection.itemNo += 1;
-          kActivit1.endTime = new Date();
-          kActivit1.status = true;
-          appFunc.kioskActivity.push(kActivit1);
+    //       this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
+    //       this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
+    //       this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
+    //       this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
+    //       this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
 
-          this.isClicked = false;
 
-          setTimeout(() => {
-            this.SIStep5 = false;
-            this.SIStep6 = true;
-          }, 5000);
-        }
-        else{
-          signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+    //       kActivit1.endTime = new Date();
+    //       kActivit1.status = true;
+    //       appFunc.kioskActivity.push(kActivit1);
 
-          });
+    //       this.paymentStep3 = false;
+    //       this.paymentStep4 = true;
 
-          this.isClicked = false;
-          errorCodes.Ecode = result.result.rejectcode;
-          errorCodes.Emessage = result.result.rejectreason;
-          if(selectLang.selectedLang == 'ms'){
-            if(appFunc.isOwn == "major"){
-              errorCodes.accountType = "Dewasa";
-              errorCodes.accountName = currentHolder.firstname;
-              errorCodes.accountNo = currentHolder.unitholderid;
-            }else if(appFunc.isOwn == "bijak"){
-              errorCodes.accountType = "Bijak/Remaja";
-              errorCodes.accountName = name;
-              errorCodes.accountNo = uhid;
-            }else{
-              errorCodes.accountType = "Pihak Ketiga";
-              errorCodes.accountName = currentHolder.firstname;
-              errorCodes.accountNo = currentHolder.unitholderid;
-            }
-          }else{
-            if(appFunc.isOwn == "major"){
-              errorCodes.accountType = "Dewasa";
-              errorCodes.accountName = currentHolder.firstname;
-              errorCodes.accountNo = currentHolder.unitholderid;
-            }else if(appFunc.isOwn == "bijak"){
-              errorCodes.accountType = "Bijak/Remaja";
-              errorCodes.accountName = name;
-              errorCodes.accountNo = uhid;
-            }else{
-              errorCodes.accountType = "Pihak Ketiga";
-              errorCodes.accountName = currentHolder.firstname;
-              errorCodes.accountNo = currentHolder.unitholderid;
-            }
-          }
-          errorCodes.transaction = this.transaction;
-          kActivit1.endTime = new Date();
-          kActivit1.status = false;
-          appFunc.kioskActivity.push(kActivit1);
-          this._router.navigate(['errorscreen']);
-        }
-      });
-    }
-    else{
+    //       this.isClicked = false;
+
+    //       setTimeout(() => {
+    //         this.SIStep5 = false;
+    //         this.SIStep6 = true;
+    //       }, 5000);
+
+    //     }
+    //     else if(result.result.transactionstatus.toString() == "" && result.result.transactionnumber.toString() == "" && result.result.rejectcode.toString() == ""){
+
+    //       signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+
+    //       });
+
+    //       this.isRequery = true;
+    //       this.STPStep3 = false;
+    //       this.SIStep5 = true;
+    //       this.thirdnamekeyed = result.result.firstname;
+    //       this.unitholdername = this.thirdnamekeyed;
+    //       this.unitholderid = this.thirduhidkeyed;
+    //       this.unitholderic = this.thirdicnokeyed;
+    //       this.refno = result.result.transactionnumber;
+
+
+
+
+    //       this.approvalcode = "1234";
+    //       if(appFunc.isOwn == "major"){
+    //         this.accounttype = "Dewasa"
+    //       }else if(appFunc.isOwn == "bijak"){
+    //         this.accounttype = "Bijak/Remaja"
+    //       }else{
+    //         if(selectLang.selectedLang == 'ms'){
+    //           this.accounttype = "Pihak Ketiga"
+    //         }else{
+    //           this.accounttype = "Third Party"
+    //         }
+    //       }
+
+    //       this.isHistorical = this.isBefore4pm();
+
+    //       if(selectLang.selectedLang == 'ms'){
+    //         this.status = "Diproses";
+    //         this.isHistorical = false;
+    //       }else{
+    //         this.status = "Processing";
+    //         this.isHistorical = false;
+    //       }
+
+    //       this.feepercentage = result.result.feepercentage == "" ? 0 : result.result.feepercentage;
+    //       this.nav = result.result.fundprice == "" ? 0 : result.result.fundprice;
+    //       this.sst = result.result.gstamount == "" ? 0 : result.result.gstamount;
+    //       this.unitsalloted = result.result.unitsalloted == "" ? 0 : result.result.unitsalloted;
+    //       this.initialcharges = result.result.salescharge == "" ? 0 : result.result.salescharge;
+
+    //       let module = "";
+    //       if(appFunc.isOwn == "major"){
+    //         if(appFunc.isInvesment){
+    //           module = "9";
+    //         }else{
+    //           module = "11";
+    //         }
+    //       }else if(appFunc.isOwn == "bijak"){
+    //         if(appFunc.isInvesment){
+    //           module = "10";
+    //         }else{
+    //           module = "12";
+    //         }
+    //       }else{
+    //         module = "19";
+    //       }
+
+    //       if (currentHolder.email == ""){
+    //         this.Email_Visible = false;
+    //       }
+    //       else{
+    //         this.Email_Visible = true;
+    //       }
+
+    //       if(signalrConnection.kioskType == 'Mobile'){
+    //         this.Print_Visible = false;
+    //       }
+    //       else{
+    //         this.Print_Visible = true;
+    //       }
+
+    //       this.requeryInfo = {
+    //         "channeltype": signalrConnection.channelType,
+    //         "requestoridentification": signalrConnection.requestIdentification,
+    //         "deviceowner": signalrConnection.deviceOwner,
+    //         "agentcode": signalrConnection.agentCode,
+    //         "branchcode": signalrConnection.branchCode,
+    //         "banktrxreferencenumber": body.BANKTXNREFERENCENUMBER,
+    //         "txnreferencenumber": "",
+    //         "transactiondate": body.TRANSACTIONDATE,
+    //         "unitholderid": uhid,
+    //         "identificationtype": ictype,
+    //         "identificationnumber": icno,
+    //         "fundid": this.fundid,
+    //         "guardianid": "",
+    //         "guardianictype": "",
+    //         "guardianicnumber": "",
+    //         "firstname": name,
+    //         "email": "",
+    //         "module": module,
+    //         "language": selectLang.selectedLang,
+    //         "url": "",
+    //       }
+
+    //       const FTBody =
+    //       {
+    //         "trxNo": signalrConnection.trxno,
+    //         "kioskCode": signalrConnection.kioskCode,
+    //         "unitHolderID": result.result.unitholderid,
+    //         "firstName": result.result.firstname,
+    //         "identificationType": result.result.identificationtype,
+    //         "identificationNumber": result.result.identificationnumber,
+    //         "fundID": result.result.fundid,
+    //         "amountApplied": result.result.amountapplied,
+    //         "transactionDate": result.result.transactiondate,
+    //         "transactionTime": result.result.transactiontime,
+    //         "transactionType": module,
+    //         "customerICNumber": result.result.customericnumber,
+    //         "customerName": result.result.customername,
+    //         "agentCode": result.result.agentCode,
+    //         "referenceNo": result.result.transactionnumber,
+    //         "bankTxnReferenceNumber": result.result.banktxnreferencenumber,
+    //         "bankCustPhoneNumber": result.result.bankcustphonenumber,
+    //         "paymentType": result.result.paymenttype,
+    //         "bankAccountNumber": result.result.bankaccountnumber,
+    //         "bankBranchCode": result.result.bankbranchcode,
+    //         "chequeNumber": result.result.chequenumber,
+    //         "chequeDate": result.result.chequedate,
+    //         "guardianID": result.result.guardianid,
+    //         "guardianicType": result.result.guardianictype,
+    //         "guardianicNumber": result.result.guardianicnumber,
+    //         "policyNumber": result.result.policynumber,
+    //         "epfNumber": result.result.epfnumber,
+    //         "subPaymentType": result.result.subpaymenttype,
+    //         "ewgateway": result.result.ewgateway,
+    //         "thirdPartyInvestment": result.result.thirdpartyinvestment,
+    //         "thirdPartyName": result.result.thirdpartyname,
+    //         "thirdPartyICNumber": result.result.thirdpartyicnumber,
+    //         "thirdPartyRelationship": result.result.thirdpartyrelationship,
+    //         "reasonForTransfer": result.result.reasonfortransfer,
+    //         "sourceOfFund": result.result.sourceoffund,
+    //         "otherSourceOfFund": result.result.othersourceoffund,
+    //         "funderName": result.result.fundname,
+    //         "transactionStatus": result.result.transactionstatus,
+    //         "transactionNumber": result.result.transactionnumber,
+    //         "taxInvoiceNumber": result.result.taxinvoicenumber,
+    //         "confirmedUnits": result.result.unitsalloted,
+    //         "unitBalance": "",
+    //         "operation": "",
+    //         "remark": "",
+    //         "creditNoteNumber": email,
+    //         "rejectCode": result.result.rejectcode,
+    //         "rejectReason": result.result.rejectreason,
+    //         "itemno": signalrConnection.itemNo,
+    //         "nav": result.result.fundprice,
+    //         "fee": result.result.salescharge,
+    //         "sst": result.result.gstamount
+    //       }
+
+    //       // console.log("3525 " + JSON.stringify(FTBody));
+
+    //       this.serviceService.updateFundTransaction(FTBody).toPromise().then(
+    //         (result: any) => {
+    //           // console.log("3529 " + JSON.stringify(result.result));
+    //         });
+    //       signalrConnection.itemNo += 1;
+    //       kActivit1.endTime = new Date();
+    //       kActivit1.status = true;
+    //       appFunc.kioskActivity.push(kActivit1);
+
+    //       this.isClicked = false;
+
+    //       setTimeout(() => {
+    //         this.SIStep5 = false;
+    //         this.SIStep6 = true;
+    //       }, 5000);
+    //     }
+    //     else{
+    //       signalrConnection.connection.invoke('deleteCurrCreditCardVoid').then(() => {
+
+    //       });
+
+    //       this.isClicked = false;
+    //       errorCodes.Ecode = result.result.rejectcode;
+    //       errorCodes.Emessage = result.result.rejectreason;
+    //       if(selectLang.selectedLang == 'ms'){
+    //         if(appFunc.isOwn == "major"){
+    //           errorCodes.accountType = "Dewasa";
+    //           errorCodes.accountName = currentHolder.firstname;
+    //           errorCodes.accountNo = currentHolder.unitholderid;
+    //         }else if(appFunc.isOwn == "bijak"){
+    //           errorCodes.accountType = "Bijak/Remaja";
+    //           errorCodes.accountName = name;
+    //           errorCodes.accountNo = uhid;
+    //         }else{
+    //           errorCodes.accountType = "Pihak Ketiga";
+    //           errorCodes.accountName = currentHolder.firstname;
+    //           errorCodes.accountNo = currentHolder.unitholderid;
+    //         }
+    //       }else{
+    //         if(appFunc.isOwn == "major"){
+    //           errorCodes.accountType = "Dewasa";
+    //           errorCodes.accountName = currentHolder.firstname;
+    //           errorCodes.accountNo = currentHolder.unitholderid;
+    //         }else if(appFunc.isOwn == "bijak"){
+    //           errorCodes.accountType = "Bijak/Remaja";
+    //           errorCodes.accountName = name;
+    //           errorCodes.accountNo = uhid;
+    //         }else{
+    //           errorCodes.accountType = "Pihak Ketiga";
+    //           errorCodes.accountName = currentHolder.firstname;
+    //           errorCodes.accountNo = currentHolder.unitholderid;
+    //         }
+    //       }
+    //       errorCodes.transaction = this.transaction;
+    //       kActivit1.endTime = new Date();
+    //       kActivit1.status = false;
+    //       appFunc.kioskActivity.push(kActivit1);
+    //       this._router.navigate(['errorscreen']);
+    //     }
+    //   });
+    // }
+    // else{
 
       this.isButtonDisabled = true;
       
@@ -3629,13 +3690,15 @@ export class SubscriptioninvestmentComponent implements OnInit {
         let statusCode = "";
         let theLoop: (loopC2: string) => void = (loopC2: string) => {
           setTimeout(() => {
+
             signalrConnection.connection.invoke('getCardInfo').then((cardInfo: any) => {
               this.tempCardInfo = cardInfo;
               statusCode = cardInfo.StatusCode;
-
+            
               if (statusCode == "00") {
-                inProgress = true;
-                signalrConnection.connection.invoke('deleteCreditCardInfo', true).then((data: string) => {
+                if (inProgress == false){
+                  inProgress = true;
+                  signalrConnection.connection.invoke('deleteCreditCardInfo', true).then((data: string) => {
 
                   const CCInfo =
                   {
@@ -3662,7 +3725,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
                   this.CCinformation = CCInfo;
 
-                  this.serviceService.createCustCreditCardInfo(CCInfo).subscribe(() => {});
+                  this.subscriptionCustCC = this.serviceService.createCustCreditCardInfo(CCInfo).subscribe(() => {});
                   const body =
                   {
                     "CHANNELTYPE": signalrConnection.channelType,
@@ -3865,8 +3928,10 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   ((result: any) => {
                       // console.log("3860 Create Fund Transaction : " + result);
 
-                      this.serviceService.postSubscriptionWithoutProvision(newbody)
-                      .toPromise().then((result: any) => 
+                      this.subscriptionPOA = this.serviceService.postSubscriptionWithoutProvision(newbody).subscribe
+                      ((result: any) => 
+                      //this.serviceService.postSubscriptionWithoutProvision(newbody)
+                      //.toPromise().then((result: any) => 
                       {
                       // console.log(result.result.transactionstatus);
                       // console.log(result.result.transactionnumber);
@@ -4043,12 +4108,9 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         this.unitholdername = this.thirdnamekeyed;
                         this.unitholderid = this.thirduhidkeyed;
                         this.unitholderic = this.thirdicnokeyed;
-                        this.refno = result.result.transactionnumber;
-    
-    
-    
-    
+                        this.refno = result.result.transactionnumber; 
                         this.approvalcode = CCInfo.approvalCode;
+
                         if(appFunc.isOwn == "major"){
                           this.accounttype = "Dewasa"
                         }else if(appFunc.isOwn == "bijak"){
@@ -4313,12 +4375,14 @@ export class SubscriptioninvestmentComponent implements OnInit {
                         this._router.navigate(['errorscreen']);
                       }
                       });
+                    });
                   });
-                });
+                }
               }
               else if(this.checkTerminalErrorCodes(statusCode)){
 				        inProgress = true;				  
                 this.isClicked = false;
+
                 signalrConnection.connection.invoke('deleteCreditCardInfo', false).then(() => {
 
                 });
@@ -4357,8 +4421,15 @@ export class SubscriptioninvestmentComponent implements OnInit {
                 kActivit1.endTime = new Date();
                 kActivit1.status = false;
                 appFunc.kioskActivity.push(kActivit1);
+                
                 this._router.navigate(['errorscreen']);
-				        statusCode = ""; //Clear the status Code to prevent still hold the value of 00																			  
+
+				        statusCode = ""; //Clear the status Code to prevent still hold the value of 00		
+                ictype = "";
+                icno = "";
+                uhid = "";
+                name = "";
+                email = "";																	  
               }
               else{
                 signalrConnection.connection.invoke('isTerminalLoading').then((status: any) => {
@@ -4368,16 +4439,13 @@ export class SubscriptioninvestmentComponent implements OnInit {
                   }
                   if(!inProgress) theLoop(statusCode);
                 });
-                
-                
               }
             });
           }, 3000);
         };
         theLoop(statusCode);
       });
-    }
-
+    // }
   }
 
   Print(){
@@ -4422,157 +4490,157 @@ export class SubscriptioninvestmentComponent implements OnInit {
 
 
 
-    if(signalrConnection.isHardcodedIC){
-      const objCardInfo =
-      [{
-        "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
-        "BatchNum" : "",
-        "Invoice" : "",
-        "MID" : "",
-        "TID" : "",
-        "Type" : "",
-        "CardName" : "",
-        "CardNumber" : "",
-        "ExpDate" : "",
-        "ApprovalCode" : "",
-        "ReferenceNumber" : "",
-        "TotalAmount" : paidamount,
-        "ApplicationLabel": "",
-        "TransactionTrace": "",
-        "HostNo": ""
-      }]
+    // if(signalrConnection.isHardcodedIC){
+    //   const objCardInfo =
+    //   [{
+    //     "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
+    //     "BatchNum" : "",
+    //     "Invoice" : "",
+    //     "MID" : "",
+    //     "TID" : "",
+    //     "Type" : "",
+    //     "CardName" : "",
+    //     "CardNumber" : "",
+    //     "ExpDate" : "",
+    //     "ApprovalCode" : "",
+    //     "ReferenceNumber" : "",
+    //     "TotalAmount" : paidamount,
+    //     "ApplicationLabel": "",
+    //     "TransactionTrace": "",
+    //     "HostNo": ""
+    //   }]
 
-      let accountType = "";
-      if(selectLang.selectedLang == 'ms'){
-        if(appFunc.isOwn == "major"){
-          accountType = "Dewasa";
-        }else if(appFunc.isOwn == "bijak"){
-          accountType = "Bijak/Remaja";
-        }else{
-          accountType = "Pihak Ketiga";
-        }
-      }else{
-        if(appFunc.isOwn == "major"){
-          accountType = "Dewasa";
-        }else if(appFunc.isOwn == "bijak"){
-          accountType = "Bijak/Remaja";
-        }else{
-          accountType = "Third Party";
-        }
-      }
+    //   let accountType = "";
+    //   if(selectLang.selectedLang == 'ms'){
+    //     if(appFunc.isOwn == "major"){
+    //       accountType = "Dewasa";
+    //     }else if(appFunc.isOwn == "bijak"){
+    //       accountType = "Bijak/Remaja";
+    //     }else{
+    //       accountType = "Pihak Ketiga";
+    //     }
+    //   }else{
+    //     if(appFunc.isOwn == "major"){
+    //       accountType = "Dewasa";
+    //     }else if(appFunc.isOwn == "bijak"){
+    //       accountType = "Bijak/Remaja";
+    //     }else{
+    //       accountType = "Third Party";
+    //     }
+    //   }
 
-      // if(this.thirduhidkeyed == ""){
-        appFunc.body =
-        {
-          "Transaction" : this.transaction.toUpperCase(),
-          "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-          "Location" : signalrConnection.branchName,
-          "Name" : selectedUnitHolder,
-          "UHID" : selectedUnitHolderID,
-          "NRIC" : selectedUnitHolderIC,
-          "AccountType" : accountType,
-          "TransactionNumber" : this.refno,
-          "FUNDID" : fundname,
-          "FUNDPRICE" : this.nav,
-          "UNITSALLOTED" : this.unitsalloted,
-          "FEEPERCENTAGE" : this.feepercentage,
-          "SALESCHARGE" : this.initialcharges,
-          "GSTAMOUNT" : this.sst,
-          "UHIDTHIRDPARTY": this.thirduhidkeyed,
-          "NAMETHIRDPARTY": this.thirdnamekeyed,
-          "CARDINFO" : objCardInfo,
-          "Language" : selectLang.selectedLang,
-          "Signature" : ""
-        }
-      // }
-      // else{
-      //   appFunc.body =
-      //   {
-      //     "Transaction" : this.transaction.toUpperCase(),
-      //     "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      //     "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-      //     "Location" : signalrConnection.branchName,
-      //     "Name" : this.thirdnamekeyed,
-      //     "UHID" : this.thirduhidkeyed,
-      //     "NRIC" : selectedUnitHolderIC,
-      //     "AccountType" : accountType,
-      //     "TransactionNumber" : this.refno,
-      //     "FUNDID" : fundname,
-      //     "FUNDPRICE" : this.nav,
-      //     "UNITSALLOTED" : this.unitsalloted,
-      //     "FEEPERCENTAGE" : this.feepercentage,
-      //     "SALESCHARGE" : this.initialcharges,
-      //     "GSTAMOUNT" : this.sst,
-      //     "UHIDTHIRDPARTY": selectedUnitHolderID,
-      //     "NAMETHIRDPARTY": selectedUnitHolder,
-      //     "CARDINFO" : objCardInfo,
-      //     "Language" : selectLang.selectedLang,
-      //     "Signature" : ""
-      //   }
-      // }
-
-
-      appFunc.receiptFunction = "GetFinancialTrxPrintout"
+    //   // if(this.thirduhidkeyed == ""){
+    //     appFunc.body =
+    //     {
+    //       "Transaction" : this.transaction.toUpperCase(),
+    //       "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //       "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //       "Location" : signalrConnection.branchName,
+    //       "Name" : selectedUnitHolder,
+    //       "UHID" : selectedUnitHolderID,
+    //       "NRIC" : selectedUnitHolderIC,
+    //       "AccountType" : accountType,
+    //       "TransactionNumber" : this.refno,
+    //       "FUNDID" : fundname,
+    //       "FUNDPRICE" : this.nav,
+    //       "UNITSALLOTED" : this.unitsalloted,
+    //       "FEEPERCENTAGE" : this.feepercentage,
+    //       "SALESCHARGE" : this.initialcharges,
+    //       "GSTAMOUNT" : this.sst,
+    //       "UHIDTHIRDPARTY": this.thirduhidkeyed,
+    //       "NAMETHIRDPARTY": this.thirdnamekeyed,
+    //       "CARDINFO" : objCardInfo,
+    //       "Language" : selectLang.selectedLang,
+    //       "Signature" : ""
+    //     }
+    //   // }
+    //   // else{
+    //   //   appFunc.body =
+    //   //   {
+    //   //     "Transaction" : this.transaction.toUpperCase(),
+    //   //     "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //   //     "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //   //     "Location" : signalrConnection.branchName,
+    //   //     "Name" : this.thirdnamekeyed,
+    //   //     "UHID" : this.thirduhidkeyed,
+    //   //     "NRIC" : selectedUnitHolderIC,
+    //   //     "AccountType" : accountType,
+    //   //     "TransactionNumber" : this.refno,
+    //   //     "FUNDID" : fundname,
+    //   //     "FUNDPRICE" : this.nav,
+    //   //     "UNITSALLOTED" : this.unitsalloted,
+    //   //     "FEEPERCENTAGE" : this.feepercentage,
+    //   //     "SALESCHARGE" : this.initialcharges,
+    //   //     "GSTAMOUNT" : this.sst,
+    //   //     "UHIDTHIRDPARTY": selectedUnitHolderID,
+    //   //     "NAMETHIRDPARTY": selectedUnitHolder,
+    //   //     "CARDINFO" : objCardInfo,
+    //   //     "Language" : selectLang.selectedLang,
+    //   //     "Signature" : ""
+    //   //   }
+    //   // }
 
 
-      if(this.isRequery){
-        signalrConnection.connection.invoke(
-          'InsertRequery',
-          signalrConnection.channelType,
-          signalrConnection.requestIdentification,
-          signalrConnection.deviceOwner,
-          signalrConnection.agentCode,
-          signalrConnection.branchCode,
-          this.requeryInfo.banktrxreferencenumber,
-          "",
-          this.requeryInfo.transactiondate,
-          this.requeryInfo.unitholderid,
-          this.requeryInfo.identificationtype,
-          this.requeryInfo.identificationnumber,
-          this.requeryInfo.fundid,
+    //   appFunc.receiptFunction = "GetFinancialTrxPrintout"
+
+
+    //   if(this.isRequery){
+    //     signalrConnection.connection.invoke(
+    //       'InsertRequery',
+    //       signalrConnection.channelType,
+    //       signalrConnection.requestIdentification,
+    //       signalrConnection.deviceOwner,
+    //       signalrConnection.agentCode,
+    //       signalrConnection.branchCode,
+    //       this.requeryInfo.banktrxreferencenumber,
+    //       "",
+    //       this.requeryInfo.transactiondate,
+    //       this.requeryInfo.unitholderid,
+    //       this.requeryInfo.identificationtype,
+    //       this.requeryInfo.identificationnumber,
+    //       this.requeryInfo.fundid,
           
-          this.requeryInfo.guardianid,
-          this.requeryInfo.module == 19 ? this.thirdictypekeyed : this.requeryInfo.guardianictype,
-          this.requeryInfo.module == 19 ? this.thirdicnokeyed : this.requeryInfo.guardianicnumber,
-          this.requeryInfo.firstname,
-          currentHolder.email,
-          this.requeryInfo.module,
-          this.requeryInfo.language,
-          JSON.stringify(appFunc.body)
-        ).then((data: any) => {
+    //       this.requeryInfo.guardianid,
+    //       this.requeryInfo.module == 19 ? this.thirdictypekeyed : this.requeryInfo.guardianictype,
+    //       this.requeryInfo.module == 19 ? this.thirdicnokeyed : this.requeryInfo.guardianicnumber,
+    //       this.requeryInfo.firstname,
+    //       currentHolder.email,
+    //       this.requeryInfo.module,
+    //       this.requeryInfo.language,
+    //       JSON.stringify(appFunc.body)
+    //     ).then((data: any) => {
 
-        });
-      }
+    //     });
+    //   }
 
 
-      appFunc.printing = true;
-      signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
-        if(data){
+    //   appFunc.printing = true;
+    //   signalrConnection.connection.invoke('CheckPrinterStatus').then((data: boolean) => {
+    //     if(data){
 
-          signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), appFunc.receiptFunction, signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
-            setTimeout(()=>{
-              if (data == true){
-                this.Print1_Visible = false;
-                this.Print2_Visible = true;
-                setTimeout(()=>{
-                  this.getAccountInquiry();
-                }, 3000);
-              }else{
-                errorCodes.Ecode = "0068";
-                errorCodes.Emessage = "Printing Failed";
-                this._router.navigate(['errorscreen']);
-              }
-            }, 3000);
-          });
-        }else{
-          errorCodes.Ecode = "6688";
-          errorCodes.Emessage = "Printer Error";
-          this._router.navigate(['errorscreen']);
-        }
-      });
-    }
-    else{
+    //       signalrConnection.connection.invoke('PrintHelpPageAsync', JSON.stringify(appFunc.body), appFunc.receiptFunction, signalrConnection.trxno, "0", selectLang.selectedLang).then((data: any) => {
+    //         setTimeout(()=>{
+    //           if (data == true){
+    //             this.Print1_Visible = false;
+    //             this.Print2_Visible = true;
+    //             setTimeout(()=>{
+    //               this.getAccountInquiry();
+    //             }, 3000);
+    //           }else{
+    //             errorCodes.Ecode = "0068";
+    //             errorCodes.Emessage = "Printing Failed";
+    //             this._router.navigate(['errorscreen']);
+    //           }
+    //         }, 3000);
+    //       });
+    //     }else{
+    //       errorCodes.Ecode = "6688";
+    //       errorCodes.Emessage = "Printer Error";
+    //       this._router.navigate(['errorscreen']);
+    //     }
+    //   });
+    // }
+    // else{
       const objCardInfo =
       [{
         "DateTime" : this.CCinformation.createDate,
@@ -4731,8 +4799,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           this._router.navigate(['errorscreen']);
         }
       });
-    }
-
+    // }
   }
 
   Email(){
@@ -4775,181 +4842,180 @@ export class SubscriptioninvestmentComponent implements OnInit {
       paidamount = this.thirdamountkeyed;
     }
 
+    // if(signalrConnection.isHardcodedIC){
+    //   const objCardInfo =
+    //   [{
+    //     "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
+    //     "BatchNum" : "",
+    //     "Invoice" : "",
+    //     "MID" : "",
+    //     "TID" : "",
+    //     "Type" : "",
+    //     "CardName" : "",
+    //     "CardNumber" : "",
+    //     "ExpDate" : "",
+    //     "ApprovalCode" : "",
+    //     "ReferenceNumber" : "",
+    //     "TotalAmount" : paidamount,
+    //     "ApplicationLabel": "",
+    //     "TransactionTrace": "",
+    //     "HostNo": ""
+    //   }]
 
-    if(signalrConnection.isHardcodedIC){
-      const objCardInfo =
-      [{
-        "DateTime" : formatDate(new Date(), 'dd/MM/yyyy h:MM:ss a', 'en'),
-        "BatchNum" : "",
-        "Invoice" : "",
-        "MID" : "",
-        "TID" : "",
-        "Type" : "",
-        "CardName" : "",
-        "CardNumber" : "",
-        "ExpDate" : "",
-        "ApprovalCode" : "",
-        "ReferenceNumber" : "",
-        "TotalAmount" : paidamount,
-        "ApplicationLabel": "",
-        "TransactionTrace": "",
-        "HostNo": ""
-      }]
+    //   let accountType = "";
+    //   let module = "";
+    //   if(appFunc.isOwn == "major"){
+    //     accountType = "Dewasa";
+    //     if(appFunc.isInvesment){
+    //       module = "9";
+    //     }else{
+    //       module = "11";
+    //     }
+    //   }else if(appFunc.isOwn == "bijak"){
+    //     accountType = "Bijak/Remaja";
+    //     if(appFunc.isInvesment){
+    //       module = "10";
+    //     }else{
+    //       module = "12";
+    //     }
+    //   }else{
+    //     if(selectLang.selectedLang == 'ms'){
+    //       accountType = "Pihak Ketiga";
+    //     }
+    //     else{
+    //       accountType = "Third Party";
+    //     }
+    //     module = "19";
+    //   }
 
-      let accountType = "";
-      let module = "";
-      if(appFunc.isOwn == "major"){
-        accountType = "Dewasa";
-        if(appFunc.isInvesment){
-          module = "9";
-        }else{
-          module = "11";
-        }
-      }else if(appFunc.isOwn == "bijak"){
-        accountType = "Bijak/Remaja";
-        if(appFunc.isInvesment){
-          module = "10";
-        }else{
-          module = "12";
-        }
-      }else{
-        if(selectLang.selectedLang == 'ms'){
-          accountType = "Pihak Ketiga";
-        }
-        else{
-          accountType = "Third Party";
-        }
-        module = "19";
-      }
+    //   // if(this.thirduhidkeyed == ""){
+    //     appFunc.body =
+    //     {
+    //       "Transaction" : this.transaction.toUpperCase(),
+    //       "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //       "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //       "Location" : signalrConnection.branchName,
+    //       "Name" : selectedUnitHolder,
+    //       "UHID" : selectedUnitHolderID,
+    //       "NRIC" : selectedUnitHolderIC,
+    //       "AccountType" : accountType,
+    //       "TransactionNumber" : this.refno,
+    //       "FUNDID" : fundname,
+    //       "FUNDPRICE" : this.nav,
+    //       "UNITSALLOTED" : this.unitsalloted,
+    //       "FEEPERCENTAGE" : this.feepercentage,
+    //       "SALESCHARGE" : this.initialcharges,
+    //       "GSTAMOUNT" : this.sst,
+    //       "UHIDTHIRDPARTY": this.thirduhidkeyed,
+    //       "NAMETHIRDPARTY": this.thirdnamekeyed,
+    //       "CARDINFO" : objCardInfo,
+    //       "Language" : selectLang.selectedLang,
+    //       "Signature" : ""
+    //     }
+    //   // }
+    //   // else{
+    //   //   appFunc.body =
+    //   //   {
+    //   //     "Transaction" : this.transaction.toUpperCase(),
+    //   //     "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
+    //   //     "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
+    //   //     "Location" : signalrConnection.branchName,
+    //   //     "Name" : this.thirdnamekeyed,
+    //   //     "UHID" : this.thirduhidkeyed,
+    //   //     "NRIC" : selectedUnitHolderIC,
+    //   //     "AccountType" : accountType,
+    //   //     "TransactionNumber" : this.refno,
+    //   //     "FUNDID" : fundname,
+    //   //     "FUNDPRICE" : this.nav,
+    //   //     "UNITSALLOTED" : this.unitsalloted,
+    //   //     "FEEPERCENTAGE" : this.feepercentage,
+    //   //     "SALESCHARGE" : this.initialcharges,
+    //   //     "GSTAMOUNT" : this.sst,
+    //   //     "UHIDTHIRDPARTY": selectedUnitHolderID,
+    //   //     "NAMETHIRDPARTY": selectedUnitHolder,
+    //   //     "CARDINFO" : objCardInfo,
+    //   //     "Language" : selectLang.selectedLang,
+    //   //     "Signature" : ""
+    //   //   }
+    //   // }
 
-      // if(this.thirduhidkeyed == ""){
-        appFunc.body =
-        {
-          "Transaction" : this.transaction.toUpperCase(),
-          "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-          "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-          "Location" : signalrConnection.branchName,
-          "Name" : selectedUnitHolder,
-          "UHID" : selectedUnitHolderID,
-          "NRIC" : selectedUnitHolderIC,
-          "AccountType" : accountType,
-          "TransactionNumber" : this.refno,
-          "FUNDID" : fundname,
-          "FUNDPRICE" : this.nav,
-          "UNITSALLOTED" : this.unitsalloted,
-          "FEEPERCENTAGE" : this.feepercentage,
-          "SALESCHARGE" : this.initialcharges,
-          "GSTAMOUNT" : this.sst,
-          "UHIDTHIRDPARTY": this.thirduhidkeyed,
-          "NAMETHIRDPARTY": this.thirdnamekeyed,
-          "CARDINFO" : objCardInfo,
-          "Language" : selectLang.selectedLang,
-          "Signature" : ""
-        }
-      // }
-      // else{
-      //   appFunc.body =
-      //   {
-      //     "Transaction" : this.transaction.toUpperCase(),
-      //     "Date" : formatDate(new Date(), 'dd/MM/yyyy', 'en'),
-      //     "Time" : formatDate(new Date(), 'HH:mm:ss', 'en').toString(),
-      //     "Location" : signalrConnection.branchName,
-      //     "Name" : this.thirdnamekeyed,
-      //     "UHID" : this.thirduhidkeyed,
-      //     "NRIC" : selectedUnitHolderIC,
-      //     "AccountType" : accountType,
-      //     "TransactionNumber" : this.refno,
-      //     "FUNDID" : fundname,
-      //     "FUNDPRICE" : this.nav,
-      //     "UNITSALLOTED" : this.unitsalloted,
-      //     "FEEPERCENTAGE" : this.feepercentage,
-      //     "SALESCHARGE" : this.initialcharges,
-      //     "GSTAMOUNT" : this.sst,
-      //     "UHIDTHIRDPARTY": selectedUnitHolderID,
-      //     "NAMETHIRDPARTY": selectedUnitHolder,
-      //     "CARDINFO" : objCardInfo,
-      //     "Language" : selectLang.selectedLang,
-      //     "Signature" : ""
-      //   }
-      // }
-
-      if(this.thirduhidkeyed == ""){
-        appFunc.emailObj =
-        {
-          "Name" : this.unitholdername,
-          "UnitHolderID" : this.unitholderid,
-          "Module" : module,
-          "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
-          "language" : selectLang.selectedLang,
-          "IC" : this.unitholderic
-        }
-      }
-      else{
-        appFunc.emailObj =
-        {
-          "Name" : selectedUnitHolder,
-          "UnitHolderID" : selectedUnitHolderID,
-          "Module" : module,
-          "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
-          "language" : selectLang.selectedLang,
-          "IC" : this.unitholderic
-        }
-      }
-
-
-      appFunc.receiptFunction = "GetFinancialTrxPrintout"
+    //   if(this.thirduhidkeyed == ""){
+    //     appFunc.emailObj =
+    //     {
+    //       "Name" : this.unitholdername,
+    //       "UnitHolderID" : this.unitholderid,
+    //       "Module" : module,
+    //       "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+    //       "language" : selectLang.selectedLang,
+    //       "IC" : this.unitholderic
+    //     }
+    //   }
+    //   else{
+    //     appFunc.emailObj =
+    //     {
+    //       "Name" : selectedUnitHolder,
+    //       "UnitHolderID" : selectedUnitHolderID,
+    //       "Module" : module,
+    //       "TrxDate" : formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en'),
+    //       "language" : selectLang.selectedLang,
+    //       "IC" : this.unitholderic
+    //     }
+    //   }
 
 
-      if(this.isRequery){
-        signalrConnection.connection.invoke(
-          'InsertRequery',
-          signalrConnection.channelType,
-          signalrConnection.requestIdentification,
-          signalrConnection.deviceOwner,
-          signalrConnection.agentCode,
-          signalrConnection.branchCode,
-          this.requeryInfo.banktrxreferencenumber,
-          "",
-          this.requeryInfo.transactiondate,
-          this.requeryInfo.unitholderid,
-          this.requeryInfo.identificationtype,
-          this.requeryInfo.identificationnumber,
-          this.requeryInfo.fundid,
-          this.requeryInfo.guardianid,
-          this.requeryInfo.module == 19 ? this.thirdictypekeyed : this.requeryInfo.guardianictype,
-          this.requeryInfo.module == 19 ? this.thirdicnokeyed : this.requeryInfo.guardianicnumber,
-          this.requeryInfo.firstname,
-          currentHolder.email,
-          this.requeryInfo.module,
-          this.requeryInfo.language,
-          JSON.stringify(appFunc.body)
-        ).then((data: any) => {
-
-        });
-      }
+    //   appFunc.receiptFunction = "GetFinancialTrxPrintout"
 
 
-      appFunc.printing = false;
-      signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, module, JSON.stringify(appFunc.emailObj), this.fundname).then((data: any) => {
-        // setTimeout(()=>{
-        //   if (data == true){
-        //     this.getAccountInquiry();
-        //     setTimeout(()=>{
-        //       this.EmailPage_Visible = false;
-        //     }, 3000);
-        //   }else{
-        //     errorCodes.Ecode = "0069";
-        //     errorCodes.Emessage = "Email Failed";
-        //     this._router.navigate(['errorscreen']);
-        //   }
-        // }, 3000);
-      });
+    //   if(this.isRequery){
+    //     signalrConnection.connection.invoke(
+    //       'InsertRequery',
+    //       signalrConnection.channelType,
+    //       signalrConnection.requestIdentification,
+    //       signalrConnection.deviceOwner,
+    //       signalrConnection.agentCode,
+    //       signalrConnection.branchCode,
+    //       this.requeryInfo.banktrxreferencenumber,
+    //       "",
+    //       this.requeryInfo.transactiondate,
+    //       this.requeryInfo.unitholderid,
+    //       this.requeryInfo.identificationtype,
+    //       this.requeryInfo.identificationnumber,
+    //       this.requeryInfo.fundid,
+    //       this.requeryInfo.guardianid,
+    //       this.requeryInfo.module == 19 ? this.thirdictypekeyed : this.requeryInfo.guardianictype,
+    //       this.requeryInfo.module == 19 ? this.thirdicnokeyed : this.requeryInfo.guardianicnumber,
+    //       this.requeryInfo.firstname,
+    //       currentHolder.email,
+    //       this.requeryInfo.module,
+    //       this.requeryInfo.language,
+    //       JSON.stringify(appFunc.body)
+    //     ).then((data: any) => {
 
-      setTimeout(()=>{
-        this.EmailPage_Visible = false;
-        this.getAccountInquiry();
-      }, 5000);
-    }else{
+    //     });
+    //   }
+
+
+    //   appFunc.printing = false;
+    //   signalrConnection.connection.invoke('EmailHelpPageAsync', JSON.stringify(appFunc.body), accessToken.token, currentHolder.email, appFunc.receiptFunction, signalrConnection.trxno, module, JSON.stringify(appFunc.emailObj), this.fundname).then((data: any) => {
+    //     // setTimeout(()=>{
+    //     //   if (data == true){
+    //     //     this.getAccountInquiry();
+    //     //     setTimeout(()=>{
+    //     //       this.EmailPage_Visible = false;
+    //     //     }, 3000);
+    //     //   }else{
+    //     //     errorCodes.Ecode = "0069";
+    //     //     errorCodes.Emessage = "Email Failed";
+    //     //     this._router.navigate(['errorscreen']);
+    //     //   }
+    //     // }, 3000);
+    //   });
+
+    //   setTimeout(()=>{
+    //     this.EmailPage_Visible = false;
+    //     this.getAccountInquiry();
+    //   }, 5000);
+    // }else{
       const objCardInfo =
       [{
         "DateTime" : this.CCinformation.createDate,
@@ -5124,9 +5190,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         this.EmailPage_Visible = false;
         this.getAccountInquiry();
       }, 5000);
-    }
-
-
+    // }
   }
 
 
@@ -5186,7 +5250,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
         "LANGUAGE": selectLang.selectedLang
 
          };
-        this.serviceService.getAccountInquiry(body)
+        this.subscriptionGetAccountInquiry = this.serviceService.getAccountInquiry(body)
         .subscribe((result: any) => {
           currentBijakHolder.channeltype = result.channeltype;
           currentBijakHolder.requestoridentification = result.requestoridentification;
@@ -5291,7 +5355,7 @@ export class SubscriptioninvestmentComponent implements OnInit {
           "LANGUAGE": selectLang.selectedLang
 
          };
-        this.serviceService.getAccountInquiry(body)
+        this.subscriptionGetAccountInquiry = this.serviceService.getAccountInquiry(body)
         .subscribe((result: any) => {
 
 
@@ -5439,10 +5503,5 @@ export class SubscriptioninvestmentComponent implements OnInit {
       this._router.navigate(['outofservice']);
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + `WebApp Component [PrintingEmail]` + ": " + `Redirect to Out Of Service Screen due to ${e}.`);
     }
-
-
-
   }
-
-
 }

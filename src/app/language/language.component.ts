@@ -28,8 +28,6 @@ export class LanguageComponent implements OnInit {
 
   loadingDisable = true;
 
-
-
   id: any;
 
   card: any;

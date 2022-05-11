@@ -1,6 +1,6 @@
 {
     "baseUrl": "http://localhost:999999999999999",
-    "AldanDevURL": "https://kiosk-dev.myasnb.com.my/ASNBAPI/api/",
+    "AldanDevURL": "https://kiosk-dev.myasnb.com.my/ASNBAPI2/api/",
     "AldanReceiptURL": "https://kioskdev.asnb.com.my/GetPDF/api/",
     "AESCrpytKey": "gsKxGZ012HLL3MI5",
     "idletime": "100",
