@@ -59,12 +59,12 @@ export class ErrorscreenComponent implements OnInit {
       signalrConnection.logsaves.push(formatDate(new Date(), 'M/d/yyyy h:MM:ss a', 'en') + " " + "WebApp Component [Error Screen]" + ": " + "Redirect to Feedback Screen.");
     }else{
 
-      if (errorCodes.transaction == "Additional Investment (Third Party Account)" || 
-          errorCodes.transaction == "Pelaburan Tambahan (Akaun Pihak Ketiga)" ||
-          errorCodes.transaction == "Initial Investment" ||
-          errorCodes.transaction == "Additional Investment" ||
-          errorCodes.transaction == "Pelaburan Permulaan" || 
-          errorCodes.transaction == "Pelaburan Tambahan"){
+      if (errorCodes.transaction.toUpperCase() == "ADDITIONAL INVESTMENT (THIRD PARTY ACCOUNT)" || 
+          errorCodes.transaction.toUpperCase() == "PELABURAN TAMBAHAN (AKAUN PIHAK KETIGA)" ||
+          errorCodes.transaction.toUpperCase() == "INITIAL INVESTMENT" ||
+          errorCodes.transaction.toUpperCase() == "ADDITIONAL INVESTMENT" ||
+          errorCodes.transaction.toUpperCase() == "PELABURAN PERMULAAN" || 
+          errorCodes.transaction.toUpperCase() == "PELABURAN TAMBAHAN"){
             this._router.navigate(['language']);
           }else{
             this._router.navigate(['transactionmenu']);
